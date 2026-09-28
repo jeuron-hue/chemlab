@@ -1,0 +1,1509 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 8 Reaction Kinetics.">
+<title>Reaction Kinetics Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --grid:#e3e8ed; --axis:#aeb8c3; --line:#d4dbe2; --accent:#1c5da3; --accent-ink:#ffffff; --accent-soft:#e2ecf7;
+  --s1:#2a78d6; --s1-wash:rgba(42,120,214,.22); --s2:#eb6834; --s2-wash:rgba(235,104,52,.20); --s3:#1baf7a; --ref:#8a929b;
+  --good:#006300; --good-bg:#e5f2e5; --bad:#c42f2f; --bad-bg:#fbe9e9; --warn-bg:#fff4dc; --warn:#7a5200;
+  --shadow:0 1px 2px rgba(20,26,32,.06), 0 1px 0 rgba(20,26,32,.03);
+  --serif:"Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+    --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+    --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+  --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+  --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+i.q{font-style:italic}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(6px); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:var(--shadow)}
+.controls{display:flex; flex-direction:column; gap:14px}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:10px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .15s}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(14px)}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+.sub-ctl{padding-left:12px; border-left:2px solid var(--line)}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px}
+
+/* charts */
+.charts{display:flex; flex-direction:column; gap:14px; min-width:0}
+.chart{position:relative; min-width:0}
+.chart svg{display:block; overflow:visible; touch-action:none}
+.chart-title{font-size:.84rem; font-weight:600; color:var(--ink-2); margin:0 0 4px; display:flex; flex-wrap:wrap; gap:4px 14px; align-items:baseline}
+.chart-title .hint{font-weight:400}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+svg .tick{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+svg text.halo{paint-order:stroke; stroke:var(--bg); stroke-width:4px; stroke-linejoin:round}
+svg .axlab{font-size:11.5px; fill:var(--ink-2)}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .axis{stroke:var(--axis); stroke-width:1}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2); margin-top:4px}
+.legend > span{display:inline-flex; align-items:center; gap:6px}
+.key{display:inline-block; width:16px; height:0; border-top:2px solid; border-radius:1px}
+.key.dash{border-top-style:dashed}
+.key.box{height:10px; width:14px; border:0; border-radius:2px}
+.tip{position:absolute; pointer-events:none; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:6px 8px; font-size:.78rem; line-height:1.4; color:var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.12); white-space:nowrap; font-variant-numeric:tabular-nums; z-index:3}
+
+/* readouts */
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.05rem; font-weight:600; color:var(--ink)}
+.stat .v small.pct{display:block; margin-top:1px}
+.stat .v small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
+.callout{font-size:.84rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px}
+.eq{font-variant-numeric:tabular-nums}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent)}
+
+/* tables */
+.tblwrap{overflow-x:auto}
+table.data{border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:.9rem; min-width:100%}
+table.data th, table.data td{padding:6px 12px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap}
+table.data th{font-weight:600; color:var(--ink-2); font-size:.8rem; vertical-align:bottom}
+table.data td:first-child, table.data th:first-child{text-align:center}
+table.data tr.hard td{background:var(--surface-2)}
+.form{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; align-items:end}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
+.field input, .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.working{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; font-size:.92rem; max-width:80ch}
+.working li::marker{color:var(--muted); font-variant-numeric:tabular-nums}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tabs button{font-size:.86rem; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.stack{display:flex; flex-direction:column; gap:14px}
+
+/* half-life */
+.hl-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+.bar{height:10px; background:var(--surface-2); border-radius:5px; overflow:hidden}
+.bar i{display:block; height:100%; background:var(--s1); border-radius:5px 0 0 5px}
+
+/* catalysis */
+.cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+@media (max-width:760px){ .cards{grid-template-columns:minmax(0,1fr)} }
+.card h3{font-size:1.08rem; margin-bottom:2px}
+.card .kind{margin-bottom:10px}
+.card .eqs{display:flex; flex-direction:column; gap:3px; margin:8px 0 10px; font-variant-numeric:tabular-nums; overflow-x:auto}
+.card .eqs div{white-space:nowrap}
+.card .eqs .overall{border-top:1px solid var(--line); padding-top:4px; margin-top:2px; font-weight:600}
+.card ol, .card ul{margin:0; padding-left:20px; font-size:.9rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+.card p{margin:6px 0 0; font-size:.9rem; color:var(--ink-2)}
+.steps li[hidden]{display:none}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.qtext{font-size:1.02rem; font-weight:500; margin:0 0 12px}
+.qtext .mech{display:block; font-weight:400; font-size:.92rem; color:var(--ink-2); margin-top:6px}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; font-size:.93rem; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good); background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.explain{margin-top:12px; font-size:.9rem}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+.err{font-size:.86rem; color:var(--bad); background:var(--bad-bg); border-radius:6px; padding:7px 10px}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p style="margin:0 0 10px;font-size:.86rem"><a href="../">&larr; ChemLab: all topics</a></p>
+    <div class="row">
+      <h1>Topic 8 · Reaction Kinetics</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#boltzmann">Boltzmann distribution</a>
+    <a href="#orders">Order of reaction</a>
+    <a href="#initial-rates">Initial rates</a>
+    <a href="#half-life">Half-life</a>
+    <a href="#profiles">Reaction profiles</a>
+    <a href="#catalysis">Catalysis</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 BOLTZMANN -->
+<section class="lab" id="boltzmann">
+  <div class="sechead">
+    <span class="eyebrow">Explorer</span>
+    <h2>Boltzmann distribution</h2>
+    <p>Kinetic energies of gas molecules, <i>f</i>(<i>E</i>) ∝ √<i>E</i> · e<sup>−<i>E</i>/<i>RT</i></sup>. The area under every curve is the same: the same number of molecules.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><label for="b-T"><span>Temperature, <i>T</i></span> <output id="b-T-o">500 K</output></label>
+        <input type="range" id="b-T" min="250" max="1000" step="10" value="500"></div>
+      <div class="ctl"><label for="b-Ea"><span>Activation energy, <i>E</i><sub>a</sub></span> <output id="b-Ea-o">40 kJ mol<sup>−1</sup></output></label>
+        <input type="range" id="b-Ea" min="10" max="100" step="1" value="40"></div>
+      <label class="switch"><input type="checkbox" id="b-cat"><span>Add catalyst</span></label>
+      <div class="ctl sub-ctl" id="b-cat-box" hidden><label for="b-EaCat"><span><i>E</i><sub>a</sub>(cat)</span> <output id="b-EaCat-o"></output></label>
+        <input type="range" id="b-EaCat" min="5" max="39" step="1" value="25">
+        <span class="hint">Always below <i>E</i><sub>a</sub>.</span></div>
+      <label class="switch"><input type="checkbox" id="b-cmp" checked><span>Compare with <i>T</i><sub>1</sub></span></label>
+      <div class="sub-ctl hint" id="b-cmp-box">Reference frozen at <i>T</i><sub>1</sub> = <span id="b-T1">400</span> K. Move the temperature slider to compare. <button class="btn" id="b-refreeze" style="margin-top:6px;padding:4px 10px;font-size:.8rem">Freeze current <i>T</i> as <i>T</i><sub>1</sub></button></div>
+      <div class="ctl"><span class="lab"><span>Energy axis range / kJ mol<sup>−1</sup></span></span>
+        <div class="seg" role="radiogroup" aria-label="Energy axis range">
+          <label><input type="radio" name="b-zoom" value="120" checked>0 to 120</label>
+          <label><input type="radio" name="b-zoom" value="30">0 to 30</label>
+        </div></div>
+    </div>
+    <div class="charts">
+      <div class="chart" id="b-main-wrap">
+        <div class="chart-title">Boltzmann distribution</div>
+        <svg id="b-main" role="img" aria-label="Boltzmann distribution of molecular kinetic energies"></svg>
+        <div class="tip" id="b-tip" hidden></div>
+        <div class="legend" id="b-legend"></div>
+      </div>
+      <div class="chart" id="b-tail-wrap">
+        <div class="chart-title">High-energy tail, magnified <span class="hint" id="b-mag"></span></div>
+        <svg id="b-tail" role="img" aria-label="Magnified high-energy tail"></svg>
+      </div>
+      <div class="readout" id="b-read"></div>
+      <ul class="notes">
+        <li>Higher <i>T</i> flattens the curve and moves the peak to the right; the area is unchanged. The fraction with <i>E</i> ≥ <i>E</i><sub>a</sub> rises sharply, so <i>k</i> increases. Collision frequency also rises, but that is the minor effect.</li>
+        <li>A catalyst does not change the curve. It provides an alternative reaction pathway with lower activation energy, so a larger fraction of molecules has <i>E</i> ≥ <i>E</i><sub>a</sub>(cat), giving a larger <i>k</i>.</li>
+        <li>The curve starts at the origin, is not symmetrical, and approaches the energy axis without ever touching it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2 ORDERS -->
+<section class="lab" id="orders">
+  <div class="sechead">
+    <span class="eyebrow">Explorer</span>
+    <h2>Order of reaction</h2>
+    <p>For A → products with rate = <i>k</i>[A]<sup><i>n</i></sup>. Drag the marker on the concentration–time graph to read the gradient.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Order with respect to A</span>
+        <div class="seg" role="radiogroup" aria-label="Order">
+          <label><input type="radio" name="o-ord" value="0">Zero</label>
+          <label><input type="radio" name="o-ord" value="1" checked>First</label>
+          <label><input type="radio" name="o-ord" value="2">Second</label>
+        </div></div>
+      <div class="ctl"><label for="o-A0"><span>[A]<sub>0</sub></span> <output id="o-A0-o"></output></label>
+        <input type="range" id="o-A0" min="0.10" max="2.00" step="0.05" value="1.00"></div>
+      <div class="ctl"><label for="o-k"><span>Rate constant, <i>k</i></span> <output id="o-k-o"></output></label>
+        <input type="range" id="o-k" min="0.002" max="0.05" step="0.0005" value="0.015"></div>
+      <div class="ctl"><label for="o-t"><span>Time marker</span> <output id="o-t-o"></output></label>
+        <input type="range" id="o-t" min="0" max="200" step="1" value="30"></div>
+      <label class="switch"><input type="checkbox" id="o-hl"><span>Show half-lives</span></label>
+      <label class="switch"><input type="checkbox" id="o-cmp"><span>Compare all three orders</span></label>
+      <div class="hint" id="o-cmp-hint" hidden>Same [A]<sub>0</sub> and the same initial rate as the current settings.</div>
+    </div>
+    <div class="charts">
+      <div class="chart" id="o-c-wrap">
+        <div class="chart-title">Concentration against time <span class="hint" id="o-c-sub"></span></div>
+        <svg id="o-conc" role="img" aria-label="Concentration of A against time"></svg>
+        <div class="legend" id="o-legend"></div>
+      </div>
+      <div class="readout" id="o-read"></div>
+      <div class="callout" id="o-hl-list" hidden></div>
+      <div class="chart" id="o-r-wrap">
+        <div class="chart-title">Rate against concentration</div>
+        <svg id="o-rate" role="img" aria-label="Rate against concentration of A"></svg>
+      </div>
+      <div class="callout" id="o-eq"></div>
+      <p class="hint" style="margin:0">9476 requires you to justify zero and first order from concentration–time graphs. Second order is shown for comparison.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 INITIAL RATES -->
+<section class="lab" id="initial-rates">
+  <div class="sechead">
+    <span class="eyebrow">Practice</span>
+    <h2>Initial rates</h2>
+    <p>Deduce each order by holding one concentration constant, then substitute one row to find <i>k</i>.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="ir-tab-ex" aria-selected="true">Worked example</button>
+      <button role="tab" id="ir-tab-pr" aria-selected="false">Practice</button>
+      <button class="btn" id="ir-new" hidden>New reaction</button>
+    </div>
+    <div class="panel stack">
+      <div id="ir-eq" class="eq"></div>
+      <div class="tblwrap"><table class="data" id="ir-table"></table></div>
+      <div class="form" id="ir-form">
+        <label class="field"><span id="ir-m-lab">Order in A, m</span><select id="ir-m"><option value="">choose</option><option>0</option><option>1</option><option>2</option></select></label>
+        <label class="field"><span id="ir-n-lab">Order in B, n</span><select id="ir-n"><option value="">choose</option><option>0</option><option>1</option><option>2</option></select></label>
+        <label class="field">k (e.g. 8.85e4 or 8.85 x 10^4)<input id="ir-k" type="text" inputmode="decimal" autocomplete="off" placeholder="value of k"></label>
+        <label class="field">Units of k<select id="ir-u"><option value="">choose</option><option value="0">mol dm⁻³ s⁻¹</option><option value="1">s⁻¹</option><option value="2">mol⁻¹ dm³ s⁻¹</option><option value="3">mol⁻² dm⁶ s⁻¹</option><option value="4">mol⁻³ dm⁹ s⁻¹</option></select></label>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="ir-check">Check</button><button class="btn" id="ir-show">Show working</button></div>
+      <div id="ir-fb" hidden></div>
+      <ol class="working" id="ir-work" hidden></ol>
+    </div>
+  </div>
+</section>
+
+<!-- 4 HALF-LIFE -->
+<section class="lab" id="half-life">
+  <div class="sechead">
+    <span class="eyebrow">Calculator</span>
+    <h2>Half-life (first order)</h2>
+    <p><i>t</i><sub>½</sub> = ln 2 / <i>k</i> = 0.693 / <i>k</i>, independent of concentration. Type in either box of a pair; the other updates.</p>
+  </div>
+  <div class="hl-grid">
+    <div class="panel stack">
+      <label class="field">Time unit<select id="h-unit"><option value="s">s</option><option value="min" selected>min</option><option value="h">h</option></select></label>
+      <div class="form" style="grid-template-columns:1fr 1fr">
+        <label class="field"><span>Rate constant, <i>k</i> / <span class="h-ku">min<sup>−1</sup></span></span><input id="h-k" type="text" inputmode="decimal" autocomplete="off"></label>
+        <label class="field"><span>Half-life, <i>t</i><sub>½</sub> / <span class="h-tu">min</span></span><input id="h-th" type="text" inputmode="decimal" autocomplete="off"></label>
+        <label class="field"><span>Time elapsed, <i>t</i> / <span class="h-tu">min</span></span><input id="h-t" type="text" inputmode="decimal" autocomplete="off"></label>
+        <label class="field"><span>Number of half-lives, <i>n</i></span><input id="h-n" type="text" inputmode="decimal" autocomplete="off"></label>
+      </div>
+      <div id="h-err" class="err" hidden></div>
+    </div>
+    <div class="panel stack">
+      <div class="readout" id="h-read"></div>
+      <div class="bar" aria-hidden="true"><i id="h-bar"></i></div>
+      <div class="chart" id="h-c-wrap"><svg id="h-chart" role="img" aria-label="Fraction remaining against time"></svg></div>
+    </div>
+    <div class="panel stack">
+      <span class="eyebrow">Worked example</span>
+      <p style="margin:0">A first-order reaction has <i>t</i><sub>½</sub> = 20 min. What fraction remains after 1 hour?</p>
+      <ol class="working">
+        <li><i>n</i> = 60 min ÷ 20 min = 3 half-lives</li>
+        <li>Fraction remaining = (½)<sup>3</sup> = 1/8</li>
+        <li>i.e. 12.5 % remains</li>
+      </ol>
+      <div><button class="btn" id="h-load">Load into calculator</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 PROFILES -->
+<section class="lab" id="profiles">
+  <div class="sechead">
+    <span class="eyebrow">Builder</span>
+    <h2>Reaction profile</h2>
+    <p>Energy profile diagram. The catalysed pathway has a lower activation energy; Δ<i>H</i> is unchanged by the catalyst. Values are illustrative.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Reaction type</span>
+        <div class="seg" role="radiogroup" aria-label="Reaction type">
+          <label><input type="radio" name="p-type" value="exo" checked>Exothermic</label>
+          <label><input type="radio" name="p-type" value="endo">Endothermic</label>
+        </div></div>
+      <div class="ctl"><label for="p-dH"><span>|Δ<i>H</i>|</span> <output id="p-dH-o"></output></label>
+        <input type="range" id="p-dH" min="10" max="200" step="1" value="60"></div>
+      <div class="ctl"><label for="p-Ea"><span><i>E</i><sub>a</sub> (uncatalysed)</span> <output id="p-Ea-o"></output></label>
+        <input type="range" id="p-Ea" min="0" max="300" step="1" value="120"></div>
+      <label class="switch"><input type="checkbox" id="p-cat" checked><span>Catalysed pathway</span></label>
+      <div class="sub-ctl controls" id="p-cat-box">
+        <div class="ctl"><label for="p-EaC"><span><i>E</i><sub>a</sub> (catalysed)</span> <output id="p-EaC-o"></output></label>
+          <input type="range" id="p-EaC" min="0" max="300" step="1" value="70"></div>
+        <div class="seg" role="radiogroup" aria-label="Catalysed pathway shape">
+          <label><input type="radio" name="p-shape" value="1" checked>Single step</label>
+          <label><input type="radio" name="p-shape" value="2">Via intermediate</label>
+        </div>
+        <span class="hint" id="p-shape-hint"></span>
+      </div>
+    </div>
+    <div class="charts">
+      <div class="chart" id="p-wrap"><svg id="p-svg" role="img" aria-label="Reaction energy profile"></svg>
+        <div class="legend" id="p-legend"></div></div>
+      <div id="p-err" class="err" hidden></div>
+      <div class="readout" id="p-read"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 CATALYSIS -->
+<section class="lab" id="catalysis">
+  <div class="sechead">
+    <span class="eyebrow">9476 LO 8(j)</span>
+    <h2>Catalysis examples</h2>
+    <p>A catalyst provides an alternative reaction pathway (mechanism) with lower activation energy, and is regenerated at the end. Homogeneous: catalyst in the same phase as the reactants. Heterogeneous: catalyst in a different phase.</p>
+  </div>
+  <div class="cards">
+    <article class="panel card">
+      <h3>Haber process</h3>
+      <div class="kind"><span class="pill">Heterogeneous</span> <span class="hint">different phase: solid Fe, gaseous reactants</span></div>
+      <div class="eqs"><div>N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ⇌ 2NH<sub>3</sub>(g)</div></div>
+      <ol class="steps" id="cat-haber">
+        <li><b>Adsorption:</b> N<sub>2</sub> and H<sub>2</sub> adsorb onto active sites on the Fe surface.</li>
+        <li><b>Weakening of bonds:</b> bonds within the adsorbed molecules, including N≡N, are weakened.</li>
+        <li><b>Reaction on the surface:</b> adsorbed N and H atoms react to form NH<sub>3</sub>.</li>
+        <li><b>Desorption:</b> NH<sub>3</sub> leaves the surface, freeing the active sites.</li>
+      </ol>
+      <div class="btnrow" style="margin-top:10px"><button class="btn" data-steps="cat-haber">Next step</button><button class="btn" data-reset="cat-haber">Restart</button></div>
+    </article>
+    <article class="panel card">
+      <h3>Catalytic converter</h3>
+      <div class="kind"><span class="pill">Heterogeneous</span> <span class="hint">different phase: solid Pt/Pd/Rh on a ceramic honeycomb, gaseous reactants</span></div>
+      <div class="eqs">
+        <div>2CO(g) + 2NO(g) → 2CO<sub>2</sub>(g) + N<sub>2</sub>(g)</div>
+      </div>
+      <p>It also oxidises CO and unburnt hydrocarbons, for example:</p>
+      <div class="eqs">
+        <div>2CO(g) + O<sub>2</sub>(g) → 2CO<sub>2</sub>(g)</div>
+        <div>C<sub>8</sub>H<sub>18</sub>(g) + 12½O<sub>2</sub>(g) → 8CO<sub>2</sub>(g) + 9H<sub>2</sub>O(g)</div>
+      </div>
+      <p>Same surface sequence as the Haber process: adsorption, weakening of bonds, reaction, desorption. The honeycomb gives a large surface area.</p>
+    </article>
+    <article class="panel card">
+      <h3>Atmospheric NO<sub>2</sub> in SO<sub>2</sub> oxidation</h3>
+      <div class="kind"><span class="pill">Homogeneous</span> <span class="hint">same phase: catalyst and reactants all gaseous</span></div>
+      <div class="eqs">
+        <div>SO<sub>2</sub>(g) + NO<sub>2</sub>(g) → SO<sub>3</sub>(g) + NO(g)</div>
+        <div>NO(g) + ½O<sub>2</sub>(g) → NO<sub>2</sub>(g)</div>
+        <div class="overall">overall: SO<sub>2</sub>(g) + ½O<sub>2</sub>(g) → SO<sub>3</sub>(g)</div>
+      </div>
+      <p>NO<sub>2</sub> is used in step 1 and regenerated in step 2, so it does not appear in the overall equation.</p>
+    </article>
+    <article class="panel card">
+      <h3>Fe<sup>2+</sup> in the S<sub>2</sub>O<sub>8</sub><sup>2−</sup> / I<sup>−</sup> reaction</h3>
+      <div class="kind"><span class="pill">Homogeneous</span> <span class="hint">same phase: catalyst and reactants all aqueous</span></div>
+      <ol class="steps eqs" id="cat-fe" style="list-style:none;padding-left:0">
+        <li>S<sub>2</sub>O<sub>8</sub><sup>2−</sup>(aq) + 2Fe<sup>2+</sup>(aq) → 2SO<sub>4</sub><sup>2−</sup>(aq) + 2Fe<sup>3+</sup>(aq)</li>
+        <li>2Fe<sup>3+</sup>(aq) + 2I<sup>−</sup>(aq) → 2Fe<sup>2+</sup>(aq) + I<sub>2</sub>(aq)</li>
+        <li class="overall">overall: S<sub>2</sub>O<sub>8</sub><sup>2−</sup>(aq) + 2I<sup>−</sup>(aq) → 2SO<sub>4</sub><sup>2−</sup>(aq) + I<sub>2</sub>(aq)</li>
+      </ol>
+      <div class="btnrow"><button class="btn" data-steps="cat-fe">Next step</button><button class="btn" data-reset="cat-fe">Restart</button></div>
+      <p>The uncatalysed reaction is slow because the two anions repel. Each catalysed step is between oppositely charged ions. Fe<sup>3+</sup> also works because the cycle simply starts at the second step.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 7 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions. Pick an answer to see the explanation.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 8 Reaction Kinetics</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · All values computed live in the page</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+const R = 8.314e-3;            // kJ mol^-1 K^-1
+const MINUS = "−";
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+
+/* ---------- number formatting ---------- */
+function sciParts(x, sf){
+  let e = Math.floor(Math.log10(Math.abs(x)));
+  let ms = (x / Math.pow(10, e)).toFixed(sf - 1);
+  if (Math.abs(parseFloat(ms)) >= 10){ e += 1; ms = (x / Math.pow(10, e)).toFixed(sf - 1); }
+  return { m: ms.replace("-", MINUS), e };
+}
+function sci(x, sf = 3){
+  if (x === 0) return "0";
+  const p = sciParts(x, sf);
+  return p.e === 0 ? p.m : `${p.m} × 10<sup>${p.e < 0 ? MINUS : ""}${Math.abs(p.e)}</sup>`;
+}
+function sciSvg(x, sf = 3){
+  if (x === 0) return "0";
+  const p = sciParts(x, sf);
+  return p.e === 0 ? p.m : `${p.m} × 10^{${p.e < 0 ? MINUS : ""}${Math.abs(p.e)}}`;
+}
+function num(x, sf = 3){          // plain for 0.01..1000, else scientific (HTML)
+  if (x === 0) return "0";
+  const a = Math.abs(x);
+  if (a >= 0.01 && a < 1000){
+    const s = x.toPrecision(sf);
+    if (!s.includes("e")) return s.replace("-", MINUS);
+  }
+  return sci(x, sf);
+}
+function numSvg(x, sf = 3){
+  if (x === 0) return "0";
+  const a = Math.abs(x);
+  if (a >= 0.01 && a < 1000){ const s = x.toPrecision(sf); if (!s.includes("e")) return s.replace("-", MINUS); }
+  return sciSvg(x, sf);
+}
+function round3(x){ return x === 0 ? 0 : parseFloat(x.toPrecision(3)); }
+const U = {
+  k0: "mol dm<sup>−3</sup> s<sup>−1</sup>",
+  k1: "s<sup>−1</sup>",
+  k2: "mol<sup>−1</sup> dm<sup>3</sup> s<sup>−1</sup>",
+  k3: "mol<sup>−2</sup> dm<sup>6</sup> s<sup>−1</sup>",
+  k4: "mol<sup>−3</sup> dm<sup>9</sup> s<sup>−1</sup>",
+  conc: "mol dm<sup>−3</sup>", rate: "mol dm<sup>−3</sup> s<sup>−1</sup>", kJ: "kJ mol<sup>−1</sup>"
+};
+const kUnit = p => U["k" + p];
+
+/* ---------- SVG helpers ---------- */
+function S(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+// markup: _{sub} ^{sup} *italic*
+function rich(t, s, fs){
+  let shift = 0, ital = false, buf = "";
+  const put = (text, target, small) => {
+    if (!text) return;
+    const sp = S("tspan", null, t);
+    const d = target - shift;
+    if (d) sp.setAttribute("dy", d.toFixed(2));
+    shift = target;
+    if (small) sp.setAttribute("font-size", (fs * 0.74).toFixed(1));
+    if (ital) sp.setAttribute("font-style", "italic");
+    sp.textContent = text;
+  };
+  for (let i = 0; i < s.length; i++){
+    const c = s[i];
+    if ((c === "_" || c === "^") && s[i + 1] === "{"){
+      put(buf, 0, false); buf = "";
+      const j = s.indexOf("}", i);
+      put(s.slice(i + 2, j), c === "_" ? fs * 0.3 : -fs * 0.4, true);
+      i = j;
+    } else if (c === "*"){
+      put(buf, 0, false); buf = ""; ital = !ital;
+    } else buf += c;
+  }
+  put(buf, 0, false);
+  if (shift){ const sp = S("tspan", { dy: (-shift).toFixed(2) }, t); sp.textContent = "​"; }
+}
+function T(parent, x, y, markup, attrs){
+  const a = Object.assign({ x, y }, attrs || {});
+  const fs = parseFloat(a["font-size"] || 11.5);
+  const t = S("text", a, parent);
+  rich(t, markup, fs);
+  return t;
+}
+function niceTicks(min, max, n){
+  const span = max - min;
+  const raw = span / Math.max(1, n);
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const f = raw / mag;
+  const step = (f >= 7.5 ? 10 : f >= 3.5 ? 5 : f >= 1.5 ? 2 : 1) * mag;
+  const out = [];
+  for (let v = Math.ceil(min / step - 1e-9) * step; v <= max + step * 1e-9; v += step) out.push(parseFloat(v.toPrecision(12)));
+  return { vals: out, step };
+}
+function tickLabel(v, step){
+  if (v === 0) return "0";
+  const d = Math.max(0, -Math.floor(Math.log10(step) + 1e-9));
+  return v.toFixed(d).replace("-", MINUS);
+}
+let clipN = 0;
+// Generic frame. Returns scales and layers.
+function frame(svg, o){
+  svg.innerHTML = "";
+  const { W, H, m } = o;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  const pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const X = v => m.l + (v - o.x0) / (o.x1 - o.x0) * pw;
+  const Y = v => m.t + ph - (v - o.y0) / (o.y1 - o.y0) * ph;
+  const g = S("g", null, svg);
+  const yt = o.yTicks || niceTicks(o.y0, o.y1, o.ny || 5);
+  const ys = o.yScale || 1;
+  yt.vals.forEach(v => {
+    S("line", { x1: m.l, x2: m.l + pw, y1: Y(v), y2: Y(v), class: "grid" }, g);
+    if (!o.noYLabels){
+      const lab = o.yFmt ? o.yFmt(v) : tickLabel(v / ys, yt.step / ys);
+      T(g, m.l - 6, Y(v) + 3.5, lab, { class: "tick", "text-anchor": "end", "font-size": 11 });
+    }
+  });
+  const xt = o.xTicks || niceTicks(o.x0, o.x1, o.nx || 6);
+  xt.vals.forEach(v => {
+    S("line", { x1: X(v), x2: X(v), y1: m.t + ph, y2: m.t + ph + 4, class: "axis" }, g);
+    T(g, X(v), m.t + ph + 16, o.xFmt ? o.xFmt(v) : tickLabel(v, xt.step), { class: "tick", "text-anchor": "middle", "font-size": 11 });
+  });
+  S("line", { x1: m.l, x2: m.l + pw, y1: m.t + ph, y2: m.t + ph, class: "axis" }, g);
+  S("line", { x1: m.l, x2: m.l, y1: m.t, y2: m.t + ph, class: "axis" }, g);
+  if (o.xlab) T(g, m.l + pw, H - 4, o.xlab, { class: "axlab", "text-anchor": "end", "font-size": 11.5 });
+  if (o.ylab) T(g, m.l - (o.ylabIndent ?? 30), m.t - 10, o.ylab, { class: "axlab", "text-anchor": "start", "font-size": 11.5 });
+  const id = "clip" + (++clipN);
+  const cp = S("clipPath", { id }, S("defs", null, svg));
+  S("rect", { x: m.l, y: m.t - 1, width: pw, height: ph + 1 }, cp);
+  const plot = S("g", { "clip-path": `url(#${id})` }, svg);
+  const top = S("g", null, svg);
+  return { X, Y, pw, ph, plot, top, g, m, W, H };
+}
+function pathD(pts){ return pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(""); }
+function arrowDefs(svg, id, color){
+  const defs = svg.querySelector("defs") || S("defs", null, svg);
+  const mk = S("marker", { id, viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto-start-reverse", markerUnits: "userSpaceOnUse" }, defs);
+  S("path", { d: "M0,0 L10,5 L0,10 z", fill: color }, mk);
+}
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function widthOf(el){ return Math.max(280, Math.floor(el.clientWidth)); }
+function onResize(el, fn){ let w = 0; new ResizeObserver(() => { const nw = el.clientWidth; if (Math.abs(nw - w) > 1){ w = nw; fn(); } }).observe(el); }
+
+/* =====================================================
+   1. BOLTZMANN
+   ===================================================== */
+const B = { T: 500, Ea: 40, cat: false, EaCat: 25, cmp: true, T1: 400, xmax: 120 };
+function fE(E, T){
+  if (E <= 0) return 0;
+  const RT = R * T;
+  return 2 / Math.sqrt(Math.PI) * Math.pow(RT, -1.5) * Math.sqrt(E) * Math.exp(-E / RT);
+}
+// numerical fraction with E >= Ea; substitution E = u^2 removes the sqrt cusp; Simpson's rule
+function fracAbove(Ea, T){
+  const RT = R * T, C = 2 / Math.sqrt(Math.PI) * Math.pow(RT, -1.5);
+  const a = Math.sqrt(Math.max(Ea, 0)), b = Math.sqrt(Math.max(Ea, 0) + 60 * RT);
+  const N = 4000, h = (b - a) / N;
+  let s = 0;
+  for (let i = 0; i <= N; i++){
+    const u = a + i * h, g = 2 * u * u * Math.exp(-u * u / RT);
+    s += (i === 0 || i === N) ? g : (i % 2 ? 4 * g : 2 * g);
+  }
+  return C * s * h / 3;
+}
+window.__kin = { fE, fracAbove, R };
+function curvePts(T, x0, x1, X, Y){
+  const pts = [], N = 900;
+  for (let i = 0; i <= N; i++){ const E = x0 + (x1 - x0) * i / N; pts.push([X(E), Y(fE(E, T))]); }
+  // make sure the true peak is sampled
+  return pts;
+}
+function shade(plot, T, from, x1, X, Y, fill){
+  if (from >= x1) return;
+  const pts = [[X(from), Y(0)]], N = 400;
+  for (let i = 0; i <= N; i++){ const E = from + (x1 - from) * i / N; pts.push([X(E), Y(fE(E, T))]); }
+  pts.push([X(x1), Y(0)]);
+  S("path", { d: pathD(pts) + "Z", fill, stroke: "none" }, plot);
+}
+function drawBoltz(){
+  const wrap = $("b-main-wrap"), svg = $("b-main");
+  const W = widthOf(wrap), H = W < 520 ? 250 : 300;
+  const xmax = B.xmax;
+  const ymax = 0.25;
+  const Tcur = B.T, showRef = B.cmp;
+  const F = frame(svg, { W, H, m: { l: 44, r: 12, t: 30, b: 34 }, x0: 0, x1: xmax, y0: 0, y1: ymax, nx: W < 520 ? 4 : 6, ny: 5,
+    xlab: "Energy, *E* / kJ mol^{−1}", ylab: "Fraction of molecules per kJ mol^{−1}" });
+  const { X, Y, plot, top } = F;
+  const s1 = cssVar("--s1"), s2 = cssVar("--s2"), ref = cssVar("--ref"), ink = cssVar("--ink");
+  // shading on current curve
+  if (B.cat) shade(plot, Tcur, B.EaCat, xmax, X, Y, cssVar("--s2-wash"));
+  shade(plot, Tcur, B.Ea, xmax, X, Y, cssVar("--s1-wash"));
+  if (showRef) S("path", { d: pathD(curvePts(B.T1, 0, xmax, X, Y)), fill: "none", stroke: ref, "stroke-width": 2, "stroke-dasharray": "5 4", "stroke-linejoin": "round" }, plot);
+  S("path", { d: pathD(curvePts(Tcur, 0, xmax, X, Y)), fill: "none", stroke: s1, "stroke-width": 2, "stroke-linejoin": "round" }, plot);
+  // Ea lines
+  const eaLine = (E, color, lab) => {
+    if (E <= xmax){
+      S("line", { x1: X(E), x2: X(E), y1: F.m.t + 4, y2: F.m.t + F.ph, stroke: color, "stroke-width": 1.5 }, top);
+      T(top, X(E) + 4, F.m.t + 14, lab, { "font-size": 12, "text-anchor": "start", class: "halo", style: `fill:${cssVar("--ink")}` });
+    } else {
+      T(top, F.m.l + F.pw - 2, F.m.t + 14 + (color === s2 ? 16 : 0), lab + " off scale →", { "font-size": 11.5, "text-anchor": "end", style: `fill:${cssVar("--ink-2")}` });
+    }
+  };
+  eaLine(B.Ea, ink, "*E*_{a}");
+  if (B.cat) eaLine(B.EaCat, s2, "*E*_{a}(cat)");
+  // most probable energy markers
+  const mp = (T, color) => {
+    const E = R * T / 2;
+    S("circle", { cx: X(E), cy: Y(fE(E, T)), r: 4, fill: color, stroke: cssVar("--surface"), "stroke-width": 2 }, top);
+    return E;
+  };
+  if (showRef) mp(B.T1, ref);
+  const Emp = mp(Tcur, s1);
+  T(top, X(Emp) + 8, Y(fE(Emp, Tcur)) - 2, "most probable energy", { "font-size": 11, class: "halo", style: `fill:${cssVar("--ink-2")}` });
+  // legend
+  const lg = [];
+  lg.push(`<span><i class="key" style="border-color:${s1}"></i><span>${showRef ? `current, ${Tcur} K` : `<i>T</i> = ${Tcur} K`}</span></span>`);
+  if (showRef) lg.push(`<span><i class="key dash" style="border-color:${ref}"></i><span>reference <i>T</i><sub>1</sub>, ${B.T1} K</span></span>`);
+  lg.push(`<span><i class="key box" style="background:${cssVar("--s1-wash")}"></i><span><i>E</i> ≥ <i>E</i><sub>a</sub></span></span>`);
+  if (B.cat) lg.push(`<span><i class="key box" style="background:${cssVar("--s2-wash")}"></i><span><i>E</i><sub>a</sub>(cat) ≤ <i>E</i> &lt; <i>E</i><sub>a</sub></span></span>`);
+  $("b-legend").innerHTML = lg.join("");
+  // hover
+  const tip = $("b-tip");
+  const cross = S("line", { y1: F.m.t, y2: F.m.t + F.ph, stroke: cssVar("--axis"), "stroke-width": 1, visibility: "hidden" }, top);
+  const hover = ev => {
+    const r = svg.getBoundingClientRect();
+    const px = (ev.clientX - r.left) * (W / r.width);
+    if (px < F.m.l || px > F.m.l + F.pw){ tip.hidden = true; cross.setAttribute("visibility", "hidden"); return; }
+    const E = (px - F.m.l) / F.pw * xmax;
+    cross.setAttribute("x1", px); cross.setAttribute("x2", px); cross.setAttribute("visibility", "visible");
+    let h = `<i>E</i> = ${E.toFixed(1)} kJ mol<sup>−1</sup><br>${Tcur} K${showRef ? " (current)" : ""}: <i>f</i> = ${num(fE(E, Tcur), 3)}`;
+    if (showRef) h += `<br>${B.T1} K (reference): <i>f</i> = ${num(fE(E, B.T1), 3)}`;
+    tip.innerHTML = h; tip.hidden = false;
+    const tx = ev.clientX - wrap.getBoundingClientRect().left;
+    tip.style.left = Math.min(tx + 12, wrap.clientWidth - tip.offsetWidth - 4) + "px";
+    tip.style.top = (ev.clientY - wrap.getBoundingClientRect().top - 60) + "px";
+  };
+  svg.onpointermove = hover; svg.onpointerdown = hover;
+  svg.onpointerleave = () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); };
+
+  drawTail();
+  readBoltz();
+}
+function drawTail(){
+  const wrap = $("b-tail-wrap"), svg = $("b-tail");
+  const W = widthOf(wrap), H = W < 520 ? 190 : 210;
+  const Emin = B.cat ? Math.min(B.EaCat, B.Ea) : B.Ea;
+  const x0 = Math.max(0, Math.floor((Emin - 12) / 5) * 5), x1 = 120;
+  const temps = [B.T].concat(B.cmp ? [B.T1] : []);
+  // scale so the curves at the lowest Ea line sit at about 40 % of the panel height; the steep part to the left is clipped
+  let top = 0;
+  for (const T of temps) top = Math.max(top, fE(Emin, T));
+  top *= 2.5;
+  const yt = niceTicks(0, top, 3);
+  const ymax = Math.max(top, yt.vals[yt.vals.length - 1]);
+  const exp = Math.floor(Math.log10(yt.step));
+  const F = frame(svg, { W, H, m: { l: 44, r: 12, t: 28, b: 34 }, x0, x1, y0: 0, y1: ymax, yTicks: yt, nx: W < 520 ? 4 : 6,
+    yFmt: v => v === 0 ? "0" : (v / Math.pow(10, exp)).toFixed(0),
+    xlab: "Energy, *E* / kJ mol^{−1}", ylab: `per kJ mol^{−1}, × 10^{${exp < 0 ? MINUS : ""}${Math.abs(exp)}}` });
+  const { X, Y, plot } = F;
+  const s1 = cssVar("--s1"), s2 = cssVar("--s2"), ref = cssVar("--ref");
+  if (B.cat) shade(plot, B.T, B.EaCat, x1, X, Y, cssVar("--s2-wash"));
+  shade(plot, B.T, B.Ea, x1, X, Y, cssVar("--s1-wash"));
+  if (B.cmp) S("path", { d: pathD(curvePts(B.T1, x0, x1, X, Y)), fill: "none", stroke: ref, "stroke-width": 2, "stroke-dasharray": "5 4" }, plot);
+  S("path", { d: pathD(curvePts(B.T, x0, x1, X, Y)), fill: "none", stroke: s1, "stroke-width": 2 }, plot);
+  S("line", { x1: X(B.Ea), x2: X(B.Ea), y1: F.m.t + 4, y2: F.m.t + F.ph, stroke: cssVar("--ink"), "stroke-width": 1.5 }, F.top);
+  T(F.top, X(B.Ea) + 4, F.m.t + 14, "*E*_{a}", { "font-size": 12, class: "halo", style: `fill:${cssVar("--ink")}` });
+  if (B.cat){
+    S("line", { x1: X(B.EaCat), x2: X(B.EaCat), y1: F.m.t + 4, y2: F.m.t + F.ph, stroke: s2, "stroke-width": 1.5 }, F.top);
+    T(F.top, X(B.EaCat) - 4, F.m.t + 14, "*E*_{a}(cat)", { "font-size": 12, "text-anchor": "end", class: "halo", style: `fill:${cssVar("--ink")}` });
+  }
+  const mag = 0.25 / ymax;
+  $("b-mag").textContent = mag > 1.5 ? `vertical scale about ×${Number(mag.toPrecision(2)).toLocaleString("en-GB")} of the main graph` : "same scale as the main graph";
+}
+function readBoltz(){
+  const fr = fracAbove(B.Ea, B.T);
+  const cells = [];
+  const pct = f => f * 100 >= 0.01 ? `${num(f * 100, 3)} %` : `${sci(f * 100, 3)} %`;
+  const Tn = B.cmp ? `${B.T} K (current)` : `${B.T} K`;
+  cells.push(["Fraction with <i>E</i> ≥ <i>E</i><sub>a</sub> at " + Tn, `${sci(fr, 3)} <small class="pct">${pct(fr)}</small>`]);
+  if (B.cmp){
+    const f1 = fracAbove(B.Ea, B.T1);
+    cells.push([`Fraction with <i>E</i> ≥ <i>E</i><sub>a</sub> at ${B.T1} K (reference)`, `${sci(f1, 3)} <small class="pct">${pct(f1)}</small>`]);
+    cells.push([`Ratio, ${B.T} K ÷ ${B.T1} K`, `${num(fr / f1, 3)} <small>times</small>`]);
+  }
+  if (B.cat){
+    const fc = fracAbove(B.EaCat, B.T);
+    cells.push([`Fraction with <i>E</i> ≥ <i>E</i><sub>a</sub>(cat) at ${Tn}`, `${sci(fc, 3)} <small class="pct">${pct(fc)}</small>`]);
+    cells.push(["Catalysed ÷ uncatalysed", `${num(fc / fr, 3)} <small>times</small>`]);
+  }
+  cells.push(["Most probable energy, ½<i>RT</i>", `${num(R * B.T / 2, 3)} <small>${U.kJ}</small>`]);
+  $("b-read").innerHTML = cells.map(c => `<div class="stat"><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+}
+function bindBoltz(){
+  const syncCatMax = () => {
+    const s = $("b-EaCat"); s.max = B.Ea - 1;
+    if (B.EaCat > B.Ea - 1){ B.EaCat = B.Ea - 1; }
+    s.value = B.EaCat;
+    $("b-EaCat-o").innerHTML = `${B.EaCat} ${U.kJ}`;
+  };
+  $("b-T").oninput = e => { B.T = +e.target.value; $("b-T-o").textContent = B.T + " K"; drawBoltz(); };
+  $("b-Ea").oninput = e => { B.Ea = +e.target.value; $("b-Ea-o").innerHTML = `${B.Ea} ${U.kJ}`; syncCatMax(); drawBoltz(); };
+  $("b-EaCat").oninput = e => { B.EaCat = Math.min(+e.target.value, B.Ea - 1); syncCatMax(); drawBoltz(); };
+  $("b-cat").onchange = e => { B.cat = e.target.checked; $("b-cat-box").hidden = !B.cat; if (B.cat && B.EaCat >= B.Ea) B.EaCat = Math.max(5, B.Ea - 15); syncCatMax(); drawBoltz(); };
+  $("b-cmp").onchange = e => { B.cmp = e.target.checked; if (B.cmp){ B.T1 = B.T; $("b-T1").textContent = B.T1; } $("b-cmp-box").hidden = !B.cmp; drawBoltz(); };
+  $("b-refreeze").onclick = () => { B.T1 = B.T; $("b-T1").textContent = B.T1; drawBoltz(); };
+  document.querySelectorAll('input[name="b-zoom"]').forEach(r => r.onchange = e => { B.xmax = +e.target.value; drawBoltz(); });
+  $("b-Ea-o").innerHTML = `${B.Ea} ${U.kJ}`;
+  syncCatMax();
+  onResize($("b-main-wrap"), drawBoltz);
+}
+
+/* =====================================================
+   2. ORDERS
+   ===================================================== */
+const KR = {
+  0: { min: 0.001, max: 0.02, step: 0.0005, def: 0.006 },
+  1: { min: 0.002, max: 0.05, step: 0.0005, def: 0.015 },
+  2: { min: 0.002, max: 0.1, step: 0.001, def: 0.02 }
+};
+const O = { n: 1, A0: 1.0, k: { 0: 0.006, 1: 0.015, 2: 0.02 }, t: 30, hl: false, cmp: false, tmax: 200 };
+function conc(t, n, A0, k){
+  if (n === 0) return Math.max(0, A0 - k * t);
+  if (n === 1) return A0 * Math.exp(-k * t);
+  return A0 / (1 + k * A0 * t);
+}
+function rateOf(A, n, k){ return n === 0 ? (A > 1e-12 ? k : 0) : k * Math.pow(A, n); }
+function halfLives(n, A0, k, count){
+  const out = []; let A = A0;
+  for (let i = 0; i < count; i++){
+    const th = n === 0 ? A / (2 * k) : n === 1 ? Math.LN2 / k : 1 / (k * A);
+    out.push(th); A /= 2;
+  }
+  return out;
+}
+window.__kin.conc = conc; window.__kin.halfLives = halfLives; window.__kin.rateOf = rateOf;
+const ORD_NAME = ["zero", "first", "second"];
+function axisScale(max){       // returns exponent p so values/10^p are readable
+  if (max >= 0.1 && max < 1000) return 0;
+  return Math.floor(Math.log10(max));
+}
+function supStr(p){ return `10^{${p < 0 ? MINUS : ""}${Math.abs(p)}}`; }
+function drawOrders(){
+  const n = O.n, A0 = O.A0, k = O.k[n];
+  const wrap = $("o-c-wrap"), svg = $("o-conc");
+  const W = widthOf(wrap), H = W < 520 ? 250 : 290;
+  const s1 = cssVar("--s1"), s2 = cssVar("--s2"), s3 = cssVar("--s3"), ink = cssVar("--ink"), muted = cssVar("--muted");
+  const r0 = rateOf(A0, n, k);
+  let tmax = 200;
+  if (O.cmp){
+    const raw = 3 * A0 / r0;
+    const t = niceTicks(0, raw, 5); tmax = t.vals[t.vals.length - 1] < raw ? t.vals[t.vals.length - 1] + t.step : t.vals[t.vals.length - 1];
+  }
+  O.tmax = tmax;
+  const ts = $("o-t"); ts.max = tmax; ts.step = tmax / 200; if (O.t > tmax) O.t = tmax; ts.value = O.t;
+  const ymax = Math.ceil(A0 * 1.1 / 0.25) * 0.25;
+  const F = frame(svg, { W, H, m: { l: 44, r: O.cmp ? 64 : 14, t: 30, b: 34 }, x0: 0, x1: tmax, y0: 0, y1: ymax, nx: W < 520 ? 4 : 6, ny: 5,
+    xlab: "time, *t* / s", ylab: "[A] / mol dm^{−3}" });
+  const { X, Y, plot, top } = F;
+  const series = O.cmp ? [0, 1, 2] : [n];
+  const colors = { 0: s2, 1: s1, 2: s3 };
+  const kFor = m => O.cmp ? r0 / Math.pow(A0, m) : k;
+  series.forEach(m => {
+    const pts = []; const N = 500;
+    for (let i = 0; i <= N; i++){ const t = tmax * i / N; pts.push([X(t), Y(conc(t, m, A0, kFor(m)))]); }
+    S("path", { d: pathD(pts), fill: "none", stroke: O.cmp ? colors[m] : s1, "stroke-width": 2, "stroke-linejoin": "round" }, plot);
+  });
+  let legend = "";
+  if (O.cmp){
+    const ends = series.map(m => ({ m, y: Y(conc(tmax, m, A0, kFor(m))) })).sort((a, b) => a.y - b.y);
+    // keep end labels apart (leader lines if nudged)
+    for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 13) ends[i].ly = (ends[i - 1].ly ?? ends[i - 1].y) + 13;
+    ends.forEach(e => {
+      const ly = e.ly ?? e.y;
+      S("circle", { cx: X(tmax), cy: e.y, r: 4, fill: colors[e.m], stroke: cssVar("--surface"), "stroke-width": 2 }, top);
+      if (Math.abs(ly - e.y) > 1) S("line", { x1: X(tmax) + 4, y1: e.y, x2: X(tmax) + 10, y2: ly - 3, stroke: muted, "stroke-width": 1 }, top);
+      T(top, X(tmax) + 10, ly, ORD_NAME[e.m], { "font-size": 11.5, style: `fill:${cssVar("--ink-2")}` });
+    });
+    const kUnits = [U.k0, U.k1, U.k2];
+    legend = series.map(m => `<span><i class="key" style="border-color:${colors[m]}"></i><span>${ORD_NAME[m]} order${m === 2 ? " (for comparison)" : ""}, <i>k</i> = ${num(kFor(m), 3)} ${kUnits[m]}</span></span>`).join("");
+    $("o-c-sub").innerHTML = `same [A]<sub>0</sub>, same initial rate ${num(r0, 3)} ${U.rate}`;
+  } else {
+    $("o-c-sub").textContent = "";
+    // half-lives
+    if (O.hl){
+      const hls = halfLives(n, A0, k, 4);
+      let tc = 0, A = A0, prevT = 0;
+      hls.forEach((th, i) => {
+        tc += th; A = A / 2;
+        if (tc <= tmax){
+          S("line", { x1: F.m.l, x2: X(tc), y1: Y(A), y2: Y(A), stroke: muted, "stroke-width": 1, "stroke-dasharray": "3 3" }, plot);
+          S("line", { x1: X(tc), x2: X(tc), y1: Y(A), y2: Y(0), stroke: muted, "stroke-width": 1, "stroke-dasharray": "3 3" }, plot);
+          S("circle", { cx: X(tc), cy: Y(A), r: 4, fill: s2, stroke: cssVar("--surface"), "stroke-width": 2 }, top);
+          // bracket along the top band
+          const yb = F.m.t + 4 + (i % 2) * 0;
+          const xa = X(prevT), xb = X(tc);
+          S("line", { x1: xa + 1, x2: xb - 1, y1: yb, y2: yb, stroke: s2, "stroke-width": 1.5 }, top);
+          S("line", { x1: xb - 1, x2: xb - 1, y1: yb - 4, y2: yb + 4, stroke: s2, "stroke-width": 1.5 }, top);
+          if (i === 0) S("line", { x1: xa + 1, x2: xa + 1, y1: yb - 4, y2: yb + 4, stroke: s2, "stroke-width": 1.5 }, top);
+          if (xb - xa > 44) T(top, (xa + xb) / 2, yb + 14, `${numSvg(th, 3)} s`, { "font-size": 11, "text-anchor": "middle", style: `fill:${cssVar("--ink-2")}` });
+        }
+        prevT = tc;
+      });
+      const ord = ["1st", "2nd", "3rd", "4th"];
+      const trend = n === 1 ? "constant: first order" : n === 0 ? "each successive half-life halves: zero order" : "each successive half-life doubles: second order";
+      $("o-hl-list").innerHTML = `<b>Successive half-lives</b> (${trend}): ` + hls.map((h, i) => `${ord[i]} ${num(h, 3)} s`).join(" · ");
+    }
+    // tangent + marker
+    const t = O.t, A = conc(t, n, A0, k), r = rateOf(A, n, k);
+    const span = tmax * 0.28;
+    S("line", { x1: X(t - span), y1: Y(A + r * span), x2: X(t + span), y2: Y(A - r * span), stroke: ink, "stroke-width": 1.5 }, plot);
+    S("line", { x1: X(t), x2: X(t), y1: F.m.t, y2: F.m.t + F.ph, stroke: cssVar("--axis"), "stroke-width": 1 }, plot);
+    const handle = S("circle", { cx: X(t), cy: Y(A), r: 6, fill: s1, stroke: cssVar("--surface"), "stroke-width": 2, style: "cursor:ew-resize" }, top);
+    const lbl = t === 0 ? "initial rate" : "tangent";
+    const lx = X(t) + 10, anchor = X(t) > F.m.l + F.pw * 0.6 ? "end" : "start";
+    T(top, anchor === "end" ? X(t) - 10 : lx, Y(A) - 10, lbl, { "font-size": 11.5, "text-anchor": anchor, class: "halo", style: `fill:${cssVar("--ink")}; font-weight:600` });
+    // drag
+    let drag = false;
+    const toT = ev => { const rc = svg.getBoundingClientRect(); const px = (ev.clientX - rc.left) * (W / rc.width); let tt = (px - F.m.l) / F.pw * tmax; tt = Math.max(0, Math.min(tmax, tt)); return Math.round(tt); };
+    svg.onpointerdown = ev => { drag = true; svg.setPointerCapture(ev.pointerId); O.t = toT(ev); drawOrders(); };
+    svg.onpointermove = ev => { if (drag){ O.t = toT(ev); drawOrders(); } };
+    svg.onpointerup = svg.onpointercancel = () => { drag = false; };
+    legend = `<span><i class="key" style="border-color:${s1}"></i><span>[A]</span></span><span><i class="key" style="border-color:${ink}"></i><span>tangent at <i>t</i></span></span>` + (O.hl ? `<span><i class="key" style="border-color:${s2}"></i><span>half-lives</span></span>` : "");
+  }
+  if (O.cmp){ svg.onpointerdown = svg.onpointermove = svg.onpointerup = null; }
+  $("o-legend").innerHTML = legend;
+  $("o-hl-list").hidden = !(O.hl && !O.cmp);
+  $("o-t-o").textContent = `${+O.t.toFixed(1)} s`;
+  // readouts
+  const cells = [];
+  if (!O.cmp){
+    const A = conc(O.t, n, A0, k), r = rateOf(A, n, k);
+    cells.push([`[A] at <i>t</i> = ${+O.t.toFixed(1)} s`, `${num(A, 3)} <small>${U.conc}</small>`]);
+    cells.push([O.t === 0 ? "Initial rate (gradient at <i>t</i> = 0)" : "Rate = −gradient of tangent", `${r === 0 ? "0" : sci(r, 3)} <small>${U.rate}</small>`]);
+    cells.push(["Check: " + ["<i>k</i>", "<i>k</i>[A]", "<i>k</i>[A]<sup>2</sup>"][n], `${r === 0 ? "0" : sci(k * Math.pow(A, n), 3)}${n === 0 && A === 0 ? " <small>(A used up)</small>" : ""}`]);
+  }
+  $("o-read").innerHTML = cells.map(c => `<div class="stat"><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+  $("o-read").hidden = O.cmp;
+  // equations
+  const eqs = [
+    `rate = <i>k</i>, a constant. [A]–<i>t</i> is a straight line; each successive half-life halves.<br><span class="beyond">Beyond the syllabus</span>[A] = [A]<sub>0</sub> − <i>kt</i>`,
+    `rate = <i>k</i>[A]. [A]–<i>t</i> is an exponential decay with constant half-life, <i>t</i><sub>½</sub> = ln 2 / <i>k</i>.<br><span class="beyond">Beyond the syllabus</span>[A] = [A]<sub>0</sub>e<sup>−<i>kt</i></sup>`,
+    `rate = <i>k</i>[A]<sup>2</sup> (for comparison). Each successive half-life doubles.<br><span class="beyond">Beyond the syllabus</span>1/[A] = 1/[A]<sub>0</sub> + <i>kt</i>`
+  ];
+  $("o-eq").innerHTML = O.cmp ? `Same starting gradient, different shapes. The second-order curve has the longest tail because its rate falls fastest as [A] falls (rate ∝ [A]<sup>2</sup>).` : eqs[n];
+  drawRateConc(r0);
+}
+function drawRateConc(r0){
+  const n = O.n, A0 = O.A0, k = O.k[n];
+  const wrap = $("o-r-wrap"), svg = $("o-rate");
+  const W = widthOf(wrap), H = W < 520 ? 220 : 240;
+  const xmax = Math.ceil(A0 * 1.1 / 0.25) * 0.25;
+  const s1 = cssVar("--s1"), s2 = cssVar("--s2"), s3 = cssVar("--s3");
+  const series = O.cmp ? [0, 1, 2] : [n];
+  const kFor = m => O.cmp ? r0 / Math.pow(A0, m) : k;
+  let rmax = 0;
+  series.forEach(m => { rmax = Math.max(rmax, m === 0 ? kFor(m) * 1.6 : kFor(m) * Math.pow(xmax, m)); });
+  const p = axisScale(rmax);
+  const sc = Math.pow(10, p);
+  const yt = niceTicks(0, rmax * 1.05, 4);
+  const y1 = yt.vals[yt.vals.length - 1] < rmax ? yt.vals[yt.vals.length - 1] + yt.step : yt.vals[yt.vals.length - 1];
+  const yt2 = niceTicks(0, y1, 4);
+  const F = frame(svg, { W, H, m: { l: 44, r: 14, t: 30, b: 34 }, x0: 0, x1: xmax, y0: 0, y1, yTicks: yt2, yScale: sc, nx: W < 520 ? 4 : 6,
+    xlab: "[A] / mol dm^{−3}", ylab: p === 0 ? "rate / mol dm^{−3} s^{−1}" : `rate / ${supStr(p)} mol dm^{−3} s^{−1}` });
+  const { X, Y, plot, top } = F;
+  const colors = { 0: s2, 1: s1, 2: s3 };
+  series.forEach(m => {
+    const pts = [], N = 200;
+    for (let i = 0; i <= N; i++){ const a = xmax * i / N; pts.push([X(a), Y(m === 0 ? kFor(m) : kFor(m) * Math.pow(a, m))]); }
+    S("path", { d: pathD(pts), fill: "none", stroke: O.cmp ? colors[m] : s1, "stroke-width": 2 }, plot);
+  });
+  if (O.cmp){
+    S("circle", { cx: X(A0), cy: Y(r0), r: 4.5, fill: cssVar("--ink"), stroke: cssVar("--surface"), "stroke-width": 2 }, top);
+    T(top, X(A0) - 8, Y(r0) - 10, "same initial rate", { "font-size": 11, "text-anchor": "end", style: `fill:${cssVar("--ink-2")}` });
+  } else {
+    const A = conc(O.t, n, A0, k), r = rateOf(A, n, k);
+    S("circle", { cx: X(A), cy: Y(r), r: 5, fill: s1, stroke: cssVar("--surface"), "stroke-width": 2 }, top);
+    const cap = ["horizontal: rate independent of [A]", "straight line through the origin", "parabola: rate ∝ [A]^{2}"][n];
+    T(top, F.m.l + 8, F.m.t + 12, cap, { "font-size": 11.5, style: `fill:${cssVar("--ink-2")}` });
+  }
+}
+function bindOrders(){
+  const setK = () => {
+    const kr = KR[O.n], s = $("o-k");
+    s.min = kr.min; s.max = kr.max; s.step = kr.step; s.value = O.k[O.n];
+    $("o-k-o").innerHTML = `${num(O.k[O.n], 3)} ${[U.k0, U.k1, U.k2][O.n]}`;
+  };
+  document.querySelectorAll('input[name="o-ord"]').forEach(r => r.onchange = e => { O.n = +e.target.value; setK(); drawOrders(); });
+  $("o-A0").oninput = e => { O.A0 = +e.target.value; $("o-A0-o").innerHTML = `${O.A0.toFixed(2)} ${U.conc}`; drawOrders(); };
+  $("o-k").oninput = e => { O.k[O.n] = +e.target.value; setK(); drawOrders(); };
+  $("o-t").oninput = e => { O.t = +e.target.value; drawOrders(); };
+  $("o-hl").onchange = e => { O.hl = e.target.checked; drawOrders(); };
+  $("o-cmp").onchange = e => { O.cmp = e.target.checked; $("o-cmp-hint").hidden = !O.cmp; $("o-t").disabled = O.cmp; $("o-hl").disabled = O.cmp; if (!O.cmp){ O.tmax = 200; } drawOrders(); };
+  $("o-A0-o").innerHTML = `${O.A0.toFixed(2)} ${U.conc}`;
+  setK();
+  onResize($("o-c-wrap"), drawOrders);
+}
+
+/* =====================================================
+   3. INITIAL RATES
+   ===================================================== */
+const EX = {
+  names: ["NO", "H<sub>2</sub>"],
+  eq: "2NO(g) + 2H<sub>2</sub>(g) → N<sub>2</sub>(g) + 2H<sub>2</sub>O(g)",
+  rows: [
+    ["6.00 × 10<sup>−3</sup>", "1.00 × 10<sup>−3</sup>", "3.19 × 10<sup>−3</sup>"],
+    ["6.00 × 10<sup>−3</sup>", "2.00 × 10<sup>−3</sup>", "6.36 × 10<sup>−3</sup>"],
+    ["6.00 × 10<sup>−3</sup>", "3.00 × 10<sup>−3</sup>", "9.56 × 10<sup>−3</sup>"],
+    ["1.00 × 10<sup>−3</sup>", "6.00 × 10<sup>−3</sup>", "4.80 × 10<sup>−4</sup>"],
+    ["2.00 × 10<sup>−3</sup>", "6.00 × 10<sup>−3</sup>", "1.92 × 10<sup>−3</sup>"],
+    ["3.00 × 10<sup>−3</sup>", "6.00 × 10<sup>−3</sup>", "4.30 × 10<sup>−3</sup>"]
+  ],
+  vals: [[6e-3, 1e-3, 3.19e-3], [6e-3, 2e-3, 6.36e-3], [6e-3, 3e-3, 9.56e-3], [1e-3, 6e-3, 4.80e-4], [2e-3, 6e-3, 1.92e-3], [3e-3, 6e-3, 4.30e-3]],
+  m: 2, n: 1
+};
+const IR = { mode: "ex", gen: null };
+window.__kin.IR = IR;
+function ri(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+function genReaction(){
+  let m, n;
+  do { m = ri(0, 2); n = ri(0, 2); } while (m + n === 0);
+  const a = pick([1e-3, 1e-2]) * pick([1, 1.5, 2, 2.5, 4, 5]);
+  const b = pick([1e-3, 1e-2]) * pick([1, 1.5, 2, 2.5, 4, 5]);
+  const fa = pick([2, 3]), fb = pick([2, 3]);
+  let ha = pick([2, 3]), hb = pick([2, 3]);
+  const rows = [{ A: a, B: b, role: "base" }];
+  const rA = { A: fa * a, B: b, role: "A", f: fa }, rB = { A: a, B: fb * b, role: "B", f: fb };
+  if (Math.random() < 0.5){ rows.push(rA, rB); } else { rows.push(rB, rA); }
+  rows.push({ A: ha * a, B: hb * b, role: "both", fa: ha, fb: hb });
+  if (Math.random() < 0.5) rows.push({ A: (5 - fa) * a, B: b, role: "A2", f: 5 - fa });
+  const r1 = round3((1 + Math.random() * 8.99) * Math.pow(10, ri(-5, -3)));
+  const k = round3(r1 / (Math.pow(a, m) * Math.pow(b, n)));
+  rows.forEach(r => { r.A = round3(r.A); r.B = round3(r.B); r.rate = round3(k * Math.pow(r.A, m) * Math.pow(r.B, n)); });
+  return { m, n, k, rows };
+}
+window.__kin.genReaction = genReaction;
+function renderIR(){
+  const ex = IR.mode === "ex";
+  $("ir-tab-ex").setAttribute("aria-selected", ex); $("ir-tab-pr").setAttribute("aria-selected", !ex);
+  $("ir-new").hidden = ex;
+  $("ir-fb").hidden = true; $("ir-work").hidden = true;
+  ["ir-m", "ir-n", "ir-u"].forEach(id => $(id).value = ""); $("ir-k").value = "";
+  let head, body;
+  if (ex){
+    $("ir-eq").innerHTML = `<span class="pill">Worked example</span> ${EX.eq} <span class="hint">(illustrative data)</span>`;
+    head = `<tr><th>Expt</th><th>[NO] / ${U.conc}</th><th>[H<sub>2</sub>] / ${U.conc}</th><th>Initial rate / ${U.rate}</th></tr>`;
+    body = EX.rows.map((r, i) => `<tr><td>${i + 1}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+    $("ir-m-lab").textContent = "Order in NO, m"; $("ir-n-lab").textContent = "Order in H₂, n";
+  } else {
+    const g = IR.gen;
+    $("ir-eq").innerHTML = `A + B → products &nbsp; <span class="hint">rate = <i>k</i>[A]<sup><i>m</i></sup>[B]<sup><i>n</i></sup>, where <i>m</i>, <i>n</i> ∈ {0, 1, 2}</span>`;
+    head = `<tr><th>Expt</th><th>[A] / ${U.conc}</th><th>[B] / ${U.conc}</th><th>Initial rate / ${U.rate}</th></tr>`;
+    body = g.rows.map((r, i) => `<tr${r.role === "both" ? ' class="hard"' : ""}><td>${i + 1}</td><td>${sci(r.A)}</td><td>${sci(r.B)}</td><td>${sci(r.rate)}</td></tr>`).join("");
+    $("ir-m-lab").textContent = "Order in A, m"; $("ir-n-lab").textContent = "Order in B, n";
+  }
+  $("ir-table").innerHTML = `<thead>${head}</thead><tbody>${body}</tbody>`;
+}
+function parseNum(s){
+  if (!s) return NaN;
+  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
+  t = t.replace(/[x×*]10\^?\(?(-?\d+)\)?/i, "e$1");
+  t = t.replace(/⁻/g, "-");
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
+  return parseFloat(t);
+}
+window.__kin.parseNum = parseNum;
+function checkIR(){
+  const ex = IR.mode === "ex";
+  const m = ex ? EX.m : IR.gen.m, n = ex ? EX.n : IR.gen.n;
+  const um = $("ir-m").value, un = $("ir-n").value, uu = $("ir-u").value, uk = parseNum($("ir-k").value);
+  const msgs = []; let ok = true;
+  const A = ex ? "NO" : "A", Bn = ex ? "H<sub>2</sub>" : "B";
+  if (um === "" || un === ""){ ok = false; msgs.push("Choose both orders."); }
+  else {
+    if (+um !== m){ ok = false; msgs.push(`Order in ${A} is not ${um}. Compare two experiments where [${Bn}] is constant.`); }
+    if (+un !== n){ ok = false; msgs.push(`Order in ${Bn} is not ${un}. Compare two experiments where [${A}] is constant.`); }
+  }
+  let kOK = false;
+  if (isNaN(uk)){ ok = false; msgs.push("Enter k as a number, e.g. 8.85e4 or 8.85 x 10^4."); }
+  else {
+    if (ex){
+      const ks = EX.vals.map(r => r[2] / (Math.pow(r[0], EX.m) * Math.pow(r[1], EX.n)));
+      kOK = ks.some(kk => Math.abs(uk - kk) / kk <= 0.05);
+    } else kOK = Math.abs(uk - IR.gen.k) / IR.gen.k <= 0.05;
+    if (!kOK){ ok = false; msgs.push("The value of k is not within 5 %. Substitute one row into your rate equation."); }
+  }
+  if (uu === ""){ ok = false; msgs.push("Choose the units of k."); }
+  else if (+uu !== m + n){ ok = false; msgs.push(`Units: the reaction is order ${m + n} overall only if your orders are right. Units of k = (${U.rate}) ÷ (${U.conc})<sup>overall order</sup>.`); }
+  const fb = $("ir-fb");
+  fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = ok ? `Correct. rate = <i>k</i>${rateEqHTML(m, n, ex)}, <i>k</i> = ${sci(uk, 3)} ${kUnit(m + n)}.` : msgs.join("<br>");
+  fb.hidden = false;
+}
+function rateEqHTML(m, n, ex){
+  const A = ex ? "NO" : "A", Bn = ex ? "H<sub>2</sub>" : "B";
+  const term = (s, p) => p === 0 ? "" : p === 1 ? `[${s}]` : `[${s}]<sup>${p}</sup>`;
+  return term(A, m) + term(Bn, n);
+}
+function factorWord(f){ return f === 2 ? "doubles" : f === 3 ? "triples" : `increases by a factor of ${f}`; }
+function rateWord(r){
+  const near = (x) => Math.abs(r - x) / x < 0.03;
+  if (near(1)) return "the rate is unchanged";
+  if (near(2)) return "the rate doubles";
+  if (near(3)) return "the rate triples";
+  return `the rate increases by a factor of ${r.toFixed(2)}`;
+}
+function showWorking(){
+  const ol = $("ir-work");
+  if (IR.mode === "ex"){
+    const ks = EX.vals.map(r => r[2] / (r[0] * r[0] * r[1]));
+    ol.innerHTML = `
+<li>When [NO] is constant (expts 1 to 3), rate ∝ [H<sub>2</sub>]<sup><i>n</i></sup>. From expt 1 to 2, [H<sub>2</sub>] doubles and the rate doubles (6.36 ÷ 3.19 = 1.99), so <i>n</i> = 1. Expt 1 to 3 agrees: [H<sub>2</sub>] triples, rate ×3.00.</li>
+<li>When [H<sub>2</sub>] is constant (expts 4 to 6), rate ∝ [NO]<sup><i>m</i></sup>. From expt 4 to 5, [NO] doubles and the rate increases by a factor of 4 (1.92 × 10<sup>−3</sup> ÷ 4.80 × 10<sup>−4</sup> = 4.00), so 2<sup><i>m</i></sup> = 4 and <i>m</i> = 2. Expt 4 to 6 agrees: [NO] triples, rate ×8.96 ≈ 9 = 3<sup>2</sup>.</li>
+<li>rate = <i>k</i>[NO]<sup>2</sup>[H<sub>2</sub>]; third order overall.</li>
+<li>Substitute expt 3: <i>k</i> = rate ÷ ([NO]<sup>2</sup>[H<sub>2</sub>]) = 9.56 × 10<sup>−3</sup> ÷ ((6.00 × 10<sup>−3</sup>)<sup>2</sup> × 3.00 × 10<sup>−3</sup>) = <b>${sci(ks[2], 3)} ${U.k3}</b>.</li>
+<li>Units of <i>k</i> = (${U.rate}) ÷ (${U.conc})<sup>3</sup> = ${U.k3}.</li>
+<li>Each row gives: ${ks.map((k, i) => `expt ${i + 1}: ${sci(k, 3)}`).join("; ")}. The spread, 8.0 to 8.9 × 10<sup>4</sup>, reflects experimental error in the data.</li>
+<li><b>Use the rate equation:</b> for [NO] = 4.00 × 10<sup>−3</sup> and [H<sub>2</sub>] = 5.00 × 10<sup>−3</sup> mol dm<sup>−3</sup>, rate = 8.85 × 10<sup>4</sup> × (4.00 × 10<sup>−3</sup>)<sup>2</sup> × (5.00 × 10<sup>−3</sup>) = 7.08 × 10<sup>−3</sup> ${U.rate}.</li>`;
+  } else {
+    const g = IR.gen, rows = g.rows;
+    const i0 = 0, iA = rows.findIndex(r => r.role === "A"), iB = rows.findIndex(r => r.role === "B"), iH = rows.findIndex(r => r.role === "both");
+    const ratio = (i) => rows[i].rate / rows[i0].rate;
+    const orderLine = (s, other, i, p, f) => {
+      const r = ratio(i);
+      const res = p === 0 ? `so ${s === "A" ? "<i>m</i>" : "<i>n</i>"} = 0` : `so ${f}<sup>${s === "A" ? "<i>m</i>" : "<i>n</i>"}</sup> = ${Math.round(r)} and ${s === "A" ? "<i>m</i>" : "<i>n</i>"} = ${p}`;
+      return `<li>When [${other}] is constant, rate ∝ [${s}]<sup>${s === "A" ? "<i>m</i>" : "<i>n</i>"}</sup>. From expt ${i0 + 1} to ${i + 1}, [${s}] ${factorWord(f)} and ${rateWord(r)} (${sci(rows[i].rate)} ÷ ${sci(rows[i0].rate)} = ${r.toFixed(2)}), ${res}.</li>`;
+    };
+    let h = orderLine("A", "B", iA, g.m, rows[iA].f) + orderLine("B", "A", iB, g.n, rows[iB].f);
+    const eqs = rateEqHTML(g.m, g.n, false);
+    const missing = g.m === 0 ? "A does not appear because [A]<sup>0</sup> = 1. " : g.n === 0 ? "B does not appear because [B]<sup>0</sup> = 1. " : "";
+    h += `<li>rate = <i>k</i>${eqs}. ${missing}Order ${g.m + g.n} overall.</li>`;
+    const H = rows[iH], pred = Math.pow(H.fa, g.m) * Math.pow(H.fb, g.n);
+    h += `<li>Check with expt ${iH + 1}, where both change: [A] ×${H.fa} and [B] ×${H.fb}, so the rate should change by ${H.fa}<sup>${g.m}</sup> × ${H.fb}<sup>${g.n}</sup> = ${pred}. Observed: ${sci(H.rate)} ÷ ${sci(rows[i0].rate)} = ${ratio(iH).toFixed(2)}. Consistent.</li>`;
+    const r = rows[i0];
+    const denomParts = [];
+    if (g.m) denomParts.push(g.m === 1 ? sci(r.A) : `(${sci(r.A)})<sup>${g.m}</sup>`);
+    if (g.n) denomParts.push(g.n === 1 ? sci(r.B) : `(${sci(r.B)})<sup>${g.n}</sup>`);
+    const kc = r.rate / (Math.pow(r.A, g.m) * Math.pow(r.B, g.n));
+    h += `<li>Substitute expt 1: <i>k</i> = rate ÷ ${eqs} = ${sci(r.rate)} ÷ ${denomParts.length > 1 ? "(" + denomParts.join(" × ") + ")" : denomParts[0]} = <b>${sci(kc, 3)} ${kUnit(g.m + g.n)}</b>.</li>`;
+    const p = g.m + g.n;
+    h += `<li>Units of <i>k</i> = (${U.rate}) ÷ (${U.conc})${p > 1 ? `<sup>${p}</sup>` : ""} = ${kUnit(p)}.</li>`;
+    ol.innerHTML = h;
+  }
+  ol.hidden = false;
+}
+function bindIR(){
+  $("ir-tab-ex").onclick = () => { IR.mode = "ex"; renderIR(); };
+  $("ir-tab-pr").onclick = () => { IR.mode = "pr"; if (!IR.gen) IR.gen = genReaction(); renderIR(); };
+  $("ir-new").onclick = () => { IR.gen = genReaction(); renderIR(); };
+  $("ir-check").onclick = checkIR;
+  $("ir-show").onclick = showWorking;
+  renderIR();
+}
+
+/* =====================================================
+   4. HALF-LIFE
+   ===================================================== */
+const HL = { k: Math.LN2 / 20, th: 20, t: 60, n: 3, unit: "min" };
+function fmtIn(x){ return x === 0 ? "0" : Math.abs(x) >= 1e-3 && Math.abs(x) < 1e5 ? String(parseFloat(x.toPrecision(4))) : x.toExponential(3); }
+function renderHL(skip){
+  const set = (id, v) => { if (id !== skip) $(id).value = fmtIn(v); };
+  set("h-k", HL.k); set("h-th", HL.th); set("h-t", HL.t); set("h-n", HL.n);
+  const u = HL.unit;
+  document.querySelectorAll(".h-tu").forEach(e => e.textContent = u);
+  document.querySelectorAll(".h-ku").forEach(e => e.innerHTML = `${u}<sup>−1</sup>`);
+  const fr = Math.pow(0.5, HL.n);
+  const isInt = Math.abs(HL.n - Math.round(HL.n)) < 1e-9 && HL.n <= 30;
+  const frac = isInt ? (HL.n === 0 ? "1" : `(½)<sup>${Math.round(HL.n)}</sup> = 1/${Math.pow(2, Math.round(HL.n)).toLocaleString("en-GB")}`) : `(½)<sup>${+HL.n.toFixed(3)}</sup>`;
+  const pct = fr * 100;
+  $("h-read").innerHTML = [
+    ["Fraction remaining", `${frac} <small>= ${num(fr, 3)}</small>`],
+    ["Percentage remaining", `${pct >= 0.01 ? parseFloat(pct.toPrecision(3)) : sci(pct, 3)} %`],
+    ["Half-life", `${num(HL.th, 3)} <small>${u}</small>`]
+  ].map(c => `<div class="stat"><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+  $("h-bar").style.width = Math.max(0, Math.min(100, pct)) + "%";
+  drawHL();
+}
+function drawHL(){
+  const wrap = $("h-c-wrap"), svg = $("h-chart");
+  const W = widthOf(wrap), H = 170;
+  const xm = Math.max(4, Math.ceil(HL.n)) * HL.th;
+  const F = frame(svg, { W, H, m: { l: 40, r: 12, t: 26, b: 34 }, x0: 0, x1: xm, y0: 0, y1: 1, ny: 4, nx: W < 400 ? 4 : 6,
+    xlab: `time / ${HL.unit}`, ylab: "fraction remaining" });
+  const { X, Y, plot, top } = F;
+  const pts = []; for (let i = 0; i <= 300; i++){ const t = xm * i / 300; pts.push([X(t), Y(Math.pow(0.5, t / HL.th))]); }
+  const muted = cssVar("--muted");
+  for (let j = 1; j * HL.th <= xm + 1e-9 && j <= 12; j++){
+    S("line", { x1: X(j * HL.th), x2: X(j * HL.th), y1: Y(0), y2: Y(Math.pow(0.5, j)), stroke: muted, "stroke-width": 1, "stroke-dasharray": "3 3" }, plot);
+  }
+  S("path", { d: pathD(pts), fill: "none", stroke: cssVar("--s1"), "stroke-width": 2 }, plot);
+  if (HL.t <= xm) S("circle", { cx: X(HL.t), cy: Y(Math.pow(0.5, HL.n)), r: 5, fill: cssVar("--s2"), stroke: cssVar("--surface"), "stroke-width": 2 }, top);
+}
+function bindHL(){
+  const err = $("h-err");
+  const handle = (id) => (e) => {
+    const v = parseNum(e.target.value);
+    if (isNaN(v) || v < 0 || ((id === "h-k" || id === "h-th") && v === 0)){ err.textContent = "Enter a positive number (k and t½ cannot be zero)."; err.hidden = false; return; }
+    err.hidden = true;
+    if (id === "h-k"){ HL.k = v; HL.th = Math.LN2 / v; HL.n = HL.t / HL.th; }
+    if (id === "h-th"){ HL.th = v; HL.k = Math.LN2 / v; HL.n = HL.t / HL.th; }
+    if (id === "h-t"){ HL.t = v; HL.n = v / HL.th; }
+    if (id === "h-n"){ HL.n = v; HL.t = v * HL.th; }
+    renderHL(id);
+  };
+  ["h-k", "h-th", "h-t", "h-n"].forEach(id => $(id).oninput = handle(id));
+  $("h-unit").onchange = e => { HL.unit = e.target.value; renderHL(); };
+  $("h-load").onclick = () => { HL.unit = "min"; $("h-unit").value = "min"; HL.th = 20; HL.k = Math.LN2 / 20; HL.t = 60; HL.n = 3; err.hidden = true; renderHL(); };
+  renderHL();
+  onResize($("h-c-wrap"), drawHL);
+}
+
+/* =====================================================
+   5. REACTION PROFILE
+   ===================================================== */
+const P = { type: "exo", dH: 60, Ea: 120, cat: true, EaC: 70, shape: 1 };
+function bez(p0, p1, p2, p3, N){
+  const out = [];
+  for (let i = 0; i <= N; i++){
+    const t = i / N, u = 1 - t;
+    out.push([u*u*u*p0[0] + 3*u*u*t*p1[0] + 3*u*t*t*p2[0] + t*t*t*p3[0], u*u*u*p0[1] + 3*u*u*t*p1[1] + 3*u*t*t*p2[1] + t*t*t*p3[1]]);
+  }
+  return out;
+}
+// build a smooth profile through a list of stationary points [x, E] (plateaus at ends)
+function profilePts(nodes, X, Y){
+  let pts = [[X(0), Y(nodes[0][1])]];
+  for (let i = 0; i < nodes.length - 1; i++){
+    const a = nodes[i], b = nodes[i + 1];
+    const dx = (b[0] - a[0]) * 0.45;
+    const seg = bez([X(a[0]), Y(a[1])], [X(a[0] + dx), Y(a[1])], [X(b[0] - dx), Y(b[1])], [X(b[0]), Y(b[1])], 60);
+    pts = pts.concat(seg);
+  }
+  pts.push([X(1), Y(nodes[nodes.length - 1][1])]);
+  return pts;
+}
+function profileValid(){
+  const dH = P.type === "exo" ? -P.dH : P.dH;
+  const errs = [];
+  if (!(P.Ea > 0)) errs.push("<i>E</i><sub>a</sub> must be greater than zero.");
+  if (dH > 0 && P.Ea < dH) errs.push("For an endothermic reaction <i>E</i><sub>a</sub> must be at least as large as Δ<i>H</i> (<i>E</i><sub>a</sub> ≥ Δ<i>H</i>). Raise <i>E</i><sub>a</sub> or lower Δ<i>H</i>.");
+  if (P.cat){
+    if (!(P.EaC > 0)) errs.push("<i>E</i><sub>a</sub> (catalysed) must be greater than zero.");
+    if (P.EaC >= P.Ea) errs.push("<i>E</i><sub>a</sub> (catalysed) must be lower than <i>E</i><sub>a</sub> (uncatalysed).");
+    if (dH > 0 && P.EaC < dH) errs.push("For an endothermic reaction <i>E</i><sub>a</sub> (catalysed) must also be at least as large as Δ<i>H</i>.");
+  }
+  return errs;
+}
+window.__kin.profileValid = () => profileValid();
+function drawProfile(){
+  const wrap = $("p-wrap"), svg = $("p-svg");
+  const W = widthOf(wrap), H = W < 520 ? 290 : 340;
+  svg.innerHTML = "";
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("width", W); svg.setAttribute("height", H);
+  const errs = profileValid();
+  $("p-err").hidden = !errs.length; $("p-err").innerHTML = errs.join("<br>");
+  const dH = P.type === "exo" ? -P.dH : P.dH;
+  const ink = cssVar("--ink"), ink2 = cssVar("--ink-2"), s1 = cssVar("--s1"), s2 = cssVar("--s2"), axis = cssVar("--axis"), muted = cssVar("--muted");
+  const m = { l: 34, r: W < 520 ? 58 : 110, t: 18, b: 34 };
+  const pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const lo = Math.min(0, dH), hi = Math.max(P.Ea, P.cat ? P.EaC : 0, dH);
+  const pad = (hi - lo) * 0.14 + 5;
+  const y0 = lo - pad, y1 = hi + pad * 0.9;
+  const X = v => m.l + v * pw, Y = v => m.t + ph - (v - y0) / (y1 - y0) * ph;
+  arrowDefs(svg, "arI", ink); arrowDefs(svg, "arS2", s2); arrowDefs(svg, "arAx", axis);
+  // axes with arrows
+  S("line", { x1: m.l, y1: m.t + ph, x2: m.l, y2: m.t - 4, stroke: axis, "stroke-width": 1.5, "marker-end": "url(#arAx)" }, svg);
+  S("line", { x1: m.l, y1: m.t + ph, x2: m.l + pw + 12, y2: m.t + ph, stroke: axis, "stroke-width": 1.5, "marker-end": "url(#arAx)" }, svg);
+  const ty = T(svg, 0, 0, "Energy", { class: "axlab", "font-size": 12, "text-anchor": "middle", transform: `translate(${m.l - 12},${m.t + ph / 2}) rotate(-90)` });
+  T(svg, m.l + pw / 2, H - 8, "Progress of reaction", { class: "axlab", "font-size": 12, "text-anchor": "middle" });
+  if (errs.length){ $("p-read").innerHTML = ""; $("p-legend").innerHTML = ""; return; }
+  const xR = 0.16, xPk = 0.5, xP = 0.84;
+  // reactant level guide across to the ΔH arrow
+  const xArrow = 1.0 + 16 / pw;
+  S("line", { x1: X(xR), x2: X(xArrow) + 4, y1: Y(0), y2: Y(0), stroke: muted, "stroke-width": 1, "stroke-dasharray": "4 3" }, svg);
+  // uncatalysed
+  const unc = profilePts([[xR, 0], [xPk, P.Ea], [xP, dH]], X, Y);
+  S("path", { d: pathD(unc), fill: "none", stroke: s1, "stroke-width": 2.25, "stroke-linejoin": "round" }, svg);
+  let cat = null, peak1x = xPk, inter = null;
+  if (P.cat){
+    let nodes;
+    if (P.shape === 1) nodes = [[xR, 0], [xPk, P.EaC], [xP, dH]];
+    else {
+      const base = Math.max(0, dH);
+      const I = base + 0.3 * (P.EaC - base);
+      const pk2 = I + 0.55 * (P.EaC - I);
+      peak1x = 0.35;
+      nodes = [[xR, 0], [0.35, P.EaC], [0.5, I], [0.65, pk2], [xP, dH]];
+      inter = [0.5, I];
+    }
+    cat = profilePts(nodes, X, Y);
+    S("path", { d: pathD(cat), fill: "none", stroke: s2, "stroke-width": 2.25, "stroke-linejoin": "round" }, svg);
+  }
+  // ---- labels placed clear of every curve, arrow and guide line ----
+  const obst = [];                       // dense point lists, px
+  const dense = pts => { const out = []; for (let i = 0; i < pts.length - 1; i++){ const [x0, y0] = pts[i], [x1, y1] = pts[i + 1]; const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 2)); for (let j = 0; j < n; j++) out.push([x0 + (x1 - x0) * j / n, y0 + (y1 - y0) * j / n]); } out.push(pts[pts.length - 1]); return out; };
+  const addLine = (x0, y0, x1, y1) => obst.push(dense([[x0, y0], [x1, y1]]));
+  obst.push(dense(unc)); if (cat) obst.push(dense(cat));
+  addLine(X(xR), Y(0), X(xArrow) + 4, Y(0));
+  addLine(X(xP), Y(dH), X(xArrow) + 4, Y(dH));
+  const boxes = [];
+  const hits = (bb) => {
+    const r = { x0: bb.x - 3, y0: bb.y - 2, x1: bb.x + bb.width + 3, y1: bb.y + bb.height + 2 };
+    if (r.x0 < 0 || r.x1 > W || r.y0 < 0 || r.y1 > H - 18) return true;
+    for (const line of obst) for (const [x, y] of line) if (x >= r.x0 && x <= r.x1 && y >= r.y0 && y <= r.y1) return true;
+    for (const b of boxes) if (r.x0 < b.x + b.width && r.x1 > b.x && r.y0 < b.y + b.height && r.y1 > b.y) return true;
+    return false;
+  };
+  const place = (texts, cands, attrs) => {
+    for (const txt of texts) for (const c of cands){
+      const t = T(svg, c.x, c.y, txt, Object.assign({ "text-anchor": c.a, class: "halo" }, attrs));
+      const bb = t.getBBox();
+      if (!hits(bb)){
+        boxes.push(bb);
+        if (c.vlead){          // leader from the intermediate down to a label set below the reactant line
+          const lx = c.a === "start" ? bb.x - 2 : bb.x + bb.width + 2;
+          const ld = S("line", { x1: c.vlead[0], y1: c.vlead[1], x2: lx, y2: bb.y + bb.height / 2, stroke: muted, "stroke-width": 1 }, svg);
+          svg.insertBefore(ld, svg.firstChild.nextSibling);
+        }
+        if (c.lead != null){   // short leader from the arrow to a label set further out
+          const ly = c.y - 4, lx = c.a === "start" ? bb.x - 2 : bb.x + bb.width + 2;
+          const ld = S("line", { x1: c.lead, x2: lx, y1: ly, y2: ly, stroke: muted, "stroke-width": 1 }, svg);
+          svg.insertBefore(ld, svg.firstChild.nextSibling);
+        }
+        return t;
+      }
+      t.remove();
+    }
+    window.__kin.labelFallbacks = (window.__kin.labelFallbacks || 0) + 1;
+    const c = cands[0], t = T(svg, c.x, c.y, texts[texts.length - 1], Object.assign({ "text-anchor": c.a, class: "halo" }, attrs));
+    boxes.push(t.getBBox()); return t;
+  };
+  const lab12 = { "font-size": 12, style: `fill:${ink}` };
+  place(["reactants"], [{ x: X(0) + 4, y: Y(0) + (dH < 0 ? -8 : 16), a: "start" }, { x: X(0) + 4, y: Y(0) + (dH < 0 ? 16 : -8), a: "start" }], lab12);
+  place(["products"], [{ x: X(1) - 2, y: Y(dH) + (dH < 0 ? 16 : -8), a: "end" }, { x: X(1) - 2, y: Y(dH) + (dH < 0 ? -8 : 16), a: "end" }], lab12);
+  // Ea arrows
+  const vArrow = (x, e0, e1, marker, color) => { S("line", { x1: x, x2: x, y1: Y(e0) - 1, y2: Y(e1) + 1, stroke: color, "stroke-width": 1.5, "marker-end": `url(#${marker})` }, svg); addLine(x, Y(e0), x, Y(e1)); };
+  const wide = W >= 520;
+  const arrowCands = (x, e, sides) => {
+    const out = [];
+    for (const off of [6, 22, 40, 62, 88]) for (const f of [0.5, 0.4, 0.6, 0.3, 0.7, 0.22, 0.78, 0.15, 0.86]){
+      const y = Y(e * f) + 4;
+      for (const sd of sides) out.push(Object.assign(sd === "r" ? { x: x + off, y, a: "start" } : { x: x - off, y, a: "end" }, off > 6 ? { lead: x } : {}));
+    }
+    return out;
+  };
+  vArrow(X(xPk), 0, P.Ea, "arI", ink);
+  let xc = null;
+  if (P.cat){
+    xc = P.shape === 1 ? X(xPk) - 22 : X(peak1x);
+    if (P.shape === 1){ S("line", { x1: xc - 4, x2: X(xPk), y1: Y(P.EaC), y2: Y(P.EaC), stroke: s2, "stroke-width": 1, "stroke-dasharray": "3 3" }, svg); addLine(xc - 4, Y(P.EaC), X(xPk), Y(P.EaC)); }
+    vArrow(xc, 0, P.EaC, "arS2", s2);
+  }
+  place(wide ? [`*E*_{a} = ${P.Ea}`, "*E*_{a}"] : ["*E*_{a}"], arrowCands(X(xPk), P.Ea, ["r", "l"]), lab12);
+  if (P.cat){
+    place(wide ? [`*E*_{a}(cat) = ${P.EaC}`, "*E*_{a}(cat)"] : ["*E*_{a}(cat)"], arrowCands(xc, P.EaC, ["l", "r"]), lab12);
+    if (inter){
+      const ix = X(inter[0]), iy = Y(inter[1]);
+      place(["intermediate"], [
+        { x: ix + 6, y: iy + 16, a: "start" }, { x: ix - 6, y: iy + 16, a: "end" },
+        { x: ix + 6, y: iy + 28, a: "start" }, { x: ix - 6, y: iy + 28, a: "end" },
+        { x: ix + 6, y: iy + 40, a: "start" }, { x: ix - 6, y: iy + 40, a: "end" },
+        ...[18, 30, 42].flatMap(dy => [10, 30, 50].flatMap(dx => [
+          { x: ix + dx, y: Math.max(iy, Y(0), Y(dH)) + dy, a: "start", vlead: [ix, iy + 4] },
+          { x: ix - dx, y: Math.max(iy, Y(0), Y(dH)) + dy, a: "end", vlead: [ix, iy + 4] }]))
+      ], { "font-size": 11, style: `fill:${ink2}` });
+    }
+  }
+  // ΔH arrow
+  S("line", { x1: X(xP), x2: X(xArrow) + 4, y1: Y(dH), y2: Y(dH), stroke: muted, "stroke-width": 1, "stroke-dasharray": "4 3" }, svg);
+  S("line", { x1: X(xArrow), x2: X(xArrow), y1: Y(0), y2: Y(dH) + (dH < 0 ? -1 : 1), stroke: ink, "stroke-width": 1.5, "marker-end": "url(#arI)" }, svg);
+  T(svg, X(xArrow) + 7, (Y(0) + Y(dH)) / 2 + 4, wide ? `Δ*H* = ${dH < 0 ? MINUS : "+"}${Math.abs(dH)}` : "Δ*H*", { "font-size": 12, style: `fill:${ink}` });
+  // legend + readout
+  $("p-legend").innerHTML = `<span><i class="key" style="border-color:${s1}"></i><span>uncatalysed</span></span>` + (P.cat ? `<span><i class="key" style="border-color:${s2}"></i><span>catalysed${P.shape === 2 ? " (two steps, via an intermediate)" : ""}</span></span>` : "");
+  const cells = [
+    ["<i>E</i><sub>a</sub> (uncatalysed)", `${P.Ea} <small>${U.kJ}</small>`],
+    ["Δ<i>H</i> (same for both pathways)", `${dH < 0 ? MINUS : "+"}${Math.abs(dH)} <small>${U.kJ}</small>`],
+    ["<i>E</i><sub>a</sub> of the reverse reaction", `${P.Ea - dH} <small>${U.kJ}</small>`]
+  ];
+  if (P.cat) cells.splice(1, 0, ["<i>E</i><sub>a</sub> (catalysed)", `${P.EaC} <small>${U.kJ}</small>`]);
+  $("p-read").innerHTML = cells.map(c => `<div class="stat"><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+  $("p-shape-hint").innerHTML = P.shape === 2 ? "Homogeneous catalysis (same phase) via an intermediate, as with Fe<sup>2+</sup> in S<sub>2</sub>O<sub>8</sub><sup>2−</sup> / I<sup>−</sup>. <i>E</i><sub>a</sub>(cat) is measured to the highest point of the pathway." : "";
+}
+function bindProfile(){
+  const out = () => {
+    $("p-dH-o").innerHTML = `${P.dH} ${U.kJ}`;
+    $("p-Ea-o").innerHTML = `${P.Ea} ${U.kJ}`;
+    $("p-EaC-o").innerHTML = `${P.EaC} ${U.kJ}`;
+  };
+  document.querySelectorAll('input[name="p-type"]').forEach(r => r.onchange = e => { P.type = e.target.value; drawProfile(); });
+  document.querySelectorAll('input[name="p-shape"]').forEach(r => r.onchange = e => { P.shape = +e.target.value; drawProfile(); });
+  $("p-dH").oninput = e => { P.dH = +e.target.value; out(); drawProfile(); };
+  $("p-Ea").oninput = e => { P.Ea = +e.target.value; out(); drawProfile(); };
+  $("p-EaC").oninput = e => { P.EaC = +e.target.value; out(); drawProfile(); };
+  $("p-cat").onchange = e => { P.cat = e.target.checked; $("p-cat-box").hidden = !P.cat; drawProfile(); };
+  out();
+  onResize($("p-wrap"), drawProfile);
+}
+
+/* =====================================================
+   6. CATALYSIS stepped reveal
+   ===================================================== */
+function bindSteps(){
+  document.querySelectorAll("[data-steps]").forEach(btn => {
+    const list = $(btn.dataset.steps), items = [...list.children];
+    const reset = () => { items.forEach((li, i) => li.hidden = i > 0); btn.disabled = false; };
+    btn.onclick = () => { const next = items.find(li => li.hidden); if (next) next.hidden = false; if (!items.some(li => li.hidden)) btn.disabled = true; };
+    document.querySelector(`[data-reset="${btn.dataset.steps}"]`).onclick = reset;
+    reset();
+  });
+}
+
+/* =====================================================
+   7. QUIZ
+   ===================================================== */
+const QZ = [
+  { q: "Which statement defines the activation energy, <i>E</i><sub>a</sub>?",
+    o: ["The minimum energy that colliding particles must have for a reaction to occur.",
+        "The energy difference between the reactants and the products.",
+        "The average kinetic energy of the molecules at the reaction temperature.",
+        "The energy released when new bonds form in the products."],
+    e: "<i>E</i><sub>a</sub> is a minimum energy for successful collisions. The reactant–product difference is Δ<i>H</i>." },
+  { q: "A graph of [A] against time is a straight line with negative gradient until A is used up. What is the order with respect to A?",
+    o: ["Zero", "First", "Second", "It cannot be found without the half-life"],
+    e: "A constant gradient means a constant rate, independent of [A]: zero order." },
+  { q: "For rate = <i>k</i>[X]<sup>2</sup>[Y], what are the units of the rate constant, <i>k</i>?",
+    o: ["mol<sup>−2</sup> dm<sup>6</sup> s<sup>−1</sup>", "mol<sup>−1</sup> dm<sup>3</sup> s<sup>−1</sup>", "mol<sup>2</sup> dm<sup>−6</sup> s<sup>−1</sup>", "mol dm<sup>−3</sup> s<sup>−1</sup>"],
+    e: "<i>k</i> = rate ÷ [X]<sup>2</sup>[Y] = (mol dm<sup>−3</sup> s<sup>−1</sup>) ÷ (mol dm<sup>−3</sup>)<sup>3</sup> = mol<sup>−2</sup> dm<sup>6</sup> s<sup>−1</sup>." },
+  { q: "A first-order reaction has <i>k</i> = 3.47 × 10<sup>−3</sup> s<sup>−1</sup>. What is its half-life?",
+    o: ["200 s", "288 s", "100 s", "2.40 × 10<sup>−3</sup> s"],
+    e: "<i>t</i><sub>½</sub> = ln 2 / <i>k</i> = 0.693 ÷ 3.47 × 10<sup>−3</sup> = 200 s. 288 s is 1/<i>k</i>, which omits ln 2." },
+  { q: "The temperature of a gas is raised. Which change to the Boltzmann distribution is correct?",
+    o: ["The peak moves to higher energy and becomes lower; the area under the curve is unchanged.",
+        "The peak moves to higher energy and the area under the curve increases.",
+        "The peak becomes higher and moves to lower energy.",
+        "The curve is unchanged, but <i>E</i><sub>a</sub> moves to a lower energy."],
+    e: "The number of molecules is fixed, so the area is constant; the curve flattens and shifts right, and more molecules have <i>E</i> ≥ <i>E</i><sub>a</sub>." },
+  { q: "In terms of the Boltzmann distribution, how does a catalyst increase the rate?",
+    o: ["It provides an alternative reaction pathway with lower activation energy, so a larger fraction of molecules has <i>E</i> ≥ <i>E</i><sub>a</sub>(cat). The distribution itself is unchanged.",
+        "It shifts the distribution to higher energies, so more molecules have <i>E</i> ≥ <i>E</i><sub>a</sub>.",
+        "It increases the kinetic energy of the molecules, so collisions are more energetic.",
+        "It makes Δ<i>H</i> more negative, so more molecules can react."],
+    e: "Of these, only temperature changes the shape of the curve. A catalyst moves the <i>E</i><sub>a</sub> line, not the distribution, and leaves Δ<i>H</i> unchanged." },
+  { q: "NO<sub>2</sub>(g) + CO(g) → NO(g) + CO<sub>2</sub>(g) has rate = <i>k</i>[NO<sub>2</sub>]<sup>2</sup>. Which species appear in the rate equation, and why?",
+    mech: "Mechanism: 2NO<sub>2</sub> → NO<sub>3</sub> + NO (slow); NO<sub>3</sub> + CO → NO<sub>2</sub> + CO<sub>2</sub> (fast)",
+    o: ["Only NO<sub>2</sub>: the rate-determining step involves two NO<sub>2</sub> molecules, and CO reacts only after it.",
+        "NO<sub>2</sub> and CO: both are reactants in the overall equation.",
+        "NO<sub>3</sub> and CO: they react together in the fast step.",
+        "NO<sub>2</sub> and NO<sub>3</sub>: NO<sub>3</sub> is formed in the slow step."],
+    e: "Species in the rate-determining step (and steps before it) appear in the rate equation. CO enters after the slow step, so it is zero order." },
+  { q: "Which is an example of homogeneous catalysis?",
+    o: ["Fe<sup>2+</sup>(aq) catalysing S<sub>2</sub>O<sub>8</sub><sup>2−</sup>(aq) + 2I<sup>−</sup>(aq) → 2SO<sub>4</sub><sup>2−</sup>(aq) + I<sub>2</sub>(aq)",
+        "Fe(s) in the Haber process",
+        "Pt/Pd/Rh in a catalytic converter",
+        "V<sub>2</sub>O<sub>5</sub>(s) in the Contact process"],
+    e: "Homogeneous: the catalyst is in the same phase as the reactants, here all aqueous. In the others the solid catalyst is in a different phase from the gaseous reactants (heterogeneous)." },
+  { q: "An enzyme-catalysed reaction is warmed from 37 °C to 70 °C and the rate falls sharply. What is the best explanation?",
+    o: ["The enzyme is denatured: its tertiary structure, and so the shape of the active site, is lost, so the substrate no longer binds.",
+        "Fewer molecules have energy greater than <i>E</i><sub>a</sub> at the higher temperature.",
+        "The activation energy of the reaction increases at higher temperature.",
+        "The enzyme becomes less specific and binds to other molecules instead."],
+    e: "Enzymes are proteins; high temperature (or the wrong pH) disrupts the interactions holding the active site in shape." },
+  { q: "H<sub>2</sub>O<sub>2</sub>(aq) + 2I<sup>−</sup>(aq) + 2H<sup>+</sup>(aq) → I<sub>2</sub>(aq) + 2H<sub>2</sub>O(l). Which method follows the reaction continuously, without removing samples?",
+    o: ["Colorimetry, measuring the absorbance due to I<sub>2</sub>",
+        "Collecting gas in a gas syringe",
+        "Quenching samples and titrating with sodium thiosulfate",
+        "Measuring the loss in mass on a balance"],
+    e: "I<sub>2</sub> is the only coloured species, so absorbance tracks [I<sub>2</sub>]. No gas forms. Quenching and titration works but removes samples at intervals." }
+];
+const Q = { i: 0, score: 0, order: [], answered: false };
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(q => shuffle([0, 1, 2, 3])); renderQ(); }
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length}</span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${q.q}${q.mech ? `<span class="mech">${q.mech}</span>` : ""}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${q.o[oi]}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : "Not quite."} ${q.e}</div><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+
+/* ---------- nav scroll-spy ---------- */
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); a.scrollIntoView({ block: "nearest", inline: "nearest" }); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+/* ---------- theme change redraw ---------- */
+function redrawAll(){ drawBoltz(); drawOrders(); drawHL(); drawProfile(); }
+window.__kin.redrawAll = redrawAll;
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+new MutationObserver(redrawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+bindBoltz(); bindOrders(); bindIR(); bindHL(); bindProfile(); bindSteps(); startQuiz(); bindNav();
+redrawAll();
+})();
+</script>

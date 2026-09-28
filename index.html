@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive chemistry labs by Gary Chan, companions to his H2 Chemistry notes.">
+<title>ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<style>
+:root{--bg:#f4f6f8;--surface:#fff;--ink:#141a20;--ink-2:#46505c;--muted:#6f7a87;--line:#d4dbe2;--accent:#1c5da3;
+--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#0e1114;--surface:#161a1e;--ink:#edf0f3;--ink-2:#b4bdc7;--muted:#8a949f;--line:#2c343b;--accent:#6aa5ea}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:36px 16px 48px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.8rem,5vw,2.4rem);margin:0}
+.sub{color:var(--ink-2);margin:6px 0 28px}
+h2{font-family:var(--serif);font-weight:600;font-size:1.15rem;margin:28px 0 10px}
+ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+li a,li .soon{display:flex;justify-content:space-between;gap:12px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+li a:hover{border-color:var(--accent)}
+li a strong{color:var(--accent);font-weight:600}
+li .soon{color:var(--muted)}
+.t{font-size:.8rem;color:var(--muted);white-space:nowrap}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
+</style>
+<div class="wrap">
+  <h1>ChemLab</h1>
+  <p class="sub">Interactive companions to H2 Chemistry notes by Gary Chan. Built for SEAB H2 Chemistry 9476.</p>
+  <h2>Physical chemistry</h2>
+  <ul>
+    <li><a href="kinetics/"><span><strong>Reaction Kinetics</strong><br>Boltzmann distribution, orders of reaction, initial rates, half-life, reaction profiles, catalysis, quiz</span><span class="t">Topic 8</span></a></li>
+  </ul>
+  <p class="sub" style="margin-top:18px">More topics are on the way.</p>
+  <footer>© Gary Chan</footer>
+</div>
