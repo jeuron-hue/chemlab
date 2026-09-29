@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1114" media="(prefers-color-scheme: dark)">
+<meta name="description" content="The Gaseous State 1: States of matter, kinetic theory of ideal gases, the gas laws, pV = nRT, determining Mr. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 3).">
+<title>The Gaseous State 1 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --line:#d4dbe2; --accent:#1c5da3; --accent-soft:#e2ecf7; --enrich:#f1f2f4; --box-line:#9aa5b1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:64px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 18px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); font-size:.92rem}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:18px; max-height:calc(100vh - 84px); overflow:auto; font-size:.86rem; padding-right:6px}
+  .toc-title{font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none; line-height:1.35}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  body{font-size:16.5px}
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:18px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:.8rem; line-height:1.5; color:var(--ink-2); border-left:2px solid var(--line); padding-left:10px}
+  .sn-num{font-weight:600; color:var(--accent)}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  body{font-size:17px}
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  .toc{font-size:.9rem}
+  .sidenote{font-size:.82rem}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:18px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:.86rem; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.9rem; font-weight:500; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:28px clamp(16px,4vw,48px) 32px; margin-top:18px}
+.eyebrow{font-family:var(--sans); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans)}
+h1{letter-spacing:-.01em}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:clamp(1.7rem,4.5vw,2.2rem); line-height:1.2; margin:0 0 18px; font-weight:600}
+h2{font-size:1.3rem; margin:34px 0 10px; font-weight:600; line-height:1.3}
+h3{font-size:1.05rem; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:6px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--line)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; padding:8px 14px; border-radius:6px}
+:root[data-theme="dark"] .btn{color:#0a1420}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#0a1420} }
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:6px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:.88rem; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.45}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:var(--surface-2); font-weight:600}
+
+.notes{margin-top:36px; border-top:1px solid var(--line); padding-top:6px; font-size:.92rem; color:var(--ink-2)}
+.notes h2{font-size:1.05rem}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:.92rem}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:.8rem; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  body{font-size:16px; line-height:1.6}
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:22px 16px 26px}
+  h1{font-size:1.65rem}
+  h2{font-size:1.2rem; margin-top:28px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:.86rem}
+  th,td{padding:6px 8px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --line:#999; --enrich:#f2f2f2; --accent-soft:#eef3f9}
+  body{font-size:11pt}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail{display:none!important}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 3 · The Gaseous State</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 3 pages"><div class="frame"><a href="part-1.html" aria-current="page" class="on">Part 1</a><a href="part-2.html">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#introduction">Introduction</a></li><li><a href="#changes-of-state">Changes of state</a></li><li><a href="#the-kinetic-theory-of-an-ideal-gas">The kinetic theory of an ideal gas</a></li><li><a href="#avogadro-boyle-and-charles">Avogadro, Boyle and Charles</a></li><li><a href="#the-ideal-gas-equation">The ideal gas equation</a></li><li><a href="#worked-and-explained-examples">Worked and explained examples</a></li><li><a href="#determining-the-relative-molecular-mass-of-a-gas-or-volatile-liquid">Determining the relative molecular mass of a gas or volatile liquid</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<p class="eyebrow">Topic 3 · The Gaseous State Part 1</p>
+<h1>The Gaseous State 1</h1><details class="toc-m"><summary>On this page</summary><ol><li><a href="#introduction">Introduction</a></li><li><a href="#changes-of-state">Changes of state</a></li><li><a href="#the-kinetic-theory-of-an-ideal-gas">The kinetic theory of an ideal gas</a></li><li><a href="#avogadro-boyle-and-charles">Avogadro, Boyle and Charles</a></li><li><a href="#the-ideal-gas-equation">The ideal gas equation</a></li><li><a href="#worked-and-explained-examples">Worked and explained examples</a></li><li><a href="#determining-the-relative-molecular-mass-of-a-gas-or-volatile-liquid">Determining the relative molecular mass of a gas or volatile liquid</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Gaseous State Lab</a></p><p>Use the <em>Particle box and gas laws</em> explorer and the <em>Calculations</em> practice (pV = nRT and M<sub>r</sub>) alongside this note.</p></aside><h2 id="introduction">Introduction</h2><p>Although the physical processes of melting and boiling do not involve chemical changes, the forces holding the particles together still have to be overcome. It might be easier to view these processes, from solid to liquid to gas, as if the atoms or molecules become more and more discrete. In the solid state, the particles are held together in a fixed arrangement, forming a singular macro unit. In the gaseous state, this association no longer exists and the atoms and molecules are free to roam and move about.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup></p><figure><img src="fig/g1_states.svg" alt="Fig 1. Motion of the particles in a solid, a liquid and a gas." loading="lazy"><figcaption>Fig 1. Motion of the particles in a solid, a liquid and a gas.</figcaption></figure><p>This topic is about the last of these states. We first build a simple model of a gas, the <span class="key">ideal gas</span>, and use it to explain the gas laws and the ideal gas equation, pV = nRT. In Part 2 we see where the model breaks down, and why.</p><h2 id="changes-of-state">Changes of state</h2><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p>Changes of state are not examined in Topic 3, but they explain why real gases stop behaving ideally when they get close to condensing (Part 2).</p><p><strong>Melting and freezing.</strong> In the solid state, the particles of a substance are held in a fixed lattice. What holds them together depends on the structure (Topic 2): <span class="key">intermolecular forces</span> (id-id, pd-pd and hydrogen bonds) in a simple molecular solid, or ionic, metallic or covalent bonds in a giant structure. As the temperature is increased, the particles vibrate more and more vigorously. The vibration eventually reaches a point which allows the particles to break free of their fixed positions in the lattice: the forces between them are partly overcome and each particle is free to move anywhere within the liquid. Near the melting temperature, it would probably take a particle a long time to move far away from where it started, excluding the effects of any external forces such as gravity.</p><p><strong>Liquids.</strong> Liquids do not have fixed, permanent attractions between one particle and another; particles slide past each other, constantly making and breaking contacts. This means that liquids are very subject to external forces. Under the influence of gravity, or other forces, they adopt the shape of their container and flow easily. However, since their particles are already close together, they are not easily compressed.</p></aside><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p><strong>Boiling, evaporation and condensation.</strong> The main change we would expect when a liquid boils is that the particles suddenly become a lot further apart and start moving a lot more freely.</p><p>In a liquid, the particles have a spread of kinetic energies (Fig 2, the same Boltzmann distribution you meet in Reaction Kinetics, Part 2). A particle at the surface must have a certain minimum energy to escape the attractions of its neighbours and enter the gas phase. There are always a few particles moving around with enough energy to escape. When they do so, they immediately have as much space and as much freedom to move as any gas particle, though they may return to the liquid. This is the process of <span class="key">evaporation</span>, and it happens at any temperature.</p><p>As the temperature of the liquid is increased, the distribution of kinetic energies shifts to the right, and the proportion of particles in the liquid which are able to escape increases (Fig 2).</p></aside><figure><img src="fig/g1_escape.svg" alt="Fig 2. Distribution of kinetic energies of the particles in a liquid at two temperatures (Enrichment)." loading="lazy"><figcaption>Fig 2. Distribution of kinetic energies of the particles in a liquid at two temperatures (Enrichment).</figcaption></figure><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p><strong>Vapour pressure.</strong> In a closed container, the particles that escape cannot get away. Some of them hit the liquid surface and are recaptured (condensation). Eventually the rate of evaporation equals the rate of condensation: a dynamic equilibrium (Fig 3, left). The pressure exerted by the vapour in equilibrium with its liquid is called the <span class="key">vapour pressure</span>. As the proportion of particles able to escape increases with temperature, so does the vapour pressure.</p><p><strong>Boiling point.</strong> A liquid boils when its vapour pressure equals the external pressure. At that point, bubbles of vapour can form throughout the liquid, not just at the surface. For water at an external pressure of 101 kPa this is 100 °C (Fig 3, right). Note that not every particle has enough energy to escape at the boiling point; the point is that the vapour pressure has reached the external pressure. At a lower external pressure (up a mountain, or under vacuum) the boiling point is lower.</p></aside><figure><img src="fig/g1_vapour.svg" alt="Fig 3. Left: vapour in equilibrium with its liquid. Right: vapour pressure of water against temperature (Enrichment)." loading="lazy"><figcaption>Fig 3. Left: vapour in equilibrium with its liquid. Right: vapour pressure of water against temperature (Enrichment).</figcaption></figure><p>Once gaseous, the particles move rapidly and randomly through large amounts of space, changing direction only when they collide with other gas particles or with surfaces of one kind or another. When the surfaces are those of a container, it is <span class="key">bombardment by gas particles which is experienced as the gas's pressure</span>. Gases are easily compressed because of all the space between one particle and another.</p><h2 id="the-kinetic-theory-of-an-ideal-gas">The kinetic theory of an ideal gas</h2><p>In order to develop some of the theory used to describe the behaviour of gases, the characteristics of gases are idealised to such a degree that no real gas possesses them in absolutely full measure. The basic assumptions of the kinetic theory as applied to an <span class="key">ideal gas</span> are:</p><ol class="num"><li>Gases consist of particles in <strong>rapid, random motion</strong>.</li><li>The gas particles have <strong>negligible volume</strong> compared with the volume of the container (the space they occupy).</li><li>There are <strong>no intermolecular forces</strong> of attraction or repulsion between the particles. In between collisions, the particles experience no forces from each other or from the walls of the container, so they move in straight lines.</li><li>Collisions of gas particles with each other and with the walls of the container are <strong>perfectly elastic</strong>: there is no loss of total kinetic energy.</li><li>The <strong>average kinetic energy</strong> of the particles is <strong>proportional to the absolute temperature</strong> (the temperature in kelvin).</li></ol><figure><img src="fig/g1_kinetic.svg" alt="Fig 4. The kinetic theory picture of an ideal gas." loading="lazy"><figcaption>Fig 4. The kinetic theory picture of an ideal gas.</figcaption></figure><p>These assumptions apply to all ideal gases, so it follows that the <span class="key">average kinetic energy of the particles of any gas at a given temperature is the same, whatever the gas</span>. Since kinetic energy = ½mv<sup>2</sup>, heavier particles move more slowly on average at the same temperature.<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></p><aside class="box"><p>An <span class="key">ideal gas</span> is one that obeys pV = nRT exactly, at all temperatures and pressures. No real gas does, but most gases come close at low pressure and high temperature (Part 2).</p></aside><h2 id="avogadro-boyle-and-charles">Avogadro, Boyle and Charles</h2><p>Three experimental laws describe how the volume of a gas depends on the amount of gas, the pressure and the temperature. Each one holds the other two variables constant.</p><aside class="box"><p><strong>Avogadro's law</strong> → Equal volumes of any gas, at the same temperature and pressure, contain the same number of particles (the same number of moles).</p><p><strong>Consequence</strong> → 1 mole of any ideal gas occupies the same volume at a given temperature and pressure. This is the <span class="key">molar volume</span>, V<sub>m</sub>. From the Data Booklet: <strong>22.7 dm<sup>3</sup> mol<sup>−1</sup> at s.t.p.</strong> (10<sup>5</sup> Pa and 273 K) and <strong>24 dm<sup>3</sup> mol<sup>−1</sup> at r.t.p.</strong> (101 325 Pa and 293 K).<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup></p><p>Volume = constant × number of moles, V ∝ n</p></aside><aside class="box"><p><strong>Boyle's law</strong> → The volume of a fixed mass of gas is inversely proportional to its pressure, at constant temperature.</p><p><strong>Consequence</strong> → Pressure × Volume = constant, pV = constant, so p<sub>1</sub>V<sub>1</sub> = p<sub>2</sub>V<sub>2</sub></p></aside><p>In kinetic theory terms: if the volume is halved at constant temperature, the particles move at the same average speed but there are twice as many of them in each unit of volume. They hit each unit area of the wall twice as often, so the pressure doubles.</p><figure><img src="fig/g1_boyle.svg" alt="Fig 5. Boyle's law. A plot of p against V is a curve; p against 1/V is a straight line through the origin. At a higher temperature, pV is larger." loading="lazy"><figcaption>Fig 5. Boyle's law. A plot of p against V is a curve; p against 1/V is a straight line through the origin. At a higher temperature, pV is larger.</figcaption></figure><aside class="box"><p><strong>Charles's law</strong> → The volume of a fixed mass of gas is directly proportional to its absolute temperature, at constant pressure.</p><p><strong>Consequence</strong> → Volume = constant × Temperature, V ∝ T, so V<sub>1</sub>/T<sub>1</sub> = V<sub>2</sub>/T<sub>2</sub></p></aside><p>In kinetic theory terms: when the temperature rises, the average kinetic energy rises and the particles move faster. They hit the walls harder and more often. For the pressure to stay the same, the gas must expand so that the collisions with each unit area of wall become less frequent.</p><p>It is by plotting volumes of gases against temperature that the absolute temperature scale is defined. If volume is plotted against temperature in °C and the plot extrapolated back, the graph predicts that gases have zero volume at approximately −273 °C (Fig 6, left). This suggests a natural <span class="key">absolute zero</span> of temperature, and this is the basis of the <strong>Kelvin scale</strong>: T / K = θ / °C + 273.<sup class="fnref"><a href="#fn4" id="fnref4" aria-label="Note 4">4</a></sup> No real gas actually reaches zero volume; all of them liquefy and solidify long before.</p><figure><img src="fig/g1_charles.svg" alt="Fig 6. Charles's law for 1 mol of gas at 105 Pa. Left: in °C, the extrapolated line reaches V = 0 at −273 °C. Right: in kelvin, V ∝ T." loading="lazy"><figcaption>Fig 6. Charles's law for 1 mol of gas at 10<sup>5</sup> Pa. Left: in °C, the extrapolated line reaches V = 0 at −273 °C. Right: in kelvin, V ∝ T.</figcaption></figure><aside class="box"><p><span class="key">Temperatures in gas calculations must always be in kelvin.</span> A gas at 20 °C does not have twice the volume of the same gas at 10 °C: 293 K is only 3.5 % more than 283 K.</p></aside><h2 id="the-ideal-gas-equation">The ideal gas equation</h2><p>Combining the three laws, V ∝ n, V ∝ 1/p and V ∝ T, gives V ∝ nT/p, or</p><aside class="box"><p><strong>Ideal gas equation:</strong>   pV = nRT</p></aside><p>where R is a constant known as the <span class="key">molar gas constant</span> (the universal gas constant). From the Data Booklet, R = <strong>8.31 J K<sup>−1</sup> mol<sup>−1</sup></strong>. For R to have this value, every quantity must be in SI units:<sup class="fnref"><a href="#fn5" id="fnref5" aria-label="Note 5">5</a></sup></p><div class="tablewrap"><table><thead><tr><th>Quantity</th><th>Symbol</th><th>SI unit</th><th>Common conversions</th></tr></thead><tbody><tr><td>Pressure</td><td>p</td><td>pascal, Pa (= N m<sup>−2</sup> = J m<sup>−3</sup>)</td><td>1 kPa = 10<sup>3</sup> Pa;  1 atm = 101 325 Pa;  1 bar = 10<sup>5</sup> Pa</td></tr><tr><td>Volume</td><td>V</td><td>m<sup>3</sup></td><td>1 dm<sup>3</sup> = 10<sup>−3</sup> m<sup>3</sup>;  1 cm<sup>3</sup> = 10<sup>−6</sup> m<sup>3</sup></td></tr><tr><td>Amount</td><td>n</td><td>mol</td><td>n = mass / M</td></tr><tr><td>Temperature</td><td>T</td><td>K</td><td>T / K = θ / °C + 273</td></tr></tbody></table></div><aside class="box"><p><strong>The four conversions</strong> (most lost marks in gas questions come from these)</p><p>cm<sup>3</sup> → m<sup>3</sup>: × 10<sup>−6</sup>      dm<sup>3</sup> → m<sup>3</sup>: × 10<sup>−3</sup>      kPa → Pa: × 10<sup>3</sup>      °C → K: + 273</p></aside><p>For a fixed amount of gas (n constant), pV/T = nR is constant, so the three laws also combine into the <em>general gas equation</em>:</p><p class="eq"><math display="block"><mrow><mfrac><mrow><msub><mi>p</mi><mtext>1</mtext></msub><msub><mi>V</mi><mtext>1</mtext></msub></mrow><mrow><msub><mi>T</mi><mtext>1</mtext></msub></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mtext>2</mtext></msub><msub><mi>V</mi><mtext>2</mtext></msub></mrow><mrow><msub><mi>T</mi><mtext>2</mtext></msub></mrow></mfrac></mrow></math></p><p>Here the units only need to be the same on both sides (kPa and dm<sup>3</sup> are fine), but T must still be in kelvin.</p><h2 id="worked-and-explained-examples">Worked and explained examples</h2><h3>Example 1: using pV = nRT</h3><p>A 2.50 dm<sup>3</sup> steel cylinder contains 0.400 mol of nitrogen at 27 °C.</p><ol class="alpha"><li>Calculate the pressure in the cylinder.</li><li>The cylinder is heated to 177 °C. Calculate the new pressure.</li></ol><p>(To answer part (a), first convert everything to SI units.)</p><p>V = 2.50 dm<sup>3</sup> = 2.50 × 10<sup>−3</sup> m<sup>3</sup>;   T = 27 + 273 = 300 K</p><p class="eq">p = nRT / V = (0.400 × 8.31 × 300) / (2.50 × 10<sup>−3</sup>) = 3.989 × 10<sup>5</sup> = <strong>3.99 × 10<sup>5</sup> Pa</strong> (399 kPa)</p><p>(For part (b), n and V are fixed, so p ∝ T. There is no need to use R again.)</p><p class="eq">p<sub>2</sub> = p<sub>1</sub> × T<sub>2</sub> / T<sub>1</sub> = 3.989 × 10<sup>5</sup> × 450 / 300 = <strong>5.98 × 10<sup>5</sup> Pa</strong></p><p>Notice that the temperature in °C went up by a factor of 177/27 = 6.6, but the pressure only went up by a factor of 1.5, which is 450/300 in kelvin.</p><h2 id="determining-the-relative-molecular-mass-of-a-gas-or-volatile-liquid">Determining the relative molecular mass of a gas or volatile liquid</h2><p>Since n = m/M, where m is the mass of gas and M its molar mass (numerically equal to M<sub>r</sub>), the ideal gas equation can be rearranged to find M:</p><p class="eq"><math display="block"><mrow><mtext>pV</mtext><mo>=</mo><mfrac><mtext>m</mtext><mtext>M</mtext></mfrac><mtext>RT</mtext></mrow></math></p><p>so</p><p class="eq"><math display="block"><mrow><mtext>M</mtext><mo>=</mo><mfrac><mtext>mRT</mtext><mtext>pV</mtext></mfrac></mrow></math></p><p>If the density of the gas, ρ = m/V, is known instead, the same equation becomes M = ρRT/p.</p><h3>The gas syringe method</h3><p>For a volatile liquid, a small, accurately weighed mass is injected through a self-sealing cap into a gas syringe held in an oven or steam jacket at a temperature above the boiling point of the liquid (Fig 7). The liquid vaporises completely and pushes the plunger out. The volume of vapour, the temperature and the atmospheric pressure are recorded. The mass injected is found by weighing the small syringe before and after injection.</p><figure><img src="fig/g1_syringe.svg" alt="Fig 7. Finding Mr of a volatile liquid with a gas syringe." loading="lazy"><figcaption>Fig 7. Finding M<sub>r</sub> of a volatile liquid with a gas syringe.</figcaption></figure><h3>Example 2: M<sub>r</sub> of a volatile liquid</h3><p>0.200 g of a volatile liquid, X, was injected into a gas syringe at 100 °C. The vapour occupied 106 cm<sup>3</sup> at a pressure of 101 kPa. X contains carbon, hydrogen and oxygen only. (Real data for a common solvent.)</p><ol class="alpha"><li>Calculate the relative molecular mass of X.</li><li>Suggest a molecular formula and an identity for X.</li></ol><p>(To answer part (a), convert to SI units, then use M = mRT/pV.)</p><p>V = 106 cm<sup>3</sup> = 106 × 10<sup>−6</sup> m<sup>3</sup>;   p = 101 × 10<sup>3</sup> Pa;   T = 100 + 273 = 373 K</p><p class="eq"><math display="block"><mrow><mtext>M</mtext><mo>=</mo><mfrac><mtext>mRT</mtext><mtext>pV</mtext></mfrac><mo>=</mo><mfrac><mtext>0.200 × 8.31 × 373</mtext><mtext>(101 × 10³)(106 × 10⁻⁶)</mtext></mfrac><mo>=</mo><mtext>57.9</mtext></mrow></math></p><p>So M = 57.9 g mol<sup>−1</sup>, and M<sub>r</sub> of X is <strong>57.9</strong>, i.e. about 58.</p><p>(For part (b), look for a C, H, O formula with M<sub>r</sub> = 58.)  C<sub>3</sub>H<sub>6</sub>O has M<sub>r</sub> = 3(12.0) + 6(1.0) + 16.0 = 58.0. X is likely to be <strong>propanone</strong>, CH<sub>3</sub>COCH<sub>3</sub> (a common, volatile solvent, boiling point 56 °C), or its isomer propanal.</p><aside class="box"><p><strong>Sources of error in the gas syringe method</strong></p><p>(1) Near its boiling point, the vapour is far from ideal: the attractions between molecules make the volume smaller than pV = nRT predicts, so the M<sub>r</sub> calculated is <strong>too high</strong>. This is why the syringe is kept well above the boiling point. (2) Some liquid may evaporate from the needle before injection, so the mass used in the calculation is too high. (3) The plunger may stick, and the syringe must be read only once the temperature is steady.</p></aside><h3>Example 3: M<sub>r</sub> from gas density</h3><p>At s.t.p., a gaseous hydrocarbon has a density of 1.24 g dm<sup>−3</sup>. Find its M<sub>r</sub> and suggest its identity. (Illustrative data.)</p><p>(At s.t.p., 1 mol occupies 22.7 dm<sup>3</sup>, so the mass of 1 mol is the mass of 22.7 dm<sup>3</sup>.)</p><p class="eq">M = ρ × V<sub>m</sub> = 1.24 g dm<sup>−3</sup> × 22.7 dm<sup>3</sup> mol<sup>−1</sup> = <strong>28.1 g mol<sup>−1</sup></strong></p><p>A hydrocarbon of M<sub>r</sub> ≈ 28 is <strong>ethene</strong>, C<sub>2</sub>H<sub>4</sub> (M<sub>r</sub> = 28.0). (Using M = ρRT/p with ρ = 1.24 kg m<sup>−3</sup> gives the same answer, 28.1 g mol<sup>−1</sup>.)</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><span class="key">Sizing gas evolution.</span> In a plant, the ideal gas equation is used every day to estimate how much gas a reaction will give off. Each mole of gas released takes up about 24 dm<sup>3</sup> at room temperature and pressure, so 1 kmol takes up about 24 m<sup>3</sup>.</p><p>Suppose a step decarboxylates 500 kg of an acid (M<sub>r</sub> 250) and releases 1 mol of CO<sub>2</sub> per mole of acid. That is 2000 mol of CO<sub>2</sub>, or about 48 m<sup>3</sup> of gas. The same happens when an acidic reaction mixture is quenched into sodium hydrogencarbonate solution.</p><p>The rate matters more than the total. If the gas comes off faster than the vent line and scrubber can take it, the reactor pressure rises and the mixture can foam over. So gas-evolving additions are dosed slowly, the gas flow from the vent is measured, and the addition rate is set from pV = nRT and the vent capacity.</p></aside>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">For a giant structure, such as NaCl or diamond, melting and boiling do break bonds (ionic or covalent). For a simple molecular substance, only the intermolecular forces between molecules are overcome; the covalent bonds within the molecules are unchanged. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">Beyond the syllabus: kinetic theory gives pV = ⅓Nm&lt;c<sup>2</sup>&gt;, where N is the number of particles and &lt;c<sup>2</sup>&gt; the mean square speed. Comparing this with pV = nRT shows that the average kinetic energy per particle is ½m&lt;c<sup>2</sup>&gt; = (3/2)(R/L)T, which is proportional to T and independent of m. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">Older books give 22.4 dm<sup>3</sup> mol<sup>−1</sup> at s.t.p. That was for a standard pressure of 1 atm (101 325 Pa). The standard pressure is now 10<sup>5</sup> Pa (1 bar), which gives 22.7 dm<sup>3</sup> mol<sup>−1</sup>. Some books use r.t.p. = 298 K, which gives 24.5 dm<sup>3</sup> mol<sup>−1</sup>. Use the Data Booklet values unless a question gives you others. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li><li id="fn4">More precisely, absolute zero is −273.15 °C. The Data Booklet and the examiners use 273. <a href="#fnref4" class="back" aria-label="Back to text">↩</a></li><li id="fn5">1 J = 1 N m and 1 Pa = 1 N m<sup>−2</sup>, so 1 Pa × 1 m<sup>3</sup> = 1 N m = 1 J. That is why pV has the units of energy, and why R can be quoted in J K<sup>−1</sup> mol<sup>−1</sup>. <a href="#fnref5" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><span></span><a href="part-2.html">Part 2 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>

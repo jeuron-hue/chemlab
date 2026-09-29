@@ -1,0 +1,1670 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 3 The Gaseous State.">
+<title>Gaseous State Lab · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --grid:#e3e8ed; --axis:#aeb8c3; --line:#d4dbe2; --accent:#1c5da3; --accent-ink:#ffffff; --accent-soft:#e2ecf7;
+  --s1:#2a78d6; --s1-wash:rgba(42,120,214,.22); --s2:#eb6834; --s2-wash:rgba(235,104,52,.20); --s3:#1baf7a; --ref:#8a929b;
+  --c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a; --c4:#8a5cd0; --c5:#b88a00; --c6:#d2457c;
+  --good:#006300; --good-bg:#e5f2e5; --bad:#c42f2f; --bad-bg:#fbe9e9; --warn-bg:#fff4dc; --warn:#7a5200;
+  --shadow:0 1px 2px rgba(20,26,32,.06), 0 1px 0 rgba(20,26,32,.03);
+  --serif:var(--sans);
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+    --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+    --c1:#3987e5; --c2:#e0652f; --c3:#1fb17f; --c4:#a27ce6; --c5:#d4a52a; --c6:#e0628f;
+    --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+  --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+  --c1:#3987e5; --c2:#e0652f; --c3:#1fb17f; --c4:#a27ce6; --c5:#d4a52a; --c6:#e0628f;
+  --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:var(--shadow)}
+.controls{display:flex; flex-direction:column; gap:14px}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600; text-align:right}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:10px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .15s}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(14px)}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+.sub-ctl{padding-left:12px; border-left:2px solid var(--line)}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.small{padding:4px 10px; font-size:.8rem}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px}
+
+/* charts */
+.charts{display:flex; flex-direction:column; gap:14px; min-width:0}
+.chartrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; min-width:0}
+.chart{position:relative; min-width:0}
+.chart svg{display:block; overflow:visible; touch-action:pan-y}
+.chart-title{font-size:.84rem; font-weight:600; color:var(--ink-2); margin:0 0 4px}
+.chart-title .hint{font-weight:400; margin-left:10px; display:inline-block}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+svg .tick{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+svg text.halo{paint-order:stroke; stroke:var(--bg); stroke-width:4px; stroke-linejoin:round}
+.panel svg text.halo{stroke:var(--surface)}
+svg .axlab{font-size:11.5px; fill:var(--ink-2)}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .axis{stroke:var(--axis); stroke-width:1}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2); margin-top:4px; align-items:center}
+.legend > span{display:inline-flex; align-items:center; gap:6px}
+.key{display:inline-block; width:16px; height:0; border-top:2px solid; border-radius:1px}
+.key.dash{border-top-style:dashed}
+.key.box{height:10px; width:14px; border:0; border-radius:2px}
+.key.dot{width:8px; height:8px; border:0; border-radius:50%}
+.key.ring{width:9px; height:9px; border:2px solid; border-radius:50%}
+.tip{position:absolute; pointer-events:none; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:6px 8px; font-size:.78rem; line-height:1.4; color:var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.12); white-space:nowrap; font-variant-numeric:tabular-nums; z-index:3}
+
+/* readouts */
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px; min-width:0}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.05rem; font-weight:600; color:var(--ink)}
+.stat .v small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.stat .v small.pct{display:block; margin-top:1px}
+.stat.calc{box-shadow:inset 3px 0 0 var(--accent)}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:5px; max-width:78ch}
+.callout{font-size:.84rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px}
+.eq{font-variant-numeric:tabular-nums}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); vertical-align:1px}
+.pill.held{background:var(--surface-2); color:var(--muted)}
+h3.sub3{font-size:1.15rem; margin:0}
+
+/* tables and forms */
+.tblwrap{overflow-x:auto}
+table.data{border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:.88rem; min-width:100%}
+table.data th, table.data td{padding:6px 10px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap}
+table.data th{font-weight:600; color:var(--ink-2); font-size:.78rem; vertical-align:bottom}
+table.data td:first-child, table.data th:first-child{text-align:left}
+table.data tr.hi td{background:var(--accent-soft)}
+table.data tfoot td{font-weight:600; border-bottom:0}
+.form{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; align-items:end}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
+.field input, .field select, .inp{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.inp[aria-invalid=true], .field input[aria-invalid=true]{border-color:var(--bad); background:var(--bad-bg)}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.working{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; font-size:.92rem; max-width:80ch; overflow-wrap:anywhere}
+.working li::marker{color:var(--muted); font-variant-numeric:tabular-nums}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tabs button{font-size:.86rem; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.stack{display:flex; flex-direction:column; gap:14px; min-width:0}
+.cards{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+@media (max-width:760px){ .cards{grid-template-columns:minmax(0,1fr)} }
+.card h3{font-size:1.08rem; margin-bottom:8px}
+.card ul{margin:0; padding-left:20px; font-size:.9rem; color:var(--ink-2); display:flex; flex-direction:column; gap:6px}
+.card p{margin:8px 0 0; font-size:.9rem; color:var(--ink-2)}
+
+/* particle box */
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow)}
+.viewer canvas{display:block; touch-action:pan-y; user-select:none; -webkit-user-select:none}
+.checks{list-style:none; margin:12px 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px 20px}
+.checks li{display:flex; gap:10px; align-items:flex-start; font-size:.9rem}
+.checks svg{flex:none; margin-top:2px}
+.checks .hint{display:block; margin-top:2px; font-size:.8rem}
+
+/* real gases */
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:14px; padding:3px 10px 3px 8px; font-size:.84rem; cursor:pointer; background:var(--surface); color:var(--ink-2); position:relative; user-select:none}
+.chip input{position:absolute; opacity:0; pointer-events:none}
+.chip .sw{width:10px; height:10px; border-radius:50%; flex:none; opacity:.35}
+.chip:has(input:checked){border-color:var(--ink-2); color:var(--ink); font-weight:500}
+.chip:has(input:checked) .sw{opacity:1}
+.chip:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:1px}
+
+/* dalton */
+.drows{display:flex; flex-direction:column; gap:6px}
+.drow{display:grid; grid-template-columns:minmax(0,1fr) 92px 34px; gap:6px; align-items:center}
+.drow .btn{padding:6px 0; width:34px}
+.drow .sw{display:none}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.qtext{font-size:1.02rem; font-weight:500; margin:0 0 12px}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; font-size:.93rem; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good); background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.explain{margin-top:12px; font-size:.9rem}
+.mrq{font-size:1rem; margin:0; max-width:78ch}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+.err{font-size:.86rem; color:var(--bad); background:var(--bad-bg); border-radius:6px; padding:7px 10px}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p style="margin:0 0 10px;font-size:.86rem"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1</a>, <a href="part-2.html">Part 2</a> &nbsp;·&nbsp; Tutorials: <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a></p>
+    <div class="row">
+      <h1>Topic 3 · The Gaseous State</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#particles">Particle box and gas laws</a>
+    <a href="#real">Real vs ideal</a>
+    <a href="#dalton">Dalton's Law</a>
+    <a href="#practice">Calculations</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 PARTICLE BOX -->
+<section class="lab" id="particles">
+  <div class="sechead">
+    <span class="eyebrow">Simulation · 9476 3(a), 3(c)</span>
+    <h2>Particle box and the gas laws</h2>
+    <p>An ideal gas in a cylinder with a movable piston. Pick a law: the held quantities stay fixed while you vary one, and the page solves <i>pV</i> = <i>nRT</i> for the last. Average kinetic energy ∝ <i>T</i>, so the particles move faster as <i>T</i> rises (speed ∝ √<i>T</i>).</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Law</span>
+        <div class="seg" role="radiogroup" aria-label="Gas law">
+          <label><input type="radio" name="pb-mode" value="boyle" checked>Boyle</label>
+          <label><input type="radio" name="pb-mode" value="charles">Charles</label>
+          <label><input type="radio" name="pb-mode" value="avogadro">Avogadro</label>
+        </div>
+        <span class="hint" id="pb-mode-hint" style="margin-top:6px;display:block"></span></div>
+      <div class="ctl" id="pb-V-ctl"><label for="pb-V"><span>Volume, <i>V</i> <span class="pill"></span></span> <output id="pb-V-o"></output></label>
+        <input type="range" id="pb-V" min="5" max="100" step="any"></div>
+      <div class="ctl" id="pb-p-ctl"><label for="pb-p"><span>Pressure, <i>p</i> <span class="pill"></span></span> <output id="pb-p-o"></output></label>
+        <input type="range" id="pb-p" min="100" max="400" step="any"></div>
+      <div class="ctl" id="pb-T-ctl"><label for="pb-T"><span>Temperature, <i>T</i> <span class="pill"></span></span> <output id="pb-T-o"></output></label>
+        <input type="range" id="pb-T" min="100" max="600" step="any"></div>
+      <div class="ctl" id="pb-n-ctl"><label for="pb-n"><span>Amount, <i>n</i> <span class="pill"></span></span> <output id="pb-n-o"></output></label>
+        <input type="range" id="pb-n" min="0.1" max="2" step="any"></div>
+      <label class="switch" id="pb-cdeg-wrap"><input type="checkbox" id="pb-cdeg"><span>Show °C axis and extrapolate to −273 °C</span></label>
+      <div><span class="hint">Load 1.00 mol at:</span>
+        <div class="btnrow" style="margin-top:6px"><button class="btn" id="pb-stp">s.t.p.</button><button class="btn" id="pb-rtp">r.t.p.</button></div></div>
+      <p class="hint" style="margin:0">Data Booklet: s.t.p. is 10<sup>5</sup> Pa and 273 K (22.7 dm<sup>3</sup> mol<sup>−1</sup>); r.t.p. is 101 325 Pa and 293 K (24 dm<sup>3</sup> mol<sup>−1</sup>). <i>T</i>/K = <i>θ</i>/°C + 273.</p>
+    </div>
+    <div class="stack">
+      <div class="viewer" id="pb-wrap"><canvas id="pb-canvas" role="img" aria-label="Animated gas particles in a cylinder with a piston"></canvas></div>
+      <div class="legend" style="margin-top:-6px">
+        <span><i class="key dot" id="pb-key-p"></i><span>gas particle</span></span>
+        <span><i class="key" id="pb-key-h" style="border-top-width:3px"></i><span>collision with a wall</span></span>
+        <span class="hint" id="pb-drag-hint"><span>Drag the piston to change <i>V</i></span></span>
+        <button class="btn small" id="pb-play" aria-pressed="false" style="margin-left:auto">Pause</button>
+      </div>
+      <div class="readout" id="pb-read"></div>
+      <div class="callout" id="pb-law"></div>
+      <div class="chartrow">
+        <div class="chart" id="pb-c1-wrap"><div class="chart-title" id="pb-c1-title"></div><svg id="pb-c1" role="img" aria-label="Gas law graph"></svg></div>
+        <div class="chart" id="pb-c2-wrap"><div class="chart-title">Pressure against 1/<i>V</i></div><svg id="pb-c2" role="img" aria-label="Pressure against one over volume"></svg></div>
+      </div>
+      <ul class="notes" id="pb-notes"></ul>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:22px">
+    <h3 class="sub3">What the model assumes</h3>
+    <p class="hint" style="margin:4px 0 0;font-size:.84rem">The kinetic theory assumptions for an ideal gas (9476 3(a)). This is an ideal-gas simulation, so every one holds exactly here. Real gases break the second and third most: see <a href="#real">Real vs ideal</a>.</p>
+    <ul class="checks" id="pb-checks">
+      <li><span class="tickmark"></span><div><b>Particles are in rapid, random motion.</b><span class="hint">Each particle moves in a straight line until it hits a wall or another particle, in no preferred direction.</span></div></li>
+      <li><span class="tickmark"></span><div><b>The volume of the particles is negligible compared with the volume of the container.</b><span class="hint">The particles are tiny dots in a large box.</span></div></li>
+      <li><span class="tickmark"></span><div><b>There are no intermolecular forces between the particles.</b><span class="hint">Between collisions no particle attracts or repels any other.</span></div></li>
+      <li><span class="tickmark"></span><div><b>Collisions are perfectly elastic.</b><span class="hint">No kinetic energy is lost when particles hit each other or the walls.</span></div></li>
+      <li><span class="tickmark"></span><div><b>The average kinetic energy of the particles is proportional to the absolute temperature.</b><span class="hint">Doubling <i>T</i> (in K) doubles the average kinetic energy; speeds rise by √2.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 2 REAL VS IDEAL -->
+<section class="lab" id="real">
+  <div class="sechead">
+    <span class="eyebrow">Explorer · 9476 3(b)</span>
+    <h2>Real vs ideal</h2>
+    <p>For 1 mol of an ideal gas <i>pV</i>/<i>RT</i> = 1 at every pressure. For a real gas it is not. The curves come from the van der Waals model, which is qualitatively right but is a model, not measured data.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><label for="rg-T"><span>Temperature, <i>T</i></span> <output id="rg-T-o"></output></label>
+        <input type="range" id="rg-T" min="150" max="1000" step="10" value="450"></div>
+      <div class="ctl"><span class="lab">Gases</span>
+        <div class="chips" id="rg-chips"></div></div>
+      <label class="switch"><input type="checkbox" id="rg-a" checked><span>Intermolecular attractions (<i>a</i>)</span></label>
+      <label class="switch"><input type="checkbox" id="rg-b" checked><span>Volume of particles (<i>b</i>)</span></label>
+      <span class="hint" style="margin-top:-6px">Switch one off to see its effect alone. Both off gives an ideal gas.</span>
+      <div class="ctl"><span class="lab">Pressure axis</span>
+        <div class="seg" role="radiogroup" aria-label="Pressure axis range">
+          <label><input type="radio" name="rg-range" value="10">0 to 10 MPa</label>
+          <label><input type="radio" name="rg-range" value="100" checked>0 to 100 MPa</label>
+        </div>
+        <span class="hint" style="margin-top:6px;display:block">1 MPa = 10<sup>6</sup> Pa = 10 bar ≈ 9.87 atm, so 100 MPa ≈ 1000 bar ≈ 987 atm.</span></div>
+    </div>
+    <div class="charts">
+      <div class="chart" id="rg-wrap">
+        <div class="chart-title">For 1 mol, <i>pV</i>/<i>RT</i> against pressure <span class="hint" id="rg-sub"></span></div>
+        <svg id="rg-svg" role="img" aria-label="pV/RT against pressure for real gases"></svg>
+        <div class="tip" id="rg-tip" hidden></div>
+        <div class="legend" id="rg-legend"></div>
+      </div>
+      <div class="callout" id="rg-notes"></div>
+      <div class="chart" id="rb-wrap">
+        <div class="chart-title">All six gases at one pressure <span class="hint" id="rb-sub"></span></div>
+        <div class="ctl" style="max-width:420px;margin-bottom:6px"><label for="rb-p"><span>Compare at <i>p</i> =</span> <output id="rb-p-o"></output></label>
+          <input type="range" id="rb-p" min="0.5" max="100" step="0.5" value="5"></div>
+        <svg id="rb-svg" role="img" aria-label="Bar chart of pV/RT for six gases at one pressure"></svg>
+      </div>
+    </div>
+  </div>
+  <div class="cards" style="margin-top:22px">
+    <article class="panel card">
+      <h3>Why the deviations grow</h3>
+      <ul>
+        <li>At <b>very high pressure</b> the particles are pushed close together. Their own volume is no longer negligible compared with the volume of the container, so the gas takes up more space than an ideal gas would: <i>pV</i>/<i>RT</i> &gt; 1.</li>
+        <li>At <b>very low temperature</b> the particles move more slowly. Their kinetic energy is no longer large compared with the intermolecular forces of attraction, which pull on a particle as it approaches a wall. Collisions with the walls are less frequent and less forceful, so <i>p</i> is lower than ideal: <i>pV</i>/<i>RT</i> &lt; 1. Cool it enough and the gas condenses.</li>
+        <li>At moderate pressures attractions usually win first (the dip below 1). At higher pressures particle volume takes over (the rise above 1).</li>
+        <li>So a gas approaches ideal behaviour at <b>low pressure</b> and <b>high temperature</b>: particles far apart and moving fast.</li>
+      </ul>
+    </article>
+    <article class="panel card">
+      <h3>Which gases are most nearly ideal</h3>
+      <ul>
+        <li><b>He and H<sub>2</sub></b> are closest to ideal. They have very few electrons, so small electron clouds that are hard to polarise and only very weak id-id attractions; the particles are also small. At 300 K their attractions are so weak that particle volume wins at every pressure.</li>
+        <li><b>NH<sub>3</sub></b> deviates most at moderate pressure: its molecules are polar and hydrogen bond to one another (on top of pd-pd and id-id), the strongest attractions here.</li>
+        <li><b>CO<sub>2</sub></b> is non-polar, but it has a large electron cloud (22 electrons), so its id-id attractions are strong and the dip below 1 is deep.</li>
+        <li>N<sub>2</sub> and CH<sub>4</sub> lie in between.</li>
+      </ul>
+    </article>
+    <article class="panel card" style="grid-column:1 / -1">
+      <h3><span class="beyond">Enrichment</span>The van der Waals equation</h3>
+      <p class="eq" style="font-size:1.02rem;color:var(--ink)">(<i>p</i> + <i>a</i>/<i>V</i><sub>m</sub><sup>2</sup>)(<i>V</i><sub>m</sub> − <i>b</i>) = <i>RT</i></p>
+      <p><i>V</i><sub>m</sub> is the molar volume. The term <i>a</i>/<i>V</i><sub>m</sub><sup>2</sup> corrects for intermolecular attractions and <i>b</i> for the volume of the particles themselves. The page solves this equation for <i>V</i><sub>m</sub> (gas root) at each point and plots <i>pV</i><sub>m</sub>/<i>RT</i>. Below a gas's critical temperature, <i>T</i><sub>c</sub>, pressure alone can liquefy it; the gas curve then stops at the pressure where the model predicts condensation (equal-area rule) instead of showing the liquid.</p>
+      <div class="tblwrap" style="margin-top:10px"><table class="data" id="rg-table"></table></div>
+      <p class="hint">The van der Waals model is simple: it gets the shape right but overestimates condensation pressures (for example NH<sub>3</sub> at 300 K: about 3.0 MPa in the model, about 1.1 MPa in reality). The figures in the notes (Part 2) use a more accurate equation of state, so values differ slightly.</p>
+      <p class="hint">Literature constants. <i>R</i> = 8.31 J K<sup>−1</sup> mol<sup>−1</sup> = 0.0831 dm<sup>3</sup> bar K<sup>−1</sup> mol<sup>−1</sup>.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3 DALTON -->
+<section class="lab" id="dalton">
+  <div class="sechead">
+    <span class="eyebrow">Mixer · 9476 3(d)</span>
+    <h2>Dalton's Law of partial pressures</h2>
+    <p>In a mixture of gases that do not react, each gas exerts the pressure it would exert if it alone filled the container, <i>p</i><sub>i</sub> = <i>n</i><sub>i</sub><i>RT</i>/<i>V</i>. The total pressure is the sum: <i>p</i><sub>total</sub> = <i>p</i><sub>1</sub> + <i>p</i><sub>2</sub> + … Dividing, <i>p</i><sub>i</sub>/<i>p</i><sub>total</sub> = <i>n</i><sub>i</sub>/<i>n</i><sub>total</sub> = <i>x</i><sub>i</sub>, the mole fraction, so <i>p</i><sub>i</sub> = <i>x</i><sub>i</sub> × <i>p</i><sub>total</sub>.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="seg" role="radiogroup" aria-label="Dalton mode">
+        <label><input type="radio" name="d-mode" value="mix" checked>Gas mixture</label>
+        <label><input type="radio" name="d-mode" value="water">Collected over water</label>
+      </div>
+      <div id="d-mix" class="controls">
+        <div class="ctl"><label for="d-V"><span>Container volume, <i>V</i></span> <output id="d-V-o"></output></label>
+          <input type="range" id="d-V" min="1" max="50" step="0.5"></div>
+        <div class="ctl"><label for="d-T"><span>Temperature, <i>T</i></span> <output id="d-T-o"></output></label>
+          <input type="range" id="d-T" min="250" max="500" step="1"></div>
+        <div class="ctl"><span class="lab"><span>Gas</span><span>amount / mol</span></span>
+          <div class="drows" id="d-rows" style="margin-top:6px"></div></div>
+        <div class="btnrow"><button class="btn" id="d-add">Add a gas</button></div>
+        <div><span class="hint">Presets:</span>
+          <div class="btnrow" style="margin-top:6px"><button class="btn" id="d-air">Dry air, 1 mol (real composition, includes CO<sub>2</sub>)</button><button class="btn" id="d-scuba">Scuba tank</button></div>
+          <p class="hint" style="margin:6px 0 0">Dry air by moles: N<sub>2</sub> 78.1 %, O<sub>2</sub> 20.9 %, Ar 0.93 %, CO<sub>2</sub> 0.04 % (approximate). The notes round this to N<sub>2</sub> 78.1 %, O<sub>2</sub> 20.9 %, Ar 1.0 % and ignore CO<sub>2</sub>.</p></div>
+        <div id="d-err" class="err" hidden></div>
+      </div>
+      <div id="d-water" class="controls" hidden>
+        <label class="field">Gas collected<select id="w-gas"><option value="H2">hydrogen, H₂</option><option value="O2">oxygen, O₂</option><option value="N2">nitrogen, N₂</option></select></label>
+        <label class="field">Temperature of the water<select id="w-theta"></select></label>
+        <label class="field"><span>Atmospheric (total) pressure / kPa</span><input id="w-patm" type="text" inputmode="decimal" autocomplete="off" value="101"></label>
+        <label class="field"><span>Volume of gas collected / cm<sup>3</sup></span><input id="w-V" type="text" inputmode="decimal" autocomplete="off" value="250"></label>
+        <div id="w-err" class="err" hidden></div>
+        <p class="hint" style="margin:0">Levels inside and outside the collecting vessel are equal, so the total pressure inside equals atmospheric pressure.</p>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="readout" id="d-read"></div>
+      <div class="chart" id="d-bar-wrap"><div class="chart-title" id="d-bar-title">Partial pressures, stacked</div><svg id="d-bar" role="img" aria-label="Stacked bar of partial pressures"></svg>
+        <div class="legend" id="d-legend"></div></div>
+      <div class="tblwrap" id="d-tblwrap"><table class="data" id="d-table"></table></div>
+      <div class="callout" id="d-check"></div>
+      <ol class="working" id="w-work" hidden></ol>
+      <div id="w-tbl-box" class="stack" hidden>
+        <h3 class="sub3" style="font-size:1rem"><span class="beyond">Enrichment</span>Vapour pressure of water (given data)</h3>
+        <div class="tblwrap"><table class="data" id="w-table" style="min-width:0"></table></div>
+        <p class="hint" style="margin:0">Beyond the 9476 syllabus: in an exam this value is always given.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 PRACTICE -->
+<section class="lab" id="practice">
+  <div class="sechead">
+    <span class="eyebrow">Practice · 9476 3(c), 3(d)</span>
+    <h2>Calculations with <i>pV</i> = <i>nRT</i></h2>
+    <p>Questions are generated at random. Use <i>R</i> = 8.31 J K<sup>−1</sup> mol<sup>−1</sup> and Data Booklet <i>A</i><sub>r</sub> values. Answers within 1 % are accepted (within 0.5 for <i>M</i><sub>r</sub>).</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" id="mr-tabs">
+      <button role="tab" data-type="syr" aria-selected="true"><i>M</i><sub>r</sub>: gas syringe</button>
+      <button role="tab" data-type="dens" aria-selected="false"><i>M</i><sub>r</sub>: gas density</button>
+      <button role="tab" data-type="pv" aria-selected="false"><i>pV</i> = <i>nRT</i></button>
+      <button role="tab" data-type="dal" aria-selected="false">Partial pressure</button>
+      <button role="tab" data-type="mix" aria-selected="false">Mixed</button>
+    </div>
+    <div class="panel stack">
+      <p class="mrq" id="mr-q"></p>
+      <div class="form" id="mr-form" style="max-width:560px">
+        <label class="field"><span id="mr-lab">Answer</span><input id="mr-ans" type="text" inputmode="decimal" autocomplete="off" placeholder="your answer"></label>
+        <label class="field" id="mr-id-wrap" hidden><span>Identity of the gas</span><select id="mr-id"></select></label>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="mr-check">Check</button><button class="btn" id="mr-show">Show working</button><button class="btn" id="mr-new">New question</button></div>
+      <div id="mr-fb" hidden></div>
+      <ol class="working" id="mr-work" hidden></ol>
+    </div>
+  </div>
+</section>
+
+<!-- 5 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions. Pick an answer to see the explanation.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 3 The Gaseous State</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · All values computed live in the page</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+const R = 8.31;                 // J K^-1 mol^-1 (Data Booklet)
+const MINUS = "−";
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const G = window.__gas = { R };
+
+/* ---------- number formatting ---------- */
+function sciParts(x, sf){
+  let e = Math.floor(Math.log10(Math.abs(x)));
+  let ms = (x / Math.pow(10, e)).toFixed(sf - 1);
+  if (Math.abs(parseFloat(ms)) >= 10){ e += 1; ms = (x / Math.pow(10, e)).toFixed(sf - 1); }
+  return { m: ms.replace("-", MINUS), e };
+}
+function sci(x, sf = 3){
+  if (x === 0) return "0";
+  const p = sciParts(x, sf);
+  return p.e === 0 ? p.m : `${p.m} × 10<sup>${p.e < 0 ? MINUS : ""}${Math.abs(p.e)}</sup>`;
+}
+function num(x, sf = 3){          // plain for 0.01..1000, else scientific (HTML)
+  if (x === 0) return "0";
+  const a = Math.abs(x);
+  if (a >= 0.01 && a < 1000){
+    const s = x.toPrecision(sf);
+    if (!s.includes("e")) return s.replace("-", MINUS);
+  }
+  return sci(x, sf);
+}
+function numSvg(x, sf = 3){
+  if (x === 0) return "0";
+  const s = x.toPrecision(sf);
+  return s.includes("e") ? String(+s) : s.replace("-", MINUS);
+}
+const gv = x => num(x, 3);
+const fmtInt = v => (v < 0 ? MINUS : "") + Math.abs(v);
+const r3 = x => +x.toPrecision(3);
+function fmtP(pMPa){              // pressure with a sensible unit, 2 s.f. for small values
+  if (pMPa >= 0.1) return `${num(pMPa, 2)} MPa`;
+  if (pMPa >= 1e-4) return `${num(pMPa * 1e3, 2)} kPa`;
+  return `${num(pMPa * 1e6, 2)} Pa`;
+}
+
+/* ---------- SVG helpers ---------- */
+function S(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+// markup: _{sub} ^{sup} *italic*
+function rich(t, s, fs){
+  let shift = 0, ital = false, buf = "";
+  const put = (text, target, small) => {
+    if (!text) return;
+    const sp = S("tspan", null, t);
+    const d = target - shift;
+    if (d) sp.setAttribute("dy", d.toFixed(2));
+    shift = target;
+    if (small) sp.setAttribute("font-size", (fs * 0.74).toFixed(1));
+    if (ital) sp.setAttribute("font-style", "italic");
+    sp.textContent = text;
+  };
+  for (let i = 0; i < s.length; i++){
+    const c = s[i];
+    if ((c === "_" || c === "^") && s[i + 1] === "{"){
+      put(buf, 0, false); buf = "";
+      const j = s.indexOf("}", i);
+      put(s.slice(i + 2, j), c === "_" ? fs * 0.3 : -fs * 0.4, true);
+      i = j;
+    } else if (c === "*"){
+      put(buf, 0, false); buf = ""; ital = !ital;
+    } else buf += c;
+  }
+  put(buf, 0, false);
+  if (shift){ const sp = S("tspan", { dy: (-shift).toFixed(2) }, t); sp.textContent = "​"; }
+}
+function T(parent, x, y, markup, attrs){
+  const a = Object.assign({ x, y }, attrs || {});
+  const fs = parseFloat(a["font-size"] || 11.5);
+  const t = S("text", a, parent);
+  rich(t, markup, fs);
+  return t;
+}
+function niceTicks(min, max, n){
+  const span = max - min;
+  const raw = span / Math.max(1, n);
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const f = raw / mag;
+  const step = (f >= 7.5 ? 10 : f >= 3.5 ? 5 : f >= 1.5 ? 2 : 1) * mag;
+  const out = [];
+  for (let v = Math.ceil(min / step - 1e-9) * step; v <= max + step * 1e-9; v += step) out.push(parseFloat(v.toPrecision(12)));
+  return { vals: out, step };
+}
+function niceMax(v, n){
+  const t = niceTicks(0, v, n || 5);
+  const last = t.vals[t.vals.length - 1];
+  return last >= v * (1 - 1e-9) ? last : last + t.step;
+}
+function tickLabel(v, step){
+  if (v === 0) return "0";
+  const d = Math.max(0, -Math.floor(Math.log10(step) + 1e-9));
+  return v.toFixed(d).replace("-", MINUS);
+}
+let clipN = 0;
+function frame(svg, o){
+  svg.innerHTML = "";
+  const { W, H, m } = o;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  const pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const X = v => m.l + (v - o.x0) / (o.x1 - o.x0) * pw;
+  const Y = v => m.t + ph - (v - o.y0) / (o.y1 - o.y0) * ph;
+  const g = S("g", null, svg);
+  const yt = o.yTicks || niceTicks(o.y0, o.y1, o.ny || 5);
+  yt.vals.forEach(v => {
+    S("line", { x1: m.l, x2: m.l + pw, y1: Y(v), y2: Y(v), class: "grid" }, g);
+    T(g, m.l - 6, Y(v) + 3.5, o.yFmt ? o.yFmt(v) : tickLabel(v, yt.step), { class: "tick", "text-anchor": "end", "font-size": 11 });
+  });
+  const xt = o.xTicks || niceTicks(o.x0, o.x1, o.nx || 6);
+  xt.vals.forEach(v => {
+    S("line", { x1: X(v), x2: X(v), y1: m.t + ph, y2: m.t + ph + 4, class: "axis" }, g);
+    T(g, X(v), m.t + ph + 16, o.xFmt ? o.xFmt(v) : tickLabel(v, xt.step), { class: "tick", "text-anchor": "middle", "font-size": 11 });
+  });
+  S("line", { x1: m.l, x2: m.l + pw, y1: m.t + ph, y2: m.t + ph, class: "axis" }, g);
+  S("line", { x1: m.l, x2: m.l, y1: m.t, y2: m.t + ph, class: "axis" }, g);
+  if (o.xlab) T(g, m.l + pw, H - 2, o.xlab, { class: "axlab", "text-anchor": "end", "font-size": 11.5 });
+  if (o.ylab) T(g, m.l - (o.ylabIndent ?? 30), m.t - 12, o.ylab, { class: "axlab", "text-anchor": "start", "font-size": 11.5 });
+  const id = "clip" + (++clipN);
+  const cp = S("clipPath", { id }, S("defs", null, svg));
+  S("rect", { x: m.l, y: m.t - 1, width: pw, height: ph + 1 }, cp);
+  const plot = S("g", { "clip-path": `url(#${id})` }, svg);
+  const top = S("g", null, svg);
+  return { X, Y, pw, ph, plot, top, g, m, W, H };
+}
+function pathD(pts){ return pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(""); }
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function widthOf(el){ return Math.max(280, Math.floor(el.clientWidth)); }
+function onResize(el, fn){ let w = 0; new ResizeObserver(() => { const nw = el.clientWidth; if (Math.abs(nw - w) > 1){ w = nw; fn(); } }).observe(el); }
+function parseNum(s){
+  if (s == null) return NaN;
+  let t = String(s).trim().replace(/\s+/g, "").replace(/[\u2212\u2013]/g, "-").replace(/,/g, "");
+  t = t.replace(/[x×*]10\^?\(?(-?\d+)\)?/i, "e$1");
+  t = t.replace(/⁻/g, "-");
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
+  return parseFloat(t);
+}
+G.parseNum = parseNum;
+function ri(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
+function rnd(a, b){ return a + Math.random() * (b - a); }
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const statHTML = c => `<div class="stat${c[2] ? " " + c[2] : ""}"${c[3] ? ` id="${c[3]}"` : ""}><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`;
+const TICK_SVG = `<svg width="18" height="18" viewBox="0 0 18 18" aria-label="holds in this simulation" role="img"><circle cx="9" cy="9" r="9" fill="var(--good-bg)"/><path d="M5 9.4l2.7 2.7L13 6.6" fill="none" stroke="var(--good)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* =====================================================
+   1. PARTICLE BOX AND GAS LAWS
+   p in kPa, V in dm3: p/kPa = n R T / (V/dm3) exactly, since kPa × dm3 = J
+   ===================================================== */
+const PB = { mode: "boyle", n: 1, T: 273, V: 22.7, p: 100, cdeg: false, playing: true };
+const PBR = { n: { lo: 0.1, hi: 2, st: 0.05 }, T: { lo: 100, hi: 600, st: 1 }, V: { lo: 5, hi: 100, st: 0.1 }, p: { lo: 100, hi: 400, st: 1 } };
+const INDEP = { boyle: "V", charles: "T", avogadro: "n" };
+const DEP = { boyle: "p", charles: "V", avogadro: "V" };
+G.pb = PB;
+function snapTo(v, k){ const r = PBR[k]; v = Math.round(v / r.st) * r.st; return Math.min(r.hi, Math.max(r.lo, +v.toFixed(4))); }
+function pbSolve(){ if (PB.mode === "boyle") PB.p = PB.n * R * PB.T / PB.V; else PB.V = PB.n * R * PB.T / PB.p; }
+function pbSetMode(m){
+  PB.mode = m;
+  if (m === "boyle") PB.V = Math.min(100, Math.max(5, PB.V));
+  else PB.p = Math.min(400, Math.max(100, PB.p));
+  pbSolve();
+  document.querySelectorAll('input[name="pb-mode"]').forEach(r => r.checked = r.value === m);
+  pbSync();
+}
+function pbLoad(which){
+  PB.n = 1; PB.T = which === "stp" ? 273 : 293;
+  const p = which === "stp" ? 100 : 101.325;
+  if (PB.mode === "boyle") PB.V = PB.n * R * PB.T / p;   // exact, so p comes out exactly
+  else PB.p = p;
+  pbSolve(); pbSync();
+}
+G.pbSet = o => { Object.assign(PB, o); if (o.mode) pbSetMode(o.mode); else { pbSolve(); pbSync(); } };
+function pbOutputs(){
+  $("pb-n-o").textContent = PB.n.toFixed(2) + " mol";
+  $("pb-T-o").textContent = `${PB.T} K (${fmtInt(PB.T - 273)} °C)`;
+  $("pb-V-o").innerHTML = `${num(PB.V, 3)} dm<sup>3</sup>`;
+  $("pb-p-o").innerHTML = `${num(PB.p, 4)} kPa`;
+}
+const MODE_HINT = {
+  boyle: "Boyle's law: <i>T</i> and <i>n</i> held constant. Vary <i>V</i> with the slider or drag the piston; <i>p</i> is calculated.",
+  charles: "Charles's law: <i>p</i> and <i>n</i> held constant. Vary <i>T</i>; <i>V</i> is calculated and the piston moves.",
+  avogadro: "Avogadro's law: <i>p</i> and <i>T</i> held constant. Vary <i>n</i>; <i>V</i> is calculated and the piston moves."
+};
+function pbSync(){
+  const m = PB.mode;
+  ["n", "T", "V", "p"].forEach(k => {
+    const ctl = $("pb-" + k + "-ctl");
+    ctl.hidden = DEP[m] === k;
+    $("pb-" + k).value = PB[k];
+    const pill = ctl.querySelector(".pill");
+    const vary = INDEP[m] === k;
+    pill.textContent = vary ? "vary" : "held";
+    pill.classList.toggle("held", !vary);
+  });
+  $("pb-mode-hint").innerHTML = MODE_HINT[m];
+  $("pb-cdeg-wrap").hidden = m !== "charles";
+  $("pb-drag-hint").hidden = m !== "boyle";
+  pbOutputs();
+  pbUpdate();
+}
+function pbUpdate(){
+  simSyncCount(); simSyncTemp();
+  const g = pbGeom();
+  simWalls(SIM.parts, g.bw / g.bh, RP / g.bh, false);
+  if (!SIM.raf) simDraw();
+  pbRead(); drawPBCharts();
+}
+function pbRead(){
+  const pPa = PB.p * 1e3, Vm3 = PB.V * 1e-3, m = PB.mode;
+  const calc = k => DEP[m] === k ? "calc" : "";
+  const lab = (s, k) => DEP[m] === k ? s + " (calculated)" : s;
+  const cells = [
+    [lab("Pressure, <i>p</i>", "p"), `${num(PB.p, 3)} <small>kPa</small><small class="pct">= ${sci(pPa, 3)} Pa</small>`, calc("p"), "pb-r-p"],
+    [lab("Volume, <i>V</i>", "V"), `${num(PB.V, 3)} <small>dm<sup>3</sup></small><small class="pct">= ${sci(Vm3, 3)} m<sup>3</sup></small>`, calc("V"), "pb-r-V"],
+    ["Temperature, <i>T</i>", `${PB.T} <small>K</small><small class="pct">= ${fmtInt(PB.T - 273)} °C</small>`, "", "pb-r-T"],
+    ["Amount, <i>n</i>", `${PB.n.toFixed(2)} <small>mol</small><small class="pct">${SIM.parts.length} particles drawn</small>`, "", "pb-r-n"],
+    ["Check: <i>pV</i>/<i>nT</i>", `${(pPa * Vm3 / (PB.n * PB.T)).toFixed(2)} <small>J K<sup>−1</sup> mol<sup>−1</sup></small><small class="pct">= <i>R</i>, the gas constant</small>`, "", "pb-r-R"],
+    ["Molar volume, <i>V</i>/<i>n</i>", `${num(PB.V / PB.n, 3)} <small>dm<sup>3</sup> mol<sup>−1</sup></small>`, "", "pb-r-Vm"]
+  ];
+  $("pb-read").innerHTML = cells.map(statHTML).join("");
+  let law, notes;
+  if (m === "boyle"){
+    law = `<b>Boyle's law.</b> At constant <i>T</i> and <i>n</i>, <i>p</i> ∝ 1/<i>V</i>, so <i>pV</i> = constant. Here <i>pV</i> = <i>nRT</i> = ${Math.round(PB.n * R * PB.T)} J (kPa × dm<sup>3</sup> = J).`;
+    notes = ["Halve <i>V</i> and there are twice as many particles in each unit of volume. They hit the walls twice as often, so <i>p</i> doubles.",
+      "<i>p</i> against <i>V</i> is a curve (a hyperbola); <i>p</i> against 1/<i>V</i> is a straight line through the origin."];
+  } else if (m === "charles"){
+    law = `<b>Charles's law.</b> At constant <i>p</i> and <i>n</i>, <i>V</i> ∝ <i>T</i> (with <i>T</i> in kelvin). Here <i>V</i>/<i>T</i> = <i>nR</i>/<i>p</i> = ${sci(PB.n * R / PB.p, 3)} dm<sup>3</sup> K<sup>−1</sup>.`;
+    notes = ["Raise <i>T</i> and the particles move faster, so they hit the walls harder and more often. For <i>p</i> to stay the same, the gas must expand.",
+      "<i>V</i> is proportional to <i>T</i> in kelvin, not to <i>θ</i> in °C. Plotted against °C, the line extrapolates to <i>V</i> = 0 at −273&nbsp;°C, which is 0&nbsp;K (absolute zero). A real gas liquefies long before that."];
+  } else {
+    law = `<b>Avogadro's law.</b> At constant <i>p</i> and <i>T</i>, <i>V</i> ∝ <i>n</i>. Equal volumes of all gases at the same <i>T</i> and <i>p</i> contain equal numbers of particles. Here <i>V</i>/<i>n</i> = <i>RT</i>/<i>p</i> = ${num(R * PB.T / PB.p, 3)} dm<sup>3</sup> mol<sup>−1</sup>, the molar volume.`;
+    notes = ["More particles means more wall collisions each second. For <i>p</i> to stay the same, the volume must grow in proportion.",
+      "The molar volume does not depend on which gas it is: 22.7 dm<sup>3</sup> mol<sup>−1</sup> at s.t.p. and 24 dm<sup>3</sup> mol<sup>−1</sup> at r.t.p."];
+  }
+  $("pb-law").innerHTML = law;
+  $("pb-notes").innerHTML = notes.map(s => `<li>${s}</li>`).join("");
+}
+function charlesIntercept(){        // θ where the V against θ line meets V = 0, from two points on the line
+  const k = PB.n * R / PB.p, th1 = 0, th2 = 100;
+  const V1 = k * (th1 + 273), V2 = k * (th2 + 273);
+  return th1 - V1 * (th2 - th1) / (V2 - V1);
+}
+G.charlesIntercept = charlesIntercept;
+function dotAt(F, x, y){
+  const muted = cssVar("--muted");
+  S("line", { x1: F.X(x), x2: F.X(x), y1: F.Y(y), y2: F.m.t + F.ph, stroke: muted, "stroke-width": 1, "stroke-dasharray": "3 3" }, F.plot);
+  S("line", { x1: F.m.l, x2: F.X(x), y1: F.Y(y), y2: F.Y(y), stroke: muted, "stroke-width": 1, "stroke-dasharray": "3 3" }, F.plot);
+  S("circle", { cx: F.X(x), cy: F.Y(y), r: 5.5, fill: cssVar("--s2"), stroke: cssVar("--bg"), "stroke-width": 2 }, F.top);
+}
+function drawPBCharts(){
+  const m = PB.mode, s1 = cssVar("--s1"), ink2 = cssVar("--ink-2");
+  $("pb-c2-wrap").hidden = m !== "boyle";
+  const wrap = $("pb-c1-wrap"), svg = $("pb-c1");
+  const W = widthOf(wrap), H = W < 420 ? 230 : 250;
+  const M = { l: 46, r: 14, t: 30, b: 34 };
+  const lbl = { "font-size": 11.5, class: "halo", style: `fill:${ink2}` };
+  if (m === "boyle"){
+    $("pb-c1-title").innerHTML = "Pressure against volume";
+    const k = PB.n * R * PB.T;
+    const y1 = niceMax(k / 5, 5);
+    const F = frame(svg, { W, H, m: M, x0: 0, x1: 100, y0: 0, y1, nx: W < 420 ? 4 : 5, ny: 5, xlab: "*V* / dm^{3}", ylab: "*p* / kPa" });
+    const pts = []; for (let i = 0; i <= 300; i++){ const V = 2 * Math.pow(50, i / 300); pts.push([F.X(V), F.Y(k / V)]); }
+    S("path", { d: pathD(pts), fill: "none", stroke: s1, "stroke-width": 2 }, F.plot);
+    T(F.top, F.X(58), F.Y(k / 58) - 10, "*pV* = constant", lbl);
+    dotAt(F, PB.V, PB.p);
+    const w2 = $("pb-c2-wrap"), svg2 = $("pb-c2");
+    const W2 = widthOf(w2);
+    const F2 = frame(svg2, { W: W2, H, m: M, x0: 0, x1: 0.2, y0: 0, y1, nx: 4, ny: 5, xlab: "1/*V* / dm^{−3}", ylab: "*p* / kPa" });
+    S("line", { x1: F2.X(0), y1: F2.Y(0), x2: F2.X(0.3), y2: F2.Y(0.3 * k), stroke: s1, "stroke-width": 2 }, F2.plot);
+    T(F2.top, F2.X(0.035) + 6, F2.Y(0.035 * k) + 16, "straight line through the origin", Object.assign({}, lbl, { "font-size": 11 }));
+    dotAt(F2, 1 / PB.V, PB.p);
+  } else if (m === "charles"){
+    const k = PB.n * R / PB.p;             // dm3 K^-1
+    const y1 = niceMax(k * 600, 5);
+    if (!PB.cdeg){
+      $("pb-c1-title").innerHTML = "Volume against temperature in kelvin";
+      const F = frame(svg, { W, H, m: M, x0: 0, x1: 600, y0: 0, y1, nx: W < 420 ? 3 : 6, ny: 5, xlab: "*T* / K", ylab: "*V* / dm^{3}" });
+      S("line", { x1: F.X(0), y1: F.Y(0), x2: F.X(100), y2: F.Y(100 * k), stroke: s1, "stroke-width": 2, "stroke-dasharray": "5 4" }, F.plot);
+      S("line", { x1: F.X(100), y1: F.Y(100 * k), x2: F.X(600), y2: F.Y(600 * k), stroke: s1, "stroke-width": 2 }, F.plot);
+      T(F.top, F.X(40), F.Y(360 * k), "*V* ∝ *T*: through the origin", lbl);
+      dotAt(F, PB.T, PB.V);
+    } else {
+      $("pb-c1-title").innerHTML = "Volume against temperature in °C, extrapolated";
+      const x0 = -300, x1 = 350;
+      const F = frame(svg, { W, H, m: M, x0, x1, y0: 0, y1, nx: W < 420 ? 4 : 6, ny: 5, xlab: "*θ* / °C", ylab: "*V* / dm^{3}" });
+      const th0 = charlesIntercept();
+      const Vth = th => k * (th + 273);
+      S("line", { x1: F.X(th0), y1: F.Y(0), x2: F.X(-173), y2: F.Y(Vth(-173)), stroke: s1, "stroke-width": 2, "stroke-dasharray": "5 4" }, F.plot);
+      S("line", { x1: F.X(-173), y1: F.Y(Vth(-173)), x2: F.X(327), y2: F.Y(Vth(327)), stroke: s1, "stroke-width": 2 }, F.plot);
+      S("line", { x1: F.X(th0), x2: F.X(th0), y1: F.m.t + 6, y2: F.m.t + F.ph, stroke: cssVar("--ink"), "stroke-width": 1, "stroke-dasharray": "2 3" }, F.top);
+      S("circle", { cx: F.X(th0), cy: F.Y(0), r: 5, fill: cssVar("--bg"), stroke: cssVar("--ink"), "stroke-width": 2 }, F.top);
+      T(F.top, F.X(th0) + 6, F.m.t + 14, `${fmtInt(Math.round(th0))} °C = 0 K`, Object.assign({}, lbl, { style: `fill:${cssVar("--ink")};font-weight:600` }));
+      T(F.top, F.X(th0) + 6, F.m.t + 29, "extrapolated", Object.assign({}, lbl, { "font-size": 11 }));
+      dotAt(F, PB.T - 273, PB.V);
+    }
+  } else {
+    $("pb-c1-title").innerHTML = "Volume against amount";
+    const k = R * PB.T / PB.p;             // dm3 mol^-1
+    const y1 = niceMax(k * 2, 5);
+    const F = frame(svg, { W, H, m: M, x0: 0, x1: 2, y0: 0, y1, nx: 4, ny: 5, xlab: "*n* / mol", ylab: "*V* / dm^{3}" });
+    S("line", { x1: F.X(0), y1: F.Y(0), x2: F.X(2), y2: F.Y(2 * k), stroke: s1, "stroke-width": 2 }, F.plot);
+    T(F.top, F.X(0.12), F.Y(1.4 * k), "*V* ∝ *n*: through the origin", lbl);
+    dotAt(F, PB.n, PB.V);
+  }
+}
+
+/* ---- particle animation (canvas) ---- */
+const SIM = { parts: [], flashes: [], time: 0, last: 0, raf: 0, visible: true, frames: 0, simT: 273, col: {}, hits: 0 };
+G.sim = SIM;
+const RP = 3.2, SPEED0 = 0.55;   // particle radius (px); mean speed at 273 K in box heights per second
+function gauss(){ let u = 0; while (!u) u = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random()); }
+const sigmaFor = T => SPEED0 * Math.sqrt(T / 273) / 1.2533;   // 2D: mean speed = σ√(π/2)
+function pbGeom(){
+  const cv = $("pb-canvas");
+  const W = Math.max(260, cv.parentElement.clientWidth), H = W < 520 ? 220 : 250;
+  const left = 14, top = 14, bh = H - top - 40, inner = W - left - 50;
+  return { W, H, left, top, bh, inner, bw: Math.max(0.04, PB.V / 100) * inner };
+}
+function simSize(){
+  const cv = $("pb-canvas"), g = pbGeom(), dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(g.W * dpr); cv.height = Math.round(g.H * dpr);
+  cv.style.width = g.W + "px"; cv.style.height = g.H + "px";
+}
+function simSyncCount(){
+  const N = Math.round(PB.n * 40), g = pbGeom(), bw = g.bw / g.bh, s = sigmaFor(PB.T);
+  while (SIM.parts.length < N) SIM.parts.push({ x: Math.random() * bw, y: Math.random(), vx: gauss() * s, vy: gauss() * s });
+  SIM.parts.length = N;
+}
+function simSyncTemp(){
+  if (PB.T !== SIM.simT){ const f = Math.sqrt(PB.T / SIM.simT); SIM.parts.forEach(p => { p.vx *= f; p.vy *= f; }); SIM.simT = PB.T; }
+}
+function addFlash(w, pos){ SIM.hits++; SIM.flashes.push({ w, pos, t: SIM.time }); if (SIM.flashes.length > 160) SIM.flashes.shift(); }
+function simWalls(ps, bw, r, flash){
+  for (const p of ps){
+    if (p.x < r){ p.x = Math.min(2 * r - p.x, Math.max(r, bw - r)); p.vx = Math.abs(p.vx); if (flash) addFlash("L", p.y); }
+    if (p.x > bw - r){ p.x = Math.max(r, Math.min(bw - r, 2 * (bw - r) - p.x)); p.vx = -Math.abs(p.vx); if (flash) addFlash("R", p.y); }
+    if (p.y < r){ p.y = Math.min(2 * r - p.y, 1 - r); p.vy = Math.abs(p.vy); if (flash) addFlash("T", p.x); }
+    if (p.y > 1 - r){ p.y = Math.max(r, 2 * (1 - r) - p.y); p.vy = -Math.abs(p.vy); if (flash) addFlash("B", p.x); }
+  }
+}
+function simStep(dt){
+  const g = pbGeom(), bw = g.bw / g.bh, r = RP / g.bh, ps = SIM.parts;
+  SIM.time += dt;
+  for (const p of ps){ p.x += p.vx * dt; p.y += p.vy * dt; }
+  simWalls(ps, bw, r, true);
+  const dmin2 = 4 * r * r;      // perfectly elastic collisions between equal masses
+  for (let i = 0; i < ps.length; i++){
+    const a = ps[i];
+    for (let j = i + 1; j < ps.length; j++){
+      const b = ps[j], dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
+      if (d2 < dmin2 && d2 > 0){
+        const dot = (a.vx - b.vx) * dx + (a.vy - b.vy) * dy;
+        if (dot < 0){ const k = dot / d2; a.vx -= k * dx; a.vy -= k * dy; b.vx += k * dx; b.vy += k * dy; }
+      }
+    }
+  }
+  while (SIM.flashes.length && SIM.time - SIM.flashes[0].t > 0.35) SIM.flashes.shift();
+}
+function simPalette(){
+  SIM.col = { s1: cssVar("--s1"), s2: cssVar("--s2"), ink2: cssVar("--ink-2"), axis: cssVar("--axis"), muted: cssVar("--muted"), bg2: cssVar("--surface-2") };
+  $("pb-key-p").style.background = SIM.col.s1; $("pb-key-h").style.borderColor = SIM.col.s2;
+}
+function simDraw(){
+  const cv = $("pb-canvas"), ctx = cv.getContext("2d"), g = pbGeom(), C = SIM.col;
+  const dpr = window.devicePixelRatio || 1;
+  if (cv.width !== Math.round(g.W * dpr) || cv.height !== Math.round(g.H * dpr)) simSize();
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, g.W, g.H);
+  const { left, top, bh, inner, bw } = g, px = left + bw;
+  ctx.fillStyle = C.bg2; ctx.fillRect(left, top, bw, bh);
+  // cylinder
+  ctx.strokeStyle = C.ink2; ctx.lineWidth = 3; ctx.lineJoin = "miter";
+  ctx.beginPath(); ctx.moveTo(left + inner + 12, top - 1.5); ctx.lineTo(left - 1.5, top - 1.5); ctx.lineTo(left - 1.5, top + bh + 1.5); ctx.lineTo(left + inner + 12, top + bh + 1.5); ctx.stroke();
+  // piston, rod and handle
+  ctx.fillStyle = C.axis;
+  ctx.fillRect(px, top, 8, bh);
+  ctx.fillRect(px + 8, top + bh / 2 - 2.5, g.W - px - 16, 5);
+  ctx.fillRect(g.W - 12, top + bh / 2 - 16, 7, 32);
+  // particles
+  ctx.fillStyle = C.s1;
+  ctx.beginPath();
+  for (const p of SIM.parts){ const x = left + p.x * bh, y = top + p.y * bh; ctx.moveTo(x + RP, y); ctx.arc(x, y, RP, 0, 2 * Math.PI); }
+  ctx.fill();
+  // wall-hit flashes
+  ctx.strokeStyle = C.s2; ctx.lineWidth = 3.5; ctx.lineCap = "round";
+  for (const f of SIM.flashes){
+    const a = Math.max(0, 1 - (SIM.time - f.t) / 0.35);
+    ctx.globalAlpha = a;
+    ctx.beginPath();
+    if (f.w === "L"){ const y = top + f.pos * bh; ctx.moveTo(left - 1.5, y - 7); ctx.lineTo(left - 1.5, y + 7); }
+    else if (f.w === "R"){ const y = top + f.pos * bh; ctx.moveTo(px, y - 7); ctx.lineTo(px, y + 7); }
+    else { const x = left + f.pos * bh, y = f.w === "T" ? top - 1.5 : top + bh + 1.5; ctx.moveTo(x - 7, y); ctx.lineTo(x + 7, y); }
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1; ctx.lineCap = "butt";
+  // volume scale
+  ctx.strokeStyle = C.axis; ctx.lineWidth = 1; ctx.fillStyle = C.muted;
+  ctx.font = `11px ${cssVar("--sans") || "sans-serif"}`; ctx.textAlign = "center";
+  for (let v = 0; v <= 100; v += 20){
+    const x = left + v / 100 * inner;
+    ctx.beginPath(); ctx.moveTo(x, top + bh + 6); ctx.lineTo(x, top + bh + 11); ctx.stroke();
+    ctx.fillText(v === 100 ? "100 dm³" : String(v), v === 100 ? x - 8 : x, top + bh + 24);
+  }
+}
+function simRunning(){ return PB.playing && SIM.visible && !document.hidden; }
+function simLoop(ts){
+  SIM.raf = 0;
+  if (!simRunning()){ SIM.last = 0; return; }
+  const dt = SIM.last ? Math.min(0.033, (ts - SIM.last) / 1000) : 0;
+  SIM.last = ts;
+  if (dt > 0){ const k = dt > 0.017 ? 2 : 1; for (let i = 0; i < k; i++) simStep(dt / k); }
+  SIM.frames++;
+  simDraw();
+  SIM.raf = requestAnimationFrame(simLoop);
+}
+function simKick(){ if (simRunning() && !SIM.raf) SIM.raf = requestAnimationFrame(simLoop); }
+function bindPB(){
+  ["n", "T", "V", "p"].forEach(k => {
+    $("pb-" + k).oninput = e => { PB[k] = snapTo(+e.target.value, k); pbSolve(); pbSync(); };
+  });
+  document.querySelectorAll('input[name="pb-mode"]').forEach(r => r.onchange = e => pbSetMode(e.target.value));
+  $("pb-cdeg").onchange = e => { PB.cdeg = e.target.checked; drawPBCharts(); };
+  $("pb-stp").onclick = () => pbLoad("stp");
+  $("pb-rtp").onclick = () => pbLoad("rtp");
+  $("pb-play").onclick = () => {
+    PB.playing = !PB.playing;
+    $("pb-play").textContent = PB.playing ? "Pause" : "Play";
+    $("pb-play").setAttribute("aria-pressed", String(!PB.playing));
+    simKick();
+  };
+  const cv = $("pb-canvas");
+  let drag = false;
+  const nearPiston = x => { const g = pbGeom(); return PB.mode === "boyle" && x >= g.left + g.bw - 12; };
+  const setV = ev => { const g = pbGeom(); PB.V = snapTo((ev.offsetX - g.left - 4) / g.inner * 100, "V"); pbSolve(); pbSync(); };
+  cv.onpointerdown = ev => { if (!nearPiston(ev.offsetX)) return; drag = true; cv.setPointerCapture(ev.pointerId); setV(ev); };
+  cv.onpointermove = ev => { if (drag){ setV(ev); return; } cv.style.cursor = nearPiston(ev.offsetX) ? "ew-resize" : "default"; };
+  cv.onpointerup = cv.onpointercancel = () => { drag = false; };
+  new IntersectionObserver(ents => { SIM.visible = ents[ents.length - 1].isIntersecting; simKick(); }).observe(cv);
+  document.addEventListener("visibilitychange", simKick);
+  try { if (matchMedia("(prefers-reduced-motion: reduce)").matches){ PB.playing = false; $("pb-play").textContent = "Play"; $("pb-play").setAttribute("aria-pressed", "true"); } } catch (e) {}
+  document.querySelectorAll("#pb-checks .tickmark").forEach(s => s.outerHTML = TICK_SVG);
+  simPalette(); simSize();
+  pbLoad("stp");
+  onResize($("pb-wrap"), () => { simSize(); simDraw(); });
+  onResize($("pb-c1-wrap"), drawPBCharts);
+  simKick();
+}
+
+/* =====================================================
+   2. REAL VS IDEAL: van der Waals model
+   Units here: p in bar, Vm in dm3 mol^-1, R = 0.0831 dm3 bar K^-1 mol^-1 (= 8.31 J K^-1 mol^-1)
+   ===================================================== */
+const RB = R / 100;
+const RG = [
+  { id: "He", f: "He", h: "He", a: 0.0346, b: 0.0238, c: "--c3" },
+  { id: "H2", f: "H_{2}", h: "H<sub>2</sub>", a: 0.2476, b: 0.02661, c: "--c1" },
+  { id: "N2", f: "N_{2}", h: "N<sub>2</sub>", a: 1.370, b: 0.0387, c: "--c4" },
+  { id: "CH4", f: "CH_{4}", h: "CH<sub>4</sub>", a: 2.283, b: 0.04278, c: "--c5" },
+  { id: "CO2", f: "CO_{2}", h: "CO<sub>2</sub>", a: 3.640, b: 0.04267, c: "--c2" },
+  { id: "NH3", f: "NH_{3}", h: "NH<sub>3</sub>", a: 4.225, b: 0.0371, c: "--c6" }
+];
+const RV = { T: 450, sel: new Set(RG.map(g => g.id)), aOn: true, bOn: true, pmax: 100, pcmp: 5 };
+G.RG = RG; G.RV = RV;
+function vdwP(V, T, a, b){ return RB * T / (V - b) - a / (V * V); }
+function bisect(f, lo, hi){        // f(lo) > 0 > f(hi)
+  for (let i = 0; i < 400; i++){
+    const mid = (lo + hi) / 2;
+    if (mid <= lo || mid >= hi) break;
+    if (f(mid) > 0) lo = mid; else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+const tcOf = (a, b) => 8 * a / (27 * RB * b);
+const satCache = new Map();
+// Saturation (condensation) pressure by the equal-area rule, for a > 0, b > 0, T < Tc. Returns { p (bar), V1, V2 } or null.
+function vdwSat(T, a, b){
+  const key = T + "|" + a + "|" + b;
+  if (satCache.has(key)) return satCache.get(key);
+  let res = null;
+  if (a > 0 && b > 0 && T < tcOf(a, b)){
+    const h = V => RB * T * V * V * V / (2 * a * (V - b) * (V - b)) - 1;   // zero where dp/dV = 0
+    const V1 = bisect(h, b * (1 + 1e-9), 3 * b);
+    let hi = 6 * b; while (h(hi) < 0) hi *= 2;
+    const V2 = bisect(V => -h(V), 3 * b, hi);
+    const pLo = vdwP(V1, T, a, b), pHi = vdwP(V2, T, a, b);
+    const roots = p => [bisect(V => vdwP(V, T, a, b) - p, b * (1 + 1e-12), V1), bisect(V => vdwP(V, T, a, b) - p, V2, RB * T / p + b)];
+    const F = p => { const [Vl, Vg] = roots(p); return RB * T * Math.log((Vg - b) / (Vl - b)) + a * (1 / Vg - 1 / Vl) - p * (Vg - Vl); };
+    let lo = pLo > 0 ? pLo * (1 + 1e-9) : pHi * 1e-40, up = pHi * (1 - 1e-9);
+    for (let i = 0; i < 120; i++){ const mid = Math.sqrt(lo * up); if (F(mid) > 0) lo = mid; else up = mid; }
+    res = { p: Math.sqrt(lo * up), V1, V2 };
+  }
+  satCache.set(key, res);
+  return res;
+}
+// Z = pVm/RT on the gas branch at pressure pMPa. phase: gas | liquid (would condense) | none (no gas solution when b = 0)
+function zAt(g, T, pMPa, aOn, bOn){
+  const a = aOn ? g.a : 0, b = bOn ? g.b : 0, p = pMPa * 10;
+  if (!(p > 0)) return { Z: 1, phase: "gas" };
+  if (a === 0) return { Z: 1 + b * p / (RB * T), phase: "gas" };
+  if (b === 0){
+    const pm = RB * RB * T * T / (4 * a);
+    if (p > pm) return { Z: NaN, phase: "none" };
+    const V = (RB * T + Math.sqrt(Math.max(0, RB * RB * T * T - 4 * p * a))) / (2 * p);
+    return { Z: p * V / (RB * T), phase: "gas" };
+  }
+  const sat = vdwSat(T, a, b);
+  if (sat && p > sat.p) return { Z: NaN, phase: "liquid" };
+  const V = bisect(V => vdwP(V, T, a, b) - p, sat ? sat.V2 : b * (1 + 1e-12), RB * T / p + b);
+  return { Z: p * V / (RB * T), phase: "gas" };
+}
+function zCurve(g, T, aOn, bOn, pmax, N){
+  const a = aOn ? g.a : 0, b = bOn ? g.b : 0;
+  let pEnd = pmax, end = null;
+  if (a > 0 && b === 0){ const pm = RB * RB * T * T / (4 * a) / 10; if (pm < pmax){ pEnd = pm; end = "none"; } }
+  else if (a > 0 && b > 0){ const s = vdwSat(T, a, b); if (s && s.p / 10 < pmax){ pEnd = s.p / 10; end = "liquid"; } }
+  N = N || 260;
+  const pts = [];
+  for (let i = 0; i <= N; i++){
+    const p = i === N && end ? pEnd * (1 - 1e-9) : pEnd * i / N;
+    pts.push([p, i === 0 ? 1 : zAt(g, T, p, aOn, bOn).Z]);
+  }
+  return { pts, end, pEnd };
+}
+G.vdwSat = vdwSat; G.zAt = zAt; G.zCurve = zCurve; G.tcOf = tcOf;
+const gasById = id => RG.find(g => g.id === id);
+// Real saturation pressures for comparison: Lee-Kesler vapour-pressure correlation with literature critical constants.
+const REALC = { CH4: { Tc: 190.56, Pc: 4.599, w: 0.011 }, CO2: { Tc: 304.13, Pc: 7.377, w: 0.224 }, NH3: { Tc: 405.4, Pc: 11.33, w: 0.253 }, N2: { Tc: 126.2, Pc: 3.398, w: 0.037 }, H2: { Tc: 33.2, Pc: 1.297, w: -0.22 }, He: { Tc: 5.2, Pc: 0.228, w: -0.39 } };
+function realSat(id, T){          // MPa, or null above the real critical temperature
+  const c = REALC[id]; if (!c || T >= c.Tc) return null;
+  const Tr = T / c.Tc, L = Math.log(Tr), T6 = Math.pow(Tr, 6);
+  const f0 = 5.92714 - 6.09648 / Tr - 1.28862 * L + 0.169347 * T6;
+  const f1 = 15.2518 - 15.6875 / Tr - 13.4721 * L + 0.43577 * T6;
+  return c.Pc * Math.exp(f0 + c.w * f1);
+}
+G.realSat = realSat;
+function drawReal(){
+  const wrap = $("rg-wrap"), svg = $("rg-svg");
+  const W = widthOf(wrap), H = W < 520 ? 290 : 340;
+  const curves = RG.filter(g => RV.sel.has(g.id)).map(g => Object.assign({ g }, zCurve(g, RV.T, RV.aOn, RV.bOn, RV.pmax)));
+  let zmin = 1, zmax = 1;
+  curves.forEach(c => c.pts.forEach(([, z]) => { if (isFinite(z)){ zmin = Math.min(zmin, z); zmax = Math.max(zmax, z); } }));
+  const y0 = Math.max(0, Math.min(0.8, Math.floor((zmin - 0.04) * 5) / 5));
+  const y1 = Math.max(1.2, Math.ceil((zmax + 0.04) * 5) / 5);
+  const F = frame(svg, { W, H, m: { l: 40, r: W < 520 ? 38 : 48, t: 30, b: 34 }, x0: 0, x1: RV.pmax, y0, y1, nx: W < 520 ? 5 : 5, ny: 6,
+    xlab: "*p* / MPa", ylab: "*pV*/*RT*  (1 mol)" });
+  const { X, Y, plot, top } = F;
+  const ref = cssVar("--ref"), ink = cssVar("--ink"), ink2 = cssVar("--ink-2");
+  S("line", { x1: X(0), x2: X(RV.pmax), y1: Y(1), y2: Y(1), stroke: ref, "stroke-width": 2, "stroke-dasharray": "6 4" }, plot);
+  const ends = [];
+  curves.forEach(c => {
+    const col = cssVar(c.g.c);
+    S("path", { d: pathD(c.pts.map(([p, z]) => [X(p), Y(z)])), fill: "none", stroke: col, "stroke-width": 2.25, "stroke-linejoin": "round" }, plot);
+    const last = c.pts[c.pts.length - 1];
+    if (c.end){
+      S("circle", { cx: X(last[0]), cy: Y(last[1]), r: 4.5, fill: cssVar("--bg"), stroke: col, "stroke-width": 2 }, top);
+      ends.push({ c, x: X(last[0]) + 7, y: Y(last[1]) + 4, inner: true });
+    } else ends.push({ c, x: X(RV.pmax) + 5, y: Y(last[1]) + 4, inner: false });
+  });
+  // right-margin labels, nudged apart
+  const outer = ends.filter(e => !e.inner).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < outer.length; i++) if (outer[i].y - outer[i - 1].y < 12) outer[i].y = outer[i - 1].y + 12;
+  const over = outer.length ? outer[outer.length - 1].y - (F.m.t + F.ph + 4) : 0;
+  if (over > 0) outer.forEach(e => e.y -= over);
+  for (let i = outer.length - 2; i >= 0; i--) if (outer[i + 1].y - outer[i].y < 12) outer[i].y = outer[i + 1].y - 12;
+  // labels at early curve ends: keep clear of each other
+  const inner = ends.filter(e => e.inner).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < inner.length; i++) for (let j = 0; j < i; j++)
+    if (Math.abs(inner[i].x - inner[j].x) < 34 && Math.abs(inner[i].y - inner[j].y) < 12) inner[i].y = inner[j].y + 12;
+  ends.forEach(e => T(top, e.x, e.y, e.c.g.f, { "font-size": 11.5, class: "halo", style: `fill:${cssVar(e.c.g.c)};font-weight:600` }));
+  // "ideal gas" label on the dashed Z = 1 line, as far right as possible, clear of every curve
+  const cpx = curves.map(c => c.pts.map(([p, z]) => [X(p), Y(z)]));
+  const lw = 52, lh = 12, xr = X(RV.pmax) - 4, yl = Y(1);
+  const clear = (x0, x1, yt, yb) => !cpx.some(pts => pts.some(([x, y], i) => {
+    if (x >= x0 - 2 && x <= x1 + 2 && y >= yt - 2 && y <= yb + 2) return true;
+    const q = pts[i + 1]; if (!q) return false;              // segment crossing the box
+    if (Math.max(x, q[0]) < x0 - 2 || Math.min(x, q[0]) > x1 + 2) return false;
+    return Math.min(y, q[1]) <= yb + 2 && Math.max(y, q[1]) >= yt - 2;
+  }));
+  let spot = null;
+  // first on the line itself, moving left; then stepped away from it (with a leader), nearest first
+  for (let off = 3; off <= 120 && !spot; off += off < 4 ? 9 : 6){
+    for (let k = 0; k < (off < 4 ? 40 : 12) && !spot; k++){
+      const x1 = xr - k * 10, x0 = x1 - lw;
+      if (x0 < F.m.l + 4) break;
+      for (const yt of [yl - off - lh, yl + off]){
+        if (yt < F.m.t + 2 || yt + lh > F.m.t + F.ph - 2) continue;
+        if (clear(x0, x1, yt, yt + lh)){ spot = { x: x1, y: yt + lh - 2, off, yt }; break; }
+      }
+    }
+  }
+  if (!spot) spot = { x: xr, y: yl - 5, off: 3, yt: yl - 3 - lh };
+  if (spot.off > 3){
+    const lx = spot.x - lw / 2, ly = spot.yt > yl ? spot.yt - 1 : spot.yt + lh + 1;
+    S("line", { x1: lx, x2: lx, y1: yl, y2: ly, stroke: ref, "stroke-width": 1 }, top);
+  }
+  G.idealLabel = spot;
+  T(top, spot.x, spot.y, "ideal gas", { "font-size": 11, "text-anchor": "end", class: "halo", style: `fill:${ink2}` });
+  $("rg-T-o").textContent = `${RV.T} K (${fmtInt(RV.T - 273)} °C)`;
+  $("rg-sub").innerHTML = `at ${RV.T} K` + (!RV.aOn || !RV.bOn ? ` · ${!RV.aOn && !RV.bOn ? "both effects off: ideal" : !RV.aOn ? "attractions off (<i>a</i> = 0)" : "particle volume off (<i>b</i> = 0)"}` : "");
+  $("rg-legend").innerHTML = `<span><i class="key dash" style="border-color:${ref}"></i><span>ideal gas, <i>pV</i>/<i>RT</i> = 1</span></span>` +
+    curves.map(c => `<span><i class="key" style="border-color:${cssVar(c.g.c)}"></i><span>${c.g.h}</span></span>`).join("") +
+    (curves.some(c => c.end) ? `<span><i class="key ring" style="border-color:${ink2}"></i><span>gas curve stops (see note)</span></span>` : "");
+  // notes
+  const notes = [];
+  curves.forEach(c => {
+    if (c.end === "liquid"){
+      const rs = realSat(c.g.id, RV.T);
+      notes.push(`<b>${c.g.h}</b>: ${RV.T} K is below its critical temperature in this model (${Math.round(tcOf(c.g.a, c.g.b))} K), so the gas would condense at about ${fmtP(c.pEnd)} (real ${c.g.h}: ${rs ? "about " + fmtP(rs) : "above its real critical temperature, so it would not condense"}). The curve stops there; to the right the substance is a liquid.`);
+    }
+    if (c.end === "none") notes.push(`<b>${c.g.h}</b>: with particle volume switched off, nothing resists compression. Above about ${fmtP(c.pEnd)} the model has no gas solution at all, so the curve stops.`);
+  });
+  if (curves.some(c => c.end === "liquid")) notes.push(`<span class="hint">Real gases condense at lower pressures than this simple model predicts (real values in brackets, from a standard vapour-pressure correlation). The figures in the notes (Part 2) use a more accurate equation of state, so values differ slightly.</span>`);
+  if (!notes.length) notes.push(!RV.aOn && !RV.bOn ? "Both corrections are off: every gas is ideal and <i>pV</i>/<i>RT</i> = 1 exactly." :
+    !RV.aOn ? "Attractions off: only particle volume acts, and it always pushes <i>pV</i>/<i>RT</i> above 1." :
+    !RV.bOn ? "Particle volume off: only attractions act, and they always pull <i>pV</i>/<i>RT</i> below 1." :
+    "Every curve starts at 1: as <i>p</i> → 0 all gases become ideal. Hover or tap the graph to read values.");
+  $("rg-notes").innerHTML = notes.join("<br>");
+  // hover
+  const tip = $("rg-tip");
+  const cross = S("line", { y1: F.m.t, y2: F.m.t + F.ph, stroke: cssVar("--axis"), "stroke-width": 1, visibility: "hidden" }, top);
+  const hover = ev => {
+    const r = svg.getBoundingClientRect();
+    const px = (ev.clientX - r.left) * (W / r.width);
+    if (px < F.m.l || px > F.m.l + F.pw){ tip.hidden = true; cross.setAttribute("visibility", "hidden"); return; }
+    const p = (px - F.m.l) / F.pw * RV.pmax;
+    cross.setAttribute("x1", px); cross.setAttribute("x2", px); cross.setAttribute("visibility", "visible");
+    tip.innerHTML = `<i>p</i> = ${num(p, 3)} MPa<br>` + curves.map(c => { const z = zAt(c.g, RV.T, p, RV.aOn, RV.bOn); return `${c.g.h}: ${z.phase === "gas" ? z.Z.toFixed(3) : z.phase === "liquid" ? "liquid" : "no gas solution"}`; }).join("<br>");
+    tip.hidden = false;
+    const wr = wrap.getBoundingClientRect(), tx = ev.clientX - wr.left;
+    tip.style.left = Math.max(0, Math.min(tx + 12, wrap.clientWidth - tip.offsetWidth - 4)) + "px";
+    tip.style.top = (svg.getBoundingClientRect().top - wr.top + 36) + "px";
+  };
+  svg.onpointermove = hover; svg.onpointerdown = hover;
+  svg.onpointerleave = () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); };
+  drawBars();
+}
+function drawBars(){
+  const wrap = $("rb-wrap"), svg = $("rb-svg");
+  const W = widthOf(wrap), rowH = 30;
+  const m = { l: 46, r: 16, t: 30, b: 34 };
+  const H = m.t + RG.length * rowH + m.b;
+  svg.innerHTML = ""; svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("width", W); svg.setAttribute("height", H);
+  const vals = RG.map(g => zAt(g, RV.T, RV.pcmp, RV.aOn, RV.bOn));
+  let zmin = 1, zmax = 1;
+  vals.forEach(v => { if (isFinite(v.Z)){ zmin = Math.min(zmin, v.Z); zmax = Math.max(zmax, v.Z); } });
+  // domain centred on the ideal line Z = 1 so bars read as deviations
+  const half = Math.max(0.4, Math.ceil((Math.max(1 - zmin, zmax - 1) + 0.12) * 5) / 5);
+  const x0 = Math.max(0, 1 - half), xmax = 1 + half;
+  const pw = W - m.l - m.r, X = z => m.l + (z - x0) / (xmax - x0) * pw;
+  const t = niceTicks(x0, xmax, W < 420 ? 4 : 6);
+  t.vals.forEach(v => {
+    S("line", { x1: X(v), x2: X(v), y1: m.t, y2: H - m.b, class: "grid" }, svg);
+    T(svg, X(v), H - m.b + 16, tickLabel(v, t.step), { class: "tick", "text-anchor": "middle", "font-size": 11 });
+  });
+  T(svg, W - m.r, H - 2, "*pV*/*RT*", { class: "axlab", "text-anchor": "end", "font-size": 11.5 });
+  const ink = cssVar("--ink"), ink2 = cssVar("--ink-2"), muted = cssVar("--muted");
+  RG.forEach((g, i) => {
+    const yc = m.t + i * rowH + rowH / 2, v = vals[i];
+    T(svg, m.l - 8, yc + 4, g.f, { "font-size": 12, "text-anchor": "end", style: `fill:${ink};font-weight:600` });
+    if (v.phase === "gas"){
+      const x0 = X(Math.min(1, v.Z)), x1 = X(Math.max(1, v.Z));
+      S("rect", { x: x0, y: yc - 8, width: Math.max(1.5, x1 - x0), height: 16, rx: 2, fill: cssVar(g.c) }, svg);
+      const right = v.Z >= 1;
+      T(svg, right ? x1 + 5 : x0 - 5, yc + 4, v.Z.toFixed(3), { "font-size": 11, "text-anchor": right ? "start" : "end", class: "halo", style: `fill:${ink2}` });
+    } else {
+      T(svg, X(1) + 6, yc + 4, v.phase === "liquid" ? "condensed (liquid)" : "no gas solution (b = 0)", { "font-size": 11, "font-style": "italic", style: `fill:${muted}` });
+    }
+  });
+  S("line", { x1: X(1), x2: X(1), y1: m.t - 4, y2: H - m.b, stroke: ink, "stroke-width": 1.5 }, svg);
+  T(svg, X(1) - 6, m.t - 10, "← attractions win", { "font-size": 11, "text-anchor": "end", style: `fill:${ink2}` });
+  T(svg, X(1) + 6, m.t - 10, "particle volume wins →", { "font-size": 11, "text-anchor": "start", style: `fill:${ink2}` });
+  $("rb-p-o").textContent = `${num(RV.pcmp, 3)} MPa`;
+  $("rb-sub").innerHTML = `<i>p</i> = ${num(RV.pcmp, 3)} MPa, <i>T</i> = ${RV.T} K`;
+}
+function bindReal(){
+  $("rg-chips").innerHTML = RG.map(g => `<label class="chip"><input type="checkbox" value="${g.id}" checked><i class="sw" style="background:var(${g.c})"></i><span>${g.h}</span></label>`).join("");
+  $("rg-chips").querySelectorAll("input").forEach(cb => cb.onchange = () => { if (cb.checked) RV.sel.add(cb.value); else RV.sel.delete(cb.value); drawReal(); });
+  $("rg-T").oninput = e => { RV.T = +e.target.value; drawReal(); };
+  $("rg-a").onchange = e => { RV.aOn = e.target.checked; drawReal(); };
+  $("rg-b").onchange = e => { RV.bOn = e.target.checked; drawReal(); };
+  document.querySelectorAll('input[name="rg-range"]').forEach(r => r.onchange = e => { RV.pmax = +e.target.value; drawReal(); });
+  $("rb-p").oninput = e => { RV.pcmp = +e.target.value; drawBars(); };
+  $("rg-table").innerHTML = `<thead><tr><th>Gas</th><th><i>a</i> / dm<sup>6</sup> bar mol<sup>−2</sup></th><th><i>b</i> / dm<sup>3</sup> mol<sup>−1</sup></th><th><i>T</i><sub>c</sub> in this model / K</th><th>real <i>T</i><sub>c</sub> / K</th></tr></thead><tbody>` +
+    RG.map(g => `<tr><td>${g.h}</td><td>${g.a}</td><td>${g.b}</td><td>${Math.round(tcOf(g.a, g.b))}</td><td>${Math.round(REALC[g.id].Tc)}</td></tr>`).join("") + "</tbody>";
+  onResize($("rg-wrap"), drawReal);
+}
+
+/* =====================================================
+   3. DALTON MIXER
+   ===================================================== */
+const DG = {
+  N2: { h: "N<sub>2</sub>", f: "N_{2}", M: 28.0, c: "--c1", name: "nitrogen" },
+  O2: { h: "O<sub>2</sub>", f: "O_{2}", M: 32.0, c: "--c2", name: "oxygen" },
+  Ar: { h: "Ar", f: "Ar", M: 39.9, c: "--c4", name: "argon" },
+  CO2: { h: "CO<sub>2</sub>", f: "CO_{2}", M: 44.0, c: "--c5", name: "carbon dioxide" },
+  He: { h: "He", f: "He", M: 4.0, c: "--c3", name: "helium" },
+  H2: { h: "H<sub>2</sub>", f: "H_{2}", M: 2.0, c: "--c6", name: "hydrogen" }
+};
+const WVP = [[15, 1.71], [20, 2.34], [23, 2.81], [25, 3.17], [30, 4.25], [35, 5.63], [40, 7.38]];
+const AIR = [["N2", 0.781], ["O2", 0.209], ["Ar", 0.0093], ["CO2", 0.0004]];
+const D = { mode: "mix", V: 24.0, T: 293, rows: AIR.map(([g, n]) => ({ g, n })), w: { gas: "H2", theta: 23, patm: 101, Vcm3: 250 } };
+G.D = D; G.WVP = WVP;
+function daltonCalc(){
+  const Vm3 = D.V * 1e-3;
+  const rows = D.rows.map(r => ({ g: r.g, n: r.n, p: r.n * R * D.T / Vm3 }));   // Pa
+  const nt = rows.reduce((s, r) => s + r.n, 0), pt = rows.reduce((s, r) => s + r.p, 0);
+  rows.forEach(r => { r.x = nt > 0 ? r.n / nt : 0; r.xp = r.x * pt; });
+  return { rows, nt, pt, ptFromN: nt * R * D.T / Vm3 };
+}
+function waterCalc(){
+  const pw = WVP.find(r => r[0] === D.w.theta)[1];
+  const pg = D.w.patm - pw, T = D.w.theta + 273;
+  const n = pg * 1e3 * D.w.Vcm3 * 1e-6 / (R * T);
+  return { pw, pg, T, n, m: n * DG[D.w.gas].M };
+}
+G.daltonCalc = daltonCalc; G.waterCalc = waterCalc;
+function renderRows(){
+  const used = D.rows.map(r => r.g);
+  $("d-rows").innerHTML = D.rows.map((r, i) => `<div class="drow"><select class="inp" data-i="${i}" aria-label="Gas ${i + 1}">${Object.keys(DG).map(k => `<option value="${k}"${k === r.g ? " selected" : ""}${k !== r.g && used.includes(k) ? " disabled" : ""}>${DG[k].h.replace(/<\/?sub>/g, "").replace(/(\d)/g, d => "₀₁₂₃₄₅₆₇₈₉"[d])}, ${DG[k].name}</option>`).join("")}</select><input class="inp" type="text" inputmode="decimal" autocomplete="off" data-i="${i}" value="${r.n}" aria-label="Amount of gas ${i + 1} in mol"><button class="btn" data-rm="${i}" aria-label="Remove gas ${i + 1}"${D.rows.length < 2 ? " disabled" : ""}>×</button></div>`).join("");
+  $("d-rows").querySelectorAll("select").forEach(s => s.onchange = () => { D.rows[+s.dataset.i].g = s.value; renderRows(); drawDalton(); });
+  $("d-rows").querySelectorAll("input").forEach(inp => inp.oninput = () => {
+    const v = parseNum(inp.value), ok = isFinite(v) && v >= 0 && v <= 100;
+    inp.setAttribute("aria-invalid", String(!ok));
+    $("d-err").hidden = ok; $("d-err").textContent = ok ? "" : "Enter an amount from 0 to 100 mol.";
+    if (ok){ D.rows[+inp.dataset.i].n = v; drawDalton(); }
+  });
+  $("d-rows").querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { D.rows.splice(+b.dataset.rm, 1); renderRows(); drawDalton(); });
+  $("d-add").disabled = D.rows.length >= 4;
+}
+function drawDaltonBar(segs, total){
+  const wrap = $("d-bar-wrap"), svg = $("d-bar");
+  const W = widthOf(wrap), H = 78;
+  const m = { l: 8, r: 18, t: 22, b: 26 };
+  svg.innerHTML = ""; svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("width", W); svg.setAttribute("height", H);
+  const xmax = niceMax(Math.max(total, 1e-9), 5), pw = W - m.l - m.r, X = v => m.l + v / xmax * pw;
+  const t = niceTicks(0, xmax, W < 420 ? 4 : 6);
+  t.vals.forEach(v => { S("line", { x1: X(v), x2: X(v), y1: m.t + 28, y2: m.t + 32, class: "axis" }, svg); T(svg, X(v), m.t + 45, tickLabel(v, t.step), { class: "tick", "text-anchor": "middle", "font-size": 11 }); });
+  S("rect", { x: m.l, y: m.t, width: pw, height: 28, rx: 3, fill: cssVar("--surface-2") }, svg);
+  let acc = 0;
+  segs.forEach(s => { if (s.v > 0) S("rect", { x: X(acc), y: m.t, width: Math.max(0.5, X(acc + s.v) - X(acc)), height: 28, fill: s.c, stroke: cssVar("--bg"), "stroke-width": 1 }, svg); acc += s.v; });
+  S("line", { x1: X(total), x2: X(total), y1: m.t - 6, y2: m.t + 32, stroke: cssVar("--ink"), "stroke-width": 1.5 }, svg);
+  const lab = `*p*_{total} = ${numSvg(total, 3)} kPa`;
+  T(svg, Math.min(X(total), W - 4), m.t - 9, lab, { "font-size": 11.5, "text-anchor": X(total) > W * 0.55 ? "end" : "start", style: `fill:${cssVar("--ink")};font-weight:600` });
+}
+function drawDalton(){
+  const water = D.mode === "water";
+  $("d-mix").hidden = water; $("d-water").hidden = !water;
+  $("w-work").hidden = !water; $("w-tbl-box").hidden = !water;
+  if (!water){
+    $("d-V-o").innerHTML = `${D.V.toFixed(1)} dm<sup>3</sup>`;
+    $("d-T-o").textContent = `${D.T} K (${fmtInt(D.T - 273)} °C)`;
+    const c = daltonCalc();
+    $("d-bar-title").textContent = "Partial pressures / kPa, stacked";
+    $("d-read").innerHTML = [
+      ["Total amount, <i>n</i><sub>total</sub>", `${num(c.nt, 3)} <small>mol</small>`, "", "d-r-nt"],
+      ["Total pressure, <i>p</i><sub>total</sub> = Σ<i>p</i><sub>i</sub>", `${num(c.pt / 1e3, 3)} <small>kPa</small><small class="pct">= ${c.pt > 0 ? sci(c.pt, 3) : "0"} Pa</small>`, "calc", "d-r-pt"],
+      ["Check: <i>n</i><sub>total</sub><i>RT</i>/<i>V</i>", `${num(c.ptFromN / 1e3, 3)} <small>kPa</small>`, "", "d-r-chk"]
+    ].map(statHTML).join("");
+    const segs = c.rows.map(r => ({ c: cssVar(DG[r.g].c), v: r.p / 1e3 }));
+    drawDaltonBar(segs, c.pt / 1e3);
+    $("d-legend").innerHTML = c.rows.map(r => `<span><i class="key box" style="background:${cssVar(DG[r.g].c)}"></i><span>${DG[r.g].h} ${num(r.p / 1e3, 3)} kPa</span></span>`).join("");
+    $("d-table").innerHTML = `<thead><tr><th>Gas</th><th><i>n</i> / mol</th><th>mole fraction, <i>x</i></th><th><i>p</i> = <i>nRT</i>/<i>V</i> / kPa</th><th><i>x</i> × <i>p</i><sub>total</sub> / kPa</th></tr></thead><tbody>` +
+      c.rows.map(r => `<tr><td>${DG[r.g].h}</td><td>${num(r.n, 3)}</td><td>${num(r.x, 3)}</td><td>${num(r.p / 1e3, 3)}</td><td>${num(r.xp / 1e3, 3)}</td></tr>`).join("") +
+      `</tbody><tfoot><tr><td>Total</td><td>${num(c.nt, 3)}</td><td>${c.nt > 0 ? "1.00" : "0"}</td><td>${num(c.pt / 1e3, 3)}</td><td>${num(c.rows.reduce((s, r) => s + r.xp, 0) / 1e3, 3)}</td></tr></tfoot>`;
+    const f = c.rows[0];
+    $("d-check").innerHTML = f && c.nt > 0 ? `The two right-hand columns agree: <i>p</i><sub>i</sub> = <i>x</i><sub>i</sub> × <i>p</i><sub>total</sub>. For ${DG[f.g].h}: <i>x</i> = ${num(f.n, 3)} / ${num(c.nt, 3)} = ${num(f.x, 3)}, and ${num(f.x, 3)} × ${num(c.pt / 1e3, 3)} kPa = ${num(f.xp / 1e3, 3)} kPa. Each partial pressure depends only on the amount of that gas, not on what else is present.` : "Add some gas.";
+  } else {
+    const w = waterCalc(), gz = DG[D.w.gas];
+    $("d-bar-title").textContent = "Pressure inside the collecting vessel / kPa";
+    $("d-read").innerHTML = [
+      ["<i>p</i>(H<sub>2</sub>O), given", `${w.pw.toFixed(2)} <small>kPa</small>`, "", "w-r-pw"],
+      [`<i>p</i>(${gz.h}), dry gas`, `${num(w.pg, 3)} <small>kPa</small>`, "calc", "w-r-pg"],
+      [`Amount of ${gz.h}`, `${sci(w.n, 3)} <small>mol</small>`, "calc", "w-r-n"],
+      [`Mass of ${gz.h}`, `${num(w.m, 3)} <small>g</small>`, "", "w-r-m"]
+    ].map(statHTML).join("");
+    drawDaltonBar([{ c: cssVar(gz.c), v: w.pg }, { c: cssVar("--ref"), v: w.pw }], D.w.patm);
+    $("d-legend").innerHTML = `<span><i class="key box" style="background:${cssVar(gz.c)}"></i><span>${gz.h} ${num(w.pg, 3)} kPa</span></span><span><i class="key box" style="background:${cssVar("--ref")}"></i><span>water vapour ${w.pw.toFixed(2)} kPa</span></span>`;
+    $("d-table").innerHTML = "";
+    $("d-check").innerHTML = `The collected gas is saturated with water vapour, so by Dalton's Law <i>p</i><sub>total</sub> = <i>p</i>(${gz.h}) + <i>p</i>(H<sub>2</sub>O). Only the dry-gas partial pressure goes into <i>pV</i> = <i>nRT</i>.`;
+    const Tt = D.w.theta;
+    $("w-work").innerHTML = `
+<li><i>p</i>(${gz.h}) = <i>p</i><sub>total</sub> − <i>p</i>(H<sub>2</sub>O) = ${String(+D.w.patm.toPrecision(6))} − ${w.pw.toFixed(2)} = ${num(w.pg, 4)} kPa</li>
+<li>(To answer this, first convert everything to SI units.) <i>V</i> = ${num(D.w.Vcm3, 3)} cm<sup>3</sup> = ${num(D.w.Vcm3, 3)} × 10<sup>−6</sup> m<sup>3</sup>; <i>p</i> = ${num(w.pg, 4)} kPa = ${num(w.pg, 4)} × 10<sup>3</sup> Pa; <i>T</i> = ${Tt} °C = ${Tt} + 273 = ${w.T} K</li>
+<li><i>n</i> = <i>pV</i>/<i>RT</i> = (${num(w.pg, 4)} × 10<sup>3</sup> × ${num(D.w.Vcm3, 3)} × 10<sup>−6</sup>) / (8.31 × ${w.T}) = <b>${sci(w.n, 3)} mol</b></li>
+<li>Mass = <i>n</i> × <i>M</i> = ${sci(w.n, 3)} × ${gz.M.toFixed(1)} = <b>${num(w.m, 3)} g</b></li>`;
+    $("w-table").innerHTML = `<thead><tr><th><i>θ</i> / °C</th>${WVP.map(r => `<th>${r[0]}</th>`).join("")}</tr></thead><tbody><tr><td><i>p</i>(H<sub>2</sub>O) / kPa</td>${WVP.map(r => `<td${r[0] === Tt ? ' style="background:var(--accent-soft);color:var(--accent);font-weight:600"' : ""}>${r[1].toFixed(2)}</td>`).join("")}</tr></tbody>`;
+  }
+  $("d-tblwrap").hidden = water;
+}
+function bindDalton(){
+  $("d-V").value = D.V; $("d-T").value = D.T;
+  $("d-V").oninput = e => { D.V = +e.target.value; drawDalton(); };
+  $("d-T").oninput = e => { D.T = +e.target.value; drawDalton(); };
+  $("d-add").onclick = () => { const free = Object.keys(DG).find(k => !D.rows.some(r => r.g === k)); if (free && D.rows.length < 4){ D.rows.push({ g: free, n: 0.1 }); renderRows(); drawDalton(); } };
+  $("d-air").onclick = () => { D.rows = AIR.map(([g, n]) => ({ g, n })); D.V = 24.0; D.T = 293; $("d-V").value = D.V; $("d-T").value = D.T; $("d-err").hidden = true; renderRows(); drawDalton(); };
+  $("d-scuba").onclick = () => { D.rows = [{ g: "O2", n: 1.05 }, { g: "He", n: 0.418 }]; D.V = 5.0; D.T = 298; $("d-V").value = D.V; $("d-T").value = D.T; $("d-err").hidden = true; renderRows(); drawDalton(); };
+  document.querySelectorAll('input[name="d-mode"]').forEach(r => r.onchange = e => { D.mode = e.target.value; drawDalton(); });
+  $("w-theta").innerHTML = WVP.map(r => `<option value="${r[0]}"${r[0] === D.w.theta ? " selected" : ""}>${r[0]} °C</option>`).join("");
+  $("w-theta").onchange = e => { D.w.theta = +e.target.value; drawDalton(); };
+  $("w-gas").onchange = e => { D.w.gas = e.target.value; drawDalton(); };
+  const numIn = (id, key, lo, hi, msg) => { $(id).oninput = e => {
+    const v = parseNum(e.target.value), ok = isFinite(v) && v > lo && v <= hi;
+    e.target.setAttribute("aria-invalid", String(!ok));
+    $("w-err").hidden = ok; $("w-err").textContent = ok ? "" : msg;
+    if (ok){ D.w[key] = v; drawDalton(); }
+  }; };
+  numIn("w-patm", "patm", 10, 200, "Enter a total pressure between 10 and 200 kPa.");
+  numIn("w-V", "Vcm3", 0, 5000, "Enter a volume between 0 and 5000 cm³.");
+  renderRows(); drawDalton();
+  onResize($("d-bar-wrap"), drawDalton);
+}
+
+/* =====================================================
+   4. PRACTICE GENERATOR
+   ===================================================== */
+const AR = { H: 1.0, He: 4.0, C: 12.0, N: 14.0, O: 16.0, Ne: 20.2, S: 32.1, Cl: 35.5, Ar: 39.9 };
+function mrOf(el){ let s = 0; for (const k in el) s += AR[k] * el[k]; return Math.round(s * 10) / 10; }
+function mrSum(el){ return Object.keys(el).map(k => el[k] === 1 ? AR[k].toFixed(1) : `${el[k]}(${AR[k].toFixed(1)})`).join(" + "); }
+G.AR = AR; G.mrOf = mrOf;
+const LIQ = [
+  { name: "propanone", f: "CH<sub>3</sub>COCH<sub>3</sub>", el: { C: 3, H: 6, O: 1 } },
+  { name: "ethanol", f: "C<sub>2</sub>H<sub>5</sub>OH", el: { C: 2, H: 6, O: 1 } },
+  { name: "methanol", f: "CH<sub>3</sub>OH", el: { C: 1, H: 4, O: 1 } },
+  { name: "hexane", f: "C<sub>6</sub>H<sub>14</sub>", el: { C: 6, H: 14 } },
+  { name: "pentane", f: "C<sub>5</sub>H<sub>12</sub>", el: { C: 5, H: 12 } },
+  { name: "cyclohexane", f: "C<sub>6</sub>H<sub>12</sub>", el: { C: 6, H: 12 } },
+  { name: "trichloromethane", f: "CHCl<sub>3</sub>", el: { C: 1, H: 1, Cl: 3 } },
+  { name: "dichloromethane", f: "CH<sub>2</sub>Cl<sub>2</sub>", el: { C: 1, H: 2, Cl: 2 } },
+  { name: "tetrachloromethane", f: "CCl<sub>4</sub>", el: { C: 1, Cl: 4 } },
+  { name: "ethyl ethanoate", f: "CH<sub>3</sub>COOC<sub>2</sub>H<sub>5</sub>", el: { C: 4, H: 8, O: 2 } },
+  { name: "butane", f: "C<sub>4</sub>H<sub>10</sub>", el: { C: 4, H: 10 }, gas: true }
+];
+const DGAS = [
+  { name: "hydrogen", f: "H<sub>2</sub>", el: { H: 2 } }, { name: "helium", f: "He", el: { He: 1 } },
+  { name: "methane", f: "CH<sub>4</sub>", el: { C: 1, H: 4 } }, { name: "ammonia", f: "NH<sub>3</sub>", el: { N: 1, H: 3 } },
+  { name: "neon", f: "Ne", el: { Ne: 1 } }, { name: "ethyne", f: "C<sub>2</sub>H<sub>2</sub>", el: { C: 2, H: 2 } },
+  { name: "nitrogen", f: "N<sub>2</sub>", el: { N: 2 } }, { name: "ethane", f: "C<sub>2</sub>H<sub>6</sub>", el: { C: 2, H: 6 } },
+  { name: "oxygen", f: "O<sub>2</sub>", el: { O: 2 } }, { name: "hydrogen sulfide", f: "H<sub>2</sub>S", el: { H: 2, S: 1 } },
+  { name: "hydrogen chloride", f: "HCl", el: { H: 1, Cl: 1 } }, { name: "argon", f: "Ar", el: { Ar: 1 } },
+  { name: "carbon dioxide", f: "CO<sub>2</sub>", el: { C: 1, O: 2 } }, { name: "nitrogen dioxide", f: "NO<sub>2</sub>", el: { N: 1, O: 2 } },
+  { name: "butane", f: "C<sub>4</sub>H<sub>10</sub>", el: { C: 4, H: 10 } }, { name: "sulfur dioxide", f: "SO<sub>2</sub>", el: { S: 1, O: 2 } },
+  { name: "chlorine", f: "Cl<sub>2</sub>", el: { Cl: 2 } }
+];
+const MGAS = [   // for mass and mixture questions
+  { name: "oxygen", f: "O<sub>2</sub>", el: { O: 2 } }, { name: "nitrogen", f: "N<sub>2</sub>", el: { N: 2 } },
+  { name: "carbon dioxide", f: "CO<sub>2</sub>", el: { C: 1, O: 2 } }, { name: "methane", f: "CH<sub>4</sub>", el: { C: 1, H: 4 } },
+  { name: "helium", f: "He", el: { He: 1 } }, { name: "argon", f: "Ar", el: { Ar: 1 } },
+  { name: "hydrogen", f: "H<sub>2</sub>", el: { H: 2 } }, { name: "neon", f: "Ne", el: { Ne: 1 } },
+  { name: "chlorine", f: "Cl<sub>2</sub>", el: { Cl: 2 } }, { name: "sulfur dioxide", f: "SO<sub>2</sub>", el: { S: 1, O: 2 } }
+];
+// presentation of given data: value as stated, SI value, text, conversion step, substitution string (SI)
+function presP(kPa, style){
+  const pa = kPa * 1e3;
+  if (style === "Pa") return { pa, txt: `${sci(pa, 3)} Pa`, conv: `<i>p</i> = ${sci(pa, 3)} Pa (already in Pa)`, sub: sci(pa, 3) };
+  return { pa, txt: `${gv(kPa)} kPa`, conv: `<i>p</i> = ${gv(kPa)} kPa = ${gv(kPa)} × 10<sup>3</sup> Pa`, sub: `${gv(kPa)} × 10<sup>3</sup>` };
+}
+function presV(val, unit){
+  const f = unit === "cm3" ? 1e-6 : 1e-3, u = unit === "cm3" ? "cm<sup>3</sup>" : "dm<sup>3</sup>", e = unit === "cm3" ? "−6" : "−3";
+  return { m3: val * f, txt: `${gv(val)} ${u}`, conv: `<i>V</i> = ${gv(val)} ${u} = ${gv(val)} × 10<sup>${e}</sup> m<sup>3</sup>`, sub: `${gv(val)} × 10<sup>${e}</sup>` };
+}
+function presT(val, unit){
+  if (unit === "C") return { K: val + 273, txt: `${fmtInt(val)} °C`, conv: `<i>T</i> = ${fmtInt(val)} °C = ${fmtInt(val)} + 273 = ${val + 273} K` };
+  return { K: val, txt: `${val} K`, conv: `<i>T</i> = ${val} K (already in K)` };
+}
+const fmtMr = x => x.toPrecision(3);
+const ASIDE_SI = "(To answer this, first convert everything to SI units.)";
+const ASIDE_KEEP = "(Keep the unrounded value in your calculator and round only the final answer.)";
+
+function genSyr(){
+  for (let guard = 0; guard < 200; guard++){
+    const L = pick(LIQ), M = mrOf(L.el);
+    const theta = L.gas ? ri(18, 30) : pick([90, 95, 100, 105, 110]);
+    const Tt = presT(theta, "C");
+    const P = presP(pick([98.5, 99.0, 99.5, 100, 101, 102, 103]), Math.random() < 0.5 ? "kPa" : "Pa");
+    const m = r3(P.pa * rnd(40, 95) * 1e-6 / (R * Tt.K) * M);
+    const Vc = r3(m * R * Tt.K / (M * P.pa) * 1e6);
+    if (Vc < 30 || Vc > 100) continue;
+    const Vv = presV(Vc, "cm3");
+    const n = P.pa * Vv.m3 / (R * Tt.K), ans = m / n;
+    if (Math.abs(ans - M) >= 0.5) continue;
+    const text = L.gas
+      ? `A gas <b>X</b> is released from a lighter refill into a gas syringe. ${gv(m)} g of X occupies ${Vv.txt} at ${Tt.txt} and ${P.txt}. Calculate the relative molecular mass, <i>M</i><sub>r</sub>, of X.`
+      : `A student injects ${gv(m)} g of a volatile liquid <b>X</b> into a gas syringe heated to ${Tt.txt}. The liquid vaporises completely and the vapour occupies ${Vv.txt} at a pressure of ${P.txt}. Calculate the relative molecular mass, <i>M</i><sub>r</sub>, of X.`;
+    const work = [
+      `${ASIDE_SI} ${Vv.conv}; ${P.conv}; ${Tt.conv}.`,
+      `<i>pV</i> = <i>nRT</i>, so <i>n</i> = <i>pV</i>/<i>RT</i> = (${P.sub} × ${Vv.sub}) / (8.31 × ${Tt.K}) = ${sci(n, 3)} mol`,
+      `<i>M</i><sub>r</sub> = <i>m</i>/<i>n</i> = ${gv(m)} / ${sci(n, 3)} = <b>${fmtMr(ans)}</b> (3 s.f.). ${ASIDE_KEEP}`,
+      `Identity check: X is ${L.name}, ${L.f}, with <i>M</i><sub>r</sub> = ${mrSum(L.el)} = ${M.toFixed(1)}. This agrees with the experimental value.`
+    ];
+    return { type: "syr", text, label: "<i>M</i><sub>r</sub> of X", unit: "", answer: ans, tol: { abs: 0.5 }, work,
+      given: { m, Vcm3: Vc, thetaC: theta, pPa: P.pa }, identity: { name: L.name, el: L.el, M }, shown: [gv(m), gv(Vc), fmtInt(theta)] };
+  }
+}
+function genDens(){
+  const g = pick(DGAS), M = mrOf(g.el);
+  const c = pick(["stp", "rtp", "other"]);
+  let Tt, P, cond;
+  if (c === "stp"){ Tt = presT(273, "K"); P = { pa: 1e5, txt: "1.00 × 10<sup>5</sup> Pa", conv: "<i>p</i> = 1.00 × 10<sup>5</sup> Pa (already in Pa)", sub: "1.00 × 10<sup>5</sup>" }; cond = "at s.t.p. (1.00 × 10<sup>5</sup> Pa and 273 K)"; }
+  else if (c === "rtp"){ Tt = presT(293, "K"); P = { pa: 101325, txt: "101 325 Pa", conv: "<i>p</i> = 101 325 Pa (already in Pa)", sub: "101 325" }; cond = "at r.t.p. (101 325 Pa and 293 K)"; }
+  else { Tt = presT(ri(15, 40), "C"); P = presP(pick([98.0, 99.5, 100, 101, 102]), "kPa"); cond = `at ${Tt.txt} and ${P.txt}`; }
+  const rho = r3(P.pa * M / (R * Tt.K) / 1000);          // g dm-3
+  const n = P.pa * 1e-3 / (R * Tt.K), ans = rho / n;
+  const cands = [g];
+  for (const o of shuffle(DGAS)){ if (cands.length === 4) break; if (cands.every(x => Math.abs(mrOf(x.el) - mrOf(o.el)) >= 2)) cands.push(o); }
+  const options = shuffle(cands), correct = options.indexOf(g);
+  const text = `A gas has a density of ${gv(rho)} g dm<sup>−3</sup> ${cond}. Calculate its relative molecular mass, <i>M</i><sub>r</sub>, and suggest its identity from: ${options.map(o => o.f).join(", ")}.`;
+  const work = [
+    `${ASIDE_SI} Consider 1.00 dm<sup>3</sup> of the gas: its mass is ${gv(rho)} g. <i>V</i> = 1.00 dm<sup>3</sup> = 1.00 × 10<sup>−3</sup> m<sup>3</sup>; ${P.conv}; ${Tt.conv}.`,
+    `<i>n</i> = <i>pV</i>/<i>RT</i> = (${P.sub} × 1.00 × 10<sup>−3</sup>) / (8.31 × ${Tt.K}) = ${sci(n, 3)} mol`,
+    `<i>M</i><sub>r</sub> = <i>m</i>/<i>n</i> = ${gv(rho)} / ${sci(n, 3)} = <b>${fmtMr(ans)}</b> (3 s.f.). In one line: <i>M</i><sub>r</sub> = <i>ρRT</i>/<i>p</i>, with <i>ρ</i> in g m<sup>−3</sup>.`,
+    `Identity: ${g.name}, ${g.f}, has <i>M</i><sub>r</sub> = ${mrSum(g.el)} = ${M.toFixed(1)}, the only option that matches.` +
+      (c === "stp" ? ` (At s.t.p. the Data Booklet molar volume gives the same answer: <i>M</i><sub>r</sub> = ${gv(rho)} × 22.7 = ${fmtMr(rho * 22.7)}.)` : c === "rtp" ? ` (At r.t.p. the Data Booklet molar volume gives the same answer: <i>M</i><sub>r</sub> = ${gv(rho)} × 24 = ${fmtMr(rho * 24)}.)` : "")
+  ];
+  return { type: "dens", text, label: "<i>M</i><sub>r</sub>", unit: "", answer: ans, tol: { abs: 0.5 }, work,
+    given: { rho, TK: Tt.K, pPa: P.pa }, identity: { name: g.name, el: g.el, M }, options: options.map(o => ({ name: o.name, f: o.f, el: o.el })), correct, shown: [gv(rho)] };
+}
+function genPV(sub){
+  sub = sub || pick(["p", "V", "n", "T", "mass", "comb"]);
+  const tStyle = () => Math.random() < 0.6 ? "C" : "K";
+  const tVal = s => s === "C" ? ri(-20, 150) : ri(250, 450);
+  const nRand = () => r3(Math.pow(10, rnd(Math.log10(0.02), Math.log10(3))));
+  const pStyle = () => Math.random() < 0.65 ? "kPa" : "Pa";
+  if (sub === "p"){
+    const n = nRand(), ts = tStyle(), Tt = presT(tVal(ts), ts);
+    const Vm3 = n * R * Tt.K / (rnd(50, 600) * 1e3);
+    const unit = Vm3 * 1e6 < 990 && Math.random() < 0.5 ? "cm3" : "dm3";
+    const Vv = presV(r3(unit === "cm3" ? Vm3 * 1e6 : Vm3 * 1e3), unit);
+    const ans = n * R * Tt.K / Vv.m3 / 1e3;
+    return { type: "pv", sub, text: `Calculate the pressure, in kPa, exerted by ${gv(n)} mol of an ideal gas in a container of volume ${Vv.txt} at ${Tt.txt}.`,
+      label: "<i>p</i>", unit: "kPa", answer: ans, tol: { rel: 0.01 }, given: { n, Vm3: Vv.m3, TK: Tt.K }, shown: [gv(n)],
+      work: [`${ASIDE_SI} ${Vv.conv}; ${Tt.conv}.`,
+        `<i>pV</i> = <i>nRT</i>, so <i>p</i> = <i>nRT</i>/<i>V</i> = (${gv(n)} × 8.31 × ${Tt.K}) / (${Vv.sub}) = ${sci(ans * 1e3, 3)} Pa`,
+        `Convert to kPa (÷ 10<sup>3</sup>): <i>p</i> = <b>${gv(ans)} kPa</b>`] };
+  }
+  if (sub === "V"){
+    const n = nRand(), ts = tStyle(), Tt = presT(tVal(ts), ts), P = presP(r3(rnd(50, 500)), pStyle());
+    const ans = n * R * Tt.K / P.pa * 1e3;
+    return { type: "pv", sub, text: `Calculate the volume, in dm<sup>3</sup>, occupied by ${gv(n)} mol of an ideal gas at ${Tt.txt} and ${P.txt}.`,
+      label: "<i>V</i>", unit: "dm<sup>3</sup>", answer: ans, tol: { rel: 0.01 }, given: { n, pPa: P.pa, TK: Tt.K }, shown: [gv(n)],
+      work: [`${ASIDE_SI} ${P.conv}; ${Tt.conv}.`,
+        `<i>V</i> = <i>nRT</i>/<i>p</i> = (${gv(n)} × 8.31 × ${Tt.K}) / (${P.sub}) = ${sci(ans / 1e3, 3)} m<sup>3</sup>`,
+        `Convert to dm<sup>3</sup> (1 m<sup>3</sup> = 10<sup>3</sup> dm<sup>3</sup>): <i>V</i> = <b>${gv(ans)} dm<sup>3</sup></b>`] };
+  }
+  if (sub === "n"){
+    const ts = tStyle(), Tt = presT(tVal(ts), ts), P = presP(r3(rnd(50, 500)), pStyle());
+    const Vm3 = nRand() * R * Tt.K / P.pa;
+    const unit = Vm3 * 1e6 < 990 && Math.random() < 0.5 ? "cm3" : "dm3";
+    const Vv = presV(r3(unit === "cm3" ? Vm3 * 1e6 : Vm3 * 1e3), unit);
+    const ans = P.pa * Vv.m3 / (R * Tt.K);
+    return { type: "pv", sub, text: `How many moles of gas are there in a ${Vv.txt} container at ${Tt.txt} and ${P.txt}?`,
+      label: "<i>n</i>", unit: "mol", answer: ans, tol: { rel: 0.01 }, given: { pPa: P.pa, Vm3: Vv.m3, TK: Tt.K }, shown: [],
+      work: [`${ASIDE_SI} ${Vv.conv}; ${P.conv}; ${Tt.conv}.`,
+        `<i>n</i> = <i>pV</i>/<i>RT</i> = (${P.sub} × ${Vv.sub}) / (8.31 × ${Tt.K}) = <b>${num(ans, 3)} mol</b>`] };
+  }
+  if (sub === "T"){
+    const n = nRand(), Tk = rnd(220, 700), P = presP(r3(rnd(50, 500)), pStyle());
+    const Vm3 = n * R * Tk / P.pa;
+    const unit = Vm3 * 1e6 < 990 && Math.random() < 0.5 ? "cm3" : "dm3";
+    const Vv = presV(r3(unit === "cm3" ? Vm3 * 1e6 : Vm3 * 1e3), unit);
+    const ans = P.pa * Vv.m3 / (n * R);
+    return { type: "pv", sub, text: `At what temperature, in K, does ${gv(n)} mol of an ideal gas occupy ${Vv.txt} at ${P.txt}?`,
+      label: "<i>T</i>", unit: "K", answer: ans, tol: { rel: 0.01 }, given: { n, pPa: P.pa, Vm3: Vv.m3 }, shown: [gv(n)],
+      work: [`${ASIDE_SI} ${Vv.conv}; ${P.conv}.`,
+        `<i>T</i> = <i>pV</i>/<i>nR</i> = (${P.sub} × ${Vv.sub}) / (${gv(n)} × 8.31) = <b>${num(ans, 3)} K</b>`,
+        `In °C: ${num(ans, 3)} − 273 = ${num(ans - 273, 3)} °C.`] };
+  }
+  if (sub === "mass"){
+    const g = pick(MGAS), M = mrOf(g.el), m = r3(rnd(0.5, 20));
+    const ts = tStyle(), Tt = presT(tVal(ts), ts), P = presP(r3(rnd(80, 400)), pStyle());
+    const n = m / M, ans = n * R * Tt.K / P.pa * 1e3;
+    return { type: "pv", sub, text: `Calculate the volume, in dm<sup>3</sup>, occupied by ${gv(m)} g of ${g.name}, ${g.f}, at ${Tt.txt} and ${P.txt}.`,
+      label: "<i>V</i>", unit: "dm<sup>3</sup>", answer: ans, tol: { rel: 0.01 }, given: { m, el: g.el, pPa: P.pa, TK: Tt.K }, shown: [gv(m)],
+      work: [`<i>M</i><sub>r</sub>(${g.f}) = ${mrSum(g.el)} = ${M.toFixed(1)}, so <i>n</i> = <i>m</i>/<i>M</i> = ${gv(m)} / ${M.toFixed(1)} = ${num(n, 3)} mol`,
+        `${ASIDE_SI} ${P.conv}; ${Tt.conv}.`,
+        `<i>V</i> = <i>nRT</i>/<i>p</i> = (${num(n, 3)} × 8.31 × ${Tt.K}) / (${P.sub}) = ${sci(ans / 1e3, 3)} m<sup>3</sup>. ${ASIDE_KEEP}`,
+        `Convert to dm<sup>3</sup> (× 10<sup>3</sup>): <i>V</i> = <b>${gv(ans)} dm<sup>3</sup></b>`] };
+  }
+  // change of conditions: p1V1/T1 = p2V2/T2 (n constant)
+  const kind = pick(["boyle", "charles", "general"]);
+  const aside = "(Units only need to match on both sides here, because <i>n</i> and <i>R</i> cancel. <i>T</i> must still be in kelvin.)";
+  if (kind === "boyle"){
+    const p1 = r3(rnd(80, 300)), V1 = r3(rnd(20, 500)), V2 = r3(V1 * (Math.random() < 0.6 ? rnd(0.3, 0.8) : rnd(1.4, 3)));
+    const ans = p1 * V1 / V2;
+    return { type: "pv", sub: "boyle", text: `A gas occupies ${gv(V1)} cm<sup>3</sup> at ${gv(p1)} kPa. At constant temperature its volume is changed to ${gv(V2)} cm<sup>3</sup>. Calculate the new pressure, in kPa.`,
+      label: "<i>p</i><sub>2</sub>", unit: "kPa", answer: ans, tol: { rel: 0.01 }, given: { p1, V1, V2 }, shown: [gv(p1), gv(V1), gv(V2)],
+      work: [`At constant <i>T</i> and <i>n</i>, Boyle's law: <i>p</i><sub>1</sub><i>V</i><sub>1</sub> = <i>p</i><sub>2</sub><i>V</i><sub>2</sub>. ${aside}`,
+        `<i>p</i><sub>2</sub> = <i>p</i><sub>1</sub><i>V</i><sub>1</sub>/<i>V</i><sub>2</sub> = (${gv(p1)} × ${gv(V1)}) / ${gv(V2)} = <b>${gv(ans)} kPa</b>`] };
+  }
+  if (kind === "charles"){
+    const V1 = r3(rnd(0.5, 20)), t1 = ri(0, 60), t2 = ri(-40, 250);
+    if (Math.abs(t2 - t1) < 20) return genPV("comb");
+    const ans = V1 * (t2 + 273) / (t1 + 273);
+    return { type: "pv", sub: "charles", text: `A gas occupies ${gv(V1)} dm<sup>3</sup> at ${fmtInt(t1)} °C. It is ${t2 > t1 ? "heated" : "cooled"} to ${fmtInt(t2)} °C at constant pressure. Calculate its new volume, in dm<sup>3</sup>.`,
+      label: "<i>V</i><sub>2</sub>", unit: "dm<sup>3</sup>", answer: ans, tol: { rel: 0.01 }, given: { V1, t1C: t1, t2C: t2 }, shown: [gv(V1), fmtInt(t1), fmtInt(t2)],
+      work: [`At constant <i>p</i> and <i>n</i>, Charles's law: <i>V</i><sub>1</sub>/<i>T</i><sub>1</sub> = <i>V</i><sub>2</sub>/<i>T</i><sub>2</sub>. ${aside}`,
+        `<i>T</i><sub>1</sub> = ${fmtInt(t1)} + 273 = ${t1 + 273} K; <i>T</i><sub>2</sub> = ${fmtInt(t2)} + 273 = ${t2 + 273} K`,
+        `<i>V</i><sub>2</sub> = <i>V</i><sub>1</sub> × <i>T</i><sub>2</sub>/<i>T</i><sub>1</sub> = ${gv(V1)} × ${t2 + 273} / ${t1 + 273} = <b>${gv(ans)} dm<sup>3</sup></b>`] };
+  }
+  const p1 = r3(rnd(80, 250)), V1 = r3(rnd(1, 50)), t1 = ri(0, 40), p2 = r3(rnd(20, 300)), t2 = ri(-60, 200);
+  const ans = p1 * V1 * (t2 + 273) / ((t1 + 273) * p2);
+  return { type: "pv", sub: "general", text: `A sample of gas occupies ${gv(V1)} dm<sup>3</sup> at ${gv(p1)} kPa and ${fmtInt(t1)} °C. Calculate its volume, in dm<sup>3</sup>, at ${gv(p2)} kPa and ${fmtInt(t2)} °C.`,
+    label: "<i>V</i><sub>2</sub>", unit: "dm<sup>3</sup>", answer: ans, tol: { rel: 0.01 }, given: { p1, V1, t1C: t1, p2, t2C: t2 }, shown: [gv(V1), gv(p1), gv(p2)],
+    work: [`For a fixed amount of gas, <i>p</i><sub>1</sub><i>V</i><sub>1</sub>/<i>T</i><sub>1</sub> = <i>p</i><sub>2</sub><i>V</i><sub>2</sub>/<i>T</i><sub>2</sub>. ${aside}`,
+      `<i>T</i><sub>1</sub> = ${fmtInt(t1)} + 273 = ${t1 + 273} K; <i>T</i><sub>2</sub> = ${fmtInt(t2)} + 273 = ${t2 + 273} K`,
+      `<i>V</i><sub>2</sub> = <i>p</i><sub>1</sub><i>V</i><sub>1</sub><i>T</i><sub>2</sub>/(<i>T</i><sub>1</sub><i>p</i><sub>2</sub>) = (${gv(p1)} × ${gv(V1)} × ${t2 + 273}) / (${t1 + 273} × ${gv(p2)}) = <b>${gv(ans)} dm<sup>3</sup></b>`] };
+}
+function genDal(sub){
+  sub = sub || pick(["vessel", "frac", "water"]);
+  if (sub === "vessel"){
+    const [A, B] = shuffle(MGAS).slice(0, 2);
+    const nA = r3(rnd(0.05, 2)), nB = r3(rnd(0.05, 2)), Vd = r3(rnd(1, 20)), th = ri(0, 50);
+    const Vv = presV(Vd, "dm3"), Tt = presT(th, "C"), ask = pick(["A", "total"]);
+    const pA = nA * R * Tt.K / Vv.m3, pt = (nA + nB) * R * Tt.K / Vv.m3;
+    const ans = (ask === "A" ? pA : pt) / 1e3;
+    const text = `A ${Vv.txt} vessel contains ${gv(nA)} mol of ${A.name} and ${gv(nB)} mol of ${B.name} at ${Tt.txt}. Calculate ${ask === "A" ? `the partial pressure of ${A.name}` : "the total pressure"}, in kPa.`;
+    const work = [`${ASIDE_SI} ${Vv.conv}; ${Tt.conv}.`];
+    if (ask === "A") work.push(`Each gas behaves as if it were alone in the vessel, so <i>p</i>(${A.f}) = <i>n</i>(${A.f})<i>RT</i>/<i>V</i> = (${gv(nA)} × 8.31 × ${Tt.K}) / (${Vv.sub}) = ${sci(pA, 3)} Pa`);
+    else work.push(`<i>n</i><sub>total</sub> = ${gv(nA)} + ${gv(nB)} = ${num(nA + nB, 4)} mol`, `<i>p</i><sub>total</sub> = <i>n</i><sub>total</sub><i>RT</i>/<i>V</i> = (${num(nA + nB, 4)} × 8.31 × ${Tt.K}) / (${Vv.sub}) = ${sci(pt, 3)} Pa. (Equivalently, add the two partial pressures.)`);
+    work.push(`Convert to kPa (÷ 10<sup>3</sup>): <b>${gv(ans)} kPa</b>`);
+    return { type: "dal", sub, ask, text, label: ask === "A" ? `<i>p</i>(${A.f})` : "<i>p</i><sub>total</sub>", unit: "kPa", answer: ans, tol: { rel: 0.01 }, work,
+      given: { nA, nB, Vm3: Vv.m3, TK: Tt.K }, shown: [gv(nA), gv(nB), gv(Vd)] };
+  }
+  if (sub === "frac"){
+    const [A, B] = shuffle(MGAS).slice(0, 2), MA = mrOf(A.el), MB = mrOf(B.el);
+    const mA = r3(rnd(0.5, 20)), mB = r3(rnd(0.5, 20)), pt = r3(rnd(80, 500));
+    const nA = mA / MA, nB = mB / MB, x = nA / (nA + nB), ans = x * pt;
+    return { type: "dal", sub, text: `A mixture of ${gv(mA)} g of ${A.name}, ${A.f}, and ${gv(mB)} g of ${B.name}, ${B.f}, has a total pressure of ${gv(pt)} kPa. Calculate the partial pressure of ${A.name}, in kPa.`,
+      label: `<i>p</i>(${A.f})`, unit: "kPa", answer: ans, tol: { rel: 0.01 }, given: { mA, elA: A.el, mB, elB: B.el, ptkPa: pt }, shown: [gv(mA), gv(mB), gv(pt)],
+      work: [`<i>n</i>(${A.f}) = ${gv(mA)} / ${MA.toFixed(1)} = ${num(nA, 3)} mol; <i>n</i>(${B.f}) = ${gv(mB)} / ${MB.toFixed(1)} = ${num(nB, 3)} mol`,
+        `Mole fraction <i>x</i>(${A.f}) = ${num(nA, 3)} / (${num(nA, 3)} + ${num(nB, 3)}) = ${num(x, 3)}`,
+        `<i>p</i>(${A.f}) = <i>x</i>(${A.f}) × <i>p</i><sub>total</sub> = ${num(x, 3)} × ${gv(pt)} = <b>${gv(ans)} kPa</b>. ${ASIDE_KEEP} (No unit conversion needed: <i>p</i>(${A.f}) comes out in the same unit as <i>p</i><sub>total</sub>.)`] };
+  }
+  const gz = pick(["H2", "O2", "N2"]), GZ = DG[gz], row = pick(WVP), th = row[0], pw = row[1];
+  const patm = r3(rnd(98, 103)), Vc = r3(rnd(50, 500)), ask = pick(["p", "n"]);
+  const Vv = presV(Vc, "cm3"), Tt = presT(th, "C");
+  const pg = patm - pw, n = pg * 1e3 * Vv.m3 / (R * Tt.K), ans = ask === "p" ? pg : n;
+  const work = [`The gas is collected over water, so it is saturated with water vapour. By Dalton's Law, <i>p</i><sub>total</sub> = <i>p</i>(${GZ.h}) + <i>p</i>(H<sub>2</sub>O).`,
+    `<i>p</i>(${GZ.h}) = ${gv(patm)} − ${pw.toFixed(2)} = ${num(pg, 4)} kPa` + (ask === "p" ? ` = <b>${gv(pg)} kPa</b> (3 s.f.)` : "")];
+  if (ask === "n") work.push(`${ASIDE_SI} ${Vv.conv}; <i>p</i> = ${num(pg, 4)} kPa = ${num(pg, 4)} × 10<sup>3</sup> Pa; ${Tt.conv}.`,
+    `<i>n</i> = <i>pV</i>/<i>RT</i> = (${num(pg, 4)} × 10<sup>3</sup> × ${Vv.sub}) / (8.31 × ${Tt.K}) = <b>${sci(n, 3)} mol</b>`);
+  return { type: "dal", sub, ask, text: `${Vv.txt} of ${GZ.name} is collected over water at ${Tt.txt}, when the atmospheric pressure is ${gv(patm)} kPa. The vapour pressure of water at ${Tt.txt} is ${pw.toFixed(2)} kPa. Calculate ${ask === "p" ? `the partial pressure of the dry ${GZ.name}, in kPa` : `the amount, in mol, of ${GZ.name} collected`}.`,
+    label: ask === "p" ? `<i>p</i>(${GZ.h})` : `<i>n</i>(${GZ.h})`, unit: ask === "p" ? "kPa" : "mol", answer: ans, tol: { rel: 0.01 }, work,
+    given: { patm, pw, Vm3: Vv.m3, TK: Tt.K }, shown: [gv(patm), pw.toFixed(2), gv(Vc)] };
+}
+function genQ(type){
+  if (type === "mix") type = pick(["syr", "dens", "pv", "dal"]);
+  return type === "syr" ? genSyr() : type === "dens" ? genDens() : type === "pv" ? genPV() : genDal();
+}
+G.gen = genQ;
+const MR = { type: "syr", q: null };
+G.MR = MR;
+function renderMr(){
+  const q = MR.q;
+  document.querySelectorAll("#mr-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.type === MR.type)));
+  $("mr-q").innerHTML = q.text;
+  $("mr-lab").innerHTML = `${q.label}${q.unit ? " / " + q.unit : ""}`;
+  $("mr-ans").value = ""; $("mr-ans").removeAttribute("aria-invalid");
+  $("mr-id-wrap").hidden = !q.options;
+  if (q.options) $("mr-id").innerHTML = `<option value="">choose</option>` + q.options.map((o, i) => `<option value="${i}">${o.f.replace(/<sub>(\d+)<\/sub>/g, (m, d) => d.replace(/\d/g, c => "₀₁₂₃₄₅₆₇₈₉"[c]))} (${o.name})</option>`).join("");
+  $("mr-fb").hidden = true; $("mr-work").hidden = true;
+}
+function checkMr(){
+  const q = MR.q, v = parseNum($("mr-ans").value), msgs = [];
+  let ok = true;
+  if (isNaN(v)){ ok = false; msgs.push("Enter a number, for example 58.1 or 2.48e5 or 2.48 x 10^5."); }
+  else {
+    const good = q.tol.abs ? Math.abs(v - q.answer) <= q.tol.abs : Math.abs(v - q.answer) <= q.tol.rel * Math.abs(q.answer);
+    if (!good){
+      ok = false;
+      const ratio = v / q.answer, off = [1e3, 1e-3, 1e6, 1e-6].find(f => Math.abs(ratio / f - 1) < 0.02);
+      msgs.push(q.tol.abs ? "Not within 0.5 of the answer." : "Not within 1 % of the answer.");
+      msgs.push(off ? "You are out by a power of ten: check the unit conversions (cm<sup>3</sup> → m<sup>3</sup> × 10<sup>−6</sup>, dm<sup>3</sup> → m<sup>3</sup> × 10<sup>−3</sup>, kPa → Pa × 10<sup>3</sup>)." :
+        "Check the unit conversions (cm<sup>3</sup> → m<sup>3</sup> × 10<sup>−6</sup>, dm<sup>3</sup> → m<sup>3</sup> × 10<sup>−3</sup>, kPa → Pa × 10<sup>3</sup>, °C → K + 273).");
+    }
+  }
+  if (q.options){
+    const s = $("mr-id").value;
+    if (s === ""){ ok = false; msgs.push("Choose the identity of the gas as well."); }
+    else if (+s !== q.correct){ ok = false; msgs.push("That identity does not fit: pick the option whose <i>M</i><sub>r</sub> is closest to your value."); }
+  }
+  $("mr-ans").setAttribute("aria-invalid", String(isNaN(v)));
+  const fb = $("mr-fb");
+  fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = ok ? `Correct: ${q.tol.abs ? fmtMr(q.answer) : num(q.answer, 3)}${q.unit ? " " + q.unit : ""}${q.identity ? `. The gas is ${q.identity.name}.` : "."}` : msgs.join("<br>");
+  fb.hidden = false;
+}
+function bindMr(){
+  document.querySelectorAll("#mr-tabs button").forEach(b => b.onclick = () => { MR.type = b.dataset.type; MR.q = genQ(MR.type); renderMr(); });
+  $("mr-new").onclick = () => { MR.q = genQ(MR.type); renderMr(); };
+  $("mr-check").onclick = checkMr;
+  $("mr-ans").onkeydown = e => { if (e.key === "Enter") checkMr(); };
+  $("mr-show").onclick = () => { $("mr-work").innerHTML = MR.q.work.map(s => `<li>${s}</li>`).join(""); $("mr-work").hidden = false; };
+  MR.q = genQ(MR.type); renderMr();
+}
+
+/* =====================================================
+   5. QUIZ (option 0 is correct; options are shuffled)
+   ===================================================== */
+const QZ = [
+  { q: "Which of these is <b>not</b> an assumption of the kinetic theory for an ideal gas?",
+    o: ["The particles attract one another weakly, which is why the gas can be liquefied.",
+        "The particles are in rapid, random motion.",
+        "The volume of the particles is negligible compared with the volume of the container.",
+        "Collisions between particles, and with the walls, are perfectly elastic."],
+    e: "An ideal gas has no intermolecular forces at all, so it could never be liquefied. Real gases do attract one another, which is one reason they deviate from ideal behaviour." },
+  { q: "Under which conditions does a real gas behave most like an ideal gas?",
+    o: ["High temperature and low pressure", "Low temperature and high pressure", "High temperature and high pressure", "Low temperature and low pressure"],
+    e: "At low pressure the particles are far apart, so their own volume and the forces between them are negligible. At high temperature they move fast, so their kinetic energy is large compared with any intermolecular attraction." },
+  { q: "Which gas behaves most nearly as an ideal gas at 300 K and 1 MPa?",
+    o: ["He", "NH<sub>3</sub>", "CO<sub>2</sub>", "CH<sub>4</sub>"],
+    e: "A He atom has only 2 electrons, so its electron cloud is small and hard to polarise: the id-id attractions are extremely weak, and the atoms are tiny. NH<sub>3</sub> forms hydrogen bonds; CO<sub>2</sub> and CH<sub>4</sub> have larger electron clouds and stronger id-id attractions." },
+  { q: "At very high pressure, <i>pV</i>/<i>RT</i> for 1 mol of N<sub>2</sub> is greater than 1. What is the best explanation?",
+    o: ["The volume of the N<sub>2</sub> molecules themselves is no longer negligible compared with the volume of the container.",
+        "Intermolecular attractions pull the molecules together, which raises the pressure.",
+        "Collisions between the molecules are no longer elastic, which raises the pressure.",
+        "The molecules move faster at high pressure, so they hit the walls harder."],
+    e: "Particle volume pushes <i>pV</i>/<i>RT</i> above 1: the gas needs more room than an ideal gas would. Attractions do the opposite. They make wall collisions less forceful and pull <i>pV</i>/<i>RT</i> below 1, which is what dominates at moderate pressure and low temperature." },
+  { q: "0.0500 mol of an ideal gas occupies 500 cm<sup>3</sup> at 300 K. Which expression gives the pressure in Pa?",
+    o: ["(0.0500 × 8.31 × 300) / (500 × 10<sup>−6</sup>)", "(0.0500 × 8.31 × 300) / 500", "(0.0500 × 8.31 × 300) / (500 × 10<sup>−3</sup>)", "(0.0500 × 8.31 × 300) × (500 × 10<sup>−6</sup>)"],
+    e: "With <i>R</i> = 8.31 J K<sup>−1</sup> mol<sup>−1</sup>, <i>V</i> must be in m<sup>3</sup>: 1 cm<sup>3</sup> = 10<sup>−6</sup> m<sup>3</sup> and 1 dm<sup>3</sup> = 10<sup>−3</sup> m<sup>3</sup>. <i>p</i> = 2.49 × 10<sup>5</sup> Pa." },
+  { q: "0.250 g of a gas occupies 215 cm<sup>3</sup> at 30 °C and 82.4 kPa. What is its <i>M</i><sub>r</sub>?",
+    o: ["35.5", "3.52", "0.0355", "3.55 × 10<sup>4</sup>"],
+    e: "<i>n</i> = <i>pV</i>/<i>RT</i> = (82.4 × 10<sup>3</sup> × 215 × 10<sup>−6</sup>) / (8.31 × 303) = 7.04 × 10<sup>−3</sup> mol, so <i>M</i><sub>r</sub> = 0.250 / 7.04 × 10<sup>−3</sup> = 35.5. The wrong answers come from using 30 instead of 303 K (3.52), leaving <i>V</i> in dm<sup>3</sup> (0.0355) and leaving <i>p</i> in kPa (3.55 × 10<sup>4</sup>)." },
+  { q: "A mixture contains 0.200 mol of N<sub>2</sub> and 0.600 mol of O<sub>2</sub> at a total pressure of 120 kPa. What is the partial pressure of N<sub>2</sub>?",
+    o: ["30.0 kPa", "40.0 kPa", "90.0 kPa", "60.0 kPa"],
+    e: "<i>x</i>(N<sub>2</sub>) = 0.200 / (0.200 + 0.600) = 0.250, so <i>p</i>(N<sub>2</sub>) = 0.250 × 120 = 30.0 kPa. 40.0 kPa uses the ratio 0.200 : 0.600 instead of the mole fraction; 90.0 kPa is <i>p</i>(O<sub>2</sub>); 60.0 kPa is half the total, which would only be right for a mole fraction of 0.5." },
+  { q: "Using the Data Booklet, what volume does 2.00 mol of an ideal gas occupy at s.t.p. (10<sup>5</sup> Pa, 273 K)?",
+    o: ["45.4 dm<sup>3</sup>", "48.0 dm<sup>3</sup>", "44.8 dm<sup>3</sup>", "22.7 dm<sup>3</sup>"],
+    e: "The molar volume at s.t.p. is 22.7 dm<sup>3</sup> mol<sup>−1</sup>, so 2.00 × 22.7 = 45.4 dm<sup>3</sup>. 48.0 dm<sup>3</sup> uses 24 dm<sup>3</sup> mol<sup>−1</sup>, which is for r.t.p. (101 325 Pa, 293 K). 44.8 dm<sup>3</sup> uses 22.4, an older value for 101 325 Pa and 273 K." },
+  { q: "A fixed amount of gas at 27 °C is heated at constant pressure to 327 °C. What happens to its volume?",
+    o: ["It doubles.", "It increases about 12 times.", "It stays the same.", "It halves."],
+    e: "<i>V</i> ∝ <i>T</i> only with <i>T</i> in kelvin: 27 °C = 300 K and 327 °C = 600 K, so <i>T</i> doubles and <i>V</i> doubles. The ratio 327/27 ≈ 12 wrongly uses °C." },
+  { q: "Why does a gas exert a pressure on the walls of its container?",
+    o: ["Its particles collide with the walls. Each collision exerts a force, and pressure is the total force per unit area.",
+        "The weight of the gas particles presses on the walls.",
+        "The particles repel one another and push outwards on the walls.",
+        "The walls attract the particles and pull them onto the surface."],
+    e: "Pressure comes from collisions with the walls. More frequent or harder collisions (more particles per unit volume, or a higher temperature) mean a higher pressure." }
+];
+const Q = { i: 0, score: 0, order: [], answered: false };
+G.Q = Q; G.QZ = QZ;
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length}</span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${q.q}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${q.o[oi]}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : "Not quite."} ${q.e}</div><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+
+/* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly (never the page itself).
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+/* ---------- theme change redraw ---------- */
+function redrawAll(){ simPalette(); simDraw(); drawPBCharts(); drawReal(); drawDalton(); }
+G.redrawAll = redrawAll;
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+new MutationObserver(redrawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+bindPB(); bindReal(); bindDalton(); bindMr(); startQuiz(); bindNav();
+drawReal();
+})();
+</script>
