@@ -14,7 +14,9 @@
 :root[data-theme="dark"]{color-scheme:dark;--bg:#0e1114;--surface:#161a1e;--surface-2:#1e2429;--ink:#edf0f3;--ink-2:#b4bdc7;--muted:#8a949f;--line:#2c343b;--accent:#6aa5ea;--accent-soft:#1a2939}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
-.wrap{max-width:880px;margin:0 auto;padding:40px 16px 48px}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 16px 48px}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,560px),1fr));gap:16px}
+.topics .topic{margin:0}
 a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,2.6rem);margin:0;line-height:1.1}
@@ -44,6 +46,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
   <div class="meta"><span class="tag">SEAB H2 Chemistry 9476</span></div>
 
   <h2>Topics</h2>
+  <div class="topics">
   <section class="topic" aria-labelledby="t8">
     <header><h3 id="t8">Reaction Kinetics</h3><span class="num">Topic 8</span></header>
     <p class="what">Rate equations and orders, half-life, the Boltzmann distribution, catalysis and enzymes.</p>
@@ -71,6 +74,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
       </div>
     </div>
   </section>
+  </div>
 
   <p class="soon">More topics are on the way.</p>
   <footer>H2 Chemistry © Gary Chan</footer>
