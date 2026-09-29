@@ -2,36 +2,84 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Interactive chemistry labs by Gary Chan, companions to his H2 Chemistry notes.">
-<title>ChemLab</title>
+<meta name="description" content="H2 Chemistry notes, tutorials and interactive labs by Gary Chan, written for SEAB H2 Chemistry 9476.">
+<title>ChemLab · H2 Chemistry notes by Gary Chan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
 <style>
-:root{--bg:#f4f6f8;--surface:#fff;--ink:#141a20;--ink-2:#46505c;--muted:#6f7a87;--line:#d4dbe2;--accent:#1c5da3;
+:root{--bg:#f4f6f8;--surface:#fff;--surface-2:#edf1f5;--ink:#141a20;--ink-2:#46505c;--muted:#6f7a87;--line:#d4dbe2;--accent:#1c5da3;--accent-soft:#e2ecf7;
 --serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#0e1114;--surface:#161a1e;--ink:#edf0f3;--ink-2:#b4bdc7;--muted:#8a949f;--line:#2c343b;--accent:#6aa5ea}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0e1114;--surface:#161a1e;--surface-2:#1e2429;--ink:#edf0f3;--ink-2:#b4bdc7;--muted:#8a949f;--line:#2c343b;--accent:#6aa5ea;--accent-soft:#1a2939}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0e1114;--surface:#161a1e;--surface-2:#1e2429;--ink:#edf0f3;--ink-2:#b4bdc7;--muted:#8a949f;--line:#2c343b;--accent:#6aa5ea;--accent-soft:#1a2939}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
-.wrap{max-width:860px;margin:0 auto;padding:36px 16px 48px}
-h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.8rem,5vw,2.4rem);margin:0}
-.sub{color:var(--ink-2);margin:6px 0 28px}
-h2{font-family:var(--serif);font-weight:600;font-size:1.15rem;margin:28px 0 10px}
-ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-li a,li .soon{display:flex;justify-content:space-between;gap:12px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;text-decoration:none;color:var(--ink)}
-li a:hover{border-color:var(--accent)}
-li a strong{color:var(--accent);font-weight:600}
-li .soon{color:var(--muted)}
-.t{font-size:.8rem;color:var(--muted);white-space:nowrap}
-footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
+.wrap{max-width:880px;margin:0 auto;padding:40px 16px 48px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,2.6rem);margin:0;line-height:1.1}
+.sub{color:var(--ink-2);margin:8px 0 0;max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 30px}
+.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--ink-2);border:1px solid var(--line);background:var(--surface);padding:3px 9px;border-radius:4px}
+h2{font-family:var(--serif);font-weight:600;font-size:1.2rem;margin:0 0 12px}
+.topic{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+.topic header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.topic h3{font-family:var(--serif);font-weight:600;font-size:1.35rem;margin:0}
+.topic .num{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.topic p.what{color:var(--ink-2);margin:0 0 16px}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:680px){.cols{grid-template-columns:minmax(0,1fr)}}
+.col h4{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;font-weight:600}
+.col ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.col a{display:block;text-decoration:none;color:var(--ink);background:var(--surface-2);border:1px solid transparent;border-radius:6px;padding:9px 12px;font-weight:500}
+.col a:hover{border-color:var(--accent);color:var(--accent)}
+.col a small{display:block;font-weight:400;color:var(--muted);font-size:.8rem;margin-top:1px}
+.col a.lab{background:var(--accent-soft)}
+.soon{color:var(--muted);margin:22px 0 0}
+footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
 </style>
 <div class="wrap">
   <h1>ChemLab</h1>
-  <p class="sub">Interactive companions to H2 Chemistry notes by Gary Chan. Built for SEAB H2 Chemistry 9476.</p>
-  <h2>Physical chemistry</h2>
-  <ul>
-    <li><a href="kinetics/"><span><strong>Reaction Kinetics</strong><br>Boltzmann distribution, orders of reaction, initial rates, half-life, reaction profiles, catalysis, quiz</span><span class="t">Topic 8</span></a></li>
-  </ul>
-  <p class="sub" style="margin-top:18px">More topics are on the way.</p>
-  <footer>© Gary Chan</footer>
+  <p class="sub">H2 Chemistry notes, tutorials and interactive labs by Gary Chan. Read online, print a page, or use the labs in class.</p>
+  <div class="meta"><span class="tag">SEAB H2 Chemistry 9476</span></div>
+
+  <h2>Topics</h2>
+  <section class="topic" aria-labelledby="t8">
+    <header><h3 id="t8">Reaction Kinetics</h3><span class="num">Topic 8</span></header>
+    <p class="what">Rate equations and orders, half-life, the Boltzmann distribution, catalysis and enzymes.</p>
+    <div class="cols">
+      <div class="col">
+        <h4>Notes</h4>
+        <ul>
+          <li><a href="kinetics/part-1.html">Part 1<small>Rate equations, orders, half-life, mechanisms</small></a></li>
+          <li><a href="kinetics/part-2.html">Part 2<small>Collisions, Boltzmann, catalysis, enzymes</small></a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Practice</h4>
+        <ul>
+          <li><a href="kinetics/tutorial-1.html">Tutorial 1<small>4 questions</small></a></li>
+          <li><a href="kinetics/tutorial-2.html">Tutorial 2<small>9 questions</small></a></li>
+          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 8 Reaction Kinetics)">Worked solutions<small>On request: email Gary</small></a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Interactive</h4>
+        <ul>
+          <li><a class="lab" href="kinetics/">Reaction Kinetics Lab<small>Boltzmann explorer, orders, initial rates, half-life, profiles, quiz</small></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <p class="soon">More topics are on the way.</p>
+  <footer>H2 Chemistry © Gary Chan</footer>
 </div>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+</script>

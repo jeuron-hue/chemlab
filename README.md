@@ -1,13 +1,13 @@
 # ChemLab
 
-Interactive companions to Gary Chan's H2 Chemistry notes (SEAB 9476).
+H2 Chemistry notes, tutorials and interactive labs by Gary Chan (SEAB H2 Chemistry 9476).
 
 Live site: https://jeuron-hue.github.io/chemlab/
 
-| Topic | Page |
-|---|---|
-| 8 Reaction Kinetics | [kinetics/](https://jeuron-hue.github.io/chemlab/kinetics/) |
+| Topic | Notes | Practice | Interactive |
+|---|---|---|---|
+| 8 Reaction Kinetics | [Part 1](https://jeuron-hue.github.io/chemlab/kinetics/part-1.html), [Part 2](https://jeuron-hue.github.io/chemlab/kinetics/part-2.html) | [Tutorial 1](https://jeuron-hue.github.io/chemlab/kinetics/tutorial-1.html), [Tutorial 2](https://jeuron-hue.github.io/chemlab/kinetics/tutorial-2.html); worked solutions on request | [Reaction Kinetics Lab](https://jeuron-hue.github.io/chemlab/kinetics/) |
 
-Each page is a single self-contained HTML file (vanilla JS, hand-drawn SVG, no build step). Open it in any browser, offline included.
+The notes pages are generated from the same source as the Word editions kept for print, so the two always match. Each page is plain HTML with SVG figures; the labs are single self-contained files with no build step. Pages print cleanly from the browser.
 
 © Gary Chan

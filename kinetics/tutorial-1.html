@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Reaction Kinetics 1 Tutorial: 4 questions on rate equations, half-life and mechanisms. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 8).">
+<title>Reaction Kinetics 1 Tutorial · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --line:#d4dbe2; --accent:#1c5da3; --accent-soft:#e2ecf7; --enrich:#f1f2f4; --box-line:#9aa5b1;
+  --serif:"Source Serif 4","Source Serif Pro",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:56px}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65}
+.wrap{max-width:780px; margin:0 auto; padding-inline:16px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:18px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:.86rem; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(6px); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:28px clamp(16px,5vw,44px) 32px; margin-top:18px}
+.eyebrow{font-family:var(--sans); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 6px}
+h1,h2,h3{font-family:var(--serif)}
+h1{font-size:clamp(1.7rem,4.5vw,2.2rem); line-height:1.2; margin:0 0 18px; font-weight:600}
+h2{font-size:1.3rem; margin:34px 0 10px; font-weight:600; line-height:1.3}
+h3{font-size:1.05rem; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:6px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--line)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; padding:8px 14px; border-radius:6px}
+:root[data-theme="dark"] .btn{color:#0a1420}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#0a1420} }
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:6px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:.88rem; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.45}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:var(--surface-2); font-weight:600}
+
+.notes{margin-top:36px; border-top:1px solid var(--line); padding-top:6px; font-size:.92rem; color:var(--ink-2)}
+.notes h2{font-size:1.05rem}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:.92rem}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:.8rem; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:560px){ body{font-size:15.5px} .notes-body{border-left:0; border-right:0; border-radius:0; margin-inline:-16px} }
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --line:#999; --enrich:#f2f2f2; --accent-soft:#eef3f9}
+  body{font-size:11pt}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back{display:none}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+
+</style>
+<header class="top">
+  <div class="wrap">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 8 · Reaction Kinetics</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 8 pages"><div class="wrap"><a href="part-1.html">Part 1</a><a href="part-2.html">Part 2</a><a href="tutorial-1.html" aria-current="page" class="on">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<main class="wrap">
+<article class="notes-body">
+<p class="eyebrow">Topic 8 · Reaction Kinetics Tutorial 1</p>
+<h1>Reaction Kinetics 1 Tutorial</h1><h2 id="question-1">Question 1</h2><p>Iodine reacts with propanone in acid solution as follows.</p><p class="eq">I<sub>2</sub>(aq) + CH<sub>3</sub>COCH<sub>3</sub>(aq) → CH<sub>2</sub>ICOCH<sub>3</sub>(aq) + H<sup>+</sup>(aq) + I<sup>−</sup>(aq)</p><p>The rate of reaction may be followed by measuring the concentration of the iodine using a colorimeter. An experiment was carried out at 50 °C using the following concentrations of reactants.</p><p class="eq">[I<sub>2</sub>] = 0.0020 mol dm<sup>−3</sup>;   [CH<sub>3</sub>COCH<sub>3</sub>] = 0.10 mol dm<sup>−3</sup>;   [H<sup>+</sup>] = 0.10 mol dm<sup>−3</sup></p><p>Under these conditions, the rate equation is</p><p class="eq">rate = k[I<sub>2</sub>]<sup>0</sup>[CH<sub>3</sub>COCH<sub>3</sub>][H<sup>+</sup>]</p><p>and the rate constant, k, for the reaction is 5.0 × 10<sup>−4</sup> mol<sup>−1</sup> dm<sup>3</sup> s<sup>−1</sup>.</p><p>This rate equation is consistent with the following mechanism for the reaction.</p><p class="eq">CH<sub>3</sub>COCH<sub>3</sub> + H<sup>+</sup> ⇌ (CH<sub>3</sub>)<sub>2</sub>C=OH<sup>+</sup>   (fast equilibrium)</p><p class="eq">(CH<sub>3</sub>)<sub>2</sub>C=OH<sup>+</sup> → CH<sub>2</sub>=C(OH)CH<sub>3</sub> + H<sup>+</sup>   (slow, rate-determining step)</p><p class="eq">CH<sub>2</sub>=C(OH)CH<sub>3</sub> + I<sub>2</sub> → CH<sub>2</sub>ICOCH<sub>3</sub> + H<sup>+</sup> + I<sup>−</sup>   (fast)</p><ol class="alpha"><li>Calculate the initial rate of reaction.</li><li>Plot a graph to show how the concentration of iodine changes during the first 200 s of the reaction.</li><li>On the same axes, plot another graph to show how the concentration of iodine would change if its initial concentration were 0.0015 mol dm<sup>−3</sup> (the other reactants being at the same initial concentrations).</li><li>Suggest how the order with respect to the stated compound in the rate equation would alter when the concentration changes below are made. Give a reason for each case.</li></ol><p class="ans">(i) With respect to I<sub>2</sub>, when the iodine concentration is very small.</p><p class="ans">(ii) With respect to H<sup>+</sup>, when the hydrogen ion concentration is very large.</p><p>Another experiment was carried out at the same temperature using the following concentrations.</p><p class="eq">[I<sub>2</sub>] = 0.010 mol dm<sup>−3</sup>;   [CH<sub>3</sub>COCH<sub>3</sub>] = 0.0080 mol dm<sup>−3</sup>;   [H<sup>+</sup>] = 1.0 mol dm<sup>−3</sup></p><p class="ans">(e)  The concentration of propanone decreased exponentially. Calculate the times for the concentration to fall to 0.0040, 0.0020 and 0.0010 mol dm<sup>−3</sup>. Use these values to plot a graph of concentration against time.</p><p class="ans">(f)  On the same graph, plot how the concentration of iodine varies with time.</p><p class="ans">(g)  Discuss how the successive half-lives of the reaction would change if the initial hydrogen ion concentration were 0.10 mol dm<sup>−3</sup> rather than 1.0 mol dm<sup>−3</sup>.</p><h2 id="question-2">Question 2</h2><p>Mercury(II) chloride reacts with ethanedioate ions:</p><p class="eq">2HgCl<sub>2</sub>(aq) + C<sub>2</sub>O<sub>4</sub><sup>2−</sup>(aq) → 2Cl<sup>−</sup>(aq) + 2CO<sub>2</sub>(g) + Hg<sub>2</sub>Cl<sub>2</sub>(s)</p><p>The following initial rates were measured at a fixed temperature.</p><div class="tablewrap"><table><thead><tr><th>Expt</th><th>[HgCl<sub>2</sub>] / mol dm<sup>−3</sup></th><th>[C<sub>2</sub>O<sub>4</sub><sup>2−</sup>] / mol dm<sup>−3</sup></th><th>Initial rate / mol dm<sup>−3</sup> s<sup>−1</sup></th></tr></thead><tbody><tr><td>1</td><td>0.105</td><td>0.150</td><td>1.80 × 10<sup>−5</sup></td></tr><tr><td>2</td><td>0.105</td><td>0.300</td><td>7.10 × 10<sup>−5</sup></td></tr><tr><td>3</td><td>0.0525</td><td>0.300</td><td>3.50 × 10<sup>−5</sup></td></tr></tbody></table></div><ol class="alpha"><li>Deduce the order of reaction with respect to each reactant. Show your reasoning.</li><li>Write the rate equation and calculate the rate constant, giving its units.</li><li>Calculate the initial rate when [HgCl<sub>2</sub>] = 0.080 mol dm<sup>−3</sup> and [C<sub>2</sub>O<sub>4</sub><sup>2−</sup>] = 0.200 mol dm<sup>−3</sup>.</li></ol><h2 id="question-3">Question 3</h2><p>The decomposition of hydrogen peroxide, catalysed by iodide ions, is first order with respect to H<sub>2</sub>O<sub>2</sub>:</p><p class="eq">2H<sub>2</sub>O<sub>2</sub>(aq) → 2H<sub>2</sub>O(l) + O<sub>2</sub>(g)</p><p>In one experiment, [H<sub>2</sub>O<sub>2</sub>] fell from 0.80 mol dm<sup>−3</sup> to 0.20 mol dm<sup>−3</sup> in 32 minutes.</p><ol class="alpha"><li>Determine the half-life of the reaction.</li><li>Calculate the rate constant in s<sup>−1</sup>.</li><li>Calculate [H<sub>2</sub>O<sub>2</sub>] after 80 minutes.</li><li>Calculate the initial rate of the reaction.</li><li>Suggest a suitable method for following the rate of this reaction.</li></ol><h2 id="question-4">Question 4</h2><p>Nitrogen dioxide reacts with fluorine: 2NO<sub>2</sub>(g) + F<sub>2</sub>(g) → 2NO<sub>2</sub>F(g). Experimentally,</p><p class="eq">rate = k[NO<sub>2</sub>][F<sub>2</sub>]</p><p>Two mechanisms are proposed.</p><p><strong>Mechanism A</strong>   NO<sub>2</sub> + F<sub>2</sub> → NO<sub>2</sub>F + F (slow);   NO<sub>2</sub> + F → NO<sub>2</sub>F (fast)</p><p><strong>Mechanism B</strong>   2NO<sub>2</sub> ⇌ N<sub>2</sub>O<sub>4</sub> (fast);   N<sub>2</sub>O<sub>4</sub> + F<sub>2</sub> → 2NO<sub>2</sub>F (slow)</p><ol class="alpha"><li>Show that both mechanisms add up to the overall equation.</li><li>State, with a reason, which mechanism is consistent with the rate equation.</li><li>Write the rate equation that the other mechanism would predict.</li></ol><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Topic 8 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 8 Reaction Kinetics)">Email Gary for the solutions</a></p></aside>
+
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-2.html">← Part 2</a><a href="tutorial-2.html">Tutorial 2 →</a></nav>
+</main>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+</script>
+<footer class="wrap foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
