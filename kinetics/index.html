@@ -54,7 +54,7 @@ a{color:var(--accent)}
 .tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
 
 /* nav */
-.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(6px); border-bottom:1px solid var(--line)}
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
 .secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
 .secnav .wrap::-webkit-scrollbar{display:none}
 .secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
@@ -1488,11 +1488,20 @@ function renderQ(){
 }
 
 /* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly. (scrollIntoView here also nudged the page
+// itself and, with smooth scrolling on, fought the mouse wheel: the jerky scroll.)
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
 function bindNav(){
   const links = [...document.querySelectorAll(".secnav a")];
   const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
   const io = new IntersectionObserver(ents => {
-    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); a.scrollIntoView({ block: "nearest", inline: "nearest" }); } } });
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
   }, { rootMargin: "-45% 0px -50% 0px" });
   document.querySelectorAll("section.lab").forEach(s => io.observe(s));
 }
