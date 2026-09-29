@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 2 Chemical Bonding.">
+<title>Chemical Bonding Lab · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --grid:#e3e8ed; --axis:#aeb8c3; --line:#d4dbe2; --accent:#1c5da3; --accent-ink:#ffffff; --accent-soft:#e2ecf7;
+  --s1:#2a78d6; --s1-wash:rgba(42,120,214,.22); --s2:#eb6834; --s2-wash:rgba(235,104,52,.20); --s3:#1baf7a; --ref:#8a929b;
+  --good:#006300; --good-bg:#e5f2e5; --bad:#c42f2f; --bad-bg:#fbe9e9; --warn-bg:#fff4dc; --warn:#7a5200;
+  --bondc:#9aa4ae; --lp:rgba(42,120,214,.16); --lp-edge:rgba(42,120,214,.6); --net:#0f8a5f;
+  --shadow:0 1px 2px rgba(20,26,32,.06), 0 1px 0 rgba(20,26,32,.03);
+  --serif:var(--sans);
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+    --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+    --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+    --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --net:#3fcf95;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+  --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+  --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+  --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --net:#3fcf95;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:var(--shadow)}
+.controls{display:flex; flex-direction:column; gap:14px}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:10px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .15s}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(14px)}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.right{border-color:var(--good); background:var(--good-bg); color:var(--good); opacity:1}
+.btn.wrong{border-color:var(--bad); background:var(--bad-bg); color:var(--bad); opacity:1}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+svg text.halo{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2)}
+.legend > span{display:inline-flex; align-items:center; gap:6px}
+.dot{display:inline-block; width:11px; height:11px; border-radius:50%; flex:none; box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+
+/* readouts */
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px; min-width:0}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.02rem; font-weight:600; color:var(--ink)}
+.stat .v small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.stat.wide{grid-column:1 / -1}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:5px; max-width:78ch}
+.callout{font-size:.84rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); vertical-align:1px}
+.tblwrap{overflow-x:auto}
+table.data{border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:.86rem; min-width:100%}
+table.data th, table.data td{padding:6px 10px; text-align:left; border-bottom:1px solid var(--line)}
+table.data th{font-weight:600; color:var(--ink-2); font-size:.78rem; vertical-align:bottom}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
+.field input, .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.working{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px; font-size:.9rem; max-width:80ch}
+.working li::marker{color:var(--muted); font-variant-numeric:tabular-nums}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tabs button{font-size:.86rem; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.stack{display:flex; flex-direction:column; gap:14px; min-width:0}
+h3.sub3{font-size:1.15rem; margin:0}
+
+/* 3D viewer */
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow)}
+.viewer svg{display:block; width:100%; touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none}
+.viewer svg:active{cursor:grabbing}
+.viewer .vhint{position:absolute; left:10px; bottom:7px; font-size:.74rem; color:var(--muted); pointer-events:none}
+.viewer .vtop{position:absolute; right:8px; top:8px; display:flex; gap:6px}
+.viewer .vtop .btn{padding:4px 10px; font-size:.78rem}
+.viewer .vcap{position:absolute; left:10px; top:8px; font-size:.86rem; font-weight:600; color:var(--ink); pointer-events:none; max-width:60%}
+svg .bd{stroke:var(--bondc); stroke-linecap:round}
+svg .hb{stroke:var(--ink-2); stroke-width:1.5; stroke-dasharray:4 3}
+svg .gl{stroke:var(--axis); stroke-width:1.2}
+svg .nn{stroke:var(--s2); stroke-width:2.2; stroke-linecap:round}
+svg .lp{fill:var(--lp); stroke:var(--lp-edge); stroke-width:1}
+svg .lpe{fill:var(--lp-edge)}
+svg .edot{fill:var(--s1)}
+svg .arc{fill:none; stroke:var(--accent); stroke-width:1.6}
+svg .anglab{font-size:12.5px; font-weight:600; fill:var(--ink); paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+svg .dip{stroke:var(--s2); fill:none; stroke-linecap:round}
+svg .mk-d{fill:var(--s2)}
+svg .net{stroke:var(--net); fill:none; stroke-width:3; stroke-linecap:round}
+svg .mk-n{fill:var(--net)}
+svg .netlab{font-size:12px; font-weight:600; fill:var(--net); paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+svg .atl{font-weight:600; text-anchor:middle; dominant-baseline:central; pointer-events:none}
+svg .sea{fill:var(--s1-wash); opacity:.45}
+svg .qmark{font-size:64px; font-weight:600; fill:var(--axis); text-anchor:middle}
+
+/* predict */
+.formula{font-size:2rem; font-weight:600; line-height:1.2}
+.choices{display:grid; grid-template-columns:repeat(auto-fill,minmax(128px,1fr)); gap:6px}
+.choices .btn{padding:7px 8px; font-size:.84rem}
+
+/* polarity */
+.meter{position:relative; height:14px; border-radius:7px; background:linear-gradient(90deg, var(--s3), var(--s1) 45%, var(--s2)); margin:6px 0 2px}
+.meter i{position:absolute; top:-5px; width:4px; height:24px; margin-left:-2px; border-radius:2px; background:var(--ink); box-shadow:0 0 0 2px var(--surface)}
+.mscale{display:flex; justify-content:space-between; font-size:.76rem; color:var(--ink-2); gap:8px}
+.mscale span:nth-child(2){text-align:center}
+.mscale span:last-child{text-align:right}
+.svgbox svg{display:block; width:100%}
+
+/* sort */
+.scards{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px; align-items:start}
+.scard{display:block; width:100%; text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; color:var(--ink); cursor:pointer; box-shadow:var(--shadow); font-size:.84rem; line-height:1.45}
+.scard.sel{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent)}
+.scard.right{border-color:var(--good); background:var(--good-bg)}
+.scard.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.scard .nm{font-weight:600; font-size:.95rem; display:flex; justify-content:space-between; gap:8px; align-items:baseline}
+.scard .nm small{font-weight:500; color:var(--ink-2)}
+.scard dl{display:grid; grid-template-columns:auto minmax(0,1fr); gap:1px 10px; margin:6px 0 0}
+.scard dt{color:var(--muted)}
+.scard dd{margin:0}
+.scard .as{display:inline-block; margin-top:7px; font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:2px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent)}
+.scard .why{margin-top:6px; font-size:.82rem}
+.scard.right .why{color:var(--good)} .scard.wrong .why{color:var(--bad)}
+.scard select{margin-top:8px}
+.tray{position:sticky; bottom:0; z-index:5; background:var(--bg); border-top:1px solid var(--line); padding:10px 0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px}
+@media (max-width:560px){ .tray{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.tray button{font-size:.84rem; padding:8px 6px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; font-weight:500}
+.tray button:disabled{opacity:.55; cursor:default}
+.tray button:not(:disabled){border-color:var(--accent)}
+.tray b{font-variant-numeric:tabular-nums; color:var(--muted); font-weight:500}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.qtext{font-size:1.02rem; font-weight:500; margin:0 0 12px}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; font-size:.93rem; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good); background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.explain{margin-top:12px; font-size:.9rem}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p style="margin:0 0 10px;font-size:.86rem"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1</a>, <a href="part-2.html">Part 2</a>, <a href="part-3.html">Part 3</a> &nbsp;·&nbsp; Tutorials: <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a>, <a href="tutorial-3.html">Tutorial 3</a></p>
+    <div class="row">
+      <h1>Topic 2 · Chemical Bonding</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#shapes">Shapes of molecules</a>
+    <a href="#polarity">Bond polarity</a>
+    <a href="#lattices">Lattices</a>
+    <a href="#properties">Structure from properties</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 SHAPES -->
+<section class="lab" id="shapes">
+  <div class="sechead">
+    <span class="eyebrow">3D viewer · VSEPR</span>
+    <h2>Shapes of molecules</h2>
+    <p>Electron pairs around the central atom repel and get as far apart as possible. Lone pairs repel more than bond pairs: lone pair–lone pair &gt; lone pair–bond pair &gt; bond pair–bond pair. Drag the model to rotate it.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="seg" role="radiogroup" aria-label="Mode">
+        <label><input type="radio" name="m-mode" value="ex" checked>Explore</label>
+        <label><input type="radio" name="m-mode" value="pr">Predict</label>
+      </div>
+      <div id="m-ex" class="controls">
+        <label class="field">Molecule or ion<select id="m-mol"></select></label>
+        <label class="field">or choose by AXE type<select id="m-axe"></select></label>
+        <span class="hint">A = central atom, X = bonded atom, E = lone pair on A.</span>
+        <label class="switch"><input type="checkbox" id="m-lp" checked><span>Lone pairs</span></label>
+        <label class="switch"><input type="checkbox" id="m-arc" checked><span>Bond angles</span></label>
+        <label class="switch"><input type="checkbox" id="m-bd"><span>Bond dipoles</span></label>
+        <label class="switch"><input type="checkbox" id="m-net"><span>Net dipole</span></label>
+        <span class="hint" id="m-dip-hint">Dipole arrows point from δ+ to δ−, towards the more electronegative atom. The crossed tail marks the δ+ end.</span>
+      </div>
+      <div id="m-pr" class="controls" hidden>
+        <div><span class="eyebrow">Predict the shape</span> <span class="hint" id="p-count"></span></div>
+        <div class="formula" id="p-f"></div>
+        <div class="hint" id="p-central"></div>
+        <div class="choices" id="p-choices"></div>
+        <div id="p-fb" hidden></div>
+        <div class="btnrow"><button class="btn primary" id="p-next">Next formula</button></div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="viewer" id="m-wrap">
+        <svg id="m-svg" role="img" aria-label="Rotatable 3D model of the molecule" tabindex="0"></svg>
+        <div class="vcap" id="m-cap"></div>
+        <div class="vtop"><button class="btn" id="m-reset">Reset view</button></div>
+        <div class="vhint">Drag to rotate · arrow keys also work</div>
+      </div>
+      <div class="readout" id="m-read"></div>
+      <ol class="working" id="m-work"></ol>
+    </div>
+  </div>
+</section>
+
+<!-- 2 POLARITY -->
+<section class="lab" id="polarity">
+  <div class="sechead">
+    <span class="eyebrow">Explorer</span>
+    <h2>Bond polarity</h2>
+    <p>The more electronegative atom attracts the bonding electrons more strongly and gains a partial negative charge, δ−. The larger the electronegativity difference, ΔEN, the more polar the bond.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="seg" role="radiogroup" aria-label="Input">
+        <label><input type="radio" name="e-mode" value="el" checked>Two elements</label>
+        <label><input type="radio" name="e-mode" value="sl">ΔEN slider</label>
+      </div>
+      <div id="e-el" class="controls">
+        <label class="field">Atom A<select id="e-a"></select></label>
+        <label class="field">Atom B<select id="e-b"></select></label>
+        <div class="btnrow" id="e-quick"></div>
+      </div>
+      <div id="e-sl" class="ctl" hidden><label for="e-d"><span>ΔEN</span> <output id="e-d-o"></output></label>
+        <input type="range" id="e-d" min="0" max="3.2" step="0.05" value="1"></div>
+      <p class="hint" style="margin:0">Pauling electronegativities. 9476 does not require quantitative treatment of electronegativity: the numbers are for illustration.</p>
+    </div>
+    <div class="stack">
+      <div class="panel svgbox" id="e-wrap"><svg id="e-svg" role="img" aria-label="Bond with electron density cloud"></svg>
+        <div class="meter" aria-hidden="true"><i id="e-mark"></i></div>
+        <div class="mscale"><span>non-polar covalent</span><span>polar covalent</span><span>ionic</span></div>
+      </div>
+      <div class="readout" id="e-read" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))"></div>
+      <ul class="notes">
+        <li>The change from non-polar covalent to polar covalent to ionic is gradual. There is no sharp cut-off value of ΔEN.</li>
+        <li>ΔEN is only a guide: HF (ΔEN = 1.78) is a polar covalent molecule, and AlCl<sub>3</sub> (ΔEN = 1.55) has considerable covalent character. See the Fajans panel below.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="stack" style="margin-top:28px">
+    <h3 class="sub3"><span class="beyond">Enrichment</span>Covalent character in ionic compounds (Fajans' rules)</h3>
+    <p class="hint" style="margin:0;font-size:.86rem;max-width:78ch">Beyond the 9476 syllabus. A small, highly charged cation (high charge density) distorts, or polarises, the electron cloud of a large anion. Electron density is drawn into the region between the ions, giving the bond some covalent character.</p>
+    <div class="grid2">
+      <div class="panel controls">
+        <div class="ctl"><span class="lab">Cation</span><div class="seg" role="radiogroup" aria-label="Cation" id="f-cat"></div></div>
+        <div class="ctl"><span class="lab">Anion</span><div class="seg" role="radiogroup" aria-label="Anion" id="f-an"></div></div>
+        <div><span class="hint">Headline example:</span><div class="btnrow" style="margin-top:6px" id="f-quick"></div></div>
+        <p class="hint" style="margin:0">Ionic radii from the Data Booklet. Charge density taken as charge ÷ radius<sup>2</sup>.</p>
+      </div>
+      <div class="stack">
+        <div class="panel svgbox" id="f-wrap"><svg id="f-svg" role="img" aria-label="Cation polarising an anion"></svg>
+          <div class="meter" aria-hidden="true" style="background:linear-gradient(90deg,var(--s2),var(--s1))"><i id="f-mark"></i></div>
+          <div class="mscale"><span>mainly ionic</span><span>covalent character</span></div>
+        </div>
+        <div class="readout" id="f-read"></div>
+        <div class="tblwrap"><table class="data" id="f-table"></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 LATTICES -->
+<section class="lab" id="lattices">
+  <div class="sechead">
+    <span class="eyebrow">3D viewer</span>
+    <h2>Lattice structures</h2>
+    <p>The type of particle and the forces between particles explain the physical properties. Drag to rotate; small blocks are shown, but the real lattices extend in three dimensions.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" id="l-tabs"></div>
+    <div class="grid2">
+      <div class="panel controls">
+        <div><span class="pill" id="l-type"></span></div>
+        <div class="legend" id="l-legend"></div>
+        <label class="switch"><input type="checkbox" id="l-hi"><span>Highlight one particle and its nearest neighbours</span></label>
+        <span class="hint" id="l-hi-note"></span>
+        <div class="stack" id="l-facts" style="gap:8px"></div>
+      </div>
+      <div class="stack">
+        <div class="viewer" id="l-wrap">
+          <svg id="l-svg" role="img" aria-label="Rotatable 3D lattice" tabindex="0"></svg>
+          <div class="vcap" id="l-cap"></div>
+          <div class="vtop"><button class="btn" id="l-reset">Reset view</button></div>
+          <div class="vhint">Drag to rotate</div>
+        </div>
+        <ul class="notes" id="l-props"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 PROPERTIES -->
+<section class="lab" id="properties">
+  <div class="sechead">
+    <span class="eyebrow">Practice</span>
+    <h2>Structure from properties</h2>
+    <p>Deduce the type of structure from melting point, electrical conductivity and solubility. Temperatures in °C at 1 atm.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="s-tab-sort" aria-selected="true">Sort the substances</button>
+      <button role="tab" id="s-tab-mys" aria-selected="false">Mystery substances</button>
+    </div>
+    <div id="s-sort" class="stack">
+      <p class="hint" style="margin:0;font-size:.86rem">Tap a card, then tap a structure type in the tray. Tap a card again to move it. Check when every card is placed.</p>
+      <div class="scards" id="s-cards"></div>
+      <div class="tray" id="s-tray"></div>
+      <div class="btnrow"><button class="btn primary" id="s-check">Check</button><button class="btn" id="s-reset">Reset</button></div>
+      <div id="s-fb" hidden></div>
+    </div>
+    <div id="s-mys" class="stack" hidden>
+      <p class="hint" style="margin:0;font-size:.86rem">Four unnamed substances, real data. Choose the structure of each, then check.</p>
+      <div class="scards" id="y-cards"></div>
+      <div class="btnrow"><button class="btn primary" id="y-check">Check</button><button class="btn" id="y-new">New set</button></div>
+      <div id="y-fb" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions. Pick an answer to see the explanation.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 2 Chemical Bonding</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · 3D models drawn live in the page</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+const $ = id => document.getElementById(id);
+const MINUS = "−";
+const D2R = Math.PI / 180;
+const W_ = {};
+window.__bond = W_;
+
+/* ---------- vector helpers ---------- */
+const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const mul = (a, k) => [a[0] * k, a[1] * k, a[2] * k];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const len = a => Math.hypot(a[0], a[1], a[2]);
+const unit = a => mul(a, 1 / len(a));
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const angDeg = (a, b) => Math.acos(Math.max(-1, Math.min(1, dot(unit(a), unit(b))))) / D2R;
+const I3 = () => [1, 0, 0, 0, 1, 0, 0, 0, 1];
+function mm(A, B){ const C = new Array(9); for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) C[i * 3 + j] = A[i * 3] * B[j] + A[i * 3 + 1] * B[3 + j] + A[i * 3 + 2] * B[6 + j]; return C; }
+const rx = t => { const c = Math.cos(t), s = Math.sin(t); return [1, 0, 0, 0, c, -s, 0, s, c]; };
+const ry = t => { const c = Math.cos(t), s = Math.sin(t); return [c, 0, s, 0, 1, 0, -s, 0, c]; };
+const ap = (M, p) => [M[0] * p[0] + M[1] * p[1] + M[2] * p[2], M[3] * p[0] + M[4] * p[1] + M[5] * p[2], M[6] * p[0] + M[7] * p[1] + M[8] * p[2]];
+function ortho(M){       // Gram–Schmidt on rows, to stop drift
+  let a = unit([M[0], M[1], M[2]]), b = [M[3], M[4], M[5]];
+  b = unit(sub(b, mul(a, dot(a, b)))); const c = cross(a, b);
+  return [...a, ...b, ...c];
+}
+function hexRGB(h){ return [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); }
+function mix(h, w, t){ const a = hexRGB(h), b = hexRGB(w); return "#" + a.map((v, i) => Math.round(v + (b[i] - v) * t).toString(16).padStart(2, "0")).join(""); }
+function lum(h){ const [r, g, b] = hexRGB(h); return (0.299 * r + 0.587 * g + 0.114 * b) / 255; }
+const f1 = x => x.toFixed(1), f2 = x => x.toFixed(2);
+const fmtN = x => (x < 0 ? MINUS : "") + Math.abs(x).toFixed(2);
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+// subscript digits for <option> text (HTML is not allowed inside options)
+const subTxt = s => s.replace(/_(\d+)/g, (m, d) => [...d].map(c => "₀₁₂₃₄₅₆₇₈₉"[c]).join("")).replace(/\^\+/g, "⁺").replace(/\^-/g, "⁻");
+const subHtml = s => s.replace(/_(\d+)/g, "<sub>$1</sub>").replace(/\^\+/g, "<sup>+</sup>").replace(/\^-/g, `<sup>${MINUS}</sup>`);
+
+/* ---------- element data ---------- */
+const EN = { H: 2.20, Li: 0.98, Be: 1.57, B: 2.04, C: 2.55, N: 3.04, O: 3.44, F: 3.98, Na: 0.93, Mg: 1.31, Al: 1.61, Si: 1.90, P: 2.19, S: 2.58, Cl: 3.16, K: 0.82, Ca: 1.00, Br: 2.96, I: 2.66, Cs: 0.79, Xe: 2.60, Se: 2.55, As: 2.18 };
+const ENAME = { H: "hydrogen", Li: "lithium", Be: "beryllium", B: "boron", C: "carbon", N: "nitrogen", O: "oxygen", F: "fluorine", Na: "sodium", Mg: "magnesium", Al: "aluminium", Si: "silicon", P: "phosphorus", S: "sulfur", Cl: "chlorine", K: "potassium", Ca: "calcium", Br: "bromine", I: "iodine", Cs: "caesium" };
+const METAL = new Set(["Li", "Be", "Na", "Mg", "Al", "K", "Ca", "Cs"]);
+const RC = { H: .31, B: .84, Be: .96, C: .76, N: .71, O: .66, F: .57, Si: 1.11, P: 1.07, S: 1.05, Cl: 1.02, As: 1.19, Se: 1.20, Br: 1.20, I: 1.39, Xe: 1.40 };
+const VAL = { Be: 2, B: 3, C: 4, Si: 4, N: 5, P: 5, As: 5, O: 6, S: 6, Se: 6, Cl: 7, Br: 7, I: 7, Xe: 8 };
+const GRP = { Be: 2, B: 13, C: 14, Si: 14, N: 15, P: 15, As: 15, O: 16, S: 16, Se: 16, Cl: 17, Br: 17, I: 17, Xe: 18 };
+const COL = { H: "#eceff2", B: "#f0a07a", Be: "#a9c94a", C: "#5d646e", N: "#3a6fd8", O: "#e0453b", F: "#93d160", Si: "#c9a77c", P: "#ef8a2d", S: "#e6c02e", Cl: "#35b06a", As: "#a07ad0", Se: "#d98a2b", Br: "#a8452a", I: "#8b3da3", Xe: "#3fb2c6",
+  Na: "#8a63d2", Mg: "#e0a51c", Cu: "#c7773b", Li: "#b07ae0", K: "#7a4fc0", Al: "#a9b3be", Ca: "#58b0a0", Cs: "#6a3fa0" };
+
+/* =====================================================
+   3D ENGINE (shared by shapes and lattices)
+   ===================================================== */
+let vN = 0;
+function Viewer(svg, wrap, hOf){
+  const id = "v" + (++vN);
+  const v = { M: I3(), M0: I3(), scene: null, W: 0, H: 0 };
+  svg.innerHTML = `<defs><marker id="${id}md" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0L10,5L0,10z" class="mk-d"/></marker><marker id="${id}mn" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="13" markerHeight="13" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0L10,5L0,10z" class="mk-n"/></marker></defs><g></g><g></g><g></g>`;
+  const defs = svg.firstChild, gB = defs.nextSibling, gS = gB.nextSibling, gO = gS.nextSibling;
+  const grads = new Set();
+  v.id = id;
+  v.grad = col => {
+    const k = col.slice(1);
+    if (!grads.has(k)){
+      grads.add(k);
+      defs.insertAdjacentHTML("beforeend", `<radialGradient id="${id}g${k}" cx=".5" cy=".5" r=".55" fx=".34" fy=".3"><stop offset="0" stop-color="${mix(col, "#ffffff", .62)}"/><stop offset=".5" stop-color="${col}"/><stop offset="1" stop-color="${mix(col, "#000000", .45)}"/></radialGradient>`);
+    }
+    return `url(#${id}g${k})`;
+  };
+  v.proj = p => { const q = ap(v.M, p), k = v.D / (v.D - q[2]); return [v.cx + q[0] * v.S * k, v.cy - q[1] * v.S * k, q[2], k]; };
+  v.size = () => {
+    v.W = Math.max(260, Math.floor(wrap.clientWidth)); v.H = hOf(v.W);
+    svg.setAttribute("viewBox", `0 0 ${v.W} ${v.H}`); svg.setAttribute("height", v.H);
+    v.cx = v.W / 2; v.cy = v.H / 2 + 6;
+    const R = v.scene ? v.scene.R : 2;
+    v.D = R * 6;
+    v.S = (Math.min(v.W, v.H - 34) / 2 - 6) / (R * v.D / (v.D - R));
+  };
+  v.set = (scene, M0) => { v.scene = scene; if (M0){ v.M0 = M0; v.M = M0.slice(); } v.size(); v.draw(); };
+  v.reset = () => { v.M = v.M0.slice(); v.draw(); };
+  v.draw = () => {
+    const sc = v.scene; if (!sc){ gS.innerHTML = gO.innerHTML = gB.innerHTML = ""; return; }
+    v.M = ortho(v.M);
+    const items = [], S = v.S;
+    const P = sc.atoms.map(a => v.proj(a.p));
+    const op = o => o != null && o < 1 ? ` opacity="${o}"` : "";
+    for (const b of sc.bonds){
+      const A = v.proj(b.p), B = v.proj(b.q), z = (A[2] + B[2]) / 2, k = (A[3] + B[3]) / 2;
+      let s;
+      if (b.k === "hb") s = `<line x1="${f1(A[0])}" y1="${f1(A[1])}" x2="${f1(B[0])}" y2="${f1(B[1])}" class="hb"${op(b.o)}/>`;
+      else if (b.k === "gl") s = `<line x1="${f1(A[0])}" y1="${f1(A[1])}" x2="${f1(B[0])}" y2="${f1(B[1])}" class="gl"${op(b.o)}/>`;
+      else if (b.k === "nn") s = `<line x1="${f1(A[0])}" y1="${f1(A[1])}" x2="${f1(B[0])}" y2="${f1(B[1])}" class="nn"/>`;
+      else {
+        const w = (sc.bw || 0.13) * 2 * S * k;
+        if (b.k === "d"){
+          const dx = B[0] - A[0], dy = B[1] - A[1], L = Math.hypot(dx, dy) || 1, ox = -dy / L * w * 0.8, oy = dx / L * w * 0.8;
+          s = [1, -1].map(g => `<line x1="${f1(A[0] + g * ox)}" y1="${f1(A[1] + g * oy)}" x2="${f1(B[0] + g * ox)}" y2="${f1(B[1] + g * oy)}" class="bd" stroke-width="${f1(w * 0.55)}"${op(b.o)}/>`).join("");
+        } else s = `<line x1="${f1(A[0])}" y1="${f1(A[1])}" x2="${f1(B[0])}" y2="${f1(B[1])}" class="bd" stroke-width="${f1(w)}"${op(b.o)}/>`;
+      }
+      items.push({ z, s });
+    }
+    sc.atoms.forEach((a, i) => {
+      const [x, y, z, k] = P[i], r = a.r * S * k;
+      let s = `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="${v.grad(a.c)}" stroke="rgba(0,0,0,.28)" stroke-width=".8"${op(a.o)}/>`;
+      if (a.l && r > 7) s += `<text x="${f1(x)}" y="${f1(y)}" class="atl" font-size="${f1(Math.min(15, r * 0.95))}" style="fill:${lum(a.c) > 0.6 ? "#1b2128" : "#ffffff"}"${op(a.o)}>${a.l}</text>`;
+      items.push({ z, s });
+    });
+    if (sc.lobes) for (const L of sc.lobes){
+      const c = add(L.o, mul(L.d, L.a)), C = v.proj(c), dq = ap(v.M, L.d);
+      const sn = Math.hypot(dq[0], dq[1]), cs = Math.abs(dq[2]);
+      const ra = Math.hypot(L.a * sn, L.b * cs) * S * C[3], rb = L.b * S * C[3];
+      const ang = Math.atan2(-dq[1], dq[0]) / D2R;
+      const ex = Math.cos(ang * D2R), ey = Math.sin(ang * D2R), pxv = -ey * rb * 0.32, pyv = ex * rb * 0.32;
+      const cx = C[0] + ex * ra * 0.2, cy = C[1] + ey * ra * 0.2;
+      items.push({ z: C[2], s: `<ellipse cx="${f1(C[0])}" cy="${f1(C[1])}" rx="${f1(ra)}" ry="${f1(rb)}" transform="rotate(${f1(ang)} ${f1(C[0])} ${f1(C[1])})" class="lp"/><circle cx="${f1(cx + pxv)}" cy="${f1(cy + pyv)}" r="2.1" class="lpe"/><circle cx="${f1(cx - pxv)}" cy="${f1(cy - pyv)}" r="2.1" class="lpe"/>` });
+    }
+    if (sc.dots) for (const d of sc.dots){ const Q = v.proj(d); items.push({ z: Q[2], s: `<circle cx="${f1(Q[0])}" cy="${f1(Q[1])}" r="${f1(2.2 * Q[3])}" class="edot"/>` }); }
+    items.sort((a, b) => a.z - b.z);
+    gB.innerHTML = sc.back ? sc.back(v) : "";
+    gS.innerHTML = items.map(i => i.s).join("");
+    gO.innerHTML = sc.over ? sc.over(v, P) : "";
+  };
+  let drag = null, raf = 0;
+  const queue = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; v.draw(); }); };
+  v.rotate = (dx, dy) => { v.M = mm(mm(ry(dx), rx(dy)), v.M); queue(); };
+  svg.addEventListener("pointerdown", e => { drag = { x: e.clientX, y: e.clientY }; try { svg.setPointerCapture(e.pointerId); } catch (_) {} });
+  svg.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag = { x: e.clientX, y: e.clientY }; v.rotate(dx * 0.011, dy * 0.011); });
+  const end = () => { drag = null; };
+  svg.addEventListener("pointerup", end); svg.addEventListener("pointercancel", end);
+  svg.addEventListener("keydown", e => {
+    const k = { ArrowLeft: [-0.15, 0], ArrowRight: [0.15, 0], ArrowUp: [0, -0.15], ArrowDown: [0, 0.15] }[e.key];
+    if (k){ e.preventDefault(); v.rotate(k[0], k[1]); }
+  });
+  let lw = 0;
+  new ResizeObserver(() => { const w = wrap.clientWidth; if (Math.abs(w - lw) > 1){ lw = w; v.size(); v.draw(); } }).observe(wrap);
+  return v;
+}
+function arrowSvg(x1, y1, x2, y2, cls, mk, w, cross){
+  let s = `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" class="${cls}" stroke-width="${f1(w)}" marker-end="url(#${mk})"/>`;
+  if (cross){       // crossed tail at the δ+ end
+    const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L, c = cross;
+    const mx = x1 + ux * c * 0.9, my = y1 + uy * c * 0.9;
+    s += `<line x1="${f1(mx - uy * c)}" y1="${f1(my + ux * c)}" x2="${f1(mx + uy * c)}" y2="${f1(my - ux * c)}" class="${cls}" stroke-width="${f1(w)}"/>`;
+  }
+  return s;
+}
+
+/* =====================================================
+   1. SHAPES
+   ===================================================== */
+const AXE = {
+  AX2:   { n: 2, e: 0, g: "linear", s: "linear" },
+  AX3:   { n: 3, e: 0, g: "trigonal planar", s: "trigonal planar" },
+  AX2E:  { n: 2, e: 1, g: "trigonal planar", s: "bent (non-linear)" },
+  AX4:   { n: 4, e: 0, g: "tetrahedral", s: "tetrahedral" },
+  AX3E:  { n: 3, e: 1, g: "tetrahedral", s: "trigonal pyramidal" },
+  AX2E2: { n: 2, e: 2, g: "tetrahedral", s: "bent (non-linear)" },
+  AX5:   { n: 5, e: 0, g: "trigonal bipyramidal", s: "trigonal bipyramidal" },
+  AX4E:  { n: 4, e: 1, g: "trigonal bipyramidal", s: "see-saw" },
+  AX3E2: { n: 3, e: 2, g: "trigonal bipyramidal", s: "T-shaped" },
+  AX2E3: { n: 2, e: 3, g: "trigonal bipyramidal", s: "linear" },
+  AX6:   { n: 6, e: 0, g: "octahedral", s: "octahedral" },
+  AX5E:  { n: 5, e: 1, g: "octahedral", s: "square pyramidal" },
+  AX4E2: { n: 4, e: 2, g: "octahedral", s: "square planar" }
+};
+const TETRA = Math.acos(-1 / 3) / D2R;   // 109.47°
+// Bond (b) and lone pair (lp) directions for each AXE type. ang = bond angle where it is set by lone pairs.
+function geom(axe, ang){
+  const s = Math.sin, c = Math.cos;
+  const ring = (n, y, rho, ph0) => Array.from({ length: n }, (_, i) => { const p = (ph0 || 0) + i * 2 * Math.PI / n; return [rho * c(p), y, rho * s(p)]; });
+  let b = [], lp = [];
+  switch (axe){
+    case "AX2": b = [[1, 0, 0], [-1, 0, 0]]; break;
+    case "AX3": b = [0, 120, 240].map(p => [s(p * D2R), c(p * D2R), 0]); break;
+    case "AX2E": { const h = ang / 2 * D2R; b = [[s(h), -c(h), 0], [-s(h), -c(h), 0]]; lp = [[0, 1, 0]]; break; }
+    case "AX4": { const t = TETRA * D2R; b = [[0, 1, 0], ...ring(3, c(t), s(t), -Math.PI / 2)]; break; }
+    case "AX3E": { const sa = Math.sqrt(2 / 3 * (1 - c(ang * D2R))), ca = Math.sqrt(1 - sa * sa); b = ring(3, -ca, sa, -Math.PI / 2); lp = [[0, 1, 0]]; break; }
+    case "AX2E2": { const h = ang / 2 * D2R, q = 57 * D2R; b = [[s(h), -c(h), 0], [-s(h), -c(h), 0]]; lp = [[0, c(q), s(q)], [0, c(q), -s(q)]]; break; }
+    case "AX5": b = [[0, 1, 0], [0, -1, 0], ...ring(3, 0, 1, Math.PI / 2)]; break;
+    case "AX4E": {       // lone pair equatorial along +x; real SF4: F(ax)–S–F(ax) 173°, F(eq)–S–F(eq) 102°
+      const d = 3.45 * D2R, h = 101.6 / 2 * D2R;
+      b = [[-s(d), c(d), 0], [-s(d), -c(d), 0], [-c(h), 0, s(h)], [-c(h), 0, -s(h)]]; lp = [[1, 0, 0]]; break;
+    }
+    case "AX3E2": {      // lone pairs equatorial; F(ax)–Cl–F(eq) 87.5°
+      const d = 2.5 * D2R;
+      b = [[-s(d), c(d), 0], [-s(d), -c(d), 0], [-1, 0, 0]]; lp = [[c(60 * D2R), 0, s(60 * D2R)], [c(60 * D2R), 0, -s(60 * D2R)]]; break;
+    }
+    case "AX2E3": b = [[0, 1, 0], [0, -1, 0]]; lp = ring(3, 0, 1, Math.PI / 2); break;
+    case "AX6": b = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]]; break;
+    case "AX5E": { const g = 84.8 * D2R; b = [[0, 1, 0], ...ring(4, c(g), s(g), 0)]; lp = [[0, -1, 0]]; break; }  // F(apical)–Br–F(basal) about 85°
+    case "AX4E2": b = [[1, 0, 0], [0, 0, 1], [-1, 0, 0], [0, 0, -1]]; lp = [[0, 1, 0], [0, -1, 0]]; break;
+  }
+  return { b: b.map(unit), lp: lp.map(unit) };
+}
+// Angle arcs drawn on the model: [bond i, bond j, label]. Labels are the displayed values; the test measures them.
+function arcsFor(m){
+  const a = m.ang + "°";
+  return ({
+    AX2: [[1, 2, "180°"]], AX3: [[1, 2, "120°"]], AX2E: [[1, 2, a]], AX4: [[3, 4, "109.5°"]], AX3E: [[2, 3, a]], AX2E2: [[1, 2, a]],
+    AX5: [[1, 3, "90°"], [3, 4, "120°"]], AX4E: [[1, 2, "<180°"], [3, 4, "<120°"]], AX3E2: [[1, 3, "<90°"]], AX2E3: [[1, 2, "180°"]],
+    AX6: [[1, 3, "90°"]], AX5E: [[1, 2, "<90°"]], AX4E2: [[1, 2, "90°"]]
+  })[m.axe];
+}
+function angleText(m){
+  if (m.at) return m.at;
+  return ({
+    AX2: "180°", AX3: "120°", AX4: "109.5°", AX5: "90° (axial–equatorial) and 120° (equatorial–equatorial)",
+    AX6: "90°", AX2E3: "180°", AX4E2: "90°", AX3E2: "slightly less than 90°", AX5E: "slightly less than 90°",
+    AX4E: "less than the ideal 90°, 120° and 180°"
+  })[m.axe] || `${m.about ? "about " : ""}${m.ang}°`;
+}
+const M_ = (id, f, c, L, axe, o) => Object.assign({ id, f, c, L: L.split(" "), axe }, o || {});
+const MOL = [
+  M_("BF3", "BF_3", "B", "F F F", "AX3", { syl: 1, note: "B has only three bond pairs (6 electrons): it is electron-deficient and can accept a lone pair, for example from NH<sub>3</sub>, to form a dative covalent (co-ordinate) bond." }),
+  M_("CO2", "CO_2", "C", "O O", "AX2", { syl: 1, dbl: 1, note: "Each C=O double bond counts as one region of electron density." }),
+  M_("CH4", "CH_4", "C", "H H H H", "AX4", { syl: 1 }),
+  M_("NH3", "NH_3", "N", "H H H", "AX3E", { syl: 1, ang: 107 }),
+  M_("H2O", "H_2O", "O", "H H", "AX2E2", { syl: 1, ang: 104.5 }),
+  M_("SF6", "SF_6", "S", "F F F F F F", "AX6", { syl: 1, note: "S has 12 electrons in its valence shell: an expanded octet, possible for Period 3 elements." }),
+  M_("BeCl2", "BeCl_2", "Be", "Cl Cl", "AX2", { note: "The isolated BeCl<sub>2</sub> molecule (gas phase). Be has only two bond pairs, so it does not have an octet." }),
+  M_("SO2", "SO_2", "S", "O O", "AX2E", { dbl: 1, ang: 119, about: 1, note: "Each S=O double bond counts as one region." }),
+  M_("H2S", "H_2S", "S", "H H", "AX2E2", { ang: 92, about: 1, note: "The measured angle is much smaller than in H<sub>2</sub>O. VSEPR predicts only “less than 109.5°”." }),
+  M_("PCl3", "PCl_3", "P", "Cl Cl Cl", "AX3E", { ang: 100, about: 1 }),
+  M_("NH4+", "NH_4^+", "N", "H H H H", "AX4", { q: 1, note: "One N–H bond is a dative covalent (co-ordinate) bond, formed when the N lone pair of NH<sub>3</sub> is donated to H<sup>+</sup>. Once formed, all four N–H bonds are identical." }),
+  M_("H3O+", "H_3O^+", "O", "H H H", "AX3E", { q: 1, ang: 107, about: 1, note: "Formed when H<sub>2</sub>O donates a lone pair to H<sup>+</sup> (dative covalent bond)." }),
+  M_("CHCl3", "CHCl_3", "C", "H Cl Cl Cl", "AX4", { at: "about 109.5°" }),
+  M_("CH2Cl2", "CH_2Cl_2", "C", "H H Cl Cl", "AX4", { at: "about 109.5°" }),
+  M_("CCl4", "CCl_4", "C", "Cl Cl Cl Cl", "AX4"),
+  M_("PCl5", "PCl_5", "P", "Cl Cl Cl Cl Cl", "AX5", { enr: 1, note: "P has 10 electrons in its valence shell: an expanded octet, possible for Period 3 elements. This is the gas-phase molecule." }),
+  M_("SF4", "SF_4", "S", "F F F F", "AX4E", { enr: 1, note: "The lone pair takes an equatorial position, where it has more room (only two neighbours at 90°), and pushes the bonds closer together." }),
+  M_("ClF3", "ClF_3", "Cl", "F F F", "AX3E2", { enr: 1, note: "Both lone pairs are equatorial. The axial F atoms are pushed slightly towards the equatorial F." }),
+  M_("XeF2", "XeF_2", "Xe", "F F", "AX2E3", { enr: 1, note: "All three lone pairs are equatorial, 120° apart; the two F atoms are axial." }),
+  M_("XeF4", "XeF_4", "Xe", "F F F F", "AX4E2", { enr: 1, note: "The two lone pairs are opposite each other (180° apart), which minimises lone pair–lone pair repulsion." }),
+  M_("BrF5", "BrF_5", "Br", "F F F F F", "AX5E", { enr: 1, note: "The lone pair pushes the four basal F atoms slightly towards the apical F." })
+];
+const AXE_REP = { AX2: "CO2", AX3: "BF3", AX2E: "SO2", AX4: "CH4", AX3E: "NH3", AX2E2: "H2O", AX5: "PCl5", AX4E: "SF4", AX3E2: "ClF3", AX2E3: "XeF2", AX6: "SF6", AX5E: "BrF5", AX4E2: "XeF4" };
+const PRED = [
+  M_("SiCl4", "SiCl_4", "Si", "Cl Cl Cl Cl", "AX4", { like: "CH<sub>4</sub>" }),
+  M_("PH3", "PH_3", "P", "H H H", "AX3E", { ang: 93.5, like: "NH<sub>3</sub>", meas: "93.5°", weak: 1, note: "The measured angle is much smaller than in NH<sub>3</sub>. VSEPR predicts only “less than 109.5°”." }),
+  M_("H2Se", "H_2Se", "Se", "H H", "AX2E2", { ang: 91, about: 1, like: "H<sub>2</sub>O", meas: "about 91°", note: "The measured angle is much smaller than in H<sub>2</sub>O. VSEPR predicts only “less than 109.5°”." }),
+  M_("AsF5", "AsF_5", "As", "F F F F F", "AX5", { enr: 1, like: "PCl<sub>5</sub>" }),
+  M_("SeF6", "SeF_6", "Se", "F F F F F F", "AX6", { like: "SF<sub>6</sub>" }),
+  M_("BCl3", "BCl_3", "B", "Cl Cl Cl", "AX3", { like: "BF<sub>3</sub>" }),
+  M_("CS2", "CS_2", "C", "S S", "AX2", { dbl: 1, like: "CO<sub>2</sub>" }),
+  M_("NF3", "NF_3", "N", "F F F", "AX3E", { ang: 102, about: 1, like: "NH<sub>3</sub>", meas: "about 102°" }),
+  M_("OF2", "OF_2", "O", "F F", "AX2E2", { ang: 103, about: 1, like: "H<sub>2</sub>O", meas: "about 103°" }),
+  M_("ICl4-", "ICl_4^-", "I", "Cl Cl Cl Cl", "AX4E2", { q: -1, enr: 1, like: "XeF<sub>4</sub>" }),
+  M_("I3-", "I_3^-", "I", "I I", "AX2E3", { q: -1, enr: 1, like: "XeF<sub>2</sub>" }),
+  M_("XeF2p", "XeF_2", "Xe", "F F", "AX2E3", { enr: 1, like: "I<sub>3</sub><sup>−</sup>" })
+];
+const SHAPES = ["linear", "bent (non-linear)", "trigonal planar", "trigonal pyramidal", "tetrahedral", "trigonal bipyramidal", "see-saw", "T-shaped", "octahedral", "square pyramidal", "square planar"];
+
+function buildMol(m){
+  const G = geom(m.axe, m.ang);
+  const atoms = [{ p: [0, 0, 0], r: 0.2 + 0.25 * RC[m.c], c: COL[m.c], l: m.c, el: m.c }];
+  const bonds = [];
+  G.b.forEach((d, i) => {
+    const el = m.L[i], p = mul(d, (RC[m.c] + RC[el]) * 0.95);
+    atoms.push({ p, r: 0.2 + 0.25 * RC[el], c: COL[el], l: el, el });
+    bonds.push({ p: mul(d, atoms[0].r * 0.8), q: mul(d, len(p) - (0.2 + 0.25 * RC[el]) * 0.8), k: m.dbl ? "d" : "s", a: 0, b: i + 1 });
+  });
+  const la = Math.max(0.42, atoms[0].r * 0.98);
+  const lobes = G.lp.map(d => ({ o: [0, 0, 0], d, a: la, b: 0.27 + 0.1 * (la - 0.42) }));
+  // bond dipoles: vector from δ+ to δ−, magnitude ΔEN (for display only)
+  let net = [0, 0, 0];
+  const dips = G.b.map((d, i) => { const dEN = EN[m.L[i]] - EN[m.c]; net = add(net, mul(d, dEN)); return dEN; });
+  const maxL = Math.max(...atoms.map(a => len(a.p)));
+  const R = Math.max(...atoms.map(a => len(a.p) + a.r), lobes.length ? 2 * la + 0.05 : 0, 1.0);
+  // weak: bonds almost non-polar (P–H, ΔEN 0.01); the small molecular dipole comes mainly from the lone pair
+  return { m, atoms, bonds, lobes, dips, net, polar: m.weak ? true : len(net) > 1e-6, maxL, R, bw: 0.1, arcs: arcsFor(m) };
+}
+W_.MOL = MOL; W_.PRED = PRED; W_.buildMol = buildMol; W_.geom = geom; W_.angDeg = angDeg;
+
+const SH = { mode: "ex", mol: "H2O", lp: true, arc: true, bd: false, net: false, built: null, p: { order: [], i: 0, ans: null, right: 0, tried: 0 } };
+let mv;
+function molOverlay(B){
+  return (v, P) => {
+    let s = "";
+    const c0 = P[0];
+    if (SH.arc && B.arcs){
+      B.arcs.forEach(([i, j, lab]) => {
+        const u = unit(B.atoms[i].p), w = unit(B.atoms[j].p), om = Math.acos(Math.max(-1, Math.min(1, dot(u, w))));
+        const rA = 0.42 * Math.min(len(B.atoms[i].p), len(B.atoms[j].p));
+        let perp = null;
+        if (om > 179 * D2R){ perp = unit(cross([0, 0, 1], u)); if (!isFinite(perp[0])) perp = [0, 1, 0]; }
+        const pt = t => perp ? add(mul(u, Math.cos(Math.PI * t)), mul(perp, Math.sin(Math.PI * t))) : add(mul(u, Math.sin((1 - t) * om) / Math.sin(om)), mul(w, Math.sin(t * om) / Math.sin(om)));
+        const pts = []; for (let n = 0; n <= 20; n++){ const q = v.proj(mul(pt(n / 20), rA)); pts.push(f1(q[0]) + "," + f1(q[1])); }
+        // label: pushed outwards in screen space from the arc midpoint
+        const M = v.proj(mul(pt(0.5), rA));
+        let ux = M[0] - c0[0], uy = M[1] - c0[1], ul = Math.hypot(ux, uy);
+        if (ul < 6){ ux = 0; uy = -1; ul = 1; }
+        ux /= ul; uy /= ul;
+        const tw = lab.length * 3.6 + 6, lx = Math.max(tw, Math.min(v.W - tw, M[0] + ux * (tw + 4))), ly = M[1] + uy * 12;
+        s += `<polyline points="${pts.join(" ")}" class="arc"/><text x="${f1(lx)}" y="${f1(ly + 4.5)}" text-anchor="middle" class="anglab" data-i="${i}" data-j="${j}">${lab.replace("<", "&lt;")}</text>`;
+      });
+    }
+    const dipOK = !B.m.q;
+    if (SH.bd && dipOK){
+      B.dips.forEach((dEN, k) => {
+        if (Math.abs(dEN) < 0.1) return;
+        const A = c0, Bq = P[k + 1];
+        const dx = Bq[0] - A[0], dy = Bq[1] - A[1], L = Math.hypot(dx, dy); if (L < 26) return;
+        const nx = -dy / L * 11, ny = dx / L * 11;
+        let x1 = A[0] + dx * 0.3 + nx, y1 = A[1] + dy * 0.3 + ny, x2 = A[0] + dx * 0.82 + nx, y2 = A[1] + dy * 0.82 + ny;
+        if (dEN < 0){ [x1, x2] = [x2, x1]; [y1, y2] = [y2, y1]; }
+        s += arrowSvg(x1, y1, x2, y2, "dip", v.id + "md", 1.3 + 0.9 * Math.abs(dEN), 4);
+      });
+    }
+    if (SH.net && dipOK && B.polar && !B.m.weak){
+      const d = unit(B.net), a = v.proj(mul(d, B.atoms[0].r * 0.75)), b = v.proj(mul(d, 1.12 * B.maxL + 0.2));
+      s += arrowSvg(a[0], a[1], b[0], b[1], "net", v.id + "mn", 3, 6);
+      let ux = b[0] - a[0], uy = b[1] - a[1]; const ul = Math.hypot(ux, uy) || 1; ux /= ul; uy /= ul;
+      const nx = Math.max(36, Math.min(v.W - 36, b[0] + ux * 38)), ny = Math.max(14, Math.min(v.H - 24, b[1] + uy * 16 + 4));
+      s += `<text x="${f1(nx)}" y="${f1(ny)}" text-anchor="middle" class="netlab">net dipole</text>`;
+    }
+    return s;
+  };
+}
+function showMol(m){
+  const B = buildMol(m);
+  SH.built = B;
+  const scene = { atoms: B.atoms, bonds: B.bonds, lobes: SH.lp ? B.lobes : [], R: B.R, bw: B.bw, over: molOverlay(B) };
+  const M0 = m.axe === "AX2" || m.axe === "AX2E3" ? mm(rx(0.3), ry(-0.35)) : m.axe === "AX3" ? mm(rx(-0.25), ry(0.25)) : m.axe === "AX4E" || m.axe === "AX3E2" ? mm(rx(0.3), ry(0.4)) : mm(rx(0.32), ry(-0.55));
+  const same = mv.scene && mv.scene.id === m.id;
+  scene.id = m.id;
+  mv.set(scene, same ? null : M0);
+  $("m-cap").innerHTML = subHtml(m.f);
+}
+function molReadout(m, B){
+  const A = AXE[m.axe];
+  const tag = m.syl ? ` <span class="pill">Syllabus example</span>` : m.enr ? ` <span class="beyond">Enrichment</span>` : "";
+  let pol;
+  if (m.q) pol = `Not applied <small>(it is an ion)</small>`;
+  else if (m.weak) pol = `Polar <small>(small dipole, mainly from the lone pair)</small>`;
+  else pol = B.polar ? `Polar <small>(net dipole)</small>` : `Non-polar <small>(bond dipoles cancel)</small>`;
+  const cells = [
+    ["Formula", subHtml(m.f) + tag],
+    ["Bond pairs", `${A.n}${m.dbl ? ` <small>(a double bond counts as one region)</small>` : ""}`],
+    [`Lone pairs on ${m.c}`, `${A.e}`],
+    ["Electron-pair geometry", A.g],
+    ["Shape", A.s],
+    ["Bond angle(s)", angleText(m)],
+    ["Polarity", pol]
+  ];
+  return cells.map((c, i) => `<div class="stat${i === 5 && c[1].length > 30 ? " wide" : ""}"><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+}
+function working(m, B){
+  const A = AXE[m.axe], v = VAL[m.c], q = m.q || 0, tot = v - q;
+  const used = A.n * (m.dbl ? 2 : 1), left = tot - used;
+  const lig = [...new Set(m.L)].join(" and ");
+  const lines = [];
+  lines.push(`${m.c} is in Group ${GRP[m.c]}: ${v} valence electrons${q > 0 ? `, minus ${q} for the positive charge: ${tot}` : q < 0 ? `, plus ${-q} for the negative charge: ${tot}` : ""}.`);
+  lines.push(m.dbl ? `${A.n} double bonds to ${lig} use ${used} of them.` : `${A.n} single bonds to ${lig} use ${used} of them (one each).`);
+  lines.push(`${left} electrons remain: ${A.e} lone pair${A.e === 1 ? "" : "s"}.`);
+  lines.push(`${A.n} bond pairs + ${A.e} lone pair${A.e === 1 ? "" : "s"} = ${A.n + A.e} regions: ${A.g} arrangement. Describing the positions of the atoms only, the shape is <b>${A.s}</b>.`);
+  const ideal = { 2: 180, 3: 120, 4: 109.5 }[A.n + A.e];
+  if (A.e === 0 && m.at) lines.push(`No lone pairs, so the four pairs are arranged tetrahedrally; the angles are close to 109.5° (the bonds are not identical, so they differ slightly).`);
+  else if (A.e === 0) lines.push(`No lone pairs, so the bond pairs repel equally and the angle${A.n === 5 ? "s are the ideal 90° and 120°" : ` is the ideal ${angleText(m)}`}.`);
+  else if (A.n + A.e <= 4 && m.ang) lines.push(A.e === 2 ? `Two lone pairs: lone pair–lone pair &gt; lone pair–bond pair &gt; bond pair–bond pair repulsion, so the angle closes from ${ideal}° to ${angleText(m)}.` : `Lone pair–bond pair repulsion is greater than bond pair–bond pair repulsion, so the angle closes from ${ideal}° to ${angleText(m)}.`);
+  else if (m.axe === "AX2E3" || m.axe === "AX4E2") lines.push(`The lone pairs are arranged symmetrically, so the bond angle is exactly ${angleText(m)}.`);
+  else lines.push(`Lone pair–bond pair repulsion is greater, so the angles are ${angleText(m)}.`);
+  if (m.weak) lines.push(`<b>Slightly polar:</b> the ${m.c}–${m.L[0]} bonds are almost non-polar (ΔEN = ${Math.abs(EN[m.L[0]] - EN[m.c]).toFixed(2)}), so no bond-dipole arrows are drawn. The small dipole comes mainly from the lone pair.`);
+  else if (!m.q){
+    if (B.polar) lines.push(`<b>Polar:</b> the bond dipoles do not cancel, because of the shape${new Set(m.L).size > 1 ? " and because the bonds are different" : ""}.`);
+    else if (B.dips.some(d => Math.abs(d) >= 0.1)) lines.push(`<b>Non-polar:</b> the bonds are polar, but the shape is symmetrical so the bond dipoles cancel.`);
+    else lines.push(`<b>Non-polar:</b> the bonds are almost non-polar (ΔEN = ${Math.abs(B.dips[0]).toFixed(2)}), and the symmetrical shape cancels any bond dipoles anyway.`);
+  }
+  if (m.note) lines.push(m.note);
+  return lines.map(l => `<li>${l}</li>`).join("");
+}
+function renderShapes(){
+  const ex = SH.mode === "ex";
+  $("m-ex").hidden = !ex; $("m-pr").hidden = ex;
+  if (ex){
+    const m = MOL.find(x => x.id === SH.mol);
+    $("m-mol").value = m.id; $("m-axe").value = m.axe;
+    showMol(m);
+    $("m-read").innerHTML = molReadout(m, SH.built);
+    $("m-work").innerHTML = working(m, SH.built);
+    $("m-read").hidden = $("m-work").hidden = false;
+    $("m-dip-hint").innerHTML = m.q ? "Dipole arrows are not shown for ions." : "Dipole arrows point from δ+ to δ−, towards the more electronegative atom. The crossed tail marks the δ+ end.";
+  } else renderPredict();
+}
+function renderPredict(){
+  const P = SH.p, m = PRED[P.order[P.i]];
+  $("p-count").textContent = `· ${P.right} correct of ${P.tried}`;
+  $("p-f").innerHTML = subHtml(m.f) + (m.enr ? ` <span class="beyond" style="font-size:.6rem;vertical-align:6px">Enrichment</span>` : "");
+  $("p-central").innerHTML = `Central atom: ${m.c}. Count the bond pairs and lone pairs, then pick the shape.`;
+  const A = AXE[m.axe];
+  $("p-choices").innerHTML = SHAPES.map(s => `<button class="btn" data-s="${s}">${s}</button>`).join("");
+  const fb = $("p-fb");
+  if (P.ans == null){
+    fb.hidden = true;
+    mv.set({ atoms: [], bonds: [], R: 2, id: "?", back: v => `<text x="${v.cx}" y="${v.cy + 20}" class="qmark">?</text><text x="${v.cx}" y="${v.cy + 50}" text-anchor="middle" font-size="13">Pick a shape to reveal the 3D model</text>` });
+    $("m-cap").innerHTML = "";
+    $("m-read").hidden = $("m-work").hidden = true;
+  } else {
+    const ok = P.ans === A.s;
+    $("p-choices").querySelectorAll("button").forEach(b => { b.disabled = true; if (b.dataset.s === A.s) b.classList.add("right"); else if (b.dataset.s === P.ans) b.classList.add("wrong"); });
+    const B = buildMol(m);
+    const angle = m.meas ? `less than 109.5°, as in ${m.like} (measured: ${m.meas})` : angleText(m);
+    fb.className = "fb " + (ok ? "ok" : "no");
+    fb.innerHTML = `${ok ? "Correct." : "Not quite."} ${subHtml(m.f)}: ${A.n} bond pair${A.n > 1 ? "s" : ""}, ${A.e} lone pair${A.e === 1 ? "" : "s"} → <b>${A.s}</b>, bond angle ${angle}. Analogous to ${m.like}.`;
+    fb.hidden = false;
+    showMol(m);
+    $("m-read").innerHTML = molReadout(m, B);
+    $("m-work").innerHTML = working(m, B);
+    $("m-read").hidden = $("m-work").hidden = false;
+  }
+  $("p-choices").querySelectorAll("button").forEach(b => b.onclick = () => { if (P.ans != null) return; P.ans = b.dataset.s; P.tried++; if (P.ans === A.s) P.right++; renderPredict(); });
+}
+function bindShapes(){
+  mv = Viewer($("m-svg"), $("m-wrap"), w => w < 520 ? 340 : 420);
+  W_.mv = mv;
+  const grp = (lab, arr) => `<optgroup label="${lab}">${arr.map(m => `<option value="${m.id}">${subTxt(m.f)}</option>`).join("")}</optgroup>`;
+  $("m-mol").innerHTML = grp("Syllabus examples (9476)", MOL.filter(m => m.syl)) + grp("More molecules and ions", MOL.filter(m => !m.syl && !m.enr)) + grp("Enrichment", MOL.filter(m => m.enr));
+  $("m-axe").innerHTML = Object.keys(AXE).map(k => `<option value="${k}">${k.replace(/(\d)/g, (d) => "₀₁₂₃₄₅₆₇₈₉"[d])}: ${AXE[k].s}${["AX5", "AX4E", "AX3E2", "AX2E3", "AX5E", "AX4E2"].includes(k) ? " (enrichment)" : ""}</option>`).join("");
+  $("m-mol").onchange = e => { SH.mol = e.target.value; renderShapes(); };
+  $("m-axe").onchange = e => { SH.mol = AXE_REP[e.target.value]; renderShapes(); };
+  [["m-lp", "lp"], ["m-arc", "arc"], ["m-bd", "bd"], ["m-net", "net"]].forEach(([id, k]) => $(id).onchange = e => { SH[k] = e.target.checked; if (k === "lp" && SH.built) showMol(SH.built.m); else mv.draw(); });
+  $("m-reset").onclick = () => mv.reset();
+  document.querySelectorAll('input[name="m-mode"]').forEach(r => r.onchange = e => { SH.mode = e.target.value; if (SH.mode === "pr" && !SH.p.order.length){ SH.p.order = shuffle(PRED.map((_, i) => i)); } renderShapes(); });
+  $("p-next").onclick = () => { const P = SH.p; P.i = (P.i + 1) % P.order.length; if (P.i === 0) P.order = shuffle(P.order); P.ans = null; renderPredict(); };
+  W_.setMol = id => { SH.mode = "ex"; document.querySelector('input[name="m-mode"][value="ex"]').checked = true; SH.mol = id; renderShapes(); };
+  W_.SH = SH;
+  renderShapes();
+}
+
+/* =====================================================
+   2. POLARITY
+   ===================================================== */
+const EP = { mode: "el", a: "H", b: "Cl", d: 1.0 };
+function bondWords(d, pair){
+  if (d < 0.005) return "Non-polar covalent: the bonding electrons are shared equally.";
+  const nonmet = pair && !METAL.has(pair[0]) && !METAL.has(pair[1]);
+  if (d < 0.5) return "Covalent, only slightly polar.";
+  if (d < 1.0) return "Polar covalent.";
+  if (nonmet) return "Very polar covalent (both atoms are non-metals, so the bond is still covalent).";
+  if (d < 2.0) return "Intermediate: strongly polar covalent, with considerable ionic character.";
+  return "Mainly ionic: electron transfer, giving positive and negative ions.";
+}
+function drawEN(){
+  const wrap = $("e-wrap"), svg = $("e-svg");
+  const W = Math.max(260, wrap.clientWidth - 34), H = 190;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H);
+  let A, B, ea, eb, d, pair = null;
+  if (EP.mode === "el"){ A = EP.a; B = EP.b; ea = EN[A]; eb = EN[B]; pair = [A, B]; }
+  else { A = "A"; B = "B"; d = EP.d; ea = 2.0; eb = 2.0 + d; }
+  d = Math.abs(eb - ea);
+  const bothMetal = pair && METAL.has(A) && METAL.has(B);
+  const ic = 1 - Math.exp(-d * d / 4);     // Pauling's ionic-character curve, used only to shape the picture
+  const toB = eb >= ea;                     // electrons pulled towards B
+  const xa = W * 0.3, xb = W * 0.7, y = 100, sep = xb - xa;
+  const share = 0.5 + 0.5 * ic;             // fraction of bonding density on the more electronegative atom
+  const cx = toB ? xa + sep * share : xb - sep * share;
+  const rxc = (sep / 2 + 26) * (1 - 0.55 * ic), ryc = 44 * (1 - 0.25 * ic);
+  const big = toB ? xb : xa, small = toB ? xa : xb;
+  let s = `<defs><radialGradient id="eg"><stop offset="0" style="stop-color:var(--s1);stop-opacity:.55"/><stop offset="1" style="stop-color:var(--s1);stop-opacity:0"/></radialGradient></defs>`;
+  if (!bothMetal){
+    s += `<ellipse cx="${f1(small)}" cy="${y}" rx="${f1(40 * (1 - 0.35 * ic))}" ry="${f1(40 * (1 - 0.35 * ic))}" fill="url(#eg)" opacity="${f2(0.7 - 0.4 * ic)}"/>`;
+    s += `<ellipse cx="${f1(big)}" cy="${y}" rx="${f1(40 + 22 * ic)}" ry="${f1(40 + 22 * ic)}" fill="url(#eg)" opacity="${f2(0.7 + 0.3 * ic)}"/>`;
+    s += `<ellipse cx="${f1(cx)}" cy="${y}" rx="${f1(rxc)}" ry="${f1(ryc)}" fill="url(#eg)" opacity="${f2(1 - 0.75 * ic)}"/>`;
+    s += `<line x1="${xa}" y1="${y}" x2="${xb}" y2="${y}" stroke="var(--bondc)" stroke-width="3" stroke-dasharray="${ic > 0.6 ? "3 5" : "none"}"/>`;
+  }
+  const ca = pair ? COL[A] || "#8a929b" : "#8a929b", cb = pair ? COL[B] || "#8a929b" : "#5d646e";
+  [[xa, A, ca], [xb, B, cb]].forEach(([x, el, c]) => {
+    s += `<circle cx="${x}" cy="${y}" r="20" fill="${c}" stroke="rgba(0,0,0,.3)"/><text x="${x}" y="${y + 5}" text-anchor="middle" font-size="15" font-weight="600" style="fill:${lum(c) > 0.6 ? "#1b2128" : "#fff"}">${el}</text>`;
+  });
+  if (!bothMetal && d >= 0.005){
+    const lab = ic > 0.6 ? ["+", MINUS] : ["δ+", "δ−"];
+    const fs = 13 + 6 * ic;
+    s += `<text x="${small}" y="${y - 50}" text-anchor="middle" font-size="${f1(fs)}" font-weight="600" style="fill:var(--ink)">${lab[0]}</text>`;
+    s += `<text x="${big}" y="${y - 50 - 14 * ic}" text-anchor="middle" font-size="${f1(fs)}" font-weight="600" style="fill:var(--ink)">${lab[1]}</text>`;
+  } else if (!bothMetal){
+    s += `<text x="${W / 2}" y="${y - 52}" text-anchor="middle" font-size="12.5" style="fill:var(--ink-2)">electrons shared equally</text>`;
+  } else {
+    s += `<text x="${W / 2}" y="${y - 44}" text-anchor="middle" font-size="12.5" style="fill:var(--ink-2)">both are metals: no A–B covalent bond</text>`;
+  }
+  const enl = (x, e) => `<text x="${x}" y="${y + 44}" text-anchor="middle" font-size="12" style="fill:var(--ink-2)">EN ${e.toFixed(2)}</text>`;
+  if (EP.mode === "el") s += enl(xa, ea) + enl(xb, eb);
+  svg.innerHTML = s;
+  $("e-mark").style.left = Math.min(100, d / 3.3 * 100) + "%";
+  const cells = [];
+  if (EP.mode === "el") cells.push(["ΔEN", `|${eb.toFixed(2)} − ${ea.toFixed(2)}| = ${d.toFixed(2)}`]);
+  else cells.push(["ΔEN", d.toFixed(2)]);
+  if (bothMetal) cells.push(["Bonding", "Both are metals: metallic bonding in the elements or an alloy, not a polar A–B bond."]);
+  else {
+    cells.push(["Suggested by ΔEN alone", bondWords(d, pair)]);
+    if (d >= 0.005) cells.push(["δ− on", pair ? `${eb > ea ? B : A} <small>(${ENAME[eb > ea ? B : A]}, the more electronegative)</small>` : "B"]);
+  }
+  $("e-read").innerHTML = cells.map((c, i) => `<div class="stat"><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+}
+// ionic radii / nm from the 9476 Data Booklet
+const CAT = { "Li+": [1, 0.060, "Li"], "Na+": [1, 0.095, "Na"], "K+": [1, 0.133, "K"], "Mg2+": [2, 0.065, "Mg"], "Al3+": [3, 0.050, "Al"] };
+const AN = { "F-": 0.136, "Cl-": 0.181, "Br-": 0.195, "I-": 0.216 };
+const FJ = { c: "Al3+", a: "Cl-" };
+const ionHtml = k => k.replace(/(\d?)([+-])$/, (m, n, s) => `<sup>${n}${s === "-" ? MINUS : "+"}</sup>`);
+function fajansIndex(c, a){
+  const [z, r] = CAT[c], P = (z / (r * r)) / (3 / (0.050 * 0.050));    // cation charge density relative to Al3+
+  const alpha = Math.pow(AN[a] / 0.216, 3);                                // anion polarisability, taken as proportional to r^3
+  return Math.sqrt(P * alpha);                                          // 0 to 1, qualitative
+}
+W_.fajansIndex = fajansIndex;
+function drawFajans(){
+  const wrap = $("f-wrap"), svg = $("f-svg");
+  const W = Math.max(260, wrap.clientWidth - 34);
+  const [z, rcn, el] = CAT[FJ.c], ran = AN[FJ.a], rc = rcn * 1000, ra = ran * 1000;   // pm for drawing
+  const k = Math.min(0.36, (W - 60) / 780), H = Math.round(2 * 220 * k * 1.25 + 44);
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H);
+  const idx = fajansIndex(FJ.c, FJ.a);
+  const xc = W / 2 - (rc + ra) * k + rc * k, y = H / 2 + 4;
+  const xa = xc + (rc + ra) * k, R = ra * k, D = 0.62 * idx;
+  const pts = [];
+  for (let i = 0; i <= 90; i++){
+    const t = i / 90 * 2 * Math.PI, cph = Math.cos(t);      // t = 0 points at the cation (to the left)
+    const rr = R * (1 + D * Math.pow(Math.max(0, cph), 3) - 0.12 * D * Math.max(0, -cph));
+    pts.push(f1(xa - rr * Math.cos(t)) + "," + f1(y + rr * Math.sin(t)));
+  }
+  let s = `<defs><radialGradient id="fg" cx=".42" cy=".5"><stop offset="0" style="stop-color:var(--s1);stop-opacity:.5"/><stop offset="1" style="stop-color:var(--s1);stop-opacity:.14"/></radialGradient></defs>`;
+  s += `<circle cx="${f1(xa)}" cy="${y}" r="${f1(R)}" fill="none" stroke="var(--axis)" stroke-dasharray="4 3"/>`;
+  s += `<polygon points="${pts.join(" ")}" fill="url(#fg)" stroke="var(--s1)" stroke-width="1.5"/>`;
+  s += `<text x="${f1(xa + R * 0.35)}" y="${y + 5}" text-anchor="middle" font-size="15" font-weight="600" style="fill:var(--ink)">${FJ.a.replace("-", "")}<tspan dy="-7" font-size="11">${MINUS}</tspan></text>`;
+  s += `<circle cx="${f1(xc)}" cy="${y}" r="${f1(rc * k)}" fill="${COL[el]}" stroke="rgba(0,0,0,.3)"/>`;
+  s += `<text x="${f1(xc)}" y="${f1(rc * k < 26 ? y - rc * k - 7 : y + 5)}" text-anchor="middle" font-size="13" font-weight="600" class="halo" style="fill:var(--ink)">${el}<tspan dy="-6" font-size="10">${z > 1 ? z : ""}+</tspan></text>`;
+  s += `<text x="${f1(xa)}" y="${f1(H - 6)}" text-anchor="middle" font-size="11.5" style="fill:var(--ink-2)">dashed: undistorted anion</text>`;
+  svg.innerHTML = s;
+  $("f-mark").style.left = (idx * 100).toFixed(1) + "%";
+  const cd = (z / (rcn * rcn)) / (1 / (0.095 * 0.095));
+  const word = idx < 0.55 ? "Mainly ionic" : idx < 0.72 ? "Ionic, with noticeable covalent character" : "Considerable covalent character";
+  $("f-read").innerHTML = [
+    [`Cation charge density <small>(relative to Na<sup>+</sup> = 1)</small>`, `${cd.toFixed(2)} <small>${el}${ionHtml(FJ.c.slice(el.length))}: charge ${z}+, radius ${rcn.toFixed(3)} nm</small>`],
+    ["Anion", `radius ${ran.toFixed(3)} nm <small>${ran >= 0.195 ? "large: easily polarised" : ran >= 0.181 ? "fairly large" : "small: hard to polarise"}</small>`],
+    ["Covalent character (qualitative)", word]
+  ].map((c, i) => `<div class="stat${i === 2 ? " wide" : ""}"><div class="l">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+}
+function bindPolarity(){
+  const els = Object.keys(EN).filter(e => ENAME[e]);
+  const opts = els.map(e => `<option value="${e}">${e} (${EN[e].toFixed(2)})</option>`).join("");
+  $("e-a").innerHTML = opts; $("e-b").innerHTML = opts;
+  $("e-a").value = EP.a; $("e-b").value = EP.b;
+  $("e-a").onchange = e => { EP.a = e.target.value; drawEN(); };
+  $("e-b").onchange = e => { EP.b = e.target.value; drawEN(); };
+  $("e-quick").innerHTML = [["Cl", "Cl"], ["H", "Cl"], ["H", "F"], ["Al", "Cl"], ["Na", "Cl"], ["Cs", "F"]].map(p => `<button class="btn" style="padding:4px 9px;font-size:.8rem" data-a="${p[0]}" data-b="${p[1]}">${p[0]}–${p[1]}</button>`).join("");
+  $("e-quick").querySelectorAll("button").forEach(b => b.onclick = () => { EP.a = b.dataset.a; EP.b = b.dataset.b; $("e-a").value = EP.a; $("e-b").value = EP.b; drawEN(); });
+  $("e-d").oninput = e => { EP.d = +e.target.value; $("e-d-o").textContent = EP.d.toFixed(2); drawEN(); };
+  $("e-d-o").textContent = EP.d.toFixed(2);
+  document.querySelectorAll('input[name="e-mode"]').forEach(r => r.onchange = e => { EP.mode = e.target.value; $("e-el").hidden = EP.mode !== "el"; $("e-sl").hidden = EP.mode === "el"; drawEN(); });
+  $("f-cat").innerHTML = Object.keys(CAT).map(c => `<label><input type="radio" name="f-c" value="${c}"${c === FJ.c ? " checked" : ""}>${CAT[c][2]}${ionHtml(c.slice(CAT[c][2].length))}</label>`).join("");
+  $("f-an").innerHTML = Object.keys(AN).map(a => `<label><input type="radio" name="f-a" value="${a}"${a === FJ.a ? " checked" : ""}>${a.replace("-", "")}<sup>${MINUS}</sup></label>`).join("");
+  const sync = () => { document.querySelector(`input[name="f-c"][value="${FJ.c}"]`).checked = true; document.querySelector(`input[name="f-a"][value="${FJ.a}"]`).checked = true; drawFajans(); };
+  document.querySelectorAll('input[name="f-c"]').forEach(r => r.onchange = e => { FJ.c = e.target.value; drawFajans(); });
+  document.querySelectorAll('input[name="f-a"]').forEach(r => r.onchange = e => { FJ.a = e.target.value; drawFajans(); });
+  $("f-quick").innerHTML = [["F-", "AlF<sub>3</sub>"], ["Cl-", "AlCl<sub>3</sub>"], ["Br-", "AlBr<sub>3</sub>"]].map(p => `<button class="btn" style="padding:4px 10px;font-size:.82rem" data-a="${p[0]}">${p[1]}</button>`).join("");
+  $("f-quick").querySelectorAll("button").forEach(b => b.onclick = () => { FJ.c = "Al3+"; FJ.a = b.dataset.a; sync(); });
+  $("f-table").innerHTML = `<thead><tr><th>Compound</th><th>Behaviour on heating</th><th>Structure</th></tr></thead><tbody>
+<tr><td>AlF<sub>3</sub></td><td>sublimes at about 1290 °C</td><td>giant ionic: F<sup>${MINUS}</sup> is small and hard to polarise</td></tr>
+<tr><td>AlCl<sub>3</sub></td><td>sublimes at about 180 °C</td><td>considerable covalent character; Al<sub>2</sub>Cl<sub>6</sub> dimers (two dative bonds) in the vapour</td></tr>
+<tr><td>AlBr<sub>3</sub></td><td>melts at about 98 °C</td><td>covalent: Al<sub>2</sub>Br<sub>6</sub> molecules</td></tr></tbody>`;
+  const ro = (el, fn) => { let w = 0; new ResizeObserver(() => { const nw = el.clientWidth; if (Math.abs(nw - w) > 1){ w = nw; fn(); } }).observe(el); };
+  ro($("e-wrap"), drawEN); ro($("f-wrap"), drawFajans);
+  W_.EP = EP; W_.FJ = FJ; W_.drawEN = drawEN; W_.drawFajans = drawFajans;
+}
+
+/* =====================================================
+   3. LATTICES
+   ===================================================== */
+function seeded(seed){ let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+function pairsWithin(pts, d, tol){ const out = []; for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++){ const L = len(sub(pts[i], pts[j])); if (Math.abs(L - d) < tol) out.push([i, j]); } return out; }
+function centre(atoms){ const c = atoms.reduce((s, a) => add(s, a.p), [0, 0, 0]); const m = mul(c, 1 / atoms.length); atoms.forEach(a => a.p = sub(a.p, m)); return m; }
+const LB = {
+  nacl: () => ionicBlock("Na", "Cl", 0.22, 0.38),
+  mgo: () => ionicBlock("Mg", "O", 0.2, 0.36),
+  cu(){
+    const atoms = [];
+    for (let i = 0; i <= 4; i++) for (let j = 0; j <= 4; j++) for (let k = 0; k <= 4; k++) if ((i + j + k) % 2 === 0) atoms.push({ p: [i - 2, j - 2, k - 2], r: 0.36, c: COL.Cu });
+    const rnd = seeded(7), dots = [];
+    for (let n = 0; n < 90; n++) dots.push([rnd() * 4.6 - 2.3, rnd() * 4.6 - 2.3, rnd() * 4.6 - 2.3]);
+    return { atoms, bonds: [], dots, back: v => `<rect x="10" y="38" width="${v.W - 20}" height="${v.H - 66}" rx="14" class="sea"/>` };
+  },
+  diamond(){
+    // diamond sites (units of a/4): all-even with x+y+z ≡ 0 (mod 4), or all-odd with x+y+z ≡ 3 (mod 4); a cluster of radius 3.5
+    const atoms = [], m4 = v => ((v % 4) + 4) % 4;
+    for (let x = -3; x <= 7; x++) for (let y = -3; y <= 7; y++) for (let z = -3; z <= 7; z++){
+      const ev = [x, y, z].every(q => m4(q) % 2 === 0) && m4(x + y + z) === 0, od = [x, y, z].every(q => m4(q) % 2 === 1) && m4(x + y + z) === 3;
+      const p = [x - 2, y - 2, z - 2];
+      if ((ev || od) && len(p) <= 3.5) atoms.push({ p, r: 0.34, c: COL.C });
+    }
+    const bonds = pairsWithin(atoms.map(a => a.p), Math.sqrt(3), 0.05).map(([a, b]) => ({ a, b, k: "s" }));
+    return { atoms, bonds };
+  },
+  graphite(){
+    const d = 1.42, sp = 3.35, atoms = [], a1 = [Math.sqrt(3) * d, 0], a2 = [Math.sqrt(3) * d / 2, 1.5 * d];
+    [0, 1, 2].forEach(L => {
+      const shift = L === 1 ? d : 0;
+      for (let i = -5; i <= 5; i++) for (let j = -5; j <= 5; j++) for (const bb of [0, d]){
+        const u = i * a1[0] + j * a2[0], w = i * a1[1] + j * a2[1] + bb + shift;
+        if (Math.hypot(u, w - 2 * d) <= 2.7 * d) atoms.push({ p: [u, (L - 1) * sp, w], r: 0.42, c: COL.C, layer: L });
+      }
+    });
+    const bonds = pairsWithin(atoms.map(a => a.p), d, 0.02).map(([a, b]) => ({ a, b, k: "s" }));
+    return { atoms, bonds, bw: 0.11 };
+  },
+  i2(){
+    const a = 7.2, bl = 2.67, atoms = [], bonds = [], mols = [];
+    const dA = unit([0.55, 0, 0.835]), dB = unit([-0.55, 0, 0.835]);
+    for (let i = 0; i <= 2; i++) for (let j = 0; j <= 2; j++) for (let k = 0; k <= 2; k++) if ((i + j + k) % 2 === 0){
+      const c = [(i - 1) * a / 2, (j - 1) * a / 2, (k - 1) * a / 2], dd = j % 2 === 0 ? dA : dB;
+      const n = atoms.length;
+      atoms.push({ p: add(c, mul(dd, bl / 2)), r: 0.72, c: COL.I }, { p: sub(c, mul(dd, bl / 2)), r: 0.72, c: COL.I });
+      bonds.push({ a: n, b: n + 1, k: "s" }); mols.push({ c, own: [n, n + 1] });
+    }
+    // faint outline joining the corner molecules, to show the face-centred arrangement
+    const cs = [-1, 1].map(q => q * a / 2), corner = (x, y, z) => [cs[x], cs[y], cs[z]];
+    for (let x = 0; x < 2; x++) for (let y = 0; y < 2; y++) for (let z = 0; z < 2; z++){
+      if (!x) bonds.push({ pp: corner(0, y, z), qq: corner(1, y, z), k: "gl" });
+      if (!y) bonds.push({ pp: corner(x, 0, z), qq: corner(x, 1, z), k: "gl" });
+      if (!z) bonds.push({ pp: corner(x, y, 0), qq: corner(x, y, 1), k: "gl" });
+    }
+    return { atoms, bonds, bw: 0.22, parts: mols };
+  },
+  ice: iceBlock
+};
+function ionicBlock(cat, an, rc, ra){
+  const atoms = [];
+  for (let i = 0; i <= 2; i++) for (let j = 0; j <= 2; j++) for (let k = 0; k <= 2; k++){
+    const isC = (i + j + k) % 2 === 0;
+    atoms.push({ p: [i - 1, j - 1, k - 1], r: isC ? rc : ra, c: COL[isC ? cat : an], kind: isC ? "c" : "a" });
+  }
+  const bonds = pairsWithin(atoms.map(a => a.p), 1, 0.01).map(([a, b]) => ({ a, b, k: "gl" }));
+  return { atoms, bonds };
+}
+// Hexagonal ice (Ih). O positions from the wurtzite arrangement; O…O = 0.276 nm. Protons are placed by an Eulerian
+// orientation of the O–O network so every interior O has exactly two covalent O–H bonds (the ice rules).
+function iceBlock(){
+  const dOO = 2.76, a = dOO * Math.sqrt(8 / 3), c = a * Math.sqrt(8 / 3);
+  const A1 = [a, 0, 0], A2 = [-a / 2, a * Math.sqrt(3) / 2, 0];
+  const basis = [[1 / 3, 2 / 3, 0], [2 / 3, 1 / 3, 0.5], [1 / 3, 2 / 3, 3 / 8], [2 / 3, 1 / 3, 7 / 8]];
+  let O = [];
+  for (let i = -3; i <= 3; i++) for (let j = -3; j <= 3; j++) for (let k = -2; k <= 1; k++) for (const b of basis){
+    const f = [i + b[0], j + b[1], k + b[2]];
+    O.push(add(add(mul(A1, f[0]), mul(A2, f[1])), [0, 0, f[2] * c]));
+  }
+  // centre on the O nearest the origin
+  let o0 = O.reduce((best, p) => len(p) < len(best) ? p : best, O[0]);
+  O = O.map(p => sub(p, o0)).filter(p => Math.hypot(p[0], p[1]) < 11 && Math.abs(p[2]) < 9);
+  const E = pairsWithin(O, dOO, 0.05);
+  // Euler orientation with a dummy vertex joined to odd-degree vertices
+  const n = O.length, adj = Array.from({ length: n + 1 }, () => []), edges = E.map(e => e.slice());
+  const deg = new Array(n).fill(0); E.forEach(([p, q]) => { deg[p]++; deg[q]++; });
+  deg.forEach((dg, i) => { if (dg % 2) edges.push([i, n]); });
+  edges.forEach(([p, q], ei) => { adj[p].push(ei); adj[q].push(ei); });
+  const used = new Array(edges.length).fill(false), from = new Array(edges.length), ptr = new Array(n + 1).fill(0);
+  for (let s = 0; s <= n; s++){
+    const st = [s];
+    while (st.length){
+      const u = st[st.length - 1];
+      while (ptr[u] < adj[u].length && used[adj[u][ptr[u]]]) ptr[u]++;
+      if (ptr[u] === adj[u].length){ st.pop(); continue; }
+      const ei = adj[u][ptr[u]]; used[ei] = true; from[ei] = u;
+      st.push(edges[ei][0] === u ? edges[ei][1] : edges[ei][0]);
+    }
+  }
+  // display a smaller cylinder of O atoms around the central one
+  const show = O.map((p, i) => Math.hypot(p[0], p[1]) < 5.4 && p[2] > -3.2 && p[2] < 3.9 ? i : -1).filter(i => i >= 0);
+  const idx = new Map(show.map((oi, k) => [oi, k]));
+  const atoms = show.map(oi => ({ p: O[oi], r: 0.5, c: COL.O })), bonds = [], parts = show.map((oi, k) => ({ c: O[oi], own: [k] }));
+  E.forEach(([p, q], ei) => {
+    const donor = from[ei], acc = donor === p ? q : p;
+    if (!idx.has(donor)) return;
+    const u = unit(sub(O[acc], O[donor])), h = add(O[donor], mul(u, 1.0));
+    const hi = atoms.length; atoms.push({ p: h, r: 0.27, c: COL.H });
+    const dk = idx.get(donor); parts[dk].own.push(hi);
+    bonds.push({ a: dk, b: hi, k: "s" });
+    if (idx.has(acc)) bonds.push({ a: hi, b: idx.get(acc), k: "hb" });
+  });
+  return { atoms, bonds, parts, bw: 0.1, nO: show.length };
+}
+const LAT = {
+  nacl: { tab: "NaCl", name: "Sodium chloride", t: "Giant ionic", M: [0.35, -0.55],
+    leg: [["Na", "Na<sup>+</sup>"], ["Cl", `Cl<sup>${MINUS}</sup>`]],
+    parts: `Na<sup>+</sup> and Cl<sup>${MINUS}</sup> ions`, forces: "Strong electrostatic attraction between oppositely charged ions (ionic bonding), acting in all directions",
+    cn: `6:6. Each Na<sup>+</sup> is surrounded by 6 Cl<sup>${MINUS}</sup>, and each Cl<sup>${MINUS}</sup> by 6 Na<sup>+</sup>`,
+    hi: n => `A Cl<sup>${MINUS}</sup> ion and its ${n} nearest neighbours, all Na<sup>+</sup>.`,
+    props: ["<b>High melting point (801 °C):</b> a lot of energy is needed to overcome the strong electrostatic attractions between the many oppositely charged ions.",
+      "<b>Conducts only when molten or in aqueous solution:</b> the ions are then free to move. In the solid, the ions are held in fixed positions.",
+      "<b>Hard but brittle:</b> a small displacement brings ions of like charge next to each other, and the repulsion splits the crystal.",
+      "<b>Soluble in water, not in hexane:</b> polar water molecules hydrate the ions (ion-dipole interactions), releasing energy to overcome the attractions in the lattice. Non-polar hexane cannot."] },
+  mgo: { tab: "MgO", name: "Magnesium oxide", t: "Giant ionic", M: [0.35, -0.55],
+    leg: [["Mg", "Mg<sup>2+</sup>"], ["O", `O<sup>2${MINUS}</sup>`]],
+    parts: `Mg<sup>2+</sup> and O<sup>2${MINUS}</sup> ions`, forces: "Strong electrostatic attraction between oppositely charged ions (ionic bonding)",
+    cn: `6:6, the same arrangement as NaCl`,
+    hi: n => `An O<sup>2${MINUS}</sup> ion and its ${n} nearest neighbours, all Mg<sup>2+</sup>.`,
+    props: [`<b>Very high melting point (2852 °C), far above NaCl (801 °C):</b> the ions carry double charges (2+ and 2${MINUS}) and are small, so the electrostatic attraction between them is much stronger.`,
+      "<b>Conducts when molten, not as a solid:</b> the ions are free to move only in the liquid.",
+      "<b>Hard and brittle, and used to line furnaces</b> because of its very high melting point.",
+      "<b>Almost insoluble in water:</b> the attractions between the doubly charged ions are too strong to be overcome by hydration."] },
+  cu: { tab: "Cu", name: "Copper", t: "Giant metallic", M: [0.3, -0.5],
+    leg: [["Cu", "copper ion"], ["_e", "delocalised electrons"]],
+    parts: "Positive copper ions in a sea of delocalised electrons", forces: "Metallic bonding: electrostatic attraction between the lattice of positive ions and the sea of delocalised electrons",
+    cn: "12: each ion has 12 nearest neighbours (face-centred cubic, a close-packed arrangement)",
+    hi: n => `One copper ion and its ${n} nearest neighbours.`,
+    props: ["<b>High melting point (1085 °C):</b> strong metallic bonding must be overcome.",
+      "<b>Conducts electricity as a solid and when molten:</b> the delocalised electrons move through the lattice when a potential difference is applied.",
+      "<b>Malleable and ductile:</b> layers of ions can slide over one another without breaking the metallic bonding, because the delocalised electrons move with them.",
+      "<b>Good conductor of heat;</b> insoluble in water and in hexane."] },
+  diamond: { tab: "Diamond", name: "Diamond", t: "Giant molecular", M: [0.3, -0.6],
+    leg: [["C", "carbon atom"]],
+    parts: "C atoms", forces: "Strong covalent bonds throughout the whole structure",
+    cn: "4: each C is covalently bonded to 4 others, arranged tetrahedrally (109.5°)",
+    hi: n => `One C atom and the ${n} C atoms bonded to it.`,
+    props: ["<b>Very high melting point (above 3500 °C):</b> a very large number of strong covalent bonds must be broken.",
+      "<b>Extremely hard:</b> the rigid three-dimensional network of strong bonds; used in cutting tools and drill tips.",
+      "<b>Does not conduct electricity:</b> all four valence electrons of each C are held in localised covalent bonds.",
+      "<b>Insoluble</b> in water and in hexane."] },
+  graphite: { tab: "Graphite", name: "Graphite", t: "Giant molecular", M: [0.42, -0.4],
+    leg: [["C", "carbon atom"]],
+    parts: "C atoms in flat hexagonal layers (ABAB stacking)", forces: "Strong covalent bonds within each layer; weak id-id between the layers",
+    cn: "3: each C is bonded to 3 others in its layer (120°)",
+    hi: n => `One C atom and its ${n} nearest neighbours, all in the same layer.`,
+    props: ["<b>Very high melting point (sublimes at about 3650 °C):</b> the strong covalent bonds within the layers must be broken.",
+      "<b>Conducts electricity along the layers:</b> each C uses 3 of its 4 valence electrons in bonds; the fourth is delocalised over the layer.",
+      "<b>Soft and slippery:</b> the layers slide over one another because only weak id-id acts between them. Used in pencils and as a lubricant.",
+      "<b>Less dense than diamond (about 2.2 against 3.5 g cm<sup>−3</sup>):</b> the layers are 0.335 nm apart, much more than the C–C bond length of 0.142 nm within a layer."] },
+  i2: { tab: "Iodine", name: "Iodine", t: "Simple molecular", M: [0.3, -0.55],
+    leg: [["I", "I atom (each pair is one I<sub>2</sub> molecule)"]],
+    parts: "I<sub>2</sub> molecules", forces: "Weak id-id between the molecules; a strong covalent bond within each molecule",
+    cn: "Each I<sub>2</sub> molecule has 12 neighbouring molecules in the idealised face-centred arrangement shown",
+    hi: n => `One I<sub>2</sub> molecule and the ${n} neighbouring molecules inside this block (the other ${12 - n} lie outside it).`,
+    props: ["<b>Low melting point (114 °C); sublimes on gentle warming:</b> only the weak id-id between molecules is overcome. The I–I bonds do not break.",
+      "<b>Does not conduct:</b> there are no mobile charged particles.",
+      "<b>Soluble in hexane (violet solution), only very slightly soluble in water:</b> similar weak id-id forms between I<sub>2</sub> and hexane.",
+      "<b>A solid, while Cl<sub>2</sub> is a gas:</b> I<sub>2</sub> has many more electrons, so its larger electron cloud is more easily polarised and the id-id is stronger."] },
+  ice: { tab: "Ice", name: "Ice", t: "Simple molecular (hydrogen-bonded)", M: [-0.45, 0.15],
+    leg: [["O", "O atom"], ["H", "H atom"], ["_hb", "hydrogen bond"]],
+    parts: "H<sub>2</sub>O molecules", forces: "Hydrogen bonding between molecules (and id-id); covalent O–H bonds within each molecule",
+    cn: "4: each O is tetrahedrally surrounded by 4 other O atoms, 2 through its own H atoms and 2 through hydrogen bonds to its lone pairs",
+    hi: n => `One O atom and its ${n} nearest O neighbours, tetrahedrally arranged.`,
+    props: ["<b>Less dense than liquid water (0.92 against 1.00 g cm<sup>−3</sup>):</b> the hydrogen bonds hold the molecules in an open tetrahedral structure with large spaces. On melting, some hydrogen bonds break, the structure partly collapses and the molecules pack more closely. Ice floats.",
+      "<b>High melting and boiling points for its size (0 °C and 100 °C; H<sub>2</sub>S boils at −60 °C):</b> hydrogen bonds must be overcome as well as id-id.",
+      "<b>Does not conduct:</b> no mobile charged particles.",
+      "<b>Distances:</b> O–H 0.100 nm (covalent), H…O 0.176 nm (hydrogen bond), O…O 0.276 nm."] }
+};
+const LS = { key: "nacl", hi: false };
+const latCache = {};
+function getLat(key){
+  if (latCache[key]) return latCache[key];
+  const L = LB[key]();
+  centre(L.atoms);
+  L.bonds = L.bonds.map(b => Object.assign(b, b.pp ? { p: b.pp, q: b.qq } : { p: L.atoms[b.a].p, q: L.atoms[b.b].p }));
+  if (L.parts) L.parts.forEach(pt => pt.c = key === "i2" ? mul(add(L.atoms[pt.own[0]].p, L.atoms[pt.own[1]].p), 0.5) : L.atoms[pt.own[0]].p);
+  else L.parts = L.atoms.map((a, i) => ({ c: a.p, own: [i] }));
+  // interior particle: nearest the centroid of the particles
+  const cen = mul(L.parts.reduce((s, p) => add(s, p.c), [0, 0, 0]), 1 / L.parts.length);
+  let h = 0; L.parts.forEach((p, i) => { if (len(sub(p.c, cen)) < len(sub(L.parts[h].c, cen)) - 1e-9) h = i; });
+  let dmin = Infinity; L.parts.forEach((p, i) => { if (i !== h) dmin = Math.min(dmin, len(sub(p.c, L.parts[h].c))); });
+  L.h = h; L.nbrs = L.parts.map((p, i) => i).filter(i => i !== h && len(sub(L.parts[i].c, L.parts[h].c)) < dmin * 1.08);
+  L.R = Math.max(...L.atoms.map(a => len(a.p) + a.r));
+  return latCache[key] = L;
+}
+W_.lat = key => getLat(key);
+let lv;
+function showLat(resetView){
+  const key = LS.key, L = getLat(key), info = LAT[key];
+  let atoms = L.atoms, bonds = L.bonds;
+  if (LS.hi){
+    const on = new Set([L.h, ...L.nbrs].flatMap(i => L.parts[i].own));
+    atoms = atoms.map((a, i) => Object.assign({}, a, { o: on.has(i) ? 1 : 0.16 }));
+    bonds = bonds.map(b => Object.assign({}, b, { o: b.pp || (on.has(b.a) && on.has(b.b)) ? (b.pp ? 0.5 : 1) : 0.16 }));
+    L.nbrs.forEach(i => bonds.push({ p: L.parts[L.h].c, q: L.parts[i].c, k: "nn" }));
+  }
+  const scene = { atoms, bonds, dots: L.dots && !LS.hi ? L.dots.map(d => d) : L.dots ? [] : null, back: L.back, R: L.R, bw: L.bw || 0.12, id: key };
+  lv.set(scene, resetView ? mm(rx(info.M[0]), ry(info.M[1])) : null);
+  $("l-cap").textContent = info.name;
+  $("l-hi-note").innerHTML = LS.hi ? info.hi(L.nbrs.length) : "";
+}
+function renderLat(){
+  const key = LS.key, info = LAT[key];
+  $("l-tabs").querySelectorAll("button").forEach(b => b.setAttribute("aria-selected", b.dataset.k === key));
+  $("l-type").textContent = info.t;
+  $("l-legend").innerHTML = info.leg.map(([el, lab]) => `<span><i class="dot" style="${el === "_e" ? "background:var(--s1);width:7px;height:7px" : el === "_hb" ? "border-radius:0;height:0;width:16px;box-shadow:none;border-top:2px dashed var(--ink-2)" : `background:${COL[el]}`}"></i><span>${lab}</span></span>`).join("");
+  $("l-facts").innerHTML = [["Particles", info.parts], ["Forces between particles", info.forces], ["Coordination number", info.cn]].map(c => `<div class="stat"><div class="l">${c[0]}</div><div class="v" style="font-size:.92rem;font-weight:500">${c[1]}</div></div>`).join("");
+  $("l-props").innerHTML = info.props.map(p => `<li>${p}</li>`).join("");
+  showLat(true);
+}
+function bindLat(){
+  lv = Viewer($("l-svg"), $("l-wrap"), w => w < 520 ? 340 : 420);
+  W_.lv = lv;
+  $("l-tabs").innerHTML = Object.keys(LAT).map(k => `<button role="tab" data-k="${k}" aria-selected="false">${LAT[k].tab}</button>`).join("");
+  $("l-tabs").querySelectorAll("button").forEach(b => b.onclick = () => { LS.key = b.dataset.k; renderLat(); });
+  $("l-hi").onchange = e => { LS.hi = e.target.checked; showLat(false); };
+  $("l-reset").onclick = () => lv.reset();
+  W_.setLat = (k, hi) => { LS.key = k; if (hi != null){ LS.hi = hi; $("l-hi").checked = hi; } renderLat(); };
+  renderLat();
+}
+
+/* =====================================================
+   4. STRUCTURE FROM PROPERTIES
+   ===================================================== */
+const TYPES = ["Giant ionic", "Giant metallic", "Giant molecular", "Simple molecular"];
+const X_ = (n, f, t, mp, bp, c, w, h, x, y) => ({ n, f, t, mp, bp, c, w, h, x, y });
+const SUB = [
+  X_("Sodium chloride", "NaCl", 0, "801 °C", "1413 °C", ["no", "yes", "yes"], "soluble", "insoluble", "hard, brittle crystals", "High mp; conducts only when molten or dissolved, when the ions are free to move: giant ionic."),
+  X_("Magnesium oxide", "MgO", 0, "2852 °C", "3600 °C", ["no", "yes", "insoluble"], "almost insoluble", "insoluble", "hard, brittle; lines furnaces", "Very high mp; conducts when molten but not as a solid: giant ionic, with Mg²⁺ and O²⁻ ions."),
+  X_("Potassium bromide", "KBr", 0, "734 °C", "1435 °C", ["no", "yes", "yes"], "soluble", "insoluble", "hard, brittle crystals", "High mp; conducts when molten or in solution but not as a solid: giant ionic."),
+  X_("Copper", "Cu", 1, "1085 °C", "2562 °C", ["yes", "yes", "insoluble"], "insoluble", "insoluble", "malleable and ductile", "Conducts as a solid and when molten; malleable: giant metallic."),
+  X_("Iron", "Fe", 1, "1538 °C", "2862 °C", ["yes", "yes", "insoluble"], "insoluble", "insoluble", "strong, malleable", "Conducts as a solid and when molten; high mp: giant metallic."),
+  X_("Sodium", "Na", 1, "98 °C", "883 °C", ["yes", "yes", "reacts"], "reacts, giving H₂", "insoluble", "soft: cuts with a knife", "Conducts as a solid, so giant metallic, even with a low mp: one delocalised electron per atom and a large ion give weaker metallic bonding."),
+  X_("Diamond", "C", 2, "above 3500 °C (sublimes)", "n/a", ["no", "n/a", "insoluble"], "insoluble", "insoluble", "extremely hard", "Extremely high mp, very hard, does not conduct: giant molecular, every C covalently bonded to 4 others."),
+  X_("Graphite", "C", 2, "about 3650 °C (sublimes)", "n/a", ["yes, along the layers", "n/a", "insoluble"], "insoluble", "insoluble", "soft, slippery", "Very high mp, yet conducts as a solid through delocalised electrons within the layers: giant molecular, not metallic."),
+  X_("Silicon dioxide (quartz)", "SiO₂", 2, "about 1710 °C", "2230 °C", ["no", "no", "insoluble"], "insoluble", "insoluble", "hard", "Very high mp and no conduction even when molten: giant molecular, each Si covalently bonded to 4 O."),
+  X_("Iodine", "I₂", 3, "114 °C", "184 °C", ["no", "no", "no"], "very slightly soluble", "soluble (violet)", "soft; sublimes on warming", "Low mp, non-conductor, dissolves in a non-polar solvent: simple molecular, id-id between I₂ molecules."),
+  X_("Sulfur", "S₈", 3, "115 °C", "445 °C", ["no", "no", "insoluble"], "insoluble", "slightly soluble", "brittle yellow solid", "Low mp and non-conductor: simple molecular, id-id between S₈ rings."),
+  X_("Methane", "CH₄", 3, "−182 °C", "−162 °C", ["no", "no", "no"], "very slightly soluble", "soluble", "gas at room temperature", "Very low mp and bp: simple molecular, only weak id-id between CH₄ molecules."),
+  X_("Water", "H₂O", 3, "0 °C", "100 °C", ["no", "very poor", "n/a"], "n/a", "immiscible", "ice is less dense than water", "Low mp and bp, though high for its size: simple molecular with hydrogen bonding between the molecules."),
+  X_("Glucose", "C₆H₁₂O₆", 3, "decomposes at about 146 °C", "n/a", ["no", "n/a", "no"], "very soluble", "insoluble", "white crystals", "Decomposes at a low temperature; dissolves in water without conducting (neutral molecules that hydrogen bond with water): simple molecular."),
+  X_("Naphthalene", "C₁₀H₈", 3, "80 °C", "218 °C", ["no", "no", "insoluble"], "insoluble", "soluble", "soft, volatile", "Low mp, non-conductor, soluble in a non-polar solvent: simple molecular (id-id)."),
+  X_("Aluminium chloride", "AlCl₃", 3, "sublimes at about 180 °C", "n/a", ["no", "n/a", "yes (reacts with water)"], "reacts, giving an acidic solution", "n/a", "fumes in moist air", "Low sublimation point and no conduction: covalent, small Al₂Cl₆ molecules held by weak forces. The solution conducts only because AlCl₃ reacts with water to form ions."),
+  X_("White phosphorus", "P₄", 3, "44 °C", "280 °C", ["no", "no", "insoluble"], "insoluble", "soluble in CS₂", "soft, waxy", "Low mp and non-conductor: simple molecular, id-id between P₄ molecules."),
+  X_("Tetrachloromethane", "CCl₄", 3, "−23 °C", "77 °C", ["no", "no", "immiscible"], "immiscible", "miscible", "colourless liquid", "Low mp and bp, non-conductor, mixes with non-polar solvents: simple molecular (id-id).")
+];
+const SORT_IDS = SUB.slice(0, 16).map((_, i) => i);
+const SO = { assign: {}, sel: null, checked: false, mys: [], mysAns: {}, mysChecked: false };
+// card data is written with Unicode sub/superscripts for brevity; render them as <sub>/<sup>
+const U2H = t => t.replace(/[₀-₉]+/g, m => `<sub>${[...m].map(c => c.charCodeAt(0) - 8320).join("")}</sub>`)
+  .replace(/[⁰¹²³⁴-⁹⁺⁻]+/g, m => `<sup>${[...m].map(c => ({ "⁰": 0, "¹": 1, "²": 2, "³": 3, "⁺": "+", "⁻": MINUS })[c] ?? (c.charCodeAt(0) - 8304)).join("")}</sup>`);
+function cardBody(s, named){
+  const nm = named ? `<div class="nm"><span>${s.n}</span><small>${s.f}</small></div>` : "";
+  return U2H(`${nm}<dl><dt>mp</dt><dd>${s.mp}</dd><dt>bp</dt><dd>${s.bp}</dd><dt>conducts</dt><dd>solid: ${s.c[0]} · molten: ${s.c[1]} · aqueous: ${s.c[2]}</dd><dt>in water</dt><dd>${s.w}</dd><dt>in hexane</dt><dd>${s.h}</dd><dt>other</dt><dd>${s.x}</dd></dl>`);
+}
+function renderSort(){
+  $("s-cards").innerHTML = SORT_IDS.map(i => {
+    const s = SUB[i], a = SO.assign[i];
+    let cls = "scard" + (SO.sel === i ? " sel" : "");
+    let extra = a != null ? `<span class="as">${TYPES[a]}</span>` : "";
+    if (SO.checked && a != null){ const ok = a === s.t; cls += ok ? " right" : " wrong"; extra += `<div class="why">${ok ? "Correct. " : `Not quite: ${TYPES[s.t].toLowerCase()}. `}${U2H(s.y)}</div>`; }
+    return `<button class="${cls}" data-i="${i}" aria-pressed="${SO.sel === i}">${cardBody(s, true)}${extra}</button>`;
+  }).join("");
+  $("s-cards").querySelectorAll(".scard").forEach(b => b.onclick = () => { const i = +b.dataset.i; SO.sel = SO.sel === i ? null : i; renderSort(); });
+  const counts = TYPES.map((_, t) => SORT_IDS.filter(i => SO.assign[i] === t).length);
+  $("s-tray").innerHTML = TYPES.map((t, k) => `<button data-t="${k}"${SO.sel == null ? " disabled" : ""}>${t} <b>${counts[k]}</b></button>`).join("");
+  $("s-tray").querySelectorAll("button").forEach(b => b.onclick = () => { if (SO.sel == null) return; SO.assign[SO.sel] = +b.dataset.t; SO.sel = null; SO.checked = false; $("s-fb").hidden = true; renderSort(); });
+}
+function checkSort(){
+  const placed = SORT_IDS.filter(i => SO.assign[i] != null);
+  SO.checked = true; renderSort();
+  const right = placed.filter(i => SO.assign[i] === SUB[i].t).length, fb = $("s-fb");
+  fb.className = "fb " + (right === SORT_IDS.length ? "ok" : "no");
+  fb.innerHTML = `${right} of ${SORT_IDS.length} correct${placed.length < SORT_IDS.length ? ` (${SORT_IDS.length - placed.length} not yet placed)` : ""}. ${right === SORT_IDS.length ? "All correct." : right < placed.length ? "Wrong cards are marked in red with the reason." : ""} Water and glucose are simple molecular, with hydrogen bonding between their molecules.`;
+  fb.hidden = false;
+}
+function newMystery(){
+  const byType = TYPES.map((_, t) => SUB.map((s, i) => i).filter(i => SUB[i].t === t));
+  SO.mys = shuffle(byType.map(g => { g = g.filter(i => SUB[i].f !== "H₂O"); return g[Math.floor(Math.random() * g.length)]; }));   // water would give itself away
+  SO.mysAns = {}; SO.mysChecked = false; $("y-fb").hidden = true; renderMystery();
+}
+function renderMystery(){
+  $("y-cards").innerHTML = SO.mys.map((i, k) => {
+    const s = SUB[i], a = SO.mysAns[k];
+    let cls = "scard", extra = "";
+    if (SO.mysChecked){ const ok = a === s.t; cls += ok ? " right" : " wrong"; extra = U2H(`<div class="why"><b>${s.n}, ${s.f}.</b> ${ok ? "" : `${a == null ? "Not answered: it" : "It"} is ${TYPES[s.t].toLowerCase()}. `}${s.y}</div>`); }
+    return `<div class="${cls}" style="cursor:default"><div class="nm"><span>Substance ${"ABCD"[k]}</span></div>${cardBody(s, false)}
+      <select data-k="${k}" aria-label="Structure of substance ${"ABCD"[k]}" style="font:inherit;font-size:.88rem;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);width:100%"><option value="">Choose structure</option>${TYPES.map((t, j) => `<option value="${j}"${a === j ? " selected" : ""}>${t}</option>`).join("")}</select>${extra}</div>`;
+  }).join("");
+  $("y-cards").querySelectorAll("select").forEach(sel => sel.onchange = () => { SO.mysAns[+sel.dataset.k] = sel.value === "" ? undefined : +sel.value; });
+}
+function bindSort(){
+  const tab = mode => { $("s-tab-sort").setAttribute("aria-selected", mode === "s"); $("s-tab-mys").setAttribute("aria-selected", mode === "m"); $("s-sort").hidden = mode !== "s"; $("s-mys").hidden = mode !== "m"; if (mode === "m" && !SO.mys.length) newMystery(); };
+  $("s-tab-sort").onclick = () => tab("s"); $("s-tab-mys").onclick = () => tab("m");
+  $("s-check").onclick = checkSort;
+  $("s-reset").onclick = () => { SO.assign = {}; SO.sel = null; SO.checked = false; $("s-fb").hidden = true; renderSort(); };
+  $("y-new").onclick = newMystery;
+  $("y-check").onclick = () => {
+    SO.mysChecked = true; renderMystery();
+    const r = SO.mys.filter((i, k) => SO.mysAns[k] === SUB[i].t).length, fb = $("y-fb");
+    fb.className = "fb " + (r === 4 ? "ok" : "no"); fb.textContent = `${r} of 4 correct. Press New set for another four.`; fb.hidden = false;
+  };
+  W_.SUB = SUB; W_.SO = SO; W_.tab = tab;
+  renderSort();
+}
+
+/* =====================================================
+   5. QUIZ
+   ===================================================== */
+const QZ = [
+  { q: "How many dative covalent (co-ordinate) bonds are there in one Al<sub>2</sub>Cl<sub>6</sub> molecule?",
+    o: ["Two: a lone pair on each bridging Cl atom is donated to the Al atom of the other AlCl<sub>3</sub> unit.",
+        "One: a single Cl atom bridges the two Al atoms.",
+        "Four: every bond to a bridging Cl atom is dative.",
+        "None: Al already has an octet in AlCl<sub>3</sub>."],
+    e: "In AlCl<sub>3</sub>, Al has only 6 electrons in its valence shell. In the dimer, two bridging Cl atoms each donate a lone pair to the other Al, so each Al gains an octet: 2 dative bonds." },
+  { q: "How many σ and π bonds are there in the N<sub>2</sub> molecule?",
+    o: ["1 σ and 2 π", "3 σ", "2 σ and 1 π", "1 σ and 1 π"],
+    e: "N≡N is a triple bond: one σ bond (head-on overlap) and two π bonds (side-on overlap of p orbitals). Its very high bond energy (944 kJ mol<sup>−1</sup>) is why N<sub>2</sub> is so unreactive." },
+  { q: "What is the shape of NH<sub>4</sub><sup>+</sup>, and what is its H–N–H bond angle?",
+    o: ["Tetrahedral, 109.5°", "Trigonal pyramidal, 107°", "Square planar, 90°", "Tetrahedral, but one angle is smaller because one bond is dative"],
+    e: "N has 4 bond pairs and no lone pairs. The dative bond, once formed, is identical to the other three N–H bonds, so all angles are 109.5°." },
+  { q: "CO<sub>2</sub> contains polar C=O bonds. Why is the molecule non-polar?",
+    o: ["It is linear, so the two equal bond dipoles point in opposite directions and cancel.",
+        "C and O have the same electronegativity.",
+        "The π bonds cancel the polarity of the σ bonds.",
+        "The lone pairs on C balance the bond dipoles."],
+    e: "O is more electronegative than C, so each C=O bond is polar, but in the linear molecule the two bond dipoles are equal and opposite. C in CO<sub>2</sub> has no lone pairs." },
+  { q: "Which of these molecules is polar?",
+    o: ["CHCl<sub>3</sub>", "CCl<sub>4</sub>", "BF<sub>3</sub>", "SF<sub>6</sub>"],
+    e: "CHCl<sub>3</sub> is tetrahedral, but the C–H and C–Cl bond dipoles differ, so they do not cancel. The other three are symmetrical with identical bonds, so their bond dipoles cancel." },
+  { q: "Why does Br<sub>2</sub> (bp 59 °C) have a higher boiling point than Cl<sub>2</sub> (bp −34 °C)?",
+    o: ["Br<sub>2</sub> has more electrons, so its larger electron cloud is more easily polarised and the id-id between molecules is stronger.",
+        "The Br–Br bond is stronger than the Cl–Cl bond.",
+        "Br<sub>2</sub> has pd-pd, but Cl<sub>2</sub> does not.",
+        "Br<sub>2</sub> forms hydrogen bonds."],
+    e: "Boiling overcomes the forces between molecules, not the covalent bond. In fact Br–Br (193 kJ mol<sup>−1</sup>) is weaker than Cl–Cl (244 kJ mol<sup>−1</sup>). Both molecules are non-polar." },
+  { q: "Propanone, CH<sub>3</sub>COCH<sub>3</sub> (bp 56 °C), and butane, C<sub>4</sub>H<sub>10</sub> (bp −1 °C), have the same <i>M</i><sub>r</sub> of 58. What best explains the difference?",
+    o: ["Propanone is polar, so it has pd-pd in addition to id-id; butane has only id-id.",
+        "Propanone forms hydrogen bonds between its molecules.",
+        "Propanone has more electrons, so its id-id is stronger.",
+        "The C=O bond must be broken when propanone boils."],
+    e: "The polar C=O group gives propanone a permanent dipole. It has no H bonded to O, N or F, so it cannot hydrogen bond with itself. Butane actually has slightly more electrons (34 against 32)." },
+  { q: "Why is ice less dense than liquid water?",
+    o: ["In ice each molecule is hydrogen-bonded to 4 others in an open tetrahedral structure that holds the molecules further apart than in the liquid.",
+        "The covalent O–H bonds lengthen when water freezes.",
+        "Ice contains trapped air.",
+        "The molecules in ice have more kinetic energy."],
+    e: "On melting, some hydrogen bonds break, the open structure partly collapses and the molecules pack more closely, so the liquid is denser." },
+  { q: "Iodoalkanes are hydrolysed faster than chloroalkanes. Which statement best explains this?",
+    o: ["The C–I bond is longer and weaker than the C–Cl bond, so it is broken more easily.",
+        "The C–I bond is more polar than the C–Cl bond.",
+        "I is more electronegative than Cl.",
+        "The C–I bond is shorter, so the nucleophile reaches C more easily."],
+    e: "Bond energies: C–Cl 340, C–I 240 kJ mol<sup>−1</sup>. C–Cl is actually the more polar bond, so bond strength, not polarity, decides the rate." },
+  { q: "Why does graphite conduct electricity while diamond does not?",
+    o: ["Each C in graphite is bonded to only 3 others; its fourth valence electron is delocalised over the layer.",
+        "Graphite contains mobile ions between its layers.",
+        "Graphite has a giant metallic structure.",
+        "The weak id-id between the layers lets electrons flow."],
+    e: "In diamond all four valence electrons of each C are in localised σ bonds. In graphite the delocalised electrons move along the layers, but not easily between them." }
+];
+const Q = { i: 0, score: 0, order: [], answered: false };
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length}</span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${q.q}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${q.o[oi]}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : "Not quite."} ${q.e}</div><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+W_.Q = Q; W_.QZ = QZ;
+
+/* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly (never the page itself).
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+function redrawAll(){ mv.draw(); lv.draw(); drawEN(); drawFajans(); }
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+new MutationObserver(redrawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+bindShapes(); bindPolarity(); bindLat(); bindSort(); startQuiz(); bindNav();
+drawEN(); drawFajans();
+})();
+</script>
