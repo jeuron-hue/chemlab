@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 4 Theories of Acids and Bases.">
+<title>Acids and Bases Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --grid:#e3e8ed; --axis:#aeb8c3; --line:#d4dbe2; --accent:#1c5da3; --accent-ink:#ffffff; --accent-soft:#e2ecf7;
+  --s1:#2a78d6; --s1-wash:rgba(42,120,214,.22); --s2:#eb6834; --s2-wash:rgba(235,104,52,.20); --s3:#1baf7a; --ref:#8a929b;
+  --s1-ink:#1c5da3; --s2-ink:#b04412; --s3-ink:#0f7a54; --s3-wash:rgba(27,175,122,.14);
+  --good:#006300; --good-bg:#e5f2e5; --bad:#c42f2f; --bad-bg:#fbe9e9; --warn-bg:#fff4dc; --warn:#7a5200;
+  --bondc:#9aa4ae; --lp:rgba(42,120,214,.16); --lp-edge:rgba(42,120,214,.6); --dat:#0f8a5f; --eo:#b04412;
+  --shadow:0 1px 2px rgba(20,26,32,.06), 0 1px 0 rgba(20,26,32,.03);
+  --serif:var(--sans);
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+    --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+    --s1-ink:#7db3f0; --s2-ink:#f29468; --s3-ink:#3fcf95; --s3-wash:rgba(25,158,112,.18);
+    --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+    --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --dat:#3fcf95; --eo:#f29468;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+  --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
+  --s1-ink:#7db3f0; --s2-ink:#f29468; --s3-ink:#3fcf95; --s3-wash:rgba(25,158,112,.18);
+  --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+  --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --dat:#3fcf95; --eo:#f29468;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3,h4{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:var(--shadow); min-width:0}
+.controls{display:flex; flex-direction:column; gap:14px}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2)}
+.legend > span{display:inline-flex; align-items:center; gap:6px}
+.key{display:inline-block; width:18px; height:0; border-top:2px solid; border-radius:1px}
+.key.dash{border-top-style:dashed}
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.05rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
+.callout{font-size:.86rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.nw{white-space:nowrap}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
+.field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.fb ul{margin:6px 0 0; padding-left:18px}
+.stack{display:flex; flex-direction:column; gap:14px; min-width:0}
+h3.sub3{font-size:1.15rem; margin:0}
+
+/* theory cards */
+.cards3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px}
+@media (max-width:980px){ .cards3{grid-template-columns:minmax(0,1fr)} }
+.card h3{font-size:1.12rem; display:flex; flex-wrap:wrap; gap:4px 10px; align-items:baseline}
+.card .who{font-size:.8rem; color:var(--muted); margin:2px 0 10px}
+.defs{display:grid; grid-template-columns:auto minmax(0,1fr); gap:4px 10px; margin:0 0 10px; font-size:.92rem}
+.defs dt{font-weight:600}
+.defs dd{margin:0}
+.eqs{display:flex; flex-direction:column; gap:3px; margin:6px 0 10px; font-variant-numeric:tabular-nums}
+.eqs div{overflow-wrap:anywhere}
+.card h4{font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:10px 0 4px}
+.card ul{margin:0; padding-left:18px; font-size:.9rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+.card p{margin:6px 0 0; font-size:.9rem; color:var(--ink-2)}
+.nestwrap{margin-top:16px}
+.nestwrap svg{display:block; width:100%}
+svg .nz{stroke-width:2}
+svg .nzbg{fill:var(--surface)}
+svg .nz-l{fill:color-mix(in srgb, var(--s3) 11%, var(--surface)); stroke:var(--s3)}
+svg .nz-b{fill:color-mix(in srgb, var(--s1) 12%, var(--surface)); stroke:var(--s1)}
+svg .nz-a{fill:color-mix(in srgb, var(--s2) 12%, var(--surface)); stroke:var(--s2)}
+svg .nt{font-size:14px; font-weight:600; fill:var(--ink)}
+svg .nd{font-size:12.5px; fill:var(--ink-2)}
+svg .ne{font-size:12.5px; fill:var(--muted); font-style:italic}
+
+/* proton transfer */
+.eqfull{font-size:1rem; margin:0 0 4px; overflow-wrap:anywhere}
+.eqrow{display:flex; flex-wrap:wrap; align-items:flex-start; gap:8px 6px; font-size:1.1rem}
+.eqrow .op{padding-top:7px; color:var(--ink-2)}
+.tok{font:inherit; font-size:1.06rem; display:inline-flex; flex-direction:column; align-items:center; gap:2px; padding:6px 9px 5px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); min-width:62px; cursor:default; line-height:1.35}
+.tok .tr{font-size:.66rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; min-height:1.2em; color:var(--muted); padding-bottom:1px; border-bottom:2px solid transparent; white-space:nowrap}
+.tok.pa .tr{color:var(--s2-ink); border-bottom:2px dashed var(--s2)}
+.tok.pb .tr{color:var(--s1-ink); border-bottom:2px solid var(--s1)}
+.tok.pick{cursor:pointer}
+.tok.pick:hover{border-color:var(--accent)}
+.tok.sel{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent)}
+.tok.ok{border-color:var(--good); background:var(--good-bg)}
+.tok.bad{border-color:var(--bad); background:var(--bad-bg)}
+.tok .mk{font-size:.7rem; font-weight:600}
+.tok.ok .mk{color:var(--good)} .tok.bad .mk{color:var(--bad)}
+.roles{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px}
+.roles .btn{padding:7px 6px; font-size:.84rem}
+.stage{background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); overflow:hidden}
+.stage svg{display:block; width:100%}
+svg .tile{fill:var(--surface-2); stroke:var(--axis); stroke-width:1}
+svg .tilet{font-size:17px; fill:var(--ink)}
+svg .colh{font-size:11px; font-weight:600; letter-spacing:.08em; fill:var(--muted)}
+svg .hp{fill:var(--accent)}
+svg .hpt{font-size:12px; font-weight:600; fill:var(--accent-ink)}
+svg .po-a{fill:none; stroke:var(--s2); stroke-width:2; stroke-dasharray:7 5}
+svg .po-b{fill:none; stroke:var(--s1); stroke-width:2}
+svg .rl{font-size:12.5px; font-weight:600}
+svg .rl-a{fill:var(--s2-ink)} svg .rl-b{fill:var(--s1-ink)}
+svg .plab{font-size:11.5px; font-weight:600; paint-order:stroke; stroke:var(--surface); stroke-width:5px; stroke-linejoin:round}
+svg .rarrow{stroke:var(--ink-2); stroke-width:1.6; fill:none}
+svg .rarrowh{fill:var(--ink-2)}
+svg .dh{font-size:12px; font-weight:600; fill:var(--ink-2)}
+.opts2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px}
+.opts2 .opt{justify-content:center; font-size:1.05rem}
+.bigf{font-size:1.5rem; font-weight:600; line-height:1.3}
+
+/* 3D viewer */
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow)}
+.viewer svg{display:block; width:100%; touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none}
+.viewer svg:active{cursor:grabbing}
+.viewer .vhint{position:absolute; left:10px; bottom:7px; font-size:.74rem; color:var(--muted); pointer-events:none}
+.viewer .vtop{position:absolute; right:8px; top:8px; display:flex; gap:6px}
+.viewer .vtop .btn{padding:4px 10px; font-size:.78rem}
+.viewer .vcap{position:absolute; left:10px; top:8px; font-size:.95rem; font-weight:600; color:var(--ink); pointer-events:none; max-width:60%}
+svg .bd{stroke:var(--bondc); stroke-linecap:round}
+svg .dat{stroke:var(--dat); stroke-linecap:round}
+svg .dath{fill:var(--dat)}
+svg .lp{fill:var(--lp); stroke:var(--lp-edge); stroke-width:1}
+svg .lpe{fill:var(--lp-edge)}
+svg .eo{fill:none; stroke:var(--eo); stroke-width:1.4; stroke-dasharray:4 3}
+svg .atl{font-weight:600; text-anchor:middle; pointer-events:none}
+.molbtns{display:flex; flex-direction:column; gap:6px}
+.molbtns button{text-align:left; font-size:.9rem; padding:8px 10px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; display:flex; flex-wrap:wrap; gap:4px 8px; align-items:baseline}
+.molbtns button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+.lkey{display:inline-block; width:16px; height:10px; border-radius:50%}
+
+/* sorter */
+.qline{font-weight:500; margin:0 0 10px}
+.deck{display:flex; flex-wrap:wrap; gap:8px; min-height:56px; padding:10px; border:1px dashed var(--axis); border-radius:8px; background:var(--surface)}
+.deck:empty::before{content:"All cards placed. Press Check."; font-size:.82rem; color:var(--muted); align-self:center}
+.tcard{display:flex; gap:8px; align-items:stretch; max-width:100%; text-align:left; font:inherit; font-size:.86rem; line-height:1.42; padding:7px 10px 7px 6px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; box-shadow:var(--shadow); user-select:none; -webkit-user-select:none}
+.tcard .grip{flex:none; width:12px; cursor:grab; touch-action:none; background-image:radial-gradient(circle, var(--muted) 1.3px, transparent 1.6px); background-size:6px 6px; background-position:0 2px; opacity:.85; border-radius:2px}
+.tcard .tx{min-width:0; overflow-wrap:anywhere}
+.tcard .beyond{margin:0 0 0 6px; font-size:.6rem}
+.tcard.sel{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent)}
+.tcard.right{border-color:var(--good); background:var(--good-bg)}
+.tcard.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.tcard.dragging{opacity:.35}
+.tcard .why{display:block; margin-top:5px; font-size:.8rem}
+.tcard.right .why{color:var(--good)} .tcard.wrong .why{color:var(--bad)}
+.ghost{position:fixed; left:0; top:0; z-index:60; pointer-events:none; opacity:.92; box-shadow:0 6px 18px rgba(0,0,0,.18); max-width:300px}
+.zone{border:2px solid var(--zc); border-radius:18px; padding:10px; background:var(--zbg); display:flex; flex-direction:column; gap:8px; min-width:0}
+.zone[data-z=none]{--zc:var(--axis); --zbg:var(--surface)}
+.zone[data-z=lewis]{--zc:var(--s3); --zbg:color-mix(in srgb, var(--s3) 11%, var(--surface))}
+.zone[data-z=bl]{--zc:var(--s1); --zbg:color-mix(in srgb, var(--s1) 12%, var(--surface))}
+.zone[data-z=arr]{--zc:var(--s2); --zbg:color-mix(in srgb, var(--s2) 12%, var(--surface))}
+.zone[data-z=bl]{border-style:dashed}
+.zone[data-z=arr]{border-style:dotted; border-width:3px}
+.zlab{font-weight:600; font-size:.92rem; display:flex; flex-wrap:wrap; gap:2px 8px; align-items:baseline; cursor:pointer}
+.zlab small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.zdrop{display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-height:42px; border:1px dashed var(--axis); border-radius:10px; padding:6px; cursor:pointer; background:var(--surface)}
+.zdrop:empty::before{content:"Drop here, or select a card and tap this region"; font-size:.78rem; color:var(--muted); align-self:center; margin:auto 0}
+.zone.over > .zdrop{outline:3px solid var(--accent); outline-offset:-2px}
+
+/* levelling */
+.lvwrap svg{display:block; width:100%}
+svg .bar-w{fill:var(--s1)}
+svg .bar-e{fill:var(--s2)}
+svg .lvl{font-size:13px; fill:var(--ink)}
+svg .lvv{font-size:11.5px; fill:var(--ink-2)}
+svg .axis{stroke:var(--axis); stroke-width:1}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .cap{font-size:11.5px; fill:var(--muted)}
+table.data{border-collapse:collapse; font-size:.9rem; width:100%}
+table.data td, table.data th{padding:5px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+table.data th{font-size:.78rem; color:var(--ink-2); font-weight:600}
+.tblwrap{overflow-x:auto}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.qtext{font-size:1.02rem; font-weight:500; margin:0 0 12px}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; font-size:.93rem; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good); background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.explain{margin-top:12px; font-size:.9rem}
+.whyl{margin:8px 0 0; padding-left:18px; color:var(--ink-2); font-size:.88rem; display:flex; flex-direction:column; gap:4px}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p style="margin:0 0 10px;font-size:.86rem"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; <a href="part-1.html">Notes</a> &nbsp;·&nbsp; <a href="tutorial-1.html">Tutorial</a></p>
+    <div class="row">
+      <h1>Topic 4 · Theories of Acids and Bases</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#theories">Three theories</a>
+    <a href="#proton">Proton transfer</a>
+    <a href="#lewis">Lewis adducts in 3D</a>
+    <a href="#sorter">Which theory?</a>
+    <a href="#water">Water and levelling</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 THREE THEORIES -->
+<section class="lab" id="theories">
+  <div class="sechead">
+    <span class="eyebrow">Fact cards</span>
+    <h2>Three theories</h2>
+    <p>Each theory widened the one before it. Read across the cards, then look at the nested diagram below.</p>
+  </div>
+  <div class="cards3">
+    <article class="panel card">
+      <h3>Arrhenius <span class="pill">1887</span></h3>
+      <div class="who">Svante Arrhenius</div>
+      <dl class="defs">
+        <dt>Acid</dt><dd>produces H<sup>+</sup>(aq) ions in water</dd>
+        <dt>Base</dt><dd>produces OH<sup>−</sup>(aq) ions in water</dd>
+      </dl>
+      <div class="eqs">
+        <div>HCl(g) → H<sup>+</sup>(aq) + Cl<sup>−</sup>(aq) <span class="hint">(in water)</span></div>
+        <div>NaOH(s) → Na<sup>+</sup>(aq) + OH<sup>−</sup>(aq) <span class="hint">(in water)</span></div>
+      </div>
+      <h4>Neutralisation</h4>
+      <div class="eqs"><div>H<sup>+</sup>(aq) + OH<sup>−</sup>(aq) → H<sub>2</sub>O(l)</div></div>
+      <h4>Limitations</h4>
+      <ul>
+        <li>Aqueous solutions only.</li>
+        <li>Cannot describe NH<sub>3</sub>(g) + HCl(g) → NH<sub>4</sub>Cl(s) as an acid-base reaction: there is no water, so no H<sup>+</sup>(aq) or OH<sup>−</sup>(aq).</li>
+        <li>Arrhenius pictured a base releasing OH<sup>−</sup> that it already contains; NH<sub>3</sub> produces OH<sup>−</sup> only by taking H<sup>+</sup> from water, which the theory cannot describe.</li>
+        <li>To fit ammonia into the Arrhenius picture it was written as “ammonium hydroxide”, NH<sub>4</sub>OH. No ionic compound NH<sub>4</sub><sup>+</sup>OH<sup>−</sup> has ever been isolated: aqueous ammonia is mostly NH<sub>3</sub> molecules hydrogen-bonded to water.</li>
+      </ul>
+    </article>
+    <article class="panel card">
+      <h3>Brønsted-Lowry <span class="pill">1923</span></h3>
+      <div class="who">Johannes Brønsted and Thomas Lowry, independently</div>
+      <dl class="defs">
+        <dt>Acid</dt><dd>proton donor</dd>
+        <dt>Base</dt><dd>proton acceptor</dd>
+      </dl>
+      <ul>
+        <li>Every acid-base reaction is a proton (H<sup>+</sup>) transfer, so it needs both an acid and a base.</li>
+        <li>A <b>conjugate acid-base pair</b> is two species that differ by exactly one H<sup>+</sup>.</li>
+        <li>In water the proton is carried as H<sub>3</sub>O<sup>+</sup> (hydronium ion); H<sup>+</sup>(aq) and H<sub>3</sub>O<sup>+</sup>(aq) are used interchangeably.</li>
+      </ul>
+      <div class="eqs">
+        <div>NH<sub>3</sub>(aq) + H<sub>2</sub>O(l) ⇌ NH<sub>4</sub><sup>+</sup>(aq) + OH<sup>−</sup>(aq)</div>
+        <div class="hint">pairs: NH<sub>4</sub><sup>+</sup> / NH<sub>3</sub> and H<sub>2</sub>O / OH<sup>−</sup></div>
+      </div>
+      <ul>
+        <li>Works without water: NH<sub>3</sub>(g) + HCl(g) → NH<sub>4</sub>Cl(s) is a proton transfer from HCl to NH<sub>3</sub>.</li>
+      </ul>
+      <h4>Limitation</h4>
+      <ul>
+        <li>It needs a proton, so it cannot describe BF<sub>3</sub> + NH<sub>3</sub> → H<sub>3</sub>N→BF<sub>3</sub>.</li>
+      </ul>
+    </article>
+    <article class="panel card">
+      <h3>Lewis <span class="pill">1923</span></h3>
+      <div class="who">Gilbert N. Lewis</div>
+      <dl class="defs">
+        <dt>Acid</dt><dd>electron-pair acceptor</dd>
+        <dt>Base</dt><dd>electron-pair donor</dd>
+      </dl>
+      <ul>
+        <li>The product is an <b>adduct</b> held by a dative covalent (co-ordinate) bond.</li>
+      </ul>
+      <div class="eqs">
+        <div>BF<sub>3</sub> + NH<sub>3</sub> → H<sub>3</sub>N→BF<sub>3</sub></div>
+        <div><span class="pill">9476 named example</span></div>
+      </div>
+      <ul>
+        <li>The widest theory: no water and no proton are needed.</li>
+        <li>Every Brønsted-Lowry reaction is also a Lewis reaction: the base donates a lone pair to the proton, H<sup>+</sup>.</li>
+      </ul>
+    </article>
+  </div>
+  <div class="panel nestwrap" id="nest-wrap">
+    <span class="eyebrow">How the theories nest</span>
+    <svg id="nest" role="img" aria-label="Nested diagram: Lewis contains Brønsted-Lowry, which contains Arrhenius"></svg>
+    <p class="hint" style="margin:6px 0 0">Each theory includes everything inside it: every Arrhenius acid-base reaction is also a Brønsted-Lowry reaction, and every Brønsted-Lowry reaction is also a Lewis reaction.</p>
+  </div>
+</section>
+
+<!-- 2 PROTON TRANSFER -->
+<section class="lab" id="proton">
+  <div class="sechead">
+    <span class="eyebrow">Animator · Brønsted-Lowry</span>
+    <h2>Proton transfer</h2>
+    <p>Pick a reaction and watch the proton, H<sup>+</sup>, move from the acid to the base. In Predict mode, label the species yourself first.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="seg" role="radiogroup" aria-label="Mode">
+        <label><input type="radio" name="pt-mode" value="ex" checked>Explore</label>
+        <label><input type="radio" name="pt-mode" value="pr">Predict</label>
+      </div>
+      <label class="field">Reaction<select id="pt-rx"></select></label>
+      <div id="pt-ex-ctl" class="btnrow"><button class="btn primary" id="pt-play">Replay</button></div>
+      <div id="pt-pr-ctl" class="controls" hidden>
+        <span class="hint">Tap a species in the equation, then choose its role.</span>
+        <div class="roles" id="pt-roles">
+          <button class="btn" data-r="A">Acid</button>
+          <button class="btn" data-r="B">Base</button>
+          <button class="btn" data-r="CA">Conjugate acid</button>
+          <button class="btn" data-r="CB">Conjugate base</button>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="pt-check">Check</button><button class="btn" id="pt-clear">Clear</button><button class="btn" id="pt-next">Next reaction</button></div>
+      </div>
+      <div class="legend" style="flex-direction:column;align-items:flex-start">
+        <span><i class="key dash" style="border-color:var(--s2)"></i>acid and its conjugate base (dashed)</span>
+        <span><i class="key" style="border-color:var(--s1)"></i>base and its conjugate acid (solid)</span>
+      </div>
+    </div>
+    <div class="stack">
+      <div id="pt-head"></div>
+      <div class="eqrow" id="pt-eq" aria-live="polite"></div>
+      <div id="pt-fb" hidden></div>
+      <div class="stage" id="pt-stage"><svg id="pt-svg" role="img" aria-label="Proton transfer animation"></svg></div>
+      <div class="callout" id="pt-note"></div>
+    </div>
+  </div>
+
+  <div class="panel stack" style="margin-top:20px; max-width:760px" id="dr-box">
+    <div><span class="eyebrow">Practice</span><h3 class="sub3">Conjugate pair drill</h3></div>
+    <p class="qtext" id="dr-q" style="margin:0"></p>
+    <div class="opts2" id="dr-opts"></div>
+    <div id="dr-fb" hidden></div>
+    <div class="btnrow" style="align-items:center"><button class="btn primary" id="dr-next">Next species</button><span class="hint" id="dr-score"></span></div>
+  </div>
+</section>
+
+<!-- 3 LEWIS 3D -->
+<section class="lab" id="lewis">
+  <div class="sechead">
+    <span class="eyebrow">3D viewer · Lewis</span>
+    <h2>Lewis adducts in 3D</h2>
+    <p>Drag the slider or press Play to bring the Lewis base up to the Lewis acid. Drag the model to rotate it. The angles are measured from the model as it changes.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="molbtns" id="lw-mols">
+        <button data-m="bf3" aria-pressed="true"><span>BF<sub>3</sub> + NH<sub>3</sub></span> <span class="pill">9476 named example</span></button>
+        <button data-m="fe" aria-pressed="false"><span>Fe<sup>3+</sup> + 6H<sub>2</sub>O</span> <span class="beyond">Further example, links to Topic 13</span></button>
+        <button data-m="nh4" aria-pressed="false"><span>H<sup>+</sup> + NH<sub>3</sub> → NH<sub>4</sub><sup>+</sup></span></button>
+      </div>
+      <div class="ctl"><label for="lw-s"><span>Reaction progress</span> <output id="lw-s-o">0 %</output></label>
+        <input type="range" id="lw-s" min="0" max="100" step="1" value="0"></div>
+      <div class="btnrow"><button class="btn primary" id="lw-play">Play</button><button class="btn" id="lw-zero">Separate</button></div>
+      <div class="legend" style="flex-direction:column;align-items:flex-start">
+        <span><i class="lkey" style="background:var(--lp);border:1px solid var(--lp-edge)"></i>lone pair on the Lewis base</span>
+        <span id="lw-eo-key"><i class="lkey" style="border:1.4px dashed var(--eo)"></i>empty orbital on B</span>
+        <span><i class="key" style="border-color:var(--dat);border-top-width:3px"></i>dative covalent bond, arrow from donor to acceptor</span>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="viewer" id="lw-wrap">
+        <svg id="lw-svg" role="img" aria-label="Rotatable 3D model of the Lewis acid and base" tabindex="0"></svg>
+        <div class="vcap" id="lw-cap"></div>
+        <div class="vtop"><button class="btn" id="lw-reset">Reset view</button></div>
+        <div class="vhint">Drag to rotate · arrow keys also work</div>
+      </div>
+      <div class="readout" id="lw-read"></div>
+      <ul class="notes" id="lw-notes"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 SORTER -->
+<section class="lab" id="sorter">
+  <div class="sechead">
+    <span class="eyebrow">Sorter</span>
+    <h2>Which theory?</h2>
+    <p>Drag each card into the nested diagram (use the dotted grip on a touch screen), or tap a card and then tap a region. Rule for Arrhenius: in water, an acid gives <span class="nw">H<sup>+</sup>(aq)</span>, a base gives <span class="nw">OH<sup>−</sup>(aq)</span>, or <span class="nw">H<sup>+</sup>(aq)</span> and <span class="nw">OH<sup>−</sup>(aq)</span> neutralise.</p>
+  </div>
+  <p class="qline">Which is the narrowest theory that describes this as an acid-base reaction?</p>
+  <div class="stack">
+    <div class="deck" id="so-deck" aria-label="Unplaced cards"></div>
+    <div class="zone" data-z="none">
+      <div class="zlab">Not an acid-base reaction <small>outside all three theories</small></div>
+      <div class="zdrop" data-z="none"></div>
+      <div class="zone" data-z="lewis">
+        <div class="zlab">Lewis <small>electron-pair acceptor / donor</small></div>
+        <div class="zdrop" data-z="lewis"></div>
+        <div class="zone" data-z="bl">
+          <div class="zlab">Brønsted-Lowry <small>proton donor / acceptor</small></div>
+          <div class="zdrop" data-z="bl"></div>
+          <div class="zone" data-z="arr">
+            <div class="zlab">Arrhenius <small>H<sup>+</sup>(aq) or OH<sup>−</sup>(aq) in water</small></div>
+            <div class="zdrop" data-z="arr"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btnrow" style="align-items:center"><button class="btn primary" id="so-check">Check</button><button class="btn" id="so-reset">Reset</button><span class="hint" id="so-count"></span></div>
+    <div id="so-fb" hidden></div>
+  </div>
+</section>
+
+<!-- 5 WATER AND LEVELLING -->
+<section class="lab" id="water">
+  <div class="sechead">
+    <span class="eyebrow">Explorer</span>
+    <h2>Water and levelling</h2>
+    <p>Water can donate or accept a proton. Its ability to accept a proton (its basicity) is what levels all the strong acids to H<sub>3</sub>O<sup>+</sup>, hiding the differences between them.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <span class="eyebrow">Part A · Water is amphoteric</span>
+      <div class="seg" role="radiogroup" aria-label="Water reacting with">
+        <label><input type="radio" name="wa" value="base" checked>with HCl</label>
+        <label><input type="radio" name="wa" value="acid">with NH<sub>3</sub></label>
+      </div>
+      <p class="hint" style="margin:0">Amphoteric: able to act as both an acid and a base. In Brønsted-Lowry terms, water can donate a proton or accept one.</p>
+    </div>
+    <div class="stack">
+      <div class="eqrow" id="wa-eq"></div>
+      <div class="callout" id="wa-note"></div>
+    </div>
+  </div>
+
+  <div style="margin-top:26px">
+    <h3 class="sub3"><span class="beyond">Enrichment</span>The levelling effect</h3>
+  </div>
+  <div class="grid2" style="margin-top:12px">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Solvent</span>
+        <div class="seg" role="radiogroup" aria-label="Solvent">
+          <label><input type="radio" name="lv" value="w" checked>Water</label>
+          <label><input type="radio" name="lv" value="e">Glacial ethanoic acid</label>
+        </div></div>
+      <p class="hint" style="margin:0" id="lv-hint"></p>
+    </div>
+    <div class="stack">
+      <div class="panel lvwrap" id="lv-wrap"><svg id="lv-svg" role="img" aria-label="Schematic bar display of acid strength in the chosen solvent"></svg></div>
+      <div class="tblwrap"><table class="data" id="lv-tab"></table></div>
+      <div class="callout" id="lv-note"></div>
+      <div class="panel stack">
+        <span class="eyebrow">Bases are levelled too</span>
+        <p style="margin:0;font-size:.92rem">In water, each of these bases reacts completely to give OH<sup>−</sup>. They are all levelled to OH<sup>−</sup>, the strongest base that can exist in water.</p>
+        <div class="eqs" style="margin:0">
+          <div>NH<sub>2</sub><sup>−</sup> + H<sub>2</sub>O → NH<sub>3</sub> + OH<sup>−</sup></div>
+          <div>O<sup>2−</sup> + H<sub>2</sub>O → 2OH<sup>−</sup></div>
+          <div>C<sub>2</sub>H<sub>5</sub>O<sup>−</sup> + H<sub>2</sub>O → C<sub>2</sub>H<sub>5</sub>OH + OH<sup>−</sup></div>
+        </div>
+      </div>
+      <div class="callout"><b>In industry:</b> weak bases, for example amine drug substances, are titrated with perchloric acid in glacial ethanoic acid. There HClO<sub>4</sub> forms CH<sub>3</sub>COOH<sub>2</sub><sup>+</sup>, a stronger acid than H<sub>3</sub>O<sup>+</sup>, which gives a sharper end-point than a titration in water.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions. Pick an answer to see the explanation, including why each other option is wrong.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 4 Theories of Acids and Bases</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · 3D models drawn live in the page</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+const $ = id => document.getElementById(id);
+const MINUS = "−";
+const D2R = Math.PI / 180;
+const AB = {};
+window.__ab = AB;
+const reduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const lerp = (a, b, t) => a + (b - a) * t;
+const f1 = x => x.toFixed(1);
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/* ---------- chemical text: Unicode sub/superscripts to HTML and SVG ---------- */
+const SUPMAP = { "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9", "⁺": "+", "⁻": MINUS };
+const SUBRE = /[₀-₉]+/g, SUPRE = /[⁰¹²³⁴-⁹⁺⁻]+/g;
+const subDigits = m => [...m].map(c => c.charCodeAt(0) - 8320).join("");
+const supChars = m => [...m].map(c => SUPMAP[c]).join("");
+const H = t => t.replace(SUBRE, m => `<sub>${subDigits(m)}</sub>`).replace(SUPRE, m => `<sup>${supChars(m)}</sup>`);
+function svgChem(s, fs){
+  let out = "", cur = 0;
+  const re = /([₀-₉]+)|([⁰¹²³⁴-⁹⁺⁻]+)|([^₀-₉⁰¹²³⁴-⁹⁺⁻]+)/g;
+  let m;
+  while ((m = re.exec(s))){
+    let target = 0, txt, small = false;
+    if (m[1]){ target = 0.3 * fs; txt = subDigits(m[1]); small = true; }
+    else if (m[2]){ target = -0.42 * fs; txt = supChars(m[2]); small = true; }
+    else txt = esc(m[3]);
+    const dy = target - cur; cur = target;
+    out += `<tspan dy="${dy.toFixed(1)}"${small ? ` font-size="${(fs * 0.72).toFixed(1)}"` : ""}>${txt}</tspan>`;
+  }
+  return out;
+}
+AB.H = H;
+
+/* =====================================================
+   1. NESTED DIAGRAM
+   ===================================================== */
+function drawNest(){
+  const wrap = $("nest-wrap"), svg = $("nest");
+  const W = Math.max(280, Math.floor(wrap.clientWidth - 32)), narrow = W < 560;
+  const L = [
+    { c: "nz-l", t: "Lewis (1923)", d: narrow ? ["acid: electron-pair acceptor", "base: electron-pair donor"] : ["acid: electron-pair acceptor; base: electron-pair donor"], e: "e.g. BF₃ + NH₃ → H₃N→BF₃" },
+    { c: "nz-b", t: "Brønsted-Lowry (1923)", d: narrow ? ["acid: proton donor", "base: proton acceptor"] : ["acid: proton donor; base: proton acceptor"], e: "e.g. NH₃(g) + HCl(g) → NH₄Cl(s)" },
+    { c: "nz-a", t: "Arrhenius (1887)", d: narrow ? ["acid gives H⁺(aq), base gives OH⁻(aq),", "in water"] : ["acid gives H⁺(aq), base gives OH⁻(aq), in water"], e: "e.g. HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(l)" }
+  ];
+  const lh = 18, inset = narrow ? 12 : 22, head = l => 14 + lh * (2 + l.d.length) + 4;
+  const heads = L.map(head), pad = 12;
+  const Htot = heads.reduce((a, b) => a + b, 0) + pad * 3 + 2;
+  let s = "", y = 1;
+  L.forEach((l, i) => {
+    const x = 1 + i * inset, w = W - 2 - 2 * i * inset;
+    const h = Htot - 2 - (y - 1) - i * pad;
+    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${16 - i * 2}" class="nzbg"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${16 - i * 2}" class="nz ${l.c}"/>`;
+    let ty = y + 20;
+    s += `<text x="${x + 12}" y="${ty}" class="nt">${svgChem(l.t, 14)}</text>`;
+    l.d.forEach(d => { ty += lh; s += `<text x="${x + 12}" y="${ty}" class="nd">${svgChem(d, 12.5)}</text>`; });
+    ty += lh; s += `<text x="${x + 12}" y="${ty}" class="ne">${svgChem(l.e, 12.5)}</text>`;
+    y += heads[i];
+  });
+  svg.setAttribute("viewBox", `0 0 ${W} ${Htot}`); svg.setAttribute("height", Htot);
+  svg.innerHTML = s;
+}
+
+/* =====================================================
+   2. PROTON TRANSFER
+   ===================================================== */
+// t: tokens in written order (two reactants, two products). r: A acid, B base, CA conjugate acid, CB conjugate base.
+const T_ = (f, s, r) => ({ f, s, r });
+const RX = [
+  { id: "nh3", name: "NH₃ + H₂O", ar: "⇌", t: [T_("NH₃", "(aq)", "B"), T_("H₂O", "(l)", "A"), T_("NH₄⁺", "(aq)", "CA"), T_("OH⁻", "(aq)", "CB")],
+    note: "Ammonia is a base because it accepts a proton from water: Brønsted-Lowry theory describes this directly. "+'To fit ammonia into the Arrhenius picture it was written as “ammonium hydroxide”, NH₄OH. No ionic compound NH₄⁺OH⁻ has ever been isolated: aqueous ammonia is mostly NH₃ molecules hydrogen-bonded to water.' },
+  { id: "ch3cooh", name: "CH₃COOH + H₂O", ar: "⇌", t: [T_("CH₃COOH", "(aq)", "A"), T_("H₂O", "(l)", "B"), T_("CH₃COO⁻", "(aq)", "CB"), T_("H₃O⁺", "(aq)", "CA")],
+    note: "Here water is the base. H₃O⁺ (hydronium ion) is the conjugate acid of H₂O. H⁺(aq) and H₃O⁺(aq) are used interchangeably." },
+  { id: "hcl", name: "HCl + H₂O", ar: "→", t: [T_("HCl", "(g)", "A"), T_("H₂O", "(l)", "B"), T_("H₃O⁺", "(aq)", "CA"), T_("Cl⁻", "(aq)", "CB")],
+    note: "HCl reacts completely with water, so a single arrow is used. H₃O⁺ (hydronium ion) is the conjugate acid of H₂O." },
+  { id: "bao", name: "BaO + H₂O", ar: "→", full: "BaO(s) + H₂O(l) → Ba²⁺(aq) + 2OH⁻(aq)", t: [T_("O²⁻", "", "B"), T_("H₂O", "(l)", "A"), T_("OH⁻", "(aq)", "CA"), T_("OH⁻", "(aq)", "CB")],
+    note: "Ba²⁺ is a spectator ion: it neither gives nor takes a proton, so it is not part of any conjugate pair. (Group 1 and 2 metal ions such as Na⁺, K⁺ and Ba²⁺ are spectators in proton-transfer reactions; metal ions can still be Lewis acids, see Lewis adducts below.) The two OH⁻ ions have different origins: one is O²⁻ that has gained a proton (the conjugate acid of O²⁻), the other is H₂O that has lost one (the conjugate base of H₂O)." },
+  { id: "nh3hcl", name: "NH₃(g) + HCl(g)", ar: "→", full: "NH₃(g) + HCl(g) → NH₄Cl(s), i.e. NH₄⁺Cl⁻", t: [T_("NH₃", "(g)", "B"), T_("HCl", "(g)", "A"), T_("NH₄⁺", "", "CA"), T_("Cl⁻", "", "CB")],
+    note: "No water involved: Arrhenius cannot describe this. The products are the ions of solid ammonium chloride." },
+  { id: "nitr", name: "HNO₃ + H₂SO₄ (concentrated)", ar: "⇌", fx: 1, t: [T_("HNO₃", "", "B"), T_("H₂SO₄", "", "A"), T_("H₂NO₃⁺", "", "CA"), T_("HSO₄⁻", "", "CB")],
+    note: "Concentrated acids. The stronger acid, H₂SO₄, makes HNO₃ act as a base. This is the first step in making the nitronium ion, NO₂⁺, for nitrating benzene (Topic 11.4): H₂NO₃⁺ then loses H₂O to give NO₂⁺." },
+  { id: "hco3oh", name: "HCO₃⁻ + OH⁻", ar: "→", t: [T_("HCO₃⁻", "(aq)", "A"), T_("OH⁻", "(aq)", "B"), T_("CO₃²⁻", "(aq)", "CB"), T_("H₂O", "(l)", "CA")],
+    note: "HCO₃⁻ donates a proton to OH⁻: here it is the acid. Compare the next reaction." },
+  { id: "hco3h", name: "HCO₃⁻ + H₃O⁺", ar: "→", t: [T_("HCO₃⁻", "(aq)", "B"), T_("H₃O⁺", "(aq)", "A"), T_("H₂CO₃", "(aq)", "CA"), T_("H₂O", "(l)", "CB")],
+    note: "HCO₃⁻ accepts a proton from H₃O⁺: here it is the base. HCO₃⁻ is amphoteric, like water." },
+  { id: "liqnh3", name: "NH₄⁺ + NH₂⁻ (liquid ammonia)", ar: "→", fx: 1, full: "NH₄⁺ + NH₂⁻ → 2NH₃ (in liquid ammonia)", t: [T_("NH₄⁺", "", "A"), T_("NH₂⁻", "", "B"), T_("NH₃", "", "CB"), T_("NH₃", "", "CA")],
+    note: "Liquid ammonia is a non-aqueous solvent. Both products are NH₃: one is the conjugate base of NH₄⁺, the other the conjugate acid of NH₂⁻. Compare H₃O⁺ + OH⁻ → 2H₂O in water." }
+];
+const ROLE = { A: "acid", B: "base", CA: "conjugate acid", CB: "conjugate base" };
+const PAIR = { A: "CB", CB: "A", B: "CA", CA: "B" };
+const pairCls = r => (r === "A" || r === "CB") ? "pa" : "pb";
+AB.RX = RX;
+
+const PT = { rx: RX[0], mode: "ex", t: 0, raf: 0, done: false, ans: [null, null, null, null], sel: 0, checked: false };
+AB.PT = PT;
+const byRole = (rx, r) => rx.t.find(x => x.r === r);
+const tokTxt = t => t.f + (t.s || "");
+
+function renderEq(){
+  const rx = PT.rx, pr = PT.mode === "pr";
+  $("pt-head").innerHTML = (rx.fx ? `<span class="beyond">Further example</span>` : "") + (rx.full ? `<p class="eqfull">${H(rx.full)}</p><p class="hint" style="margin:0">The species that take part in the proton transfer:</p>` : "");
+  const tok = (t, i) => {
+    let cls = "tok", lab = "", mk = "";
+    if (pr){
+      cls += " pick" + (PT.sel === i && !PT.checked ? " sel" : "");
+      const a = PT.ans[i];
+      lab = a ? ROLE[a] : "?";
+      if (PT.checked){ const ok = PT.res[i]; cls += ok ? " ok" : " bad"; mk = `<span class="mk">${ok ? "✓ correct" : "✗ " + ROLE[t.r]}</span>`; if (ok) cls += " " + pairCls(a); }
+    } else if (PT.done){ cls += " " + pairCls(t.r); lab = ROLE[t.r]; }
+    return `<button class="${cls}" data-i="${i}" ${pr ? "" : "tabindex=\"-1\""} aria-label="${esc(tokTxt(t))}${lab && lab !== "?" ? ": " + lab : ""}"><span class="tf">${H(tokTxt(t))}</span><span class="tr">${lab}</span>${mk}</button>`;
+  };
+  const t = rx.t;
+  $("pt-eq").innerHTML = `${tok(t[0], 0)}<span class="op">+</span>${tok(t[1], 1)}<span class="op">${rx.ar}</span>${tok(t[2], 2)}<span class="op">+</span>${tok(t[3], 3)}`;
+  if (pr && !PT.checked) $("pt-eq").querySelectorAll(".tok").forEach(b => b.onclick = () => { PT.sel = +b.dataset.i; renderEq(); });
+  $("pt-note").innerHTML = H(rx.note);
+  $("pt-note").hidden = pr && !PT.checked;     // the note would give the answer away
+}
+
+function drawStage(){
+  const svg = $("pt-svg"), rx = PT.rx, t = PT.t;
+  const W = Math.max(280, Math.floor($("pt-stage").clientWidth)), Hh = 256;
+  svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("height", Hh);
+  const A = byRole(rx, "A"), B = byRole(rx, "B"), CA = byRole(rx, "CA"), CB = byRole(rx, "CB");
+  const x0 = W * 0.25, x1 = W * 0.75, yA = 84, yB = 190, tw = Math.min(176, W * 0.4), th = 44;
+  const p1 = ease(clamp01((t - 0.06) / 0.42)), p2 = ease(clamp01((t - 0.5) / 0.24)), p3 = ease(clamp01((t - 0.76) / 0.24));
+  const tile = (x, y, tk, o) => `<g opacity="${o.toFixed(3)}"><rect x="${f1(x - tw / 2)}" y="${f1(y - th / 2)}" width="${f1(tw)}" height="${th}" rx="7" class="tile"/><text x="${f1(x)}" y="${f1(y + 6)}" text-anchor="middle" class="tilet">${svgChem(tokTxt(tk), 17)}</text></g>`;
+  let s = "";
+  s += `<text x="${f1(x0)}" y="18" text-anchor="middle" class="colh">REACTANTS</text><text x="${f1(x1)}" y="18" text-anchor="middle" class="colh">PRODUCTS</text>`;
+  // pair outlines (phase 3)
+  if (p3 > 0){
+    const ox = x0 - tw / 2 - 8, ow = x1 - x0 + tw + 16;
+    [[yA, "po-a", "rl-a", "conjugate acid-base pair"], [yB, "po-b", "rl-b", "conjugate acid-base pair"]].forEach(([y, c, rc, lab]) => {
+      s += `<g opacity="${p3.toFixed(3)}"><rect x="${f1(ox)}" y="${f1(y - th / 2 - 22)}" width="${f1(ow)}" height="${th + 46}" rx="12" class="${c}"/><text x="${f1(ox + 12)}" y="${f1(y - th / 2 - 18)}" class="plab ${rc}">${lab}</text></g>`;
+    });
+  }
+  s += tile(x0, yA, A, 1) + tile(x0, yB, B, 1);
+  // reaction arrows inside each row (phase 2)
+  if (p2 > 0){
+    const ax1 = x0 + tw / 2 + 5, ax2 = x1 - tw / 2 - 5;
+    [[yA, "−H⁺"], [yB, "+H⁺"]].forEach(([y, lab]) => {
+      s += `<g opacity="${p2.toFixed(3)}"><line x1="${f1(ax1)}" y1="${y}" x2="${f1(ax2 - 6)}" y2="${y}" class="rarrow"/><path d="M${f1(ax2)},${y}l-7,-4v8z" class="rarrowh"/><text x="${f1((ax1 + ax2) / 2)}" y="${y - 7}" text-anchor="middle" class="dh">${svgChem(lab, 12)}</text></g>`;
+    });
+    const sl = (1 - p2) * 26;
+    s += `<g transform="translate(${f1(-sl)},0)">${tile(x1, yA, CB, p2)}${tile(x1, yB, CA, p2)}</g>`;
+  }
+  // role labels (phase 3)
+  if (p3 > 0){
+    const lab = (x, y, r) => `<text x="${f1(x)}" y="${f1(y + th / 2 + 16)}" text-anchor="middle" class="rl ${pairCls(r) === "pa" ? "rl-a" : "rl-b"}" opacity="${p3.toFixed(3)}">${ROLE[r]}</text>`;
+    s += lab(x0, yA, "A") + lab(x0, yB, "B") + lab(x1, yA, "CB") + lab(x1, yB, "CA");
+  }
+  // the proton
+  let hx, hy, ho = 1;
+  const sx = x0 + tw / 2 - 4, bx = x0 + tw / 2 - 4;
+  if (t < 0.5){
+    const u = p1, c = sx + 52;           // quadratic Bezier bulging right, from acid to base
+    hx = (1 - u) * (1 - u) * sx + 2 * u * (1 - u) * c + u * u * bx;
+    hy = (1 - u) * (1 - u) * yA + 2 * u * (1 - u) * ((yA + yB) / 2) + u * u * yB;
+  } else {
+    const u = p2; hx = lerp(bx, x1 - tw / 2 + 4, u); hy = yB; ho = 1 - clamp01((t - 0.66) / 0.1);
+  }
+  if (ho > 0) s += `<g opacity="${ho.toFixed(3)}"><circle cx="${f1(hx)}" cy="${f1(hy)}" r="14" class="hp"/><text x="${f1(hx)}" y="${f1(hy + 4)}" text-anchor="middle" class="hpt">${svgChem("H⁺", 12)}</text></g>`;
+  svg.innerHTML = s;
+  svg.setAttribute("aria-label", `H⁺ moves from the acid ${A.f} to the base ${B.f}, giving the conjugate base ${CB.f} and the conjugate acid ${CA.f}`);
+}
+function stopAnim(){ if (PT.raf) cancelAnimationFrame(PT.raf); PT.raf = 0; }
+function playPT(){
+  stopAnim();
+  PT.done = false;
+  if (PT.mode === "ex") renderEq();
+  const fin = () => { PT.t = 1; PT.raf = 0; drawStage(); PT.done = true; if (PT.mode === "ex") renderEq(); };
+  if (reduced()){ fin(); return; }
+  const t0 = performance.now(), dur = 2800;
+  const step = now => { PT.t = Math.min(1, (now - t0) / dur); drawStage(); if (PT.t < 1) PT.raf = requestAnimationFrame(step); else fin(); };
+  PT.t = 0; drawStage(); PT.raf = requestAnimationFrame(step);
+}
+function explainTok(rx, i){
+  const t = rx.t[i], p = byRole(rx, PAIR[t.r]);
+  const f = H(t.f), pf = H(p.f);
+  return ({
+    A: `${f} donates H<sup>+</sup> and becomes ${pf}, so it is the acid (proton donor).`,
+    B: `${f} accepts H<sup>+</sup> and becomes ${pf}, so it is the base (proton acceptor).`,
+    CA: `${f} is formed when the base ${pf} gains H<sup>+</sup>, so it is the conjugate acid of ${pf}.`,
+    CB: `${f} is what is left when the acid ${pf} loses H<sup>+</sup>, so it is the conjugate base of ${pf}.`
+  })[t.r];
+}
+function gradePredict(rx, ans){
+  const res = rx.t.map((t, i) => ans[i] === t.r);
+  // identical species on the same side (e.g. OH⁻ + OH⁻): accept either order
+  for (let i = 0; i < 4; i++) for (let j = i + 1; j < 4; j++){
+    if (rx.t[i].f === rx.t[j].f && (i < 2) === (j < 2)){
+      const want = [rx.t[i].r, rx.t[j].r].sort().join(), got = [ans[i], ans[j]].map(x => x || "").sort().join();
+      if (want === got){ res[i] = res[j] = true; }
+    }
+  }
+  return res;
+}
+AB.gradePredict = gradePredict;
+function checkPredict(){
+  const rx = PT.rx;
+  PT.res = gradePredict(rx, PT.ans); PT.checked = true;
+  const n = PT.res.filter(Boolean).length, fb = $("pt-fb");
+  const wrong = rx.t.map((t, i) => i).filter(i => !PT.res[i]);
+  let extra = "";
+  if (wrong.some(i => PT.ans[i] && ((i < 2) !== (PT.ans[i] === "A" || PT.ans[i] === "B")))) extra = `<li>As written, the acid and the base are on the left; their conjugates are on the right.</li>`;
+  const dup = rx.t[2].f === rx.t[3].f ? `<li>The two ${H(rx.t[2].f)} are identical but have different origins, so either order is accepted.</li>` : "";
+  fb.className = "fb " + (n === 4 ? "ok" : "no");
+  fb.innerHTML = `${n} of 4 correct.${n === 4 ? " Well done." : ""}<ul>${wrong.map(i => `<li>${explainTok(rx, i)}</li>`).join("")}${extra}${dup}<li>A conjugate pair differs by exactly one H<sup>+</sup>.</li></ul>`;
+  fb.hidden = false;
+  renderEq();
+  $("pt-stage").hidden = false;
+  playPT();
+}
+function setRx(id){
+  stopAnim();
+  PT.rx = RX.find(r => r.id === id) || RX[0];
+  $("pt-rx").value = PT.rx.id;
+  PT.ans = [null, null, null, null]; PT.sel = 0; PT.checked = false; PT.done = false;
+  $("pt-fb").hidden = true;
+  if (PT.mode === "ex"){ $("pt-stage").hidden = false; playPT(); }
+  else { $("pt-stage").hidden = true; PT.t = 0; drawStage(); renderEq(); }
+}
+function bindPT(){
+  $("pt-rx").innerHTML = RX.map(r => `<option value="${r.id}">${r.name}${r.fx ? " (further example)" : ""}</option>`).join("");
+  $("pt-rx").onchange = e => setRx(e.target.value);
+  $("pt-play").onclick = playPT;
+  document.querySelectorAll('input[name="pt-mode"]').forEach(r => r.onchange = () => {
+    PT.mode = r.value; $("pt-ex-ctl").hidden = PT.mode !== "ex"; $("pt-pr-ctl").hidden = PT.mode !== "pr"; setRx(PT.rx.id);
+  });
+  $("pt-roles").querySelectorAll("button").forEach(b => b.onclick = () => {
+    if (PT.checked) return;
+    PT.ans[PT.sel] = b.dataset.r;
+    const nxt = [1, 2, 3, 0].map(k => (PT.sel + k) % 4).find(i => !PT.ans[i]);
+    if (nxt != null) PT.sel = nxt;
+    renderEq();
+  });
+  $("pt-check").onclick = checkPredict;
+  $("pt-clear").onclick = () => setRx(PT.rx.id);
+  $("pt-next").onclick = () => { const i = RX.indexOf(PT.rx); setRx(RX[(i + 1) % RX.length].id); };
+  AB.setRx = setRx; AB.playPT = playPT;
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("pt-stage").clientWidth; if (Math.abs(w - lw) > 1){ lw = w; drawStage(); } }).observe($("pt-stage"));
+  setRx(RX[0].id);
+}
+
+/* ---------- conjugate pair drill ---------- */
+// For each species: the answers that are asked for, each with three distractors and the reason each is wrong.
+const D_ = (f, base, acid) => ({ f, base, acid });
+const DRILL = [
+  D_("H₂SO₄", { a: "HSO₄⁻", d: [["SO₄²⁻", "two H⁺ removed, not one"], ["H₃SO₄⁺", "one H⁺ added: that is the conjugate acid"], ["SO₃", "H₂O removed, not H⁺"]] }),
+  D_("HSO₄⁻", { a: "SO₄²⁻", d: [["H₂SO₄", "one H⁺ added: that is the conjugate acid"], ["SO₄⁻", "an H is removed but the charge is not lowered"], ["SO₃", "OH⁻ removed, not H⁺"]] },
+              { a: "H₂SO₄", d: [["SO₄²⁻", "one H⁺ removed: that is the conjugate base"], ["H₂SO₄⁻", "an H is added but the charge is not raised"], ["H₃SO₄⁺", "two H⁺ added, not one"]] }),
+  D_("H₂O", { a: "OH⁻", d: [["H₃O⁺", "one H⁺ added: that is the conjugate acid"], ["O²⁻", "two H⁺ removed, not one"], ["OH", "an H is removed but the charge is not lowered"]] },
+            { a: "H₃O⁺", d: [["OH⁻", "one H⁺ removed: that is the conjugate base"], ["H₄O²⁺", "two H⁺ added, not one"], ["H₃O", "an H is added but the charge is not raised"]] }),
+  D_("NH₃", { a: "NH₂⁻", d: [["NH₄⁺", "one H⁺ added: that is the conjugate acid"], ["NH²⁻", "two H⁺ removed, not one"], ["NH₂", "an H is removed but the charge is not lowered"]] },
+            { a: "NH₄⁺", d: [["NH₂⁻", "one H⁺ removed: that is the conjugate base"], ["NH₄OH", "H₂O added, not H⁺ (the old “ammonium hydroxide”; no ionic compound NH₄⁺OH⁻ has ever been isolated)"], ["NH₄", "an H is added but the charge is not raised"]] }),
+  D_("OH⁻", { a: "O²⁻", d: [["H₂O", "one H⁺ added: that is the conjugate acid"], ["O⁻", "an H is removed but the charge is not lowered"], ["H₃O⁺", "two H⁺ added: the wrong direction, twice"]] },
+             { a: "H₂O", d: [["O²⁻", "one H⁺ removed: that is the conjugate base"], ["H₃O⁺", "two H⁺ added, not one"], ["H₂O⁻", "an H is added but the charge is not raised"]] }),
+  D_("HCO₃⁻", { a: "CO₃²⁻", d: [["H₂CO₃", "one H⁺ added: that is the conjugate acid"], ["CO₃⁻", "an H is removed but the charge is not lowered"], ["CO₂", "OH⁻ removed, not H⁺"]] },
+               { a: "H₂CO₃", d: [["CO₃²⁻", "one H⁺ removed: that is the conjugate base"], ["H₂CO₃⁻", "an H is added but the charge is not raised"], ["CO₂", "CO₂ forms when H₂CO₃ decomposes; it is not the conjugate acid"]] }),
+  D_("H₂PO₄⁻", { a: "HPO₄²⁻", d: [["H₃PO₄", "one H⁺ added: that is the conjugate acid"], ["PO₄³⁻", "two H⁺ removed, not one"], ["HPO₄⁻", "an H is removed but the charge is not lowered"]] },
+                { a: "H₃PO₄", d: [["HPO₄²⁻", "one H⁺ removed: that is the conjugate base"], ["PO₄³⁻", "two H⁺ removed: the wrong direction, twice"], ["H₃PO₄⁻", "an H is added but the charge is not raised"]] }),
+  D_("HPO₄²⁻", { a: "PO₄³⁻", d: [["H₂PO₄⁻", "one H⁺ added: that is the conjugate acid"], ["PO₄²⁻", "an H is removed but the charge is not lowered"], ["PO₃⁻", "OH⁻ removed, not H⁺"]] },
+                { a: "H₂PO₄⁻", d: [["PO₄³⁻", "one H⁺ removed: that is the conjugate base"], ["H₃PO₄", "two H⁺ added, not one"], ["H₂PO₄²⁻", "an H is added but the charge is not raised"]] }),
+  D_("CH₃COOH", { a: "CH₃COO⁻", d: [["CH₃COOH₂⁺", "one H⁺ added: that is the conjugate acid"], ["CH₃CO⁺", "OH⁻ removed, not H⁺"], ["CH₂COO²⁻", "two H⁺ removed, not one"]] }),
+  D_("CH₃COO⁻", null, { a: "CH₃COOH", d: [["CH₃COOH₂⁺", "two H⁺ added, not one"], ["CH₃COOH⁻", "an H is added but the charge is not raised"], ["CH₂COO²⁻", "one H⁺ removed: the wrong direction"]] }),
+  D_("HNO₃", { a: "NO₃⁻", d: [["H₂NO₃⁺", "one H⁺ added: that is the conjugate acid"], ["NO₂⁺", "OH⁻ removed, not H⁺ (this is the nitronium ion)"], ["NO₃", "an H is removed but the charge is not lowered"]] }),
+  D_("CH₃NH₂", null, { a: "CH₃NH₃⁺", d: [["CH₃NH⁻", "one H⁺ removed: that is the conjugate base"], ["CH₃NH₃OH", "H₂O added, not H⁺"], ["CH₃NH₄²⁺", "two H⁺ added, not one"]] }),
+  D_("C₆H₅NH₂", null, { a: "C₆H₅NH₃⁺", d: [["C₆H₅NH⁻", "one H⁺ removed: that is the conjugate base"], ["C₆H₅NH₃", "an H is added but the charge is not raised"], ["C₆H₅NH₄²⁺", "two H⁺ added, not one"]] }),
+  D_("HCl", { a: "Cl⁻", d: [["H₂Cl⁺", "one H⁺ added: that is the conjugate acid"], ["Cl", "an H is removed but the charge is not lowered"], ["Cl⁺", "H⁻ (hydride) removed, not H⁺"]] }),
+  D_("H₃O⁺", { a: "H₂O", d: [["OH⁻", "two H⁺ removed, not one"], ["H₄O²⁺", "one H⁺ added: that is the conjugate acid"], ["H₂O⁺", "an H is removed but the charge is not lowered"]] }),
+  D_("NH₄⁺", { a: "NH₃", d: [["NH₂⁻", "two H⁺ removed, not one"], ["NH₄OH", "OH⁻ added, which is not the same as removing H⁺"], ["NH₃⁺", "an H is removed but the charge is not lowered"]] })
+];
+AB.DRILL = DRILL;
+const DQ = [];
+DRILL.forEach(d => { if (d.base) DQ.push({ f: d.f, dir: "base", ...d.base }); if (d.acid) DQ.push({ f: d.f, dir: "acid", ...d.acid }); });
+AB.DQ = DQ;
+const DR = { q: null, last: -1, right: 0, tried: 0, answered: false };
+AB.DR = DR;
+function newDrill(){
+  let k; do { k = Math.floor(Math.random() * DQ.length); } while (k === DR.last && DQ.length > 1);
+  DR.last = k; DR.q = DQ[k]; DR.answered = false;
+  const q = DR.q;
+  $("dr-q").innerHTML = `What is the <b>conjugate ${q.dir}</b> of <span class="bigf">${H(q.f)}</span>?`;
+  const opts = shuffle([[q.a, null], ...q.d]);
+  $("dr-opts").innerHTML = opts.map(o => `<button class="opt" data-a="${esc(o[0])}"><span>${H(o[0])}</span></button>`).join("");
+  $("dr-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => answerDrill(b));
+  $("dr-fb").hidden = true;
+  $("dr-score").textContent = DR.tried ? `${DR.right} of ${DR.tried} correct` : "";
+}
+function answerDrill(b){
+  if (DR.answered) return; DR.answered = true;
+  const q = DR.q, pick = b.dataset.a, ok = pick === q.a;
+  DR.tried++; if (ok) DR.right++;
+  $("dr-opts").querySelectorAll(".opt").forEach(x => { x.disabled = true; if (x.dataset.a === q.a) x.classList.add("right"); });
+  if (!ok) b.classList.add("wrong");
+  const how = q.dir === "base" ? `Removing one H<sup>+</sup> from ${H(q.f)} gives ${H(q.a)}: one fewer H, and the charge falls by 1.` : `Adding one H<sup>+</sup> to ${H(q.f)} gives ${H(q.a)}: one more H, and the charge rises by 1.`;
+  const wr = ok ? "" : `${H(pick)}: ${H(q.d.find(d => d[0] === pick)[1])}. `;
+  const fb = $("dr-fb");
+  fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = `${ok ? "Correct." : "Not quite."} ${wr}${how} A conjugate pair differs by exactly one H<sup>+</sup>.`;
+  fb.hidden = false;
+  $("dr-score").textContent = `${DR.right} of ${DR.tried} correct`;
+}
+function bindDrill(){ $("dr-next").onclick = newDrill; AB.newDrill = newDrill; newDrill(); }
+
+/* =====================================================
+   3. 3D ENGINE (adapted from the Chemical Bonding Lab)
+   ===================================================== */
+const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const mul = (a, k) => [a[0] * k, a[1] * k, a[2] * k];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const len = a => Math.hypot(a[0], a[1], a[2]);
+const unit = a => mul(a, 1 / len(a));
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const angDeg = (a, b) => Math.acos(Math.max(-1, Math.min(1, dot(unit(a), unit(b))))) / D2R;
+const I3 = () => [1, 0, 0, 0, 1, 0, 0, 0, 1];
+function mm(A, B){ const C = new Array(9); for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) C[i * 3 + j] = A[i * 3] * B[j] + A[i * 3 + 1] * B[3 + j] + A[i * 3 + 2] * B[6 + j]; return C; }
+const rx = t => { const c = Math.cos(t), s = Math.sin(t); return [1, 0, 0, 0, c, -s, 0, s, c]; };
+const ry = t => { const c = Math.cos(t), s = Math.sin(t); return [c, 0, s, 0, 1, 0, -s, 0, c]; };
+const ap = (M, p) => [M[0] * p[0] + M[1] * p[1] + M[2] * p[2], M[3] * p[0] + M[4] * p[1] + M[5] * p[2], M[6] * p[0] + M[7] * p[1] + M[8] * p[2]];
+function ortho(M){ let a = unit([M[0], M[1], M[2]]), b = [M[3], M[4], M[5]]; b = unit(sub(b, mul(a, dot(a, b)))); const c = cross(a, b); return [...a, ...b, ...c]; }
+function hexRGB(h){ return [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); }
+function mix(h, w, t){ const a = hexRGB(h), b = hexRGB(w); return "#" + a.map((v, i) => Math.round(v + (b[i] - v) * t).toString(16).padStart(2, "0")).join(""); }
+function lum(h){ const [r, g, b] = hexRGB(h); return (0.299 * r + 0.587 * g + 0.114 * b) / 255; }
+
+function Viewer(svg, wrap, hOf){
+  const v = { M: I3(), M0: I3(), scene: null, W: 0, H: 0 };
+  svg.innerHTML = `<defs></defs><g></g><g></g>`;
+  const defs = svg.firstChild, gS = defs.nextSibling, gO = gS.nextSibling;
+  const grads = new Set();
+  v.grad = col => {
+    const k = col.slice(1);
+    if (!grads.has(k)){
+      grads.add(k);
+      defs.insertAdjacentHTML("beforeend", `<radialGradient id="lwg${k}" cx=".5" cy=".5" r=".55" fx=".34" fy=".3"><stop offset="0" stop-color="${mix(col, "#ffffff", .62)}"/><stop offset=".5" stop-color="${col}"/><stop offset="1" stop-color="${mix(col, "#000000", .45)}"/></radialGradient>`);
+    }
+    return `url(#lwg${k})`;
+  };
+  v.proj = p => { const q = ap(v.M, p), k = v.D / (v.D - q[2]); return [v.cx + q[0] * v.S * k, v.cy - q[1] * v.S * k, q[2], k]; };
+  v.size = () => {
+    v.W = Math.max(260, Math.floor(wrap.clientWidth)); v.H = hOf(v.W);
+    svg.setAttribute("viewBox", `0 0 ${v.W} ${v.H}`); svg.setAttribute("height", v.H);
+    v.cx = v.W / 2; v.cy = v.H / 2 + 4;
+    const R = v.scene ? v.scene.R : 2;
+    v.D = R * 6;
+    v.S = (Math.min(v.W, v.H - 44) / 2 - 6) / (R * v.D / (v.D - R));
+  };
+  v.set = (scene, M0) => { const rs = !v.scene || v.scene.R !== scene.R; v.scene = scene; if (M0){ v.M0 = M0; v.M = M0.slice(); } if (rs || M0) v.size(); v.draw(); };
+  v.reset = () => { v.M = v.M0.slice(); v.draw(); };
+  v.draw = () => {
+    const sc = v.scene; if (!sc){ gS.innerHTML = gO.innerHTML = ""; return; }
+    v.M = ortho(v.M);
+    const items = [], S = v.S;
+    const op = o => o != null && o < 1 ? ` opacity="${o.toFixed(3)}"` : "";
+    for (const b of sc.bonds){
+      if (b.o != null && b.o <= 0.001) continue;
+      const A = v.proj(b.p), B = v.proj(b.q), z = (A[2] + B[2]) / 2, k = (A[3] + B[3]) / 2;
+      const w = 0.1 * 2 * S * k;
+      let s;
+      if (b.k === "dat"){
+        const dx = B[0] - A[0], dy = B[1] - A[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+        const mx = (A[0] + B[0]) / 2 + ux * 5, my = (A[1] + B[1]) / 2 + uy * 5, hs = Math.max(6, w * 1.25);
+        s = `<g${op(b.o)}><line x1="${f1(A[0])}" y1="${f1(A[1])}" x2="${f1(B[0])}" y2="${f1(B[1])}" class="dat" stroke-width="${f1(w * 0.85)}"/>` +
+          (L > 14 ? `<path d="M${f1(mx + ux * hs)},${f1(my + uy * hs)}L${f1(mx - ux * hs - uy * hs * 0.75)},${f1(my - uy * hs + ux * hs * 0.75)}L${f1(mx - ux * hs + uy * hs * 0.75)},${f1(my - uy * hs - ux * hs * 0.75)}z" class="dath"/>` : "") + `</g>`;
+      } else s = `<line x1="${f1(A[0])}" y1="${f1(A[1])}" x2="${f1(B[0])}" y2="${f1(B[1])}" class="bd" stroke-width="${f1(w)}"${op(b.o)}/>`;
+      items.push({ z, s });
+    }
+    sc.atoms.forEach(a => {
+      const [x, y, z, k] = v.proj(a.p), r = a.r * S * k;
+      let s = `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="${v.grad(a.c)}" stroke="rgba(0,0,0,.28)" stroke-width=".8"${op(a.o)}/>`;
+      if (a.l && r > 6) s += `<text x="${f1(x)}" y="${f1(y + Math.min(15, r * 0.95) * 0.36)}" class="atl" font-size="${f1(Math.min(15, r * 0.95))}" style="fill:${lum(a.c) > 0.6 ? "#1b2128" : "#ffffff"}"${op(a.o)}>${svgChem(a.l, Math.min(15, r * 0.95))}</text>`;
+      items.push({ z, s });
+    });
+    if (sc.lobes) for (const L of sc.lobes){
+      if (L.o != null && L.o <= 0.001) continue;
+      const c = add(L.o0, mul(L.d, L.a)), C = v.proj(c), dq = ap(v.M, L.d);
+      const sn = Math.hypot(dq[0], dq[1]), cs = Math.abs(dq[2]);
+      const ra = Math.hypot(L.a * sn, L.b * cs) * S * C[3], rb = L.b * S * C[3];
+      const ang = Math.atan2(-dq[1], dq[0]) / D2R;
+      let s = `<ellipse cx="${f1(C[0])}" cy="${f1(C[1])}" rx="${f1(ra)}" ry="${f1(rb)}" transform="rotate(${f1(ang)} ${f1(C[0])} ${f1(C[1])})" class="${L.cls}"/>`;
+      if (L.cls === "lp"){
+        const ex = Math.cos(ang * D2R), ey = Math.sin(ang * D2R), pxv = -ey * rb * 0.32, pyv = ex * rb * 0.32;
+        const cx = C[0] + ex * ra * 0.2, cy = C[1] + ey * ra * 0.2;
+        s += `<circle cx="${f1(cx + pxv)}" cy="${f1(cy + pyv)}" r="2.1" class="lpe"/><circle cx="${f1(cx - pxv)}" cy="${f1(cy - pyv)}" r="2.1" class="lpe"/>`;
+      }
+      items.push({ z: C[2], s: `<g${op(L.o)}>${s}</g>` });
+    }
+    items.sort((a, b) => a.z - b.z);
+    gS.innerHTML = items.map(i => i.s).join("");
+    gO.innerHTML = sc.over ? sc.over(v) : "";
+  };
+  let drag = null, raf = 0;
+  const queue = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; v.draw(); }); };
+  v.rotate = (dx, dy) => { v.M = mm(mm(ry(dx), rx(dy)), v.M); queue(); };
+  svg.addEventListener("pointerdown", e => { drag = { x: e.clientX, y: e.clientY }; try { svg.setPointerCapture(e.pointerId); } catch (_) {} });
+  svg.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag = { x: e.clientX, y: e.clientY }; v.rotate(dx * 0.011, dy * 0.011); });
+  const end = () => { drag = null; };
+  svg.addEventListener("pointerup", end); svg.addEventListener("pointercancel", end);
+  svg.addEventListener("keydown", e => {
+    const k = { ArrowLeft: [-0.15, 0], ArrowRight: [0.15, 0], ArrowUp: [0, -0.15], ArrowDown: [0, 0.15] }[e.key];
+    if (k){ e.preventDefault(); v.rotate(k[0], k[1]); }
+  });
+  let lw = 0;
+  new ResizeObserver(() => { const w = wrap.clientWidth; if (Math.abs(w - lw) > 1){ lw = w; v.size(); v.draw(); } }).observe(wrap);
+  return v;
+}
+
+/* ---------- Lewis scenes: geometry is a function of reaction progress s (0 to 1) ---------- */
+const TETRA = Math.acos(-1 / 3) / D2R;   // 109.47°
+const COLR = { H: "#eceff2", B: "#f0a07a", N: "#3a6fd8", F: "#93d160", O: "#e0453b", Fe: "#c0692f" };
+const RAD = { H: 0.28, B: 0.41, N: 0.38, F: 0.34, O: 0.37, Fe: 0.52 };
+const atom = (el, p, l, o) => ({ el, p, r: RAD[el], c: COLR[el], l: l || el, o });
+function bondOf(a, b, k, o){ const d = unit(sub(b.p, a.p)); return { p: add(a.p, mul(d, a.r * 0.8)), q: sub(b.p, mul(d, b.r * 0.8)), k: k || "s", o }; }
+// three bonds at angle alpha from axis ax, spaced 120° around it
+function cone(ax, alpha, L, phases){
+  const e1 = Math.abs(ax[1]) < 0.9 ? unit(cross(ax, [0, 1, 0])) : unit(cross(ax, [1, 0, 0]));
+  const e2 = cross(ax, e1);
+  return phases.map(b => mul(add(mul(ax, Math.cos(alpha)), mul(add(mul(e1, Math.cos(b * D2R)), mul(e2, Math.sin(b * D2R))), Math.sin(alpha))), L));
+}
+// angle between the axis (towards the partner) and each of three equivalent bonds, for a given X–A–X angle phi
+const alphaFor = phi => Math.acos(-Math.sqrt(Math.max(0, (Math.cos(phi * D2R) + 0.5) / 1.5)));
+const smooth = t => t * t * (3 - 2 * t);
+function stages(s){ return { a: smooth(clamp01(s / 0.5)), b: smooth(clamp01((s - 0.5) / 0.5)), bond: clamp01((s - 0.58) / 0.3) }; }
+
+function sceneBF3(s){
+  const g = stages(s);
+  const d = s < 0.5 ? lerp(4.6, 2.5, g.a) : lerp(2.5, 1.66, g.b);
+  const phiB = lerp(120, TETRA, g.b), phiN = lerp(107, TETRA, g.b);
+  const Bp = [-d / 2, 0, 0], Np = [d / 2, 0, 0];
+  const Bat = atom("B", Bp), Nat = atom("N", Np);
+  const Fs = cone([1, 0, 0], alphaFor(phiB), 1.30, [0, 120, 240]).map(v => atom("F", add(Bp, v)));
+  const Hs = cone([-1, 0, 0], alphaFor(phiN), 1.01, [60, 180, 300]).map(v => atom("H", add(Np, v)));
+  const atoms = [Bat, ...Fs, Nat, ...Hs];
+  const bonds = [...Fs.map(f => bondOf(Bat, f)), ...Hs.map(h => bondOf(Nat, h)), bondOf(Nat, Bat, "dat", g.bond)];
+  const fade = 1 - g.bond;
+  const lobes = [
+    { o0: Np, d: [-1, 0, 0], a: 0.5, b: 0.3, cls: "lp", o: fade },
+    { o0: Bp, d: [1, 0, 0], a: 0.6, b: 0.3, cls: "eo", o: fade },
+    { o0: Bp, d: [-1, 0, 0], a: 0.6, b: 0.3, cls: "eo", o: fade * (1 - g.b) }
+  ];
+  return { id: "bf3", atoms, bonds, lobes, R: 3.25, idx: { B: 0, F: [1, 2, 3], N: 4, H: [5, 6, 7] }, g };
+}
+function sceneFe(s){
+  const g = stages(s);
+  const d = s < 0.5 ? lerp(3.4, 2.6, g.a) : lerp(2.6, 1.95, g.b);
+  const Fe = atom("Fe", [0, 0, 0], "Fe³⁺");
+  const axes = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]];
+  const wOf = u => u[0] ? [0, 0, 1] : u[1] ? [1, 0, 0] : [0, 1, 0];
+  const atoms = [Fe], bonds = [], lobes = [], Os = [];
+  const h = 52.25 * D2R;
+  axes.forEach(u => {
+    const O = atom("O", mul(u, d)); atoms.push(O); Os.push(atoms.length - 1);
+    const w = wOf(u);
+    [1, -1].forEach(sg => { const Hh = atom("H", add(O.p, mul(add(mul(u, Math.cos(h)), mul(w, sg * Math.sin(h))), 0.96))); atoms.push(Hh); bonds.push(bondOf(O, Hh)); });
+    bonds.push(bondOf(O, Fe, "dat", g.bond));
+    lobes.push({ o0: O.p, d: mul(u, -1), a: 0.45, b: 0.27, cls: "lp", o: 1 - g.bond });
+  });
+  return { id: "fe", atoms, bonds, lobes, R: 4.55, idx: { Fe: 0, O: Os }, g };
+}
+function sceneNH4(s){
+  const g = stages(s);
+  const d = s < 0.5 ? lerp(3.0, 2.0, g.a) : lerp(2.0, 1.01, g.b);
+  const phi = lerp(107, TETRA, g.b);
+  const N = atom("N", [0, 0, 0]);
+  const Hn = atom("H", [-d, 0, 0], g.bond > 0.5 ? "H" : "H⁺");
+  const Hs = cone([-1, 0, 0], alphaFor(phi), 1.01, [60, 180, 300]).map(v => atom("H", v));
+  const atoms = [N, Hn, ...Hs];
+  const bonds = [...Hs.map(x => bondOf(N, x)), bondOf(N, Hn, "dat", g.bond)];
+  const lobes = [{ o0: [0, 0, 0], d: [-1, 0, 0], a: 0.48, b: 0.3, cls: "lp", o: 1 - g.bond }];
+  return { id: "nh4", atoms, bonds, lobes, R: 3.4, idx: { N: 0, Hn: 1, H: [2, 3, 4] }, g };
+}
+// camera radius follows the actual extent, so the adduct fills the view once formed
+function extent(sc){ let R = 0; sc.atoms.forEach(a => { R = Math.max(R, len(a.p) + a.r); }); (sc.lobes || []).forEach(L => { if (L.o == null || L.o > 0.05) R = Math.max(R, len(add(L.o0, mul(L.d, 2 * L.a)))); }); return Math.max(2.3, R + 0.15); }
+const withR = f => s => { const sc = f(s); sc.R = extent(sc); return sc; };
+const SCENES = { bf3: withR(sceneBF3), fe: withR(sceneFe), nh4: withR(sceneNH4) };
+AB.scene = (id, s) => SCENES[id](s);
+const angAt = (sc, c, i, j) => angDeg(sub(sc.atoms[i].p, sc.atoms[c].p), sub(sc.atoms[j].p, sc.atoms[c].p));
+
+const LW = { m: "bf3", s: 0, raf: 0 };
+AB.LW = LW;
+let lv3;
+function lwReadout(sc){
+  const st = (l, v) => `<div class="stat"><div class="l">${l}</div><div class="v">${v}</div></div>`;
+  const deg = x => x.toFixed(1) + "°";
+  const bonded = sc.g.bond >= 0.5;
+  let r = "", cap = "", notes = [];
+  if (sc.id === "bf3"){
+    const fbf = angAt(sc, 0, 1, 2), hnh = angAt(sc, 4, 5, 6);
+    LW.read = { FBF: fbf, HNH: hnh };
+    cap = bonded ? "H₃N→BF₃" : "BF₃ + NH₃";
+    r = st("F–B–F angle", deg(fbf)) + st("H–N–H angle", deg(hnh)) +
+      st("Arrangement about B", sc.g.b < 0.02 ? "trigonal planar" : sc.g.b > 0.98 ? "approximately tetrahedral" : "changing") +
+      st("Outer electrons on B", bonded ? "8" : "6 (electron-deficient)");
+    notes = [
+      "Why BF₃ is a Lewis acid: B has an incomplete outer shell (6 electrons) and an empty orbital to accept a pair.",
+      "NH₃ is the Lewis base: the lone pair on N becomes the dative covalent (co-ordinate) bond N→B.",
+      "In the adduct, B is approximately tetrahedral (about 109.5°) and N keeps an approximately tetrahedral arrangement.",
+      "Neither Arrhenius nor Brønsted-Lowry can describe this: no water, no proton transferred."
+    ];
+  } else if (sc.id === "fe"){
+    const ofeo = angAt(sc, 0, sc.idx.O[0], sc.idx.O[2]);
+    LW.read = { OFeO: ofeo };
+    cap = bonded ? "[Fe(H₂O)₆]³⁺" : "Fe³⁺ + 6H₂O";
+    r = st("O–Fe–O angle (adjacent ligands)", deg(ofeo)) + st("Shape", bonded ? "octahedral" : "Fe³⁺ and six separate H₂O") + st("Dative bonds", bonded ? "6" : "0") + st("Lewis acid / base", "Fe³⁺ / H₂O");
+    notes = [
+      "Fe³⁺ is the Lewis acid: it accepts six electron pairs into empty orbitals.",
+      "Each H₂O is a Lewis base: it donates a lone pair from its O atom, forming a dative covalent (co-ordinate) bond O→Fe.",
+      "Six bonding pairs around Fe give an octahedral complex ion, with 90° between adjacent O atoms. Complex ions are covered in Topic 13."
+    ];
+  } else {
+    const hnh = angAt(sc, 0, 2, 3), hnhn = angAt(sc, 0, 1, 2);
+    LW.read = { HNH: hnh, HNHnew: hnhn };
+    cap = bonded ? "NH₄⁺" : "H⁺ + NH₃";
+    r = st("H–N–H (original H atoms)", deg(hnh)) + st("H–N–H (to the new H)", deg(hnhn)) + st("Shape", bonded ? "tetrahedral" : "trigonal pyramidal");
+    notes = [
+      "Every Brønsted-Lowry reaction is also a Lewis reaction: the base (NH₃) donates its lone pair to the proton (H⁺, the electron-pair acceptor).",
+      "Once formed, all four N–H bonds in NH₄⁺ are identical, and the ion is tetrahedral, 109.5°."
+    ];
+  }
+  $("lw-read").innerHTML = H(r);
+  $("lw-cap").innerHTML = H(cap);
+  $("lw-notes").innerHTML = notes.map(n => `<li>${H(n)}</li>`).join("");
+  $("lw-eo-key").hidden = sc.id !== "bf3";
+}
+function showLW(resetView){
+  const sc = SCENES[LW.m](LW.s);
+  LW.sc = sc;
+  const M0 = LW.m === "fe" ? mm(rx(0.42), ry(-0.55)) : mm(rx(0.45), ry(-0.6));
+  lv3.set(sc, resetView ? M0 : null);
+  lwReadout(sc);
+  $("lw-s").value = Math.round(LW.s * 100); $("lw-s-o").textContent = Math.round(LW.s * 100) + " %";
+}
+function setLW(m, s){
+  if (LW.raf){ cancelAnimationFrame(LW.raf); LW.raf = 0; }
+  const ch = m != null && m !== LW.m;
+  if (m != null) LW.m = m;
+  if (s != null) LW.s = s;
+  $("lw-mols").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === LW.m));
+  showLW(ch || !LW.sc);
+}
+function playLW(){
+  if (LW.raf){ cancelAnimationFrame(LW.raf); LW.raf = 0; }
+  const s0 = LW.s >= 0.999 ? 0 : LW.s;
+  if (reduced()){ LW.s = 1; showLW(false); return; }
+  const t0 = performance.now(), dur = 3600 * (1 - s0);
+  const step = now => { LW.s = Math.min(1, s0 + (now - t0) / 3600); showLW(false); if (LW.s < 1) LW.raf = requestAnimationFrame(step); else LW.raf = 0; };
+  if (dur <= 0){ LW.s = 1; showLW(false); return; }
+  LW.raf = requestAnimationFrame(step);
+}
+function bindLW(){
+  lv3 = Viewer($("lw-svg"), $("lw-wrap"), W => Math.round(Math.min(440, Math.max(300, W * 0.7))));
+  $("lw-mols").querySelectorAll("button").forEach(b => b.onclick = () => setLW(b.dataset.m, 0));
+  $("lw-s").oninput = e => setLW(null, +e.target.value / 100);
+  $("lw-play").onclick = playLW;
+  $("lw-zero").onclick = () => setLW(null, 0);
+  $("lw-reset").onclick = () => lv3.reset();
+  AB.setLW = setLW; AB.playLW = playLW; AB.viewer = () => lv3; AB.rot = { rx, ry, mm };
+  setLW("bf3", 0);
+}
+
+/* =====================================================
+   4. WHICH THEORY? sorter
+   ===================================================== */
+const ZONES = { arr: "Arrhenius", bl: "Brønsted-Lowry", lewis: "Lewis", none: "Not an acid-base reaction" };
+const S_ = (eq, z, why, fx) => ({ eq, z, why, fx });
+const SORT = [
+  S_("HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(l)", "arr", "Arrhenius: in water HCl gives H⁺(aq) and NaOH gives OH⁻(aq); the ionic equation is H⁺(aq) + OH⁻(aq) → H₂O(l). It is also Brønsted-Lowry (H⁺ is transferred to OH⁻) and Lewis (OH⁻ donates a lone pair to H⁺)."),
+  S_("H₂SO₄(aq) + 2KOH(aq) → K₂SO₄(aq) + 2H₂O(l)", "arr", "Arrhenius: an acid and a base in water; the ionic equation is H⁺(aq) + OH⁻(aq) → H₂O(l). It is also Brønsted-Lowry and Lewis."),
+  S_("HNO₃(l) + H₂O(l) → H₃O⁺(aq) + NO₃⁻(aq)", "arr", "Arrhenius: an acid giving H⁺(aq), written as H₃O⁺(aq), in water. It is also Brønsted-Lowry (HNO₃ donates a proton to H₂O) and Lewis (H₂O donates a lone pair to H⁺)."),
+  S_("BaO(s) + H₂O(l) → Ba²⁺(aq) + 2OH⁻(aq)", "arr", "Arrhenius: a base giving OH⁻(aq) in water. It is also Brønsted-Lowry (O²⁻ accepts a proton from H₂O) and Lewis (O²⁻ donates a lone pair to H⁺)."),
+  S_("NH₃(g) + HCl(g) → NH₄Cl(s)", "bl", "Brønsted-Lowry: HCl donates a proton to NH₃. There is no water, so Arrhenius cannot describe it. It is also Lewis: NH₃ donates its lone pair to H⁺."),
+  S_("HNO₃ + H₂SO₄ ⇌ H₂NO₃⁺ + HSO₄⁻ (concentrated acids)", "bl", "Brønsted-Lowry: H₂SO₄ donates a proton to HNO₃, which acts as the base. There is no water, so it is not Arrhenius. It is also Lewis.", 1),
+  S_("NH₄⁺ + NH₂⁻ → 2NH₃ (in liquid ammonia)", "bl", "Brønsted-Lowry: NH₄⁺ donates a proton to NH₂⁻. The solvent is liquid ammonia, with no H⁺(aq) or OH⁻(aq), so it is not Arrhenius. It is also Lewis.", 1),
+  S_("HClO₄ + CH₃COOH ⇌ CH₃COOH₂⁺ + ClO₄⁻ (in glacial ethanoic acid)", "bl", "Brønsted-Lowry: HClO₄ donates a proton to CH₃COOH, which acts as the base (only partly, hence ⇌). The solvent is ethanoic acid, not water, so it is not Arrhenius. It is also Lewis.", "enr"),
+  S_("BF₃ + NH₃ → H₃N→BF₃", "lewis", "Lewis: NH₃ donates its lone pair to B, which has an empty orbital, forming the dative covalent bond N→B. No proton is transferred and there is no water, so it is neither Brønsted-Lowry nor Arrhenius."),
+  S_("AlCl₃ + Cl⁻ → AlCl₄⁻", "lewis", "Lewis: Cl⁻ donates a lone pair to Al, which has only 6 outer electrons in AlCl₃. No proton is transferred, so it is not Brønsted-Lowry.", 1),
+  S_("Fe³⁺ + 6H₂O → [Fe(H₂O)₆]³⁺", "lewis", "Lewis: each H₂O donates a lone pair from O to Fe³⁺, forming six dative covalent bonds; Fe³⁺ is the Lewis acid. Written like this, a bare Fe³⁺ ion accepts six lone pairs; no proton is transferred, so it is not Brønsted-Lowry. (In water [Fe(H₂O)₆]³⁺ can itself then donate a proton: Topics 10.1 and 13.)", 1),
+  S_("Cu²⁺(aq) + 4NH₃(aq) → [Cu(NH₃)₄]²⁺(aq)", "lewis", "Lewis: each NH₃ donates its lone pair to Cu²⁺. No proton is transferred, so it is not Brønsted-Lowry, even though it happens in water. (Simplified: really a ligand exchange from [Cu(H₂O)₆]²⁺, Topic 13.)", 1),
+  S_("Mg(s) + 2HCl(aq) → MgCl₂(aq) + H₂(g)", "none", "Not an acid-base reaction: it is redox. Mg is oxidised to Mg²⁺ and H⁺ is reduced to H₂. Electrons are transferred; no electron pair is shared and no proton is passed to a base."),
+  S_("Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s)", "none", "Not an acid-base reaction: it is redox. Zn loses two electrons to Cu²⁺. Electrons are transferred; no electron pair is shared and no proton is involved.")
+];
+AB.SORT = SORT;
+const SO = { place: {}, sel: null, checked: false, order: [] };
+AB.SO = SO;
+function cardHtml(i){
+  const c = SORT[i], a = SO.place[i];
+  let cls = "tcard" + (SO.sel === i ? " sel" : ""), why = "";
+  if (SO.checked && a){
+    const ok = a === c.z; cls += ok ? " right" : " wrong";
+    why = `<span class="why">${ok ? "Correct. " : (c.z === "none" ? "Not quite: this is not an acid-base reaction. " : `Not quite: the narrowest is ${ZONES[c.z]}. `)}${H(c.why)}</span>`;
+  }
+  return `<div class="${cls}" data-i="${i}" role="button" tabindex="0" aria-pressed="${SO.sel === i}"><span class="grip" aria-hidden="true"></span><span class="tx">${H(c.eq)}${c.fx ? `<span class="beyond">${c.fx === "enr" ? "Enrichment" : "Further example"}</span>` : ""}${why}</span></div>`;
+}
+function renderSort(){
+  $("so-deck").innerHTML = SO.order.filter(i => !SO.place[i]).map(cardHtml).join("");
+  document.querySelectorAll(".zdrop").forEach(d => { d.innerHTML = SO.order.filter(i => SO.place[i] === d.dataset.z).map(cardHtml).join(""); });
+  const n = Object.keys(SO.place).length;
+  $("so-count").textContent = `${n} of ${SORT.length} placed`;
+  document.querySelectorAll(".tcard").forEach(bindCard);
+}
+function place(i, z){
+  if (z) SO.place[i] = z; else delete SO.place[i];
+  SO.sel = null; SO.checked = false; $("so-fb").hidden = true; renderSort();
+}
+let suppressClick = false;
+function bindCard(el){
+  const i = +el.dataset.i;
+  el.addEventListener("click", e => {
+    e.stopPropagation();
+    if (suppressClick){ suppressClick = false; return; }
+    SO.sel = SO.sel === i ? null : i; renderSort();
+  });
+  el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); SO.sel = SO.sel === i ? null : i; renderSort(); } });
+  el.addEventListener("pointerdown", e => {
+    const grip = e.target.closest(".grip");
+    if (e.pointerType !== "mouse" && !grip) return;     // on touch, drag only from the grip so the page still scrolls
+    if (e.button && e.button !== 0) return;
+    const st = { x: e.clientX, y: e.clientY, drag: false, ghost: null, over: null };
+    if (grip) e.preventDefault();
+    try { el.setPointerCapture(e.pointerId); } catch (_) {}
+    const move = ev => {
+      if (!st.drag){
+        if (Math.hypot(ev.clientX - st.x, ev.clientY - st.y) < 6) return;
+        st.drag = true; st.ghost = el.cloneNode(true); st.ghost.classList.add("ghost"); st.ghost.classList.remove("sel");
+        st.ghost.style.width = Math.min(300, el.offsetWidth) + "px"; document.body.appendChild(st.ghost); el.classList.add("dragging");
+      }
+      st.ghost.style.transform = `translate(${ev.clientX - 20}px,${ev.clientY - 16}px)`;
+      const z = zoneAt(ev.clientX, ev.clientY);
+      if (z !== st.over){ if (st.over) st.over.classList.remove("over"); st.over = z; if (z) z.classList.add("over"); }
+    };
+    const up = ev => {
+      el.removeEventListener("pointermove", move); el.removeEventListener("pointerup", up); el.removeEventListener("pointercancel", up);
+      if (!st.drag) return;
+      suppressClick = true; setTimeout(() => { suppressClick = false; }, 0);
+      st.ghost.remove(); el.classList.remove("dragging"); if (st.over) st.over.classList.remove("over");
+      if (ev.type === "pointercancel") return;
+      const z = zoneAt(ev.clientX, ev.clientY);
+      if (z) place(i, z.dataset.z);
+      else if (document.elementFromPoint(ev.clientX, ev.clientY)?.closest("#so-deck")) place(i, null);
+    };
+    el.addEventListener("pointermove", move); el.addEventListener("pointerup", up); el.addEventListener("pointercancel", up);
+  });
+}
+function zoneAt(x, y){ const t = document.elementFromPoint(x, y); return t ? t.closest(".zone") : null; }
+function checkSort(){
+  SO.checked = true; SO.sel = null; renderSort();
+  const placed = Object.keys(SO.place).map(Number), right = placed.filter(i => SO.place[i] === SORT[i].z).length;
+  const fb = $("so-fb");
+  fb.className = "fb " + (right === SORT.length ? "ok" : "no");
+  fb.innerHTML = `Score: ${right} of ${SORT.length} correct${placed.length < SORT.length ? ` (${SORT.length - placed.length} not yet placed)` : ""}. ${right === SORT.length ? "All correct." : "Each card now shows the reason."}`;
+  fb.hidden = false;
+  AB.sortScore = right;
+}
+function bindSort(){
+  SO.order = shuffle(SORT.map((_, i) => i));
+  document.querySelectorAll(".zone").forEach(z => z.addEventListener("click", e => {
+    if (e.target.closest(".tcard")) return;
+    if (e.target.closest(".zone") !== z) return;     // innermost zone only
+    if (SO.sel != null) place(SO.sel, z.dataset.z);
+  }));
+  $("so-deck").addEventListener("click", e => { if (!e.target.closest(".tcard") && SO.sel != null) place(SO.sel, null); });
+  $("so-check").onclick = checkSort;
+  $("so-reset").onclick = () => { SO.place = {}; SO.sel = null; SO.checked = false; SO.order = shuffle(SO.order); $("so-fb").hidden = true; renderSort(); };
+  AB.place = place; AB.checkSort = checkSort;
+  renderSort();
+}
+
+/* =====================================================
+   5. WATER AND LEVELLING
+   ===================================================== */
+const WA = {
+  base: { t: [T_("H₂O", "(l)", "B"), T_("HCl", "(g)", "A"), T_("H₃O⁺", "(aq)", "CA"), T_("Cl⁻", "(aq)", "CB")], ar: "→",
+          n: "With HCl, water <b>accepts</b> a proton: H₂O is the base and H₃O⁺ (hydronium ion) is its conjugate acid." },
+  acid: { t: [T_("H₂O", "(l)", "A"), T_("NH₃", "(aq)", "B"), T_("OH⁻", "(aq)", "CB"), T_("NH₄⁺", "(aq)", "CA")], ar: "⇌",
+          n: "With NH₃, water <b>donates</b> a proton: H₂O is the acid and OH⁻ is its conjugate base." }
+};
+function renderWA(k){
+  const w = WA[k];
+  const tok = t => `<span class="tok ${pairCls(t.r)}"><span class="tf">${H(tokTxt(t))}</span><span class="tr">${ROLE[t.r]}</span></span>`;
+  $("wa-eq").innerHTML = `${tok(w.t[0])}<span class="op">+</span>${tok(w.t[1])}<span class="op">${w.ar}</span>${tok(w.t[2])}<span class="op">+</span>${tok(w.t[3])}`;
+  $("wa-note").innerHTML = H(w.n) + " The same molecule can be an acid or a base, depending on what it reacts with.";
+}
+const LV = [
+  { f: "HClO₄", x: "ClO₄⁻", h: 1.00 },
+  { f: "HBr", x: "Br⁻", h: 0.80 },
+  { f: "H₂SO₄", x: "HSO₄⁻", h: 0.62 },
+  { f: "HCl", x: "Cl⁻", h: 0.45 },
+  { f: "HNO₃", x: "NO₃⁻", h: 0.30 }
+];
+AB.LV = LV;
+const LVS = { solv: "w" };
+AB.LVS = LVS;
+function drawLV(){
+  const wrap = $("lv-wrap"), svg = $("lv-svg"), water = LVS.solv === "w";
+  const W = Math.max(260, Math.floor(wrap.clientWidth - 34)), Hh = 238;
+  const ml = 26, mr = 6, mt = 34, mb = 42, ph = Hh - mt - mb, pw = W - ml - mr;
+  const bw = Math.min(56, pw / LV.length * 0.58), step = pw / LV.length;
+  let s = `<text x="0" y="14" class="cap">${svgChem(water ? "Extent of reaction with water" : "Extent of proton transfer to CH₃COOH", 11.5)}</text>`;
+  s += `<text x="0" y="28" class="cap">${svgChem(water ? "each gives up its first proton completely: levelled to H₃O⁺" : "schematic: order from literature, bar heights not to scale", 11.5)}</text>`;
+  s += `<line x1="${ml}" y1="${mt + ph}" x2="${W - mr}" y2="${mt + ph}" class="axis"/><line x1="${ml}" y1="${mt}" x2="${ml}" y2="${mt + ph}" class="axis"/>`;
+  s += `<text transform="translate(${ml - 9},${mt + ph / 2}) rotate(-90)" text-anchor="middle" class="cap">${water ? "complete" : "stronger →"}</text>`;
+  AB.lvBars = [];
+  LV.forEach((a, i) => {
+    const hgt = (water ? 1 : a.h) * (ph - 10), cx = ml + step * (i + 0.5);
+    AB.lvBars.push(hgt);
+    s += `<rect x="${f1(cx - bw / 2)}" y="${f1(mt + ph - hgt)}" width="${f1(bw)}" height="${f1(hgt)}" rx="3" class="${water ? "bar-w" : "bar-e"}" data-acid="${a.f}"/>`;
+    s += `<text x="${f1(cx)}" y="${mt + ph + 18}" text-anchor="middle" class="lvl">${svgChem(a.f, 13)}</text>`;
+    s += `<text x="${f1(cx)}" y="${mt + ph + 34}" text-anchor="middle" class="lvv">${svgChem(water ? "→ H₃O⁺" : "partial", 11.5)}</text>`;
+  });
+  svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("height", Hh);
+  svg.innerHTML = s;
+}
+function renderLV(){
+  const water = LVS.solv === "w";
+  $("lv-hint").innerHTML = H(water ? "All five are “strong” acids in water." : "Ethanoic acid is a much weaker base than water, so these acids react only partly with it and their strengths can be told apart.");
+  $("lv-tab").innerHTML = `<tr><th>Acid</th><th>Reaction with the solvent</th></tr>` + LV.map(a => `<tr><td>${H(a.f)}</td><td>${H(water ? `${a.f} + H₂O → H₃O⁺ + ${a.x}` : `${a.f} + CH₃COOH ⇌ CH₃COOH₂⁺ + ${a.x}`)}</td></tr>`).join("");
+  $("lv-note").innerHTML = H(water
+    ? "In water, each of these acids gives up its first proton completely to give H₃O⁺, so at equal concentration they look equally strong (H₂SO₄’s second proton is only partly given up). They are <b>levelled</b> to H₃O⁺, the strongest acid that can exist in water: any stronger acid simply protonates water."
+    : "In glacial ethanoic acid the reactions are partial and the acids differ. Order of strength from measurements in ethanoic acid: HClO₄ > HBr > H₂SO₄ > HCl > HNO₃. Here the strongest acid that can exist is CH₃COOH₂⁺.");
+  drawLV();
+}
+function bindLV(){
+  document.querySelectorAll('input[name="wa"]').forEach(r => r.onchange = () => renderWA(r.value));
+  document.querySelectorAll('input[name="lv"]').forEach(r => r.onchange = () => { LVS.solv = r.value; renderLV(); });
+  renderWA("base"); renderLV();
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("lv-wrap").clientWidth; if (Math.abs(w - lw) > 1){ lw = w; drawLV(); } }).observe($("lv-wrap"));
+}
+
+/* =====================================================
+   6. QUIZ (option 0 is correct; each option carries its reason)
+   ===================================================== */
+const QZ = [
+  { q: "Which statement about the Arrhenius theory is correct?",
+    o: [["An acid produces H⁺(aq) in water, so the theory cannot describe NH₃(g) + HCl(g) → NH₄Cl(s), where there is no water.", "Arrhenius acids and bases are defined by the ions they give in water, so reactions without water are outside the theory."],
+        ["An acid is a proton donor, so the theory covers reactions in any solvent.", "“Proton donor” is the Brønsted-Lowry definition. Arrhenius theory is limited to aqueous solutions."],
+        ["A base is an electron-pair donor, which explains why NH₃ is a base.", "That is the Lewis definition. Arrhenius pictured a base releasing OH⁻ it already contains, so it cannot describe how NH₃ takes H⁺ from water."],
+        ["A base is any substance that neutralises an acid, so it covers every acid-base reaction.", "An Arrhenius base must produce OH⁻(aq) in water. It is the narrowest of the three theories."]] },
+  { q: "In CH₃NH₂(aq) + H₂O(l) ⇌ CH₃NH₃⁺(aq) + OH⁻(aq), which species is the Brønsted-Lowry acid?",
+    o: [["H₂O", "H₂O donates a proton to CH₃NH₂ and becomes OH⁻, its conjugate base."],
+        ["CH₃NH₂", "CH₃NH₂ accepts the proton: it is the base."],
+        ["CH₃NH₃⁺", "CH₃NH₃⁺ is the conjugate acid of CH₃NH₂, on the product side. It is not the acid in the forward reaction."],
+        ["OH⁻", "OH⁻ is the conjugate base of H₂O: what is left after water donates its proton."]] },
+  { q: "What is the conjugate base of HSO₄⁻?",
+    o: [["SO₄²⁻", "Removing one H⁺ from HSO₄⁻ gives SO₄²⁻: one fewer H, and the charge falls by 1."],
+        ["H₂SO₄", "H₂SO₄ is HSO₄⁻ plus one H⁺: it is the conjugate acid of HSO₄⁻, not its conjugate base."],
+        ["SO₃", "SO₃ is HSO₄⁻ minus OH⁻, not minus H⁺. A conjugate pair differs by exactly one H⁺."],
+        ["SO₄⁻", "An H has been removed but the charge has not fallen by 1. Removing H⁺ must lower the charge."]] },
+  { q: "BaO(s) + H₂O(l) → Ba²⁺(aq) + 2OH⁻(aq). Which statement is correct?",
+    o: [["O²⁻ is the base and one OH⁻ is its conjugate acid; Ba²⁺ is a spectator ion in this proton transfer and is not part of any conjugate pair.", "O²⁻ accepts a proton from H₂O. Ba²⁺ neither gains nor loses H⁺, so it cannot be in a conjugate pair."],
+        ["Ba²⁺ is the conjugate acid of BaO.", "Ba²⁺ and BaO do not differ by one H⁺. Ba²⁺ is a spectator ion."],
+        ["H₂O is the base, because it is converted into OH⁻.", "Turning H₂O into OH⁻ means losing H⁺, so H₂O is the acid here."],
+        ["Both OH⁻ ions are the conjugate base of H₂O.", "Only one OH⁻ comes from H₂O. The other is O²⁻ that has gained a proton: the conjugate acid of O²⁻."]] },
+  { q: "Which pair of reactions shows that water is amphoteric?",
+    o: [["H₂O + HCl → H₃O⁺ + Cl⁻ and H₂O + NH₃ ⇌ NH₄⁺ + OH⁻", "Water accepts a proton from HCl (base) and donates one to NH₃ (acid)."],
+        ["H₂O + HCl → H₃O⁺ + Cl⁻ and H₂O + HNO₃ → H₃O⁺ + NO₃⁻", "Water is the base in both, so this shows only one role."],
+        ["H₂O + NH₃ ⇌ NH₄⁺ + OH⁻ and H₂O + CH₃NH₂ ⇌ CH₃NH₃⁺ + OH⁻", "Water is the acid in both, so this shows only one role."],
+        ["2Na(s) + 2H₂O(l) → 2NaOH(aq) + H₂(g)", "This is a redox reaction: Na is oxidised and H in water is reduced. It is not acid-base."]] },
+  { q: "Why is BF₃ a Lewis acid?",
+    o: [["B has only 6 electrons in its outer shell and an empty orbital that can accept a lone pair.", "An electron-pair acceptor needs room for a pair: B is electron-deficient."],
+        ["BF₃ releases H⁺ ions in water.", "BF₃ contains no hydrogen, so it cannot release H⁺."],
+        ["F is very electronegative, so BF₃ donates a lone pair from F.", "Donating a lone pair would make it a Lewis base. In the adduct, B accepts the lone pair from N."],
+        ["BF₃ is a proton donor.", "BF₃ has no proton to donate. This is why Brønsted-Lowry theory cannot describe BF₃ + NH₃."]] },
+  { q: "What is the arrangement of bonds about B in the adduct H₃N→BF₃?",
+    o: [["Approximately tetrahedral, bond angles about 109.5°", "B now has four bond pairs (three B–F and the dative N→B) and no lone pair."],
+        ["Trigonal planar, 120°", "That is BF₃ before it reacts, with only three bond pairs."],
+        ["Trigonal pyramidal, about 107°", "That shape needs a lone pair on the central atom. B has none."],
+        ["Square planar, 90°", "Four bond pairs and no lone pairs repel to the tetrahedral arrangement, not square planar."]] },
+  { q: "“Every Brønsted-Lowry base is also a Lewis base.” Is this true?",
+    o: [["True: to accept a proton, the base donates a lone pair to H⁺, forming a dative covalent bond.", "H⁺ has no electrons, so the new bond is made entirely from the base’s lone pair."],
+        ["False: a Brønsted-Lowry base accepts a proton, and no electron pair is involved.", "Accepting the proton is done by donating a lone pair to it, so an electron pair is involved."],
+        ["False: Lewis theory only applies to reactions that involve no hydrogen.", "Lewis theory includes proton transfers: H⁺ is an electron-pair acceptor."],
+        ["True, but only in aqueous solution.", "Neither Brønsted-Lowry nor Lewis theory needs water."]] },
+  { q: "How should Mg(s) + 2HCl(aq) → MgCl₂(aq) + H₂(g) be classified?",
+    o: [["Redox, not acid-base: Mg is oxidised and H⁺ is reduced; electrons are transferred and no pair is shared.", "Mg → Mg²⁺ + 2e⁻ and 2H⁺ + 2e⁻ → H₂. No proton is passed to a base and no dative bond forms."],
+        ["An Arrhenius acid-base reaction, because HCl gives H⁺(aq).", "HCl is an acid, but here H⁺ is reduced to H₂, not neutralised by OH⁻(aq)."],
+        ["A Brønsted-Lowry reaction: H⁺ is transferred to Mg.", "Mg does not accept a proton; it loses electrons."],
+        ["A Lewis reaction: Mg donates an electron pair to H⁺.", "Mg transfers electrons outright. No electron pair is shared in a dative bond."]] },
+  { q: "In Fe³⁺ + 6H₂O → [Fe(H₂O)₆]³⁺, which statement is correct?",
+    o: [["Fe³⁺ is a Lewis acid: it accepts a lone pair from the O atom of each H₂O, forming six dative covalent bonds.", "Each H₂O is a Lewis base, donating a lone pair from O."],
+        ["H₂O is the Lewis acid because it accepts electrons from Fe³⁺.", "The roles are reversed: H₂O donates the lone pairs and Fe³⁺ accepts them."],
+        ["Fe³⁺ is a Brønsted-Lowry acid in this step because it donates a proton.", "Fe³⁺ has no proton to donate. No proton is transferred in this step."],
+        ["Each H₂O donates a lone pair from one of its H atoms.", "H atoms in H₂O have no lone pairs. The lone pairs are on O."]] }
+];
+AB.QZ = QZ;
+const Q = { i: 0, score: 0, order: [], answered: false };
+AB.Q = Q;
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length}</span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${H(q.q)}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${H(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+
+/* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly. (Scrolling the page here fought the mouse wheel.)
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+/* ---------- redraw on resize and theme change ---------- */
+function redrawAll(){ drawNest(); drawStage(); if (lv3) lv3.draw(); drawLV(); }
+AB.redrawAll = redrawAll;
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+new MutationObserver(redrawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+let nw = 0;
+new ResizeObserver(() => { const w = $("nest-wrap").clientWidth; if (Math.abs(w - nw) > 1){ nw = w; drawNest(); } }).observe($("nest-wrap"));
+
+bindPT(); bindDrill(); bindLW(); bindSort(); bindLV(); startQuiz(); bindNav();
+drawNest();
+})();
+</script>
