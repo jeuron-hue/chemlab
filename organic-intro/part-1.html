@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1114" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Introduction to Organic Chemistry 1: 11.1: formulae, functional groups, naming, hybridisation, σ and π bonds, shapes. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 11.1–11.3).">
+<title>Introduction to Organic Chemistry 1 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --line:#d4dbe2; --accent:#1c5da3; --accent-soft:#e2ecf7; --enrich:#f1f2f4; --box-line:#9aa5b1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:64px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 18px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); font-size:.92rem}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:18px; max-height:calc(100vh - 84px); overflow:auto; font-size:.86rem; padding-right:6px}
+  .toc-title{font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none; line-height:1.35}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  body{font-size:16.5px}
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:18px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:.8rem; line-height:1.5; color:var(--ink-2); border-left:2px solid var(--line); padding-left:10px}
+  .sn-num{font-weight:600; color:var(--accent)}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  body{font-size:17px}
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  .toc{font-size:.9rem}
+  .sidenote{font-size:.82rem}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:18px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:.86rem; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.9rem; font-weight:500; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:28px clamp(16px,4vw,48px) 32px; margin-top:18px}
+.eyebrow{font-family:var(--sans); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans)}
+h1{letter-spacing:-.01em}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:clamp(1.7rem,4.5vw,2.2rem); line-height:1.2; margin:0 0 18px; font-weight:600}
+h2{font-size:1.3rem; margin:34px 0 10px; font-weight:600; line-height:1.3}
+h3{font-size:1.05rem; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:6px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--line)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; padding:8px 14px; border-radius:6px}
+:root[data-theme="dark"] .btn{color:#0a1420}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#0a1420} }
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:6px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:.88rem; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.45}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:var(--surface-2); font-weight:600}
+
+.notes{margin-top:36px; border-top:1px solid var(--line); padding-top:6px; font-size:.92rem; color:var(--ink-2)}
+.notes h2{font-size:1.05rem}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:.92rem}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:.8rem; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  body{font-size:16px; line-height:1.6}
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:22px 16px 26px}
+  h1{font-size:1.65rem}
+  h2{font-size:1.2rem; margin-top:28px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:.86rem}
+  th,td{padding:6px 8px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --line:#999; --enrich:#f2f2f2; --accent-soft:#eef3f9}
+  body{font-size:11pt}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail{display:none!important}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 11.1–11.3 · Introduction to Organic Chemistry</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 11.1–11.3 pages"><div class="frame"><a href="part-1.html" aria-current="page" class="on">Part 1</a><a href="part-2.html">Part 2</a><a href="part-3.html">Part 3</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="tutorial-3.html">Tutorial 3</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#introduction">Introduction</a></li><li><a href="#formulae">Formulae</a></li><li><a href="#functional-groups-and-homologous-series">Functional groups and homologous series</a></li><li><a href="#naming-organic-compounds">Naming organic compounds</a></li><li><a href="#hybridisation">Hybridisation</a></li><li><a href="#predicting-shapes-in-other-molecules">Predicting shapes in other molecules</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<p class="eyebrow">Topic 11.1–11.3 · Introduction to Organic Chemistry Part 1</p>
+<h1>Introduction to Organic Chemistry 1</h1><details class="toc-m"><summary>On this page</summary><ol><li><a href="#introduction">Introduction</a></li><li><a href="#formulae">Formulae</a></li><li><a href="#functional-groups-and-homologous-series">Functional groups and homologous series</a></li><li><a href="#naming-organic-compounds">Naming organic compounds</a></li><li><a href="#hybridisation">Hybridisation</a></li><li><a href="#predicting-shapes-in-other-molecules">Predicting shapes in other molecules</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Introduction to Organic Chemistry Lab</a></p><p>Rotate ethane, ethene, benzene and ethyne in 3D, switch the hybrid orbitals and the π overlap on and off, read the bond angles, and twist the C–C bond to see why a π bond stops rotation. There is also a naming drill.</p></aside><h2 id="introduction">Introduction</h2><p>The word organic is one of the most overused in the English language. People use it as a derogatory term in phrases like, “don't eat that; it's not organic.” Of course, there is a precise scientific definition of the word. In science, organic can be a biological or chemical term. In Biology it means anything that is living or has lived. In Chemistry, an <span class="key">organic compound</span> is a compound of carbon, usually containing C–H bonds.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup> A few simple carbon compounds, such as carbon monoxide, carbon dioxide, carbonates, hydrogencarbonates and cyanides, are traditionally treated as inorganic.</p><p>Organic chemistry is a major branch of chemistry dealing with the study of the compounds of one element, carbon. The carbon atom is one of the few that will form strong bonds with itself. This means that carbon atoms can form chains and rings onto which other atoms can be attached. Carbon is crucial to humans because the very cells and fluids that we are made up of consist of organic molecules, carbon compounds. The drugs that we take, the food that we eat and the things that we use every day are mostly carbon-based materials. Indeed, carbon is one of the most important elements in the periodic table (the others being hydrogen and oxygen) from the point of view of the human race.</p><p>This note covers 9476 Topic 11.1: how organic molecules are written, named and shaped. Part 2 covers isomerism (11.2) and Part 3 covers organic reactions and mechanisms (11.3).</p><h2 id="formulae">Formulae</h2><p>The same molecule can be written in several ways. Each is useful for a different job.</p><div class="tablewrap"><table><thead><tr><th>Type of formula</th><th>What it shows</th><th>Butan-2-ol</th></tr></thead><tbody><tr><td>Empirical</td><td>The simplest whole-number ratio of atoms of each element</td><td>C<sub>4</sub>H<sub>10</sub>O</td></tr><tr><td>Molecular</td><td>The actual number of atoms of each element in one molecule</td><td>C<sub>4</sub>H<sub>10</sub>O</td></tr><tr><td>Structural</td><td>The minimal detail needed to show how the atoms are arranged, without showing every bond</td><td>CH<sub>3</sub>CH(OH)CH<sub>2</sub>CH<sub>3</sub></td></tr><tr><td>Displayed (full structural)</td><td>Every atom and every bond</td><td>Fig 1, left</td></tr><tr><td>Skeletal</td><td>Carbon chains as zigzag lines: C atoms at the ends and corners, H atoms on C not shown; other atoms and functional groups shown</td><td>Fig 1, centre</td></tr><tr><td>Stereochemical</td><td>The 3D arrangement: a wedge points towards you, a hashed wedge away from you, a plain line is in the plane of the paper</td><td>Fig 1, right</td></tr></tbody></table></div><figure><img src="fig/o1_formulae.svg" alt="Fig 1. Butan-2-ol: displayed, skeletal and stereochemical formulae." loading="lazy"><figcaption>Fig 1. Butan-2-ol: displayed, skeletal and stereochemical formulae.</figcaption></figure><p>The empirical and molecular formulae are often different. Ethanoic acid, CH<sub>3</sub>COOH, has the molecular formula C<sub>2</sub>H<sub>4</sub>O<sub>2</sub> and the empirical formula CH<sub>2</sub>O. For butan-2-ol they happen to be the same, because C<sub>4</sub>H<sub>10</sub>O cannot be divided further.</p><aside class="box"><p><strong>Skeletal formulae: read them carefully</strong></p><p>Every corner and every line end is a carbon atom. Each carbon has enough H atoms to make four bonds in total. So a corner with two lines has two H atoms; a corner with three lines has one H atom. Heteroatoms (O, N, halogens) and the H atoms on them are always written in.</p></aside><h2 id="functional-groups-and-homologous-series">Functional groups and homologous series</h2><p>A <span class="key">functional group</span> is an atom or group of atoms in a molecule that is responsible for its characteristic chemical reactions. Compounds with the same functional group form a <span class="key">homologous series</span>:</p><ul><li>they have the same general formula;</li><li>successive members differ by CH<sub>2</sub>;</li><li>they have similar chemical properties (the same functional group reacts in the same way);</li><li>their physical properties, such as boiling point, change gradually as the chain gets longer.</li></ul><p>The series you must know for 9476 are in the table below, together with the alkynes, which you will meet in examples (ethyne, propyne) although they are not a separate 9476 class. R stands for an alkyl group (C<sub>n</sub>H<sub>2n+1</sub>) and Ar for an aryl group such as phenyl, C<sub>6</sub>H<sub>5</sub>.</p><div class="tablewrap"><table><thead><tr><th>Series</th><th>Functional group</th><th>General formula</th><th>Example</th></tr></thead><tbody><tr><td>Alkanes</td><td>C–C and C–H only</td><td>C<sub>n</sub>H<sub>2n+2</sub></td><td>propane, CH<sub>3</sub>CH<sub>2</sub>CH<sub>3</sub></td></tr><tr><td>Alkenes</td><td>C=C</td><td>C<sub>n</sub>H<sub>2n</sub></td><td>propene, CH<sub>2</sub>=CHCH<sub>3</sub></td></tr><tr><td>Alkynes</td><td>C≡C</td><td>C<sub>n</sub>H<sub>2n−2</sub></td><td>ethyne, HC≡CH</td></tr><tr><td>Arenes</td><td>benzene ring</td><td>C<sub>n</sub>H<sub>2n−6</sub> (alkylbenzenes)</td><td>methylbenzene, C<sub>6</sub>H<sub>5</sub>CH<sub>3</sub></td></tr><tr><td>Halogenoalkanes</td><td>C–X (X = F, Cl, Br, I)</td><td>C<sub>n</sub>H<sub>2n+1</sub>X</td><td>bromoethane, CH<sub>3</sub>CH<sub>2</sub>Br</td></tr><tr><td>Halogenoarenes</td><td>X on a benzene ring</td><td>ArX</td><td>chlorobenzene, C<sub>6</sub>H<sub>5</sub>Cl</td></tr><tr><td>Alcohols</td><td>–OH on an alkyl carbon</td><td>C<sub>n</sub>H<sub>2n+1</sub>OH</td><td>ethanol, CH<sub>3</sub>CH<sub>2</sub>OH</td></tr><tr><td>Phenols</td><td>–OH on a benzene ring</td><td>ArOH</td><td>phenol, C<sub>6</sub>H<sub>5</sub>OH</td></tr><tr><td>Aldehydes</td><td>–CHO</td><td>C<sub>n</sub>H<sub>2n+1</sub>CHO</td><td>ethanal, CH<sub>3</sub>CHO</td></tr><tr><td>Ketones</td><td>C=O between two C atoms</td><td>RCOR′</td><td>propanone, CH<sub>3</sub>COCH<sub>3</sub></td></tr><tr><td>Carboxylic acids</td><td>–COOH</td><td>C<sub>n</sub>H<sub>2n+1</sub>COOH</td><td>ethanoic acid, CH<sub>3</sub>COOH</td></tr><tr><td>Acyl chlorides</td><td>–COCl</td><td>RCOCl</td><td>ethanoyl chloride, CH<sub>3</sub>COCl</td></tr><tr><td>Esters</td><td>–COO–</td><td>RCOOR′</td><td>ethyl ethanoate, CH<sub>3</sub>COOCH<sub>2</sub>CH<sub>3</sub></td></tr><tr><td>Amines</td><td>–NH<sub>2</sub> (primary)</td><td>C<sub>n</sub>H<sub>2n+1</sub>NH<sub>2</sub></td><td>ethylamine (ethanamine), CH<sub>3</sub>CH<sub>2</sub>NH<sub>2</sub></td></tr><tr><td>Amides</td><td>–CONH<sub>2</sub></td><td>RCONH<sub>2</sub></td><td>ethanamide, CH<sub>3</sub>CONH<sub>2</sub></td></tr><tr><td>Amino acids</td><td>–NH<sub>2</sub> and –COOH</td><td>H<sub>2</sub>NCH(R)COOH</td><td>2-aminopropanoic acid (alanine)</td></tr><tr><td>Nitriles</td><td>–C≡N</td><td>RCN</td><td>ethanenitrile, CH<sub>3</sub>CN</td></tr></tbody></table></div><p>In the general formulae, n can be 0 for aldehydes and carboxylic acids: HCHO is methanal and HCOOH is methanoic acid.</p><h2 id="naming-organic-compounds">Naming organic compounds</h2><p>A systematic (IUPAC) name is built from three parts: <strong>prefixes</strong> (substituents and their positions) + <strong>stem</strong> (the length of the main chain) + <strong>suffix</strong> (the main functional group).</p><div class="tablewrap"><table><thead><tr><th>Carbons</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead><tbody><tr><td>Stem</td><td>meth</td><td>eth</td><td>prop</td><td>but</td><td>pent</td><td>hex</td><td>hept</td><td>oct</td><td>non</td><td>dec</td></tr></tbody></table></div><p>Suffixes and prefixes for the 9476 groups:</p><div class="tablewrap"><table><thead><tr><th>Group</th><th>Suffix (main group)</th><th>Prefix (substituent)</th></tr></thead><tbody><tr><td>Carboxylic acid, –COOH</td><td>-oic acid</td><td>carboxy-</td></tr><tr><td>Ester, –COOR′</td><td>alkyl …-oate</td><td>–</td></tr><tr><td>Acyl chloride, –COCl</td><td>-oyl chloride</td><td>–</td></tr><tr><td>Amide, –CONH<sub>2</sub></td><td>-amide</td><td>–</td></tr><tr><td>Nitrile, –C≡N</td><td>-nitrile</td><td>cyano-</td></tr><tr><td>Aldehyde, –CHO</td><td>-al</td><td>oxo-</td></tr><tr><td>Ketone, &gt;C=O</td><td>-one</td><td>oxo-</td></tr><tr><td>Alcohol, –OH</td><td>-ol</td><td>hydroxy-</td></tr><tr><td>Amine, –NH<sub>2</sub></td><td>-amine</td><td>amino-</td></tr><tr><td>Alkene, C=C</td><td>-ene</td><td>–</td></tr><tr><td>Alkyne, C≡C</td><td>-yne</td><td>–</td></tr><tr><td>Halogen, alkyl</td><td>–</td><td>fluoro-, chloro-, bromo-, iodo-; methyl-, ethyl-</td></tr></tbody></table></div><p>The groups are listed in order of priority. When a molecule has two groups, the one higher in the table gives the suffix and the other becomes a prefix, as in 2-hydroxypropanoic acid (lactic acid) or 2-aminopropanoic acid.</p><h3>Rules</h3><ol class="num"><li>Find the longest carbon chain that contains the main functional group. Its length gives the stem.</li><li>In aldehydes, carboxylic acids, acyl chlorides, amides and nitriles, the carbon of the functional group is part of the chain and is always C1. So CH<sub>3</sub>CH<sub>2</sub>CN is <strong>propane</strong>nitrile (3 carbons), not ethanenitrile.</li><li>Number the chain from the end that gives the main functional group the lowest number, then the C=C, then the substituents.</li><li>Put the number of the carbon in front of the part it describes: but-2-ene, propan-2-ol, 2-methylpropane.</li><li>Use di-, tri-, tetra- for repeated substituents (2,2-dichloropropane), and list different substituents in alphabetical order, ignoring di-, tri- (1-bromo-2-methylpropane, not 2-methyl-1-bromopropane).</li><li>Write commas between numbers and hyphens between numbers and letters.</li></ol><figure><img src="fig/o1_naming.svg" alt="Fig 2. Worked examples. Blue numbers show how the main chain is numbered." loading="lazy"><figcaption>Fig 2. Worked examples. Blue numbers show how the main chain is numbered.</figcaption></figure><p><strong>Worked examples (Fig 2).</strong></p><ul><li><strong>3-methylbutan-2-ol.</strong> The longest chain with the –OH group has 4 carbons (butan-). Numbering from the left gives the –OH carbon 2 and the methyl carbon 3; from the right it would give –OH 3. Lowest number for the main group wins.</li><li><strong>1-bromo-2-methylpropane.</strong> The longest chain is 3 carbons (propane). Number from the Br end: Br on C1, methyl on C2. Prefixes in alphabetical order: bromo before methyl.</li><li><strong>pent-3-en-2-one.</strong> Five carbons; the ketone is the main group, so it gets the lowest number (2); the C=C then starts at C3.</li></ul><p>Ketones with no choice of position drop the number: propanone, butanone. Benzene compounds are named as substituted benzenes (methylbenzene, chlorobenzene, 1,4-dimethylbenzene), with a few accepted common names: phenol (C<sub>6</sub>H<sub>5</sub>OH) and benzoic acid (C<sub>6</sub>H<sub>5</sub>COOH). Esters are named from the alcohol part first, then the acid part: CH<sub>3</sub>COOCH<sub>2</sub>CH<sub>3</sub> is <strong>ethyl</strong> (from ethanol) <strong>ethanoate</strong> (from ethanoic acid).<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></p><h2 id="hybridisation">Hybridisation</h2><h3>A theory to explain an observation</h3><p>Chemists in the 1800s found that when one of the H atoms in methane was replaced by a Cl atom, it made no difference which H atom was replaced: there is only one CH<sub>3</sub>Cl. Furthermore, when a second H atom was replaced, it again made no difference which one: there is only one CH<sub>2</sub>Cl<sub>2</sub>. In three-dimensional space, the only arrangement that gives this property is a tetrahedral one, with the H atoms at the corners of a tetrahedron around the carbon. (A flat, square arrangement would give two different forms of CH<sub>2</sub>Cl<sub>2</sub>.)</p><p>In the early twentieth century, more and more was learned about electrons and orbitals. Once quantum mechanics described atomic orbitals (Schrödinger, 1926), chemists knew that the 2s orbital is spherical and that the three 2p orbitals are dumbbells along the x, y and z axes, at 90° to one another. This created a dilemma for theoretical chemists. How can the 1s<sup>2</sup> 2s<sup>2</sup> 2p<sup>2</sup> arrangement of electrons in a carbon atom, with only two unpaired electrons, give four identical C–H bonds pointing to the corners of a tetrahedron?</p><p>The answer quite simply is that it cannot, at least not directly. Nevertheless, they persisted and came up with a model that you need to know about. It is called <span class="key">hybridisation</span> (Pauling, 1931).</p><h3>Adjustment of thinking</h3><p>The s, p, d and f orbitals that you know of are <em>atomic orbitals</em>. They are regions of space around one nucleus where an electron is likely to be found. When an atom forms bonds, its atomic orbitals can be <em>mixed</em> to give new orbitals that point in better directions for overlap with other atoms. These <span class="key">hybrid orbitals</span> are still atomic orbitals, centred on one atom. A covalent bond forms when an orbital on one atom overlaps with an orbital on another atom, and the shared pair of electrons occupies the region of overlap.</p><h3>Recall Chemical Bonding</h3><p>In Topic 2 (Chemical Bonding, Part 1) you met the two ways in which orbitals overlap:</p><ul><li>a <span class="key">σ bond</span> forms by <strong>end-on</strong> (head-on) overlap; the electron density lies along the axis between the two nuclei;</li><li>a <span class="key">π bond</span> forms by <strong>sideways</strong> overlap of two p orbitals; the electron density lies above and below the axis.</li></ul><p>A single bond is one σ bond. A double bond is one σ bond and one π bond. A triple bond is one σ bond and two π bonds.</p><p>When a carbon atom bonds to other atoms, one 2s electron is first <strong>promoted</strong> to the empty 2p orbital (1s<sup>2</sup> 2s<sup>1</sup> 2p<sup>3</sup>), so that carbon has four unpaired electrons and can form four bonds. The energy needed is more than paid back by forming two extra bonds. The 2s orbital and some or all of the 2p orbitals are then mixed and rearranged to give the new hybrid orbitals. Each hybrid orbital is equivalent to the others and contains one electron. All four orbitals may be mixed (sp<sup>3</sup>), or just three (sp<sup>2</sup>) or two (sp), leaving one or two p orbitals unchanged.</p><h3>sp<sup>3</sup> hybridisation</h3><figure><img src="fig/o1_box_sp3.svg" alt="Fig 3. sp3: the 2s orbital and all three 2p orbitals mix to give four sp3 hybrids." loading="lazy"><figcaption>Fig 3. sp<sup>3</sup>: the 2s orbital and all three 2p orbitals mix to give four sp<sup>3</sup> hybrids.</figcaption></figure><p>The first is the <span class="key">sp<sup>3</sup> hybridisation</span> that we have already talked about. sp<sup>3</sup> hybridisation results from the combination of the s orbital and all three p orbitals in the second energy level of carbon. It results in four hybrid orbitals and occurs when a carbon atom is bonded to four other atoms. The geometric arrangement of those four hybrid orbitals is called <strong>tetrahedral</strong>. With sp<sup>3</sup> hybridisation, carbon forms 4 σ bonds, which also means carbon forms 4 single bonds.</p><figure><img src="fig/o1_sp3.svg" alt="Fig 4. Left: four sp3 hybrids point to the corners of a tetrahedron. Right: the σ bonds in ethane (schematic)." loading="lazy"><figcaption>Fig 4. Left: four sp<sup>3</sup> hybrids point to the corners of a tetrahedron. Right: the σ bonds in ethane (schematic).</figcaption></figure><ol class="num"><li>sp<sup>3</sup> occurs when a C has 4 attached groups (4 σ bonds, no π bond).</li><li>The 4 sp<sup>3</sup> hybrids point towards the corners of a tetrahedron at 109.5° to each other.</li><li>Each sp<sup>3</sup> hybrid is involved in a σ bond.</li><li>In <strong>ethane</strong>, C<sub>2</sub>H<sub>6</sub>, each C uses one sp<sup>3</sup> hybrid to overlap end-on with an sp<sup>3</sup> hybrid on the other C (the C–C σ bond) and three sp<sup>3</sup> hybrids to overlap with the 1s orbitals of three H atoms. All angles are 109.5°.<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup></li><li>A σ bond is symmetrical about the axis between the nuclei, so the overlap does not change when one CH<sub>3</sub> group rotates. There is <strong>free rotation</strong> about the C–C single bond.</li></ol><h3>sp<sup>2</sup> hybridisation</h3><figure><img src="fig/o1_box_sp2.svg" alt="Fig 5. sp2: the 2s orbital and two 2p orbitals mix; one 2p orbital is left unhybridised." loading="lazy"><figcaption>Fig 5. sp<sup>2</sup>: the 2s orbital and two 2p orbitals mix; one 2p orbital is left unhybridised.</figcaption></figure><p>The <span class="key">sp<sup>2</sup> hybridisation</span> uses the s orbital and two of the p orbitals from the second energy level of carbon to form three hybrid orbitals. There is also an unchanged p orbital. The three sp<sup>2</sup> hybrid orbitals lie in a flat plane with 120° angles between them. The leftover p orbital lies at 90° to the plane of the hybrid orbitals. This kind of hybridisation occurs when a carbon atom is bonded to three other atoms. If it is a very simple molecule with just the carbon atom and the other three atoms, it would be a flat triangular molecule. If this is part of a larger molecule, this part would have a flat triangular shape.</p><figure><img src="fig/o1_sp2.svg" alt="Fig 6. Left: an sp2 carbon. Right: ethene, with the σ framework in a plane and the π bond above and below it (schematic)." loading="lazy"><figcaption>Fig 6. Left: an sp<sup>2</sup> carbon. Right: ethene, with the σ framework in a plane and the π bond above and below it (schematic).</figcaption></figure><ol class="num"><li>sp<sup>2</sup> occurs when a C has 3 attached groups (one of the bonds is a double bond).</li><li>The 3 sp<sup>2</sup> hybrids point towards the corners of a triangle at 120° to each other.</li><li>Each sp<sup>2</sup> hybrid is involved in a σ bond.</li><li>The remaining p orbital forms the π bond (often with another carbon atom).</li><li>In <strong>ethene</strong>, C<sub>2</sub>H<sub>4</sub>, the C=C bond is one σ bond (sp<sup>2</sup>–sp<sup>2</sup>, end-on) and one π bond (2p–2p, sideways). For the two p orbitals to overlap sideways they must be parallel, so all six atoms lie in one plane. The molecule is <strong>planar</strong>, with bond angles of about 120°.<sup class="fnref"><a href="#fn4" id="fnref4" aria-label="Note 4">4</a></sup></li></ol><p>The π bond is weaker than the σ bond, because sideways overlap is less effective than end-on overlap. From the Data Booklet, the C=C bond energy is 610 kJ mol<sup>−1</sup> and the C–C bond energy is 350 kJ mol<sup>−1</sup>, so the π bond contributes only about 610 − 350 = 260 kJ mol<sup>−1</sup>. Its electrons are also more exposed, above and below the plane of the molecule. Both facts explain why alkenes are much more reactive than alkanes (Part 3).</p><h3>sp<sup>2</sup> hybridisation in benzene</h3><p>In <span class="key">benzene</span>, C<sub>6</sub>H<sub>6</sub>, each carbon atom is bonded to two other carbon atoms and one hydrogen atom, so each carbon is sp<sup>2</sup> hybridised. The six C–C σ bonds and six C–H σ bonds all lie in one plane: benzene is a <strong>planar</strong> regular hexagon with all bond angles 120°.</p><p>Each carbon has one electron left in its unhybridised 2p orbital, at 90° to the plane of the ring. Each p orbital overlaps sideways with the p orbitals on <strong>both</strong> of its neighbours, not just one. The result is a continuous ring of π electron density above and below the plane of the ring, containing all <strong>6 π electrons</strong>. These electrons are not held between any particular pair of carbon atoms: they are <span class="key">delocalised</span> over the whole ring.</p><figure><img src="fig/o1_benzene.svg" alt="Fig 7. Benzene. Left: the planar σ framework and the six 2p orbitals. Right: sideways overlap all round the ring gives delocalised π electron density above and below the plane (schematic)." loading="lazy"><figcaption>Fig 7. Benzene. Left: the planar σ framework and the six 2p orbitals. Right: sideways overlap all round the ring gives delocalised π electron density above and below the plane (schematic).</figcaption></figure><p>Evidence for delocalisation: all six C–C bonds in benzene are the same length, 0.139 nm, between the length of a C–C single bond (0.154 nm) and a C=C double bond (0.134 nm). A structure with three separate C=C bonds (the Kekulé structure) would have three short and three long bonds. This is why benzene is drawn as a hexagon with a circle: the circle stands for the 6 delocalised π electrons. Delocalisation also makes benzene unusually stable, which explains much of its chemistry (Part 3 and Topic 11.4).</p><h3>sp hybridisation</h3><figure><img src="fig/o1_box_sp.svg" alt="Fig 8. sp: the 2s orbital and one 2p orbital mix; two 2p orbitals are left unhybridised." loading="lazy"><figcaption>Fig 8. sp: the 2s orbital and one 2p orbital mix; two 2p orbitals are left unhybridised.</figcaption></figure><p>There is still a third type of hybridisation: <span class="key">sp hybridisation</span>. The s orbital and one of the p orbitals from carbon's second energy level are combined to make two hybrid orbitals. These form a straight line, with an angle of 180° between them: they point in exactly opposite directions from the centre of the carbon atom. Because sp hybridisation uses only one of the p orbitals, there are still two p orbitals left which the carbon can use. These p orbitals are at right angles to one another and to the line formed by the hybrid orbitals. This kind of hybridisation occurs when a carbon atom is bonded to two other atoms.</p><figure><img src="fig/o1_sp.svg" alt="Fig 9. Left: an sp carbon. Right: ethyne, with two π bonds at right angles to each other (schematic)." loading="lazy"><figcaption>Fig 9. Left: an sp carbon. Right: ethyne, with two π bonds at right angles to each other (schematic).</figcaption></figure><ol class="num"><li>sp occurs when a C has 2 attached groups (a triple bond, or two double bonds).</li><li>The 2 sp hybrids point in opposite directions, at 180° to each other.</li><li>Each sp hybrid is involved in a σ bond.</li><li>The remaining two p orbitals form the two π bonds.</li><li>In <strong>ethyne</strong>, C<sub>2</sub>H<sub>2</sub>, the C≡C bond is one σ bond (sp–sp) and two π bonds, at right angles to each other. Together the two π bonds form a cylinder of electron density around the C–C axis. The molecule is <strong>linear</strong>: H–C≡C–H, 180°. The C≡C bond (0.120 nm) is shorter than C=C.</li></ol><h3>Summary</h3><div class="tablewrap"><table><thead><tr><th>Hybridisation of C</th><th>Atoms attached</th><th>Arrangement and angle</th><th>Bonds at that C</th><th>9476 example</th></tr></thead><tbody><tr><td>sp<sup>3</sup></td><td>4</td><td>tetrahedral, 109.5°</td><td>4 σ</td><td>ethane</td></tr><tr><td>sp<sup>2</sup></td><td>3</td><td>trigonal planar, 120°</td><td>3 σ + 1 π</td><td>ethene, benzene</td></tr><tr><td>sp</td><td>2</td><td>linear, 180°</td><td>2 σ + 2 π</td><td>ethyne</td></tr></tbody></table></div><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p><strong>Orbital energies and s character.</strong> The calculated (Hartree–Fock) orbital energies of a free carbon atom are 1s −308.18 eV, 2s −19.20 eV and 2p −11.79 eV. A hybrid orbital has the weighted average energy of the orbitals mixed to make it: sp<sup>3</sup> = (−19.20 + 3 × (−11.79)) / 4 = −13.64 eV; sp<sup>2</sup> = (−19.20 + 2 × (−11.79)) / 3 = −14.26 eV; sp = (−19.20 + (−11.79)) / 2 = −15.50 eV.</p><p>The fraction of s orbital in each hybrid is its <em>s character</em>: sp<sup>3</sup> 25 %, sp<sup>2</sup> 33 %, sp 50 %. More s character means the electrons are held closer to the nucleus, so bonds from sp carbons are shorter and stronger (C–H in ethyne 0.106 nm, in ethane 0.109 nm).</p></aside><figure><img src="fig/o1_energy.svg" alt="Fig 10 (Enrichment). Calculated orbital energies of a free carbon atom and of its hybrid orbitals." loading="lazy"><figcaption>Fig 10 (Enrichment). Calculated orbital energies of a free carbon atom and of its hybrid orbitals.</figcaption></figure><h2 id="predicting-shapes-in-other-molecules">Predicting shapes in other molecules</h2><p>You can predict the shape around any carbon, nitrogen or oxygen atom in an organic molecule by counting the <span class="key">regions of electron density</span> around it, exactly as in VSEPR theory (Topic 2, Part 2). Each σ bond counts as one region, each lone pair counts as one region, and a double or triple bond counts as <strong>one</strong> region (its π electrons lie in the same direction as its σ bond).</p><div class="tablewrap"><table><thead><tr><th>Regions round the atom</th><th>Hybridisation</th><th>Arrangement</th><th>Bond angle</th><th>Examples</th></tr></thead><tbody><tr><td>4</td><td>sp<sup>3</sup></td><td>tetrahedral</td><td>109.5° (4 bond pairs); about 107° at N with 1 lone pair; about 104.5° at O with 2 lone pairs</td><td>C in CH<sub>3</sub>–; N in CH<sub>3</sub>NH<sub>2</sub>; O in CH<sub>3</sub>OH</td></tr><tr><td>3</td><td>sp<sup>2</sup></td><td>trigonal planar</td><td>120°</td><td>C in C=C and C=O</td></tr><tr><td>2</td><td>sp</td><td>linear</td><td>180°</td><td>C in C≡C and C≡N</td></tr></tbody></table></div><figure><img src="fig/o1_shapes.svg" alt="Fig 11. Shapes in analogous molecules. Lone pairs are shown only where they affect the angle." loading="lazy"><figcaption>Fig 11. Shapes in analogous molecules. Lone pairs are shown only where they affect the angle.</figcaption></figure><p><strong>Worked example: propene, CH<sub>2</sub>=CH–CH<sub>3</sub>.</strong> C1 and C2 each have three regions (C1: two C–H and the C=C; C2: one C–H, the C=C and the C–C), so they are sp<sup>2</sup> and the angles around them are 120°. C3 has four σ bonds, so it is sp<sup>3</sup> and the angles around it are 109.5°. All the atoms around the C=C (the two C atoms, the three H atoms on them, and C3) lie in one plane.</p><p>The same method works for other atoms. In ethanal the carbonyl carbon is sp<sup>2</sup> and trigonal planar. In methanol the oxygen has two bond pairs and two lone pairs, so the C–O–H angle is predicted to be about 104.5°, as in water.<sup class="fnref"><a href="#fn5" id="fnref5" aria-label="Note 5">5</a></sup> In ethanenitrile the C≡N carbon is sp and the C–C≡N unit is linear. A further example is carbon dioxide, O=C=O: the carbon has two regions (two double bonds), so it is sp hybridised and linear, with its two π bonds at right angles to each other, just like ethyne.</p>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">The word comes from the old idea that organic compounds could only be made by living things, through a “vital force”. In 1828 Friedrich Wöhler made urea, an organic compound, from ammonium cyanate, an inorganic salt, and the idea gradually died. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">Amines can be named either as alkylamines (ethylamine) or as alkanamines (ethanamine). Both names are used; the 9476 syllabus and most textbooks use ethylamine. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">Bond lengths in this note (C–C 0.154 nm, C=C 0.134 nm, benzene 0.139 nm, C≡C 0.120 nm) are standard literature values. They are not in the Data Booklet. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li><li id="fn4">The measured H–C–H angle in ethene is 117°, a little less than 120°, because the electron-rich C=C bond repels the C–H bonds slightly more than they repel each other. <a href="#fnref4" class="back" aria-label="Back to text">↩</a></li><li id="fn5">The measured C–O–H angle in methanol is about 108.5°, a little more than the 104.5° in water, because the CH<sub>3</sub> group is larger than an H atom. <a href="#fnref5" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><span></span><a href="part-2.html">Part 2 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
