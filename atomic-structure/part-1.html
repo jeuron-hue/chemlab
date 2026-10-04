@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1114" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Atomic Structure 1: Protons, neutrons and electrons, where the mass and charge sit, beams in an electric field, counting particles, isotopes. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 1).">
+<title>Atomic Structure 1 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --line:#d4dbe2; --accent:#1c5da3; --accent-soft:#e2ecf7; --enrich:#f1f2f4; --box-line:#9aa5b1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:64px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 18px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); font-size:.92rem}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:18px; max-height:calc(100vh - 84px); overflow:auto; font-size:.86rem; padding-right:6px}
+  .toc-title{font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none; line-height:1.35}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  body{font-size:16.5px}
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:18px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:.8rem; line-height:1.5; color:var(--ink-2); border-left:2px solid var(--line); padding-left:10px}
+  .sn-num{font-weight:600; color:var(--accent)}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  body{font-size:17px}
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  .toc{font-size:.9rem}
+  .sidenote{font-size:.82rem}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:18px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:.86rem; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.9rem; font-weight:500; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:28px clamp(16px,4vw,48px) 32px; margin-top:18px}
+.eyebrow{font-family:var(--sans); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans)}
+h1{letter-spacing:-.01em}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:clamp(1.7rem,4.5vw,2.2rem); line-height:1.2; margin:0 0 18px; font-weight:600}
+h2{font-size:1.3rem; margin:34px 0 10px; font-weight:600; line-height:1.3}
+h3{font-size:1.05rem; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:6px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--line)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; padding:8px 14px; border-radius:6px}
+:root[data-theme="dark"] .btn{color:#0a1420}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#0a1420} }
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:6px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:.88rem; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.45}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:var(--surface-2); font-weight:600}
+
+.notes{margin-top:36px; border-top:1px solid var(--line); padding-top:6px; font-size:.92rem; color:var(--ink-2)}
+.notes h2{font-size:1.05rem}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:.92rem}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:.8rem; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  body{font-size:16px; line-height:1.6}
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:22px 16px 26px}
+  h1{font-size:1.65rem}
+  h2{font-size:1.2rem; margin-top:28px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:.86rem}
+  th,td{padding:6px 8px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --line:#999; --enrich:#f2f2f2; --accent-soft:#eef3f9}
+  body{font-size:11pt}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail{display:none!important}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 1 · Atomic Structure</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 1 pages"><div class="frame"><a href="part-1.html" aria-current="page" class="on">Part 1</a><a href="part-2.html">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#the-three-subatomic-particles">The three subatomic particles</a></li><li><a href="#where-the-mass-and-the-charge-are">Where the mass and the charge are</a></li><li><a href="#beams-of-particles-in-an-electric-field">Beams of particles in an electric field</a></li><li><a href="#proton-number-nucleon-number-and-counting-particles">Proton number, nucleon number and counting particles</a></li><li><a href="#isotopes">Isotopes</a></li><li><a href="#summary">Summary</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<p class="eyebrow">Topic 1 · Atomic Structure Part 1</p>
+<aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Atomic Structure Lab</a></p><p>Build atoms and ions particle by particle, fire protons, neutrons, electrons and ions between charged plates, and check your counting in the Atomic Structure Lab.</p></aside><h1>ATOMIC STRUCTURE 1</h1><details class="toc-m"><summary>On this page</summary><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#the-three-subatomic-particles">The three subatomic particles</a></li><li><a href="#where-the-mass-and-the-charge-are">Where the mass and the charge are</a></li><li><a href="#beams-of-particles-in-an-electric-field">Beams of particles in an electric field</a></li><li><a href="#proton-number-nucleon-number-and-counting-particles">Proton number, nucleon number and counting particles</a></li><li><a href="#isotopes">Isotopes</a></li><li><a href="#summary">Summary</a></li></ol></details><p>Everything in chemistry, every bond, every reaction, every colour, comes down to what the electrons in atoms are doing. Before we can talk about electrons properly (Part 2), we need to know what an atom is made of and where everything sits. That is what this Part is about.</p><h2 id="key-terms">Key terms</h2><p>You will need to use these terms precisely, so here they are in one place.</p><div class="tablewrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>proton</td><td>a particle in the nucleus with relative charge +1 and relative mass 1</td></tr><tr><td>neutron</td><td>a particle in the nucleus with no charge and relative mass 1</td></tr><tr><td>electron</td><td>a particle outside the nucleus with relative charge −1 and relative mass 1/1836</td></tr><tr><td>nucleus</td><td>the tiny, dense centre of the atom; contains the protons and neutrons</td></tr><tr><td>nucleons</td><td>the particles in the nucleus (protons and neutrons together)</td></tr><tr><td>proton number, <em>Z</em></td><td>the number of protons in the nucleus of an atom; it identifies the element</td></tr><tr><td>nucleon number, <em>A</em></td><td>the total number of protons and neutrons in the nucleus of an atom<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup></td></tr><tr><td>isotopes</td><td>atoms of the same element with the same number of protons but different numbers of neutrons</td></tr><tr><td>ion</td><td>a charged particle formed when an atom (or group of atoms) loses or gains electrons</td></tr></tbody></table></div><h2 id="the-three-subatomic-particles">The three subatomic particles</h2><p>An atom is made of three kinds of particle. The numbers that matter are their charges and masses, and because the real values are tiny and awkward we almost always use <span class="key">relative</span> values.</p><div class="tablewrap"><table><thead><tr><th>Particle</th><th>Relative charge</th><th>Relative mass</th><th>Where it is</th></tr></thead><tbody><tr><td>proton</td><td>+1</td><td>1</td><td>nucleus</td></tr><tr><td>neutron</td><td>0</td><td>1</td><td>nucleus</td></tr><tr><td>electron</td><td>−1</td><td>1/1836</td><td>outside the nucleus</td></tr></tbody></table></div><p>The real values (Data Booklet) are: proton and neutron rest mass 1.67 × 10<sup>−27</sup> kg, electron rest mass 9.11 × 10<sup>−31</sup> kg, and the charge on a proton or electron (the elementary charge) 1.60 × 10<sup>−19</sup> C. Divide the proton mass by the electron mass and you get the 1/1836 in the table.<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></p><aside class="box"><p><span class="key">The proton and the neutron have (almost) the same mass. The electron is almost 2000 times lighter.</span></p><p>The proton and the electron carry charges that are equal in size and opposite in sign. That is why a neutral atom has equal numbers of protons and electrons.</p></aside><h2 id="where-the-mass-and-the-charge-are">Where the mass and the charge are</h2><p>Put the table together with the structure of the atom and you get the picture in Fig 1:</p><ul><li>All the protons and neutrons are packed into the <span class="key">nucleus</span>, so the nucleus holds <span class="key">almost all the mass</span> of the atom and <span class="key">all of its positive charge</span>.</li><li>The electrons, carrying all the negative charge, occupy the space around the nucleus. They contribute almost nothing to the mass but practically all of the volume.</li><li>The nucleus is tiny. It is about 10<sup>−15</sup> m across, while the whole atom is about 10<sup>−10</sup> m (0.1 nm) across, so the nucleus is roughly 1/100 000 of the atom's diameter. If the atom were the size of a football stadium, the nucleus would be a pea on the centre spot.</li></ul><p>So an atom is mostly empty space, with a very small, very dense, positively charged nucleus at its centre.</p><figure><img src="fig/a1_atom.svg" alt="Fig 1. The nuclear atom (schematic, not to scale: drawn to scale, the nucleus would be far too small to see)." loading="lazy"><figcaption>Fig 1. The nuclear atom (schematic, not to scale: drawn to scale, the nucleus would be far too small to see).</figcaption></figure><p>How do we know? In 1909, Geiger and Marsden, working with Rutherford, fired alpha particles (helium nuclei, <sup>4</sup>He<sup>2+</sup>) at a very thin gold foil. Almost all of them went straight through, which only makes sense if the atom is mostly empty space. A very small fraction bounced back, which only makes sense if all the positive charge and almost all the mass are concentrated in something tiny that the alpha particles occasionally hit nearly head-on. Rutherford called it the nucleus (1911).</p><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p>The neutron was the last of the three to be found. Thomson identified the electron in 1897 and Rutherford the nucleus in 1911, but the masses of nuclei did not add up: helium's nucleus has a charge of +2 but a mass of about 4. Chadwick showed in 1932 that the extra mass comes from an uncharged particle of about the same mass as the proton, the neutron.</p><p>What holds the nucleus together, when it is full of positive charges that repel each other? The <span class="key">strong nuclear force</span>, which acts between nucleons over very short distances (about the size of a nucleus) and is far stronger than the electrostatic repulsion at that range. Neutrons add attraction without adding repulsion, which is why heavier nuclei need more neutrons than protons to be stable.</p></aside><h2 id="beams-of-particles-in-an-electric-field">Beams of particles in an electric field</h2><p>Fire a beam of protons, a beam of neutrons and a beam of electrons, all at the same speed, between two charged plates (Fig 2). Each beam is deflected according to its charge and its mass:</p><ul><li><strong>Protons</strong> (positive) bend towards the <span class="key">negative plate</span>.</li><li><strong>Electrons</strong> (negative) bend towards the <span class="key">positive plate</span>, and much more sharply than the protons.</li><li><strong>Neutrons</strong> (no charge) feel no force and go straight through, undeflected.</li></ul><figure><img src="fig/a1_beams.svg" alt="Fig 2. Beams of protons, neutrons and electrons entering an electric field at the same speed (schematic)." loading="lazy"><figcaption>Fig 2. Beams of protons, neutrons and electrons entering an electric field at the same speed (schematic).</figcaption></figure><p>Why is the electron deflected so much more? The size of the charge on the electron and the proton is the same, so the force on each is the same size. But the electron is 1836 times lighter, so the same force gives it a far bigger sideways acceleration. For particles entering the field at the same speed:</p><aside class="box"><p><span class="key">angle of deflection ∝ charge / mass</span><sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup></p><p>The sign of the charge decides the direction; the size of charge/mass decides how far.</p></aside><h3>Worked example</h3><p>A beam of protons is deflected by 6.0° towards the negative plate. Particles of the following species enter the same field at the same speed. Predict the angle and direction of deflection for each: <sup>2</sup>H<sup>+</sup>, <sup>3</sup>H<sup>+</sup>, <sup>4</sup>He<sup>2+</sup>, <sup>3</sup>He<sup>2+</sup>, <sup>16</sup>O<sup>2−</sup>, a neutron and an electron.</p><p>(Work out charge/mass for each, relative to the proton's 1/1 = 1. Use relative masses equal to the nucleon numbers; the mass of the electrons gained or lost is far too small to matter.)</p><div class="tablewrap"><table><thead><tr><th>Species</th><th>Relative charge</th><th>Relative mass</th><th>charge/mass</th><th>Angle</th><th>Towards</th></tr></thead><tbody><tr><td>proton, <sup>1</sup>H<sup>+</sup></td><td>+1</td><td>1</td><td>1</td><td>6.0°</td><td>negative plate</td></tr><tr><td><sup>2</sup>H<sup>+</sup></td><td>+1</td><td>2</td><td>1/2</td><td>6.0 × 1/2 = 3.0°</td><td>negative plate</td></tr><tr><td><sup>3</sup>H<sup>+</sup></td><td>+1</td><td>3</td><td>1/3</td><td>6.0 × 1/3 = 2.0°</td><td>negative plate</td></tr><tr><td><sup>4</sup>He<sup>2+</sup></td><td>+2</td><td>4</td><td>2/4 = 1/2</td><td>3.0°</td><td>negative plate</td></tr><tr><td><sup>3</sup>He<sup>2+</sup></td><td>+2</td><td>3</td><td>2/3</td><td>6.0 × 2/3 = 4.0°</td><td>negative plate</td></tr><tr><td><sup>16</sup>O<sup>2−</sup></td><td>−2</td><td>16</td><td>2/16 = 1/8</td><td>6.0 × 1/8 = 0.75°</td><td>positive plate</td></tr><tr><td>neutron</td><td>0</td><td>1</td><td>0</td><td>0°</td><td>undeflected</td></tr><tr><td>electron</td><td>−1</td><td>1/1836</td><td>1836</td><td>6.0 × 1836 ≈ 11 000°!</td><td>positive plate</td></tr></tbody></table></div><p>Two things to notice. First, <sup>2</sup>H<sup>+</sup> and <sup>4</sup>He<sup>2+</sup> have the same charge/mass, so they are deflected by exactly the same angle and cannot be separated this way. Second, the electron's "angle" is nonsense as an angle; what it really tells you is that the electron is deflected enormously, and in practice it curves straight onto the positive plate (Fig 2). The proportionality only holds for small angles.</p><h2 id="proton-number-nucleon-number-and-counting-particles">Proton number, nucleon number and counting particles</h2><p>Every nucleus is described by two numbers:</p><ul><li>the <span class="key">proton number</span> (<em>Z</em>), the number of protons. This is what makes an element that element: every atom with 11 protons is sodium, and nothing else has 11 protons;</li><li>the <span class="key">nucleon number</span> (<em>A</em>), the total number of protons + neutrons. Protons and neutrons each have relative mass 1, so <em>A</em> is (very nearly) the relative mass of the atom.</li></ul><p>They are written to the left of the symbol, with any charge at the top right (Fig 3).</p><figure><img src="fig/a1_notation.svg" alt="Fig 3. Nuclide notation for a sodium ion." loading="lazy"><figcaption>Fig 3. Nuclide notation for a sodium ion.</figcaption></figure><p>Then counting is just three subtractions:</p><aside class="box"><p>number of protons = <em>Z</em></p><p>number of neutrons = <em>A</em> − <em>Z</em></p><p>number of electrons = <em>Z</em> − charge   (so a 2+ ion has 2 fewer electrons than protons, and a 2− ion has 2 more)</p></aside><h3>Worked examples</h3><p>State the numbers of protons, neutrons and electrons in each species. (To answer, you have to find <em>Z</em> from the Periodic Table if it isn't given, then apply the three subtractions. Watch the charge: it changes only the electrons, never the nucleus.)</p><div class="tablewrap"><table><thead><tr><th>Species</th><th><em>Z</em></th><th><em>A</em></th><th>Protons</th><th>Neutrons</th><th>Electrons</th></tr></thead><tbody><tr><td><sup>23</sup><sub>11</sub>Na<sup>+</sup></td><td>11</td><td>23</td><td>11</td><td>23 − 11 = 12</td><td>11 − 1 = 10</td></tr><tr><td><sup>35</sup><sub>17</sub>Cl<sup>−</sup></td><td>17</td><td>35</td><td>17</td><td>35 − 17 = 18</td><td>17 + 1 = 18</td></tr><tr><td><sup>37</sup><sub>17</sub>Cl</td><td>17</td><td>37</td><td>17</td><td>37 − 17 = 20</td><td>17</td></tr><tr><td><sup>27</sup><sub>13</sub>Al<sup>3+</sup></td><td>13</td><td>27</td><td>13</td><td>27 − 13 = 14</td><td>13 − 3 = 10</td></tr><tr><td><sup>32</sup><sub>16</sub>S<sup>2−</sup></td><td>16</td><td>32</td><td>16</td><td>32 − 16 = 16</td><td>16 + 2 = 18</td></tr><tr><td><sup>56</sup><sub>26</sub>Fe<sup>3+</sup></td><td>26</td><td>56</td><td>26</td><td>56 − 26 = 30</td><td>26 − 3 = 23</td></tr></tbody></table></div><p>Notice that Na<sup>+</sup> and Al<sup>3+</sup> both have 10 electrons (the same as a neon atom), and Cl<sup>−</sup> and S<sup>2−</sup> both have 18 (the same as argon). Species with the same number of electrons are called <span class="key">isoelectronic</span>. You will meet them again in Part 2: isoelectronic species have the same electronic configuration.</p><h2 id="isotopes">Isotopes</h2><p>The number of protons fixes the element, but the number of neutrons can vary. Atoms of the same element with different numbers of neutrons are <span class="key">isotopes</span>.</p><aside class="box"><p><span class="key">Isotopes are atoms of the same element, with the same number of protons but different numbers of neutrons</span>, and therefore different nucleon numbers.</p></aside><p>Hydrogen is the simplest case (Fig 4). Nearly all hydrogen atoms have a nucleus that is a single proton, but a small fraction also contain one neutron (deuterium, <sup>2</sup>H, often written D), and a trace contain two (tritium, <sup>3</sup>H, which is radioactive).</p><figure><img src="fig/a1_isotopes.svg" alt="Fig 4. The three isotopes of hydrogen (schematic). Natural abundances are literature values." loading="lazy"><figcaption>Fig 4. The three isotopes of hydrogen (schematic). Natural abundances are literature values.</figcaption></figure><p>Some other isotopes you will meet:</p><div class="tablewrap"><table><thead><tr><th>Isotope</th><th>Protons</th><th>Neutrons</th><th>Electrons (atom)</th><th>Natural abundance</th></tr></thead><tbody><tr><td><sup>12</sup><sub>6</sub>C</td><td>6</td><td>6</td><td>6</td><td>about 98.9 %</td></tr><tr><td><sup>13</sup><sub>6</sub>C</td><td>6</td><td>7</td><td>6</td><td>about 1.1 %</td></tr><tr><td><sup>14</sup><sub>6</sub>C</td><td>6</td><td>8</td><td>6</td><td>trace (radioactive)</td></tr><tr><td><sup>35</sup><sub>17</sub>Cl</td><td>17</td><td>18</td><td>17</td><td>75.8 %</td></tr><tr><td><sup>37</sup><sub>17</sub>Cl</td><td>17</td><td>20</td><td>17</td><td>24.2 %</td></tr><tr><td><sup>79</sup><sub>35</sub>Br</td><td>35</td><td>44</td><td>35</td><td>50.7 %</td></tr><tr><td><sup>81</sup><sub>35</sub>Br</td><td>35</td><td>46</td><td>35</td><td>49.3 %</td></tr></tbody></table></div><p>(Abundances are literature values; they are not in the Data Booklet.)</p><h3>Same chemistry, slightly different physics</h3><p>Isotopes of an element have the <span class="key">same number of electrons and the same electronic configuration</span>, and chemical reactions are all about electrons. So isotopes have the <span class="key">same chemical properties</span>: <sup>35</sup>Cl and <sup>37</sup>Cl both form Cl<sup>−</sup>, both react with sodium to give sodium chloride, and so on.</p><p>They do have slightly different <span class="key">physical properties</span>, because those depend on mass: density, rate of diffusion, and (slightly) melting and boiling points. Heavy water, D<sub>2</sub>O, melts at 3.8 °C and is about 11 % denser than H<sub>2</sub>O. Radioactive isotopes such as <sup>14</sup>C also differ in their nuclear stability, which has nothing to do with their chemistry.</p><p>Because most elements are mixtures of isotopes, the relative atomic mass in the Periodic Table is a weighted average, and is usually not a whole number (Cl is 35.5). You will calculate these in Topic 6 (The Mole Concept and Stoichiometry).</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Isotope patterns in LC-MS.</strong> In pharmaceutical development, unknown impurities in an active pharmaceutical ingredient (API) are often identified by liquid chromatography-mass spectrometry (LC-MS). The mass spectrometer turns molecules into ions and sorts them by mass-to-charge ratio, <em>m/z</em>.</p><p>Chlorine is about 3 parts <sup>35</sup>Cl to 1 part <sup>37</sup>Cl, so any ion containing one Cl atom appears as two peaks 2 mass units apart (M and M+2) in a height ratio of about 3 : 1 (Fig 5). Bromine is roughly half <sup>79</sup>Br and half <sup>81</sup>Br, so a bromine-containing ion gives two peaks of almost equal height. An analyst who sees a 3 : 1 pair two units apart knows straight away that the impurity carries one chlorine atom, for example an unreacted chloro starting material or a chlorinated by-product. Two Cl atoms give a 9 : 6 : 1 pattern at M, M+2 and M+4.</p></aside><figure><img src="fig/a1_mspattern.svg" alt="Fig 5. Molecular-ion peaks calculated from the natural abundances of the Cl and Br isotopes (the small M+1 peaks from 13C are left out)." loading="lazy"><figcaption>Fig 5. Molecular-ion peaks calculated from the natural abundances of the Cl and Br isotopes (the small M+1 peaks from <sup>13</sup>C are left out).</figcaption></figure><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Why NMR sees <sup>1</sup>H and <sup>13</sup>C but not <sup>12</sup>C.</strong> A nucleus with an odd number of protons, an odd number of neutrons, or both, has a nuclear spin and can be detected by NMR spectroscopy. <sup>1</sup>H (1 p, 0 n) and <sup>13</sup>C (6 p, 7 n) are NMR-active. <sup>12</sup>C (6 p, 6 n) and <sup>16</sup>O (8 p, 8 n), with even numbers of both, have no spin and are invisible.</p><p>Only about 1.1 % of carbon atoms are <sup>13</sup>C, which is one reason a <sup>13</sup>C spectrum takes much longer to record than a <sup>1</sup>H spectrum. And deuterium (<sup>2</sup>H) absorbs at a completely different frequency from <sup>1</sup>H, so NMR samples are dissolved in deuterated solvents such as CDCl<sub>3</sub> or DMSO-d<sub>6</sub>: the solvent then does not swamp the <sup>1</sup>H spectrum of the sample. Same element, different numbers of neutrons, very different behaviour in the magnet.</p></aside><h2 id="summary">Summary</h2><ul><li>Protons (+1, mass 1) and neutrons (0, mass 1) make up the nucleus; electrons (−1, mass 1/1836) occupy the space around it.</li><li>The nucleus is tiny (about 10<sup>−15</sup> m in an atom of about 10<sup>−10</sup> m) and holds almost all the mass and all the positive charge.</li><li>In an electric field, at the same speed: protons bend towards the negative plate, electrons much more sharply towards the positive plate, neutrons go straight on. Angle ∝ charge/mass.</li><li>Protons = <em>Z</em>; neutrons = <em>A</em> − <em>Z</em>; electrons = <em>Z</em> − charge.</li><li>Isotopes: same <em>Z</em>, different numbers of neutrons. Same chemical properties (same electrons), slightly different physical properties (different mass).</li></ul>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">The nucleon number is also called the mass number. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">With the Data Booklet values, (1.67 × 10<sup>−27</sup>) / (9.11 × 10<sup>−31</sup>) = 1833. The more precise ratio of the proton and electron masses is 1836, which is the value usually quoted. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">Strictly, the angle is proportional to charge/mass only for small deflections (the tangent of the angle is proportional). This is good enough for comparing ions and protons, but not for electrons, which are deflected so strongly that they hit the plate. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><span></span><a href="part-2.html">Part 2 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>

@@ -1,0 +1,2291 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 1 Atomic Structure.">
+<title>Atomic Structure Lab</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --grid:#e3e8ed; --axis:#aeb8c3; --line:#d4dbe2; --accent:#1c5da3; --accent-ink:#ffffff; --accent-soft:#e2ecf7;
+  --s1:#2a78d6; --s1-wash:rgba(42,120,214,.22); --s2:#eb6834; --s2-wash:rgba(235,104,52,.20); --s3:#1baf7a; --s4:#8b5bd6; --ref:#8a929b;
+  --s1-ink:#1c5da3; --s2-ink:#b04412; --s3-ink:#0f7a54; --s4-ink:#6a3fb5; --s3-wash:rgba(27,175,122,.14);
+  --good:#006300; --good-bg:#e5f2e5; --bad:#c42f2f; --bad-bg:#fbe9e9; --warn-bg:#fff4dc; --warn:#7a5200;
+  --proton:#d9473a; --neutron:#9aa3ad; --electron:#2a78d6; --plate-pos:#c42f2f; --plate-neg:#1c5da3;
+  --orb1:#3f86dc; --orb2:#ec7a45; --band:rgba(42,120,214,.05);
+  --shadow:0 1px 2px rgba(20,26,32,.06), 0 1px 0 rgba(20,26,32,.03);
+  --serif:var(--sans);
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+    --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --s4:#9b72e0; --ref:#8d959e;
+    --s1-ink:#7db3f0; --s2-ink:#f29468; --s3-ink:#3fcf95; --s4-ink:#bb9cf0; --s3-wash:rgba(25,158,112,.18);
+    --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+    --proton:#e2604f; --neutron:#7f8994; --electron:#5b9ef0; --plate-pos:#f07070; --plate-neg:#6aa5ea;
+    --orb1:#4a8fe0; --orb2:#e8763f; --band:rgba(106,165,234,.06);
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
+  --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --s4:#9b72e0; --ref:#8d959e;
+  --s1-ink:#7db3f0; --s2-ink:#f29468; --s3-ink:#3fcf95; --s4-ink:#bb9cf0; --s3-wash:rgba(25,158,112,.18);
+  --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
+  --proton:#e2604f; --neutron:#7f8994; --electron:#5b9ef0; --plate-pos:#f07070; --plate-neg:#6aa5ea;
+  --orb1:#4a8fe0; --orb2:#e8763f; --band:rgba(106,165,234,.06);
+  --shadow:none;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+.nc{text-transform:none; letter-spacing:.02em}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3,h4{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.crumbs{margin:0 0 10px; font-size:.86rem; line-height:1.7}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} #si-mys > .controls{order:2} }
+.grid2e{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2e{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:var(--shadow); min-width:0}
+.controls{display:flex; flex-direction:column; gap:14px; min-width:0}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:10px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .15s}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(14px)}
+.switch input:disabled{opacity:.45}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg.segw{flex-wrap:wrap}
+.seg.segw label{flex:1 1 auto; white-space:nowrap; padding:6px 8px}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+.seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.sm{padding:4px 10px; font-size:.8rem}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2)}
+.legend > span{display:inline-flex; align-items:center; gap:6px}
+.lkey{display:inline-block; width:12px; height:12px; border-radius:50%; flex:none}
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px; min-width:0}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.02rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.stat .v small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.stat.wide{grid-column:1/-1}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
+.callout{font-size:.86rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
+.callout p{margin:0}
+.callout p + p{margin-top:6px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.nw{white-space:nowrap}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
+.field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.fb.info{background:var(--surface-2); color:var(--ink-2)}
+.fb ul{margin:6px 0 0; padding-left:18px}
+.fb p{margin:0}
+.fb p + p{margin-top:6px}
+.stack{display:flex; flex-direction:column; gap:14px; min-width:0}
+h3.sub3{font-size:1.15rem; margin:0}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tabs button{font-size:.86rem; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.eqline{font-size:1rem; overflow-wrap:anywhere; font-variant-numeric:tabular-nums}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chips button{font-size:.86rem; padding:4px 9px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; line-height:1.5; font-variant-numeric:tabular-nums}
+.chips button:hover{border-color:var(--axis)}
+.chips button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft); color:var(--ink)}
+.chips button .beyond{font-size:.56rem; margin:0 0 0 4px}
+
+/* viewers and charts */
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow)}
+.viewer svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+.viewer svg.rot{touch-action:none; cursor:grab}
+.viewer svg.rot:active{cursor:grabbing}
+.viewer .vhint{position:absolute; left:10px; bottom:7px; font-size:.74rem; color:var(--muted); pointer-events:none; right:10px}
+.viewer .vtop{position:absolute; right:8px; top:8px; display:flex; gap:6px}
+.viewer .vtop .btn{padding:4px 10px; font-size:.78rem}
+.viewer .vnote{padding:7px 11px 9px; font-size:.76rem; color:var(--muted); border-top:1px solid var(--line)}
+.viewer .vcap{position:absolute; left:10px; top:8px; font-size:.95rem; font-weight:600; color:var(--ink); pointer-events:none; max-width:62%}
+.chart svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+svg .axis{stroke:var(--axis); stroke-width:1}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .cap{font-size:11.5px; fill:var(--muted)}
+svg .tick{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+svg .axlab{font-size:11.5px; fill:var(--ink-2)}
+svg .lbl{font-size:12px; fill:var(--ink)}
+svg .lblb{font-size:12px; font-weight:600; fill:var(--ink)}
+svg .halo{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+
+/* atom builder */
+.stepper{display:flex; flex-direction:column; gap:4px}
+.stepper .lab{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.stepc{display:flex; align-items:center; gap:6px}
+.stepc .btn{width:34px; height:30px; padding:0; font-size:1.05rem; line-height:1; flex:none}
+.stepc output{min-width:2.4ch; text-align:center; font-weight:600; font-variant-numeric:tabular-nums; color:var(--ink); font-size:1rem}
+.stepc input[type=range]{margin:0; flex:1 1 auto; min-width:0}
+.nucbox{display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center}
+.nuc{display:inline-flex; align-items:center; font-variant-numeric:tabular-nums; line-height:1}
+.nuc .lr{display:inline-flex; flex-direction:column; align-items:flex-end; font-size:.5em; line-height:1.1; margin-right:.06em}
+.nuc .sym{font-weight:500}
+.nuc .ch{font-size:.5em; align-self:flex-start; margin-left:.05em; margin-top:-.05em}
+.nucbig{font-size:2.6rem; color:var(--ink)}
+.nucname{display:flex; flex-direction:column; gap:2px; min-width:0}
+.nucname b{font-size:1.15rem; font-weight:600}
+.nucname span{color:var(--ink-2); font-size:.92rem}
+svg .shell{fill:none; stroke:var(--axis); stroke-width:1.2; stroke-dasharray:3 4}
+svg .eld{fill:var(--electron)}
+svg .prt{fill:var(--proton); stroke:rgba(0,0,0,.25); stroke-width:.6}
+svg .ntr{fill:var(--neutron); stroke:rgba(0,0,0,.25); stroke-width:.6}
+svg .shl{font-size:11px; fill:var(--muted)}
+.cpbig{font-size:2.2rem; color:var(--ink); padding:6px 0}
+.nums{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+.nums label{display:flex; flex-direction:column; gap:3px; font-size:.8rem; color:var(--ink-2); font-weight:500}
+.nums input{font:inherit; font-size:1rem; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0; font-variant-numeric:tabular-nums}
+.nums input.ok{border-color:var(--good); background:var(--good-bg)}
+.nums input.no{border-color:var(--bad); background:var(--bad-bg)}
+
+/* beams */
+svg .plate{stroke-width:0}
+svg .platep{fill:var(--plate-pos)}
+svg .platen{fill:var(--plate-neg)}
+svg .platet{font-size:16px; font-weight:600}
+svg .src{fill:var(--surface-2); stroke:var(--axis); stroke-width:1.2}
+svg .scr{stroke:var(--axis); stroke-width:3}
+svg .fieldl{stroke:var(--axis); stroke-width:1; stroke-dasharray:2 4; opacity:.7}
+svg .traj{fill:none; stroke-width:2.2; stroke-linecap:round}
+svg .tpos{stroke:var(--s2)}
+svg .tneg{stroke:var(--s1)}
+svg .tneu{stroke:var(--ref)}
+svg .tdot{stroke:var(--surface); stroke-width:1}
+.tblwrap{overflow-x:auto}
+table.data{border-collapse:collapse; font-size:.86rem; width:100%}
+table.data td, table.data th{padding:6px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+table.data th{font-size:.76rem; color:var(--ink-2); font-weight:600}
+table.data td.num, table.data th.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.data tr.hl td{background:var(--accent-soft)}
+@media (max-width:600px){
+  table.stk tr{display:block; padding:8px 0; border-bottom:1px solid var(--line)}
+  table.stk th{display:none}
+  table.stk td{display:block; border:0; padding:1px 0; text-align:left!important}
+  table.stk td:first-child{font-weight:600}
+  table.stk td[data-l]::before{content:attr(data-l) ": "; color:var(--muted); font-size:.8rem}
+  table.stk td.num{display:inline-block; margin-right:16px}
+}
+
+/* orbitals */
+.orbbtns{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px}
+.orbbtns button{font-size:.92rem; padding:7px 4px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.orbbtns button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft); font-weight:600}
+.thumbs{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px}
+.thumbs.t3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.thumbs button{display:flex; flex-direction:column; align-items:center; gap:0; padding:4px 2px 5px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; min-width:0}
+.thumbs button svg{display:block; width:100%; height:auto}
+.thumbs button span{font-size:.82rem}
+.thumbs button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+svg .ax{stroke:var(--ink-2); stroke-width:1.3}
+svg .axn{stroke:var(--ink-2); stroke-width:1; stroke-dasharray:3 3; opacity:.6}
+svg .axl{font-size:13px; font-style:italic; font-weight:600; fill:var(--ink)}
+svg .nuc0{fill:var(--ink)}
+svg .lvl{stroke:var(--axis); stroke-width:1; stroke-dasharray:2 3}
+svg .box{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.2}
+svg .boxh{fill:var(--accent-soft); stroke:var(--accent); stroke-width:1.6}
+svg .boxt{fill:transparent; stroke:transparent; cursor:pointer}
+svg .boxt:hover{stroke:var(--accent); stroke-width:1.5}
+svg .el{stroke:var(--ink); stroke-width:1.6; fill:none; stroke-linecap:round; stroke-linejoin:round}
+svg .eln{stroke:var(--s2); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round}
+svg .elx{stroke:var(--bad); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:3 2}
+svg .eblab{font-size:12.5px; fill:var(--ink-2)}
+svg .ebh{font-size:12.5px; font-weight:600; fill:var(--ink)}
+svg .mv{fill:none; stroke:var(--s2); stroke-width:1.6}
+svg .mvh{fill:var(--s2)}
+svg .clickable{cursor:pointer}
+.cfgline{font-size:1.08rem; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; line-height:1.7}
+.cfgline.big{font-size:1.25rem}
+.stepcap{min-height:2.6em}
+
+/* IE charts */
+svg .ieline{fill:none; stroke:var(--s1); stroke-width:2}
+svg .ieline2{fill:none; stroke:var(--s1); stroke-width:1.6; stroke-dasharray:4 3}
+svg .iept{fill:var(--s1); stroke:var(--surface); stroke-width:1.5}
+svg .ieopen{fill:var(--surface); stroke:var(--s1); stroke-width:2}
+svg .iesel{fill:none; stroke:var(--s2); stroke-width:2.5}
+svg .iehit{fill:transparent; cursor:pointer}
+svg .pband{fill:var(--band)}
+svg .pbandl{font-size:11px; fill:var(--muted)}
+svg .bar{fill:var(--s1)}
+svg .barsel{fill:var(--s2)}
+svg .bv{font-size:12px; font-weight:600; fill:var(--ink)}
+svg .jump{stroke:var(--s2); stroke-width:1.6; fill:none}
+svg .jumph{fill:var(--s2)}
+svg .jumpt{font-size:11.5px; font-weight:600; fill:var(--s2-ink)}
+svg .brk{stroke:var(--ink-2); stroke-width:1; fill:none}
+.pairs{display:flex; flex-wrap:wrap; gap:6px}
+.pairs button{font-size:.86rem; padding:5px 10px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; font-variant-numeric:tabular-nums}
+.pairs button[aria-pressed=true]{border-color:var(--s2); background:var(--s2-wash)}
+.gbtns{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px}
+.gbtns .btn{padding:7px 4px}
+.gbtns .btn[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+.gbtns .btn.right, .opt.right{border-color:var(--good); background:var(--good-bg)}
+.gbtns .btn.wrong, .opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.ielist{display:flex; flex-wrap:wrap; gap:6px 14px; font-variant-numeric:tabular-nums; font-size:.92rem}
+.ielist span b{font-weight:600}
+
+/* cards */
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+@media (max-width:420px){ .cards{grid-template-columns:minmax(0,1fr)} }
+.card h3{font-size:1.08rem; margin-bottom:8px}
+.card p{margin:8px 0 0; font-size:.88rem; color:var(--ink-2)}
+.card ol, .card ul{margin:6px 0 0; padding-left:20px; font-size:.88rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+.card table.data{font-size:.84rem}
+.card table.data td, .card table.data th{padding:4px 6px}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.qtext{font-size:1.02rem; font-weight:500; margin:0 0 12px}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; font-size:.93rem; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.explain{margin-top:12px; font-size:.9rem}
+.whyl{margin:8px 0 0; padding-left:18px; color:var(--ink-2); font-size:.88rem; display:flex; flex-direction:column; gap:4px}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumbs"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1 · The nucleus and subatomic particles</a>, <a href="part-2.html">Part 2 · Electrons in atoms</a> &nbsp;·&nbsp; <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a></p>
+    <div class="row">
+      <h1>Topic 1 · Atomic Structure</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Atomic Structure Lab: interactive companion to H2 Chemistry notes © Gary Chan</p>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#atom">Atom builder</a>
+    <a href="#beams">Beams</a>
+    <a href="#orbitals">Orbitals in 3D</a>
+    <a href="#config">Configurations</a>
+    <a href="#ie">First IE</a>
+    <a href="#succ">Successive IEs</a>
+    <a href="#cards">Fact cards</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 ATOM BUILDER -->
+<section class="lab" id="atom">
+  <div class="sechead">
+    <span class="eyebrow">Atom builder · <span class="nc">1(a), 1(c)–(e)</span></span>
+    <h2>Build an atom or ion</h2>
+    <p>Add or remove protons, neutrons and electrons. The number of protons fixes the element; changing the neutrons gives isotopes of that element; changing the electrons gives ions.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="stepper"><span class="lab"><span>Protons <span class="hint">(proton number Z)</span></span></span>
+        <div class="stepc"><button class="btn" data-k="p" data-d="-1" aria-label="One fewer proton">−</button><input type="range" id="at-pr" min="1" max="36" step="1" value="11" aria-label="Protons"><button class="btn" data-k="p" data-d="1" aria-label="One more proton">+</button><output id="at-po">11</output></div></div>
+      <div class="stepper"><span class="lab"><span>Neutrons</span></span>
+        <div class="stepc"><button class="btn" data-k="n" data-d="-1" aria-label="One fewer neutron">−</button><input type="range" id="at-nr" min="0" max="50" step="1" value="12" aria-label="Neutrons"><button class="btn" data-k="n" data-d="1" aria-label="One more neutron">+</button><output id="at-no">12</output></div></div>
+      <div class="stepper"><span class="lab"><span>Electrons</span></span>
+        <div class="stepc"><button class="btn" data-k="e" data-d="-1" aria-label="One fewer electron">−</button><input type="range" id="at-er" min="0" max="39" step="1" value="10" aria-label="Electrons"><button class="btn" data-k="e" data-d="1" aria-label="One more electron">+</button><output id="at-eo">10</output></div></div>
+      <div class="btnrow"><button class="btn" id="at-neutral">Make it a neutral atom</button></div>
+      <div class="ctl"><span class="lab">Examples from the notes</span>
+        <div class="chips" id="at-picks"></div></div>
+      <div class="ctl"><span class="lab">Isotopes</span>
+        <div class="chips" id="at-isos"></div></div>
+    </div>
+    <div class="stack">
+      <div class="panel nucbox">
+        <span class="nuc nucbig" id="at-nuc"></span>
+        <div class="nucname"><b id="at-name"></b><span id="at-type"></span></div>
+      </div>
+      <div class="viewer" id="at-wrap">
+        <svg id="at-svg" role="img" aria-label="Schematic drawing of the atom: nucleus and electron shells"></svg>
+        <div class="vnote" id="at-scale">Not to scale</div>
+      </div>
+      <div class="readout" id="at-read"></div>
+      <div class="callout" id="at-iso"></div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:20px">
+    <div class="panel controls">
+      <div><span class="eyebrow">Practice · <span class="nc">1(d)–(e)</span></span><h3 class="sub3">Count the particles</h3></div>
+      <div class="seg" role="radiogroup" aria-label="Question type">
+        <label><input type="radio" name="cp-mode" value="count" checked>Count the particles</label>
+        <label><input type="radio" name="cp-mode" value="name">Name the species</label>
+      </div>
+      <ul class="notes" style="font-size:.84rem">
+        <li>protons = proton number, Z (bottom left)</li>
+        <li>neutrons = nucleon number − proton number = A − Z</li>
+        <li>electrons = Z − charge</li>
+      </ul>
+      <div class="btnrow"><button class="btn" id="cp-next">New question</button><span class="hint" id="cp-score"></span></div>
+    </div>
+    <div class="panel stack" id="cp-box"></div>
+  </div>
+</section>
+
+<!-- 2 BEAMS -->
+<section class="lab" id="beams">
+  <div class="sechead">
+    <span class="eyebrow">Beam simulator · <span class="nc">1(a)–(b)</span></span>
+    <h2>Beams in an electric field</h2>
+    <p>Beams of particles enter the field between two charged plates at the same speed. Positive particles bend towards the negative plate, negative particles towards the positive plate, and neutrons go straight on. For beams at the same speed, the angle of deflection is proportional to charge/mass.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Particles in the beam</span>
+        <div class="chips" id="bm-parts"></div></div>
+      <div class="ctl"><span class="lab">Compare</span>
+        <div class="chips" id="bm-presets"></div></div>
+      <label class="switch"><input type="checkbox" id="bm-flip"><span>Swap the plates (positive at the bottom)</span></label>
+      <div class="ctl"><span class="lab">Angles in the drawing</span>
+        <div class="seg" role="radiogroup" aria-label="Angles in the drawing">
+          <label><input type="radio" name="bm-mag" value="1">True size</label>
+          <label><input type="radio" name="bm-mag" value="3" checked>Magnified × 3</label>
+        </div>
+        <span class="hint">Magnified so that the small angles can be seen. The table always gives the true predicted angles.</span></div>
+      <div class="btnrow"><button class="btn primary" id="bm-fire">Fire the beams</button></div>
+    </div>
+    <div class="stack">
+      <div class="viewer" id="bm-wrap"><svg id="bm-svg" role="img" aria-label="Beams of particles passing between two charged plates"></svg></div>
+      <div class="tblwrap"><table class="data stk" id="bm-tab"></table></div>
+      <div class="callout" id="bm-note"></div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:20px">
+    <div class="panel controls">
+      <div><span class="eyebrow">Predict · <span class="nc">1(b)</span></span><h3 class="sub3">Predict the deflection</h3></div>
+      <p class="hint" style="margin:0">Angle of deflection ∝ charge/mass, for beams entering at the same speed. Work out charge/mass for the new particle, compare it with the proton's (1 ÷ 1 = 1), and scale the proton's angle.</p>
+      <div class="btnrow"><button class="btn" id="bp-next">New question</button><span class="hint" id="bp-score"></span></div>
+    </div>
+    <div class="panel stack" id="bp-box"></div>
+  </div>
+</section>
+
+<!-- 3 ORBITALS -->
+<section class="lab" id="orbitals">
+  <div class="sechead">
+    <span class="eyebrow">3D viewer · <span class="nc">1(f)–(g)</span></span>
+    <h2>Orbitals in 3D</h2>
+    <p>Pick an orbital and drag it to rotate. Each shape is drawn from the angular part of the orbital only, in boundary-surface style: it shows the directions in which the electron density lies. Knowledge of wave functions is not required.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Subshell</span>
+        <div class="orbbtns" id="or-sub"></div></div>
+      <div class="ctl" id="or-mem-box"><span class="lab" id="or-mem-lab">Orbitals in this subshell</span>
+        <div class="thumbs" id="or-thumbs"></div></div>
+      <label class="switch" id="or-cmp-box"><input type="checkbox" id="or-cmp"><span>Compare 1s, 2s and 3s together</span></label>
+      <label class="switch"><input type="checkbox" id="or-phase"><span><span class="beyond">Enrichment</span>Colour lobes by sign</span></label>
+      <div class="callout" id="or-info"></div>
+    </div>
+    <div class="stack">
+      <div class="viewer" id="or-wrap">
+        <svg id="or-svg" class="rot" role="img" aria-label="Rotatable 3D drawing of an atomic orbital" tabindex="0"></svg>
+        <div class="vcap" id="or-cap"></div>
+        <div class="vtop"><button class="btn" id="or-reset">Reset view</button></div>
+        <div class="vhint">Drag to rotate · arrow keys work too</div>
+      </div>
+      <div class="panel stack">
+        <div class="btnrow" style="justify-content:space-between">
+          <span class="eyebrow">Relative energies · <span class="nc">1(f)</span></span>
+          <label class="switch"><input type="checkbox" id="or-after"><span>Once 3d holds electrons</span></label>
+        </div>
+        <div class="chart" id="lad-wrap"><svg id="lad-svg" role="img" aria-label="Energy ladder of orbitals from 1s to 4p"></svg></div>
+        <p class="hint" style="margin:0" id="lad-note"></p>
+      </div>
+    </div>
+  </div>
+  <div class="tblwrap" style="margin-top:16px"><table class="data" id="or-tab" style="max-width:640px"></table></div>
+  <p class="hint" style="margin:6px 0 0">The fourth shell also has 4d and 4f orbitals; only 4s and 4p are needed here.</p>
+</section>
+
+<!-- 4 CONFIGURATIONS -->
+<section class="lab" id="config">
+  <div class="sechead">
+    <span class="eyebrow">Configuration builder · <span class="nc">1(h)</span></span>
+    <h2>Electronic configurations</h2>
+    <p>Choose an element and a charge, then fill the orbitals one electron at a time. Each electron goes into the lowest-energy orbital available (aufbau); each orbital holds at most two electrons, of opposite spin (Pauli); orbitals in the same subshell are filled singly, with parallel spins, before any pairing (Hund).</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <label class="field">Element<select id="cf-z"></select></label>
+      <div class="ctl"><span class="lab">Charge</span>
+        <div class="seg segw" role="radiogroup" aria-label="Charge" id="cf-q"></div></div>
+      <div class="ctl"><span class="lab">Examples from the notes</span>
+        <div class="chips" id="cf-picks"></div></div>
+      <div class="btnrow"><button class="btn primary" id="cf-play">Fill step by step</button><button class="btn" id="cf-step">One step</button><button class="btn" id="cf-all">Show all</button></div>
+      <p class="hint stepcap" id="cf-cap" style="margin:0"></p>
+    </div>
+    <div class="stack">
+      <div class="panel chart" id="cf-wrap"><svg id="cf-svg" role="img" aria-label="Electrons-in-boxes diagram"></svg></div>
+      <div class="readout" id="cf-read"></div>
+      <div class="callout" id="cf-note"></div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:20px">
+    <div class="panel controls">
+      <div><span class="eyebrow">Predict · <span class="nc">1(h)</span></span><h3 class="sub3">Your turn</h3></div>
+      <div class="seg" role="radiogroup" aria-label="Predict mode">
+        <label><input type="radio" name="cx-mode" value="build" checked>Build it</label>
+        <label><input type="radio" name="cx-mode" value="choose">Choose it</label>
+      </div>
+      <p class="hint" style="margin:0" id="cx-help"></p>
+      <div class="btnrow"><button class="btn" id="cx-next">New question</button><span class="hint" id="cx-score"></span></div>
+    </div>
+    <div class="panel stack" id="cx-box">
+      <p class="qtext" id="cx-q" style="margin:0"></p>
+      <div class="chart" id="cx-wrap"><svg id="cx-svg" role="img" aria-label="Boxes to fill with electrons"></svg></div>
+      <div class="btnrow" id="cx-brow"><button class="btn primary" id="cx-check">Check</button><button class="btn" id="cx-clear">Clear</button><button class="btn" id="cx-show">Show the answer</button></div>
+      <div class="opts" id="cx-opts"></div>
+      <div id="cx-fb" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 FIRST IE -->
+<section class="lab" id="ie">
+  <div class="sechead">
+    <span class="eyebrow">Ionisation energy explorer · <span class="nc">1(i)</span></span>
+    <h2>First ionisation energies</h2>
+    <p>First ionisation energy: the energy required to remove one mole of electrons from one mole of gaseous atoms to form one mole of gaseous singly charged positive ions, X(g) → X⁺(g) + e⁻. Tap a point on the graph, or pick a change to explain.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" id="ie-tabs">
+      <button role="tab" aria-selected="true" data-t="per">Across Periods 1 to 4</button>
+      <button role="tab" aria-selected="false" data-t="grp">Down a group</button>
+    </div>
+    <div class="grid2" id="ie-per">
+      <div class="panel controls">
+        <div class="ctl"><span class="lab">Explain the change</span>
+          <div class="pairs" id="ie-pairs"></div></div>
+        <p class="hint" style="margin:0">Each card names the factors it uses, numbered as in the list below the graph.</p>
+      </div>
+      <div class="stack">
+        <div class="panel chart" id="ie-wrap"><svg id="ie-svg" role="img" aria-label="Graph of first ionisation energy against proton number for Z = 1 to 36" tabindex="0"></svg>
+          <div class="legend" id="ie-legend" style="margin-top:6px"></div></div>
+        <div id="ie-fb" class="panel stack"></div>
+        <div class="callout" id="ie-factors"></div>
+      </div>
+    </div>
+    <div class="grid2" id="ie-grp" hidden>
+      <div class="panel controls">
+        <div class="seg" role="radiogroup" aria-label="Group">
+          <label><input type="radio" name="ie-g" value="1" checked>Group 1</label>
+          <label><input type="radio" name="ie-g" value="2">Group 2</label>
+        </div>
+        <p class="hint" style="margin:0">Data Booklet values, kJ mol⁻¹.</p>
+      </div>
+      <div class="stack">
+        <div class="panel chart" id="ig-wrap"><svg id="ig-svg" role="img" aria-label="Bar chart of first ionisation energy down a group"></svg></div>
+        <div class="callout" id="ig-note"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 SUCCESSIVE IE -->
+<section class="lab" id="succ">
+  <div class="sechead">
+    <span class="eyebrow">Successive ionisation energies · <span class="nc">1(j)–(k)</span></span>
+    <h2>Successive ionisation energies</h2>
+    <p>The n<sup>th</sup> ionisation energy is the energy for X<sup>(n−1)+</sup>(g) → X<sup>n+</sup>(g) + e<sup>−</sup>. Each one is larger than the last, and a big jump shows the next electron comes from a shell closer to the nucleus.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" id="si-tabs">
+      <button role="tab" aria-selected="true" data-t="exp">Explore</button>
+      <button role="tab" aria-selected="false" data-t="mys">Mystery element</button>
+      <button role="tab" aria-selected="false" data-t="ded">Deduce the group</button>
+    </div>
+    <div class="grid2" id="si-exp">
+      <div class="panel controls">
+        <label class="field">Element<select id="si-el"></select></label>
+        <div class="ctl"><span class="lab">Vertical scale</span>
+          <div class="seg" role="radiogroup" aria-label="Vertical scale">
+            <label><input type="radio" name="si-sc" value="log" checked>log<sub>10</sub></label>
+            <label><input type="radio" name="si-sc" value="lin">Linear</label>
+          </div></div>
+        <div class="callout" id="si-note"></div>
+      </div>
+      <div class="stack">
+        <div class="panel chart" id="si-wrap"><svg id="si-svg" role="img" aria-label="Successive ionisation energies of the chosen element"></svg>
+          <div class="legend" id="si-legend" style="margin-top:6px"></div></div>
+        <div class="tblwrap"><table class="data" id="si-tab"></table></div>
+      </div>
+    </div>
+    <div class="grid2" id="si-mys" hidden>
+      <div class="panel controls">
+        <p class="qtext" style="margin:0">These are the first few successive ionisation energies of a mystery element. Which group is it in?</p>
+        <div class="gbtns" id="my-groups"></div>
+        <p class="qtext" style="margin:0">Outer-shell configuration?</p>
+        <div class="gbtns" id="my-cfgs"></div>
+        <div class="btnrow"><button class="btn" id="my-next">New element</button><span class="hint" id="my-score"></span></div>
+      </div>
+      <div class="stack">
+        <div class="panel chart" id="my-wrap"><svg id="my-svg" role="img" aria-label="Successive ionisation energies of a mystery element"></svg></div>
+        <div class="panel ielist" id="my-list"></div>
+        <div id="my-fb" hidden></div>
+      </div>
+    </div>
+    <div class="grid2" id="si-ded" hidden>
+      <div class="panel controls">
+        <p class="hint" style="margin:0">Work out IE<sub>n+1</sub> ÷ IE<sub>n</sub> for each pair. The largest ratio marks the big jump: the electrons before it are in the outer shell, so their number gives the group.</p>
+        <div class="btnrow"><button class="btn" id="dd-next">New element</button><span class="hint" id="dd-score"></span></div>
+      </div>
+      <div class="panel stack">
+        <p class="qtext" style="margin:0" id="dd-q"></p>
+        <div class="tblwrap"><table class="data" id="dd-tab"></table></div>
+        <p class="qtext" style="margin:0">Where is the largest ratio?</p>
+        <div class="gbtns" id="dd-opts"></div>
+        <div id="dd-fb" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 CARDS -->
+<section class="lab" id="cards">
+  <div class="sechead">
+    <span class="eyebrow">Fact cards · <span class="nc">1(a)–(k)</span></span>
+    <h2>Fact cards</h2>
+    <p>The particles, isotopes, orbitals and rules from the notes, with the Data Booklet values.</p>
+  </div>
+  <div class="cards" id="fc-cards"></div>
+</section>
+
+<!-- 8 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions. Pick an answer to see the explanation, including why each other option is wrong.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 1 Atomic Structure</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · Ionisation energies from the Data Booklet unless marked · configurations and 3D shapes computed live in the page</span>
+  </div>
+</footer>
+<script>
+(function(){
+"use strict";
+const $ = id => document.getElementById(id);
+const MINUS = "−";
+const D2R = Math.PI / 180;
+const AS = {};
+window.__as = AS;
+const reduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const f1 = x => x.toFixed(1), f2 = x => x.toFixed(2);
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const st = (l, v, cls) => `<div class="stat${cls ? " " + cls : ""}"><div class="l">${l}</div><div class="v">${v}</div></div>`;
+const ENR = `<span class="beyond">Enrichment</span>`;
+const FEX = `<span class="beyond">Further example</span>`;
+// thousands: 4-digit numbers plain, 5+ digits grouped with a narrow no-break space (SI style)
+function grp(n){ const s = String(Math.round(n)); return s.length >= 5 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : s; }
+const sgn = x => x < 0 ? MINUS + String(-x) : String(x);
+const sgnp = x => x > 0 ? "+" + x : sgn(x);
+
+/* ---------- chemical text: Unicode sub/superscripts to HTML and SVG ---------- */
+const SUPMAP = { "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9", "⁺": "+", "⁻": MINUS, "⁽": "(", "⁾": ")", "ⁿ": "n" };
+const SUBRE = /[₀-₉ₙ]+/g, SUPRE = /[⁰¹²³⁴-⁹⁺⁻⁽⁾ⁿ]+/g;
+const subDigits = m => [...m].map(c => c === "ₙ" ? "n" : String(c.charCodeAt(0) - 8320)).join("");
+const supChars = m => [...m].map(c => SUPMAP[c]).join("");
+const H = t => String(t).replace(SUBRE, m => `<sub>${subDigits(m)}</sub>`).replace(SUPRE, m => `<sup>${supChars(m)}</sup>`);
+function svgChem(s, fs){
+  let out = "", cur = 0;
+  const re = /([₀-₉ₙ]+)|([⁰¹²³⁴-⁹⁺⁻⁽⁾ⁿ]+)|([^₀-₉ₙ⁰¹²³⁴-⁹⁺⁻⁽⁾ⁿ]+)/g;
+  let m;
+  while ((m = re.exec(s))){
+    let target = 0, txt, small = false;
+    if (m[1]){ target = 0.3 * fs; txt = subDigits(m[1]); small = true; }
+    else if (m[2]){ target = -0.42 * fs; txt = supChars(m[2]); small = true; }
+    else txt = esc(m[3]);
+    const dy = target - cur; cur = target;
+    out += `<tspan dy="${dy.toFixed(1)}"${small ? ` font-size="${(fs * 0.72).toFixed(1)}"` : ""}>${txt}</tspan>`;
+  }
+  if (cur) out += `<tspan dy="${(-cur).toFixed(1)}">​</tspan>`;
+  return out;
+}
+function chemW(s, fs){ let w = 0; for (const c of s){ if (/[₀-₉⁰¹²³⁴-⁹⁺⁻]/.test(c)) w += 0.42 * fs; else if (c === " ") w += 0.28 * fs; else if (/[il•·,]/.test(c)) w += 0.3 * fs; else if (/[A-Z]/.test(c)) w += 0.66 * fs; else w += 0.55 * fs; } return w; }
+const SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹", SUBD = "₀₁₂₃₄₅₆₇₈₉";
+const toSup = s => String(s).split("").map(c => c === "+" ? "⁺" : (c === "-" || c === MINUS) ? "⁻" : /\d/.test(c) ? SUPD[+c] : c).join("");
+const toSub = s => String(s).split("").map(c => /\d/.test(c) ? SUBD[+c] : c).join("");
+// charge as written top right: "+", "2+", "−", "3−"
+const chargeTxt = q => q === 0 ? "" : (Math.abs(q) === 1 ? "" : String(Math.abs(q))) + (q > 0 ? "+" : MINUS);
+const chargeSup = q => toSup(chargeTxt(q));
+AS.H = H;
+
+/* ---------- elements Z = 1 to 36 ---------- */
+const EL = [null,
+  ["H", "hydrogen"], ["He", "helium"], ["Li", "lithium"], ["Be", "beryllium"], ["B", "boron"], ["C", "carbon"], ["N", "nitrogen"], ["O", "oxygen"], ["F", "fluorine"], ["Ne", "neon"],
+  ["Na", "sodium"], ["Mg", "magnesium"], ["Al", "aluminium"], ["Si", "silicon"], ["P", "phosphorus"], ["S", "sulfur"], ["Cl", "chlorine"], ["Ar", "argon"],
+  ["K", "potassium"], ["Ca", "calcium"], ["Sc", "scandium"], ["Ti", "titanium"], ["V", "vanadium"], ["Cr", "chromium"], ["Mn", "manganese"], ["Fe", "iron"], ["Co", "cobalt"], ["Ni", "nickel"], ["Cu", "copper"], ["Zn", "zinc"],
+  ["Ga", "gallium"], ["Ge", "germanium"], ["As", "arsenic"], ["Se", "selenium"], ["Br", "bromine"], ["Kr", "krypton"]];
+const SYM = z => EL[z][0], NAME = z => EL[z][1];
+const ZOF = {}; EL.forEach((e, z) => { if (e) ZOF[e[0]] = z; });
+function groupOf(z){
+  if (z === 1) return 1; if (z === 2) return 18;
+  if (z <= 18){ const k = (z - 2) % 8 || 8; return k <= 2 ? k : k + 10; }
+  return z - 18;
+}
+function periodOf(z){ return z <= 2 ? 1 : z <= 10 ? 2 : z <= 18 ? 3 : 4; }
+AS.EL = EL; AS.groupOf = groupOf;
+
+/* ---------- ionisation energies ---------- */
+// Data Booklet (kJ mol⁻¹): 1st, 2nd, 3rd, 4th as listed
+const IEDB = {
+  1: [1310], 2: [2370, 5250], 3: [519, 7300, 11800], 4: [900, 1760, 14800, 21000], 5: [799, 2420, 3660, 25000],
+  6: [1090, 2350, 4610, 6220], 7: [1400, 2860, 4590, 7480], 8: [1310, 3390, 5320, 7450], 9: [1680, 3370, 6040, 8410], 10: [2080, 3950, 6150, 9290],
+  11: [494, 4560, 6940, 9540], 12: [736, 1450, 7740, 10500], 13: [577, 1820, 2740, 11600], 14: [786, 1580, 3230, 4360], 15: [1060, 1900, 2920, 4960],
+  16: [1000, 2260, 3390, 4540], 17: [1260, 2300, 3850, 5150], 18: [1520, 2660, 3950, 5770], 19: [418, 3070, 4600, 5860], 20: [590, 1150, 4940, 6480],
+  21: [632, 1240, 2390, 7110], 22: [661, 1310, 2720, 4170], 23: [648, 1370, 2870, 4600], 24: [653, 1590, 2990, 4770], 25: [716, 1511, 3250, 5190],
+  26: [762, 1560, 2960, 5400], 27: [757, 1640, 3230, 5100], 28: [736, 1750, 3390, 5400], 29: [745, 1960, 3350, 5690], 30: [908, 1730, 3828, 5980],
+  31: [577, 1980, 2960, 6190], 32: [762, 1540, 3300, 4390], 35: [1140, 2080, 3460, 4850]
+};
+// first IEs not in the Data Booklet (literature)
+const IELIT1 = { 33: 947, 34: 941, 36: 1351 };
+// first IE only, for the group trends
+const IEG = { Rb: 403, Sr: 548, Cs: 376, Ba: 502 };
+// literature successive IEs (NIST via Wikipedia); used from the 5th onwards
+const IELIT = {
+  5: [800.6, 2427.1, 3659.7, 25025.8, 32826.7],
+  6: [1086.5, 2352.6, 4620.5, 6222.7, 37831, 47277.0],
+  7: [1402.3, 2856, 4578.1, 7475.0, 9444.9, 53266.6, 64360],
+  8: [1313.9, 3388.3, 5300.5, 7469.2, 10989.5, 13326.5, 71330, 84078.0],
+  9: [1681.0, 3374.2, 6050.4, 8407.7, 11022.7, 15164.1, 17868, 92038.1, 106434.3],
+  10: [2080.7, 3952.3, 6122, 9371, 12177, 15238.90, 19999.0, 23069.5, 115379.5, 131432],
+  11: [495.8, 4562, 6910.3, 9543, 13354, 16613, 20117, 25496, 28932, 141362, 159076],
+  12: [737.7, 1450.7, 7732.7, 10542.5, 13630, 18020, 21711, 25661, 31653, 35458, 169988, 189368],
+  13: [577.5, 1816.7, 2744.8, 11577, 14842, 18379, 23326, 27465, 31853, 38473, 42647, 201266, 222316],
+  14: [786.5, 1577.1, 3231.6, 4355.5, 16091, 19805, 23780, 29287, 33878, 38726, 45962, 50502, 235196, 257923],
+  15: [1011.8, 1907, 2914.1, 4963.6, 6273.9, 21267, 25431, 29872, 35905, 40950, 46261, 54110, 59024, 271791, 296195],
+  16: [999.6, 2252, 3357, 4556, 7004.3, 8495.8, 27107, 31719, 36621, 43177, 48710, 54460, 62930, 68216, 311048, 337138],
+  17: [1251.2, 2298, 3822, 5158.6, 6542, 9362, 11018, 33604, 38600, 43961, 51068, 57119, 63363, 72341, 78095, 352994, 380760],
+  18: [1520.6, 2665.8, 3931, 5771, 7238, 8781, 11995, 13842, 40760, 46186, 52002, 59653, 66199, 72918, 82473, 88576, 397605, 427066],
+  19: [418.8, 3052, 4420, 5877, 7975, 9590, 11343, 14944, 16963.7, 48610, 54490, 60730, 68950, 75900, 83080, 93400, 99710, 444880, 476063],
+  20: [589.8, 1145.4, 4912.4, 6491, 8153, 10496, 12270, 14206, 18191, 20385, 57110, 63410, 70110, 78890, 86310, 94000, 104900, 111711, 494850, 527762]
+};
+// first IE for Z = 1 to 36 (Data Booklet, literature for As, Se, Kr)
+const IE1 = []; for (let z = 1; z <= 36; z++) IE1[z] = IEDB[z] ? IEDB[z][0] : IELIT1[z];
+const IE1LIT = z => z in IELIT1;
+// successive IEs: Data Booklet for the 1st to 4th, literature thereafter
+function succIE(z){
+  const db = IEDB[z]; if (!db) return null;
+  const out = db.map(v => ({ v, lit: false }));
+  const L = IELIT[z];
+  if (L) for (let i = db.length; i < L.length; i++) out.push({ v: L[i], lit: true });
+  return out;
+}
+AS.IEDB = IEDB; AS.IELIT1 = IELIT1; AS.IELIT = IELIT; AS.IEG = IEG; AS.IE1 = IE1; AS.succIE = succIE;
+
+/* ---------- electronic configurations ---------- */
+// subshells in order of filling (relative energy for an atom being built up)
+const SUBS = [
+  { k: "1s", n: 1, l: 0, cap: 2 }, { k: "2s", n: 2, l: 0, cap: 2 }, { k: "2p", n: 2, l: 1, cap: 6 }, { k: "3s", n: 3, l: 0, cap: 2 },
+  { k: "3p", n: 3, l: 1, cap: 6 }, { k: "4s", n: 4, l: 0, cap: 2 }, { k: "3d", n: 3, l: 2, cap: 10 }, { k: "4p", n: 4, l: 1, cap: 6 }
+];
+const SUB = {}; SUBS.forEach((s, i) => { s.i = i; s.orbs = s.cap / 2; SUB[s.k] = s; });
+const SHELL_ORDER = ["1s", "2s", "2p", "3s", "3p", "3d", "4s", "4p"];
+const NOBLE = [2, 10, 18, 36];
+const CORES = [10, 18];   // shorthand uses [Ne] and [Ar] only, as in the notes; Z ≤ 10 is written in full
+const EXC = { 24: { "3d": 5, "4s": 1 }, 29: { "3d": 10, "4s": 1 } };
+
+function emptyCfg(){ const c = {}; SUBS.forEach(s => c[s.k] = 0); return c; }
+function cfgCount(c){ return SUBS.reduce((t, s) => t + c[s.k], 0); }
+function aufbauAdd(c, e){ for (const s of SUBS){ const room = s.cap - c[s.k], a = Math.min(room, e); c[s.k] += a; e -= a; if (!e) break; } return c; }
+function neutralCfg(z){ const c = aufbauAdd(emptyCfg(), z); if (EXC[z]) Object.assign(c, EXC[z]); return c; }
+// order in which electrons leave an atom/ion: highest n first, then highest l
+const REMOVE_ORDER = SUBS.slice().sort((a, b) => b.n - a.n || b.l - a.l).map(s => s.k);
+function removeOne(c){ for (const k of REMOVE_ORDER) if (c[k] > 0){ c[k]--; return k; } return null; }
+function cfgOf(z, q){
+  q = q || 0;
+  const c = neutralCfg(z);
+  if (q > 0) for (let i = 0; i < q; i++) removeOne(c);
+  if (q < 0) aufbauAdd(c, -q);
+  return c;
+}
+function cfgFull(c){
+  const parts = SHELL_ORDER.filter(k => c[k] > 0).map(k => k + toSup(c[k]));
+  return parts.length ? parts.join(" ") : "";
+}
+function cfgShort(c, z){
+  // core: the noble gas before the element, if the configuration contains it complete
+  const cores = CORES.filter(g => g < z).reverse();
+  for (const g of cores){
+    const core = neutralCfg(g);
+    if (SUBS.every(s => core[s.k] === 0 || c[s.k] === core[s.k])){
+      const rest = SHELL_ORDER.filter(k => c[k] > 0 && core[k] === 0).map(k => k + toSup(c[k]));
+      return `[${SYM(g)}]` + (rest.length ? " " + rest.join(" ") : "");
+    }
+  }
+  return cfgFull(c);
+}
+function unpairedIn(k, e){ const m = SUB[k].orbs; return e <= m ? e : 2 * m - e; }
+function unpaired(c){ return SUBS.reduce((t, s) => t + unpairedIn(s.k, c[s.k]), 0); }
+function shellCounts(c){ const sh = [0, 0, 0, 0, 0]; SUBS.forEach(s => sh[s.n] += c[s.k]); return sh.slice(1); }
+// Hund filling of one subshell: array of orbital occupancies (2 = paired)
+function hundFill(k, e){ const m = SUB[k].orbs, a = Array(m).fill(0); for (let i = 0; i < e; i++) a[i < m ? i : i - m]++; return a; }
+const speciesTxt = (z, q) => SYM(z) + chargeSup(q);
+AS.cfgOf = cfgOf; AS.cfgFull = cfgFull; AS.cfgShort = cfgShort; AS.unpaired = unpaired; AS.SUBS = SUBS; AS.shellCounts = shellCounts; AS.neutralCfg = neutralCfg;
+// the electron removed at each successive ionisation (outermost first)
+function removalSeq(z){ const c = neutralCfg(z), seq = []; for (let i = 0; i < z; i++) seq.push(removeOne(c)); return seq; }
+AS.removalSeq = removalSeq;
+
+// nuclide notation in HTML: A top left, Z bottom left, charge top right
+function nucHTML(A, Z, q, opt){
+  opt = opt || {};
+  const sym = Z >= 1 && Z <= 36 ? SYM(Z) : "?";
+  return `<span class="lr"><span>${A}</span><span>${opt.noZ ? "&nbsp;" : Z}</span></span><span class="sym">${sym}</span><span class="ch">${q ? chargeTxt(q) : "&nbsp;"}</span>`;
+}
+// inline form, e.g. ²³Na⁺
+const nucTxt = (A, Z, q) => toSup(A) + SYM(Z) + chargeSup(q || 0);
+
+/* =====================================================
+   1. ATOM BUILDER
+   ===================================================== */
+// isotopes the lab knows about: n = naturally occurring, nr = naturally occurring and radioactive, r = known radioactive isotope
+const ISOS = {
+  1: [[1, "n", "99.99 %"], [2, "n", "0.01 %"], [3, "r", "trace"]], 2: [[3, "n"], [4, "n"]], 3: [[6, "n"], [7, "n"]], 4: [[9, "n"]], 5: [[10, "n"], [11, "n"]],
+  6: [[12, "n", "about 98.9 %"], [13, "n", "about 1.1 %"], [14, "r", "trace"]], 7: [[14, "n"], [15, "n"]], 8: [[16, "n"], [17, "n"], [18, "n"]], 9: [[19, "n"]], 10: [[20, "n"], [21, "n"], [22, "n"]],
+  11: [[23, "n"]], 12: [[24, "n"], [25, "n"], [26, "n"]], 13: [[27, "n"]], 14: [[28, "n"], [29, "n"], [30, "n"]], 15: [[31, "n"]],
+  16: [[32, "n"], [33, "n"], [34, "n"], [36, "n"]], 17: [[35, "n", "75.8 %"], [37, "n", "24.2 %"]], 18: [[36, "n"], [38, "n"], [40, "n"]],
+  19: [[39, "n"], [40, "nr"], [41, "n"]], 20: [[40, "n"], [42, "n"], [43, "n"], [44, "n"], [46, "n"], [48, "n"]],
+  26: [[54, "n"], [56, "n"], [57, "n"], [58, "n"]], 29: [[63, "n"], [65, "n"]], 35: [[79, "n", "50.7 %"], [81, "n", "49.3 %"]]
+};
+const HNAME = { 1: "hydrogen-1", 2: "deuterium (hydrogen-2)", 3: "tritium (hydrogen-3)" };
+AS.ISOS = ISOS;
+function isoInfo(Z, A){
+  const L = ISOS[Z] || [], hit = L.find(x => x[0] === A);
+  const nm = Z === 1 && HNAME[A] ? HNAME[A] : `${NAME(Z)}-${A}`;
+  return { nm, st: hit ? hit[1] : null, ab: hit && hit[2] ? hit[2] : null };
+}
+// particle counts for a species: the rules in the notes
+const counts = (A, Z, q) => ({ p: Z, n: A - Z, e: Z - q });
+AS.counts = counts;
+
+const AT = { p: 11, n: 12, e: 10 };
+AS.AT = AT;
+const NOTE_SPECIES = [[23, 11, 1], [35, 17, -1], [37, 17, 0], [27, 13, 3], [32, 16, -2], [56, 26, 3]];
+AS.NOTE_SPECIES = NOTE_SPECIES;
+const ISO_PICKS = [[1, 1], [2, 1], [3, 1], [12, 6], [13, 6], [14, 6], [35, 17], [37, 17], [79, 35], [81, 35]];
+
+function atSet(k, v){
+  if (k === "p"){ AT.p = clamp(v, 1, 36); AT.e = clamp(AT.e, 0, AT.p + 3); }
+  else if (k === "n") AT.n = clamp(v, 0, 50);
+  else AT.e = clamp(v, 0, AT.p + 3);
+  atDraw();
+}
+function atSpecies(A, Z, q){ AT.p = Z; AT.n = A - Z; AT.e = Z - q; atDraw(); }
+function atDraw(){
+  const { p, n, e } = AT, A = p + n, q = p - e;
+  $("at-pr").value = p; $("at-nr").value = n; $("at-er").max = p + 3; $("at-er").value = e;
+  $("at-po").textContent = p; $("at-no").textContent = n; $("at-eo").textContent = e;
+  $("at-nuc").innerHTML = nucHTML(A, p, q);
+  const iso = isoInfo(p, A);
+  $("at-name").textContent = `${NAME(p)[0].toUpperCase() + NAME(p).slice(1)} (${SYM(p)})`;
+  const type = q === 0 ? "neutral atom" : q > 0 ? `cation (positive ion), charge ${sgnp(q)}` : `anion (negative ion), charge ${sgnp(q)}`;
+  $("at-type").textContent = type;
+  $("at-read").innerHTML = [
+    st("Protons", `${p} <small>= Z</small>`),
+    st("Neutrons", `${n} <small>= A − Z = ${A} − ${p}</small>`),
+    st("Electrons", `${e} <small>= Z − charge = ${p} − (${sgnp(q)})</small>`),
+    st("Nucleon number, A", `${A} <small>= protons + neutrons</small>`),
+    st("Overall charge", `${sgnp(q)} <small>(${p} × (+1) + ${e} × (${MINUS}1))</small>`),
+    st("Relative mass", `≈ ${A} <small>electrons add only ${e}/1836 ≈ ${(e / 1836).toFixed(3)}</small>`)
+  ].join("");
+  let s = "";
+  if (iso.st){
+    const what = iso.st === "n" ? "a naturally occurring isotope" : iso.st === "nr" ? "a naturally occurring radioactive isotope" : "a known radioactive isotope";
+    s += `<p><b>${H(iso.nm)}</b>, an isotope of ${NAME(p)}: ${what}${iso.ab === "trace" ? ", present in nature only in traces" : iso.ab ? `, ${iso.ab} of naturally occurring ${NAME(p)} atoms <span class="hint">(literature value, not from the Data Booklet)</span>` : ""}.</p>`;
+  } else {
+    s += `<p><b>${H(iso.nm)}</b>: not a common isotope (this lab lists only the common isotopes; it does not say whether this nucleus exists).</p>`;
+  }
+  const others = (ISOS[p] || []).filter(x => x[0] !== A).map(x => H(toSup(x[0]) + SYM(p)));
+  if (others.length) s += `<p>Other isotopes of ${NAME(p)} in this lab: ${others.join(", ")}. Same number of protons (${p}), different numbers of neutrons.</p>`;
+  s += `<p>Isotopes have the same number of protons and, as atoms, the same number of electrons, so the same electronic configuration and the same chemical properties. Their different numbers of neutrons give slightly different physical properties, such as density.</p>`;
+  $("at-iso").innerHTML = s;
+  document.querySelectorAll("#at-picks button, #at-isos button").forEach(b => b.setAttribute("aria-pressed", b.dataset.a == A && b.dataset.z == p && b.dataset.q == q));
+  drawAtom();
+}
+function drawAtom(){
+  const wrap = $("at-wrap"), svg = $("at-svg");
+  const W = Math.max(280, Math.floor(wrap.clientWidth)), Hh = W < 500 ? 300 : 320;
+  const { p, n, e } = AT, N = p + n;
+  const sh = e > 0 ? shellCounts(cfgOf(p, p - e)) : [0, 0, 0, 0];
+  const nsh = sh.reduce((m, c, i) => c ? i + 1 : m, 0);
+  const cx = W / 2, cy = Hh / 2 - 6;
+  // nucleus: sunflower packing of protons and neutrons, mixed evenly
+  const rr = N > 60 ? 3.2 : N > 30 ? 4 : 5;
+  const sp = rr * 1.75;
+  const nucR = sp * Math.sqrt(N) + rr;
+  const order = []; let pi = 0, ni = 0;
+  for (let i = 0; i < N; i++){ if (ni >= n || (pi < p && pi * n <= ni * p)) { order.push("p"); pi++; } else { order.push("n"); ni++; } }
+  let s = `<defs><radialGradient id="g-p" cx=".38" cy=".34" r=".7"><stop offset="0" style="stop-color:#ffffff;stop-opacity:.75"/><stop offset=".45" style="stop-color:var(--proton)"/><stop offset="1" style="stop-color:var(--proton)"/></radialGradient><radialGradient id="g-n" cx=".38" cy=".34" r=".7"><stop offset="0" style="stop-color:#ffffff;stop-opacity:.75"/><stop offset=".45" style="stop-color:var(--neutron)"/><stop offset="1" style="stop-color:var(--neutron)"/></radialGradient></defs>`;
+  const maxR = Math.min(W / 2 - 14, Hh / 2 - 22);
+  const r1 = nucR + 18, step = nsh > 1 ? Math.min(44, (maxR - r1) / Math.max(1, nsh - 1)) : 0;
+  const labs = [];
+  for (let k = 0; k < 4; k++){
+    if (!sh[k] && k >= nsh) continue;
+    const R = r1 + k * step;
+    s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(R)}" class="shell"/>`;
+    const c = sh[k];
+    // label the shell where it is furthest from this shell's electrons and from the other labels
+    { const angs = []; for (let j = 0; j < c; j++) angs.push(-Math.PI / 2 + (j + 0.5) * 2 * Math.PI / c + k * 0.4);
+      let best = null, bs = -1;
+      for (let d = -84; d <= -14; d += 2){ const la = d * D2R, x = cx + (R + 4) * Math.cos(la), y = cy + (R + 4) * Math.sin(la);
+        let sc = Math.min(Math.PI, ...angs.map(t => Math.abs(Math.atan2(Math.sin(t - la), Math.cos(t - la))))) * R;
+        labs.forEach(q => { sc = Math.min(sc, Math.hypot(q[0] - x, (q[1] - y) * 2)); });
+        if (sc > bs){ bs = sc; best = [x, y]; } }
+      labs.push(best); s += `<text x="${f1(best[0])}" y="${f1(best[1])}" class="shl halo">n = ${k + 1}</text>`; }
+    for (let j = 0; j < c; j++){
+      const a = -Math.PI / 2 + (j + 0.5) * 2 * Math.PI / c + k * 0.4;
+      s += `<circle cx="${f1(cx + R * Math.cos(a))}" cy="${f1(cy + R * Math.sin(a))}" r="3.6" class="eld"/>`;
+    }
+  }
+  // draw nucleons back to front (outer first so the centre sits on top)
+  const pts = order.map((t, i) => { const r = sp * Math.sqrt(i + 0.5), a = i * 137.508 * D2R; return { t, x: cx + r * Math.cos(a), y: cy + r * Math.sin(a), i }; });
+  pts.sort((a, b) => b.i - a.i).forEach(q => { s += `<circle cx="${f1(q.x)}" cy="${f1(q.y)}" r="${f1(rr)}" fill="url(#g-${q.t})" class="${q.t === "p" ? "prt" : "ntr"}"/>`; });
+  // legend
+  const ly = Hh - 12;
+  s += `<circle cx="14" cy="${ly - 32}" r="5" fill="url(#g-p)" class="prt"/><text x="24" y="${ly - 28}" class="cap">proton (${p})</text>`;
+  s += `<circle cx="14" cy="${ly - 16}" r="5" fill="url(#g-n)" class="ntr"/><text x="24" y="${ly - 12}" class="cap">neutron (${n})</text>`;
+  s += `<circle cx="${f1(W - 104)}" cy="${ly - 32}" r="3.6" class="eld"/><text x="${f1(W - 96)}" y="${ly - 28}" class="cap">electron (${e})</text>`;
+  if (e === 0) s += `<text x="${f1(cx)}" y="${f1(cy + nucR + 24)}" text-anchor="middle" class="cap">no electrons: a bare nucleus</text>`;
+  svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("height", Hh);
+  svg.innerHTML = s;
+  $("at-scale").innerHTML = H(`Not to scale: the nucleus (about 10⁻¹⁵ m) is about 1/100\u202f000 of the atom's diameter (about 10⁻¹⁰ m, 0.1 nm). Electrons are drawn in shells as a simple model.`);
+}
+function bindAtom(){
+  document.querySelectorAll("#atom .stepc .btn").forEach(b => b.onclick = () => atSet(b.dataset.k, AT[b.dataset.k] + +b.dataset.d));
+  $("at-pr").oninput = ev => atSet("p", +ev.target.value);
+  $("at-nr").oninput = ev => atSet("n", +ev.target.value);
+  $("at-er").oninput = ev => atSet("e", +ev.target.value);
+  $("at-neutral").onclick = () => atSet("e", AT.p);
+  const chip = (A, Z, q) => `<button data-a="${A}" data-z="${Z}" data-q="${q}" aria-pressed="false">${H(nucTxt(A, Z, q))}</button>`;
+  $("at-picks").innerHTML = NOTE_SPECIES.map(([A, Z, q]) => chip(A, Z, q)).join("");
+  $("at-isos").innerHTML = ISO_PICKS.map(([A, Z]) => chip(A, Z, 0)).join("");
+  document.querySelectorAll("#at-picks button, #at-isos button").forEach(b => b.onclick = () => atSpecies(+b.dataset.a, +b.dataset.z, +b.dataset.q));
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("at-wrap").clientWidth; if (Math.abs(w - lw) > 1){ lw = w; drawAtom(); } }).observe($("at-wrap"));
+  AS.atSet = atSet; AS.atSpecies = atSpecies; AS.isoInfo = isoInfo;
+  atDraw();
+}
+
+/* ---------- count the particles ---------- */
+const CP_POOL = [[37, 17, 0], [19, 9, -1], [24, 12, 2], [16, 8, -2], [39, 19, 1], [40, 20, 2], [14, 7, -3], [2, 1, 0], [14, 6, 0], [81, 35, -1],
+  [63, 29, 2], [64, 30, 2], [52, 24, 3], [31, 15, -3], [7, 3, 1], [27, 13, 0], [55, 25, 2], [45, 21, 3], [1, 1, 1], [56, 26, 2]];
+AS.CP_POOL = CP_POOL;
+const CP = { mode: "count", k: 0, sp: null, done: false, right: 0, tried: 0, opts: null };
+AS.CP = CP;
+function cpDistractors(A, Z, q){
+  const c = counts(A, Z, q), out = [], seen = new Set([`${A}|${Z}|${q}`]);
+  const add = (a, z, qq, why) => { if (z < 1 || z > 36 || a < z) return; const k = `${a}|${z}|${qq}`; if (seen.has(k)) return; seen.add(k); out.push({ A: a, Z: z, q: qq, why }); };
+  if (q !== 0) add(A, Z, -q, `the charge has the wrong sign: ${c.e} electrons and ${c.p} protons give a charge of ${chargeTxt(q)}${q > 0 ? " (fewer electrons than protons)" : " (more electrons than protons)"}.`);
+  add(c.n, Z, q, `the nucleon number (top left) counts protons and neutrons: ${c.p} + ${c.n} = ${A}, not the ${c.n} neutrons alone.`);
+  if (c.e !== c.p && c.e >= 1 && c.e <= 36) add(A, c.e, 0, `the element is fixed by the number of protons (${c.p}), not by the number of electrons.`);
+  if (c.n !== c.p && c.n >= 1 && c.n <= 36) add(A, c.n, q, `the element is fixed by the number of protons (${c.p}), not by the number of neutrons.`);
+  add(A + c.e, Z, q, `electrons are not counted in the nucleon number: A = protons + neutrons = ${A}.`);
+  return shuffle(out).slice(0, 3);
+}
+AS.cpDistractors = cpDistractors;
+function cpNew(){
+  const sp = CP.k < NOTE_SPECIES.length ? NOTE_SPECIES[CP.k] : pick(CP_POOL.filter(x => !CP.sp || x.join() !== CP.sp.join()));
+  CP.k++; CP.sp = sp; CP.done = false;
+  if (CP.mode === "name"){
+    const [A, Z, q] = sp, d = cpDistractors(A, Z, q);
+    CP.opts = shuffle([{ A, Z, q, ok: true }].concat(d));
+  }
+  cpRender();
+}
+function cpRender(){
+  const box = $("cp-box"), [A, Z, q] = CP.sp, c = counts(A, Z, q);
+  const work = `<p>protons = Z = <b>${c.p}</b></p><p>neutrons = A − Z = ${A} − ${Z} = <b>${c.n}</b></p><p>electrons = Z − charge = ${Z} − (${sgnp(q)}) = <b>${c.e}</b></p>`;
+  if (CP.mode === "count"){
+    box.innerHTML = `<p class="qtext" style="margin:0">How many protons, neutrons and electrons are there in this ${q === 0 ? "atom" : "ion"}?</p>
+      <div class="cpbig"><span class="nuc">${nucHTML(A, Z, q)}</span></div>
+      <div class="nums"><label>Protons<input type="number" inputmode="numeric" min="0" id="cp-p"></label><label>Neutrons<input type="number" inputmode="numeric" min="0" id="cp-n"></label><label>Electrons<input type="number" inputmode="numeric" min="0" id="cp-e"></label></div>
+      <div class="btnrow"><button class="btn primary" id="cp-check">Check</button><button class="btn" id="cp-work">Show working</button></div>
+      <div id="cp-fb" hidden></div>`;
+    const fb = $("cp-fb");
+    $("cp-check").onclick = () => {
+      const v = ["p", "n", "e"].map(k => $("cp-" + k).value.trim());
+      if (v.some(x => x === "")){ fb.className = "fb info"; fb.innerHTML = "Fill in all three numbers first."; fb.hidden = false; return; }
+      const ok = ["p", "n", "e"].map((k, i) => +v[i] === c[k]);
+      ["p", "n", "e"].forEach((k, i) => { $("cp-" + k).classList.toggle("ok", ok[i]); $("cp-" + k).classList.toggle("no", !ok[i]); });
+      if (!CP.done){ CP.tried++; if (ok.every(Boolean)) CP.right++; CP.done = true; cpScore(); }
+      fb.className = "fb " + (ok.every(Boolean) ? "ok" : "no");
+      fb.innerHTML = (ok.every(Boolean) ? "<p>Correct.</p>" : "<p>Not quite. Here is the working:</p>") + work;
+      fb.hidden = false;
+    };
+    $("cp-work").onclick = () => { fb.className = "fb info"; fb.innerHTML = work; fb.hidden = false; if (!CP.done){ CP.done = true; CP.tried++; cpScore(); } };
+  } else {
+    box.innerHTML = `<p class="qtext" style="margin:0">A species has <b>${c.p}</b> protons, <b>${c.n}</b> neutrons and <b>${c.e}</b> electrons. Which is it?</p>
+      <div class="opts" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">${CP.opts.map((o, i) => `<button class="opt" data-i="${i}" style="justify-content:center;font-size:1.5rem"><span class="nuc">${nucHTML(o.A, o.Z, o.q)}</span></button>`).join("")}</div>
+      <div id="cp-fb" hidden></div>`;
+    box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+      if (CP.done) return; CP.done = true;
+      const o = CP.opts[+b.dataset.i];
+      CP.tried++; if (o.ok) CP.right++; cpScore();
+      box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (CP.opts[+x.dataset.i].ok) x.classList.add("right"); });
+      if (!o.ok) b.classList.add("wrong");
+      const fb = $("cp-fb");
+      fb.className = "fb " + (o.ok ? "ok" : "no");
+      fb.innerHTML = `<p>${o.ok ? "Correct." : `Not quite: ${H(o.why)}`}</p><p>${c.p} protons make it ${NAME(Z)} (Z = ${Z}); A = ${c.p} + ${c.n} = ${A}; charge = ${c.p} − ${c.e} = ${sgnp(q)}, so ${H(nucTxt(A, Z, q))}.</p>` +
+        `<ul>${CP.opts.filter(x => !x.ok && x !== o).map(x => `<li>${H(nucTxt(x.A, x.Z, x.q))} is wrong: ${H(x.why)}</li>`).join("")}</ul>`;
+      fb.hidden = false;
+    });
+  }
+}
+function cpScore(){ $("cp-score").textContent = CP.tried ? `Score ${CP.right} / ${CP.tried}` : ""; }
+function bindCP(){
+  document.querySelectorAll('input[name="cp-mode"]').forEach(r => r.onchange = () => { CP.mode = r.value; CP.k = 0; cpNew(); });
+  $("cp-next").onclick = cpNew;
+  AS.cpNew = cpNew;
+  cpNew();
+}
+
+/* =====================================================
+   2. BEAMS IN AN ELECTRIC FIELD
+   ===================================================== */
+// relative charges and masses (ions: mass = nucleon number, electron masses ignored)
+const PARTS = [
+  { id: "p", t: "p", nm: "proton", q: 1, m: 1, mt: "1", dash: "" },
+  { id: "n", t: "n", nm: "neutron", q: 0, m: 1, mt: "1", dash: "" },
+  { id: "e", t: "e⁻", nm: "electron", q: -1, m: 1 / 1836, mt: "1/1836", dash: "" },
+  { id: "h2", t: "²H⁺", nm: "deuterium nucleus", q: 1, m: 2, mt: "2", dash: "" },
+  { id: "h3", t: "³H⁺", nm: "tritium nucleus", q: 1, m: 3, mt: "3", dash: "6 3" },
+  { id: "he4", t: "⁴He²⁺", nm: "helium-4 nucleus", q: 2, m: 4, mt: "4", dash: "2 4" },
+  { id: "he3", t: "³He²⁺", nm: "helium-3 nucleus", q: 2, m: 3, mt: "3", dash: "8 3 2 3" },
+  { id: "o16", t: "¹⁶O²⁻", nm: "oxide ion", q: -2, m: 16, mt: "16", dash: "" },
+  { id: "cl35", t: "³⁵Cl⁻", nm: "chloride ion", q: -1, m: 35, mt: "35", dash: "6 3", fex: true }
+];
+const PART = {}; PARTS.forEach(p => PART[p.id] = p);
+const P_ANGLE = 6.0;   // protons: 6.0° towards the negative plate (the notes' example)
+const qm = p => p.q / p.m;
+// predicted angle by the proportionality, degrees (+ = towards the negative plate)
+const angleOf = p => P_ANGLE * qm(p);
+AS.PARTS = PARTS; AS.angleOf = angleOf; AS.qm = qm;
+const fmtAng = x => { const a = Math.abs(x); return a === 0 ? "0" : a < 1 ? a.toFixed(2) : a.toFixed(1); };
+// charge/mass as a number string, with "=" when exact to 3 d.p. and "≈" otherwise
+const qmStr = (q, m) => { const v = q / m; if (v === 0) return { eq: "=", s: "0" }; const r = Math.abs(v), ex = Math.abs(r * 1000 - Math.round(r * 1000)) < 1e-9; return { eq: ex ? "=" : "≈", s: (v < 0 ? MINUS : "") + (ex ? String(+r.toFixed(3)) : r.toFixed(3)) }; };
+const fmtQM = p => {
+  if (p.id === "e") return `${MINUS}1 ÷ (1/1836) = ${MINUS}1836`;
+  const r = qmStr(p.q, p.m);
+  return `${sgnp(p.q)} ÷ ${p.mt} ${r.eq} ${r.s}`;
+};
+AS.fmtQM = fmtQM;
+const BM = { sel: new Set(["p", "n", "e", "h2", "he4"]), flip: false, mag: 3, t: -1, raf: 0 };
+AS.BM = BM;
+const PRESETS = [
+  ["Notes' example", ["p", "n", "e", "h2", "h3", "he4", "he3", "o16"]],
+  ["²H⁺ and ⁴He²⁺", ["h2", "he4"]],
+  ["p and e⁻", ["p", "e"]],
+  ["p, n and e⁻", ["p", "n", "e"]],
+  ["Clear", []]
+];
+function bmGeom(){
+  const W = Math.max(300, Math.floor($("bm-wrap").clientWidth)), Hh = W < 520 ? 270 : 300;
+  const cy = Hh / 2, g = W < 520 ? 60 : 70, lab = W < 520 ? 92 : 116;
+  // plates up to 230 px long, drift to the screen up to 250 px; the drawing is centred
+  const avail = W - 56 - lab, L = Math.min(230, Math.max(110, avail * 0.52)), Dd = Math.min(250, avail - L);
+  const ox = Math.max(0, (W - (56 + L + Dd + lab)) / 2);
+  const x0 = ox + 56, x1 = x0 + L, xs = x1 + Dd;
+  return { W, Hh, cy, g, x0, x1, L, xs, ox };
+}
+// path of one particle: points in svg coordinates, plus where it ends
+function bmPath(p, G){
+  const k = Math.tan(P_ANGLE * BM.mag * D2R);
+  const dir = BM.flip ? -1 : 1;             // +1: the negative plate is at the bottom
+  const s = k * qm(p) * dir;                // slope at exit (screen y grows downwards)
+  const lim = G.g - 5;
+  const pts = [[G.ox + 44, G.cy], [G.x0, G.cy]];
+  let hit = null;
+  const N = 48;
+  for (let i = 1; i <= N; i++){
+    const x = G.x0 + G.L * i / N; let y = s * (x - G.x0) ** 2 / (2 * G.L);
+    if (Math.abs(y) >= lim){ const xh = G.x0 + Math.sqrt(2 * G.L * lim / Math.abs(s)); pts.push([xh, G.cy + Math.sign(y) * lim]); hit = { x: xh, y: G.cy + Math.sign(y) * lim, side: Math.sign(y) }; break; }
+    pts.push([x, G.cy + y]);
+  }
+  let end;
+  if (!hit){
+    const yExit = s * G.L / 2, ymax = G.Hh / 2 - 8;
+    let x2 = G.xs, y2 = yExit + s * (G.xs - G.x1);
+    if (Math.abs(y2) > ymax){ x2 = G.x1 + (Math.sign(y2) * ymax - yExit) / s; y2 = Math.sign(y2) * ymax; }
+    pts.push([x2, G.cy + y2]); end = { x: x2, y: G.cy + y2, screen: x2 >= G.xs - 0.5 };
+  } else end = { x: hit.x, y: hit.y, screen: false };
+  return { pts, hit, end };
+}
+function bmClass(p){ return p.q > 0 ? "tpos" : p.q < 0 ? "tneg" : "tneu"; }
+function drawBeams(){
+  const G = bmGeom(), svg = $("bm-svg"), sel = PARTS.filter(p => BM.sel.has(p.id));
+  const topPos = !BM.flip;
+  let s = "";
+  // field lines (between plates)
+  for (let x = G.x0 + 14; x < G.x1 - 4; x += 22) s += `<line x1="${f1(x)}" y1="${f1(G.cy - G.g)}" x2="${f1(x)}" y2="${f1(G.cy + G.g)}" class="fieldl"/>`;
+  // plates
+  s += `<rect x="${f1(G.x0)}" y="${f1(G.cy - G.g - 8)}" width="${f1(G.L)}" height="8" rx="2" class="plate ${topPos ? "platep" : "platen"}"/>`;
+  s += `<rect x="${f1(G.x0)}" y="${f1(G.cy + G.g)}" width="${f1(G.L)}" height="8" rx="2" class="plate ${topPos ? "platen" : "platep"}"/>`;
+  const plab = (y, pos) => `<text x="${f1(G.x1 - 100)}" y="${f1(y)}" text-anchor="middle" class="platet" style="fill:var(${pos ? "--plate-pos" : "--plate-neg"})">${pos ? "+" : MINUS}</text><text x="${f1(G.x1 - 90)}" y="${f1(y)}" class="cap">${pos ? "positive plate" : "negative plate"}</text>`;
+  s += plab(G.cy - G.g - 14, topPos) + plab(G.cy + G.g + 24, !topPos);
+  // source and screen
+  s += `<rect x="${f1(G.ox + 8)}" y="${f1(G.cy - 14)}" width="36" height="28" rx="4" class="src"/><text x="${f1(G.ox + 26)}" y="${f1(G.cy + 30)}" text-anchor="middle" class="cap">source</text>`;
+  s += `<line x1="${f1(G.xs)}" y1="10" x2="${f1(G.xs)}" y2="${f1(G.Hh - 10)}" class="scr"/><text x="${f1(G.xs)}" y="${f1(G.Hh - 1)}" text-anchor="middle" class="cap">screen</text>`;
+  s += `<line x1="${f1(G.x0)}" y1="${f1(G.cy)}" x2="${f1(G.xs)}" y2="${f1(G.cy)}" class="fieldl" style="stroke-dasharray:1 5"/>`;
+  // trajectories, grouped by charge/mass so identical paths share a label
+  const groups = new Map();
+  const paths = sel.map(p => { const P = bmPath(p, G); const key = qm(p).toFixed(6); if (!groups.has(key)) groups.set(key, { ps: [], P }); groups.get(key).ps.push(p); return { p, P }; });
+  paths.forEach(({ p, P }) => {
+    const d = "M" + P.pts.map(q => f1(q[0]) + "," + f1(q[1])).join("L");
+    s += `<path d="${d}" class="traj ${bmClass(p)}"${p.dash ? ` stroke-dasharray="${p.dash}"` : ""}/>`;
+  });
+  // labels at the screen, pushed apart; plate hits labelled at the plate
+  const labs = [];
+  groups.forEach(gp => {
+    const txt = gp.ps.map(p => p.t).join(", ");
+    if (gp.P.hit){ labs.push({ hit: true, x: gp.P.hit.x, y: gp.P.hit.y, side: gp.P.hit.side, txt: txt + " hits the plate", cls: bmClass(gp.ps[0]) }); }
+    else labs.push({ x: gp.P.end.x, y: gp.P.end.y, y0: gp.P.end.y, txt, cls: bmClass(gp.ps[0]) });
+  });
+  const scr = labs.filter(l => !l.hit).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < scr.length; i++) if (scr[i].y - scr[i - 1].y < 14) scr[i].y = scr[i - 1].y + 14;
+  const over = scr.length ? scr[scr.length - 1].y - (G.Hh - 8) : 0;
+  if (over > 0) scr.forEach(l => l.y -= over);
+  scr.forEach(l => {
+    if (Math.abs(l.y - l.y0) > 1.5) s += `<polyline points="${f1(G.xs + 2)},${f1(l.y0)} ${f1(G.xs + 9)},${f1(l.y0)} ${f1(G.xs + 15)},${f1(l.y)}" fill="none" stroke="var(--muted)" stroke-width="1"/>`;
+    s += `<text x="${f1(G.xs + (Math.abs(l.y - l.y0) > 1.5 ? 18 : 6))}" y="${f1(l.y + 4)}" class="lbl halo">${svgChem(l.txt, 12)}</text>`;
+  });
+  labs.filter(l => l.hit).forEach(l => { const y = l.side > 0 ? G.cy + G.g - 10 : G.cy - G.g + 20; s += `<text x="${f1(l.x + 8)}" y="${f1(y)}" class="lbl halo" style="font-weight:600">${svgChem(l.txt, 12)}</text>`; });
+  // particles in flight
+  if (BM.t >= 0){
+    paths.forEach(({ p, P }) => {
+      const xEnd = P.end.x, x = G.ox + 44 + (G.xs - G.ox - 44) * BM.t;
+      if (x > xEnd + 0.5) return;
+      let y = G.cy; for (let i = 1; i < P.pts.length; i++){ const a = P.pts[i - 1], b = P.pts[i]; if (x <= b[0]){ y = a[1] + (b[1] - a[1]) * (x - a[0]) / Math.max(1e-6, b[0] - a[0]); break; } }
+      s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${p.id === "e" ? 3 : 4.5}" class="tdot" style="fill:var(${p.q > 0 ? "--s2" : p.q < 0 ? "--s1" : "--ref"})"/>`;
+    });
+  }
+  if (!sel.length) s += `<text x="${f1(G.W / 2)}" y="${f1(G.cy - 6)}" text-anchor="middle" class="cap">Choose some particles</text>`;
+  svg.setAttribute("viewBox", `0 0 ${G.W} ${G.Hh}`); svg.setAttribute("height", G.Hh);
+  svg.innerHTML = s;
+}
+function bmTable(){
+  const sel = PARTS.filter(p => BM.sel.has(p.id));
+  const negSide = BM.flip ? "top" : "bottom", posSide = BM.flip ? "bottom" : "top";
+  if (!sel.length){ $("bm-tab").innerHTML = ""; }
+  else $("bm-tab").innerHTML = `<tr><th>Particle</th><th class="num">Charge</th><th class="num">Mass</th><th>Charge/mass</th><th class="num">Predicted angle</th><th>Direction</th></tr>` +
+    sel.map(p => {
+      const a = angleOf(p);
+      const ang = p.id === "e" ? `6.0 × 1836 ≈ 11\u202f000°` : p.q === 0 ? "6.0 × 0 = 0°" : `6.0 × ${Math.abs(p.q)}/${p.mt} = ${fmtAng(a)}°`;
+      const dirn = p.q === 0 ? "straight on (no charge)" : p.q > 0 ? `towards the negative plate (${negSide})` : `towards the positive plate (${posSide})`;
+      return `<tr><td>${H(p.t)} <span class="hint">${p.nm}</span>${p.fex ? " " + FEX : ""}</td><td class="num" data-l="Charge">${sgnp(p.q)}</td><td class="num" data-l="Mass">${p.mt}</td><td data-l="Charge/mass" class="nw">${fmtQM(p)}</td><td class="num" data-l="Predicted angle">${ang}</td><td data-l="Direction">${p.id === "e" ? "onto the positive plate" : dirn}</td></tr>`;
+    }).join("");
+  let n = `<p>Angle of deflection ∝ charge/mass, for beams that enter the field at the same speed. Protons (charge/mass = 1) are deflected by ${P_ANGLE.toFixed(1)}°, so every other angle is 6.0° × (charge/mass). This is a small-angle approximation: it works while the angles stay small.</p>`;
+  if (BM.sel.has("h2") && BM.sel.has("he4")) n += `<p>²H⁺ and ⁴He²⁺ have the same charge/mass (1/2 = 2/4), so their beams follow exactly the same path.</p>`;
+  if (BM.sel.has("e")) n += `<p>Electrons: charge/mass = ${MINUS}1 ÷ (1/1836) = ${MINUS}1836, so the proportionality predicts 6.0° × 1836 ≈ 11${" "}000°. That is not a real angle: it means the deflection is enormous, and in practice the electrons curve sharply and hit the positive plate almost as soon as they enter the field. Electrons bend the opposite way to protons because their charge is negative.</p>`;
+  if (BM.sel.has("n")) n += `<p>Neutrons have no charge, so the field exerts no force on them: they go straight on.</p>`;
+  n += `<p class="hint">Simplified model: the ions' masses are taken as their nucleon numbers (1, 2, 3, 4, 16, 35), ignoring the mass of their electrons, and gravity is ignored. A real angle depends on the field strength, the plate length and the speed; only the ratios are predicted here.</p>`;
+  $("bm-note").innerHTML = H(n);
+}
+function bmSync(){
+  document.querySelectorAll("#bm-parts button").forEach(b => b.setAttribute("aria-pressed", BM.sel.has(b.dataset.id)));
+  document.querySelectorAll("#bm-presets button").forEach(b => { const ids = PRESETS[+b.dataset.k][1]; b.setAttribute("aria-pressed", ids.length > 0 && ids.length === BM.sel.size && ids.every(i => BM.sel.has(i))); });
+  drawBeams(); bmTable();
+}
+function bmFire(){
+  if (BM.raf) cancelAnimationFrame(BM.raf);
+  if (reduced()){ BM.t = -1; drawBeams(); return; }
+  const t0 = performance.now();
+  const step = now => { BM.t = Math.min(1, (now - t0) / 1800); drawBeams(); if (BM.t < 1) BM.raf = requestAnimationFrame(step); else { BM.raf = 0; BM.t = -1; drawBeams(); } };
+  BM.raf = requestAnimationFrame(step);
+}
+function bindBeams(){
+  $("bm-parts").innerHTML = PARTS.map(p => `<button data-id="${p.id}" aria-pressed="false" title="${p.nm}">${H(p.t)}${p.fex ? FEX : ""}</button>`).join("");
+  $("bm-presets").innerHTML = PRESETS.map((p, k) => `<button data-k="${k}" aria-pressed="false">${H(p[0])}</button>`).join("");
+  document.querySelectorAll("#bm-parts button").forEach(b => b.onclick = () => { const id = b.dataset.id; if (BM.sel.has(id)) BM.sel.delete(id); else BM.sel.add(id); bmSync(); });
+  document.querySelectorAll("#bm-presets button").forEach(b => b.onclick = () => { BM.sel = new Set(PRESETS[+b.dataset.k][1]); bmSync(); });
+  $("bm-flip").onchange = e => { BM.flip = e.target.checked; bmSync(); };
+  document.querySelectorAll('input[name="bm-mag"]').forEach(r => r.onchange = () => { BM.mag = +r.value; drawBeams(); });
+  $("bm-fire").onclick = bmFire;
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("bm-wrap").clientWidth; if (Math.abs(w - lw) > 1){ lw = w; drawBeams(); } }).observe($("bm-wrap"));
+  AS.bmSync = bmSync; AS.bmPath = (id) => bmPath(PART[id], bmGeom()); AS.drawBeams = drawBeams;
+  bmSync();
+}
+
+/* ---------- predict the deflection ---------- */
+const BP_POOL = [
+  { t: "²H⁺", q: 1, m: 2 }, { t: "³H⁺", q: 1, m: 3 }, { t: "⁴He²⁺", q: 2, m: 4 }, { t: "³He²⁺", q: 2, m: 3 }, { t: "⁴He⁺", q: 1, m: 4 },
+  { t: "¹⁶O²⁻", q: -2, m: 16 }, { t: "⁷Li⁺", q: 1, m: 7 }, { t: "¹²C²⁺", q: 2, m: 12 }, { t: "²⁴Mg²⁺", q: 2, m: 24 }, { t: "¹⁹F⁻", q: -1, m: 19 }
+];
+const BP = { q: null, done: false, right: 0, tried: 0 };
+AS.BP = BP; AS.BP_POOL = BP_POOL;
+function bpOptions(base, sp){
+  const dirOk = sp.q > 0 ? "neg" : "pos", dirBad = dirOk === "neg" ? "pos" : "neg";
+  const c = [
+    { v: base * sp.q / sp.m, d: dirOk, ok: true, why: "" },
+    { v: base * Math.abs(sp.q), d: dirOk, why: "this multiplies by the charge but forgets to divide by the mass." },
+    { v: base / sp.m, d: dirOk, why: "this divides by the mass but ignores the charge." },
+    { v: base * sp.m / Math.abs(sp.q), d: dirOk, why: "this uses mass/charge: the angle is proportional to charge/mass, so a heavier particle is deflected less, not more." },
+    { v: base * sp.q / sp.m, d: dirBad, why: `the size is right but the direction is wrong: ${sp.q > 0 ? "a positive ion is attracted to the negative plate" : "a negative ion is attracted to the positive plate"}.` }
+  ].map(o => Object.assign(o, { v: Math.abs(o.v) }));
+  const seen = new Set(), out = [];
+  for (const o of c){ const k = fmtAng(o.v) + o.d; if (seen.has(k)) continue; seen.add(k); out.push(o); }
+  return [out[0]].concat(shuffle(out.slice(1)).slice(0, 3));
+}
+AS.bpOptions = bpOptions;
+function bpNew(){
+  const base = pick([4.0, 5.0, 6.0, 8.0, 10.0, 12.0]);
+  const sp = pick(BP_POOL.filter(x => !BP.q || x.t !== BP.q.sp.t));
+  BP.q = { base, sp, opts: shuffle(bpOptions(base, sp)) }; BP.done = false;
+  const box = $("bp-box");
+  const dtxt = d => d === "neg" ? "towards the negative plate" : "towards the positive plate";
+  box.innerHTML = `<p class="qtext" style="margin:0">${H(`A beam of protons is deflected by ${base.toFixed(1)}° towards the negative plate. A beam of ${sp.t} ions enters the same field at the same speed. What is its deflection?`)}</p>
+    <div class="opts">${BP.q.opts.map((o, i) => `<button class="opt" data-i="${i}"><b>${"ABCD"[i]}</b><span>${fmtAng(o.v)}°, ${dtxt(o.d)}</span></button>`).join("")}</div><div id="bp-fb" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (BP.done) return; BP.done = true;
+    const o = BP.q.opts[+b.dataset.i]; BP.tried++; if (o.ok) BP.right++;
+    $("bp-score").textContent = `Score ${BP.right} / ${BP.tried}`;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (BP.q.opts[+x.dataset.i].ok) x.classList.add("right"); });
+    if (!o.ok) b.classList.add("wrong");
+    const r = sp.q / sp.m, fb = $("bp-fb");
+    fb.className = "fb " + (o.ok ? "ok" : "no");
+    fb.innerHTML = H(`<p>${o.ok ? "Correct." : "Not quite: " + o.why}</p><p>charge/mass for ${sp.t} = ${sgnp(sp.q)} ÷ ${sp.m} ${qmStr(sp.q, sp.m).eq} ${qmStr(sp.q, sp.m).s}; for the proton it is 1.</p><p>angle = ${base.toFixed(1)}° × ${sp.q > 0 ? "" : "("}${Math.abs(sp.q)}/${sp.m}${sp.q > 0 ? "" : ")"} = ${fmtAng(Math.abs(base * r))}°, ${dtxt(sp.q > 0 ? "neg" : "pos")}.</p>`) +
+      `<ul>${BP.q.opts.filter(x => !x.ok && x !== o).map(x => `<li>${fmtAng(x.v)}°, ${dtxt(x.d)}: ${H(x.why)}</li>`).join("")}</ul>`;
+    fb.hidden = false;
+  });
+}
+function bindBP(){ $("bp-next").onclick = bpNew; AS.bpNew = bpNew; bpNew(); }
+
+/* =====================================================
+   3. ORBITALS IN 3D (angular part only) AND THE ENERGY LADDER
+   ===================================================== */
+const vadd = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+const vsub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const vmul = (a, k) => [a[0] * k, a[1] * k, a[2] * k];
+const vdot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const vlen = a => Math.hypot(a[0], a[1], a[2]);
+const vunit = a => vmul(a, 1 / (vlen(a) || 1));
+const vcross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+function mm(A, B){ const C = new Array(9); for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) C[i * 3 + j] = A[i * 3] * B[j] + A[i * 3 + 1] * B[3 + j] + A[i * 3 + 2] * B[6 + j]; return C; }
+const rx = t => { const c = Math.cos(t), s = Math.sin(t); return [1, 0, 0, 0, c, -s, 0, s, c]; };
+const ry = t => { const c = Math.cos(t), s = Math.sin(t); return [c, 0, s, 0, 1, 0, -s, 0, c]; };
+const ap = (M, p) => [M[0] * p[0] + M[1] * p[1] + M[2] * p[2], M[3] * p[0] + M[4] * p[1] + M[5] * p[2], M[6] * p[0] + M[7] * p[1] + M[8] * p[2]];
+function ortho(M){ let a = vunit([M[0], M[1], M[2]]), b = [M[3], M[4], M[5]]; b = vunit(vsub(b, vmul(a, vdot(a, b)))); const c = vcross(a, b); return [...a, ...b, ...c]; }
+function hexRGB(h){ h = h.trim(); if (h.startsWith("rgb")) return h.match(/[\d.]+/g).slice(0, 3).map(Number); return [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); }
+const rgbStr = c => `rgb(${c.map(v => Math.round(clamp(v, 0, 255))).join(",")})`;
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+// real angular functions (shape only), each scaled so that its largest |value| is 1
+// chemistry axes: x, y, z with z up
+const ANG = {
+  s:   () => 1,
+  px:  (x, y, z) => x, py: (x, y, z) => y, pz: (x, y, z) => z,
+  dxy: (x, y, z) => 2 * x * y, dxz: (x, y, z) => 2 * x * z, dyz: (x, y, z) => 2 * y * z,
+  dx2y2: (x, y, z) => x * x - y * y, dz2: (x, y, z) => (3 * z * z - 1) / 2
+};
+AS.ANG = ANG;
+// orbital catalogue: size R is scaled by hand to show 1s < 2s < 3s < 4s and 2p < 3p < 4p
+const OSUB = {
+  "1s": { R: 1.0, mem: ["s"] }, "2s": { R: 1.5, mem: ["s"] }, "3s": { R: 2.0, mem: ["s"] }, "4s": { R: 2.45, mem: ["s"] },
+  "2p": { R: 1.85, mem: ["px", "py", "pz"] }, "3p": { R: 2.4, mem: ["px", "py", "pz"] }, "4p": { R: 2.85, mem: ["px", "py", "pz"] },
+  "3d": { R: 2.55, mem: ["dxy", "dxz", "dyz", "dx2y2", "dz2"] }
+};
+const OSUB_KEYS = ["1s", "2s", "3s", "4s", "2p", "3p", "4p", "3d"];
+const MEMH = { s: "", px: "<sub>x</sub>", py: "<sub>y</sub>", pz: "<sub>z</sub>", dxy: "<sub>xy</sub>", dxz: "<sub>xz</sub>", dyz: "<sub>yz</sub>", dx2y2: "<sub>x<sup>2</sup>−y<sup>2</sup></sub>", dz2: "<sub>z<sup>2</sup></sub>" };
+const orbHTML = (sub, mem) => mem === "s" ? sub : sub + MEMH[mem];
+const MEMDESC = {
+  s: "spherical: the electron density is the same in every direction from the nucleus.",
+  px: "dumbbell-shaped: two lobes on opposite sides of the nucleus, along the x axis, with the nucleus between them.",
+  py: "dumbbell-shaped: two lobes on opposite sides of the nucleus, along the y axis.",
+  pz: "dumbbell-shaped: two lobes on opposite sides of the nucleus, along the z axis.",
+  dxy: "four lobes in the xy plane, lying between the x and y axes.",
+  dxz: "four lobes in the xz plane, lying between the x and z axes.",
+  dyz: "four lobes in the yz plane, lying between the y and z axes.",
+  dx2y2: "four lobes in the xy plane, lying along the x and y axes.",
+  dz2: "two lobes along the z axis, with a ring (doughnut) around the middle in the xy plane."
+};
+AS.OSUB = OSUB; AS.MEMDESC = MEMDESC;
+
+// polar surface: radius in each direction = R × |angular part|, a boundary-surface style shape
+function orbMesh(sub, mem, nt, np){
+  const R = OSUB[sub].R, f = ANG[mem], V = [], F = [];
+  for (let i = 0; i <= nt; i++){
+    const th = Math.PI * i / nt;
+    for (let j = 0; j < np; j++){
+      const ph = 2 * Math.PI * j / np, d = [Math.sin(th) * Math.cos(ph), Math.sin(th) * Math.sin(ph), Math.cos(th)];
+      const a = f(d[0], d[1], d[2]), r = mem === "s" ? R : R * Math.abs(a);
+      V.push(vmul(d, r));
+    }
+  }
+  for (let i = 0; i < nt; i++) for (let j = 0; j < np; j++){
+    const a = i * np + j, b = (i + 1) * np + j, c = (i + 1) * np + (j + 1) % np, d = i * np + (j + 1) % np;
+    const th = Math.PI * (i + 0.5) / nt, ph = 2 * Math.PI * (j + 0.5) / np;
+    const sg = f(Math.sin(th) * Math.cos(ph), Math.sin(th) * Math.sin(ph), Math.cos(th));
+    F.push([a, b, c, d, sg >= 0 ? 1 : -1]);
+  }
+  return { V, F };
+}
+AS.orbMesh = orbMesh;
+const LIGHT = vunit([-0.45, 0.6, 0.75]), HALF = vunit(vadd(LIGHT, [0, 0, 1]));
+// default view: z up, y to the right, x towards the viewer (down and to the left)
+const BASE = [0, 1, 0, 0, 0, 1, 1, 0, 0];
+const M_DEFAULT = mm(rx(16 * D2R), mm(ry(-32 * D2R), BASE));
+const AXLEN = 3.15;
+
+function renderOrb(o){
+  // o: { W, H, M, meshes:[{mesh, op, cull}], phase, axes, labels, S }
+  const D = 14, cx = o.W / 2, cy = o.H / 2 + (o.dy || 0), S = o.S;
+  const proj = q => { const k = D / (D - q[2]); return [cx + q[0] * S * k, cy - q[1] * S * k, q[2]]; };
+  const c1 = hexRGB(cssVar("--orb1") || "#3f86dc"), c2 = hexRGB(cssVar("--orb2") || "#ec7a45");
+  const items = [];
+  for (const m of o.meshes){
+    const Vq = m.mesh.V.map(p => ap(o.M, p)), Vp = Vq.map(proj);
+    for (const f of m.mesh.F){
+      const A = Vq[f[0]], B = Vq[f[1]], C = Vq[f[2]], Dd = Vq[f[3]];
+      let n = vcross(vsub(C, A), vsub(Dd, B)); const nl = vlen(n);
+      if (nl < 1e-7) continue;
+      n = vmul(n, 1 / nl);
+      const cen = vmul(vadd(vadd(A, B), vadd(C, Dd)), 0.25);
+      const view = vsub([0, 0, D], cen);
+      const front = vdot(n, view) > 0;
+      if (m.cull && !front) continue;
+      const nn = front ? n : vmul(n, -1);
+      const lam = Math.max(0, vdot(nn, LIGHT)), spec = Math.pow(Math.max(0, vdot(nn, HALF)), 24);
+      const base = o.phase && f[4] < 0 ? c2 : c1;
+      const I = 0.42 + 0.58 * lam;
+      const col = base.map(v => v * I + (255 - v * I) * spec * 0.55);
+      const P = [Vp[f[0]], Vp[f[1]], Vp[f[2]], Vp[f[3]]];
+      const d = `M${f1(P[0][0])},${f1(P[0][1])}L${f1(P[1][0])},${f1(P[1][1])}L${f1(P[2][0])},${f1(P[2][1])}L${f1(P[3][0])},${f1(P[3][1])}Z`;
+      const cs = rgbStr(col);
+      items.push({ z: cen[2], s: m.op < 1 ? `<path d="${d}" fill="${cs}" fill-opacity="${m.op}"/>` : `<path d="${d}" fill="${cs}" stroke="${cs}" stroke-width=".6" stroke-linejoin="round"/>` });
+    }
+  }
+  if (o.axes){
+    const AX = [[1, 0, 0], [0, 1, 0], [0, 0, 1]], N = 26;
+    AX.forEach(u => {
+      for (let k = 0; k < N; k++){
+        const t0 = -AXLEN + 2 * AXLEN * k / N, t1 = -AXLEN + 2 * AXLEN * (k + 1) / N;
+        const a = ap(o.M, vmul(u, t0)), b = ap(o.M, vmul(u, t1)), pa = proj(a), pb = proj(b);
+        items.push({ z: (a[2] + b[2]) / 2 + 0.02, s: `<line x1="${f1(pa[0])}" y1="${f1(pa[1])}" x2="${f1(pb[0])}" y2="${f1(pb[1])}" class="${t0 >= 0 ? "ax" : "axn"}"/>` });
+      }
+    });
+    const z0 = proj(ap(o.M, [0, 0, 0]));
+    items.push({ z: 0.01, s: `<circle cx="${f1(z0[0])}" cy="${f1(z0[1])}" r="2.6" class="nuc0"/>` });
+  }
+  items.sort((a, b) => a.z - b.z);
+  let s = items.map(i => i.s).join("");
+  if (o.axes && o.labels){
+    ["x", "y", "z"].forEach((l, i) => { const u = [0, 0, 0]; u[i] = AXLEN + 0.28; const p = proj(ap(o.M, u)); s += `<text x="${f1(p[0])}" y="${f1(p[1] + 4)}" text-anchor="middle" class="axl halo">${l}</text>`; });
+  }
+  return s;
+}
+AS.renderOrb = renderOrb;
+
+const OR = { sub: "2p", mem: "pz", cmp: false, phase: false, after: false, M: M_DEFAULT.slice() };
+AS.OR = OR;
+let orMeshCache = {};
+const meshFor = (sub, mem, q) => { const k = `${sub}|${mem}|${q}`; if (!orMeshCache[k]) orMeshCache[k] = q === "hi" ? orbMesh(sub, mem, mem === "s" ? 20 : 32, mem === "s" ? 36 : 56) : orbMesh(sub, mem, mem === "s" ? 10 : 16, mem === "s" ? 18 : 28); return orMeshCache[k]; };
+function orGeom(){ const W = Math.max(280, Math.floor($("or-wrap").clientWidth)), H = Math.round(clamp(W * 0.72, 300, 430)); return { W, H, S: (Math.min(W, H) / 2 - 24) / (AXLEN + 0.35) }; }
+function drawOrb(){
+  const G = orGeom(), svg = $("or-svg");
+  let meshes;
+  if (OR.cmp && OR.mem === "s") meshes = [{ mesh: meshFor("3s", "s", "lo"), op: 0.16, cull: false }, { mesh: meshFor("2s", "s", "lo"), op: 0.24, cull: false }, { mesh: meshFor("1s", "s", "hi"), op: 1, cull: true }];
+  else meshes = [{ mesh: meshFor(OR.sub, OR.mem, "hi"), op: 1, cull: true }];
+  svg.setAttribute("viewBox", `0 0 ${G.W} ${G.H}`); svg.setAttribute("height", G.H);
+  svg.innerHTML = renderOrb({ W: G.W, H: G.H, M: OR.M, meshes, phase: OR.phase, axes: true, labels: true, S: G.S, dy: 6 });
+  $("or-cap").innerHTML = OR.cmp && OR.mem === "s" ? "1s, 2s and 3s" : orbHTML(OR.sub, OR.mem);
+}
+function drawThumbs(){
+  const mem = OSUB[OR.sub].mem;
+  document.querySelectorAll("#or-thumbs button").forEach(b => {
+    const m = b.dataset.m, svg = b.querySelector("svg"), W = 96, Hh = 86;
+    svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`);
+    svg.innerHTML = renderOrb({ W, H: Hh, M: OR.M, meshes: [{ mesh: meshFor(OR.sub, m, "lo"), op: 1, cull: true }], phase: OR.phase, axes: true, labels: false, S: (Hh / 2 - 4) / (AXLEN * 0.95) });
+    b.setAttribute("aria-pressed", m === OR.mem);
+  });
+  $("or-thumbs").className = "thumbs" + (mem.length === 3 ? " t3" : "");
+}
+function orInfo(){
+  const sub = OR.sub, n = +sub[0], l = sub[1];
+  const cnt = { s: 1, p: 3, d: 5 }[l];
+  let s = `<p><b>${orbHTML(sub, OR.mem)}</b>: ${MEMDESC[OR.mem]}</p>`;
+  if (l === "s") s += `<p>Every s subshell has one orbital. ${sub === "1s" ? "1s is the smallest, closest to the nucleus." : `${sub} is larger than ${["", "", "1s", "1s and 2s", "1s, 2s and 3s"][n]}: its electrons are, on average, further from the nucleus.`}</p>`;
+  if (l === "p") s += `<p>A p subshell has three orbitals, p<sub>x</sub>, p<sub>y</sub> and p<sub>z</sub>, at right angles along the three axes. In an isolated atom all three have the same energy. ${sub === "2p" ? "There is no 1p." : `${sub} is larger than ${sub === "3p" ? "2p" : "2p and 3p"}.`}</p>`;
+  if (l === "d") s += `<p>A d subshell has five orbitals. Three (d<sub>xy</sub>, d<sub>xz</sub>, d<sub>yz</sub>) have lobes between the axes; d<sub>x<sup>2</sup>−y<sup>2</sup></sub> has lobes along the x and y axes; d<sub>z<sup>2</sup></sub> has two lobes along z and a ring. All five have the same energy in an isolated atom. The first d subshell is 3d.</p>`;
+  s += `<p class="hint">Simplified drawing: each shape is a polar plot of the angular part (its distance from the nucleus in each direction is proportional to the size of the angular part in that direction), so it shows shape only. Sizes are scaled by hand to show that the orbitals get larger as n increases; they are not to scale.${OR.phase ? " Enrichment: the two colours show the sign (phase) of the angular part, which is not needed for 9476." : ""}</p>`;
+  $("or-info").innerHTML = s;
+  $("or-mem-box").hidden = cnt === 1;
+  $("or-mem-lab").textContent = `The ${cnt} orbitals of ${sub}: tap one`;
+  $("or-cmp-box").hidden = l !== "s";
+}
+function setOrb(sub, mem){
+  OR.sub = sub; const mems = OSUB[sub].mem;
+  OR.mem = mem && mems.includes(mem) ? mem : mems.includes(OR.mem) ? OR.mem : mems[mems.length - 1];
+  document.querySelectorAll("#or-sub button").forEach(b => b.setAttribute("aria-pressed", b.dataset.s === sub));
+  $("or-thumbs").innerHTML = mems.length > 1 ? mems.map(m => `<button data-m="${m}" aria-pressed="false" aria-label="${orbHTML(sub, m).replace(/<[^>]+>/g, "")}"><svg></svg><span>${orbHTML(sub, m)}</span></button>`).join("") : "";
+  document.querySelectorAll("#or-thumbs button").forEach(b => b.onclick = () => { OR.mem = b.dataset.m; drawOrb(); drawThumbs(); orInfo(); });
+  drawOrb(); drawThumbs(); orInfo(); drawLadder();
+}
+function bindOrb(){
+  $("or-sub").innerHTML = OSUB_KEYS.map(k => `<button data-s="${k}" aria-pressed="false">${k}</button>`).join("");
+  document.querySelectorAll("#or-sub button").forEach(b => b.onclick = () => setOrb(b.dataset.s));
+  $("or-cmp").onchange = e => { OR.cmp = e.target.checked; drawOrb(); };
+  $("or-phase").onchange = e => { OR.phase = e.target.checked; drawOrb(); drawThumbs(); orInfo(); };
+  $("or-after").onchange = e => { OR.after = e.target.checked; drawLadder(); };
+  $("or-reset").onclick = () => { OR.M = M_DEFAULT.slice(); drawOrb(); drawThumbs(); };
+  const svg = $("or-svg");
+  let drag = null, raf = 0;
+  const queue = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; drawOrb(); }); };
+  const rot = (dx, dy) => { OR.M = ortho(mm(mm(ry(dx), rx(dy)), OR.M)); queue(); };
+  svg.addEventListener("pointerdown", e => { drag = { x: e.clientX, y: e.clientY }; try { svg.setPointerCapture(e.pointerId); } catch (_) {} });
+  svg.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY; rot(dx * 0.011, dy * 0.011); });
+  const end = () => { if (drag){ drag = null; drawThumbs(); } };
+  svg.addEventListener("pointerup", end); svg.addEventListener("pointercancel", end);
+  svg.addEventListener("keydown", e => { const k = { ArrowLeft: [-0.15, 0], ArrowRight: [0.15, 0], ArrowUp: [0, -0.15], ArrowDown: [0, 0.15] }[e.key]; if (k){ e.preventDefault(); rot(k[0], k[1]); clearTimeout(OR.kt); OR.kt = setTimeout(drawThumbs, 250); } });
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("or-wrap").clientWidth; if (Math.abs(w - lw) > 1){ lw = w; drawOrb(); } }).observe($("or-wrap"));
+  let lw2 = 0;
+  new ResizeObserver(() => { const w = $("lad-wrap").clientWidth; if (Math.abs(w - lw2) > 1){ lw2 = w; drawLadder(); } }).observe($("lad-wrap"));
+  $("or-tab").innerHTML = H(`<tr><th>Shell, n</th><th>Subshells</th><th class="num">Orbitals</th><th class="num">Max. electrons, 2n²</th></tr>
+    <tr><td>1</td><td>1s</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td>2</td><td>2s, 2p</td><td class="num">1 + 3 = 4</td><td class="num">8</td></tr>
+    <tr><td>3</td><td>3s, 3p, 3d</td><td class="num">1 + 3 + 5 = 9</td><td class="num">18</td></tr>
+    <tr><td>4</td><td>4s, 4p, …</td><td class="num">16</td><td class="num">32</td></tr>`) ;
+  AS.setOrb = setOrb; AS.drawOrb = drawOrb; AS.rotOrb = rot;
+  setOrb("2p", "pz");
+}
+
+/* ---------- shared electrons-in-boxes drawing (energy ladder, configurations, predict) ---------- */
+// schematic relative energies (not to scale)
+const ELEV = { "1s": 0, "2s": 3.0, "2p": 3.95, "3s": 5.4, "3p": 6.2, "4s": 7.05, "3d": 7.7, "4p": 8.5 };
+const ELEV_AFTER = Object.assign({}, ELEV, { "3d": 7.05, "4s": 7.7 });
+AS.ELEV = ELEV;
+// occupancy codes for one orbital: 0 empty, 1 ↑, 2 ↑↓, 3 ↓
+function hundOcc(k, e){ return hundFill(k, e).map(v => v === 2 ? 2 : v === 1 ? 1 : 0); }
+function boxGeom(W0, Hh){
+  const W = Math.min(W0, 470), ox = (W0 - W) / 2;
+  const b = Math.round(clamp((W - 40 - 3 * 30) / 9.6, 16, 26));
+  const lw = 26, gap = Math.max(8, (W - 30 - 9 * b - 3 * lw - 2 * 4) / 3);
+  const xs = ox + 30 + lw, xp = xs + b + gap + lw, xd = xp + 3 * b + 2 * 2 + gap + lw;
+  return { b, ox, xcol: { 0: xs, 1: xp, 2: xd }, top: 24, bot: Hh - 22 };
+}
+function drawBoxes(svg, W, o){
+  o = o || {};
+  const Hh = o.H || (W < 420 ? 290 : 310), G = boxGeom(W, Hh), b = G.b, E = o.after ? ELEV_AFTER : ELEV;
+  const Y = e => G.bot - b / 2 - (e / 8.5) * (G.bot - G.top - b);
+  const occ = o.occ || {};
+  let s = "";
+  const ax = G.ox + 12;
+  s += `<line x1="${f1(ax)}" y1="${f1(G.bot)}" x2="${f1(ax)}" y2="${f1(G.top - 6)}" class="axis"/><path d="M${f1(ax)},${f1(G.top - 12)}l-4,8h8z" fill="var(--axis)"/>`;
+  s += `<text transform="translate(${f1(ax + 12)} ${f1((G.top + G.bot) / 2)}) rotate(-90)" text-anchor="middle" class="cap">energy (not to scale)</text>`;
+  const pos = {};
+  SUBS.forEach(S0 => {
+    const k = S0.k, m = S0.orbs, x0 = G.xcol[S0.l], y = Y(E[k]);
+    const hl = o.hl && o.hl.has(k);
+    s += `<text x="${f1(x0 - 6)}" y="${f1(y + 4.5)}" text-anchor="end" class="${hl ? "ebh" : "eblab"}">${k}</text>`;
+    const a = occ[k] || Array(m).fill(0);
+    for (let i = 0; i < m; i++){
+      const x = x0 + i * (b + 2), yy = y - b / 2;
+      pos[k + i] = { x, y: yy };
+      s += `<rect x="${f1(x)}" y="${f1(yy)}" width="${b}" height="${b}" class="${hl ? "boxh" : "box"}"/>`;
+      const v = a[i], xc = x + b / 2, h = b * 0.3, hd = Math.max(3.2, b * 0.17);
+      const isNew = o.nw && o.nw.k === k && o.nw.i === i;
+      const up = (xx, cls) => `<path d="M${f1(xx)},${f1(y + h)}V${f1(y - h)}M${f1(xx - hd)},${f1(y - h + hd * 1.3)}L${f1(xx)},${f1(y - h)}" class="${cls}"/>`;
+      const dn = (xx, cls) => `<path d="M${f1(xx)},${f1(y - h)}V${f1(y + h)}M${f1(xx + hd)},${f1(y + h - hd * 1.3)}L${f1(xx)},${f1(y + h)}" class="${cls}"/>`;
+      const cU = isNew && o.nw.spin === 1 ? "eln" : "el", cD = isNew && o.nw.spin === -1 ? "eln" : "el";
+      if (v === 1) s += up(xc, cU);
+      if (v === 3) s += dn(xc, cD);
+      if (v === 2) s += up(xc - b * 0.18, cU) + dn(xc + b * 0.18, cD);
+      if (o.gone && o.gone.k === k && o.gone.i === i){ const xx = v === 0 ? xc : v === 1 ? xc + b * 0.18 : xc + b * 0.18; s += o.gone.spin === 1 ? up(v === 0 ? xc : xc + b * 0.18, "elx") : dn(xx, "elx"); }
+      if (o.click) s += `<rect x="${f1(x)}" y="${f1(yy)}" width="${b}" height="${b}" class="boxt" data-k="${k}" data-i="${i}" role="button" aria-label="${k} orbital ${i + 1}"/>`;
+    }
+    if (o.rowClick) s += `<rect x="${f1(x0 - 28)}" y="${f1(y - b / 2 - 3)}" width="${f1(m * (b + 2) + 30)}" height="${b + 6}" fill="transparent" class="clickable" data-row="${k}"/>`;
+  });
+  if (o.move){
+    const a = pos[o.move.from], c = pos[o.move.to];
+    if (a && c){
+      const x1 = a.x + b / 2, y1 = a.y, x2 = c.x + b / 2, y2 = c.y;
+      const mx = (x1 + x2) / 2, my = Math.min(y1, y2) - 26;
+      s += `<path d="M${f1(x1)},${f1(y1 - 2)}Q${f1(mx)},${f1(my)} ${f1(x2)},${f1(y2 - 6)}" class="mv"/><path d="M${f1(x2)},${f1(y2 - 1)}l-5,-8l9,1z" class="mvh"/>`;
+    }
+  }
+  svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("height", Hh);
+  svg.innerHTML = s;
+}
+AS.drawBoxes = drawBoxes;
+function drawLadder(){
+  const svg = $("lad-svg"), W = Math.max(280, Math.floor($("lad-wrap").clientWidth));
+  drawBoxes(svg, W, { hl: new Set([OR.sub]), after: OR.after, rowClick: true, H: W < 420 ? 270 : 290 });
+  svg.querySelectorAll("[data-row]").forEach(r => r.addEventListener("click", () => setOrb(r.dataset.row)));
+  $("lad-note").innerHTML = OR.after
+    ? "Once the 3d orbitals hold electrons (as in Sc to Zn and their ions), 4s is the higher in energy of the two. That is why the 4s electrons are removed first when these atoms form ions. Tap a subshell to view its orbitals."
+    : "Filling order, lowest energy first: 1s &lt; 2s &lt; 2p &lt; 3s &lt; 3p &lt; 4s &lt; 3d &lt; 4p. The orbitals of one subshell have the same energy, so they sit at the same level. Schematic, not to scale. Tap a subshell to view its orbitals.";
+}
+
+/* =====================================================
+   4. CONFIGURATION BUILDER
+   ===================================================== */
+const COMMON = new Set(["1|1", "1|-1", "3|1", "4|2", "7|-3", "8|-2", "9|-1", "11|1", "12|2", "13|3", "15|-3", "16|-2", "17|-1", "19|1", "20|2",
+  "21|3", "22|2", "22|3", "23|2", "23|3", "24|2", "24|3", "25|2", "25|3", "26|2", "26|3", "27|2", "27|3", "28|2", "29|1", "29|2", "30|2", "31|3", "34|-2", "35|-1"]);
+const CF_PICKS = [[7, 0], [8, 0], [17, 0], [26, 0], [24, 0], [29, 0], [11, 1], [17, -1], [8, -2], [26, 2], [26, 3], [29, 2], [29, 1], [24, 3], [25, 2], [30, 2], [21, 3]];
+AS.CF_PICKS = CF_PICKS;
+const cloneC = c => Object.assign({}, c);
+const occOfCfg = c => { const o = {}; SUBS.forEach(s => o[s.k] = hundOcc(s.k, c[s.k])); return o; };
+const ePos = (k, e) => { const m = SUB[k].orbs; return e <= m ? { i: e - 1, spin: 1 } : { i: e - 1 - m, spin: -1 }; };
+function cfgFrames(z, q){
+  const fr = [], c = emptyCfg();
+  fr.push({ c: cloneC(c), cap: `${NAME(z)[0].toUpperCase() + NAME(z).slice(1)} has ${z} electron${z > 1 ? "s" : ""} as an atom. Start with empty orbitals and add them one at a time, lowest energy first.` });
+  for (let n = 1; n <= z; n++){
+    const S0 = SUBS.find(s => c[s.k] < s.cap), k = S0.k;
+    c[k]++;
+    const e = c[k], p = ePos(k, e), m = S0.orbs;
+    let why;
+    if (e === 1 && k === "1s") why = "1s is the lowest-energy orbital.";
+    else if (e === 1 && k === "4s") why = "3p is full. 4s is lower in energy than 3d, so 4s fills first.";
+    else if (e === 1 && k === "3d") why = "4s is full; 3d is next in energy.";
+    else if (e === 1) why = `${SUBS[S0.i - 1].k} is full; ${k} is next in energy.`;
+    else if (p.spin === -1) why = m === 1 ? `it pairs with the first ${k} electron, with opposite spin (Pauli: at most two electrons per orbital, of opposite spin).` : `every ${k} orbital already holds one electron, so it pairs up, with opposite spin (Hund, then Pauli).`;
+    else why = `it goes into an empty ${k} orbital, with the same spin as the others (Hund: singly and parallel before pairing).`;
+    fr.push({ c: cloneC(c), nw: { k, i: p.i, spin: p.spin }, cap: H(`Electron ${n} → ${k}: ${why}`) });
+  }
+  if (EXC[z]){
+    const before = cloneC(c);
+    Object.assign(c, EXC[z]);
+    const p = ePos("3d", c["3d"]);
+    fr.push({ c: cloneC(c), move: { from: "4s0", to: "3d" + p.i }, nw: { k: "3d", i: p.i, spin: p.spin },
+      cap: H(z === 24 ? `Exception: one 4s electron moves into 3d. ${cfgShort(before, z)} becomes [Ar] 3d⁵ 4s¹: 3d and 4s are close in energy, and a half-filled 3d subshell (one electron in each 3d orbital) gives the lower-energy arrangement.`
+        : `Exception: one 4s electron moves into 3d. ${cfgShort(before, z)} becomes [Ar] 3d¹⁰ 4s¹: 3d and 4s are close in energy, and a completely filled 3d subshell gives the lower-energy arrangement.`) });
+  }
+  if (q > 0){
+    for (let n = 1; n <= q; n++){
+      const k = REMOVE_ORDER.find(kk => c[kk] > 0);
+      const e = c[k], p = ePos(k, e);
+      c[k]--;
+      let why;
+      if (k === "4s" && c["3d"] > 0) why = "4s electrons are removed before 3d electrons. 4s is in the outermost shell (n = 4) and, once 3d holds electrons, 4s is the higher in energy.";
+      else if (k === "3d") why = "4s is now empty, so the next electron comes from 3d.";
+      else if (k === "4p" ) why = "4p is the outermost, highest-energy subshell.";
+      else why = `${k} is the outermost occupied subshell.`;
+      fr.push({ c: cloneC(c), gone: { k, i: p.i, spin: p.spin }, cap: H(`Charge ${chargeTxt(q)}: remove electron ${n} of ${q} from ${k}. ${why}`) });
+    }
+  }
+  if (q < 0){
+    for (let n = 1; n <= -q; n++){
+      const S0 = SUBS.find(s => c[s.k] < s.cap), k = S0.k;
+      c[k]++;
+      const p = ePos(k, c[k]);
+      fr.push({ c: cloneC(c), nw: { k, i: p.i, spin: p.spin }, cap: H(`Charge ${chargeTxt(q)}: add extra electron ${n} of ${-q}; it goes into ${k}, the lowest-energy orbital with room.`) });
+    }
+  }
+  return fr;
+}
+AS.cfgFrames = cfgFrames;
+const CF = { z: 26, q: 0, frames: [], f: 0, timer: 0 };
+AS.CF = CF;
+function cfDraw(){
+  const fr = CF.frames[CF.f], W = Math.max(280, Math.floor($("cf-wrap").clientWidth - 34));
+  drawBoxes($("cf-svg"), W, { occ: occOfCfg(fr.c), nw: fr.nw, gone: fr.gone, move: fr.move });
+  $("cf-cap").innerHTML = `<b>Step ${CF.f} of ${CF.frames.length - 1}.</b> ${fr.cap}`;
+  const done = CF.f === CF.frames.length - 1;
+  $("cf-step").disabled = done; $("cf-all").disabled = done;
+  $("cf-play").textContent = CF.timer ? "Pause" : done ? "Replay" : CF.f ? "Continue" : "Fill step by step";
+  const c = fr.c, z = CF.z, q = CF.q, ne = cfgCount(c);
+  const sp = speciesTxt(z, q);
+  $("cf-read").innerHTML = [
+    st(`Full configuration${done ? "" : " so far"}`, `<span class="cfgline">${ne ? H(cfgFull(c)) : "no electrons"}</span>`, "wide"),
+    st("Shorthand", `<span class="cfgline">${done ? (ne ? H(cfgShort(c, z)) : "no electrons") : "…"}</span>`, "wide"),
+    st("Electrons", `${ne}${done ? (q ? ` <small>= Z − charge = ${z} − (${sgnp(q)})</small>` : ` <small>= Z</small>`) : ""}`),
+    st("Unpaired electrons", `${unpaired(c)}`),
+    st("Electrons per shell", shellCounts(c).filter((x, i, a) => a.slice(i).some(Boolean)).join(", ") || "0")
+  ].join("");
+  if (done) cfNote();
+}
+function cfNote(){
+  const z = CF.z, q = CF.q, c = cfgOf(z, q), sp = H(speciesTxt(z, q));
+  const out = [];
+  if (c["3d"] > 0 && c["4s"] > 0) out.push(`Written in order of shell, so 3d comes before 4s, even though 4s filled first: ${H(cfgShort(c, z))}.`);
+  if (EXC[z] && q === 0) out.push(z === 24 ? `Chromium is an exception: [Ar] 3d⁵ 4s¹, not [Ar] 3d⁴ 4s².` : `Copper is an exception: [Ar] 3d¹⁰ 4s¹, not [Ar] 3d⁹ 4s².`);
+  if (q > 0 && z >= 21 && z <= 30){
+    const n0 = neutralCfg(z), from4s = Math.min(q, n0["4s"]), from3d = q - from4s;
+    out.push(`${H(SYM(z))} → ${sp}: ${from4s ? `remove ${from4s === 2 ? "both" : "the"} 4s electron${from4s === 2 ? "s" : ""}` : ""}${from3d ? `, then ${from3d} 3d electron${from3d > 1 ? "s" : ""}` : ""}. The 4s electrons go first, which is why ${H(cfgShort(c, z))} has no 4s electrons.`);
+  }
+  if (q < 0){ const ng = NOBLE.find(g => g === z - q); out.push(`The extra electron${q < -1 ? "s go" : " goes"} into the next orbital${q < -1 ? "s" : ""} by aufbau${ng ? `, giving the same configuration as ${NAME(ng)}` : ""}.`); }
+  if (q > 0 && z < 21){ const ng = NOBLE.find(g => g === z - q); if (ng) out.push(`Removing the outer electron${q > 1 ? "s" : ""} leaves the same configuration as ${NAME(ng)}.`); }
+  const up = unpaired(c);
+  if (up) out.push(`${up} unpaired electron${up > 1 ? "s" : ""}: by Hund's rule the electrons spread out singly over the orbitals of a subshell before pairing.`);
+  else out.push(`No unpaired electrons: every occupied orbital holds a pair.`);
+  if (q !== 0 && !COMMON.has(`${z}|${q}`)) out.push(`${sp} is not a common ion. The rules still give its configuration.`);
+  if (z - q === 0) out.push(`${sp} has no electrons at all: it is a bare proton.`);
+  $("cf-note").innerHTML = out.map(t => `<p>${H(t)}</p>`).join("");
+}
+function cfStop(){ if (CF.timer){ clearInterval(CF.timer); CF.timer = 0; } }
+function cfSet(z, q, opt){
+  cfStop();
+  CF.z = z; CF.q = clamp(q, Math.max(-3, z - 36), Math.min(3, z));
+  $("cf-z").value = z;
+  document.querySelectorAll('input[name="cf-q"]').forEach(r => { r.disabled = +r.value > z || z - +r.value > 36; r.checked = +r.value === CF.q; });
+  document.querySelectorAll("#cf-picks button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.z === z && +b.dataset.q === CF.q));
+  CF.frames = cfgFrames(z, CF.q);
+  CF.f = opt === "start" ? 0 : CF.frames.length - 1;
+  $("cf-note").innerHTML = "";
+  cfDraw();
+}
+function cfPlay(){
+  if (CF.timer){ cfStop(); cfDraw(); return; }
+  if (CF.f >= CF.frames.length - 1) CF.f = 0;
+  if (reduced()){ CF.f = CF.frames.length - 1; cfDraw(); return; }
+  CF.timer = setInterval(() => { CF.f++; if (CF.f >= CF.frames.length - 1){ CF.f = CF.frames.length - 1; cfStop(); } cfDraw(); }, 380);
+  cfDraw();
+}
+function bindCF(){
+  $("cf-z").innerHTML = EL.slice(1).map((e, i) => `<option value="${i + 1}">${i + 1} · ${e[0]} · ${e[1]}</option>`).join("");
+  $("cf-q").innerHTML = [-3, -2, -1, 0, 1, 2, 3].map(q => `<label><input type="radio" name="cf-q" value="${q}"${q === 0 ? " checked" : ""}>${q === 0 ? "0" : Math.abs(q) + (q > 0 ? "+" : MINUS)}</label>`).join("");
+  $("cf-picks").innerHTML = CF_PICKS.map(([z, q]) => `<button data-z="${z}" data-q="${q}" aria-pressed="false">${H(speciesTxt(z, q))}</button>`).join("");
+  $("cf-z").onchange = e => cfSet(+e.target.value, CF.q);
+  document.querySelectorAll('input[name="cf-q"]').forEach(r => r.onchange = () => cfSet(CF.z, +r.value));
+  document.querySelectorAll("#cf-picks button").forEach(b => b.onclick = () => cfSet(+b.dataset.z, +b.dataset.q));
+  $("cf-play").onclick = cfPlay;
+  $("cf-step").onclick = () => { cfStop(); if (CF.f < CF.frames.length - 1) CF.f++; cfDraw(); };
+  $("cf-all").onclick = () => { cfStop(); CF.f = CF.frames.length - 1; cfDraw(); };
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("cf-wrap").clientWidth; if (Math.abs(w - lw) > 1){ lw = w; cfDraw(); } }).observe($("cf-wrap"));
+  AS.cfSet = cfSet; AS.cfPlay = cfPlay;
+  cfSet(26, 0);
+}
+
+/* ---------- predict: build it / choose it ---------- */
+const CX_POOL = [[7, 0], [8, 0], [17, 0], [26, 0], [24, 0], [29, 0], [11, 1], [17, -1], [8, -2], [26, 2], [26, 3], [29, 2], [29, 1], [24, 3], [25, 2], [30, 2], [21, 3],
+  [19, 0], [20, 0], [31, 0], [16, -2], [12, 2], [23, 0], [28, 2], [27, 0], [22, 0], [15, 0], [13, 3], [35, -1], [6, 0], [25, 0], [30, 0], [33, 0]];
+AS.CX_POOL = CX_POOL;
+const CX = { mode: "build", sp: null, occ: null, core: 0, done: false, right: 0, tried: 0, opts: null, hist: [] };
+AS.CX = CX;
+const cxFmt = (c, z) => z <= 10 ? cfgFull(c) : cfgShort(c, z);
+// wrong configurations that students commonly write, each with its reason
+function cxDistractors(z, q){
+  const right = cfgOf(z, q), rs = cxFmt(right, z), out = [], seen = new Set([rs]);
+  const add = (c, why) => { if (!c || cfgCount(c) < 0) return; const s = cxFmt(c, z); if (!s || seen.has(s)) return; seen.add(s); out.push({ s, why }); };
+  const sp = speciesTxt(z, q);
+  const co = (zz, qq) => zz - qq >= 0 && zz - qq <= 36 ? cfgOf(zz, qq) : null;
+  if (q > 0 && z >= 21 && z <= 30){
+    const c = neutralCfg(z); for (let i = 0; i < q; i++){ if (c["3d"] > 0) c["3d"]--; else c["4s"]--; }
+    add(c, `electrons were removed from 3d before 4s. The 4s electrons are removed first.`);
+    const c2 = neutralCfg(z); let left = q; const t = Math.min(1, c2["4s"]); c2["4s"] -= t; left -= t; c2["3d"] -= Math.min(left, c2["3d"]);
+    add(c2, `only one 4s electron was removed before taking 3d electrons; both 4s electrons go first.`);
+  }
+  if (EXC[z]){
+    const c = aufbauAdd(emptyCfg(), z); for (let i = 0; i < q; i++) removeOne(c);
+    add(c, z === 24 ? `this ignores the exception: chromium is [Ar] 3d⁵ 4s¹.` : `this ignores the exception: copper is [Ar] 3d¹⁰ 4s¹.`);
+  }
+  if (q === 0 && z >= 19 && z <= 30 && !EXC[z]){
+    const c = neutralCfg(z), m = c["4s"]; c["4s"] = 0; c["3d"] += m;
+    if (c["3d"] <= 10) add(c, `4s fills before 3d, because 4s is lower in energy for an atom being built up.`);
+  }
+  if (q !== 0 && z - (-q) >= 0 && -q <= Math.min(3, z)) add(co(z, -q), `this ${q > 0 ? "adds" : "removes"} electrons. A ${q > 0 ? "positive" : "negative"} charge means ${q > 0 ? "fewer" : "more"} electrons than protons: ${z} − (${sgnp(q)}) = ${z - q}.`);
+  if (q === 0) add(co(z, 1), `this has ${z - 1} electrons. A neutral atom has as many electrons as protons: ${z}.`);
+  {
+    // one electron moved out of the outermost s subshell into the next subshell: the s subshell fills first
+    const c = cloneC(right), sk = ["4s", "3s", "2s", "1s"].find(k => c[k] > 0);
+    if (sk){ const nx = SUBS.slice(SUB[sk].i + 1).find(s => c[s.k] < s.cap); if (nx){ c[sk]--; c[nx.k]++; add(c, `${sk} is lower in energy than ${nx.k}, so ${sk} takes its two electrons before any go into ${nx.k}.`); } }
+  }
+  if (z > 30 && right["3d"] === 10){ const c = cloneC(right); c["3d"] = 0; add(c, `the ten 3d electrons are missing. From gallium onwards the 3d subshell is full: [Ar] 3d¹⁰ 4s² …`); }
+  if (z - q - 2 >= 1) add(co(z, q + 2), `this has ${z - q - 2} electrons; ${sp} has ${z - q}.`);
+  if (z - q - 1 >= 1) add(co(z, q + 1), `this has ${z - q - 1} electrons; ${sp} has ${z - q}.`);
+  add(co(z, q - 1), `this has ${z - q + 1} electrons; ${sp} has ${z - q}.`);
+  return out;
+}
+AS.cxDistractors = cxDistractors;
+function cxNew(){
+  let sp; do { sp = pick(CX_POOL); } while (CX.sp && sp.join() === CX.sp.join());
+  CX.sp = sp; CX.done = false;
+  const [z, q] = sp;
+  $("cx-fb").hidden = true;
+  $("cx-q").innerHTML = CX.mode === "build" ? `Fill in the boxes for ${H(speciesTxt(z, q))} (${NAME(z)}${q ? ", charge " + chargeTxt(q) : ", a neutral atom"}).`
+    : `What is the electronic configuration of ${H(speciesTxt(z, q))}?`;
+  if (CX.mode === "build"){
+    const core = CORES.filter(g => g < z && g <= z - q).pop() || 0;
+    CX.core = core;
+    CX.occ = core ? occOfCfg(neutralCfg(core)) : occOfCfg(emptyCfg());
+    $("cx-help").innerHTML = `Tap a box to cycle it: empty → ↑ → ↑↓ → ↓ → empty.${core ? ` The [${SYM(core)}] core is filled in for you.` : ""} Then press Check.`;
+    cxDraw();
+  } else {
+    const right = cfgOf(z, q);
+    CX.opts = shuffle([{ s: cxFmt(right, z), ok: true }].concat(shuffle(cxDistractors(z, q)).slice(0, 3)));
+    $("cx-help").innerHTML = "Pick the configuration. Shorthand uses [Ne] for sodium to argon and [Ar] for potassium to krypton; up to neon, configurations are written in full.";
+    $("cx-opts").innerHTML = CX.opts.map((o, i) => `<button class="opt" data-i="${i}"><b>${"ABCD"[i]}</b><span class="cfgline">${H(o.s)}</span></button>`).join("");
+    $("cx-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => cxChoose(+b.dataset.i, b));
+  }
+  $("cx-wrap").hidden = CX.mode !== "build"; $("cx-brow").hidden = CX.mode !== "build"; $("cx-opts").hidden = CX.mode === "build";
+}
+function cxDraw(){
+  const svg = $("cx-svg"), W = Math.max(280, Math.floor($("cx-wrap").clientWidth));
+  drawBoxes(svg, W, { occ: CX.occ, click: !CX.done });
+  svg.querySelectorAll(".boxt").forEach(r => r.addEventListener("click", () => { if (CX.done) return; const a = CX.occ[r.dataset.k], i = +r.dataset.i; a[i] = (a[i] + 1) % 4; cxDraw(); }));
+}
+const elecOf = v => v === 2 ? 2 : v ? 1 : 0;
+function cxEval(z, q, occ){
+  const target = cfgOf(z, q), errs = [];
+  const mine = {}; SUBS.forEach(s => mine[s.k] = occ[s.k].reduce((t, v) => t + elecOf(v), 0));
+  const tot = SUBS.reduce((t, s) => t + mine[s.k], 0), need = z - q;
+  const countsOk = SUBS.every(s => mine[s.k] === target[s.k]);
+  if (tot !== need) errs.push(`You have ${tot} electron${tot === 1 ? "" : "s"}; ${speciesTxt(z, q)} has ${z} − (${sgnp(q)}) = ${need}.`);
+  if (!countsOk){
+    if (q > 0 && target["4s"] === 0 && mine["4s"] > 0 && z >= 21) errs.push(`For ions of Sc to Zn the 4s electrons are removed before the 3d electrons, so 4s should be empty here.`);
+    else if (EXC[z] && q === 0 && mine["4s"] === 2) errs.push(`${NAME(z)[0].toUpperCase() + NAME(z).slice(1)} is an exception: one 4s electron moves into 3d.`);
+    else if (tot === need) errs.push(`The number of electrons is right but some are in the wrong subshell. Fill in order of energy: 1s 2s 2p 3s 3p 4s 3d 4p${q > 0 ? ", then remove electrons from the outermost shell first" : ""}.`);
+  }
+  SUBS.forEach(s => {
+    const a = occ[s.k];
+    if (a.some(v => v === 2) && a.some(v => v === 0)) errs.push(`Hund's rule in ${s.k}: put one electron in each ${s.k} orbital before pairing any.`);
+    const singles = a.filter(v => v === 1 || v === 3);
+    if (singles.includes(1) && singles.includes(3)) errs.push(`In ${s.k}, the singly occupied orbitals should have parallel spins (all ↑).`);
+  });
+  return { ok: errs.length === 0, errs, target };
+}
+AS.cxEval = cxEval;
+function cxCheck(){
+  const [z, q] = CX.sp, r = cxEval(z, q, CX.occ), fb = $("cx-fb");
+  if (!CX.done){ CX.tried++; if (r.ok) CX.right++; }
+  fb.className = "fb " + (r.ok ? "ok" : "no");
+  fb.innerHTML = r.ok ? `<p>Correct: ${H(speciesTxt(z, q))} is ${H(cxFmt(r.target, z))}${z > 10 ? ` (${H(cfgFull(r.target))})` : ""}.</p>`
+    : `<p>Not yet.</p><ul>${r.errs.map(e => `<li>${H(e)}</li>`).join("")}</ul>`;
+  fb.hidden = false;
+  if (r.ok){ CX.done = true; cxDraw(); }
+  $("cx-score").textContent = `Score ${CX.right} / ${CX.tried}`;
+}
+function cxShow(){
+  const [z, q] = CX.sp, t = cfgOf(z, q);
+  CX.occ = occOfCfg(t);
+  if (!CX.done){ CX.tried++; CX.done = true; }
+  cxDraw();
+  const fb = $("cx-fb");
+  fb.className = "fb info";
+  fb.innerHTML = `<p>${H(speciesTxt(z, q))}: ${H(cfgFull(t) || "no electrons")}${z > 10 ? `, or ${H(cfgShort(t, z))}` : ""}.</p>` + (q > 0 && z >= 21 && z <= 30 ? `<p>The 4s electrons are removed first.</p>` : "") + (EXC[z] && q === 0 ? `<p>${NAME(z)[0].toUpperCase() + NAME(z).slice(1)} is an exception.</p>` : "");
+  fb.hidden = false;
+  $("cx-score").textContent = `Score ${CX.right} / ${CX.tried}`;
+}
+function cxChoose(i, btn){
+  if (CX.done) return; CX.done = true;
+  const o = CX.opts[i], [z, q] = CX.sp;
+  CX.tried++; if (o.ok) CX.right++;
+  $("cx-opts").querySelectorAll(".opt").forEach(x => { x.disabled = true; if (CX.opts[+x.dataset.i].ok) x.classList.add("right"); });
+  if (!o.ok) btn.classList.add("wrong");
+  const t = cfgOf(z, q), fb = $("cx-fb");
+  fb.className = "fb " + (o.ok ? "ok" : "no");
+  fb.innerHTML = `<p>${o.ok ? "Correct." : "Not quite: " + H(o.why)} ${H(speciesTxt(z, q))} is ${H(cfgFull(t) || "no electrons")}${z > 10 ? `, or ${H(cfgShort(t, z))}` : ""}.</p><ul>${CX.opts.filter(x => !x.ok && x !== o).map(x => `<li>${H(x.s)} is wrong: ${H(x.why)}</li>`).join("")}</ul>`;
+  fb.hidden = false;
+  $("cx-score").textContent = `Score ${CX.right} / ${CX.tried}`;
+}
+function bindCX(){
+  document.querySelectorAll('input[name="cx-mode"]').forEach(r => r.onchange = () => { CX.mode = r.value; cxNew(); });
+  $("cx-next").onclick = cxNew; $("cx-check").onclick = cxCheck; $("cx-clear").onclick = () => { if (CX.done) return; CX.occ = CX.core ? occOfCfg(neutralCfg(CX.core)) : occOfCfg(emptyCfg()); cxDraw(); $("cx-fb").hidden = true; };
+  $("cx-show").onclick = cxShow;
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("cx-wrap").clientWidth; if (w && Math.abs(w - lw) > 1){ lw = w; if (CX.mode === "build" && CX.occ) cxDraw(); } }).observe($("cx-wrap"));
+  AS.cxNew = cxNew; AS.cxCheck = cxCheck; AS.cxShow = cxShow; AS.cxDraw = cxDraw;
+  AS.cxSetSpecies = (z, q) => { CX.sp = [z, q]; const core = CORES.filter(g => g < z && g <= z - q).pop() || 0; CX.core = core; CX.done = false; CX.occ = core ? occOfCfg(neutralCfg(core)) : occOfCfg(emptyCfg()); $("cx-q").innerHTML = `Fill in the boxes for ${H(speciesTxt(z, q))}.`; cxDraw(); };
+  cxNew();
+}
+
+/* =====================================================
+   5. FIRST IONISATION ENERGIES
+   ===================================================== */
+const CAP = s => s[0].toUpperCase() + s.slice(1);
+const PAIRS = [
+  { a: 2, b: 3, subs: ["1s", "2s"], f: "(2), (3)",
+    t: "Lithium's outer electron is in the 2s orbital, in a new shell further from the nucleus than helium's 1s electrons, and it is shielded by the two 1s electrons. Helium's electrons are in the first shell, close to the nucleus, with no inner electrons to shield them. The greater distance and shielding outweigh lithium's larger nuclear charge (3 protons against 2), so much less energy is needed." },
+  { a: 4, b: 5, subs: ["2s", "2p"], f: "(4)",
+    t: "Beryllium loses a 2s electron; boron loses a 2p electron. A 2p electron is higher in energy than a 2s electron and is partly shielded by the 2s electrons, so it is easier to remove, even though boron has one more proton." },
+  { a: 7, b: 8, subs: ["2s", "2p"], f: "(5)",
+    t: "Nitrogen is 2p³, with one electron in each 2p orbital. Oxygen is 2p⁴, so one 2p orbital holds a pair. The repulsion between the two electrons in the same orbital makes one of them easier to remove, which outweighs oxygen's extra proton." },
+  { a: 10, b: 11, subs: ["2s", "2p", "3s"], f: "(2), (3)",
+    t: "Sodium's outer electron is in 3s, in a new shell further from the nucleus, and it is shielded by the ten inner electrons (1s² 2s² 2p⁶). Neon's electron is removed from 2p, in the second shell, close to the nucleus. Distance and shielding outweigh sodium's larger nuclear charge." },
+  { a: 12, b: 13, subs: ["3s", "3p"], f: "(4)",
+    t: "Magnesium loses a 3s electron; aluminium loses a 3p electron, which is higher in energy and partly shielded by the 3s electrons. The same pattern as beryllium to boron." },
+  { a: 15, b: 16, subs: ["3s", "3p"], f: "(5)",
+    t: "Phosphorus is 3p³, with one electron in each 3p orbital; sulfur is 3p⁴, with one pair. Repulsion between the paired electrons makes one of them easier to remove. The same pattern as nitrogen to oxygen. (The Data Booklet gives P as 1060 kJ mol⁻¹; the literature value is 1012 kJ mol⁻¹. The dip from P to S is there either way.)" },
+  { a: 18, b: 19, subs: ["3s", "3p", "4s"], f: "(2), (3)",
+    t: "Potassium's outer electron is in 4s, in a new shell further from the nucleus, and it is shielded by the 18 inner electrons. Argon's electron is removed from 3p. The same pattern as neon to sodium." }
+];
+AS.PAIRS = PAIRS;
+const FACTORS = [
+  "Nuclear charge: the number of protons. More protons attract the electrons more strongly.",
+  "Distance of the electron from the nucleus: which shell it is in (atomic radius). Further away, weaker attraction.",
+  "Shielding by inner-shell electrons, which repel the outer electron and reduce the attraction it feels.",
+  "A p electron is higher in energy than an s electron of the same shell, and is partly shielded by the s electrons (the dips at boron and aluminium).",
+  "Repulsion between two electrons paired in the same orbital (the dips at oxygen and sulfur)."
+];
+const IE = { sel: 11, pair: null, tab: "per", g: 1 };
+AS.IE = IE;
+function aboveInGroup(z){ const g = groupOf(z); for (let y = z - 1; y >= 2; y--) if (groupOf(y) === g && (y >= 3 || g === 18)) return y; return 0; }
+function ieExplain(z){
+  const v = IE1[z], lit = IE1LIT(z), c = neutralCfg(z), rk = removalSeq(z)[0], n = +rk[0], g = groupOf(z);
+  const nm = CAP(NAME(z)), sym = SYM(z);
+  let s = `<p><b>${nm} (${sym}), Z = ${z}</b>: first ionisation energy ${v} kJ mol⁻¹ <span class="hint">(${lit ? "literature value, not in the Data Booklet" : "Data Booklet"})</span></p>`;
+  s += `<p class="eqline">${sym}(g) → ${sym}⁺(g) + e⁻ &nbsp;&nbsp; ΔH = +${v} kJ mol⁻¹</p>`;
+  s += `<p>Configuration ${cfgShort(c, z)}; the electron removed is a ${rk} electron.</p>`;
+  if (z > 1){
+    const p = z - 1, pv = IE1[p], pn = NAME(p), cmp = `${v > pv ? "Higher" : "Lower"} than ${pn} (${pv})`;
+    let t;
+    if (z === 2) t = `Higher than hydrogen (1310): helium's nuclear charge is +2 instead of +1, both electrons are in the same 1s orbital at about the same distance from the nucleus, and there are no inner electrons to shield them.`;
+    else if (g === 1) t = `Much lower than ${pn} (${pv}): the electron removed is in a new shell, n = ${n}, further from the nucleus and shielded by ${z - 1} inner electrons. The greater distance and shielding outweigh the larger nuclear charge.`;
+    else if (g === 13) t = `${cmp}: the electron removed is a ${n}p electron, higher in energy than the ${n}s electrons and partly shielded by them, so it is easier to remove even though the nuclear charge is larger.`;
+    else if (g === 16) t = `${cmp}: ${sym} is ${n}p⁴, so one ${n}p orbital holds a pair of electrons. Repulsion between the two paired electrons makes one of them easier to remove. In ${SYM(p)} (${n}p³) each ${n}p orbital holds one electron.`;
+    else if (z >= 21 && z <= 30) t = `${FEX}${cmp}: from scandium to zinc a 4s electron is removed each time. Each extra proton is largely offset by the extra 3d electron, which lies mostly closer to the nucleus than 4s and shields it, so the first ionisation energy changes only a little.${z === 30 ? " Zinc's noticeably higher value needs more than this simple picture." : ""}`;
+    else t = `${cmp}: one more proton, so a larger nuclear charge. The electron is removed from the same shell (n = ${n}), at about the same distance, and the shielding by inner electrons is about the same, so it is held more strongly.`;
+    s += `<p>${t}</p>`;
+  }
+  const a = aboveInGroup(z);
+  if (a && !(z >= 21 && z <= 30)){
+    if (IE1[z] < IE1[a]) s += `<p>Down Group ${g}: lower than ${NAME(a)} (${IE1[a]}) above it. ${sym}'s outer electron is in a shell further from the nucleus, with more inner shells shielding it; this outweighs the larger nuclear charge.</p>`;
+    else if (IE1[z] === IE1[a]) s += `<p>About the same as ${NAME(a)} above it in Group ${g} (${IE1[z]} for both), not lower. ${FEX}Gallium has ten more protons than it would without the 3d block, and the ten 3d electrons shield the outer 4p electron poorly, so the extra nuclear charge offsets the larger distance.</p>`;
+  }
+  if (z === 15) s += `<p class="hint">The Data Booklet gives 1060 kJ mol⁻¹ for phosphorus; the literature value is 1012 kJ mol⁻¹. The graph uses the Data Booklet value.</p>`;
+  return H(s);
+}
+AS.ieExplain = ieExplain;
+function ieGeom(){
+  const W = Math.max(280, Math.floor($("ie-wrap").clientWidth - 34)), Hh = W < 520 ? 290 : 330;
+  const ml = 50, mr = 10, mt = 24, mb = 40, pw = W - ml - mr, ph = Hh - mt - mb;
+  return { W, Hh, ml, mt, pw, ph, X: z => ml + (z - 0.5) / 36 * pw, Y: v => mt + ph * (1 - v / 2600) };
+}
+function drawIE(){
+  const G = ieGeom(), svg = $("ie-svg"), small = G.W < 520;
+  let s = "";
+  [[1, 2, "1"], [3, 10, "Period 2"], [11, 18, "Period 3"], [19, 36, "Period 4"]].forEach(([a, b, l], i) => {
+    const x0 = G.X(a) - G.pw / 72, x1 = G.X(b) + G.pw / 72;
+    if (i % 2 === 1) s += `<rect x="${f1(x0)}" y="${G.mt}" width="${f1(x1 - x0)}" height="${G.ph}" class="pband"/>`;
+    s += `<text x="${f1((x0 + x1) / 2)}" y="${G.mt - 8}" text-anchor="middle" class="pbandl">${l}</text>`;
+  });
+  [0, 500, 1000, 1500, 2000, 2500].forEach(v => { s += `<line x1="${G.ml}" y1="${f1(G.Y(v))}" x2="${f1(G.ml + G.pw)}" y2="${f1(G.Y(v))}" class="grid"/><text x="${G.ml - 6}" y="${f1(G.Y(v) + 4)}" text-anchor="end" class="tick">${v}</text>`; });
+  s += `<line x1="${G.ml}" y1="${G.mt + G.ph}" x2="${G.ml + G.pw}" y2="${G.mt + G.ph}" class="axis"/>`;
+  [1, 5, 10, 15, 20, 25, 30, 35].forEach(z => { s += `<line x1="${f1(G.X(z))}" y1="${G.mt + G.ph}" x2="${f1(G.X(z))}" y2="${G.mt + G.ph + 4}" class="axis"/><text x="${f1(G.X(z))}" y="${G.mt + G.ph + 16}" text-anchor="middle" class="tick">${z}</text>`; });
+  s += `<text x="${f1(G.ml + G.pw / 2)}" y="${G.Hh - 4}" text-anchor="middle" class="axlab">proton number, Z</text>`;
+  s += `<text transform="translate(12 ${f1(G.mt + G.ph / 2)}) rotate(-90)" text-anchor="middle" class="axlab">${svgChem("first IE / kJ mol⁻¹", 11.5)}</text>`;
+  // line: dashed where a literature value is involved
+  for (let z = 1; z < 36; z++){
+    const cls = IE1LIT(z) || IE1LIT(z + 1) ? "ieline2" : "ieline";
+    s += `<line x1="${f1(G.X(z))}" y1="${f1(G.Y(IE1[z]))}" x2="${f1(G.X(z + 1))}" y2="${f1(G.Y(IE1[z + 1]))}" class="${cls}"/>`;
+  }
+  const hl = new Set(IE.pair ? [IE.pair.a, IE.pair.b] : [IE.sel]);
+  if (IE.pair){ const a = IE.pair.a, b = IE.pair.b; s += `<line x1="${f1(G.X(a))}" y1="${f1(G.Y(IE1[a]))}" x2="${f1(G.X(b))}" y2="${f1(G.Y(IE1[b]))}" stroke="var(--s2)" stroke-width="3.5" stroke-linecap="round"/>`; }
+  const r = small ? 3.3 : 4;
+  for (let z = 1; z <= 36; z++){
+    s += `<circle cx="${f1(G.X(z))}" cy="${f1(G.Y(IE1[z]))}" r="${r}" class="${IE1LIT(z) ? "ieopen" : "iept"}"/>`;
+    if (hl.has(z)) s += `<circle cx="${f1(G.X(z))}" cy="${f1(G.Y(IE1[z]))}" r="${r + 4}" class="iesel"/>`;
+  }
+  const lab = new Set([2, 10, 18, 36, 3, 11, 19]); hl.forEach(z => lab.add(z));
+  lab.forEach(z => {
+    const below = groupOf(z) === 1 || (groupOf(z) === 13) || groupOf(z) === 16;
+    const y = below ? G.Y(IE1[z]) + 17 : G.Y(IE1[z]) - 9;
+    s += `<text x="${f1(G.X(z))}" y="${f1(y)}" text-anchor="middle" class="${hl.has(z) ? "lblb" : "lbl"} halo">${SYM(z)}</text>`;
+  });
+  for (let z = 1; z <= 36; z++){ const w = G.pw / 36; s += `<rect x="${f1(G.X(z) - w / 2)}" y="${G.mt}" width="${f1(w)}" height="${G.ph}" class="iehit" data-z="${z}"/>`; }
+  svg.setAttribute("viewBox", `0 0 ${G.W} ${G.Hh}`); svg.setAttribute("height", G.Hh);
+  svg.innerHTML = s;
+  svg.querySelectorAll(".iehit").forEach(h => h.addEventListener("click", () => ieSelect(+h.dataset.z)));
+}
+function miniBoxes(z, subs, W){
+  const c = neutralCfg(z), rk = removalSeq(z)[0], b = 20;
+  let x = 66, s = `<text x="0" y="22" class="ebh">${SYM(z)}</text><text x="0" y="38" class="cap">${IE1[z]}</text>`;
+  subs.forEach(k => {
+    const m = SUB[k].orbs, occ = hundOcc(k, c[k]), pe = ePos(k, c[k]);
+    s += `<text x="${f1(x + (m * (b + 2) - 2) / 2)}" y="10" text-anchor="middle" class="eblab">${k}</text>`;
+    for (let i = 0; i < m; i++){
+      const xx = x + i * (b + 2), y = 26, h = 6, hd = 3.4, xc = xx + b / 2;
+      s += `<rect x="${xx}" y="16" width="${b}" height="${b}" class="box"/>`;
+      const isR = k === rk && c[k] > 0 && i === pe.i;
+      const up = (q, cl) => `<path d="M${f1(q)},${y + h}V${y - h}M${f1(q - hd)},${f1(y - h + hd * 1.3)}L${f1(q)},${y - h}" class="${cl}"/>`;
+      const dn = (q, cl) => `<path d="M${f1(q)},${y - h}V${y + h}M${f1(q + hd)},${f1(y + h - hd * 1.3)}L${f1(q)},${y + h}" class="${cl}"/>`;
+      if (occ[i] === 1) s += up(xc, isR ? "eln" : "el");
+      if (occ[i] === 2) s += up(xc - 4, "el") + dn(xc + 4, isR && pe.spin === -1 ? "eln" : "el");
+    }
+    x += m * (b + 2) + 14;
+  });
+  return { s, w: x };
+}
+function ieShowPair(P){
+  const W = 320, A = miniBoxes(P.a, P.subs, W), B = miniBoxes(P.b, P.subs, W), w = Math.max(A.w, B.w) + 4;
+  const svg = `<svg viewBox="0 0 ${f1(w)} 100" style="display:block;width:100%;max-width:${f1(w * 1.25)}px" role="img" aria-label="Electrons in boxes for ${NAME(P.a)} and ${NAME(P.b)}"><g>${A.s}</g><g transform="translate(0 52)">${B.s}</g></svg>`;
+  $("ie-fb").innerHTML = H(`<p><b>${CAP(NAME(P.a))} → ${NAME(P.b)}</b>: ${IE1[P.a]} → ${IE1[P.b]} kJ mol⁻¹ <span class="pill">factor${P.f.includes(",") ? "s" : ""} <span class="nc">${P.f}</span></span></p>`) +
+    `<div>${svg}</div><p class="hint" style="margin:0">The electron removed on ionisation is shown in orange.</p><p style="margin:0">${H(P.t)}</p>`;
+}
+function ieSelect(z){
+  IE.sel = z; IE.pair = null;
+  document.querySelectorAll("#ie-pairs button").forEach(b => b.setAttribute("aria-pressed", "false"));
+  $("ie-fb").innerHTML = ieExplain(z);
+  drawIE();
+}
+function iePair(k){
+  const P = PAIRS[k]; IE.pair = P;
+  document.querySelectorAll("#ie-pairs button").forEach(b => b.setAttribute("aria-pressed", +b.dataset.k === k));
+  ieShowPair(P); drawIE();
+}
+const GRP = { 1: [["Li", 519], ["Na", 494], ["K", 418], ["Rb", 403], ["Cs", 376]], 2: [["Be", 900], ["Mg", 736], ["Ca", 590], ["Sr", 548], ["Ba", 502]] };
+AS.GRP = GRP;
+const GNAME = { Rb: "rubidium", Sr: "strontium", Cs: "caesium", Ba: "barium" };
+function drawGrp(){
+  const svg = $("ig-svg"), W = Math.max(280, Math.floor($("ig-wrap").clientWidth - 34)), Hh = 250, L = GRP[IE.g];
+  const ml = 44, mb = 46, mt = 16, pw = W - ml - 10, ph = Hh - mt - mb, max = 1000;
+  const Y = v => mt + ph * (1 - v / max);
+  let s = "";
+  [0, 250, 500, 750, 1000].forEach(v => { s += `<line x1="${ml}" y1="${f1(Y(v))}" x2="${ml + pw}" y2="${f1(Y(v))}" class="grid"/><text x="${ml - 6}" y="${f1(Y(v) + 4)}" text-anchor="end" class="tick">${v}</text>`; });
+  const bw = Math.min(54, pw / L.length * 0.6);
+  L.forEach(([sym, v], i) => {
+    const cx = ml + (i + 0.5) * pw / L.length;
+    s += `<rect x="${f1(cx - bw / 2)}" y="${f1(Y(v))}" width="${f1(bw)}" height="${f1(Y(0) - Y(v))}" rx="3" class="bar" opacity="${(1 - i * 0.12).toFixed(2)}"/>`;
+    s += `<text x="${f1(cx)}" y="${f1(Y(v) - 6)}" text-anchor="middle" class="bv">${v}</text>`;
+    s += `<text x="${f1(cx)}" y="${f1(Y(0) + 16)}" text-anchor="middle" class="lblb">${sym}</text><text x="${f1(cx)}" y="${f1(Y(0) + 30)}" text-anchor="middle" class="cap">n = ${i + 2}</text>`;
+  });
+  s += `<text transform="translate(12 ${f1(mt + ph / 2)}) rotate(-90)" text-anchor="middle" class="axlab">${svgChem("first IE / kJ mol⁻¹", 11.5)}</text>`;
+  s += `<line x1="${ml}" y1="${f1(Y(0))}" x2="${ml + pw}" y2="${f1(Y(0))}" class="axis"/>`;
+  svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("height", Hh);
+  svg.innerHTML = s;
+  const nm = L.map(([sym]) => ZOF[sym] ? NAME(ZOF[sym]) : GNAME[sym]);
+  $("ig-note").innerHTML = H(`<p>Down Group ${IE.g}, from ${nm[0]} to ${nm[4]}, the first ionisation energy decreases: ${L.map(x => x[1]).join(" → ")} kJ mol⁻¹.</p><p>The nuclear charge increases, but each element has one more shell: the outer electron${IE.g === 2 ? "s are" : " is"} further from the nucleus and shielded by more inner shells. The greater distance and shielding outweigh the larger nuclear charge, so the outer electron is easier to remove.</p><p class="hint">n is the shell the outer ${IE.g === 1 ? "s electron" : "s electrons"} occupy. Rb, Sr, Cs and Ba are beyond Z = 36; only their first ionisation energies are used here.</p>`);
+}
+function bindIE(){
+  $("ie-pairs").innerHTML = PAIRS.map((P, k) => `<button data-k="${k}" aria-pressed="false">${SYM(P.a)} → ${SYM(P.b)}</button>`).join("");
+  document.querySelectorAll("#ie-pairs button").forEach(b => b.onclick = () => iePair(+b.dataset.k));
+  $("ie-factors").innerHTML = H(`<p><b>Factors that affect ionisation energy</b></p><ol style="margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:3px">${FACTORS.map(f => `<li>${f}</li>`).join("")}</ol><p style="margin-top:8px">Across a period: nuclear charge increases, electrons go into the same shell and shielding stays roughly constant, so the general trend is upwards, with dips at Groups 13 and 16. Down a group: ionisation energy decreases.</p>`);
+  $("ie-legend").innerHTML = `<span><i class="lkey" style="background:var(--s1)"></i>Data Booklet value</span><span><i class="lkey" style="border:2px solid var(--s1);background:var(--surface)"></i>literature value, not in the Data Booklet (As, Se, Kr)</span>`;
+  document.querySelectorAll("#ie-tabs button").forEach(b => b.onclick = () => {
+    IE.tab = b.dataset.t;
+    document.querySelectorAll("#ie-tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+    $("ie-per").hidden = IE.tab !== "per"; $("ie-grp").hidden = IE.tab !== "grp";
+    if (IE.tab === "per") drawIE(); else drawGrp();
+  });
+  document.querySelectorAll('input[name="ie-g"]').forEach(r => r.onchange = () => { IE.g = +r.value; drawGrp(); });
+  $("ie-svg").addEventListener("keydown", e => {
+    const d = { ArrowLeft: -1, ArrowRight: 1 }[e.key]; if (!d) return; e.preventDefault();
+    ieSelect(clamp((IE.pair ? IE.pair.b : IE.sel) + d, 1, 36));
+  });
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("ie-wrap").clientWidth; if (w && Math.abs(w - lw) > 1){ lw = w; drawIE(); } }).observe($("ie-wrap"));
+  let lw2 = 0;
+  new ResizeObserver(() => { const w = $("ig-wrap").clientWidth; if (w && Math.abs(w - lw2) > 1){ lw2 = w; drawGrp(); } }).observe($("ig-wrap"));
+  AS.ieSelect = ieSelect; AS.iePair = iePair; AS.drawGrp = drawGrp;
+  iePair(1);
+}
+
+/* =====================================================
+   6. SUCCESSIVE IONISATION ENERGIES
+   ===================================================== */
+const SHC = { 1: "--s3", 2: "--s1", 3: "--s2", 4: "--s4" };
+// position k of the largest ratio IE(k+1)/IE(k), 1-based: the big jump comes after the k-th electron
+function deduce(vals){ let k = 1, best = 0; for (let i = 1; i < vals.length; i++){ const r = vals[i] / vals[i - 1]; if (r > best){ best = r; k = i; } } return { k, r: best, group: k <= 2 ? k : k + 10 }; }
+const nOuter = z => { const g = groupOf(z); return g <= 2 ? g : g - 10; };
+AS.deduce = deduce; AS.nOuter = nOuter;
+function drawSucc(svg, W, data, o){
+  const Hh = W < 520 ? 290 : 320, N = data.length, shells = o.shells;
+  const ml = o.log ? 74 : 62, mr = 12, mt = W < 520 ? 38 : 30, mb = shells ? 62 : 40, pw = W - ml - mr, ph = Hh - mt - mb;
+  const X = i => ml + (i + 0.5) / N * pw;
+  const vs = data.map(d => d.v);
+  let Y, ticks;
+  if (o.log){
+    const lo = Math.floor(Math.log10(Math.min(...vs))), hi = Math.ceil(Math.log10(Math.max(...vs)) + 1e-9);
+    const top = hi === lo ? lo + 1 : hi;
+    Y = v => mt + ph * (1 - (Math.log10(v) - lo) / (top - lo));
+    ticks = []; for (let e = lo; e <= top; e++) ticks.push(10 ** e);
+  } else {
+    const mx = Math.max(...vs), stepRaw = mx / 5, mag = 10 ** Math.floor(Math.log10(stepRaw)), step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s0 => s0 >= stepRaw);
+    const top = Math.ceil(mx / step) * step;
+    Y = v => mt + ph * (1 - v / top);
+    ticks = []; for (let v = 0; v <= top + 1e-9; v += step) ticks.push(v);
+  }
+  let s = "";
+  ticks.forEach(v => { s += `<line x1="${ml}" y1="${f1(Y(v))}" x2="${ml + pw}" y2="${f1(Y(v))}" class="grid"/><text x="${ml - 6}" y="${f1(Y(v) + 4)}" text-anchor="end" class="tick">${grp(v)}</text>`; });
+  s += `<line x1="${ml}" y1="${mt + ph}" x2="${ml + pw}" y2="${mt + ph}" class="axis"/>`;
+  s += `<text transform="translate(12 ${f1(mt + ph / 2)}) rotate(-90)" text-anchor="middle" class="axlab">${svgChem(`IE / kJ mol⁻¹${o.log ? " (log scale)" : ""}`, 11.5)}</text>`;
+  if (data.some(d => d.lit)){
+    if (W < 520) s += `<text x="8" y="12" class="cap">Data Booklet values for 1st–4th;</text><text x="8" y="25" class="cap">literature values thereafter</text>`;
+    else s += `<text x="${ml}" y="14" class="cap">Data Booklet values for 1st–4th; literature values thereafter</text>`;
+  } else s += `<text x="${W < 520 ? 8 : ml}" y="14" class="cap">Data Booklet values</text>`;
+  const every = N > 14 && W < 520 ? 2 : 1;
+  data.forEach((d, i) => { if ((i + 1) % every === 0 || i === 0) s += `<text x="${f1(X(i))}" y="${mt + ph + 14}" text-anchor="middle" class="tick">${i + 1}</text>`; });
+  s += `<text x="${f1(ml + pw / 2)}" y="${Hh - 4}" text-anchor="middle" class="axlab">${shells ? "" : "number of the ionisation, n"}</text>`;
+  s += `<polyline points="${data.map((d, i) => f1(X(i)) + "," + f1(Y(d.v))).join(" ")}" fill="none" stroke="var(--axis)" stroke-width="1.5"/>`;
+  // jumps where the electron comes from a shell nearer the nucleus
+  if (shells && o.jumps !== false) for (let i = 0; i + 1 < N; i++){
+    const n1 = +shells[i][0], n2 = +shells[i + 1][0];
+    if (n2 < n1){
+      const xm = (X(i) + X(i + 1)) / 2, r = data[i + 1].v / data[i].v;
+      const ya = Y(data[i].v), yb = Y(data[i + 1].v);
+      s += `<line x1="${f1(xm)}" y1="${f1(ya - 4)}" x2="${f1(xm)}" y2="${f1(yb + 8)}" class="jump"/><path d="M${f1(xm)},${f1(yb + 2)}l-4,8h8z" class="jumph"/>`;
+      s += `<text x="${f1(xm - 5)}" y="${f1((ya + yb) / 2 + 4)}" text-anchor="end" class="jumpt halo">× ${r.toFixed(1)}</text>`;
+    }
+  }
+  data.forEach((d, i) => {
+    const col = shells ? `var(${SHC[+shells[i][0]]})` : "var(--s1)";
+    s += `<circle cx="${f1(X(i))}" cy="${f1(Y(d.v))}" r="${N > 14 ? 3.6 : 4.5}" style="${d.lit ? `fill:var(--surface);stroke:${col};stroke-width:2` : `fill:${col};stroke:var(--surface);stroke-width:1.5`}"/>`;
+  });
+  // subshell brackets under the axis
+  if (shells){
+    let i = 0; const yb = mt + ph + 24;
+    while (i < N){
+      let j = i; while (j + 1 < N && shells[j + 1] === shells[i]) j++;
+      const xa = X(i) - pw / N * 0.4, xb = X(j) + pw / N * 0.4;
+      s += `<path d="M${f1(xa)},${yb}v5H${f1(xb)}v-5" class="brk"/>`;
+      if (xb - xa > 14) s += `<text x="${f1((xa + xb) / 2)}" y="${yb + 18}" text-anchor="middle" class="lbl" style="fill:var(${SHC[+shells[i][0]]}-ink, var(--ink))">${shells[i]}</text>`;
+      i = j + 1;
+    }
+    s += `<text x="${f1(ml + pw / 2)}" y="${Hh - 2}" text-anchor="middle" class="cap">subshell the electron is removed from</text>`;
+  }
+  svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("height", Hh);
+  svg.innerHTML = s;
+}
+AS.drawSucc = drawSucc;
+const SI = { z: 13, log: true, tab: "exp" };
+AS.SI = SI;
+const SI_ELS = Object.keys(IEDB).map(Number).filter(z => z >= 2);
+function siDraw(){
+  const z = SI.z, data = succIE(z), sh = removalSeq(z).slice(0, data.length);
+  const noJ = z >= 21 && z <= 31;   // Sc–Zn and Ga: only four Data Booklet values, no clear jump
+  drawSucc($("si-svg"), Math.max(280, Math.floor($("si-wrap").clientWidth - 34)), data, { log: SI.log, shells: sh, jumps: !noJ });
+  const shellsUsed = [...new Set(sh.map(k => +k[0]))].sort((a, b) => b - a);
+  $("si-legend").innerHTML = shellsUsed.map(n => `<span><i class="lkey" style="background:var(${SHC[n]})"></i>electron from shell n = ${n}</span>`).join("") + (data.some(d => d.lit) ? `<span><i class="lkey" style="border:2px solid var(--ink-2);background:var(--surface)"></i>literature value</span>` : "");
+  const rows = data.map((d, i) => {
+    const r = i + 1 < data.length ? data[i + 1].v / data[i].v : null, jump = i + 1 < data.length && +sh[i + 1][0] < +sh[i][0];
+    return `<tr${jump && !noJ ? ' class="hl"' : ""}><td>${toSub(i + 1).replace(/^/, "IE")}</td><td class="num">${grp(d.v)}</td><td class="num">${r ? r.toFixed(2) : ""}</td><td>${sh[i]}</td><td>${d.lit ? "lit." : "DB"}</td></tr>`;
+  }).join("");
+  $("si-tab").innerHTML = H(`<tr><th></th><th class="num">kJ mol⁻¹</th><th class="num">IEₙ₊₁ ÷ IEₙ</th><th>Electron from</th><th>Source</th></tr>${rows}<tr><td colspan="5" class="hint" style="border:0">DB = Data Booklet; lit. = literature value (NIST, rounded to whole numbers here).</td></tr>`);
+  const nm = NAME(z), full = data.length === z, nO = nOuter(z), g = groupOf(z);
+  const jumps = []; for (let i = 0; i + 1 < data.length; i++) if (+sh[i + 1][0] < +sh[i][0]) jumps.push(i + 1);
+  let t = `<p><b>${CAP(nm)}</b> (${cfgShort(neutralCfg(z), z)}).</p>`;
+  t += `<p>Each successive ionisation energy is larger: the electron is removed from an ion that is more and more positive, and the remaining electrons are pulled closer to the nucleus.</p>`;
+  if (noJ){
+    if (z <= 30) t += `<p>${FEX}The first four ionisation energies of ${nm} rise fairly steadily. The 4s and 3d electrons are close in energy, so no big jump appears among these values; the Data Booklet gives only the first four.</p>`;
+    else t += `<p>The first four ionisation energies of gallium do not show a clear jump: the 4th electron comes from the 3d subshell, which is only a little lower in energy than 4s and 4p. The Data Booklet gives only these four values, so they cannot be used to find gallium's group.</p>`;
+  } else if (jumps.length){
+    t += `<p>The first big jump is between IE${toSub(jumps[0])} and IE${toSub(jumps[0] + 1)} (× ${(data[jumps[0]].v / data[jumps[0] - 1].v).toFixed(1)}): the ${["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"][jumps[0] + 1] || (jumps[0] + 1) + "th"} electron comes from a shell closer to the nucleus, with less shielding. So ${nm} has ${jumps[0]} electron${jumps[0] > 1 ? "s" : ""} in its outer shell${g <= 2 || g >= 13 ? `: Group ${g}` : ""}.${jumps.length > 1 ? ` The next big jump, after IE${toSub(jumps[1])}, marks the move into the next inner shell.` : ""}</p>`;
+    const dd = deduce(data.slice(0, jumps[1] || data.length).map(x => x.v)), dAll = deduce(data.map(x => x.v));
+    if (dAll.k !== jumps[0] && dd.k === jumps[0]) t += `<p>Over the whole set, the largest ratio is the later jump into the innermost shell (× ${dAll.r.toFixed(1)}). The group comes from the first big jump, so look for the largest ratio among the first few values.</p>`;
+  } else if (data.length > 1) t += `<p>No big jump among the values shown: all ${data.length} electrons come from the same shell${!full ? ", so there are at least " + data.length + " outer electrons" : ""}.</p>`;
+  if (!full) t += `<p class="hint">The Data Booklet gives only the first four ionisation energies for ${nm}; this lab has no further values for it.</p>`;
+  t += `<p class="hint">Within a shell, smaller steps show the subshells: for example, the last p electrons come off more easily than the s electrons of the same shell.</p>`;
+  $("si-note").innerHTML = H(t);
+}
+const GROUPS = [1, 2, 13, 14, 15, 16, 17, 18];
+const OUTCFG = ["ns¹", "ns²", "ns² np¹", "ns² np²", "ns² np³", "ns² np⁴", "ns² np⁵", "ns² np⁶"];
+const MYS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+AS.MYS = MYS;
+// how many values to show: enough to include the jump after the outer shell, between 4 and 10
+const showCount = (z, extra) => Math.min(succIE(z).length, Math.max(4, nOuter(z) + 1 + (extra || 0)));
+AS.showCount = showCount;
+const MY = { z: 0, n: 0, g: null, c: null, done: false, right: 0, tried: 0 };
+AS.MY = MY;
+function myNew(){
+  let z; do { z = pick(MYS); } while (z === MY.z);
+  Object.assign(MY, { z, n: showCount(z, Math.random() < 0.5 ? 1 : 0), g: null, c: null, done: false });
+  $("my-fb").hidden = true;
+  $("my-groups").innerHTML = GROUPS.map(g => `<button class="btn" data-g="${g}">${g}</button>`).join("");
+  $("my-cfgs").innerHTML = OUTCFG.map((c, i) => `<button class="btn" data-c="${i}">${H(c)}</button>`).join("");
+  $("my-groups").querySelectorAll("button").forEach(b => b.onclick = () => { if (MY.done) return; MY.g = +b.dataset.g; $("my-groups").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); myMaybe(); });
+  $("my-cfgs").querySelectorAll("button").forEach(b => b.onclick = () => { if (MY.done) return; MY.c = +b.dataset.c; $("my-cfgs").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); myMaybe(); });
+  myDraw();
+}
+function myDraw(){
+  const data = succIE(MY.z).slice(0, MY.n);
+  drawSucc($("my-svg"), Math.max(280, Math.floor($("my-wrap").clientWidth - 34)), data, { log: true, shells: MY.done ? removalSeq(MY.z).slice(0, MY.n) : null });
+  $("my-list").innerHTML = data.map((d, i) => `<span>${H("IE" + toSub(i + 1))} <b>${grp(d.v)}</b></span>`).join("") + `<span class="hint">kJ mol⁻¹</span>`;
+}
+function myMaybe(){
+  if (MY.g == null || MY.c == null) return;
+  MY.done = true;
+  const z = MY.z, g = groupOf(z), ci = GROUPS.indexOf(g), data = succIE(z).slice(0, MY.n), d = deduce(data.map(x => x.v));
+  const okG = MY.g === g, okC = MY.c === ci, ok = okG && okC;
+  MY.tried++; if (ok) MY.right++;
+  $("my-score").textContent = `Score ${MY.right} / ${MY.tried}`;
+  $("my-groups").querySelectorAll("button").forEach(b => { b.disabled = true; b.removeAttribute("aria-pressed"); if (+b.dataset.g === g) b.classList.add("right"); else if (+b.dataset.g === MY.g) b.classList.add("wrong"); });
+  $("my-cfgs").querySelectorAll("button").forEach(b => { b.disabled = true; b.removeAttribute("aria-pressed"); if (+b.dataset.c === ci) b.classList.add("right"); else if (+b.dataset.c === MY.c) b.classList.add("wrong"); });
+  const c = neutralCfg(z), n = +removalSeq(z)[0][0];
+  const outer = [n + "s", n + "p"].filter(k => c[k] > 0).map(k => k + toSup(c[k])).join(" ");
+  const fb = $("my-fb");
+  fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = H(`<p>${ok ? "Correct." : okG ? "The group is right; check the outer-shell configuration." : okC ? "The configuration is right; check the group." : "Not quite."} It is <b>${NAME(z)}</b>, ${cfgShort(c, z)}.</p>
+    <p>The largest jump is between IE${toSub(d.k)} and IE${toSub(d.k + 1)} (ratio ${d.r.toFixed(1)}): the first ${d.k} electron${d.k > 1 ? "s come" : " comes"} from the outer shell and the next one from a shell closer to the nucleus. ${d.k} outer electron${d.k > 1 ? "s" : ""}: Group ${g}, outer shell ${OUTCFG[ci].replace(/n/g, String(n))} (${outer}).</p>`);
+  fb.hidden = false;
+  myDraw();
+}
+const DD = { z: 0, n: 0, done: false, right: 0, tried: 0 };
+AS.DD = DD;
+function ddNew(){
+  let z; do { z = pick(MYS); } while (z === DD.z);
+  Object.assign(DD, { z, n: showCount(z, 1), done: false });
+  $("dd-fb").hidden = true;
+  $("dd-q").innerHTML = `Successive ionisation energies of element Y, kJ mol⁻¹:`;
+  ddTable(false);
+  const opts = []; for (let k = 1; k < DD.n; k++) opts.push(k);
+  $("dd-opts").innerHTML = opts.map(k => `<button class="btn" data-k="${k}">${H(`IE${toSub(k)} → IE${toSub(k + 1)}`)}</button>`).join("");
+  $("dd-opts").querySelectorAll("button").forEach(b => b.onclick = () => ddAnswer(+b.dataset.k));
+}
+function ddTable(showR){
+  const data = succIE(DD.z).slice(0, DD.n), d = deduce(data.map(x => x.v));
+  $("dd-tab").innerHTML = H(`<tr><th></th><th class="num">IE / kJ mol⁻¹</th>${showR ? `<th class="num">IEₙ₊₁ ÷ IEₙ</th>` : ""}</tr>` + data.map((x, i) => `<tr${showR && i === d.k - 1 ? ' class="hl"' : ""}><td>IE${toSub(i + 1)}</td><td class="num">${grp(x.v)}</td>${showR ? `<td class="num">${i + 1 < data.length ? (data[i + 1].v / x.v).toFixed(2) : ""}</td>` : ""}</tr>`).join(""));
+}
+function ddAnswer(k){
+  if (DD.done) return; DD.done = true;
+  const data = succIE(DD.z).slice(0, DD.n), d = deduce(data.map(x => x.v)), ok = k === d.k;
+  DD.tried++; if (ok) DD.right++;
+  $("dd-score").textContent = `Score ${DD.right} / ${DD.tried}`;
+  $("dd-opts").querySelectorAll("button").forEach(b => { b.disabled = true; if (+b.dataset.k === d.k) b.classList.add("right"); else if (+b.dataset.k === k) b.classList.add("wrong"); });
+  ddTable(true);
+  const fb = $("dd-fb");
+  fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = H(`<p>${ok ? "Correct." : "Not quite."} The largest ratio is IE${toSub(d.k + 1)} ÷ IE${toSub(d.k)} = ${grp(data[d.k].v)} ÷ ${grp(data[d.k - 1].v)} = ${d.r.toFixed(2)}.</p><p>So ${d.k} electron${d.k > 1 ? "s are" : " is"} in the outer shell: Group ${d.group}. Element Y is ${NAME(DD.z)}, ${cfgShort(neutralCfg(DD.z), DD.z)}.</p>${!ok ? `<p>A smaller step within a shell (for example from the p electrons to the s electrons of the same shell) is not the big jump between shells.</p>` : ""}`);
+  fb.hidden = false;
+}
+function bindSI(){
+  $("si-el").innerHTML = SI_ELS.map(z => `<option value="${z}">${z} · ${SYM(z)} · ${NAME(z)}${succIE(z).length === z ? " (all " + z + ")" : " (first 4 only)"}</option>`).join("");
+  $("si-el").value = SI.z;
+  $("si-el").onchange = e => { SI.z = +e.target.value; siDraw(); };
+  document.querySelectorAll('input[name="si-sc"]').forEach(r => r.onchange = () => { SI.log = r.value === "log"; siDraw(); });
+  document.querySelectorAll("#si-tabs button").forEach(b => b.onclick = () => {
+    SI.tab = b.dataset.t;
+    document.querySelectorAll("#si-tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+    ["exp", "mys", "ded"].forEach(t => $("si-" + t).hidden = t !== SI.tab);
+    if (SI.tab === "exp") siDraw(); else if (SI.tab === "mys") myDraw();
+  });
+  $("my-next").onclick = myNew; $("dd-next").onclick = ddNew;
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("si-wrap").clientWidth; if (w && Math.abs(w - lw) > 1){ lw = w; siDraw(); } }).observe($("si-wrap"));
+  let lw2 = 0;
+  new ResizeObserver(() => { const w = $("my-wrap").clientWidth; if (w && Math.abs(w - lw2) > 1){ lw2 = w; myDraw(); } }).observe($("my-wrap"));
+  AS.siSet = z => { SI.z = z; $("si-el").value = z; siDraw(); }; AS.myNew = myNew; AS.ddNew = ddNew; AS.ddAnswer = ddAnswer;
+  AS.myPick = (g, c) => { MY.g = g; MY.c = c; myMaybe(); };
+  siDraw(); myNew(); ddNew();
+}
+
+/* =====================================================
+   7. FACT CARDS
+   ===================================================== */
+const ISO_TABLE = [["¹H", 1, 0, "99.99 %"], ["²H", 1, 1, "deuterium, 0.01 %"], ["³H", 1, 2, "tritium, trace (radioactive)"], ["¹²C", 6, 6, "about 98.9 %"], ["¹³C", 6, 7, "about 1.1 %"], ["¹⁴C", 6, 8, "trace (radioactive)"],
+  ["³⁵Cl", 17, 18, "75.8 %"], ["³⁷Cl", 17, 20, "24.2 %"], ["⁷⁹Br", 35, 44, "50.7 %"], ["⁸¹Br", 35, 46, "49.3 %"]];
+AS.ISO_TABLE = ISO_TABLE;
+function cardsHTML(){
+  const C = [];
+  C.push({ h: "Subatomic particles", k: "1(a)", b: `<div class="tblwrap"><table class="data"><tr><th>Particle</th><th class="num">Charge</th><th class="num">Mass</th><th class="num">Rest mass / kg</th></tr>
+    <tr><td>proton</td><td class="num">+1</td><td class="num">1</td><td class="num">1.67 × 10⁻²⁷</td></tr>
+    <tr><td>neutron</td><td class="num">0</td><td class="num">1</td><td class="num">1.67 × 10⁻²⁷</td></tr>
+    <tr><td>electron</td><td class="num">${MINUS}1</td><td class="num">1/1836</td><td class="num">9.11 × 10⁻³¹</td></tr></table></div>
+    <p>Charge and mass are relative values. Data Booklet: elementary charge e = 1.60 × 10⁻¹⁹ C. The proton and neutron rest masses are both given as 1.67 × 10⁻²⁷ kg.</p>` });
+  C.push({ h: "Inside the atom", k: "1(c)", b: `<ul><li>The nucleus is about 10⁻¹⁵ m (10⁻⁶ nm) across; the atom is about 10⁻¹⁰ m (0.1 nm) across. The nucleus is about 1/100\u202f000 of the atom's diameter.</li>
+    <li>The nucleus holds almost all the mass (protons and neutrons) and all the positive charge (protons).</li>
+    <li>The electrons occupy the space around the nucleus.</li></ul>` });
+  C.push({ h: "Counting the particles", k: "1(d)", b: `<p style="margin-top:0"><span class="nuc" style="font-size:1.7rem">${nucHTML(23, 11, 1)}</span>&nbsp;&nbsp; nucleon number A top left, proton number Z bottom left, charge top right.</p>
+    <ul><li>protons = Z</li><li>neutrons = A − Z</li><li>electrons = Z − charge</li></ul>
+    <div class="tblwrap"><table class="data" id="fc-count"><tr><th>Species</th><th class="num">p</th><th class="num">n</th><th class="num">e</th></tr>${NOTE_SPECIES.map(([A, Z, q]) => { const c = counts(A, Z, q); return `<tr><td>${nucTxt(A, Z, q)}</td><td class="num">${c.p}</td><td class="num">${c.n}</td><td class="num">${c.e}</td></tr>`; }).join("")}</table></div>` });
+  C.push({ h: "Isotopes", k: "1(e)", b: `<p style="margin-top:0">Atoms of the same element (same number of protons) with different numbers of neutrons. Same electronic configuration, so the same chemical properties; slightly different physical properties.</p>
+    <div class="tblwrap"><table class="data" id="fc-iso"><tr><th>Isotope</th><th class="num">p</th><th class="num">n</th><th>Note</th></tr>${ISO_TABLE.map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td><td>${r[3]}</td></tr>`).join("")}</table></div>
+    <p>Percentages are natural abundances: literature values, not from the Data Booklet.</p>` });
+  C.push({ h: "Beams in an electric field", k: "1(b)", b: `<ul><li>Positive particles bend towards the negative plate; negative particles towards the positive plate; neutrons go straight on.</li>
+    <li>For beams at the same speed, angle of deflection ∝ charge/mass (small-angle approximation).</li>
+    <li>Protons 6.0° towards the negative plate: ²H⁺ 3.0°, ³H⁺ 2.0°, ⁴He²⁺ 3.0°, ³He²⁺ 4.0°, neutron 0°, ¹⁶O²⁻ 0.75° towards the positive plate.</li>
+    <li>Electrons: 6.0 × 1836 ≈ 11${" "}000° by the proportionality, meaning an enormous deflection: they curve sharply onto the positive plate.</li></ul>` });
+  C.push({ h: "Orbitals", k: "1(f)–(g)", b: `<ul><li>n = 1: 1s. n = 2: 2s, 2p (3 orbitals). n = 3: 3s, 3p, 3d (5 orbitals). Then 4s, 4p.</li>
+    <li>Each orbital holds at most 2 electrons, of opposite spin; a shell holds at most 2n².</li>
+    <li>Relative energies: 1s &lt; 2s &lt; 2p &lt; 3s &lt; 3p &lt; 4s &lt; 3d &lt; 4p. Orbitals of one subshell have equal energy.</li>
+    <li>s: spherical, larger as n increases. p: dumbbell, along x, y, z. d: d<sub>xy</sub>, d<sub>xz</sub>, d<sub>yz</sub> lobes between the axes; d<sub>x<sup>2</sup>−y<sup>2</sup></sub> along x and y; d<sub>z<sup>2</sup></sub> two lobes along z with a ring.</li></ul>` });
+  C.push({ h: "Filling and writing configurations", k: "1(h)", b: `<ul><li><b>Aufbau:</b> fill the lowest-energy orbital first.</li><li><b>Pauli:</b> at most 2 electrons per orbital, of opposite spins.</li><li><b>Hund:</b> orbitals of the same subshell are singly occupied, with parallel spins, before any pairing.</li>
+    <li>Write in order of shell: Fe 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁶ 4s², or [Ar] 3d⁶ 4s².</li>
+    <li>Exceptions: Cr [Ar] 3d⁵ 4s¹, Cu [Ar] 3d¹⁰ 4s¹.</li>
+    <li>Ions: remove electrons from the outermost shell first, so 4s before 3d. Fe²⁺ [Ar] 3d⁶, Fe³⁺ [Ar] 3d⁵, Cu⁺ [Ar] 3d¹⁰, Cu²⁺ [Ar] 3d⁹, Cr³⁺ [Ar] 3d³, Mn²⁺ [Ar] 3d⁵, Zn²⁺ [Ar] 3d¹⁰, Sc³⁺ [Ar].</li>
+    <li>Anions add electrons: Cl⁻ [Ne] 3s² 3p⁶, O²⁻ 1s² 2s² 2p⁶.</li></ul>` });
+  C.push({ h: "Ionisation energy", k: "1(i)", b: `<p style="margin-top:0">First: X(g) → X⁺(g) + e⁻. n<sup>th</sup>: X<sup>(n−1)+</sup>(g) → X<sup>n+</sup>(g) + e⁻. Always endothermic.</p>
+    <ol>${FACTORS.map(f => `<li>${f}</li>`).join("")}</ol>
+    <p>Down a group: decreases. Across a period: general increase, with dips at Group 13 (B, Al) and Group 16 (O, S), and a big drop from a noble gas to the next Group 1 element.</p>` });
+  C.push({ h: "Reading successive ionisation energies", k: "1(j)–(k)", b: `<ul><li>Each successive IE is larger than the one before.</li>
+    <li>A big jump means the next electron comes from a shell closer to the nucleus.</li>
+    <li>The number of electrons before the first big jump is the number of outer electrons, which gives the group: e.g. Al 577, 1820, 2740, 11${" "}600: the jump after the 3rd, so Group 13.</li>
+    <li>Find the jump with the ratio IE<sub>n+1</sub> ÷ IE<sub>n</sub>: the largest ratio marks it.</li></ul>` });
+  return C.map(c => `<article class="panel card"><h3>${c.h} <span class="pill"><span class="nc">${c.k}</span></span></h3>${H(c.b)}</article>`).join("");
+}
+function bindCards(){ $("fc-cards").innerHTML = cardsHTML(); }
+
+/* =====================================================
+   8. QUIZ (option 0 is correct; each option carries its reason)
+   ===================================================== */
+const QZ = [
+  { k: "a", q: "Which statement about the relative charges and relative masses of the subatomic particles is correct?",
+    o: [["A neutron has relative charge 0 and relative mass 1.", "Neutrons are uncharged and have (almost) the same mass as protons."],
+        ["An electron has relative charge −1 and relative mass 1.", "The electron's relative mass is 1/1836, not 1."],
+        ["A proton has relative charge +1 and relative mass 1/1836.", "1/1836 is the electron's relative mass; the proton's is 1."],
+        ["A neutron has relative charge +1 and relative mass 1.", "The neutron has no charge; it is the proton that has relative charge +1."]] },
+  { k: "b", q: "A beam of protons is deflected by 6.0° in an electric field. A beam of ³He²⁺ ions enters the same field at the same speed. What is its deflection?",
+    o: [["4.0°, towards the negative plate", "Angle ∝ charge/mass: 6.0° × 2/3 = 4.0°, and a positive ion bends towards the negative plate."],
+        ["12.0°, towards the negative plate", "This multiplies by the charge (2) but forgets to divide by the mass (3)."],
+        ["2.0°, towards the negative plate", "This divides by the mass (3) but ignores the charge (2)."],
+        ["4.0°, towards the positive plate", "The size is right, but a positive ion is attracted to the negative plate."]] },
+  { k: "c", q: "Which describes the distribution of mass and charge in an atom?",
+    o: [["Almost all the mass and all the positive charge are in a tiny nucleus, about 10⁻¹⁵ m across; the electrons occupy the space around it, in an atom about 10⁻¹⁰ m across.", "Protons and neutrons (relative mass 1 each) are in the nucleus; electrons have only 1/1836 of the mass."],
+        ["The mass and the positive charge are spread evenly through the atom, with electrons dotted in it.", "That is the old 'plum pudding' model. The positive charge and nearly all the mass are concentrated in the nucleus."],
+        ["The nucleus holds the positive charge, but most of the mass is in the electrons around it.", "Electrons are very light (1/1836 of a proton's mass), so the nucleus holds almost all the mass."],
+        ["The nucleus is about half the diameter of the atom.", "The nucleus is about 1/100\u202f000 of the atom's diameter."]] },
+  { k: "d", q: "How many protons, neutrons and electrons are there in ⁵⁶Fe³⁺ (Z = 26)?",
+    o: [["26 protons, 30 neutrons, 23 electrons", "p = Z = 26; n = A − Z = 56 − 26 = 30; e = Z − charge = 26 − 3 = 23."],
+        ["26 protons, 30 neutrons, 29 electrons", "A 3+ charge means three fewer electrons than protons, not three more."],
+        ["26 protons, 56 neutrons, 23 electrons", "56 is the nucleon number, protons + neutrons; the neutrons are 56 − 26 = 30."],
+        ["23 protons, 30 neutrons, 26 electrons", "The protons do not change when an ion forms: iron always has 26. It is the electrons that change."]] },
+  { k: "e", q: "³⁵Cl and ³⁷Cl are isotopes. Which statement is correct?",
+    o: [["They have the same number of protons and electrons but different numbers of neutrons, so they have the same chemical properties.", "Same electronic configuration, so the same chemistry; the extra two neutrons change only physical properties slightly."],
+        ["They have different chemical properties because they have different masses.", "Chemical properties depend on the electrons, which are the same in both."],
+        ["³⁷Cl has two more protons than ³⁵Cl.", "Both are chlorine, so both have 17 protons; ³⁷Cl has two more neutrons."],
+        ["³⁷Cl has two more electrons than ³⁵Cl.", "As atoms, both have 17 electrons; the difference is two neutrons."]] },
+  { k: "f", q: "How many orbitals are there in the third shell (n = 3), and what is the maximum number of electrons it can hold?",
+    o: [["9 orbitals; 18 electrons", "3s (1) + 3p (3) + 3d (5) = 9 orbitals, each holding 2 electrons: 2n² = 18."],
+        ["3 orbitals; 6 electrons", "There are three subshells (3s, 3p, 3d), but they contain 9 orbitals between them."],
+        ["9 orbitals; 9 electrons", "Each orbital holds up to two electrons, of opposite spin."],
+        ["4 orbitals; 8 electrons", "That is the second shell (2s and 2p). The third shell also has five 3d orbitals."]] },
+  { k: "g", q: "Which orbital has two lobes along the z axis and a ring around the middle?",
+    o: [["3d<sub>z²</sub>", "d<sub>z²</sub> has two lobes along z with a ring (doughnut) in the xy plane."],
+        ["3d<sub>xz</sub>", "d<sub>xz</sub> has four lobes between the x and z axes, and no ring."],
+        ["3d<sub>x²−y²</sub>", "d<sub>x²−y²</sub> has four lobes along the x and y axes."],
+        ["2p<sub>z</sub>", "p<sub>z</sub> has two lobes along z, but no ring."]] },
+  { k: "h", q: "What is the electronic configuration of Fe³⁺ (Fe is [Ar] 3d⁶ 4s²)?",
+    o: [["[Ar] 3d⁵", "Remove the two 4s electrons first, then one 3d electron: 3d⁵."],
+        ["[Ar] 3d³ 4s²", "This removes 3d electrons before 4s. The 4s electrons are removed first."],
+        ["[Ar] 3d⁴ 4s¹", "Both 4s electrons go before any 3d electron is removed."],
+        ["[Ar] 3d⁶ 4s²", "That is the iron atom, with 26 electrons; Fe³⁺ has 23."]] },
+  { k: "i", q: "Why is the first ionisation energy of oxygen (1310 kJ mol⁻¹) lower than that of nitrogen (1400 kJ mol⁻¹)?",
+    o: [["In oxygen the electron is removed from a 2p orbital that holds a pair; repulsion between the paired electrons makes it easier to remove.", "N is 2p³ (one electron per orbital); O is 2p⁴, so one orbital holds a pair."],
+        ["Oxygen has a smaller nuclear charge than nitrogen.", "Oxygen has 8 protons, nitrogen 7: oxygen's nuclear charge is larger."],
+        ["Oxygen's outer electron is in a shell further from the nucleus.", "Both lose an electron from the second shell (2p)."],
+        ["Oxygen's electron is removed from 2p, which is higher in energy than 2s.", "Nitrogen also loses a 2p electron, so this does not explain the difference. It explains Be → B."]] },
+  { k: "j–k", q: "The first five ionisation energies of element X, in kJ mol⁻¹, are 577, 1820, 2740, 11\u202f600 and 14\u202f842. Which group is X in, and what is its outer-shell configuration?",
+    o: [["Group 13; ns² np¹", "The largest ratio is 11\u202f600 ÷ 2740 = 4.2, after the 3rd electron: 3 outer electrons. (X is aluminium, 3s² 3p¹.)"],
+        ["Group 14; ns² np²", "The 4th electron needs far more energy than the 3rd, so it is not in the outer shell: only 3 outer electrons."],
+        ["Group 2; ns²", "1820 ÷ 577 = 3.2 is a smaller step than 11\u202f600 ÷ 2740 = 4.2; the big jump is after the 3rd electron."],
+        ["Group 3; ns² (n−1)d¹", "Three outer electrons in the s and p subshells of one shell puts X in Group 13, not Group 3."]] }
+];
+AS.QZ = QZ;
+const Q = { i: 0, score: 0, order: [], answered: false };
+AS.Q = Q;
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k.includes("–") ? q.k.split("–").map((x, i) => (i ? "" : "1") + "(" + x + ")").join("–") : "1(" + q.k + ")"}</span></span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${H(q.q)}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${H(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+
+/* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly. (Scrolling the page here fought the mouse wheel.)
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+/* ---------- redraw on theme change ---------- */
+function redrawAll(){ drawAtom(); drawBeams(); drawOrb(); drawThumbs(); drawLadder(); cfDraw(); if (CX.mode === "build") cxDraw(); drawIE(); if (IE.tab === "grp") drawGrp(); siDraw(); myDraw(); }
+AS.redrawAll = redrawAll;
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+new MutationObserver(redrawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+bindAtom(); bindCP(); bindBeams(); bindBP(); bindOrb(); bindCF(); bindCX(); bindIE(); bindSI(); bindCards(); startQuiz(); bindNav();
+AS.ready = true;
+})();
+</script>
