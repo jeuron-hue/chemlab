@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1114" media="(prefers-color-scheme: dark)">
+<meta name="description" content="The Mole Concept and Stoichiometry 1: Relative masses, the mole and the Avogadro constant, Ar from isotopes, empirical and molecular formulae. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 6).">
+<title>The Mole Concept and Stoichiometry 1 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --line:#d4dbe2; --accent:#1c5da3; --accent-soft:#e2ecf7; --enrich:#f1f2f4; --box-line:#9aa5b1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:64px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 18px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); font-size:.92rem}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:18px; max-height:calc(100vh - 84px); overflow:auto; font-size:.86rem; padding-right:6px}
+  .toc-title{font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none; line-height:1.35}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  body{font-size:16.5px}
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:18px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:.8rem; line-height:1.5; color:var(--ink-2); border-left:2px solid var(--line); padding-left:10px}
+  .sn-num{font-weight:600; color:var(--accent)}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  body{font-size:17px}
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  .toc{font-size:.9rem}
+  .sidenote{font-size:.82rem}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:18px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:.86rem; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.9rem; font-weight:500; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:28px clamp(16px,4vw,48px) 32px; margin-top:18px}
+.eyebrow{font-family:var(--sans); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans)}
+h1{letter-spacing:-.01em}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:clamp(1.7rem,4.5vw,2.2rem); line-height:1.2; margin:0 0 18px; font-weight:600}
+h2{font-size:1.3rem; margin:34px 0 10px; font-weight:600; line-height:1.3}
+h3{font-size:1.05rem; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:6px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--line)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; padding:8px 14px; border-radius:6px}
+:root[data-theme="dark"] .btn{color:#0a1420}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#0a1420} }
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:6px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:.88rem; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.45}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:var(--surface-2); font-weight:600}
+
+.notes{margin-top:36px; border-top:1px solid var(--line); padding-top:6px; font-size:.92rem; color:var(--ink-2)}
+.notes h2{font-size:1.05rem}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:.92rem}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:.8rem; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  body{font-size:16px; line-height:1.6}
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:22px 16px 26px}
+  h1{font-size:1.65rem}
+  h2{font-size:1.2rem; margin-top:28px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:.86rem}
+  th,td{padding:6px 8px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --line:#999; --enrich:#f2f2f2; --accent-soft:#eef3f9}
+  body{font-size:11pt}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail{display:none!important}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 6 · The Mole Concept and Stoichiometry</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 6 pages"><div class="frame"><a href="part-1.html" aria-current="page" class="on">Part 1</a><a href="part-2.html">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#relative-masses">Relative masses</a></li><li><a href="#relative-atomic-mass-from-isotopic-abundances">Relative atomic mass from isotopic abundances</a></li><li><a href="#the-mole-and-the-avogadro-constant">The mole and the Avogadro constant</a></li><li><a href="#the-mole-map">The mole map</a></li><li><a href="#empirical-and-molecular-formulae">Empirical and molecular formulae</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<p class="eyebrow">Topic 6 · The Mole Concept and Stoichiometry Part 1</p>
+<h1>The Mole Concept and Stoichiometry 1</h1><details class="toc-m"><summary>On this page</summary><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#relative-masses">Relative masses</a></li><li><a href="#relative-atomic-mass-from-isotopic-abundances">Relative atomic mass from isotopic abundances</a></li><li><a href="#the-mole-and-the-avogadro-constant">The mole and the Avogadro constant</a></li><li><a href="#the-mole-map">The mole map</a></li><li><a href="#empirical-and-molecular-formulae">Empirical and molecular formulae</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Mole Concept Lab</a></p><p>Use the <em>Mole map</em> (with the isotopes panel), the <em>Formula finder</em> and the <em>Generator</em> alongside this note.</p></aside><h2 id="key-terms">Key terms</h2><p>These are the terms the syllabus expects you to define and use. Every relative mass is measured against the same standard: <span class="key">one-twelfth of the mass of one atom of carbon-12</span>.</p><div class="tablewrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>Relative isotopic mass</td><td>The mass of one atom of an isotope relative to one-twelfth of the mass of one atom of carbon-12.</td></tr><tr><td>Relative atomic mass, A<sub>r</sub></td><td>The weighted average mass of one atom of an element (taking into account its naturally occurring isotopes) relative to one-twelfth of the mass of one atom of carbon-12.</td></tr><tr><td>Relative molecular mass, M<sub>r</sub></td><td>The weighted average mass of one molecule of a substance relative to one-twelfth of the mass of one atom of carbon-12.</td></tr><tr><td>Relative formula mass, M<sub>r</sub></td><td>The same idea for an ionic compound, which has no molecules: the weighted average mass of one formula unit (e.g. NaCl, CaCO<sub>3</sub>) relative to one-twelfth of the mass of one atom of carbon-12.</td></tr><tr><td>Mole</td><td>The amount of substance that contains 6.02 × 10<sup>23</sup> (the Avogadro constant) elementary entities: atoms, molecules, ions, electrons or formula units.</td></tr><tr><td>Avogadro constant, L</td><td>The number of entities in one mole: 6.02 × 10<sup>23</sup> mol<sup>−1</sup> (Data Booklet).</td></tr><tr><td>Molar mass, M</td><td>The mass of one mole of a substance, in g mol<sup>−1</sup>. Numerically equal to A<sub>r</sub> or M<sub>r</sub>.</td></tr><tr><td>Empirical formula</td><td>The simplest whole-number ratio of the atoms of each element in a compound.</td></tr><tr><td>Molecular formula</td><td>The actual number of atoms of each element in one molecule of the compound.</td></tr></tbody></table></div><h2 id="relative-masses">Relative masses</h2><p>Atoms are far too light to weigh one at a time. One atom of carbon-12 has a mass of about 1.99 × 10<sup>−23</sup> g. So instead of using actual masses, chemists compare every atom with one standard atom, carbon-12, whose mass is defined as exactly 12 units. On this scale, an atom of <sup>1</sup>H is about 1 and an atom of <sup>16</sup>O is about 16.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup></p><p>The relative masses are <span class="key">ratios, so they have no units</span>. Once we know A<sub>r</sub> for each element, M<sub>r</sub> is just the sum of the A<sub>r</sub> values of all the atoms in the formula:</p><p class="eq">M<sub>r</sub>(H<sub>2</sub>O) = 2(1.0) + 16.0 = 18.0</p><p class="eq">M<sub>r</sub>(CaCO<sub>3</sub>) = 40.1 + 12.0 + 3(16.0) = 100.1</p><p class="eq">M<sub>r</sub>(CuSO<sub>4</sub>·5H<sub>2</sub>O) = 63.5 + 32.1 + 4(16.0) + 5(18.0) = 249.6</p><p>(For a hydrated salt, the water of crystallisation is part of the formula unit, so it is included in M<sub>r</sub>.)</p><p>For CaCO<sub>3</sub> and CuSO<sub>4</sub>·5H<sub>2</sub>O, which are ionic, the correct name is <span class="key">relative formula mass</span>: there is no such thing as a ‘molecule’ of calcium carbonate, only a lattice of Ca<sup>2+</sup> and CO<sub>3</sub><sup>2−</sup> ions. The symbol M<sub>r</sub> is used for both. All A<sub>r</sub> values in these notes are from the Data Booklet.</p><h2 id="relative-atomic-mass-from-isotopic-abundances">Relative atomic mass from isotopic abundances</h2><p>Most elements exist as a mixture of isotopes (Topic 1 Part 1). The relative atomic mass is the <span class="key">weighted average</span> of their relative isotopic masses, each weighted by its abundance:</p><p class="eq">A<sub>r</sub> = Σ(abundance × relative isotopic mass) / Σ(abundance)</p><p>If the abundances are percentages, the bottom line is simply 100. If they are given as relative peak heights from a mass spectrum, divide by the total of the heights.</p><h3>Worked example 1: chlorine</h3><p>Naturally occurring chlorine is 75.8 % <sup>35</sup>Cl and 24.2 % <sup>37</sup>Cl. Calculate the relative atomic mass of chlorine.</p><p class="eq"><math display="block"><mrow><msub><mi>A</mi><mtext>r</mtext></msub><mo>=</mo><mfrac><mtext>(75.8 × 35.0) + (24.2 × 37.0)</mtext><mtext>100</mtext></mfrac><mo>=</mo><mtext>35.484</mtext></mrow></math></p><p>So A<sub>r</sub>(Cl) = <strong>35.5</strong> (3 s.f.). This is why the Periodic Table gives chlorine as 35.5, even though no single chlorine atom has a mass of 35.5. The answer is closer to 35 than to 37 because <sup>35</sup>Cl is about three times as common.</p><h3>Worked example 2: magnesium from a mass spectrum</h3><p>A mass spectrum shows one peak for each isotope; the height of each peak is proportional to the abundance of that isotope.<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup> The mass spectrum of magnesium is shown in Fig 1.</p><figure><img src="fig/m1_mgspec.svg" alt="Fig 1. Mass spectrum of magnesium (literature abundances)." loading="lazy"><figcaption>Fig 1. Mass spectrum of magnesium (literature abundances).</figcaption></figure><p class="eq"><math display="block"><mrow><msub><mi>A</mi><mtext>r</mtext></msub><mo>=</mo><mfrac><mtext>(79.0 × 24) + (10.0 × 25) + (11.0 × 26)</mtext><mtext>79.0 + 10.0 + 11.0</mtext></mfrac><mo>=</mo><mfrac><mtext>2432</mtext><mtext>100.0</mtext></mfrac><mo>=</mo><mtext>24.3</mtext></mrow></math></p><h3>Worked example 3: working backwards</h3><p>Copper has two isotopes, of relative isotopic masses 62.9 and 64.9. Its relative atomic mass is 63.5. Calculate the percentage abundance of the lighter isotope.</p><p>(To answer this, let the fraction of the lighter isotope be x. The fraction of the heavier one must then be (1 − x), because the two fractions add up to 1.)</p><p class="eq">63.5 = 62.9x + 64.9(1 − x)</p><p class="eq">63.5 = 64.9 − 2.0x</p><p class="eq">x = (64.9 − 63.5) / 2.0 = 0.700</p><p>So the lighter isotope, <sup>63</sup>Cu, makes up <strong>70.0 %</strong>. (The accepted value is 69.2 %. The difference comes from rounding the masses to one decimal place and A<sub>r</sub> to 63.5.)</p><aside class="box"><p><strong>Check your answer.</strong> The weighted average must lie between the lightest and heaviest isotopic masses, and closer to the more abundant isotope. If your A<sub>r</sub> for chlorine came out as 36.5, you have weighted the wrong way round.</p></aside><p>Bromine is a useful test case. With 50.7 % <sup>79</sup>Br and 49.3 % <sup>81</sup>Br, and isotopic masses of 78.9 and 80.9, A<sub>r</sub> = 79.9, as in the Data Booklet. With whole-number masses of 79 and 81 you would get 80.0.<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup></p><h2 id="the-mole-and-the-avogadro-constant">The mole and the Avogadro constant</h2><p>A mole is just a number, like a dozen. A dozen eggs is 12 eggs; a mole of atoms is 6.02 × 10<sup>23</sup> atoms. The number is enormous because atoms are so small.</p><aside class="box"><p><span class="key">One mole is the amount of substance that contains 6.02 × 10<sup>23</sup> elementary entities.</span> This number is the Avogadro constant, L = 6.02 × 10<sup>23</sup> mol<sup>−1</sup>.</p></aside><p>Always say <span class="key">what the entities are</span>. One mole of oxygen <em>atoms</em> (O) has a mass of 16.0 g; one mole of oxygen <em>molecules</em> (O<sub>2</sub>) contains 2 mol of atoms and has a mass of 32.0 g. One mole of NaCl contains 1 mol of Na<sup>+</sup> ions and 1 mol of Cl<sup>−</sup> ions.</p><p>The scale of relative masses was chosen so that the <span class="key">molar mass, M, in g mol<sup>−1</sup> is numerically equal to A<sub>r</sub> or M<sub>r</sub></span>. So M(H<sub>2</sub>O) = 18.0 g mol<sup>−1</sup>, and 18.0 g of water contains 6.02 × 10<sup>23</sup> molecules. The two working equations are</p><p class="eq"><math display="block"><mrow><mtext>n</mtext><mo>=</mo><mfrac><mtext>m</mtext><mtext>M</mtext></mfrac></mrow></math></p><p class="eq">N = n × L</p><p>where n is the amount in moles, m the mass in g, M the molar mass in g mol<sup>−1</sup> and N the number of particles.</p><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p>Since 20/05/19 the mole has been defined by fixing the Avogadro constant at exactly 6.022 140 76 × 10<sup>23</sup> mol<sup>−1</sup>. Before that, one mole was defined as the number of atoms in exactly 12 g of carbon-12. The two definitions agree to better than one part in a billion, so for all practical purposes 12 g of carbon-12 is still one mole. The Data Booklet value, 6.02 × 10<sup>23</sup> mol<sup>−1</sup>, is the one to use.</p></aside><h3>Worked example 4</h3><p>For 4.40 g of carbon dioxide, calculate (a) the amount in moles, (b) the number of molecules and (c) the number of atoms.</p><p>(a)   M<sub>r</sub>(CO<sub>2</sub>) = 12.0 + 2(16.0) = 44.0, so n = 4.40 / 44.0 = <strong>0.100 mol</strong></p><p>(b)   N = 0.100 × 6.02 × 10<sup>23</sup> = <strong>6.02 × 10<sup>22</sup> molecules</strong></p><p>(c)   Each CO<sub>2</sub> molecule has 3 atoms, so the number of atoms = 3 × 6.02 × 10<sup>22</sup> = <strong>1.81 × 10<sup>23</sup> atoms</strong></p><aside class="box"><p><strong>Significant figures.</strong> Give the final answer to the number of significant figures in the least precise data (usually 3), or to the number asked for. Keep the unrounded values in your calculator between steps; round only at the end. Here 4.40 g has 3 s.f., so the answers have 3 s.f.</p></aside><h3>Worked example 5</h3><p>(a) Calculate the mass of one atom of carbon-12. (b) How many ions are there in 5.85 g of sodium chloride?</p><p>(a)   One mole of <sup>12</sup>C atoms has a mass of 12.0 g, so one atom has a mass of 12.0 / (6.02 × 10<sup>23</sup>) = <strong>1.99 × 10<sup>−23</sup> g</strong>.</p><p>(b)   n(NaCl) = 5.85 / 58.5 = 0.100 mol. Each formula unit gives two ions (Na<sup>+</sup> and Cl<sup>−</sup>), so n(ions) = 0.200 mol and the number of ions = 0.200 × 6.02 × 10<sup>23</sup> = <strong>1.20 × 10<sup>23</sup></strong>.</p><h2 id="the-mole-map">The mole map</h2><p>Almost every calculation in this topic goes through the amount in moles. Whatever you are given (a mass, a gas volume, or a volume and concentration of a solution), convert it into moles first; whatever you are asked for, convert from moles at the end. Fig 2 shows the four routes in and out.</p><figure><img src="fig/m1_map.svg" alt="Fig 2. The mole map. Every route goes through n." loading="lazy"><figcaption>Fig 2. The mole map. Every route goes through n.</figcaption></figure><p>The gas and solution routes are used in Part 2. For gases, V<sub>m</sub> is the molar volume: 24 dm<sup>3</sup> mol<sup>−1</sup> at r.t.p. (101 325 Pa, 293 K) and 22.7 dm<sup>3</sup> mol<sup>−1</sup> at s.t.p. (10<sup>5</sup> Pa, 273 K), both from the Data Booklet. Under any other conditions, use pV = nRT (Topic 3 Part 1).</p><h2 id="empirical-and-molecular-formulae">Empirical and molecular formulae</h2><p>The <span class="key">empirical formula</span> is the simplest whole-number ratio of the atoms of each element in a compound. The <span class="key">molecular formula</span> is the actual number of atoms of each element in one molecule. The molecular formula is always a whole-number multiple of the empirical formula.</p><div class="tablewrap"><table><thead><tr><th>Compound</th><th>Molecular formula</th><th>Empirical formula</th></tr></thead><tbody><tr><td>ethane</td><td>C<sub>2</sub>H<sub>6</sub></td><td>CH<sub>3</sub></td></tr><tr><td>ethanoic acid</td><td>C<sub>2</sub>H<sub>4</sub>O<sub>2</sub></td><td>CH<sub>2</sub>O</td></tr><tr><td>glucose</td><td>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></td><td>CH<sub>2</sub>O</td></tr><tr><td>benzene</td><td>C<sub>6</sub>H<sub>6</sub></td><td>CH</td></tr><tr><td>ethanol</td><td>C<sub>2</sub>H<sub>6</sub>O</td><td>C<sub>2</sub>H<sub>6</sub>O (already the simplest ratio)</td></tr><tr><td>sodium chloride</td><td>none: ionic</td><td>NaCl</td></tr></tbody></table></div><p>Ethanoic acid and glucose have the same empirical formula, so the empirical formula alone cannot tell them apart. To get the molecular formula you also need M<sub>r</sub>. Ionic compounds and giant structures (SiO<sub>2</sub>, diamond) have no molecules, so they only have an empirical formula.</p><h3>The method</h3><ol class="num"><li>Write down the mass (or percentage) of each element. If one element is not given, find it by difference.</li><li>Divide each by its A<sub>r</sub> to get the amount in moles.</li><li>Divide every amount by the smallest one.</li><li>If the ratios are not close to whole numbers, multiply them all by the same small number (see the box below).</li><li>Write the empirical formula. Then find n = M<sub>r</sub> / (empirical formula mass); the molecular formula is n × the empirical formula.</li></ol><aside class="box"><p><strong>Turning the ratio into whole numbers</strong></p><p>Round only when a ratio is within about 0.1 of a whole number (2.01 → 2). If it ends in about .5, multiply everything by 2; about .33 or .67, multiply by 3; about .25 or .75, multiply by 4. Never round 1.5 to 2 or 1.33 to 1. Keep at least 3 s.f. in the moles, or the ratios drift.</p></aside><h3>Worked example 6: from composition by mass</h3><p>A compound contains 40.0 % carbon, 6.7 % hydrogen and 53.3 % oxygen by mass. Its M<sub>r</sub> is 60. Find (a) its empirical formula and (b) its molecular formula.</p><p>(Take 100 g of the compound, so the percentages become masses in grams.)</p><div class="tablewrap"><table><thead><tr><th></th><th>C</th><th>H</th><th>O</th></tr></thead><tbody><tr><td>mass / g</td><td>40.0</td><td>6.7</td><td>53.3</td></tr><tr><td>÷ A<sub>r</sub></td><td>40.0 / 12.0 = 3.33</td><td>6.7 / 1.0 = 6.7</td><td>53.3 / 16.0 = 3.33</td></tr><tr><td>÷ smallest (3.33)</td><td>1.00</td><td>2.01</td><td>1.00</td></tr><tr><td>whole-number ratio</td><td>1</td><td>2</td><td>1</td></tr></tbody></table></div><p>(a)   Empirical formula = <strong>CH<sub>2</sub>O</strong></p><p>(b)   Empirical formula mass = 12.0 + 2(1.0) + 16.0 = 30.0, and n = 60 / 30.0 = 2. Molecular formula = (CH<sub>2</sub>O)<sub>2</sub> = <strong>C<sub>2</sub>H<sub>4</sub>O<sub>2</sub></strong> (ethanoic acid).</p><h3>From combustion data</h3><p>An organic compound containing C, H and perhaps O is burned completely in excess oxygen. All its carbon ends up in CO<sub>2</sub> and all its hydrogen in H<sub>2</sub>O. The water is absorbed first, by anhydrous calcium chloride, and then the carbon dioxide, by soda lime (Fig 3).<sup class="fnref"><a href="#fn4" id="fnref4" aria-label="Note 4">4</a></sup> The gains in mass of the two absorbers give the masses of H<sub>2</sub>O and CO<sub>2</sub> formed.</p><figure><img src="fig/m1_combustion.svg" alt="Fig 3. Combustion analysis (schematic)." loading="lazy"><figcaption>Fig 3. Combustion analysis (schematic).</figcaption></figure><p>From those masses:</p><p class="eq">mass of C = mass of CO<sub>2</sub> × (12.0 / 44.0)</p><p class="eq">mass of H = mass of H<sub>2</sub>O × (2.0 / 18.0)</p><p>Oxygen cannot be found this way, because the oxygen in the products came partly from the O<sub>2</sub> supply. It is found <span class="key">by difference</span>: mass of O = mass of sample − mass of C − mass of H.</p><h3>Worked example 7: from combustion data</h3><p>0.230 g of a compound containing carbon, hydrogen and oxygen only was burned completely in excess oxygen. 0.440 g of CO<sub>2</sub> and 0.270 g of H<sub>2</sub>O were formed. The compound is a gas at room temperature; in a separate experiment, 0.230 g of it occupied 120 cm<sup>3</sup> at r.t.p. Find the molecular formula of the compound and suggest its identity.</p><p>(First find the mass of each element, then proceed exactly as before.)</p><p class="eq">mass of C = 0.440 × (12.0 / 44.0) = 0.120 g</p><p class="eq">mass of H = 0.270 × (2.0 / 18.0) = 0.0300 g</p><p class="eq">mass of O = 0.230 − 0.120 − 0.0300 = 0.0800 g</p><div class="tablewrap"><table><thead><tr><th></th><th>C</th><th>H</th><th>O</th></tr></thead><tbody><tr><td>mass / g</td><td>0.120</td><td>0.0300</td><td>0.0800</td></tr><tr><td>÷ A<sub>r</sub> / mol</td><td>0.0100</td><td>0.0300</td><td>0.00500</td></tr><tr><td>÷ smallest (0.00500)</td><td>2</td><td>6</td><td>1</td></tr></tbody></table></div><p>Empirical formula = C<sub>2</sub>H<sub>6</sub>O, empirical formula mass = 46.0.</p><p>(Now use the gas volume to find M<sub>r</sub>. At r.t.p., one mole of any gas occupies 24 dm<sup>3</sup>.)</p><p class="eq">n = 0.120 dm<sup>3</sup> / 24 dm<sup>3</sup> mol<sup>−1</sup> = 0.00500 mol</p><p class="eq">M = 0.230 g / 0.00500 mol = 46.0 g mol<sup>−1</sup></p><p>Since M<sub>r</sub> = empirical formula mass, the molecular formula is <strong>C<sub>2</sub>H<sub>6</sub>O</strong>. Two compounds have this formula: ethanol, CH<sub>3</sub>CH<sub>2</sub>OH, and methoxymethane, CH<sub>3</sub>OCH<sub>3</sub>. Ethanol is a liquid at room temperature (it is hydrogen-bonded), so this gas must be <strong>methoxymethane</strong> (b.p. −24 °C).</p><h3>Worked example 8: water of crystallisation</h3><p>2.50 g of hydrated copper(II) sulfate, CuSO<sub>4</sub>·xH<sub>2</sub>O, was heated to constant mass.<sup class="fnref"><a href="#fn5" id="fnref5" aria-label="Note 5">5</a></sup> 1.60 g of anhydrous CuSO<sub>4</sub> remained. Find x.</p><p class="eq">mass of water lost = 2.50 − 1.60 = 0.90 g</p><p class="eq">n(H<sub>2</sub>O) = 0.90 / 18.0 = 0.0500 mol</p><p class="eq">n(CuSO<sub>4</sub>) = 1.60 / 159.6 = 0.01003 mol</p><p class="eq">x = 0.0500 / 0.01003 = 4.99, so <strong>x = 5</strong></p><p>The formula is CuSO<sub>4</sub>·5H<sub>2</sub>O. Treat the water exactly like an ‘element’ in the formula: you are finding the mole ratio of CuSO<sub>4</sub> to H<sub>2</sub>O.</p><h3>Percentage composition</h3><p>The reverse calculation is quicker. The percentage by mass of an element in a compound is</p><p class="eq">% by mass = [(number of atoms of the element × A<sub>r</sub>) / M<sub>r</sub> of the compound] × 100</p><p>For example, the percentage of nitrogen in ammonium nitrate, NH<sub>4</sub>NO<sub>3</sub> (M<sub>r</sub> = 80.0), is 2(14.0) / 80.0 × 100 = 35.0 %.</p>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">Carbon-12 is used as the standard because it is easy to handle and to measure accurately in a mass spectrometer. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">How a mass spectrometer works is not required in 9476. For singly charged ions, each peak appears at m/z equal to the relative isotopic mass, and its height is proportional to the abundance of that isotope. Topic 1 Part 1 has the isotopes of hydrogen, carbon, chlorine and bromine. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">Beyond the syllabus: relative isotopic masses are not exactly whole numbers. <sup>35</sup>Cl is 34.969 and <sup>37</sup>Cl is 36.966, because of the mass defect (see the Topic 1 worked solutions). Whole numbers are fine for chlorine, but for bromine they put A<sub>r</sub> out by 0.1. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li><li id="fn4">The order matters. Soda lime absorbs water as well as carbon dioxide, so the water must be removed first. In practice the hot tube also contains copper(II) oxide, which oxidises any CO to CO<sub>2</sub>. <a href="#fnref4" class="back" aria-label="Back to text">↩</a></li><li id="fn5">Heating to constant mass: heat, cool in a desiccator, weigh, and repeat until two successive masses agree. Only then can you be sure all the water has gone. <a href="#fnref5" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><span></span><a href="part-2.html">Part 2 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>

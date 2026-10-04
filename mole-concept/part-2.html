@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1114" media="(prefers-color-scheme: dark)">
+<meta name="description" content="The Mole Concept and Stoichiometry 2: Balanced equations, reacting masses, limiting reagents, gas volumes, solutions and titrations. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 6).">
+<title>The Mole Concept and Stoichiometry 2 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
+  --line:#d4dbe2; --accent:#1c5da3; --accent-soft:#e2ecf7; --enrich:#f1f2f4; --box-line:#9aa5b1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+    --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
+  --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:64px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 18px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); font-size:.92rem}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:18px; max-height:calc(100vh - 84px); overflow:auto; font-size:.86rem; padding-right:6px}
+  .toc-title{font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none; line-height:1.35}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  body{font-size:16.5px}
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:18px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:.8rem; line-height:1.5; color:var(--ink-2); border-left:2px solid var(--line); padding-left:10px}
+  .sn-num{font-weight:600; color:var(--accent)}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  body{font-size:17px}
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  .toc{font-size:.9rem}
+  .sidenote{font-size:.82rem}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:18px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:.86rem; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.9rem; font-weight:500; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:28px clamp(16px,4vw,48px) 32px; margin-top:18px}
+.eyebrow{font-family:var(--sans); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans)}
+h1{letter-spacing:-.01em}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:clamp(1.7rem,4.5vw,2.2rem); line-height:1.2; margin:0 0 18px; font-weight:600}
+h2{font-size:1.3rem; margin:34px 0 10px; font-weight:600; line-height:1.3}
+h3{font-size:1.05rem; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:6px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--line)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; padding:8px 14px; border-radius:6px}
+:root[data-theme="dark"] .btn{color:#0a1420}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#0a1420} }
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:6px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:.88rem; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.45}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:var(--surface-2); font-weight:600}
+
+.notes{margin-top:36px; border-top:1px solid var(--line); padding-top:6px; font-size:.92rem; color:var(--ink-2)}
+.notes h2{font-size:1.05rem}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:.92rem}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:.8rem; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  body{font-size:16px; line-height:1.6}
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:22px 16px 26px}
+  h1{font-size:1.65rem}
+  h2{font-size:1.2rem; margin-top:28px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:.86rem}
+  th,td{padding:6px 8px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --line:#999; --enrich:#f2f2f2; --accent-soft:#eef3f9}
+  body{font-size:11pt}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail{display:none!important}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 6 · The Mole Concept and Stoichiometry</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 6 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html" aria-current="page" class="on">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#balanced-equations">Balanced equations</a></li><li><a href="#reacting-masses">Reacting masses</a></li><li><a href="#limiting-reagent-and-percentage-yield">Limiting reagent and percentage yield</a></li><li><a href="#volumes-of-gases">Volumes of gases</a></li><li><a href="#solutions-and-concentration">Solutions and concentration</a></li><li><a href="#titrations">Titrations</a></li><li><a href="#deducing-stoichiometry">Deducing stoichiometry</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<p class="eyebrow">Topic 6 · The Mole Concept and Stoichiometry Part 2</p>
+<h1>The Mole Concept and Stoichiometry 2</h1><details class="toc-m"><summary>On this page</summary><ol><li><a href="#balanced-equations">Balanced equations</a></li><li><a href="#reacting-masses">Reacting masses</a></li><li><a href="#limiting-reagent-and-percentage-yield">Limiting reagent and percentage yield</a></li><li><a href="#volumes-of-gases">Volumes of gases</a></li><li><a href="#solutions-and-concentration">Solutions and concentration</a></li><li><a href="#titrations">Titrations</a></li><li><a href="#deducing-stoichiometry">Deducing stoichiometry</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Mole Concept Lab</a></p><p>Use the <em>Balancer + limiting reagent</em>, <em>Gas burner</em> and <em>Titration bench</em> explorers, and the <em>Generator</em>, alongside this note.</p></aside><h2 id="balanced-equations">Balanced equations</h2><p>A balanced equation tells you two things. First, <span class="key">atoms are neither created nor destroyed</span>: there must be the same number of atoms of each element on both sides. Second, <span class="key">the coefficients give the mole ratio</span> in which the substances react and are formed. Every calculation in this Part depends on that ratio, so the equation must be right before you start.</p><p class="eq">C<sub>3</sub>H<sub>8</sub>(g) + 5O<sub>2</sub>(g) → 3CO<sub>2</sub>(g) + 4H<sub>2</sub>O(l)</p><p>reads: 1 mol of propane reacts with 5 mol of oxygen to form 3 mol of carbon dioxide and 4 mol of water. State symbols, (s), (l), (g) and (aq), should always be included.</p><h3>Balancing by inspection</h3><ol class="num"><li>Write the correct formula of every reactant and product. Never change a formula to make an equation balance; change only the coefficients in front.</li><li>Balance the element that appears in the fewest formulae first. In a combustion, balance C, then H, and leave O until last.</li><li>Balance any polyatomic ion that stays intact (SO<sub>4</sub><sup>2−</sup>, NO<sub>3</sub><sup>−</sup>) as a single unit.</li><li>If you need a half (e.g. 13/2 O<sub>2</sub>), multiply every coefficient by 2 at the end.</li><li>Check every element, and the charge if there are ions.</li></ol><p>For butane: C<sub>4</sub>H<sub>10</sub> + ?O<sub>2</sub> → 4CO<sub>2</sub> + 5H<sub>2</sub>O. On the right there are 4(2) + 5(1) = 13 O atoms, so 13/2 O<sub>2</sub> are needed. Doubling everything:</p><p class="eq">2C<sub>4</sub>H<sub>10</sub>(g) + 13O<sub>2</sub>(g) → 8CO<sub>2</sub>(g) + 10H<sub>2</sub>O(l)</p><p>The same reasoning gives the general equation for the complete combustion of any hydrocarbon, which you will use for gas volumes later on:</p><p class="eq">C<sub>x</sub>H<sub>y</sub> + (x + y/4)O<sub>2</sub> → xCO<sub>2</sub> + (y/2)H<sub>2</sub>O</p><p>(Each C needs one O<sub>2</sub> to become CO<sub>2</sub>; every 4 H need one O<sub>2</sub> to become 2H<sub>2</sub>O.)</p><h3>Ionic equations</h3><p>An ionic equation shows only the species that actually change. Ions that are present in solution at the start and are still there, unchanged, at the end are <span class="key">spectator ions</span> and are left out (Topic 4 Part 1). To write one:</p><ol class="num"><li>Write the balanced full equation with state symbols.</li><li>Split into ions only the substances that are both soluble and fully ionised in water: strong acids, soluble ionic salts and alkalis, all (aq).</li><li>Leave solids, liquids, gases, water and weak acids as formulae.</li><li>Cancel the ions that appear unchanged on both sides. Check that both atoms and charge balance.</li></ol><div class="tablewrap"><table><thead><tr><th>Full equation</th><th>Ionic equation</th></tr></thead><tbody><tr><td>HCl(aq) + NaOH(aq) → NaCl(aq) + H<sub>2</sub>O(l)</td><td>H<sup>+</sup>(aq) + OH<sup>−</sup>(aq) → H<sub>2</sub>O(l)</td></tr><tr><td>AgNO<sub>3</sub>(aq) + NaCl(aq) → AgCl(s) + NaNO<sub>3</sub>(aq)</td><td>Ag<sup>+</sup>(aq) + Cl<sup>−</sup>(aq) → AgCl(s)</td></tr><tr><td>CaCO<sub>3</sub>(s) + 2HCl(aq) → CaCl<sub>2</sub>(aq) + H<sub>2</sub>O(l) + CO<sub>2</sub>(g)</td><td>CaCO<sub>3</sub>(s) + 2H<sup>+</sup>(aq) → Ca<sup>2+</sup>(aq) + H<sub>2</sub>O(l) + CO<sub>2</sub>(g)</td></tr></tbody></table></div><p>In the last example CaCO<sub>3</sub> stays as a formula because it is a solid. Later in this Part you will meet ionic equations for redox reactions, such as the reaction of manganate(VII) ions with iron(II) ions. For now these will be <span class="key">given</span> to you; constructing them from half-equations is Topic 12. Using a given equation is exactly the same as using any other: read the mole ratio from the coefficients.</p><h2 id="reacting-masses">Reacting masses</h2><aside class="box"><p><strong>The four steps for any reacting-quantities calculation</strong></p><p>(1) Write the balanced equation.   (2) Convert what you know into moles.   (3) Use the mole ratio from the equation.   (4) Convert the moles of what you want into the quantity asked for.</p></aside><h3>Worked example 1</h3><p>Iron is extracted from iron(III) oxide by reduction with carbon monoxide. Calculate the mass of iron that can be obtained from 1.00 kg of iron(III) oxide.</p><p class="eq">Fe<sub>2</sub>O<sub>3</sub>(s) + 3CO(g) → 2Fe(s) + 3CO<sub>2</sub>(g)</p><p>M<sub>r</sub>(Fe<sub>2</sub>O<sub>3</sub>) = 2(55.8) + 3(16.0) = 159.6, so n(Fe<sub>2</sub>O<sub>3</sub>) = 1000 g / 159.6 g mol<sup>−1</sup> = 6.266 mol</p><p>(From the equation, 1 mol of Fe<sub>2</sub>O<sub>3</sub> gives 2 mol of Fe.)</p><p>n(Fe) = 2 × 6.266 = 12.53 mol, so mass of Fe = 12.53 × 55.8 = <strong>699 g</strong></p><p>Notice the mass has gone down from 1000 g to 699 g even though no iron was lost: the rest of the mass was oxygen. The ratio in the equation is a ratio of moles, not of masses.</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p>In process chemistry every quantity in a batch record is written in <span class="key">equivalents</span> (equiv): the mole ratio of each reagent to the limiting reagent, which is usually the expensive starting material and is defined as 1.00 equiv. ‘Charge 1.05 equiv of base’ means 1.05 mol of base for every mole of starting material. The small excess makes sure the starting material is fully consumed, because unreacted starting material is often much harder to remove from the product than a little excess reagent.</p><p>Raw materials are never exactly 100 % pure. Each lot comes with an <span class="key">assay</span>, for example 98.0 % w/w, and the mass charged is corrected for it. For 0.500 kmol of a reagent of M = 120.0 g mol<sup>−1</sup> with an assay of 98.0 %, the plant charges 0.500 × 120.0 / 0.980 = 61.2 kg, not 60.0 kg. Yields are reported on the same assay-corrected basis, so that solvent or impurities in a wet product are not counted as product.</p></aside><h2 id="limiting-reagent-and-percentage-yield">Limiting reagent and percentage yield</h2><p>Reactants are rarely mixed in exactly the ratio of the equation. The reactant that is completely used up is the <span class="key">limiting reagent</span>: it decides how much product forms. The others are <span class="key">in excess</span>, and some of each is left over (Fig 1).</p><figure><img src="fig/m2_limiting.svg" alt="Fig 1. 2Al + 3Cl2 → 2AlCl3: with equal numbers of Al and Cl2 particles, Cl2 runs out first." loading="lazy"><figcaption>Fig 1. 2Al + 3Cl<sub>2</sub> → 2AlCl<sub>3</sub>: with equal numbers of Al and Cl<sub>2</sub> particles, Cl<sub>2</sub> runs out first.</figcaption></figure><aside class="box"><p><strong>Finding the limiting reagent.</strong> Convert every reactant into moles. Then take one reactant and work out how much of the other it needs. If there is not enough of the other, the other is limiting. (It is <em>not</em> simply the reactant with fewer moles: the equation ratio decides.)</p></aside><h3>Worked example 2</h3><p>5.40 g of aluminium is heated in 14.2 g of chlorine. (a) Which reactant is limiting? (b) Calculate the mass of aluminium chloride formed and the mass of the reactant left over. (c) Only 15.0 g of aluminium chloride was collected. Calculate the percentage yield.</p><p class="eq">2Al(s) + 3Cl<sub>2</sub>(g) → 2AlCl<sub>3</sub>(s)</p><p>(a)   n(Al) = 5.40 / 27.0 = 0.200 mol;   n(Cl<sub>2</sub>) = 14.2 / 71.0 = 0.200 mol</p><p class="ans">(The moles are equal, but that does not make them both ‘just enough’. Check against the ratio.) 0.200 mol of Al needs 0.200 × 3/2 = 0.300 mol of Cl<sub>2</sub>, but only 0.200 mol is present. So <strong>Cl<sub>2</sub> is the limiting reagent</strong> and Al is in excess.</p><p>(b)   Work from the limiting reagent: n(AlCl<sub>3</sub>) = 0.200 × 2/3 = 0.1333 mol</p><p class="ans">M<sub>r</sub>(AlCl<sub>3</sub>) = 27.0 + 3(35.5) = 133.5, so mass of AlCl<sub>3</sub> = 0.1333 × 133.5 = <strong>17.8 g</strong></p><p class="ans">Al used = 0.1333 mol, so Al left = 0.200 − 0.1333 = 0.0667 mol = 0.0667 × 27.0 = <strong>1.80 g</strong></p><p>(c)   The 17.8 g is the <span class="key">theoretical yield</span>, the most that could form. The <span class="key">actual yield</span> is what you collect.</p><p class="eq">percentage yield = (actual yield / theoretical yield) × 100 = (15.0 / 17.8) × 100 = <strong>84.3 %</strong></p><p>Yields fall below 100 % because the reaction may not go to completion (or reaches equilibrium), side reactions use up some of the reactants, and product is lost on transfer, filtration and purification.</p><p>Do not confuse percentage yield with <span class="key">percentage purity</span>, which describes a sample rather than a reaction:</p><p class="eq">percentage purity = (mass of the pure substance in the sample / mass of the sample) × 100</p><h2 id="volumes-of-gases">Volumes of gases</h2><p>Avogadro’s Law (Topic 3 Part 1) says that equal volumes of all gases at the same temperature and pressure contain the same number of molecules. It follows that one mole of any gas has the same volume, the molar volume, V<sub>m</sub>, at a given temperature and pressure. From the Data Booklet:</p><div class="tablewrap"><table><thead><tr><th>Conditions</th><th>Temperature and pressure</th><th>V<sub>m</sub></th></tr></thead><tbody><tr><td>r.t.p. (room temperature and pressure)</td><td>293 K, 101 325 Pa</td><td>24 dm<sup>3</sup> mol<sup>−1</sup></td></tr><tr><td>s.t.p. (standard temperature and pressure)</td><td>273 K, 10<sup>5</sup> Pa</td><td>22.7 dm<sup>3</sup> mol<sup>−1</sup></td></tr><tr><td>anything else</td><td>T, p</td><td>use pV = nRT</td></tr></tbody></table></div><p>A second, very useful consequence: <span class="key">for gases at the same temperature and pressure, the volume ratio is the mole ratio</span>. You can then work in volumes directly, without converting to moles. For example, 50 cm<sup>3</sup> of ethane, 2C<sub>2</sub>H<sub>6</sub>(g) + 7O<sub>2</sub>(g) → 4CO<sub>2</sub>(g) + 6H<sub>2</sub>O(l), needs 50 × 7/2 = 175 cm<sup>3</sup> of oxygen and forms 100 cm<sup>3</sup> of carbon dioxide, all measured at the same T and p.</p><h3>Worked example 3</h3><p>Calculate the volume of carbon dioxide, measured at r.t.p., formed when 10.0 g of calcium carbonate reacts with excess hydrochloric acid.</p><p class="eq">CaCO<sub>3</sub>(s) + 2HCl(aq) → CaCl<sub>2</sub>(aq) + H<sub>2</sub>O(l) + CO<sub>2</sub>(g)</p><p>n(CaCO<sub>3</sub>) = 10.0 / 100.1 = 0.0999 mol = n(CO<sub>2</sub>) (1 : 1 ratio)</p><p>V(CO<sub>2</sub>) = 0.0999 mol × 24 dm<sup>3</sup> mol<sup>−1</sup> = <strong>2.40 dm<sup>3</sup></strong></p><h3>Burning hydrocarbons</h3><p>A classic problem: a small volume of a gaseous hydrocarbon is exploded with excess oxygen; the gases are cooled back to the starting conditions, and then shaken with aqueous sodium hydroxide. The volume is measured at each stage. Three facts make it work:</p><ul><li>At r.t.p. the water formed condenses to a liquid, whose volume is negligible. So on cooling the total volume <span class="key">contracts</span>.</li><li>NaOH(aq) absorbs carbon dioxide, 2NaOH(aq) + CO<sub>2</sub>(g) → Na<sub>2</sub>CO<sub>3</sub>(aq) + H<sub>2</sub>O(l), so the fall in volume on shaking = volume of CO<sub>2</sub>.</li><li>The gas left at the end is the unused oxygen, so O<sub>2</sub> used = O<sub>2</sub> added − O<sub>2</sub> left.</li></ul><h3>Worked example 4</h3><p>20 cm<sup>3</sup> of propane is exploded with 150 cm<sup>3</sup> of oxygen (an excess). All volumes are measured at r.t.p. Find the volume (a) after cooling and (b) after shaking with NaOH(aq).</p><div class="tablewrap"><table><thead><tr><th></th><th>C<sub>3</sub>H<sub>8</sub>(g)</th><th>+  5O<sub>2</sub>(g)</th><th>→  3CO<sub>2</sub>(g)</th><th>+  4H<sub>2</sub>O(l)</th></tr></thead><tbody><tr><td>volume ratio</td><td>1</td><td>5</td><td>3</td><td>4 (liquid)</td></tr><tr><td>at start / cm<sup>3</sup></td><td>20</td><td>150</td><td>0</td><td>0</td></tr><tr><td>change / cm<sup>3</sup></td><td>−20</td><td>−100</td><td>+60</td><td>negligible</td></tr><tr><td>after cooling / cm<sup>3</sup></td><td>0</td><td>50</td><td>60</td><td>negligible</td></tr></tbody></table></div><p>(a)   Volume after cooling = 50 + 60 = <strong>110 cm<sup>3</sup></strong> (a contraction of 170 − 110 = 60 cm<sup>3</sup>)</p><p>(b)   NaOH(aq) removes the 60 cm<sup>3</sup> of CO<sub>2</sub>, leaving <strong>50 cm<sup>3</sup></strong> of oxygen. Fig 2 shows the three stages.</p><figure><img src="fig/m2_burn.svg" alt="Fig 2. Volumes at each stage of Worked example 4 (all at r.t.p.)." loading="lazy"><figcaption>Fig 2. Volumes at each stage of Worked example 4 (all at r.t.p.).</figcaption></figure><h3>Worked example 5: finding the formula</h3><p>10 cm<sup>3</sup> of a gaseous hydrocarbon, C<sub>x</sub>H<sub>y</sub>, was exploded with 70 cm<sup>3</sup> of oxygen (an excess). After cooling to r.t.p. the volume was 55 cm<sup>3</sup>. After shaking with NaOH(aq) the volume was 25 cm<sup>3</sup>. Find the formula of the hydrocarbon.</p><p>(Write the general equation with the volumes underneath; then use one reading for each unknown.)</p><div class="tablewrap"><table><thead><tr><th></th><th>C<sub>x</sub>H<sub>y</sub>(g)</th><th>+  (x + y/4)O<sub>2</sub>(g)</th><th>→  xCO<sub>2</sub>(g)</th><th>+  (y/2)H<sub>2</sub>O(l)</th></tr></thead><tbody><tr><td>volume / cm<sup>3</sup></td><td>10</td><td>10(x + y/4)</td><td>10x</td><td>negligible</td></tr></tbody></table></div><p>Volume of CO<sub>2</sub> = 55 − 25 = 30 cm<sup>3</sup> = 10x, so <strong>x = 3</strong></p><p>O<sub>2</sub> left = 25 cm<sup>3</sup>, so O<sub>2</sub> used = 70 − 25 = 45 cm<sup>3</sup> = 10(x + y/4)</p><p>x + y/4 = 4.5, so y/4 = 1.5 and <strong>y = 6</strong></p><p>The hydrocarbon is <strong>C<sub>3</sub>H<sub>6</sub></strong> (propene or cyclopropane). Check with the contraction: (10 + 70) − 55 = 25 cm<sup>3</sup>, and from the equation the contraction = 10 + 10(x + y/4) − 10x = 10(1 + y/4) = 25 cm<sup>3</sup>, which agrees.</p><h2 id="solutions-and-concentration">Solutions and concentration</h2><p>The concentration of a solution is the amount of solute per unit volume of solution:</p><p class="eq"><math display="block"><mrow><mtext>c</mtext><mo>=</mo><mfrac><mtext>n</mtext><mtext>V</mtext></mfrac></mrow></math></p><p>with c in mol dm<sup>−3</sup>, n in mol and <span class="key">V in dm<sup>3</sup></span> (divide cm<sup>3</sup> by 1000). Rearranged, n = c × V is the route from a solution into the mole map. Concentration can also be given in g dm<sup>−3</sup>: mass concentration = c × M.</p><p><strong>Example.</strong> 2.00 g of NaOH is dissolved in water and made up to 250 cm<sup>3</sup>. n = 2.00 / 40.0 = 0.0500 mol, so c = 0.0500 / 0.250 = <strong>0.200 mol dm<sup>−3</sup></strong> (or 8.00 g dm<sup>−3</sup>).</p><h3>Dilution</h3><p>Adding water changes the volume but not the amount of solute, so c<sub>1</sub>V<sub>1</sub> = c<sub>2</sub>V<sub>2</sub>. Making 25.0 cm<sup>3</sup> of 2.00 mol dm<sup>−3</sup> acid up to 250 cm<sup>3</sup> gives c<sub>2</sub> = (2.00 × 25.0) / 250 = 0.200 mol dm<sup>−3</sup>: a tenfold dilution. (Here the volume units cancel, so cm<sup>3</sup> can be used on both sides.)</p><h3>Standard solutions</h3><p>A <span class="key">standard solution</span> is one whose concentration is accurately known. To prepare one from a solid:</p><ol class="num"><li>Weigh the solid accurately into a weighing bottle; tip it into a beaker and reweigh the bottle (weighing by difference).</li><li>Dissolve the solid in a small volume of deionised water in the beaker, stirring with a glass rod.</li><li>Transfer the solution through a funnel into a volumetric flask (e.g. 250.0 cm<sup>3</sup>). Rinse the beaker, rod and funnel with deionised water and add all the rinsings to the flask.</li><li>Add deionised water until the bottom of the meniscus is on the graduation mark, the last few drops with a dropper, with the mark at eye level.</li><li>Stopper the flask and invert it several times to mix.</li></ol><p>The solid must be pure, stable in air and not absorb water. Anhydrous sodium carbonate is suitable. Sodium hydroxide is not: it absorbs water and carbon dioxide from the air, so NaOH solutions are made up roughly and then standardised by titration.</p><h2 id="titrations">Titrations</h2><p>In a titration, a solution of known concentration is added from a burette to a measured volume of another solution until the reaction is just complete, the <span class="key">end point</span>, shown by a colour change. From the volume used (the <span class="key">titre</span>) and the equation, the unknown can be calculated. Fig 3 shows the apparatus.</p><figure><img src="fig/m2_titration.svg" alt="Fig 3. Titration apparatus, and reading the burette." loading="lazy"><figcaption>Fig 3. Titration apparatus, and reading the burette.</figcaption></figure><h3>Technique</h3><ul><li>Rinse the pipette with the solution it will measure, and the burette with the solution it will hold. Rinse the conical flask with deionised water only: extra water does not change the amount of substance in it.</li><li>Run some solution through the tap so the tip is full and has no air bubble, and remove the funnel before reading.</li><li>Read the bottom of the meniscus at eye level, to the nearest 0.05 cm<sup>3</sup>, and record every reading to 2 decimal places. (For a dark solution such as KMnO<sub>4</sub>, read the top of the meniscus.)</li><li>Swirl the flask throughout, over a white tile, and add the last drops one at a time.</li><li>Do a rough titration first, then accurate ones until you have two or more <span class="key">concordant</span> titres: within 0.10 cm<sup>3</sup> of each other. Average only the concordant titres.</li></ul><h3>Worked example 6: a direct acid-base titration</h3><p>25.0 cm<sup>3</sup> of sodium hydroxide solution was titrated with 0.100 mol dm<sup>−3</sup> sulfuric acid, using methyl orange as indicator (yellow to orange at the end point). Calculate the concentration of the sodium hydroxide.</p><div class="tablewrap"><table><thead><tr><th></th><th>Rough</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>final reading / cm<sup>3</sup></td><td>23.10</td><td>45.60</td><td>22.45</td><td>45.00</td></tr><tr><td>initial reading / cm<sup>3</sup></td><td>0.00</td><td>23.10</td><td>0.00</td><td>22.45</td></tr><tr><td>titre / cm<sup>3</sup></td><td>23.10</td><td>22.50</td><td>22.45</td><td>22.55</td></tr></tbody></table></div><p>Titres 1, 2 and 3 are concordant (within 0.10 cm<sup>3</sup>); mean = (22.50 + 22.45 + 22.55) / 3 = 22.50 cm<sup>3</sup>.</p><p class="eq">2NaOH(aq) + H<sub>2</sub>SO<sub>4</sub>(aq) → Na<sub>2</sub>SO<sub>4</sub>(aq) + 2H<sub>2</sub>O(l)</p><p>n(H<sub>2</sub>SO<sub>4</sub>) = 0.100 × (22.50 / 1000) = 2.250 × 10<sup>−3</sup> mol</p><p>n(NaOH) = 2 × 2.250 × 10<sup>−3</sup> = 4.500 × 10<sup>−3</sup> mol in 25.0 cm<sup>3</sup></p><p>[NaOH] = (4.500 × 10<sup>−3</sup>) / (25.0 × 10<sup>−3</sup>) = <strong>0.180 mol dm<sup>−3</sup></strong></p><aside class="box"><p>The most common mistake is to forget the ratio. H<sub>2</sub>SO<sub>4</sub> is dibasic, so each mole neutralises <strong>two</strong> moles of NaOH. Always write the equation first.</p></aside><h3>Back titration</h3><p>Sometimes the substance cannot be titrated directly: it is an insoluble solid (CaCO<sub>3</sub>, an antacid tablet), it reacts too slowly for a sharp end point, or it is volatile (NH<sub>3</sub>). Instead, a known <span class="key">excess</span> of a reagent is added, and the amount left over is found by titration. The amount that reacted is found by difference (Fig 4).</p><figure><img src="fig/m2_back.svg" alt="Fig 4. Back titration in Worked example 7: the HCl that reacted is found by difference." loading="lazy"><figcaption>Fig 4. Back titration in Worked example 7: the HCl that reacted is found by difference.</figcaption></figure><h3>Worked example 7</h3><p>2.00 g of impure calcium carbonate (the impurities do not react with acid) was added to 50.0 cm<sup>3</sup> of 1.00 mol dm<sup>−3</sup> hydrochloric acid, an excess. When the reaction was over, the solution was made up to 250.0 cm<sup>3</sup> with deionised water. 25.0 cm<sup>3</sup> portions of this solution needed a mean titre of 15.20 cm<sup>3</sup> of 0.100 mol dm<sup>−3</sup> sodium hydroxide (methyl orange, red to orange). Calculate the percentage purity of the calcium carbonate.</p><p>(Work backwards from the titration to the excess, then subtract from the total.)</p><p>n(NaOH) = 0.100 × (15.20 / 1000) = 1.520 × 10<sup>−3</sup> mol = n(HCl left) in 25.0 cm<sup>3</sup>   (NaOH + HCl, 1 : 1)</p><p>n(HCl left) in 250 cm<sup>3</sup> = 10 × 1.520 × 10<sup>−3</sup> = 0.01520 mol</p><p>n(HCl added) = 1.00 × (50.0 / 1000) = 0.0500 mol</p><p>n(HCl reacted) = 0.0500 − 0.01520 = 0.03480 mol</p><p>CaCO<sub>3</sub>(s) + 2HCl(aq) → CaCl<sub>2</sub>(aq) + H<sub>2</sub>O(l) + CO<sub>2</sub>(g), so n(CaCO<sub>3</sub>) = 0.03480 / 2 = 0.01740 mol</p><p>mass of CaCO<sub>3</sub> = 0.01740 × 100.1 = 1.742 g</p><p>percentage purity = (1.742 / 2.00) × 100 = <strong>87.1 %</strong></p><h3>Redox titrations (Further example)</h3><p>Potassium manganate(VII) oxidises iron(II) ions in acid solution. The ionic equation is given:</p><p class="eq">MnO<sub>4</sub><sup>−</sup>(aq) + 5Fe<sup>2+</sup>(aq) + 8H<sup>+</sup>(aq) → Mn<sup>2+</sup>(aq) + 5Fe<sup>3+</sup>(aq) + 4H<sub>2</sub>O(l)</p><p>Check that it balances: atoms (1 Mn, 4 O, 5 Fe, 8 H each side) and charge ((−1) + 5(+2) + 8(+1) = +17 on the left; (+2) + 5(+3) = +17 on the right). The KMnO<sub>4</sub> is in the burette and the iron(II) solution, acidified with excess dilute sulfuric acid, is in the flask. No indicator is needed: the purple MnO<sub>4</sub><sup>−</sup> is decolourised as long as Fe<sup>2+</sup> remains, and <span class="key">the end point is the first permanent pale pink</span>.</p><h3>Worked example 8</h3><p>An iron tablet of mass 0.500 g was dissolved in dilute sulfuric acid and the solution made up to 100.0 cm<sup>3</sup>. 25.0 cm<sup>3</sup> portions needed a mean titre of 9.60 cm<sup>3</sup> of 0.0100 mol dm<sup>−3</sup> KMnO<sub>4</sub>. Calculate the percentage by mass of iron in the tablet.</p><p>n(MnO<sub>4</sub><sup>−</sup>) = 0.0100 × (9.60 / 1000) = 9.60 × 10<sup>−5</sup> mol</p><p>n(Fe<sup>2+</sup>) in 25.0 cm<sup>3</sup> = 5 × 9.60 × 10<sup>−5</sup> = 4.80 × 10<sup>−4</sup> mol;   in 100.0 cm<sup>3</sup>: 4 × 4.80 × 10<sup>−4</sup> = 1.92 × 10<sup>−3</sup> mol</p><p>mass of Fe = 1.92 × 10<sup>−3</sup> × 55.8 = 0.107 g;   percentage of iron = (0.1071 / 0.500) × 100 = <strong>21.4 %</strong></p><h3>Iodometric titrations (Further example)</h3><p>Many oxidising agents are measured indirectly. The oxidising agent is added to <em>excess</em> potassium iodide, which it oxidises to iodine; the iodine is then titrated with standard sodium thiosulfate:</p><p class="eq">I<sub>2</sub>(aq) + 2S<sub>2</sub>O<sub>3</sub><sup>2−</sup>(aq) → 2I<sup>−</sup>(aq) + S<sub>4</sub>O<sub>6</sub><sup>2−</sup>(aq)</p><p>The brown iodine fades to pale yellow as thiosulfate is added. A few drops of starch are then added, giving a blue-black colour, and <span class="key">the end point is when the blue-black colour just disappears</span>. Starch is added near the end, not at the start, because a lot of iodine binds strongly to starch and is slow to react.</p><h3>Worked example 9</h3><p>25.0 cm<sup>3</sup> of copper(II) sulfate solution was added to excess KI(aq). The iodine liberated needed 20.00 cm<sup>3</sup> of 0.100 mol dm<sup>−3</sup> sodium thiosulfate. Calculate the concentration of Cu<sup>2+</sup>.</p><p class="eq">2Cu<sup>2+</sup>(aq) + 4I<sup>−</sup>(aq) → 2CuI(s) + I<sub>2</sub>(aq)</p><p>(Chain the two equations: 2Cu<sup>2+</sup> gives 1I<sub>2</sub>, which needs 2S<sub>2</sub>O<sub>3</sub><sup>2−</sup>. So Cu<sup>2+</sup> : S<sub>2</sub>O<sub>3</sub><sup>2−</sup> = 1 : 1.)</p><p>n(S<sub>2</sub>O<sub>3</sub><sup>2−</sup>) = 0.100 × (20.00 / 1000) = 2.000 × 10<sup>−3</sup> mol = n(Cu<sup>2+</sup>)</p><p>[Cu<sup>2+</sup>] = (2.000 × 10<sup>−3</sup>) / (25.0 × 10<sup>−3</sup>) = <strong>0.0800 mol dm<sup>−3</sup></strong></p><p>At the end point here, the blue-black colour disappears to leave an off-white (cream) precipitate of CuI.</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p>Water content is one of the most common tests on raw materials, intermediates and finished APIs, and the standard method is the <span class="key">Karl Fischer (KF) titration</span>. Iodine reacts with water and sulfur dioxide in methanol, with a base, B (for example imidazole), taking up the acids formed:</p><p>I<sub>2</sub> + SO<sub>2</sub> + H<sub>2</sub>O + CH<sub>3</sub>OH + 3B → 2BH<sup>+</sup>I<sup>−</sup> + BH<sup>+</sup>CH<sub>3</sub>SO<sub>4</sub><sup>−</sup></p><p>The stoichiometry that matters is <span class="key">1 mol of I<sub>2</sub> reacts with 1 mol of H<sub>2</sub>O</span>. In a volumetric KF titration, the reagent is first standardised against a known mass of water; its ‘titre’ is quoted in mg of water per cm<sup>3</sup>. With a titre of 5.00 mg cm<sup>−3</sup>, a 1.000 g sample needing 2.40 cm<sup>3</sup> contains 12.0 mg of water: 1.20 % w/w. The end point is detected electrically (a pair of platinum electrodes senses the first excess of iodine), not by colour.</p><p>For very low water contents, coulometric KF generates the iodine at an anode, 2I<sup>−</sup> → I<sub>2</sub> + 2e<sup>−</sup>, and the charge passed measures the water (Topic 12): about 10.7 C per mg of water.</p></aside><h2 id="deducing-stoichiometry">Deducing stoichiometry</h2><p>The calculations can also be run in reverse: measure the amounts that react, and deduce the equation.</p><h3>Worked example 10</h3><p>(a) 25.0 cm<sup>3</sup> of a 0.100 mol dm<sup>−3</sup> solution of an acid, H<sub>x</sub>A, needed 37.50 cm<sup>3</sup> of 0.200 mol dm<sup>−3</sup> NaOH for complete neutralisation. Deduce x. (b) 0.243 g of magnesium reacted with excess hydrochloric acid to give 240 cm<sup>3</sup> of hydrogen at r.t.p. Deduce the mole ratio of Mg to H<sub>2</sub>.</p><p>(a)   n(acid) = 0.100 × 0.0250 = 2.50 × 10<sup>−3</sup> mol;   n(NaOH) = 0.200 × 0.03750 = 7.50 × 10<sup>−3</sup> mol</p><p class="ans">Ratio NaOH : acid = 7.50 × 10<sup>−3</sup> : 2.50 × 10<sup>−3</sup> = 3 : 1, so each acid molecule gives 3 H<sup>+</sup>: <strong>x = 3</strong> (a tribasic acid, such as H<sub>3</sub>PO<sub>4</sub>).</p><p>(b)   n(Mg) = 0.243 / 24.3 = 0.0100 mol;   n(H<sub>2</sub>) = 0.240 / 24 = 0.0100 mol</p><p class="ans">Ratio Mg : H<sub>2</sub> = 1 : 1, consistent with Mg(s) + 2HCl(aq) → MgCl<sub>2</sub>(aq) + H<sub>2</sub>(g).</p><p>Worked example 5 above is the same idea for gases: the volumes gave the ratio of C to H in the hydrocarbon.</p><aside class="box"><p><strong>Summary of the working equations</strong></p><p>Moles: n = m / M;   N = n × L;   n = c × V (V in dm<sup>3</sup>).</p><p>Gases: n = V / V<sub>m</sub> (24 dm<sup>3</sup> mol<sup>−1</sup> at r.t.p., 22.7 dm<sup>3</sup> mol<sup>−1</sup> at s.t.p.), or pV = nRT.</p><p>Dilution: c<sub>1</sub>V<sub>1</sub> = c<sub>2</sub>V<sub>2</sub>.</p><p>Final answers to the s.f. of the least precise data (usually 3); round only at the end.</p><p>Percentage yield = (actual yield / theoretical yield) × 100;   percentage purity = (mass of pure substance / mass of sample) × 100.</p></aside>
+
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-1.html">← Part 1</a><a href="tutorial-1.html">Tutorial 1 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
