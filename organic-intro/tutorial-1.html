@@ -2,94 +2,104 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e1114" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
 <meta name="description" content="Introduction to Organic Chemistry 1 Tutorial: 8 questions on formulae, naming, hybridisation and shapes. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 11.1–11.3).">
 <title>Introduction to Organic Chemistry 1 Tutorial · ChemLab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
 <style>
 :root{
-  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
-  --line:#d4dbe2; --accent:#1c5da3; --accent-soft:#e2ecf7; --enrich:#f1f2f4; --box-line:#9aa5b1;
-  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
-    --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
-  --line:#2c343b; --accent:#6aa5ea; --accent-soft:#1a2939; --enrich:#1c2126; --box-line:#4a5561;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
 }
 *{box-sizing:border-box}
-html{scroll-padding-top:64px; -webkit-text-size-adjust:100%}
-body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
 .frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
 .layout{display:block}
 .layout main{max-width:820px; margin:0 auto}
 .toc, .rail{display:none}
-.toc-m{margin:0 0 18px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); font-size:.92rem}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
 .toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
 .toc-m ol{margin:0; padding:0 14px 12px 34px}
 .toc-m a{text-decoration:none}
 @media (min-width:1024px){
   .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
   .layout main{max-width:none; margin:0}
-  .toc{display:block; position:sticky; top:64px; margin-top:18px; max-height:calc(100vh - 84px); overflow:auto; font-size:.86rem; padding-right:6px}
-  .toc-title{font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
   .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
   .toc li{margin:0}
-  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none; line-height:1.35}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
   .toc a:hover{color:var(--ink)}
   .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
   .toc-m{display:none}
 }
 @media (min-width:1280px){
-  body{font-size:16.5px}
   .layout{grid-template-columns:220px minmax(0,840px) 260px}
-  .rail{display:block; position:relative; margin-top:18px; align-self:stretch}
-  .sidenote{position:absolute; left:0; right:0; font-size:.8rem; line-height:1.5; color:var(--ink-2); border-left:2px solid var(--line); padding-left:10px}
-  .sn-num{font-weight:600; color:var(--accent)}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
   html.sidenotes .notes{display:none}
 }
 @media (min-width:1600px){
-  body{font-size:17px}
   .frame{max-width:1640px}
   .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
-  .toc{font-size:.9rem}
-  .sidenote{font-size:.82rem}
+  body{font-size:17px; line-height:28px}
 }
 a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 sub,sup{font-size:.72em; line-height:0}
 
-.top{padding-block:18px 8px; font-family:var(--sans)}
-.crumbs{margin:0; font-size:.86rem; color:var(--ink-2)}
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
 .crumbs a{text-decoration:none; font-weight:600}
 .secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
 .secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
 .secnav .frame::-webkit-scrollbar{display:none}
-.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.9rem; font-weight:500; padding:13px 10px 12px;
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
   border-bottom:2px solid transparent; white-space:nowrap}
 .secnav a:hover{color:var(--ink)}
-.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
 
 main{padding-block:8px 24px}
-.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:28px clamp(16px,4vw,48px) 32px; margin-top:18px}
-.eyebrow{font-family:var(--sans); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0 0 6px}
-h1,h2,h3{font-family:var(--sans)}
-h1{letter-spacing:-.01em}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
 math, math *{font-family:var(--sans)}
 math mi{font-style:italic}
-h1{font-size:clamp(1.7rem,4.5vw,2.2rem); line-height:1.2; margin:0 0 18px; font-weight:600}
-h2{font-size:1.3rem; margin:34px 0 10px; font-weight:600; line-height:1.3}
-h3{font-size:1.05rem; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
 p{margin:0 0 12px}
 .key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
 .eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
@@ -102,53 +112,53 @@ ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
 ol.alpha>li{counter-increment:a; position:relative}
 ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
 
-.box{border:1px solid var(--box-line); border-radius:6px; padding:12px 16px; margin:16px 0 20px}
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
 .box p:last-child{margin-bottom:0}
-.box.enrich{background:var(--enrich); border-color:var(--line)}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
 .box.industry{background:var(--accent-soft); border-color:transparent}
 .boxhead{margin-bottom:6px}
-.btn{display:inline-block; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; padding:8px 14px; border-radius:6px}
-:root[data-theme="dark"] .btn{color:#0a1420}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn{color:#0a1420} }
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
 .btn:hover{filter:brightness(1.08)}
 
 figure{margin:20px 0 24px; text-align:center}
-figure img{max-width:100%; height:auto; background:#fff; border-radius:6px; border:1px solid var(--line); padding:8px}
-figcaption{font-size:.88rem; font-style:italic; color:var(--ink-2); margin-top:6px}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
 
 .tablewrap{overflow-x:auto; margin:12px 0 18px}
-table{border-collapse:collapse; width:100%; font-size:.92rem; line-height:1.45}
-th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
-th{background:var(--surface-2); font-weight:600}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
 
-.notes{margin-top:36px; border-top:1px solid var(--line); padding-top:6px; font-size:.92rem; color:var(--ink-2)}
-.notes h2{font-size:1.05rem}
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
 .notes .back{text-decoration:none; margin-left:4px}
 .fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
 
-.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:.92rem}
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
 .pager a{text-decoration:none; font-weight:600}
-.foot{font-family:var(--sans); font-size:.8rem; color:var(--muted); padding-block:10px 32px}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
 
 @media (max-width:640px){
-  body{font-size:16px; line-height:1.6}
-  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:22px 16px 26px}
-  h1{font-size:1.65rem}
-  h2{font-size:1.2rem; margin-top:28px}
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
   .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
   .eq{font-size:.95em}
-  table{font-size:.86rem}
-  th,td{padding:6px 8px}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
   figure{margin-inline:-6px}
   figure img{padding:4px}
   .box{padding:12px 14px}
   .pager a{padding:10px 0}
 }
 @media print{
-  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --line:#999; --enrich:#f2f2f2; --accent-soft:#eef3f9}
-  body{font-size:11pt}
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
   .request{display:none}
-  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail{display:none!important}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
   .layout{display:block!important}
   html.sidenotes .notes{display:block!important}
   .notes-body{border:0; padding:0; margin:0}
@@ -156,7 +166,6 @@ th{background:var(--surface-2); font-weight:600}
   h2,h3{break-after:avoid}
   a{text-decoration:none}
 }
-
 </style>
 <header class="top">
   <div class="frame">
@@ -168,8 +177,7 @@ th{background:var(--surface-2); font-weight:600}
 <nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li></ol></nav>
 <main>
 <article class="notes-body">
-<p class="eyebrow">Topic 11.1–11.3 · Introduction to Organic Chemistry Tutorial 1</p>
-<h1>Introduction to Organic Chemistry 1 Tutorial</h1><details class="toc-m"><summary>On this page</summary><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li></ol></details><h2 id="question-1">Question 1</h2><p>Compound X contains 64.9 % carbon, 13.5 % hydrogen and 21.6 % oxygen by mass. Its relative molecular mass is 74. (A<sub>r</sub>: C 12.0, H 1.0, O 16.0.)</p><ol class="alpha"><li>Calculate the empirical formula of X.</li><li>Deduce the molecular formula of X.</li><li>X is a secondary alcohol. Name X and give its structural, displayed and skeletal formulae.</li><li>Name an isomer of X that is a tertiary alcohol.</li></ol><h2 id="question-2">Question 2</h2><p>Name the following compounds.</p><ol class="alpha"><li>CH<sub>3</sub>CH<sub>2</sub>CH(CH<sub>3</sub>)CH<sub>2</sub>OH</li><li>CH<sub>3</sub>CHClCH<sub>2</sub>CH<sub>3</sub></li><li>CH<sub>3</sub>COCH<sub>2</sub>CH<sub>3</sub></li><li>CH<sub>3</sub>CH<sub>2</sub>COOCH<sub>3</sub></li><li>CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>CN</li><li>CH<sub>3</sub>CH<sub>2</sub>CONH<sub>2</sub></li><li>(CH<sub>3</sub>)<sub>2</sub>CHCHO</li><li>CH<sub>3</sub>CH<sub>2</sub>COCl</li><li>C<sub>6</sub>H<sub>5</sub>OH</li><li>CH<sub>3</sub>CH<sub>2</sub>NH<sub>2</sub></li></ol><h2 id="question-3">Question 3</h2><p>Draw skeletal formulae for: (a) 3-methylbut-1-ene; (b) 2,2-dichloropropane; (c) pentan-3-one; (d) ethyl methanoate; (e) 2-aminopropanoic acid; (f) 1,4-dimethylbenzene.</p><h2 id="question-4">Question 4</h2><p>A σ bond is said to be “symmetrical about the internuclear axis”. Is the same true of a π bond? Explain, and state what this means for rotation about a double bond.</p><h2 id="question-5">Question 5</h2><p>Draw a complete orbital picture to show the bonding in allene (propadiene), CH<sub>2</sub>=C=CH<sub>2</sub>. Your picture should clearly show the 3D shape of the molecule. Clearly indicate the types of orbitals involved (s, p, sp, sp<sup>2</sup>, sp<sup>3</sup>) and the types of bonds formed. Finally, use your picture to decide whether the four hydrogen atoms are in the same plane. If not, what is their spatial relationship?</p><h2 id="question-6">Question 6</h2><p>What orbitals overlap to form the bond that connects the methyl group to the double bond in propene, H<sub>2</sub>C=CH–CH<sub>3</sub>?</p><h2 id="question-7">Question 7</h2><p>One of the first drugs to be approved for the treatment of AIDS was azidothymidine (AZT), shown below.</p><figure><img src="fig/t1_azt.svg" alt="AZT (C10H13N5O4). H atoms on carbon are not shown." loading="lazy"><figcaption>AZT (C<sub>10</sub>H<sub>13</sub>N<sub>5</sub>O<sub>4</sub>). H atoms on carbon are not shown.</figcaption></figure><ol class="alpha"><li>How many carbon atoms are sp<sup>3</sup> hybridised?</li><li>How many carbon atoms are sp<sup>2</sup> hybridised?</li><li>Which atom is sp hybridised?</li><li>How many σ bonds are in the molecule?</li><li>How many π bonds are in the molecule?</li><li>What is the N–N–N bond angle in the N=N=N group?</li><li>What is the H–O–C bond angle in the –CH<sub>2</sub>OH group attached to the five-membered ring?</li><li>What is the hybridisation of the oxygen atom in the –CH<sub>2</sub>OH group?</li></ol><h2 id="question-8">Question 8</h2><p>For each molecule, state the hybridisation of each carbon atom and predict the bond angles around it. For (b), also predict the H–N–H bond angle.</p><ol class="alpha"><li>methanal, HCHO</li><li>methylamine, CH<sub>3</sub>NH<sub>2</sub></li><li>propyne, CH<sub>3</sub>C≡CH</li><li>buta-1,3-diene, CH<sub>2</sub>=CH–CH=CH<sub>2</sub>. How many σ and how many π bonds does it have?</li></ol><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Topic 11.1–11.3 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.1–11.3 Introduction to Organic Chemistry)">Email Gary for the solutions</a></p></aside>
+<header class="title-block"><p class="stamp" aria-hidden="true">11.T1 · 04/10/26</p><h1>Introduction to Organic Chemistry 1 Tutorial</h1><p class="eyebrow">Topic 11.1–11.3 · Introduction to Organic Chemistry Tutorial 1</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li></ol></details><p class="stamp" aria-hidden="true">11.T1 §1 · 04/10/26</p><h2 id="question-1">Question 1</h2><p>Compound X contains 64.9 % carbon, 13.5 % hydrogen and 21.6 % oxygen by mass. Its relative molecular mass is 74. (A<sub>r</sub>: C 12.0, H 1.0, O 16.0.)</p><ol class="alpha"><li>Calculate the empirical formula of X.</li><li>Deduce the molecular formula of X.</li><li>X is a secondary alcohol. Name X and give its structural, displayed and skeletal formulae.</li><li>Name an isomer of X that is a tertiary alcohol.</li></ol><p class="stamp" aria-hidden="true">11.T1 §2 · 04/10/26</p><h2 id="question-2">Question 2</h2><p>Name the following compounds.</p><ol class="alpha"><li>CH<sub>3</sub>CH<sub>2</sub>CH(CH<sub>3</sub>)CH<sub>2</sub>OH</li><li>CH<sub>3</sub>CHClCH<sub>2</sub>CH<sub>3</sub></li><li>CH<sub>3</sub>COCH<sub>2</sub>CH<sub>3</sub></li><li>CH<sub>3</sub>CH<sub>2</sub>COOCH<sub>3</sub></li><li>CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>CN</li><li>CH<sub>3</sub>CH<sub>2</sub>CONH<sub>2</sub></li><li>(CH<sub>3</sub>)<sub>2</sub>CHCHO</li><li>CH<sub>3</sub>CH<sub>2</sub>COCl</li><li>C<sub>6</sub>H<sub>5</sub>OH</li><li>CH<sub>3</sub>CH<sub>2</sub>NH<sub>2</sub></li></ol><p class="stamp" aria-hidden="true">11.T1 §3 · 04/10/26</p><h2 id="question-3">Question 3</h2><p>Draw skeletal formulae for: (a) 3-methylbut-1-ene; (b) 2,2-dichloropropane; (c) pentan-3-one; (d) ethyl methanoate; (e) 2-aminopropanoic acid; (f) 1,4-dimethylbenzene.</p><p class="stamp" aria-hidden="true">11.T1 §4 · 04/10/26</p><h2 id="question-4">Question 4</h2><p>A σ bond is said to be “symmetrical about the internuclear axis”. Is the same true of a π bond? Explain, and state what this means for rotation about a double bond.</p><p class="stamp" aria-hidden="true">11.T1 §5 · 04/10/26</p><h2 id="question-5">Question 5</h2><p>Draw a complete orbital picture to show the bonding in allene (propadiene), CH<sub>2</sub>=C=CH<sub>2</sub>. Your picture should clearly show the 3D shape of the molecule. Clearly indicate the types of orbitals involved (s, p, sp, sp<sup>2</sup>, sp<sup>3</sup>) and the types of bonds formed. Finally, use your picture to decide whether the four hydrogen atoms are in the same plane. If not, what is their spatial relationship?</p><p class="stamp" aria-hidden="true">11.T1 §6 · 04/10/26</p><h2 id="question-6">Question 6</h2><p>What orbitals overlap to form the bond that connects the methyl group to the double bond in propene, H<sub>2</sub>C=CH–CH<sub>3</sub>?</p><p class="stamp" aria-hidden="true">11.T1 §7 · 04/10/26</p><h2 id="question-7">Question 7</h2><p>One of the first drugs to be approved for the treatment of AIDS was azidothymidine (AZT), shown below.</p><figure><img src="fig/t1_azt.svg" alt="AZT (C10H13N5O4). H atoms on carbon are not shown." loading="lazy"><figcaption>AZT (C<sub>10</sub>H<sub>13</sub>N<sub>5</sub>O<sub>4</sub>). H atoms on carbon are not shown.</figcaption></figure><ol class="alpha"><li>How many carbon atoms are sp<sup>3</sup> hybridised?</li><li>How many carbon atoms are sp<sup>2</sup> hybridised?</li><li>Which atom is sp hybridised?</li><li>How many σ bonds are in the molecule?</li><li>How many π bonds are in the molecule?</li><li>What is the N–N–N bond angle in the N=N=N group?</li><li>What is the H–O–C bond angle in the –CH<sub>2</sub>OH group attached to the five-membered ring?</li><li>What is the hybridisation of the oxygen atom in the –CH<sub>2</sub>OH group?</li></ol><p class="stamp" aria-hidden="true">11.T1 §8 · 04/10/26</p><h2 id="question-8">Question 8</h2><p>For each molecule, state the hybridisation of each carbon atom and predict the bond angles around it. For (b), also predict the H–N–H bond angle.</p><ol class="alpha"><li>methanal, HCHO</li><li>methylamine, CH<sub>3</sub>NH<sub>2</sub></li><li>propyne, CH<sub>3</sub>C≡CH</li><li>buta-1,3-diene, CH<sub>2</sub>=CH–CH=CH<sub>2</sub>. How many σ and how many π bonds does it have?</li></ol><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Topic 11.1–11.3 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.1–11.3 Introduction to Organic Chemistry)">Email Gary for the solutions</a></p></aside>
 
 </article>
 <nav class="pager" aria-label="Previous and next"><a href="part-3.html">← Part 3</a><a href="tutorial-2.html">Tutorial 2 →</a></nav>

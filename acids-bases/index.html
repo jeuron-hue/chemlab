@@ -6,39 +6,39 @@
 <title>Acids and Bases Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap">
 <style>
 :root{
-  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
-  --grid:#e3e8ed; --axis:#aeb8c3; --line:#d4dbe2; --accent:#1c5da3; --accent-ink:#ffffff; --accent-soft:#e2ecf7;
-  --s1:#2a78d6; --s1-wash:rgba(42,120,214,.22); --s2:#eb6834; --s2-wash:rgba(235,104,52,.20); --s3:#1baf7a; --ref:#8a929b;
-  --s1-ink:#1c5da3; --s2-ink:#b04412; --s3-ink:#0f7a54; --s3-wash:rgba(27,175,122,.14);
-  --good:#006300; --good-bg:#e5f2e5; --bad:#c42f2f; --bad-bg:#fbe9e9; --warn-bg:#fff4dc; --warn:#7a5200;
-  --bondc:#9aa4ae; --lp:rgba(42,120,214,.16); --lp-edge:rgba(42,120,214,.6); --dat:#0f8a5f; --eo:#b04412;
-  --shadow:0 1px 2px rgba(20,26,32,.06), 0 1px 0 rgba(20,26,32,.03);
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --grid:#E9EDEF; --axis:#7A8A94; --line:#DDE3E6; --accent:#1F6F8B; --accent-ink:#FFFFFF; --accent-soft:#E3EEF2;
+  --s1:#1F6F8B; --s1-wash:rgba(31,111,139,.20); --s2:#7B4B94; --s2-wash:rgba(123,75,148,.18); --s3:#5B6B75; --ref:#7A8A94;
+  --s1-ink:#1F6F8B; --s2-ink:#7B4B94; --s3-ink:#5B6B75; --s3-wash:rgba(91,107,117,.14);
+  --good:#2E7D4F; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
+  --bondc:#8A98A1; --lp:rgba(31,111,139,.16); --lp-edge:rgba(31,111,139,.6); --dat:#5B6B75; --eo:#7B4B94;
+  --shadow:none;
   --serif:var(--sans);
-  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
-    --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
-    --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
-    --s1-ink:#7db3f0; --s2-ink:#f29468; --s3-ink:#3fcf95; --s3-wash:rgba(25,158,112,.18);
-    --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
-    --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --dat:#3fcf95; --eo:#f29468;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+    --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
+    --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s3-wash:rgba(155,170,179,.20);
+    --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+    --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7); --dat:#9BAAB3; --eo:#C49AD8;
     --shadow:none;
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
-  --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
-  --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
-  --s1-ink:#7db3f0; --s2-ink:#f29468; --s3-ink:#3fcf95; --s3-wash:rgba(25,158,112,.18);
-  --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
-  --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --dat:#3fcf95; --eo:#f29468;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+  --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
+  --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s3-wash:rgba(155,170,179,.20);
+  --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+  --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7); --dat:#9BAAB3; --eo:#C49AD8;
   --shadow:none;
 }
 *{box-sizing:border-box}
@@ -57,7 +57,7 @@ a{color:var(--accent)}
 .top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
 .top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
 .top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
-.tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
 
 /* nav */
 .secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
@@ -74,10 +74,10 @@ section.lab:last-of-type{border-bottom:0}
 .sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
 .sechead h2{font-size:1.5rem}
 .sechead p{margin:0; color:var(--ink-2)}
-.eyebrow{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.eyebrow{font-size:.72rem; letter-spacing:0; text-transform:none; color:var(--muted); font-weight:600}
 .grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
 @media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
-.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:var(--shadow); min-width:0}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px}
 .ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
@@ -105,9 +105,9 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .stat .v{font-size:1.05rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
 .notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
 .callout{font-size:.86rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .nw{white-space:nowrap}
-.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
@@ -127,7 +127,7 @@ h3.sub3{font-size:1.15rem; margin:0}
 .defs dd{margin:0}
 .eqs{display:flex; flex-direction:column; gap:3px; margin:6px 0 10px; font-variant-numeric:tabular-nums}
 .eqs div{overflow-wrap:anywhere}
-.card h4{font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:10px 0 4px}
+.card h4{font-size:.8rem; letter-spacing:0; text-transform:none; color:var(--muted); margin:10px 0 4px}
 .card ul{margin:0; padding-left:18px; font-size:.9rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
 .card p{margin:6px 0 0; font-size:.9rem; color:var(--ink-2)}
 .nestwrap{margin-top:16px}
@@ -146,7 +146,7 @@ svg .ne{font-size:12.5px; fill:var(--muted); font-style:italic}
 .eqrow{display:flex; flex-wrap:wrap; align-items:flex-start; gap:8px 6px; font-size:1.1rem}
 .eqrow .op{padding-top:7px; color:var(--ink-2)}
 .tok{font:inherit; font-size:1.06rem; display:inline-flex; flex-direction:column; align-items:center; gap:2px; padding:6px 9px 5px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); min-width:62px; cursor:default; line-height:1.35}
-.tok .tr{font-size:.66rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; min-height:1.2em; color:var(--muted); padding-bottom:1px; border-bottom:2px solid transparent; white-space:nowrap}
+.tok .tr{font-size:.66rem; font-weight:600; letter-spacing:.04em; text-transform:none; min-height:1.2em; color:var(--muted); padding-bottom:1px; border-bottom:2px solid transparent; white-space:nowrap}
 .tok.pa .tr{color:var(--s2-ink); border-bottom:2px dashed var(--s2)}
 .tok.pb .tr{color:var(--s1-ink); border-bottom:2px solid var(--s1)}
 .tok.pick{cursor:pointer}
@@ -158,7 +158,7 @@ svg .ne{font-size:12.5px; fill:var(--muted); font-style:italic}
 .tok.ok .mk{color:var(--good)} .tok.bad .mk{color:var(--bad)}
 .roles{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px}
 .roles .btn{padding:7px 6px; font-size:.84rem}
-.stage{background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); overflow:hidden}
+.stage{background:var(--surface); border:1px solid var(--line); border-radius:6px; box-shadow:var(--shadow); overflow:hidden}
 .stage svg{display:block; width:100%}
 svg .tile{fill:var(--surface-2); stroke:var(--axis); stroke-width:1}
 svg .tilet{font-size:17px; fill:var(--ink)}
@@ -178,7 +178,7 @@ svg .dh{font-size:12px; font-weight:600; fill:var(--ink-2)}
 .bigf{font-size:1.5rem; font-weight:600; line-height:1.3}
 
 /* 3D viewer */
-.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow)}
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:6px; overflow:hidden; box-shadow:var(--shadow)}
 .viewer svg{display:block; width:100%; touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none}
 .viewer svg:active{cursor:grabbing}
 .viewer .vhint{position:absolute; left:10px; bottom:7px; font-size:.74rem; color:var(--muted); pointer-events:none}
@@ -199,7 +199,7 @@ svg .atl{font-weight:600; text-anchor:middle; pointer-events:none}
 
 /* sorter */
 .qline{font-weight:500; margin:0 0 10px}
-.deck{display:flex; flex-wrap:wrap; gap:8px; min-height:56px; padding:10px; border:1px dashed var(--axis); border-radius:8px; background:var(--surface)}
+.deck{display:flex; flex-wrap:wrap; gap:8px; min-height:56px; padding:10px; border:1px dashed var(--axis); border-radius:6px; background:var(--surface)}
 .deck:empty::before{content:"All cards placed. Press Check."; font-size:.82rem; color:var(--muted); align-self:center}
 .tcard{display:flex; gap:8px; align-items:stretch; max-width:100%; text-align:left; font:inherit; font-size:.86rem; line-height:1.42; padding:7px 10px 7px 6px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; box-shadow:var(--shadow); user-select:none; -webkit-user-select:none}
 .tcard .grip{flex:none; width:12px; cursor:grab; touch-action:none; background-image:radial-gradient(circle, var(--muted) 1.3px, transparent 1.6px); background-size:6px 6px; background-position:0 2px; opacity:.85; border-radius:2px}
@@ -212,7 +212,7 @@ svg .atl{font-weight:600; text-anchor:middle; pointer-events:none}
 .tcard .why{display:block; margin-top:5px; font-size:.8rem}
 .tcard.right .why{color:var(--good)} .tcard.wrong .why{color:var(--bad)}
 .ghost{position:fixed; left:0; top:0; z-index:60; pointer-events:none; opacity:.92; box-shadow:0 6px 18px rgba(0,0,0,.18); max-width:300px}
-.zone{border:2px solid var(--zc); border-radius:18px; padding:10px; background:var(--zbg); display:flex; flex-direction:column; gap:8px; min-width:0}
+.zone{border:2px solid var(--zc); border-radius:6px; padding:10px; background:var(--zbg); display:flex; flex-direction:column; gap:8px; min-width:0}
 .zone[data-z=none]{--zc:var(--axis); --zbg:var(--surface)}
 .zone[data-z=lewis]{--zc:var(--s3); --zbg:color-mix(in srgb, var(--s3) 11%, var(--surface))}
 .zone[data-z=bl]{--zc:var(--s1); --zbg:color-mix(in srgb, var(--s1) 12%, var(--surface))}
@@ -221,7 +221,7 @@ svg .atl{font-weight:600; text-anchor:middle; pointer-events:none}
 .zone[data-z=arr]{border-style:dotted; border-width:3px}
 .zlab{font-weight:600; font-size:.92rem; display:flex; flex-wrap:wrap; gap:2px 8px; align-items:baseline; cursor:pointer}
 .zlab small{font-weight:400; color:var(--ink-2); font-size:.8rem}
-.zdrop{display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-height:42px; border:1px dashed var(--axis); border-radius:10px; padding:6px; cursor:pointer; background:var(--surface)}
+.zdrop{display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-height:42px; border:1px dashed var(--axis); border-radius:6px; padding:6px; cursor:pointer; background:var(--surface)}
 .zdrop:empty::before{content:"Drop here, or select a card and tap this region"; font-size:.78rem; color:var(--muted); align-self:center; margin:auto 0}
 .zone.over > .zdrop{outline:3px solid var(--accent); outline-offset:-2px}
 
@@ -256,16 +256,28 @@ table.data th{font-size:.78rem; color:var(--ink-2); font-weight:600}
 .whyl{margin:8px 0 0; padding-left:18px; color:var(--ink-2); font-size:.88rem; display:flex; flex-direction:column; gap:4px}
 footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
 footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+
+/* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
+.eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
+.top .title-block{border:1px solid var(--line); border-radius:6px; padding:16px 20px; background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.top h1{font-size:22px; line-height:28px}
+.top .sub{font-size:13px; line-height:18px; color:var(--muted)}
+.sechead h2{font-size:18px; line-height:24px}
+.tag{font-size:12px; line-height:18px; letter-spacing:0; text-transform:none; font-weight:400; color:var(--accent); background:var(--accent-soft); border-color:transparent; padding:0 8px}
+.ctl output, .val{font-family:var(--mono); font-variant-ligatures:none; font-size:.92em}
 </style>
 
 <header class="top">
   <div class="wrap">
     <p style="margin:0 0 10px;font-size:.86rem"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; <a href="part-1.html">Notes</a> &nbsp;·&nbsp; <a href="tutorial-1.html">Tutorial</a></p>
-    <div class="row">
+    <div class="title-block"><p class="stamp" aria-hidden="true">Lab 4 · 01/10/26</p><div class="row">
       <h1>Topic 4 · Theories of Acids and Bases</h1>
       <span class="tag">SEAB H2 Chemistry 9476</span>
     </div>
-    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p>
+    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p></div>
   </div>
 </header>
 

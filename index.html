@@ -2,53 +2,62 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
 <meta name="description" content="H2 Chemistry notes, tutorials and interactive labs by Gary Chan, written for SEAB H2 Chemistry 9476.">
 <title>ChemLab · H2 Chemistry notes by Gary Chan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
 <style>
-:root{--bg:#f4f6f8;--surface:#fff;--surface-2:#edf1f5;--ink:#141a20;--ink-2:#46505c;--muted:#6f7a87;--line:#d4dbe2;--accent:#1c5da3;--accent-soft:#e2ecf7;
---serif:var(--sans);--sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0e1114;--surface:#161a1e;--surface-2:#1e2429;--ink:#edf0f3;--ink-2:#b4bdc7;--muted:#8a949f;--line:#2c343b;--accent:#6aa5ea;--accent-soft:#1a2939}}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#0e1114;--surface:#161a1e;--surface-2:#1e2429;--ink:#edf0f3;--ink-2:#b4bdc7;--muted:#8a949f;--line:#2c343b;--accent:#6aa5ea;--accent-soft:#1a2939}
+:root{--bg:#F7F8F6;--surface:#FFFFFF;--surface-2:#F7F8F6;--ink:#1E2A33;--ink-2:#5B6B75;--muted:#5B6B75;--line:#DDE3E6;--line-strong:#7A8A94;
+--accent:#1F6F8B;--accent-soft:#E3EEF2;--accent-2:#7B4B94;--accent-2-soft:#F1E9F5;
+--sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#182026;--surface:#222C33;--surface-2:#182026;--ink:#E8EDF0;--ink-2:#9BAAB3;--muted:#9BAAB3;--line:#34414A;--line-strong:#6E7D87;--accent:#66BAD6;--accent-soft:#1E3A45;--accent-2:#C49AD8;--accent-2-soft:#36283F}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#182026;--surface:#222C33;--surface-2:#182026;--ink:#E8EDF0;--ink-2:#9BAAB3;--muted:#9BAAB3;--line:#34414A;--line-strong:#6E7D87;--accent:#66BAD6;--accent-soft:#1E3A45;--accent-2:#C49AD8;--accent-2-soft:#36283F}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
-.wrap{max-width:1200px;margin:0 auto;padding:40px 16px 48px}
-.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,560px),1fr));gap:16px}
-.topics .topic{margin:0}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:26px}
+.wrap{max-width:1200px;margin:0 auto;padding:32px 16px 48px}
 a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,2.6rem);margin:0;line-height:1.1}
-.sub{color:var(--ink-2);margin:8px 0 0;max-width:60ch}
-.meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 30px}
-.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--ink-2);border:1px solid var(--line);background:var(--surface);padding:3px 9px;border-radius:4px}
-h2{font-family:var(--serif);font-weight:600;font-size:1.2rem;margin:0 0 12px}
-.topic{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
-.topic header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
-.topic h3{font-family:var(--serif);font-weight:600;font-size:1.35rem;margin:0}
-.topic .num{font-size:.8rem;color:var(--muted);white-space:nowrap}
-.topic p.what{color:var(--ink-2);margin:0 0 16px}
+.stamp{font-family:var(--mono);font-variant-ligatures:none;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.04em;color:var(--accent);margin:0}
+.title-block{border:1px solid var(--line);border-radius:6px;padding:24px;margin:0 0 40px;background-color:var(--surface);
+background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:12px 12px;background-position:-1px -1px}
+h1{font-weight:600;font-size:22px;line-height:28px;margin:2px 0 6px}
+.sub{color:var(--ink-2);margin:0;max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.tag{font-size:12px;line-height:18px;padding:0 8px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
+h2{font-weight:600;font-size:18px;line-height:24px;margin:0 0 16px}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,560px),1fr));gap:24px}
+.topics .topic{margin:0}
+.topic{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px;margin-bottom:24px}
+.topic header{margin-bottom:4px}
+.topic h3{font-weight:600;font-size:18px;line-height:24px;margin:2px 0 0}
+.topic p.what{color:var(--ink-2);margin:4px 0 16px}
 .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-@media (max-width:680px){.cols{grid-template-columns:minmax(0,1fr)}}
-.col h4{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;font-weight:600}
+@media (max-width:680px){.cols{grid-template-columns:minmax(0,1fr)}.title-block,.topic{padding:20px 16px}}
+.col h4{font-size:13px;line-height:18px;color:var(--muted);margin:0 0 6px;font-weight:600}
 .col ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.col a{display:block;text-decoration:none;color:var(--ink);background:var(--surface-2);border:1px solid transparent;border-radius:6px;padding:9px 12px;font-weight:500}
+.col a{display:block;text-decoration:none;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:8px 12px;font-weight:600;line-height:22px}
 .col a:hover{border-color:var(--accent);color:var(--accent)}
-.col a small{display:block;font-weight:400;color:var(--muted);font-size:.8rem;margin-top:1px}
-.col a.lab{background:var(--accent-soft)}
-.soon{color:var(--muted);margin:22px 0 0}
-footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
+.col a small{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:18px;margin-top:1px}
+.col a.lab{background:var(--accent-soft);border-color:transparent}
+.col a.lab:hover{border-color:var(--accent)}
+.soon{color:var(--muted);margin:24px 0 0}
+footer{margin-top:40px;font-size:13px;line-height:18px;color:var(--muted)}
 </style>
 <div class="wrap">
-  <h1>ChemLab</h1>
-  <p class="sub">H2 Chemistry notes, tutorials and interactive labs by Gary Chan. Read online, print a page, or use the labs in class.</p>
-  <div class="meta"><span class="tag">SEAB H2 Chemistry 9476</span></div>
+  <header class="title-block">
+    <p class="stamp" aria-hidden="true">9476 · 05/10/26</p>
+    <h1>ChemLab</h1>
+    <p class="sub">H2 Chemistry notes, tutorials and interactive labs by Gary Chan. Read online, print a page, or use the labs in class.</p>
+    <p class="meta"><span class="tag">SEAB H2 Chemistry 9476</span></p>
+  </header>
 
   <h2>Topics</h2>
   <div class="topics">
   <section class="topic" aria-labelledby="t1">
-    <header><h3 id="t1">Atomic Structure</h3><span class="num">Topic 1</span></header>
+    <header><p class="stamp">Topic 1 · 04/10/26</p><h3 id="t1">Atomic Structure</h3></header>
     <p class="what">Protons, neutrons and electrons, isotopes, orbitals and their shapes, electronic configurations and ionisation energies.</p>
     <div class="cols">
       <div class="col">
@@ -75,7 +84,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
     </div>
   </section>
   <section class="topic" aria-labelledby="t2">
-    <header><h3 id="t2">Chemical Bonding</h3><span class="num">Topic 2</span></header>
+    <header><p class="stamp">Topic 2 · 29/09/26</p><h3 id="t2">Chemical Bonding</h3></header>
     <p class="what">Ionic, metallic, covalent and dative bonding, shapes of molecules, polarity, intermolecular forces and lattices.</p>
     <div class="cols">
       <div class="col">
@@ -104,7 +113,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
     </div>
   </section>
   <section class="topic" aria-labelledby="t3">
-    <header><h3 id="t3">The Gaseous State</h3><span class="num">Topic 3</span></header>
+    <header><p class="stamp">Topic 3 · 30/09/26</p><h3 id="t3">The Gaseous State</h3></header>
     <p class="what">Kinetic theory, the gas laws and pV = nRT, finding M<sub>r</sub>, real gases and Dalton's Law of partial pressures.</p>
     <div class="cols">
       <div class="col">
@@ -131,7 +140,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
     </div>
   </section>
   <section class="topic" aria-labelledby="t4">
-    <header><h3 id="t4">Theories of Acids and Bases</h3><span class="num">Topic 4</span></header>
+    <header><p class="stamp">Topic 4 · 01/10/26</p><h3 id="t4">Theories of Acids and Bases</h3></header>
     <p class="what">Arrhenius, Brønsted-Lowry and Lewis theories, conjugate acid-base pairs, amphoteric water and the BF<sub>3</sub> + NH<sub>3</sub> adduct.</p>
     <div class="cols">
       <div class="col">
@@ -156,7 +165,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
     </div>
   </section>
   <section class="topic" aria-labelledby="t6">
-    <header><h3 id="t6">The Mole Concept and Stoichiometry</h3><span class="num">Topic 6</span></header>
+    <header><p class="stamp">Topic 6 · 04/10/26</p><h3 id="t6">The Mole Concept and Stoichiometry</h3></header>
     <p class="what">Relative masses, the mole, empirical and molecular formulae, balanced equations, reacting masses, gas volumes, solutions and titrations.</p>
     <div class="cols">
       <div class="col">
@@ -183,7 +192,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
     </div>
   </section>
   <section class="topic" aria-labelledby="t8">
-    <header><h3 id="t8">Reaction Kinetics</h3><span class="num">Topic 8</span></header>
+    <header><p class="stamp">Topic 8 · 29/09/26</p><h3 id="t8">Reaction Kinetics</h3></header>
     <p class="what">Rate equations and orders, half-life, the Boltzmann distribution, catalysis and enzymes.</p>
     <div class="cols">
       <div class="col">
@@ -210,7 +219,7 @@ footer{margin-top:36px;font-size:.8rem;color:var(--muted)}
     </div>
   </section>
   <section class="topic" aria-labelledby="t11a">
-    <header><h3 id="t11a">Introduction to Organic Chemistry</h3><span class="num">Topic 11.1–11.3</span></header>
+    <header><p class="stamp">Topic 11.1–11.3 · 04/10/26</p><h3 id="t11a">Introduction to Organic Chemistry</h3></header>
     <p class="what">Formulae, names and shapes; isomerism and chirality; reaction terminology and the five core mechanisms.</p>
     <div class="cols">
       <div class="col">

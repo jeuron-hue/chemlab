@@ -39,7 +39,7 @@ z
    <g id="matplotlib.axis_1">
     <g id="text_1">
      <!-- Volume, V -->
-     <g style="fill: #1f1f1e" transform="translate(109.995313 204.38) scale(0.11 -0.11)">
+     <g style="fill: #1e2a33" transform="translate(109.995313 204.38) scale(0.11 -0.11)">
       <defs>
        <path id="IBMPlexSans-56" d="M 1613 0 
 L 128 4467 
@@ -228,7 +228,7 @@ z
    <g id="matplotlib.axis_2">
     <g id="text_2">
      <!-- Pressure, p -->
-     <g style="fill: #1f1f1e" transform="translate(15.34 134.394687) rotate(-90) scale(0.11 -0.11)">
+     <g style="fill: #1e2a33" transform="translate(15.34 134.394687) rotate(-90) scale(0.11 -0.11)">
       <defs>
        <path id="IBMPlexSans-50" d="M 595 0 
 L 595 4467 
@@ -396,7 +396,7 @@ L 194.833168 181.446099
 L 213.56141 182.49885 
 L 234.29625 183.448205 
 L 234.29625 183.448205 
-" clip-path="url(#p4eda63c760)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: square"/>
+" clip-path="url(#p4eda63c760)" style="fill: none; stroke: #1f6f8b; stroke-width: 2; stroke-linecap: square"/>
    </g>
    <g id="line2d_2">
     <path d="M 37.02943 -1 
@@ -442,7 +442,7 @@ L 208.210484 176.207391
 L 224.263263 177.476944 
 L 234.29625 178.173128 
 L 234.29625 178.173128 
-" clip-path="url(#p4eda63c760)" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #eb6834; stroke-width: 2"/>
+" clip-path="url(#p4eda63c760)" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #7b4b94; stroke-width: 2"/>
    </g>
    <g id="line2d_3">
     <defs>
@@ -450,10 +450,10 @@ L 234.29625 178.173128
 L -2.5 -2.5 
 L -2.5 2.5 
 z
-" style="stroke: #1f1f1e; stroke-linejoin: miter"/>
+" style="stroke: #1e2a33; stroke-linejoin: miter"/>
     </defs>
     <g>
-     <use xlink:href="#mccfdc0044c" x="248.48" y="192.24" style="fill: #1f1f1e; stroke: #1f1f1e; stroke-linejoin: miter"/>
+     <use xlink:href="#mccfdc0044c" x="248.48" y="192.24" style="fill: #1e2a33; stroke: #1e2a33; stroke-linejoin: miter"/>
     </g>
    </g>
    <g id="line2d_4">
@@ -462,25 +462,25 @@ z
 L -2.5 2.5 
 L 2.5 2.5 
 z
-" style="stroke: #1f1f1e; stroke-linejoin: miter"/>
+" style="stroke: #1e2a33; stroke-linejoin: miter"/>
     </defs>
     <g>
-     <use xlink:href="#m369f61588b" x="21.54" y="20.8" style="fill: #1f1f1e; stroke: #1f1f1e; stroke-linejoin: miter"/>
+     <use xlink:href="#m369f61588b" x="21.54" y="20.8" style="fill: #1e2a33; stroke: #1e2a33; stroke-linejoin: miter"/>
     </g>
    </g>
    <g id="patch_3">
     <path d="M 21.54 192.24 
 L 21.54 20.8 
-" style="fill: none; stroke: #1f1f1e; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #1e2a33; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_4">
     <path d="M 21.54 192.24 
 L 248.48 192.24 
-" style="fill: none; stroke: #1f1f1e; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #1e2a33; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_3">
     <!-- p against V: a curve (hyperbola) -->
-    <g style="fill: #6b6a64" transform="translate(64.484219 14.8) scale(0.1 -0.1)">
+    <g style="fill: #5b6b75" transform="translate(64.484219 14.8) scale(0.1 -0.1)">
      <defs>
       <path id="IBMPlexSans-61" d="M 2944 0 
 Q 2656 0 2531 153 
@@ -875,7 +875,7 @@ z
      <path d="M 167.16 33.055 
 L 176.66 33.055 
 L 186.16 33.055 
-" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: square"/>
+" style="fill: none; stroke: #1f6f8b; stroke-width: 2; stroke-linecap: square"/>
     </g>
     <g id="text_4">
      <!-- $T_1$ -->
@@ -916,7 +916,7 @@ z
      <path d="M 167.16 46.735 
 L 176.66 46.735 
 L 186.16 46.735 
-" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #eb6834; stroke-width: 2"/>
+" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #7b4b94; stroke-width: 2"/>
     </g>
     <g id="text_5">
      <!-- $T_2$ ($T_2 &gt; T_1$) -->
@@ -991,7 +991,7 @@ z
    <g id="matplotlib.axis_3">
     <g id="text_6">
      <!-- 1 / V -->
-     <g style="fill: #1f1f1e" transform="translate(389.178516 204.38) scale(0.11 -0.11)">
+     <g style="fill: #1e2a33" transform="translate(389.178516 204.38) scale(0.11 -0.11)">
       <defs>
        <path id="IBMPlexSans-2f" d="M 58 -966 
 L 1728 4736 
@@ -1012,7 +1012,7 @@ z
    <g id="matplotlib.axis_4">
     <g id="text_7">
      <!-- Pressure, p -->
-     <g style="fill: #1f1f1e" transform="translate(280.86 134.394687) rotate(-90) scale(0.11 -0.11)">
+     <g style="fill: #1e2a33" transform="translate(280.86 134.394687) rotate(-90) scale(0.11 -0.11)">
       <use xlink:href="#IBMPlexSans-50"/>
       <use xlink:href="#IBMPlexSans-72" transform="translate(60.599991 0)"/>
       <use xlink:href="#IBMPlexSans-65" transform="translate(97.299988 0)"/>
@@ -1078,7 +1078,7 @@ L 488.046523 97.567251
 L 492.415795 95.509148 
 L 496.785067 93.451044 
 L 501.15434 91.392941 
-" clip-path="url(#p4a1bacbb94)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: square"/>
+" clip-path="url(#p4a1bacbb94)" style="fill: none; stroke: #1f6f8b; stroke-width: 2; stroke-linecap: square"/>
    </g>
    <g id="line2d_8">
     <path d="M 287.06 192.24 
@@ -1131,31 +1131,31 @@ L 488.046523 40.763601
 L 492.415795 37.470636 
 L 496.785067 34.177671 
 L 501.15434 30.884706 
-" clip-path="url(#p4a1bacbb94)" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #eb6834; stroke-width: 2"/>
+" clip-path="url(#p4a1bacbb94)" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #7b4b94; stroke-width: 2"/>
    </g>
    <g id="line2d_9">
     <g>
-     <use xlink:href="#mccfdc0044c" x="514" y="192.24" style="fill: #1f1f1e; stroke: #1f1f1e; stroke-linejoin: miter"/>
+     <use xlink:href="#mccfdc0044c" x="514" y="192.24" style="fill: #1e2a33; stroke: #1e2a33; stroke-linejoin: miter"/>
     </g>
    </g>
    <g id="line2d_10">
     <g>
-     <use xlink:href="#m369f61588b" x="287.06" y="20.8" style="fill: #1f1f1e; stroke: #1f1f1e; stroke-linejoin: miter"/>
+     <use xlink:href="#m369f61588b" x="287.06" y="20.8" style="fill: #1e2a33; stroke: #1e2a33; stroke-linejoin: miter"/>
     </g>
    </g>
    <g id="patch_6">
     <path d="M 287.06 192.24 
 L 287.06 20.8 
-" style="fill: none; stroke: #1f1f1e; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #1e2a33; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_7">
     <path d="M 287.06 192.24 
 L 514 192.24 
-" style="fill: none; stroke: #1f1f1e; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #1e2a33; stroke-width: 0.9; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_8">
     <!-- p against 1/V: straight line through origin -->
-    <g style="fill: #6b6a64" transform="translate(309.332344 14.8) scale(0.1 -0.1)">
+    <g style="fill: #5b6b75" transform="translate(309.332344 14.8) scale(0.1 -0.1)">
      <use xlink:href="#IBMPlexSans-70"/>
      <use xlink:href="#IBMPlexSans-20" transform="translate(57.999985 0)"/>
      <use xlink:href="#IBMPlexSans-61" transform="translate(81.599976 0)"/>
@@ -1206,7 +1206,7 @@ L 514 192.24
      <path d="M 295.61 33.055 
 L 305.11 33.055 
 L 314.61 33.055 
-" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: square"/>
+" style="fill: none; stroke: #1f6f8b; stroke-width: 2; stroke-linecap: square"/>
     </g>
     <g id="text_9">
      <!-- $T_1$ -->
@@ -1219,7 +1219,7 @@ L 314.61 33.055
      <path d="M 295.61 46.735 
 L 305.11 46.735 
 L 314.61 46.735 
-" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #eb6834; stroke-width: 2"/>
+" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #7b4b94; stroke-width: 2"/>
     </g>
     <g id="text_10">
      <!-- $T_2$ -->

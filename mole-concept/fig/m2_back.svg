@@ -34,7 +34,7 @@ L 256.01472 65.4624
 L 256.01472 38.0448 
 L 17.4816 38.0448 
 z
-" clip-path="url(#p5b03de0c09)" style="fill: #fbdccf; stroke: #1f1f1e; stroke-linejoin: miter"/>
+" clip-path="url(#p5b03de0c09)" style="fill: #e0d5e6; stroke: #1e2a33; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 256.01472 65.4624 
@@ -42,7 +42,7 @@ L 360.2016 65.4624
 L 360.2016 38.0448 
 L 256.01472 38.0448 
 z
-" clip-path="url(#p5b03de0c09)" style="fill: url(#hb97130cf52); stroke: #1f1f1e; stroke-linejoin: miter"/>
+" clip-path="url(#p5b03de0c09)" style="fill: url(#hb97130cf52); stroke: #1e2a33; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <!-- reacted with CaCO$_3$ -->
@@ -983,17 +983,17 @@ z
    <g id="patch_5">
     <path d="M 20.488111 26.0496 
 Q 188.842238 26.0496 357.196365 26.0496 
-" style="fill: none; stroke: #1f1f1e; stroke-width: 0.9; stroke-linecap: round"/>
+" style="fill: none; stroke: #1e2a33; stroke-width: 0.9; stroke-linecap: round"/>
     <path d="M 24.088111 27.8496 
 L 20.488111 26.0496 
 L 24.088111 24.2496 
 z
-" style="fill: #1f1f1e; stroke: #1f1f1e; stroke-width: 0.9; stroke-linecap: round"/>
+" style="fill: #1e2a33; stroke: #1e2a33; stroke-width: 0.9; stroke-linecap: round"/>
     <path d="M 353.596365 24.2496 
 L 357.196365 26.0496 
 L 353.596365 27.8496 
 z
-" style="fill: #1f1f1e; stroke: #1f1f1e; stroke-width: 0.9; stroke-linecap: round"/>
+" style="fill: #1e2a33; stroke: #1e2a33; stroke-width: 0.9; stroke-linecap: round"/>
    </g>
    <g id="text_3">
     <!-- HCl added: 50.0 cm$^3$ × 1.00 mol dm$^{−3}$ = 0.0500 mol (known) -->
@@ -1137,7 +1137,7 @@ z
    </g>
    <g id="text_4">
     <!-- found by titration -->
-    <g style="fill: #6b6a64" transform="translate(274.141535 78.7872) scale(0.088 -0.088)">
+    <g style="fill: #5b6b75" transform="translate(274.141535 78.7872) scale(0.088 -0.088)">
      <defs>
       <path id="IBMPlexSans-1b" d="M 2579 538 
 L 2554 538 
@@ -1183,7 +1183,7 @@ z
      <use xlink:href="#IBMPlexSans-14" transform="translate(715.171875 0)"/>
     </g>
     <!-- with NaOH(aq) -->
-    <g style="fill: #6b6a64" transform="translate(279.011098 90.2272) scale(0.088 -0.088)">
+    <g style="fill: #5b6b75" transform="translate(279.011098 90.2272) scale(0.088 -0.088)">
      <defs>
       <path id="IBMPlexSans-2e" d="M 1677 2726 
 L 1139 3718 
@@ -1264,7 +1264,7 @@ z
  </defs>
  <defs>
   <pattern id="hb97130cf52" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
-   <rect x="0" y="0" width="73" height="73" fill="#d6e6f8"/>
+   <rect x="0" y="0" width="73" height="73" fill="#d4e4e9"/>
    <path d="M -36 36 
 L 36 -36 
 M -30 42 
@@ -1291,7 +1291,7 @@ M 30 102
 L 102 30 
 M 36 108 
 L 108 36 
-" style="fill: #1f1f1e; stroke: #1f1f1e; stroke-width: 0.6; stroke-linecap: butt; stroke-linejoin: miter"/>
+" style="fill: #1e2a33; stroke: #1e2a33; stroke-width: 0.6; stroke-linecap: butt; stroke-linejoin: miter"/>
   </pattern>
  </defs>
 </svg>

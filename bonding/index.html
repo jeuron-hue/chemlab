@@ -6,36 +6,36 @@
 <title>Chemical Bonding Lab · ChemLab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap">
 <style>
 :root{
-  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#edf1f5; --ink:#141a20; --ink-2:#46505c; --muted:#6f7a87;
-  --grid:#e3e8ed; --axis:#aeb8c3; --line:#d4dbe2; --accent:#1c5da3; --accent-ink:#ffffff; --accent-soft:#e2ecf7;
-  --s1:#2a78d6; --s1-wash:rgba(42,120,214,.22); --s2:#eb6834; --s2-wash:rgba(235,104,52,.20); --s3:#1baf7a; --ref:#8a929b;
-  --good:#006300; --good-bg:#e5f2e5; --bad:#c42f2f; --bad-bg:#fbe9e9; --warn-bg:#fff4dc; --warn:#7a5200;
-  --bondc:#9aa4ae; --lp:rgba(42,120,214,.16); --lp-edge:rgba(42,120,214,.6); --net:#0f8a5f;
-  --shadow:0 1px 2px rgba(20,26,32,.06), 0 1px 0 rgba(20,26,32,.03);
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --grid:#E9EDEF; --axis:#7A8A94; --line:#DDE3E6; --accent:#1F6F8B; --accent-ink:#FFFFFF; --accent-soft:#E3EEF2;
+  --s1:#1F6F8B; --s1-wash:rgba(31,111,139,.20); --s2:#7B4B94; --s2-wash:rgba(123,75,148,.18); --s3:#5B6B75; --ref:#7A8A94;
+  --good:#2E7D4F; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
+  --bondc:#8A98A1; --lp:rgba(31,111,139,.16); --lp-edge:rgba(31,111,139,.6); --net:#5B6B75;
+  --shadow:none;
   --serif:var(--sans);
-  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
-    --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
-    --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
-    --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
-    --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --net:#3fcf95;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+    --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
+    --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+    --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7); --net:#9BAAB3;
     --shadow:none;
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#0e1114; --surface:#161a1e; --surface-2:#1e2429; --ink:#edf0f3; --ink-2:#b4bdc7; --muted:#8a949f;
-  --grid:#242a30; --axis:#3d464f; --line:#2c343b; --accent:#6aa5ea; --accent-ink:#0a1420; --accent-soft:#1a2939;
-  --s1:#3987e5; --s1-wash:rgba(57,135,229,.30); --s2:#e0652f; --s2-wash:rgba(224,101,47,.26); --s3:#199e70; --ref:#8d959e;
-  --good:#4cc24c; --good-bg:#14261a; --bad:#f07070; --bad-bg:#321a1a; --warn-bg:#2e2410; --warn:#e8c170;
-  --bondc:#737e8a; --lp:rgba(106,165,234,.17); --lp-edge:rgba(106,165,234,.65); --net:#3fcf95;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+  --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
+  --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+  --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7); --net:#9BAAB3;
   --shadow:none;
 }
 *{box-sizing:border-box}
@@ -54,7 +54,7 @@ a{color:var(--accent)}
 .top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
 .top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
 .top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
-.tag{display:inline-block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
 
 /* nav */
 .secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
@@ -71,18 +71,18 @@ section.lab:last-of-type{border-bottom:0}
 .sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
 .sechead h2{font-size:1.5rem}
 .sechead p{margin:0; color:var(--ink-2)}
-.eyebrow{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600}
+.eyebrow{font-size:.72rem; letter-spacing:0; text-transform:none; color:var(--muted); font-weight:600}
 .grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
 @media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
-.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:var(--shadow)}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow)}
 .controls{display:flex; flex-direction:column; gap:14px}
 .ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
 input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
 .hint{font-size:.78rem; color:var(--muted)}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:10px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
 .switch input:checked::after{transform:translateX(14px)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
@@ -113,8 +113,8 @@ svg text.halo{paint-order:stroke; stroke:var(--surface); stroke-width:4px; strok
 .stat.wide{grid-column:1 / -1}
 .notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:5px; max-width:78ch}
 .callout{font-size:.84rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px}
-.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); vertical-align:1px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); vertical-align:1px}
 .tblwrap{overflow-x:auto}
 table.data{border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:.86rem; min-width:100%}
 table.data th, table.data td{padding:6px 10px; text-align:left; border-bottom:1px solid var(--line)}
@@ -133,7 +133,7 @@ table.data th{font-weight:600; color:var(--ink-2); font-size:.78rem; vertical-al
 h3.sub3{font-size:1.15rem; margin:0}
 
 /* 3D viewer */
-.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow)}
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:6px; overflow:hidden; box-shadow:var(--shadow)}
 .viewer svg{display:block; width:100%; touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none}
 .viewer svg:active{cursor:grabbing}
 .viewer .vhint{position:absolute; left:10px; bottom:7px; font-size:.74rem; color:var(--muted); pointer-events:none}
@@ -164,7 +164,7 @@ svg .qmark{font-size:64px; font-weight:600; fill:var(--axis); text-anchor:middle
 .choices .btn{padding:7px 8px; font-size:.84rem}
 
 /* polarity */
-.meter{position:relative; height:14px; border-radius:7px; background:linear-gradient(90deg, var(--s3), var(--s1) 45%, var(--s2)); margin:6px 0 2px}
+.meter{position:relative; height:14px; border-radius:4px; background:linear-gradient(90deg, var(--s3), var(--s1) 45%, var(--s2)); margin:6px 0 2px}
 .meter i{position:absolute; top:-5px; width:4px; height:24px; margin-left:-2px; border-radius:2px; background:var(--ink); box-shadow:0 0 0 2px var(--surface)}
 .mscale{display:flex; justify-content:space-between; font-size:.76rem; color:var(--ink-2); gap:8px}
 .mscale span:nth-child(2){text-align:center}
@@ -173,7 +173,7 @@ svg .qmark{font-size:64px; font-weight:600; fill:var(--axis); text-anchor:middle
 
 /* sort */
 .scards{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px; align-items:start}
-.scard{display:block; width:100%; text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; color:var(--ink); cursor:pointer; box-shadow:var(--shadow); font-size:.84rem; line-height:1.45}
+.scard{display:block; width:100%; text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:10px 12px; color:var(--ink); cursor:pointer; box-shadow:var(--shadow); font-size:.84rem; line-height:1.45}
 .scard.sel{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent)}
 .scard.right{border-color:var(--good); background:var(--good-bg)}
 .scard.wrong{border-color:var(--bad); background:var(--bad-bg)}
@@ -182,7 +182,7 @@ svg .qmark{font-size:64px; font-weight:600; fill:var(--axis); text-anchor:middle
 .scard dl{display:grid; grid-template-columns:auto minmax(0,1fr); gap:1px 10px; margin:6px 0 0}
 .scard dt{color:var(--muted)}
 .scard dd{margin:0}
-.scard .as{display:inline-block; margin-top:7px; font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:2px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent)}
+.scard .as{display:inline-block; margin-top:7px; font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:2px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent)}
 .scard .why{margin-top:6px; font-size:.82rem}
 .scard.right .why{color:var(--good)} .scard.wrong .why{color:var(--bad)}
 .scard select{margin-top:8px}
@@ -209,16 +209,28 @@ svg .qmark{font-size:64px; font-weight:600; fill:var(--axis); text-anchor:middle
 .explain{margin-top:12px; font-size:.9rem}
 footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
 footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+
+/* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
+.eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
+.top .title-block{border:1px solid var(--line); border-radius:6px; padding:16px 20px; background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.top h1{font-size:22px; line-height:28px}
+.top .sub{font-size:13px; line-height:18px; color:var(--muted)}
+.sechead h2{font-size:18px; line-height:24px}
+.tag{font-size:12px; line-height:18px; letter-spacing:0; text-transform:none; font-weight:400; color:var(--accent); background:var(--accent-soft); border-color:transparent; padding:0 8px}
+.ctl output, .val{font-family:var(--mono); font-variant-ligatures:none; font-size:.92em}
 </style>
 
 <header class="top">
   <div class="wrap">
     <p style="margin:0 0 10px;font-size:.86rem"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1</a>, <a href="part-2.html">Part 2</a>, <a href="part-3.html">Part 3</a> &nbsp;·&nbsp; Tutorials: <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a>, <a href="tutorial-3.html">Tutorial 3</a></p>
-    <div class="row">
+    <div class="title-block"><p class="stamp" aria-hidden="true">Lab 2 · 29/09/26</p><div class="row">
       <h1>Topic 2 · Chemical Bonding</h1>
       <span class="tag">SEAB H2 Chemistry 9476</span>
     </div>
-    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p>
+    <p class="sub">Interactive companion to H2 Chemistry notes © Gary Chan</p></div>
   </div>
 </header>
 
