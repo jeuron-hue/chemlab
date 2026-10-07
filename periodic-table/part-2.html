@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="The Periodic Table 2: Period 3 oxides and chlorides: oxidation numbers, bonding, reactions with water, acid-base and amphoteric behaviour. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 5).">
+<title>The Periodic Table 2 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 5 · The Periodic Table</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 5 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html" aria-current="page" class="on">Part 2</a><a href="part-3.html">Part 3</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="tutorial-3.html">Tutorial 3</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#oxidation-numbers-just-enough-for-now">Oxidation numbers: just enough for now</a></li><li><a href="#the-highest-oxidation-numbers">The highest oxidation numbers</a></li><li><a href="#bonding-ionic-to-covalent">Bonding: ionic to covalent</a></li><li><a href="#the-oxides-with-water">The oxides with water</a></li><li><a href="#acid-base-behaviour-of-the-oxides-and-hydroxides">Acid-base behaviour of the oxides and hydroxides</a></li><li><a href="#the-chlorides-with-water">The chlorides with water</a></li><li><a href="#structure-and-bonding-from-observations">Structure and bonding from observations</a></li><li><a href="#summary">Summary</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">5.2 · 07/10/26</p><h1>The Periodic Table 2</h1><p class="eyebrow">Topic 5 · The Periodic Table Part 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#oxidation-numbers-just-enough-for-now">Oxidation numbers: just enough for now</a></li><li><a href="#the-highest-oxidation-numbers">The highest oxidation numbers</a></li><li><a href="#bonding-ionic-to-covalent">Bonding: ionic to covalent</a></li><li><a href="#the-oxides-with-water">The oxides with water</a></li><li><a href="#acid-base-behaviour-of-the-oxides-and-hydroxides">Acid-base behaviour of the oxides and hydroxides</a></li><li><a href="#the-chlorides-with-water">The chlorides with water</a></li><li><a href="#structure-and-bonding-from-observations">Structure and bonding from observations</a></li><li><a href="#summary">Summary</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Periodic Table Lab</a></p><p>Use the <em>Oxides and chlorides</em> bench (add water, HCl(aq) or NaOH(aq) to any Period 3 oxide or hydroxide, or water to any chloride, predict first, and watch the summary table fill in) alongside this note.</p></aside><p>Across Period 3 the elements change from reactive metals to non-metals, and their oxides and chlorides change with them: from ionic to covalent, from basic to acidic. It looks like a lot of separate facts to learn. It isn't. <span class="key">One idea, electronegativity, runs through all of it</span>, and once you see that, most of this Part can be worked out rather than memorised.</p><p class="stamp" aria-hidden="true">5.2 §1 · 07/10/26</p><h2 id="oxidation-numbers-just-enough-for-now">Oxidation numbers: just enough for now</h2><p>Oxidation numbers are covered fully in Topic 12. For this topic you only need the idea: <span class="key">the oxidation number of an atom is the charge it would have if all its bonds were ionic</span>, with the bonding electrons given to the more electronegative atom. Four rules are enough here:</p><ul><li>An uncombined element has oxidation number 0.</li><li>Oxygen in its compounds is −2 (except in peroxides and with fluorine).</li><li>Chlorine in a chloride is −1.</li><li>The oxidation numbers in a neutral compound add up to zero.</li></ul><h3>Worked example 1</h3><p>Find the oxidation number of phosphorus in P<sub>4</sub>O<sub>10</sub>.</p><p class="eq">4x + 10(−2) = 0</p><p class="eq">x = +20 / 4 = <strong>+5</strong></p><p class="stamp" aria-hidden="true">5.2 §2 · 07/10/26</p><h2 id="the-highest-oxidation-numbers">The highest oxidation numbers</h2><div class="tablewrap"><table><thead><tr><th>Element</th><th>Na</th><th>Mg</th><th>Al</th><th>Si</th><th>P</th><th>S</th></tr></thead><tbody><tr><td>Outer electrons</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr><tr><td>Oxide</td><td>Na<sub>2</sub>O</td><td>MgO</td><td>Al<sub>2</sub>O<sub>3</sub></td><td>SiO<sub>2</sub></td><td>P<sub>4</sub>O<sub>10</sub></td><td>SO<sub>3</sub></td></tr><tr><td>Oxidation number</td><td>+1</td><td>+2</td><td>+3</td><td>+4</td><td>+5</td><td>+6</td></tr><tr><td>Chloride</td><td>NaCl</td><td>MgCl<sub>2</sub></td><td>AlCl<sub>3</sub></td><td>SiCl<sub>4</sub></td><td>PCl<sub>5</sub></td><td></td></tr><tr><td>Oxidation number</td><td>+1</td><td>+2</td><td>+3</td><td>+4</td><td>+5</td><td></td></tr></tbody></table></div><p><span class="key">In the oxides, the highest oxidation number rises from +1 to +6, and it equals the number of outer electrons.</span> Oxygen is more electronegative than every element in Period 3, so in the highest oxide all the outer electrons of the element are, in oxidation-number terms, ‘given’ to oxygen.</p><p><span class="key">The chlorides follow the same pattern from +1 to +5.</span> The pattern stops there for chlorine, which is less electronegative than oxygen and a much larger atom: there is no sulfur chloride with sulfur at +6.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup> (<em>Further example.</em> Chlorine’s own highest oxide, Cl<sub>2</sub>O<sub>7</sub>, has chlorine at +7, its number of outer electrons, so it continues the oxide pattern.) Fig 1 shows both patterns.</p><figure><img src="fig/p2_onum.svg" alt="Fig 1. Highest oxidation number of the Period 3 elements in their oxides and chlorides." loading="lazy"><figcaption>Fig 1. Highest oxidation number of the Period 3 elements in their oxides and chlorides.</figcaption></figure><p class="stamp" aria-hidden="true">5.2 §3 · 07/10/26</p><h2 id="bonding-ionic-to-covalent">Bonding: ionic to covalent</h2><p>The rule from Topic 2 Part 1: <span class="key">a large difference in electronegativity (ΔEN) gives ionic bonding; a small difference gives covalent bonding.</span> Oxygen (3.44) and chlorine (3.16) are both very electronegative. Across the period the element becomes more electronegative, so ΔEN falls and the bonding changes from ionic to covalent (Pauling values, literature):</p><div class="tablewrap"><table><thead><tr><th>Oxide</th><th>ΔEN</th><th>Bonding</th><th>Structure</th><th>m.p. / °C</th></tr></thead><tbody><tr><td>Na<sub>2</sub>O</td><td>2.51</td><td>ionic</td><td>giant ionic</td><td>1132</td></tr><tr><td>MgO</td><td>2.13</td><td>ionic</td><td>giant ionic</td><td>2852</td></tr><tr><td>Al<sub>2</sub>O<sub>3</sub></td><td>1.83</td><td>ionic, with some covalent character</td><td>giant ionic</td><td>2072</td></tr><tr><td>SiO<sub>2</sub></td><td>1.54</td><td>covalent</td><td>giant molecular</td><td>1710</td></tr><tr><td>P<sub>4</sub>O<sub>10</sub></td><td>1.25</td><td>covalent</td><td>simple molecular</td><td>sublimes at 360</td></tr><tr><td>SO<sub>3</sub></td><td>0.86</td><td>covalent</td><td>simple molecular</td><td>17</td></tr></tbody></table></div><div class="tablewrap"><table><thead><tr><th>Chloride</th><th>ΔEN</th><th>Bonding</th><th>Structure</th><th>m.p. / °C</th></tr></thead><tbody><tr><td>NaCl</td><td>2.23</td><td>ionic</td><td>giant ionic</td><td>801</td></tr><tr><td>MgCl<sub>2</sub></td><td>1.85</td><td>ionic</td><td>giant ionic</td><td>714</td></tr><tr><td>AlCl<sub>3</sub></td><td>1.55</td><td>covalent (the exception, below)</td><td>simple molecular (Al<sub>2</sub>Cl<sub>6</sub>)</td><td>sublimes at 178</td></tr><tr><td>SiCl<sub>4</sub></td><td>1.26</td><td>covalent</td><td>simple molecular</td><td>−69</td></tr><tr><td>PCl<sub>5</sub></td><td>0.97</td><td>covalent</td><td>simple molecular<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></td><td>sublimes at 160</td></tr></tbody></table></div><p>(Melting points are literature values.) Treat ΔEN as a guide to the trend, not a cut-off: Al–O (1.83) is ionic while Al–Cl (1.55) is covalent, and Si–O (1.54) is covalent. What matters is the direction of change across the period.</p><ul><li><strong>The ionic oxides and chlorides</strong> (Na, Mg, and Al<sub>2</sub>O<sub>3</sub>) are giant ionic lattices with high melting points. MgO melts far higher than Na<sub>2</sub>O because Mg<sup>2+</sup> and O<sup>2−</sup> are doubly charged and Mg<sup>2+</sup> is small, so the ionic bonding is much stronger.</li><li><strong>Al<sub>2</sub>O<sub>3</sub></strong> is ionic, but the small, highly charged Al<sup>3+</sup> ion distorts (polarises) the electron cloud of the O<sup>2−</sup> ion, giving the bonds some covalent character. This in-between bonding is the key to its amphoteric behaviour later.</li><li><strong>SiO<sub>2</sub></strong> is giant molecular, like silicon itself: each Si is bonded to four O and each O to two Si, so melting it breaks many strong covalent bonds.</li><li><strong>P<sub>4</sub>O<sub>10</sub>, SO<sub>3</sub>, SiCl<sub>4</sub> and PCl<sub>5</sub></strong> are simple molecular: only weak forces between the molecules, so they melt, boil or sublime at low temperatures.</li></ul><h3>The exception: aluminium chloride</h3><p>Aluminium is a metal, and the chlorides of the metals before it, NaCl and MgCl<sub>2</sub>, are ionic, so you might expect AlCl<sub>3</sub> to be ionic too. Its ΔEN (1.55) is borderline and does not settle it. In fact AlCl<sub>3</sub> sublimes at only 178 °C. The reason is <span class="key">polarisation</span>. Al<sup>3+</sup> is very small (0.050 nm) and triply charged, so it has a very high <span class="key">charge density</span> (charge ÷ radius = 3 / 0.050 = 60.0 nm<sup>−1</sup>, against 30.8 nm<sup>−1</sup> for Mg<sup>2+</sup>). It pulls the electron cloud of the large, easily polarised Cl<sup>−</sup> ion (0.181 nm) so far towards itself that the electrons are shared: <span class="key">the bonding is covalent</span>.<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup></p><p>In an AlCl<sub>3</sub> molecule the aluminium atom has only six electrons in its outer shell. It is electron-deficient, so two molecules join up: a lone pair on a chlorine atom of each molecule forms a <span class="key">dative (co-ordinate) bond</span> to the aluminium of the other, giving <span class="key">Al<sub>2</sub>Cl<sub>6</sub></span> (Fig 2). This dimer is what is found in the vapour at the sublimation temperature; at much higher temperatures it splits back into AlCl<sub>3</sub> molecules.<sup class="fnref"><a href="#fn4" id="fnref4" aria-label="Note 4">4</a></sup></p><figure><img src="fig/p2_al2cl6.svg" alt="Fig 2. The Al2Cl6 dimer. Each Al now has eight outer electrons and is roughly tetrahedral." loading="lazy"><figcaption>Fig 2. The Al<sub>2</sub>Cl<sub>6</sub> dimer. Each Al now has eight outer electrons and is roughly tetrahedral.</figcaption></figure><p class="stamp" aria-hidden="true">5.2 §4 · 07/10/26</p><h2 id="the-oxides-with-water">The oxides with water</h2><div class="tablewrap"><table><thead><tr><th>Oxide</th><th>With water</th><th>pH of the mixture</th></tr></thead><tbody><tr><td>Na<sub>2</sub>O</td><td>reacts vigorously, giving a colourless solution of sodium hydroxide</td><td>about 14</td></tr><tr><td>MgO</td><td>reacts slightly, giving magnesium hydroxide, which is only slightly soluble</td><td>about 9</td></tr><tr><td>Al<sub>2</sub>O<sub>3</sub></td><td>insoluble; no reaction</td><td>7</td></tr><tr><td>SiO<sub>2</sub></td><td>insoluble; no reaction</td><td>7</td></tr><tr><td>P<sub>4</sub>O<sub>10</sub></td><td>reacts vigorously (very exothermic), giving phosphoric(V) acid</td><td>about 2</td></tr><tr><td>SO<sub>3</sub></td><td>reacts violently, giving sulfuric acid</td><td>about 1</td></tr></tbody></table></div><p>The equations (learn the four reactions):</p><p class="eq">Na<sub>2</sub>O(s) + H<sub>2</sub>O(l) → 2NaOH(aq)</p><p class="eq">MgO(s) + H<sub>2</sub>O(l) → Mg(OH)<sub>2</sub>(s)</p><p class="eq">P<sub>4</sub>O<sub>10</sub>(s) + 6H<sub>2</sub>O(l) → 4H<sub>3</sub>PO<sub>4</sub>(aq)</p><p class="eq">SO<sub>3</sub>(l) + H<sub>2</sub>O(l) → H<sub>2</sub>SO<sub>4</sub>(aq)</p><p>Al<sub>2</sub>O<sub>3</sub> and SiO<sub>2</sub> do not dissolve or react, so the water stays neutral. That does <span class="key">not</span> mean they have no acid-base character; it only means water is not the right reagent to show it. That is the next section.<sup class="fnref"><a href="#fn5" id="fnref5" aria-label="Note 5">5</a></sup> Fig 3 summarises the pH values for the oxides and the chlorides.</p><figure><img src="fig/p2_ph.svg" alt="Fig 3. Approximate pH when each oxide or chloride is added to water. The oxides go from strongly alkaline to strongly acidic; the chlorides from neutral to strongly acidic." loading="lazy"><figcaption>Fig 3. Approximate pH when each oxide or chloride is added to water. The oxides go from strongly alkaline to strongly acidic; the chlorides from neutral to strongly acidic.</figcaption></figure><p class="stamp" aria-hidden="true">5.2 §5 · 07/10/26</p><h2 id="acid-base-behaviour-of-the-oxides-and-hydroxides">Acid-base behaviour of the oxides and hydroxides</h2><h3>Basic oxides: Na<sub>2</sub>O and MgO</h3><p>The ionic oxides react with acids to give a salt and water. They do not react with alkalis:</p><p class="eq">Na<sub>2</sub>O(s) + 2HCl(aq) → 2NaCl(aq) + H<sub>2</sub>O(l)</p><p class="eq">MgO(s) + 2HCl(aq) → MgCl<sub>2</sub>(aq) + H<sub>2</sub>O(l)</p><p>Why basic? These oxides contain the <span class="key">oxide ion, O<sup>2−</sup>, a very strong base</span> (a strong proton acceptor, Topic 4). It takes protons from water or from an acid:</p><p class="eq">O<sup>2−</sup> + H<sub>2</sub>O → 2OH<sup>−</sup></p><p class="eq">O<sup>2−</sup> + 2H<sup>+</sup> → H<sub>2</sub>O</p><h3>Amphoteric oxide: Al<sub>2</sub>O<sub>3</sub></h3><p>Aluminium oxide is <span class="key">amphoteric</span>: it reacts with acids <em>and</em> with bases. It is insoluble in water, but it dissolves in hydrochloric acid and in sodium hydroxide solution:</p><p class="eq">Al<sub>2</sub>O<sub>3</sub>(s) + 6HCl(aq) → 2AlCl<sub>3</sub>(aq) + 3H<sub>2</sub>O(l)</p><p class="eq">Al<sub>2</sub>O<sub>3</sub>(s) + 2NaOH(aq) + 3H<sub>2</sub>O(l) → 2NaAl(OH)<sub>4</sub>(aq)</p><p>The product with sodium hydroxide is sodium aluminate, containing the tetrahydroxoaluminate ion, [Al(OH)<sub>4</sub>]<sup>−</sup>. Why amphoteric? Al<sub>2</sub>O<sub>3</sub> sits in between: ionic enough to contain oxide ions that accept protons, covalent enough (Al<sup>3+</sup> polarising O<sup>2−</sup>) to react with a base.</p><h3>Acidic oxides: SiO<sub>2</sub>, P<sub>4</sub>O<sub>10</sub> and SO<sub>3</sub></h3><p>The covalent oxides of the non-metals react with bases, not acids:</p><p class="eq">SiO<sub>2</sub>(s) + 2NaOH(aq) → Na<sub>2</sub>SiO<sub>3</sub>(aq) + H<sub>2</sub>O(l)   (hot, concentrated NaOH)</p><p class="eq">P<sub>4</sub>O<sub>10</sub>(s) + 12NaOH(aq) → 4Na<sub>3</sub>PO<sub>4</sub>(aq) + 6H<sub>2</sub>O(l)</p><p class="eq">SO<sub>3</sub>(l) + 2NaOH(aq) → Na<sub>2</sub>SO<sub>4</sub>(aq) + H<sub>2</sub>O(l)</p><p>SiO<sub>2</sub> is a giant covalent network, so it reacts only slowly, and only with hot, concentrated alkali; it does not react with acids such as HCl.<sup class="fnref"><a href="#fn6" id="fnref6" aria-label="Note 6">6</a></sup> It is still classed as an <span class="key">acidic oxide</span>, because it reacts with a base to form a salt (sodium silicate).</p><p>Why acidic? In these oxides the central atom is a non-metal in a high oxidation number, bonded to very electronegative oxygen atoms, so it carries a large δ+. It attracts the lone pair of a water molecule or a hydroxide ion; the products are oxoacids, such as H<sub>3</sub>PO<sub>4</sub> and H<sub>2</sub>SO<sub>4</sub>, which release H<sup>+</sup> ions.</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><span class="key">Glass-lined reactors and acidic SiO<sub>2</sub>.</span> Many pharmaceutical and fine-chemical reactors are steel vessels lined with a layer of glass (glass enamel), because glass resists almost all acids. The glass is mostly a silica network, and silica is an acidic oxide, so its weak point is the opposite one: <span class="key">hot alkali dissolves it</span>, by the same reaction as SiO<sub>2</sub> with hot, concentrated NaOH. The attack speeds up sharply with pH and temperature, so plants work to the lining maker’s limits for alkaline duties (for example, keeping strongly alkaline charges cool, or moving an alkaline step into a stainless steel vessel). Fluoride is the other enemy: HF and fluoride salts in acid attack silica directly.</p></aside><h3>The hydroxides: NaOH, Mg(OH)<sub>2</sub> and Al(OH)<sub>3</sub></h3><p>The hydroxides follow the same pattern as the oxides:</p><ul><li><strong>NaOH</strong> is a <span class="key">strong base</span>: it dissolves and dissociates completely, giving a high concentration of OH<sup>−</sup>(aq). NaOH(aq) + HCl(aq) → NaCl(aq) + H<sub>2</sub>O(l).</li><li><strong>Mg(OH)<sub>2</sub></strong> is <span class="key">basic but only slightly soluble</span>, so it gives only a low concentration of OH<sup>−</sup>(aq) (a suspension is ‘milk of magnesia’, pH about 9). It reacts with acids but not with alkalis: Mg(OH)<sub>2</sub>(s) + 2HCl(aq) → MgCl<sub>2</sub>(aq) + 2H<sub>2</sub>O(l).</li><li><strong>Al(OH)<sub>3</sub></strong> is <span class="key">amphoteric</span>. It is a white, gelatinous precipitate that dissolves in excess acid and in excess sodium hydroxide (Fig 4):</li></ul><p class="eq">Al(OH)<sub>3</sub>(s) + 3HCl(aq) → AlCl<sub>3</sub>(aq) + 3H<sub>2</sub>O(l)</p><p class="eq">Al(OH)<sub>3</sub>(s) + NaOH(aq) → NaAl(OH)<sub>4</sub>(aq)</p><p class="eq">ionic: Al(OH)<sub>3</sub>(s) + OH<sup>−</sup>(aq) → [Al(OH)<sub>4</sub>]<sup>−</sup>(aq)</p><figure><img src="fig/p2_amph.svg" alt="Fig 4. Aluminium hydroxide is amphoteric: the white precipitate dissolves in excess acid and in excess alkali." loading="lazy"><figcaption>Fig 4. Aluminium hydroxide is amphoteric: the white precipitate dissolves in excess acid and in excess alkali.</figcaption></figure><p>So if you add NaOH(aq) drop by drop to a solution of an aluminium salt, a white precipitate of Al(OH)<sub>3</sub> forms first, then dissolves again in excess NaOH to give a colourless solution. Mg<sup>2+</sup>(aq) gives a white precipitate of Mg(OH)<sub>2</sub> that does <em>not</em> dissolve in excess: a quick way to tell the two apart.</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><span class="key">Aluminium work-ups.</span> Reductions with lithium aluminium hydride (Topic 11.7) leave aluminium salts behind. Quench them with water alone and you get gelatinous Al(OH)<sub>3</sub>, which traps product, blocks filters and makes emulsions. The amphoteric behaviour is the way out. A common recipe (the Fieser work-up) adds, for every 1 g of LiAlH<sub>4</sub>, 1 cm<sup>3</sup> of water, then 1 cm<sup>3</sup> of 15 % NaOH(aq), then 3 cm<sup>3</sup> of water: the alkali turns the aluminium into granular aluminate salts that filter easily. Alternatively, enough NaOH(aq) dissolves the aluminium completely as [Al(OH)<sub>4</sub>]<sup>−</sup>, or a complexing agent such as potassium sodium tartrate (Rochelle salt) keeps it in the aqueous layer.</p></aside><aside class="box"><p><strong>The big picture.</strong> Across Period 3: <span class="key">basic oxides (Na<sub>2</sub>O, MgO) → amphoteric (Al<sub>2</sub>O<sub>3</sub>) → acidic (SiO<sub>2</sub>, P<sub>4</sub>O<sub>10</sub>, SO<sub>3</sub>)</span>.</p><p>This follows the change in bonding, ionic → covalent, which follows the rise in electronegativity of the element, from metal to non-metal.</p></aside><p class="stamp" aria-hidden="true">5.2 §6 · 07/10/26</p><h2 id="the-chlorides-with-water">The chlorides with water</h2><div class="tablewrap"><table><thead><tr><th>Chloride</th><th>With water</th><th>pH</th></tr></thead><tbody><tr><td>NaCl</td><td>dissolves; no hydrolysis</td><td>7</td></tr><tr><td>MgCl<sub>2</sub></td><td>dissolves; very slight hydrolysis</td><td>about 6.5</td></tr><tr><td>AlCl<sub>3</sub></td><td>dissolves in excess water with partial hydrolysis; fumes of HCl in moist air</td><td>about 3</td></tr><tr><td>SiCl<sub>4</sub></td><td>complete hydrolysis: white fumes of HCl and a white solid (SiO<sub>2</sub>)</td><td>about 2</td></tr><tr><td>PCl<sub>5</sub></td><td>complete hydrolysis, vigorous: white fumes of HCl</td><td>about 2</td></tr></tbody></table></div><h3>Ionic chlorides: NaCl and MgCl<sub>2</sub></h3><p>Sodium chloride simply dissolves; the ions are hydrated and do not react with water, so the solution is neutral:</p><p class="eq">NaCl(s) → Na<sup>+</sup>(aq) + Cl<sup>−</sup>(aq)</p><p>Magnesium chloride dissolves the same way, but the solution is very slightly acidic. The Mg<sup>2+</sup> ion is small and doubly charged, so in [Mg(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup> it polarises the O–H bonds of the water molecules around it, and a few of them lose H<sup>+</sup>:</p><p class="eq">MgCl<sub>2</sub>(s) → Mg<sup>2+</sup>(aq) + 2Cl<sup>−</sup>(aq)</p><p class="eq">[Mg(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>(aq) ⇌ [Mg(H<sub>2</sub>O)<sub>5</sub>(OH)]<sup>+</sup>(aq) + H<sup>+</sup>(aq)</p><h3>Aluminium chloride</h3><p>In a large amount of water, AlCl<sub>3</sub> dissolves to form the hydrated ion [Al(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>. Al<sup>3+</sup> has an even higher charge density than Mg<sup>2+</sup>, so it polarises the water molecules much more, and the solution is distinctly acidic, about pH 3:</p><p class="eq">AlCl<sub>3</sub>(s) + 6H<sub>2</sub>O(l) → [Al(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>(aq) + 3Cl<sup>−</sup>(aq)</p><p class="eq">[Al(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>(aq) ⇌ [Al(H<sub>2</sub>O)<sub>5</sub>(OH)]<sup>2+</sup>(aq) + H<sup>+</sup>(aq)</p><p>(This is the same kind of hydrated metal ion that you met as a Lewis adduct in Topic 4, [Fe(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>.) With only a little water, or in moist air, the hydrolysis goes much further and anhydrous AlCl<sub>3</sub> gives steamy white fumes of hydrogen chloride:</p><p class="eq">AlCl<sub>3</sub>(s) + 3H<sub>2</sub>O(l) → Al(OH)<sub>3</sub>(s) + 3HCl(g)</p><h3>Covalent chlorides: SiCl<sub>4</sub> and PCl<sub>5</sub></h3><p>The covalent chlorides are <span class="key">hydrolysed completely</span> (split up by water), giving white fumes of HCl and a strongly acidic solution:</p><p class="eq">SiCl<sub>4</sub>(l) + 2H<sub>2</sub>O(l) → SiO<sub>2</sub>(s) + 4HCl(aq)</p><p class="eq">PCl<sub>5</sub>(s) + 4H<sub>2</sub>O(l) → H<sub>3</sub>PO<sub>4</sub>(aq) + 5HCl(aq)</p><p>With a limited amount of water, PCl<sub>5</sub> stops at phosphorus oxychloride (phosphoryl chloride):</p><p class="eq">PCl<sub>5</sub>(s) + H<sub>2</sub>O(l) → POCl<sub>3</sub>(l) + 2HCl(g)</p><p>Why so reactive? The Si–Cl and P–Cl bonds are polar, so Si and P carry a δ+ charge. A water molecule attacks the δ+ atom with its lone pair, a Cl is lost as HCl, and the process repeats until every Cl has been replaced.<sup class="fnref"><a href="#fn7" id="fnref7" aria-label="Note 7">7</a></sup></p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><span class="key">Quenching chlorinating agents.</span> PCl<sub>5</sub>, POCl<sub>3</sub> and thionyl chloride, SOCl<sub>2</sub>, are used on a large scale to make acid chlorides and to replace OH by Cl. At the end of the reaction the excess must be destroyed, and that is exactly the hydrolysis above: fast, very exothermic and giving off large volumes of HCl (and SO<sub>2</sub> from SOCl<sub>2</sub>). So plants usually <span class="key">add the reaction mixture slowly to the water or aqueous base</span> (a ‘reverse quench’), never water into the mixture, with good stirring and cooling, the addition rate set by the temperature, and the gas sent to a caustic scrubber. One trap: POCl<sub>3</sub> can hydrolyse sluggishly in cold water, so unreacted reagent builds up and then reacts all at once. Many procedures therefore quench into water held warm enough for each portion to react as it is added.</p></aside><p class="stamp" aria-hidden="true">5.2 §7 · 07/10/26</p><h2 id="structure-and-bonding-from-observations">Structure and bonding from observations</h2><p>The syllabus expects you to work backwards: from what a compound does, suggest its structure and bonding. Use the clues together:</p><div class="tablewrap"><table><thead><tr><th>Observation</th><th>Suggests</th></tr></thead><tbody><tr><td>High m.p.; conducts when molten (or in aqueous solution), not as a solid</td><td>giant ionic</td></tr><tr><td>Very high m.p.; does not conduct even when molten; insoluble in water</td><td>giant molecular (covalent network)</td></tr><tr><td>Low m.p. or b.p. (gas, liquid or low-melting solid); does not conduct</td><td>simple molecular (covalent)</td></tr><tr><td>Oxide dissolves in acids only / alkalis only / both</td><td>basic (ionic) / acidic (covalent) / amphoteric</td></tr><tr><td>Chloride gives a neutral solution / fumes of HCl and an acidic solution</td><td>ionic / covalent (hydrolysed)</td></tr></tbody></table></div><h3>Worked example 2</h3><p>A Period 3 oxide X is a white solid with a melting point of 2852 °C. It conducts electricity when molten. It reacts with dilute hydrochloric acid but not with sodium hydroxide solution. Suggest the structure and bonding in X, and identify it.</p><p>(To answer this, take the clues one at a time.) The very high melting point and conduction when molten mean a <span class="key">giant ionic</span> lattice: the ions become mobile when it melts. Reacting with acid but not alkali means it is a <span class="key">basic</span> oxide. The basic, ionic oxides of Period 3 are Na<sub>2</sub>O and MgO; Na<sub>2</sub>O reacts vigorously with water, and the very high melting point points to the doubly charged ions. X is <strong>MgO</strong>.</p><h3>Worked example 3</h3><p>A colourless liquid Y, a chloride of a Period 3 element, boils at 58 °C and fumes in moist air. With water it forms a white solid and a strongly acidic solution. Its M<sub>r</sub> is 170.1. Identify Y and describe its structure and bonding.</p><p>The low boiling point means a <span class="key">simple molecular</span> (covalent) substance. Fuming in moist air, with an acidic solution, means it is hydrolysed, giving HCl. A white solid left behind fits SiO<sub>2</sub>. Check the M<sub>r</sub>: SiCl<sub>4</sub> = 28.1 + 4(35.5) = 170.1. Y is <strong>SiCl<sub>4</sub></strong>, made of tetrahedral covalent molecules held together by id-id attractions.</p><p class="stamp" aria-hidden="true">5.2 §8 · 07/10/26</p><h2 id="summary">Summary</h2><div class="tablewrap"><table><thead><tr><th></th><th>Na</th><th>Mg</th><th>Al</th><th>Si</th><th>P</th><th>S</th></tr></thead><tbody><tr><td>Oxide</td><td>Na<sub>2</sub>O</td><td>MgO</td><td>Al<sub>2</sub>O<sub>3</sub></td><td>SiO<sub>2</sub></td><td>P<sub>4</sub>O<sub>10</sub></td><td>SO<sub>3</sub></td></tr><tr><td>Structure</td><td>giant ionic</td><td>giant ionic</td><td>giant ionic</td><td>giant molecular</td><td>simple molecular</td><td>simple molecular</td></tr><tr><td>With water, pH</td><td>NaOH, 14</td><td>Mg(OH)<sub>2</sub>, 9</td><td>none, 7</td><td>none, 7</td><td>H<sub>3</sub>PO<sub>4</sub>, 2</td><td>H<sub>2</sub>SO<sub>4</sub>, 1</td></tr><tr><td>Nature</td><td>basic</td><td>basic</td><td>amphoteric</td><td>acidic</td><td>acidic</td><td>acidic</td></tr><tr><td>Chloride</td><td>NaCl</td><td>MgCl<sub>2</sub></td><td>AlCl<sub>3</sub></td><td>SiCl<sub>4</sub></td><td>PCl<sub>5</sub></td><td></td></tr><tr><td>Structure</td><td>giant ionic</td><td>giant ionic</td><td>simple molecular</td><td>simple molecular</td><td>simple molecular</td><td></td></tr><tr><td>With water, pH</td><td>dissolves, 7</td><td>dissolves, 6.5</td><td>hydrolysed, 3</td><td>hydrolysed, 2</td><td>hydrolysed, 2</td><td></td></tr></tbody></table></div>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">Beyond the syllabus: sulfur’s common chlorides are SCl<sub>2</sub> and S<sub>2</sub>Cl<sub>2</sub>, with sulfur in lower oxidation states. Sulfur does reach +6 with fluorine, the smallest and most electronegative halogen, in SF<sub>6</sub>. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">Beyond the syllabus: solid PCl<sub>5</sub> is actually ionic, [PCl<sub>4</sub>]<sup>+</sup>[PCl<sub>6</sub>]<sup>−</sup>, but it sublimes as PCl<sub>5</sub> molecules. Treat it as simple molecular. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">This is the polarisation idea (Fajans’ rules) shown in Topic 2 Part 1. There it was Enrichment; in this topic it is needed, here and again in Part 3 for the Group 2 carbonates. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li><li id="fn4">Beyond the syllabus: solid AlCl<sub>3</sub> at room temperature is a layer lattice with each Al surrounded by six Cl. On heating it changes to Al<sub>2</sub>Cl<sub>6</sub> molecules, which is why it sublimes at such a low temperature. <a href="#fnref4" class="back" aria-label="Back to text">↩</a></li><li id="fn5">MgO is often described as ‘slightly soluble’, which is why its pH (about 9) is much lower than that of Na<sub>2</sub>O. The OH<sup>−</sup> concentration is limited by how little Mg(OH)<sub>2</sub> dissolves. <a href="#fnref5" class="back" aria-label="Back to text">↩</a></li><li id="fn6">Beyond the syllabus: hydrofluoric acid is the exception. It attacks silica, SiO<sub>2</sub>(s) + 6HF(aq) → H<sub>2</sub>SiF<sub>6</sub>(aq) + 2H<sub>2</sub>O(l), which is why HF is used to etch glass and must never be kept in glass bottles. <a href="#fnref6" class="back" aria-label="Back to text">↩</a></li><li id="fn7">Beyond the syllabus: carbon tetrachloride, CCl<sub>4</sub>, is not hydrolysed by water, although C–Cl is also polar and the hydrolysis would be energetically favourable. The barrier is kinetic: the small carbon atom is crowded by four Cl atoms, so a water molecule cannot get close enough to attack it. Silicon is larger, so water can reach it. (Many books add that silicon has empty 3d orbitals to accept the lone pair; modern work does not support a real role for them.) <a href="#fnref7" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-1.html">← Part 1</a><a href="part-3.html">Part 3 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>

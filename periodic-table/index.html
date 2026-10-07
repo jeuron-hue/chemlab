@@ -1,0 +1,2043 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 5 The Periodic Table.">
+<title>Periodic Table Lab</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --grid:#E9EDEF; --axis:#7A8A94; --line:#DDE3E6; --accent:#1F6F8B; --accent-ink:#FFFFFF; --accent-soft:#E3EEF2;
+  --s1:#1F6F8B; --s1-wash:rgba(31,111,139,.20); --s2:#7B4B94; --s2-wash:rgba(123,75,148,.18); --s3:#5B6B75; --s4:#1E2A33; --ref:#7A8A94;
+  --s1-ink:#1F6F8B; --s2-ink:#7B4B94; --s3-ink:#5B6B75; --s4-ink:#1E2A33; --s3-wash:rgba(91,107,117,.14); --s4-wash:rgba(30,42,51,.12);
+  --good:#2E7D4F; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
+  --band:rgba(31,111,139,.05);
+  --shadow:none;
+  --serif:var(--sans);
+  --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+    --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --s4:#E8EDF0; --ref:#6E7D87;
+    --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s4-ink:#E8EDF0; --s3-wash:rgba(155,170,179,.20); --s4-wash:rgba(232,237,240,.16);
+    --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+    --band:rgba(102,186,214,.06);
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+  --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --s4:#E8EDF0; --ref:#6E7D87;
+  --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s4-ink:#E8EDF0; --s3-wash:rgba(155,170,179,.20); --s4-wash:rgba(232,237,240,.16);
+  --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+  --band:rgba(102,186,214,.06);
+  --shadow:none;
+}
+/* lighter partners of teal and plum (as gases/): always paired with a dash pattern */
+:root{ --c5:#5FA9C2; --c6:#B58BCB; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --c5:#2E8CAB; --c6:#9C6BB5; } }
+:root[data-theme="dark"]{ --c5:#2E8CAB; --c6:#9C6BB5; }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+.nc{text-transform:none; letter-spacing:.02em}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0; overflow-wrap:break-word}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3,h4{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.crumbs{margin:0 0 10px; font-size:.86rem; line-height:1.7}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:0; text-transform:none; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
+.controls{display:flex; flex-direction:column; gap:14px; min-width:0}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+.seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(14px)}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.sm{padding:4px 10px; font-size:.8rem}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2)}
+.legend > span{display:inline-block}
+.legend .lkey, .legend .key{vertical-align:middle; margin-right:6px; position:relative; top:-1px}
+.lkey{display:inline-block; width:14px; height:10px; border-radius:2px; flex:none}
+.key{display:inline-block; width:18px; height:0; border-top:2px solid; flex:none}
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px; min-width:0}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.0rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.stat .v small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.stat.wide{grid-column:1/-1}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
+.callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
+.callout p{margin:0}
+.callout p + p{margin-top:6px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
+.src.lit{border-style:dashed}
+.nw{white-space:nowrap}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
+.field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.fb.info{background:var(--surface-2); color:var(--ink-2)}
+.fb.warn{background:var(--warn-bg); color:var(--warn)}
+.fb ul{margin:6px 0 0; padding-left:18px}
+.fb p{margin:0}
+.fb p + p{margin-top:6px}
+.fb .ink{color:var(--ink)}
+.stack{display:flex; flex-direction:column; gap:14px; min-width:0}
+h3.sub3{font-size:1.1rem; margin:0}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tabs button{font-size:.86rem; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chips button{font-size:.86rem; padding:4px 9px; border-radius:4px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; line-height:1.5; font-variant-numeric:tabular-nums; text-align:left}
+.chips button:hover{border-color:var(--axis)}
+.chips button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft); color:var(--ink)}
+.chips button:disabled{opacity:.45; cursor:not-allowed}
+.chipgrp{display:flex; flex-direction:column; gap:4px}
+.chipgrp > span{font-size:.76rem; color:var(--muted); font-weight:600}
+.qtext{font-size:1.0rem; font-weight:500; margin:0}
+.eqn{font-variant-numeric:tabular-nums; white-space:normal}
+.eqs{display:flex; flex-direction:column; gap:4px; overflow-x:auto; font-size:.93rem; line-height:1.6}
+.eqs > div{min-width:0}
+.eqs .lab{font-size:.76rem; color:var(--muted); display:block; line-height:1.3}
+
+/* viewers and charts */
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:6px; overflow:hidden; min-width:0}
+.viewer svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+.viewer .vhead{padding:9px 12px 0; font-size:.84rem; font-weight:600; color:var(--ink-2)}
+.viewer .vhead .hint{font-weight:400; margin-left:6px}
+.viewer .vnote{padding:7px 12px 9px; font-size:.78rem; color:var(--muted); border-top:1px solid var(--line)}
+.viewer .vlegend{padding:0 12px 8px}
+svg .axis{stroke:var(--axis); stroke-width:1}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .cap{font-size:11.5px; fill:var(--muted)}
+svg .tick{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+svg .axlab{font-size:11.5px; fill:var(--ink-2)}
+svg .lbl{font-size:12px; fill:var(--ink)}
+svg .lblb{font-size:12.5px; font-weight:600; fill:var(--ink)}
+svg .val{font-size:11.5px; font-weight:600; fill:var(--ink); font-variant-numeric:tabular-nums}
+svg .halo{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+.tblwrap{overflow-x:auto; min-width:0}
+table.data{border-collapse:collapse; font-size:.86rem; width:100%}
+table.data td, table.data th{padding:6px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+table.data th{font-size:.76rem; color:var(--ink-2); font-weight:600}
+table.data td.num, table.data th.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.data td.c, table.data th.c{text-align:center}
+table.data tr.hl td{background:var(--accent-soft)}
+table.data td.blank{color:var(--muted)}
+table.sum{min-width:880px}
+table.sum.cl{min-width:640px}
+table.sum td:first-child{white-space:nowrap; font-weight:600}
+
+/* element tiles (configuration view) */
+.tiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(118px,1fr)); gap:8px; padding:12px}
+.tile{border:1px solid var(--line); border-radius:4px; padding:8px 9px; background:var(--surface-2); min-width:0}
+.tile .sym{font-size:1.25rem; font-weight:600; color:var(--ink); line-height:1.1}
+.tile .z{font-family:var(--mono); font-size:.7rem; color:var(--muted); float:right}
+.tile .cfg{font-size:.86rem; color:var(--ink); margin-top:2px; font-variant-numeric:tabular-nums}
+.tile .meta{font-size:.74rem; color:var(--ink-2); margin-top:4px; line-height:1.35}
+.tile svg{display:block; width:100%; height:auto; margin-top:4px}
+
+/* physical-colour benches: realistic colours on a light card in both themes */
+.bench{background:#f3f5f7; border:1px solid var(--line); border-radius:6px; overflow:hidden; min-width:0}
+.bench svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+.bench svg text{fill:#3a434d}
+.bench .bt{font-size:11.5px; fill:#3a434d}
+.bench .btb{font-size:12.5px; font-weight:600; fill:#141a20}
+.bench .bnote{padding:7px 11px 9px; font-size:.8rem; color:#3f4953; border-top:1px solid #d4dbe2; background:#f3f5f7}
+.swatch{display:inline-block; width:14px; height:14px; border-radius:3px; border:1px solid rgba(0,0,0,.3); vertical-align:-2px; margin-right:5px}
+
+/* pH strip */
+.phbox{display:flex; flex-direction:column; gap:4px}
+.phstrip{display:grid; grid-template-columns:repeat(15,minmax(0,1fr)); border:1px solid #c5ccd3; border-radius:4px; overflow:hidden; position:relative; height:26px}
+.phstrip i{display:block}
+.phmark{position:absolute; top:-3px; bottom:-3px; width:0; border-left:3px solid #141a20}
+.phnums{display:grid; grid-template-columns:repeat(15,minmax(0,1fr)); font-size:.68rem; color:var(--muted); text-align:center; font-variant-numeric:tabular-nums}
+.phread{font-family:var(--mono); font-variant-ligatures:none; font-size:.95rem; color:var(--ink); font-weight:500}
+
+/* displacement grid */
+.dgrid{display:grid; grid-template-columns:auto repeat(3,minmax(0,1fr)); gap:6px; align-items:stretch}
+.dgrid .h{font-size:.8rem; font-weight:600; color:var(--ink-2); display:flex; align-items:center; justify-content:center; text-align:center; padding:4px}
+.dgrid .h.row{justify-content:flex-start}
+.dgrid button{font-size:.8rem; padding:8px 4px; border-radius:4px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer; min-height:46px; line-height:1.25}
+.dgrid button:hover{border-color:var(--axis)}
+.dgrid button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft); color:var(--ink)}
+.dgrid button .w{display:block; font-weight:600; color:var(--ink)}
+
+/* predict boxes */
+.pbox{border:1px dashed var(--axis); border-radius:6px; padding:12px; display:flex; flex-direction:column; gap:10px}
+.optlist{display:flex; flex-direction:column; gap:6px}
+.opt{text-align:left; font-size:.92rem; padding:9px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good); background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+
+/* detective */
+.clues{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:6px; font-size:.93rem}
+.clues li::marker{color:var(--muted); font-family:var(--mono); font-size:.8em}
+.reason{margin:6px 0 0; padding-left:18px; font-size:.88rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+
+/* cards */
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+@media (max-width:420px){ .cards{grid-template-columns:minmax(0,1fr)} }
+.card h3{font-size:1.08rem; margin-bottom:2px}
+.card .kind{font-size:.8rem; color:var(--muted); margin-bottom:8px}
+.card p{margin:8px 0 0; font-size:.88rem; color:var(--ink-2)}
+.card dl{margin:6px 0 0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:3px 10px; font-size:.86rem}
+.card dt{color:var(--muted)}
+.card dd{margin:0; color:var(--ink); font-variant-numeric:tabular-nums}
+.card .eqs{margin-top:8px; font-size:.86rem}
+.card svg{display:block; width:100%; max-width:300px; margin-top:6px}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.opts{display:flex; flex-direction:column; gap:8px; margin-top:12px}
+.explain{margin-top:12px; font-size:.9rem}
+.whyl{margin:8px 0 0; padding-left:18px; color:var(--ink-2); font-size:.88rem; display:flex; flex-direction:column; gap:4px}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+
+/* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
+.eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
+.top .title-block{border:1px solid var(--line); border-radius:6px; padding:16px 20px; background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.top h1{font-size:22px; line-height:28px}
+.top .sub{font-size:13px; line-height:18px; color:var(--muted)}
+.sechead h2{font-size:18px; line-height:24px}
+.tag{font-size:12px; line-height:18px; letter-spacing:0; text-transform:none; font-weight:400; color:var(--accent); background:var(--accent-soft); border-color:transparent; padding:0 8px}
+.ctl output, .val{font-family:var(--mono); font-variant-ligatures:none; font-size:.92em}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumbs"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1</a>, <a href="part-2.html">Part 2</a>, <a href="part-3.html">Part 3</a> &nbsp;·&nbsp; <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a>, <a href="tutorial-3.html">Tutorial 3</a></p>
+    <div class="title-block"><p class="stamp" aria-hidden="true">Lab 5 · 07/10/26</p><div class="row">
+      <h1>Topic 5 · The Periodic Table</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Periodic Table Lab: interactive companion to H2 Chemistry notes © Gary Chan</p></div>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#trends">Trends explorer</a>
+    <a href="#bench">Oxides and chlorides</a>
+    <a href="#groups">Groups 2 and 17</a>
+    <a href="#detective">Element detective</a>
+    <a href="#cards">Fact cards</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 TRENDS -->
+<section class="lab" id="trends">
+  <div class="sechead">
+    <span class="eyebrow">Explorer · <span class="nc">9476 5(a)–(d)</span></span>
+    <h2>Trends explorer</h2>
+    <p>Pick a set of elements and a property. Every value carries its source: <span class="src">Data Booklet</span> or <span class="src lit">literature</span>.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Set of elements</span>
+        <div class="seg" role="radiogroup" aria-label="Set of elements">
+          <label><input type="radio" name="tr-set" value="P3" checked>Period 3</label>
+          <label><input type="radio" name="tr-set" value="G2">Group 2</label>
+          <label><input type="radio" name="tr-set" value="G17">Group 17</label>
+        </div></div>
+      <div class="ctl"><span class="lab">Property</span>
+        <div class="chips" id="tr-props" role="group" aria-label="Property"></div></div>
+      <label class="switch" id="tr-atom-sw" hidden><input type="checkbox" id="tr-atom"><span>Overlay the atoms (dashed outlines)</span></label>
+      <div class="hint" id="tr-hint"></div>
+    </div>
+    <div class="stack">
+      <div class="viewer" id="tr-view">
+        <div class="vhead" id="tr-title"></div>
+        <div id="tr-body"></div>
+        <div class="vlegend legend" id="tr-legend"></div>
+        <div class="vnote" id="tr-note"></div>
+      </div>
+      <div class="viewer" id="tr-circ-wrap" hidden>
+        <div class="vhead" id="tr-circ-title"></div>
+        <svg id="tr-circ" role="img" aria-label="Atoms and ions drawn to scale"></svg>
+        <div class="vnote" id="tr-circ-note"></div>
+      </div>
+      <div class="bench" id="tr-hal" hidden>
+        <svg id="tr-hal-svg" role="img" aria-label="Chlorine, bromine and iodine at room temperature"></svg>
+        <div class="bnote">At room temperature and pressure: chlorine is a greenish-yellow gas, bromine a red-brown liquid, iodine a grey-black shiny solid that gives a purple vapour on warming.</div>
+      </div>
+      <div class="panel stack" id="tr-explain"></div>
+      <div class="panel stack" id="tr-pred">
+        <div class="btnrow" style="justify-content:space-between"><span class="eyebrow">Predict · <span class="nc">5(b)–(d)</span></span><button class="btn sm" id="tr-pnew">New question</button></div>
+        <p class="qtext" id="tr-pq"></p>
+        <div class="chips" id="tr-pa" role="group" aria-label="Your answer"></div>
+        <div class="stack" id="tr-pr-box" style="gap:6px"><span class="hint">Choose the reason:</span><div class="optlist" id="tr-pr"></div></div>
+        <div class="btnrow"><button class="btn primary" id="tr-pcheck">Check</button></div>
+        <div id="tr-pfb" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 OXIDES AND CHLORIDES -->
+<section class="lab" id="bench">
+  <div class="sechead">
+    <span class="eyebrow">Bench · <span class="nc">9476 5(e)</span></span>
+    <h2>Oxides and chlorides of Period 3</h2>
+    <p>Add acid or alkali to any oxide or hydroxide, and water to any of them or to a chloride. The pH reading is what universal indicator would show; the tube shows the real colours. Melting points are <span class="src lit">literature</span> values; electronegativity differences use Pauling values <span class="src lit">literature</span>.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="chipgrp"><span>Oxides</span><div class="chips" id="bx-ox" role="group" aria-label="Oxides"></div></div>
+      <div class="chipgrp"><span>Hydroxides</span><div class="chips" id="bx-hy" role="group" aria-label="Hydroxides"></div></div>
+      <div class="chipgrp"><span>Chlorides</span><div class="chips" id="bx-cl" role="group" aria-label="Chlorides"></div></div>
+      <div class="ctl"><span class="lab">Reagent</span>
+        <div class="seg" role="radiogroup" aria-label="Reagent">
+          <label><input type="radio" name="bx-rg" value="water" checked>Water</label>
+          <label><input type="radio" name="bx-rg" value="hcl">HCl(aq)</label>
+          <label><input type="radio" name="bx-rg" value="naoh" id="bx-naoh-r"><span id="bx-naoh-l">NaOH(aq)</span></label>
+        </div>
+        <span class="hint" id="bx-rg-hint"></span></div>
+      <div class="ctl" id="bx-amt-box" hidden><span class="lab">Amount of water</span>
+        <div class="seg" role="radiogroup" aria-label="Amount of water">
+          <label><input type="radio" name="bx-amt" value="excess" checked>Excess water</label>
+          <label><input type="radio" name="bx-amt" value="limited">Limited water / moist air</label>
+        </div></div>
+      <label class="switch"><input type="checkbox" id="bx-pred"><span>Predict before you see</span></label>
+      <div class="btnrow"><button class="btn primary" id="bx-add">Add reagent</button><button class="btn" id="bx-reset">Empty the tube</button></div>
+    </div>
+    <div class="stack">
+      <div class="bench">
+        <svg id="bx-svg" role="img" aria-label="Test tube"></svg>
+        <div class="bnote" id="bx-obs">Choose a compound and a reagent, then press Add reagent.</div>
+      </div>
+      <div class="pbox" id="bx-pbox" hidden></div>
+      <div class="stack" id="bx-result" hidden></div>
+      <div class="viewer">
+        <div class="vhead">Electronegativity difference, Δ<i>EN</i> (Pauling) <span class="src lit">literature</span></div>
+        <svg id="bx-en" role="img" aria-label="Electronegativity differences of the oxides and chlorides"></svg>
+        <div class="vlegend legend" id="bx-en-leg"></div>
+        <div class="vnote">The larger Δ<i>EN</i>, the more ionic the bonding. AlCl<sub>3</sub> is the exception named in the syllabus: Al is a metal, and metal chlorides such as NaCl and MgCl<sub>2</sub> are ionic, so you might expect AlCl<sub>3</sub> to be ionic too. It isn't: the small, highly charged Al<sup>3+</sup> polarises the large Cl<sup>−</sup> so strongly that the bonding is covalent.</div>
+      </div>
+      <div class="viewer" id="bx-dimer-wrap" hidden>
+        <div class="vhead">Al<sub>2</sub>Cl<sub>6</sub> dimer <span class="hint">in the vapour at the sublimation temperature</span></div>
+        <svg id="bx-dimer" role="img" aria-label="Al2Cl6 dimer with two bridging chlorine atoms"></svg>
+        <div class="vnote">Each bridging Cl uses a lone pair to form a dative (co-ordinate) bond, shown as an arrow, to the other Al. Each Al then has four bonding pairs (an octet) and is tetrahedral.</div>
+      </div>
+    </div>
+  </div>
+  <div class="stack" style="margin-top:20px">
+    <div class="btnrow" style="justify-content:space-between"><h3 class="sub3">Period 3 summary</h3><span class="btnrow"><button class="btn sm" id="bx-fill">Fill in everything</button><button class="btn sm" id="bx-clear">Clear</button></span></div>
+    <p class="hint" style="margin:0">Cells fill in as you test each compound on the bench. For an oxide, the nature column fills once you have tried both HCl(aq) and NaOH(aq).</p>
+    <div class="tblwrap"><table class="data sum" id="bx-sum-ox"></table></div>
+    <div class="tblwrap"><table class="data sum cl" id="bx-sum-cl"></table></div>
+  </div>
+</section>
+
+<!-- 3 GROUPS 2 AND 17 -->
+<section class="lab" id="groups">
+  <div class="sechead">
+    <span class="eyebrow">Bench · <span class="nc">9476 5(f)–(g)</span></span>
+    <h2>Groups 2 and 17</h2>
+    <p>Reducing and oxidising power from <i>E</i><sup>⦵</sup> values, halogen displacement, thermal stability of Group 2 carbonates and of the hydrogen halides.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" aria-label="Groups bench">
+      <button role="tab" id="gp-t-ladder" aria-controls="gp-ladder" aria-selected="true"><i>E</i><sup>⦵</sup> ladder</button>
+      <button role="tab" id="gp-t-disp" aria-controls="gp-disp" aria-selected="false">Displacement</button>
+      <button role="tab" id="gp-t-carb" aria-controls="gp-carb" aria-selected="false">Carbonates</button>
+      <button role="tab" id="gp-t-hyd" aria-controls="gp-hyd" aria-selected="false">Hydrogen halides</button>
+    </div>
+
+    <div id="gp-ladder" role="tabpanel" class="grid2">
+      <div class="panel controls">
+        <label class="switch"><input type="checkbox" id="ld-fx"><span>Show F<sub>2</sub> (Further example)</span></label>
+        <div class="callout"><p>The more negative <i>E</i><sup>⦵</sup>(M<sup>2+</sup>/M), the greater the tendency of M to lose electrons: the stronger the reducing agent.</p><p>The more positive <i>E</i><sup>⦵</sup>(X<sub>2</sub>/X<sup>−</sup>), the greater the tendency of X<sub>2</sub> to gain electrons: the stronger the oxidising agent.</p></div>
+        <div class="ctl"><span class="lab"><span><span class="fex">Further example</span>Group 2 metal in water</span></span>
+          <div class="seg" role="radiogroup" aria-label="Group 2 metal">
+            <label><input type="radio" name="ld-m" value="Mg" checked>Mg</label>
+            <label><input type="radio" name="ld-m" value="Ca">Ca</label>
+            <label><input type="radio" name="ld-m" value="Sr">Sr</label>
+            <label><input type="radio" name="ld-m" value="Ba">Ba</label>
+          </div></div>
+        <div class="btnrow"><button class="btn" id="ld-drop">Drop into cold water</button></div>
+      </div>
+      <div class="stack">
+        <div class="viewer">
+          <div class="vhead"><i>E</i><sup>⦵</sup> / V <span class="hint">Data Booklet except Sr (literature)</span></div>
+          <svg id="ld-svg" role="img" aria-label="Standard electrode potential ladder for Groups 2 and 17"></svg>
+          <div class="vlegend legend" id="ld-leg"></div>
+        </div>
+        <div class="viewer">
+          <div class="vhead">Group 2: <i>IE</i><sub>1</sub> + <i>IE</i><sub>2</sub> / kJ mol<sup>−1</sup> <span class="src">Data Booklet</span></div>
+          <svg id="ld-ie" role="img" aria-label="Sum of first and second ionisation energies down Group 2"></svg>
+          <div class="vnote">Less energy is needed to form M<sup>2+</sup> down the group: the outer electrons are further from the nucleus and better shielded. So reactivity as reducing agents increases from Mg to Ba.</div>
+        </div>
+        <div class="bench">
+          <svg id="ld-water" role="img" aria-label="Group 2 metal in water"></svg>
+          <div class="bnote" id="ld-water-obs"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="gp-disp" role="tabpanel" class="grid2" hidden>
+      <div class="panel controls">
+        <span class="hint">Rows: halogen added (as aqueous solution). Columns: potassium halide solution (colourless).</span>
+        <div class="dgrid" id="dp-grid"></div>
+        <label class="switch"><input type="checkbox" id="dp-pred"><span>Predict before you see</span></label>
+        <div class="btnrow"><button class="btn primary" id="dp-mix">Add halogen</button><button class="btn" id="dp-shake" disabled>Shake with hexane</button></div>
+      </div>
+      <div class="stack">
+        <div class="bench">
+          <svg id="dp-svg" role="img" aria-label="Halogen displacement in a test tube"></svg>
+          <div class="bnote" id="dp-obs"></div>
+        </div>
+        <div class="pbox" id="dp-pbox" hidden></div>
+        <div class="stack" id="dp-res"></div>
+      </div>
+    </div>
+
+    <div id="gp-carb" role="tabpanel" class="grid2" hidden>
+      <div class="panel controls">
+        <div class="ctl"><span class="lab">Carbonate</span>
+          <div class="seg" role="radiogroup" aria-label="Carbonate">
+            <label><input type="radio" name="cb-m" value="Mg" checked>MgCO<sub>3</sub></label>
+            <label><input type="radio" name="cb-m" value="Ca">CaCO<sub>3</sub></label>
+            <label><input type="radio" name="cb-m" value="Sr">SrCO<sub>3</sub></label>
+            <label><input type="radio" name="cb-m" value="Ba">BaCO<sub>3</sub></label>
+          </div></div>
+        <div class="ctl"><label for="cb-T"><span>Temperature of the solid</span> <output id="cb-T-o"></output></label>
+          <input type="range" id="cb-T" min="20" max="1400" step="10" value="20"></div>
+        <div class="btnrow"><button class="btn primary" id="cb-heat">Heat steadily</button><button class="btn" id="cb-reset">Cool and reset</button></div>
+        <span class="hint">Decomposition temperatures are approximate <span class="src lit">literature</span> values; they depend on conditions.</span>
+        <div class="callout" id="cb-real"><p>Only MgCO<sub>3</sub> and CaCO<sub>3</sub> decompose in a test tube over a Bunsen flame. SrCO<sub>3</sub> and BaCO<sub>3</sub> need far higher temperatures, so the top of the slider is idealised: think of a furnace, not a test tube.</p></div>
+      </div>
+      <div class="stack">
+        <div class="bench">
+          <svg id="cb-svg" role="img" aria-label="Heating a carbonate with a limewater test"></svg>
+          <div class="bnote" id="cb-obs"></div>
+        </div>
+        <div class="viewer">
+          <div class="vhead">Polarisation of the carbonate ion <span class="hint">cations to scale (Data Booklet radii); carbonate ion schematic</span></div>
+          <svg id="cb-pol" role="img" aria-label="Cation polarising the carbonate ion"></svg>
+          <div class="vnote" id="cb-pol-note"></div>
+        </div>
+        <div class="viewer">
+          <div class="vhead">Decomposition temperature against charge density of the cation</div>
+          <svg id="cb-chart" role="img" aria-label="Decomposition temperature against charge density"></svg>
+        </div>
+        <div class="readout" id="cb-read"></div>
+      </div>
+    </div>
+
+    <div id="gp-hyd" role="tabpanel" class="grid2" hidden>
+      <div class="panel controls">
+        <div class="ctl"><span class="lab">Gas jar</span>
+          <div class="seg" role="radiogroup" aria-label="Hydrogen halide">
+            <label><input type="radio" name="hx-g" value="Cl" checked>HCl</label>
+            <label><input type="radio" name="hx-g" value="Br">HBr</label>
+            <label><input type="radio" name="hx-g" value="I">HI</label>
+          </div></div>
+        <div class="btnrow"><button class="btn primary" id="hx-go">Plunge in a red-hot needle</button><button class="btn" id="hx-reset">New gas jar</button></div>
+        <label class="switch"><input type="checkbox" id="hx-fx"><span>Show H–F (Further example)</span></label>
+      </div>
+      <div class="stack">
+        <div class="bench">
+          <svg id="hx-svg" role="img" aria-label="Gas jar with a hot needle"></svg>
+          <div class="bnote" id="hx-obs"></div>
+        </div>
+        <div class="viewer">
+          <div class="vhead">H–X bond energy / kJ mol<sup>−1</sup> <span class="src">Data Booklet</span></div>
+          <svg id="hx-bars" role="img" aria-label="Bond energies of the hydrogen halides"></svg>
+          <div class="vnote">Down the group the halogen atom is larger, so the H–X bond is longer and weaker. Less energy is needed to break it, so the hydride is less thermally stable.</div>
+        </div>
+        <div class="stack" id="hx-res"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 DETECTIVE -->
+<section class="lab" id="detective">
+  <div class="sechead">
+    <span class="eyebrow">Practice · <span class="nc">9476 5(h)–(i)</span></span>
+    <h2>Unknown element detective</h2>
+    <p>Identify mode: read the clues, place the element, then name it. Predict mode: use the trends to predict how an element beyond the named ranges behaves.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Mode</span>
+        <div class="seg" role="radiogroup" aria-label="Mode">
+          <label><input type="radio" name="dt-mode" value="id" checked>Identify</label>
+          <label><input type="radio" name="dt-mode" value="pr">Predict</label>
+        </div></div>
+      <div class="btnrow"><button class="btn primary" id="dt-new">New case</button></div>
+      <div class="hint" id="dt-score"></div>
+      <div class="callout" id="dt-tip"></div>
+    </div>
+    <div class="panel stack" id="dt-case"></div>
+  </div>
+</section>
+
+<!-- 5 FACT CARDS -->
+<section class="lab" id="cards">
+  <div class="sechead">
+    <span class="eyebrow">Fact cards · <span class="nc">5(e)–(g)</span></span>
+    <h2>Fact cards</h2>
+    <p>Every compound and element named in the outcomes, with the equations and values the notes use.</p>
+  </div>
+  <div class="stack">
+    <div class="chips" id="fc-filter" role="group" aria-label="Filter the cards"></div>
+    <div class="cards" id="fc-cards"></div>
+  </div>
+</section>
+
+<!-- 6 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions. Pick an answer to see the explanation, including why each other option is wrong.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 5 The Periodic Table</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · radii, ionisation energies, bond energies and most <i>E</i><sup>⦵</sup> values from the Data Booklet · electronegativities, melting and boiling points, conductivities, decomposition temperatures and <i>E</i><sup>⦵</sup>(Sr<sup>2+</sup>/Sr) are literature values</span>
+  </div>
+</footer>
+<script>
+(function(){
+"use strict";
+const PT = window.PT = {};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+const supCh = c => c === "⁺" ? "+" : c === "⁻" ? "−" : String(SUPD.indexOf(c));
+// Unicode sub/superscripts in data strings become <sub>/<sup>; "E⦵" becomes italic E with the plimsoll superscript
+const H = t => String(t)
+  .replace(/E⦵cell/g, "<i>E</i><sup>⦵</sup><sub>cell</sub>")
+  .replace(/E⦵/g, "<i>E</i><sup>⦵</sup>")
+  .replace(/[₀-₉]+/g, m => `<sub>${[...m].map(c => SUBD.indexOf(c)).join("")}</sub>`)
+  .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+/g, m => `<sup>${[...m].map(supCh).join("")}</sup>`);
+const minus = s => String(s).replace(/-/g, "−");
+const fx = (v, d) => minus(v.toFixed(d));
+const sgn = (v, d) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d);
+const SRC = k => k === "lit" ? `<span class="src lit">literature</span>` : `<span class="src">Data Booklet</span>`;
+const FEX = `<span class="fex">Further example</span>`;
+const ENR = `<span class="beyond">Enrichment</span>`;
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const ord = n => n + (n === 1 ? "st" : n === 2 ? "nd" : n === 3 ? "rd" : "th");
+
+// every equation shown on the page goes through EQ(), which registers it for the balance checks
+const EQS = new Set();
+PT.EQS = EQS;
+// text with {{equation}} markers: equations through EQ, the rest through H
+const TX = t => String(t).split(/\{\{|\}\}/).map((p, i) => i % 2 ? EQ(p) : H(p)).join("");
+function EQ(s, cls){ EQS.add(s); return `<span class="eqn${cls ? " " + cls : ""}" data-eq="${esc(s)}">${H(s)}</span>`; }
+
+// SVG text with sub/superscripts as tspans
+function svgChem(s, fs){
+  let out = "", cur = 0;
+  const re = /([₀-₉]+)|([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)|(⦵)|([^₀-₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⦵]+)/g;
+  let m;
+  while ((m = re.exec(s))){
+    let target = 0, txt, small = false;
+    if (m[1]){ target = 0.3 * fs; txt = [...m[1]].map(c => SUBD.indexOf(c)).join(""); small = true; }
+    else if (m[2]){ target = -0.42 * fs; txt = [...m[2]].map(supCh).join(""); small = true; }
+    else if (m[3]){ target = -0.42 * fs; txt = "⦵"; small = true; }
+    else txt = esc(m[4]);
+    const dy = target - cur; cur = target;
+    out += `<tspan dy="${dy.toFixed(1)}"${small ? ` font-size="${(fs * 0.72).toFixed(1)}"` : ""}>${txt}</tspan>`;
+  }
+  if (cur !== 0) out += `<tspan dy="${(-cur).toFixed(1)}"></tspan>`;
+  return out;
+}
+const T = (x, y, s, cls, extra, fs) => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}"${cls ? ` class="${cls}"` : ""}${extra ? " " + extra : ""}>${svgChem(String(s), fs || 12)}</text>`;
+function widthOf(el){ const w = el.getBoundingClientRect().width; return Math.max(260, Math.round(w || 600)); }
+function setSvg(svg, W, Hh, inner){ svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("width", W); svg.setAttribute("height", Hh); svg.style.height = Hh + "px"; svg.innerHTML = inner; }
+function niceTicks(lo, hi, n){
+  const span = hi - lo, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(k => k * mag).find(s => s >= raw) || mag * 10;
+  const out = []; for (let v = Math.ceil(lo / step - 1e-9) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
+  return { ticks: out, step };
+}
+
+/* =====================================================
+   DATA (values exactly as the notes use them)
+   src: db = Data Booklet, lit = literature
+   ===================================================== */
+const EL = {
+  Na: { s: "Na", nm: "sodium", Z: 11, cfg: "[Ne]3s¹", n: 3, ve: 1, r: 0.186, ion: "Na⁺", q: 1, ir: 0.095, ie1: 494, en: 0.93, mpC: 98, mpK: 371, st: "met", deloc: 1, cond: 2.1e7, block: "s" },
+  Mg: { s: "Mg", nm: "magnesium", Z: 12, cfg: "[Ne]3s²", n: 3, ve: 2, r: 0.160, ion: "Mg²⁺", q: 2, ir: 0.065, ie1: 736, ie2: 1450, en: 1.31, mpC: 650, mpK: 923, st: "met", deloc: 2, cond: 2.3e7, E: -2.38, block: "s" },
+  Al: { s: "Al", nm: "aluminium", Z: 13, cfg: "[Ne]3s²3p¹", n: 3, ve: 3, r: 0.143, ion: "Al³⁺", q: 3, ir: 0.050, ie1: 577, en: 1.61, mpC: 660, mpK: 933, st: "met", deloc: 3, cond: 3.8e7, block: "p" },
+  Si: { s: "Si", nm: "silicon", Z: 14, cfg: "[Ne]3s²3p²", n: 3, ve: 4, r: 0.117, ion: "Si⁴⁺", q: 4, ir: 0.041, ie1: 786, en: 1.90, mpC: 1414, mpK: 1687, st: "gm", cond: 4e-4, block: "p" },
+  P: { s: "P", nm: "phosphorus", Z: 15, cfg: "[Ne]3s²3p³", n: 3, ve: 5, r: 0.110, ion: "P³⁻", q: -3, ir: 0.212, ie1: 1060, en: 2.19, mpC: 44, mpK: 317, st: "sm", mol: "P₄", eMol: 60, cond: 0, block: "p" },
+  S: { s: "S", nm: "sulfur", Z: 16, cfg: "[Ne]3s²3p⁴", n: 3, ve: 6, r: 0.104, ion: "S²⁻", q: -2, ir: 0.184, ie1: 1000, en: 2.58, mpC: 115, mpK: 388, st: "sm", mol: "S₈", eMol: 128, cond: 0, block: "p" },
+  Cl: { s: "Cl", nm: "chlorine", Z: 17, cfg: "[Ne]3s²3p⁵", n: 3, ve: 7, r: 0.099, ion: "Cl⁻", q: -1, ir: 0.181, ie1: 1260, en: 3.16, mpC: -101, mpK: 172, st: "sm", mol: "Cl₂", eMol: 34, cond: 0, E: 1.36, bpC: -34, state: "gas", block: "p" },
+  Ar: { s: "Ar", nm: "argon", Z: 18, cfg: "[Ne]3s²3p⁶", n: 3, ve: 8, r: 0.190, rVdw: true, ie1: 1520, en: null, mpC: -189, mpK: 84, st: "mono", eMol: 18, cond: 0, block: "p" },
+  Ca: { s: "Ca", nm: "calcium", Z: 20, cfg: "[Ar]4s²", n: 4, ve: 2, r: 0.197, ion: "Ca²⁺", q: 2, ir: 0.099, ie1: 590, ie2: 1150, en: 1.00, E: -2.87, block: "s" },
+  Sr: { s: "Sr", nm: "strontium", Z: 38, cfg: "[Kr]5s²", n: 5, ve: 2, r: 0.215, ion: "Sr²⁺", q: 2, ir: 0.113, ie1: 548, ie2: 1060, en: 0.95, E: -2.89, Elit: true, block: "s" },
+  Ba: { s: "Ba", nm: "barium", Z: 56, cfg: "[Xe]6s²", n: 6, ve: 2, r: 0.217, ion: "Ba²⁺", q: 2, ir: 0.135, ie1: 502, ie2: 966, en: 0.89, E: -2.90, block: "s" },
+  Br: { s: "Br", nm: "bromine", Z: 35, cfg: "[Ar]3d¹⁰4s²4p⁵", n: 4, ve: 7, r: 0.114, ion: "Br⁻", q: -1, ir: 0.195, ie1: 1140, en: 2.96, mol: "Br₂", eMol: 70, E: 1.07, bpC: 59, state: "liquid", block: "p" },
+  I: { s: "I", nm: "iodine", Z: 53, cfg: "[Kr]4d¹⁰5s²5p⁵", n: 5, ve: 7, r: 0.133, ion: "I⁻", q: -1, ir: 0.216, ie1: 1010, en: 2.66, mol: "I₂", eMol: 106, E: 0.54, bpC: 184, mpI2: 114, state: "solid", block: "p" }
+};
+const EN_O = 3.44;
+const SETS = { P3: ["Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar"], G2: ["Mg", "Ca", "Sr", "Ba"], G17: ["Cl", "Br", "I"] };
+const SETNAME = { P3: "Period 3", G2: "Group 2", G17: "Group 17" };
+const STNAME = { met: "giant metallic", gm: "giant molecular", sm: "simple molecular", mono: "monatomic" };
+const HAL = {
+  Cl: { X2: "Cl₂", X: "Cl⁻", K: "KCl", nm: "chlorine", appear: "greenish-yellow gas", bp: -34, E: 1.36, BE: 431, HX: "HCl" },
+  Br: { X2: "Br₂", X: "Br⁻", K: "KBr", nm: "bromine", appear: "red-brown liquid", bp: 59, E: 1.07, BE: 366, HX: "HBr" },
+  I: { X2: "I₂", X: "I⁻", K: "KI", nm: "iodine", appear: "grey-black shiny solid (purple vapour)", bp: 184, E: 0.54, BE: 299, HX: "HI" }
+};
+const CARB = {
+  Mg: { f: "MgCO₃", o: "MgO", T: 540 }, Ca: { f: "CaCO₃", o: "CaO", T: 900 },
+  Sr: { f: "SrCO₃", o: "SrO", T: 1280 }, Ba: { f: "BaCO₃", o: "BaO", T: 1360 }
+};
+const chargeDensity = m => 2 / EL[m].ir;   // charge ÷ radius / nm⁻¹, from Data Booklet radii
+const cd3 = m => { const v = chargeDensity(m); return v.toPrecision(3); };
+
+// Physical colours (not themed): realistic, drawn on light bench cards in both themes
+const PC = {
+  water: "#d9e9f3", soln: "#dcebf4", white: "#f7f7f4", grain: "#e9e9e4", grainS: "#9aa3ab", glass: "#6f7c87",
+  cl2aq: "#eef3c8", br2aq: "#f0a637", i2aq: "#8a4b1b", cl2hex: "#e3ee9e", br2hex: "#d24e1c", i2hex: "#7a2c8f",
+  cl2gas: "#d6e05a", br2liq: "#7a1d0c", br2vap: "#c06a2f", i2s: "#2c2a35", i2vap: "#8e4bb0", hexane: "#f6f8fb",
+  milky: "#e9e7df", fume: "#ffffff", flame: "#5b7fd9", flameIn: "#9fc0f2", needle: "#d9480f"
+};
+// universal indicator colours, pH 0 to 14
+const UI = ["#c8102e", "#e0262b", "#ee4a25", "#f37021", "#f7941d", "#fbb829", "#f7e017", "#7cc242", "#2fa84f", "#159a8c", "#1f78b4", "#2a4fa1", "#4b3a96", "#5d2f86", "#6b2a7c"];
+
+/* Oxides, hydroxides and chlorides: one record per compound, one entry per reagent */
+const NOACID = "No acid–base reaction: ";
+const CMP = {
+  // ---------- oxides ----------
+  Na2O: { f: "Na₂O", kind: "ox", el: "Na", nm: "sodium oxide", ox: 1, den: 2.51, st: "giant ionic", mp: "1132", mpv: 1132, nature: "basic",
+    look: { solid: "white" },
+    water: { eqs: ["Na₂O(s) + H₂O(l) → 2NaOH(aq)"], obs: "The white solid dissolves, reacting to give a colourless solution of sodium hydroxide.", pH: 14, pHt: "about 14", res: "dissolve" },
+    hcl: { eqs: ["Na₂O(s) + 2HCl(aq) → 2NaCl(aq) + H₂O(l)"], obs: "The solid dissolves to give a colourless solution: Na₂O reacts with the acid.", res: "dissolve" },
+    naoh: { none: true, obs: NOACID + "Na₂O is a basic oxide. (It reacts with the water present, giving more NaOH.)", res: "dissolve" },
+    why: "Na₂O is ionic. The oxide ion is a strong base, so the oxide reacts with water to give an alkali and neutralises acids.", ionic: true },
+  MgO: { f: "MgO", kind: "ox", el: "Mg", nm: "magnesium oxide", ox: 2, den: 2.13, st: "giant ionic", mp: "2852", mpv: 2852, nature: "basic",
+    look: { solid: "white" },
+    water: { eqs: ["MgO(s) + H₂O(l) → Mg(OH)₂(s)"], obs: "Reacts slowly. Mg(OH)₂ is only slightly soluble, so a white suspension remains.", pH: 9, pHt: "about 9", res: "suspension" },
+    hcl: { eqs: ["MgO(s) + 2HCl(aq) → MgCl₂(aq) + H₂O(l)"], obs: "The white solid dissolves to give a colourless solution.", res: "dissolve" },
+    naoh: { none: true, obs: NOACID + "MgO is a basic oxide. The white solid remains.", res: "solid" },
+    why: "MgO is ionic and contains O²⁻, so it is basic. The pH is only about 9 because Mg(OH)₂ is only slightly soluble.", ionic: true },
+  Al2O3: { f: "Al₂O₃", kind: "ox", el: "Al", nm: "aluminium oxide", ox: 3, den: 1.83, st: "giant ionic with some covalent character", mp: "2072", mpv: 2072, nature: "amphoteric",
+    look: { solid: "white" },
+    water: { none: true, obs: "Insoluble: no reaction. The white solid stays at the bottom and the water stays neutral.", pH: 7, pHt: "7", res: "solid" },
+    hcl: { eqs: ["Al₂O₃(s) + 6HCl(aq) → 2AlCl₃(aq) + 3H₂O(l)"], obs: "The white solid dissolves: here Al₂O₃ acts as a base.", res: "dissolve" },
+    naoh: { eqs: ["Al₂O₃(s) + 2NaOH(aq) + 3H₂O(l) → 2NaAl(OH)₄(aq)"], obs: "The white solid dissolves: here Al₂O₃ acts as an acid, giving sodium aluminate (the [Al(OH)₄]⁻ ion, tetrahydroxoaluminate).", res: "dissolve" },
+    why: "Al₂O₃ is ionic, but the small, highly charged Al³⁺ polarises the oxide ion, giving some covalent character. It sits between the basic ionic oxides and the acidic covalent ones, so it is amphoteric: it reacts with both acids and bases.", ionic: true },
+  SiO2: { f: "SiO₂", kind: "ox", el: "Si", nm: "silicon dioxide", ox: 4, den: 1.54, st: "giant molecular (covalent)", mp: "1710", mpv: 1710, nature: "acidic",
+    look: { solid: "white" },
+    water: { none: true, obs: "Insoluble: no reaction. The solid stays at the bottom and the water stays neutral.", pH: 7, pHt: "7", res: "solid" },
+    hcl: { none: true, obs: NOACID + "SiO₂ is an acidic oxide and does not react with acids such as HCl. The solid remains.", res: "solid" },
+    naoh: { eqs: ["SiO₂(s) + 2NaOH(aq) → Na₂SiO₃(aq) + H₂O(l)"], hot: true, obs: "With hot, concentrated NaOH(aq) the solid slowly dissolves, giving sodium silicate.", res: "dissolve" },
+    why: "SiO₂ is giant molecular: every Si–O bond is strong and covalent, so it does not dissolve in water. It is an acidic oxide, but reacts only with hot, concentrated alkali." },
+  P4O10: { f: "P₄O₁₀", kind: "ox", el: "P", nm: "phosphorus(V) oxide", ox: 5, den: 1.25, st: "simple molecular", mp: "sublimes at 360", mpv: 360, nature: "acidic",
+    look: { solid: "white" },
+    water: { eqs: ["P₄O₁₀(s) + 6H₂O(l) → 4H₃PO₄(aq)"], obs: "Reacts vigorously; the white solid dissolves to give a colourless solution of phosphoric(V) acid.", pH: 2, pHt: "about 2", res: "dissolve" },
+    hcl: { none: true, obs: NOACID + "P₄O₁₀ is an acidic oxide. (It still reacts with the water in the dilute acid, giving H₃PO₄.)", res: "dissolve" },
+    naoh: { eqs: ["P₄O₁₀(s) + 12NaOH(aq) → 4Na₃PO₄(aq) + 6H₂O(l)"], obs: "The solid dissolves: the acidic oxide is neutralised, giving sodium phosphate.", res: "dissolve" },
+    why: "P₄O₁₀ is covalent (simple molecular). Covalent oxides of the electronegative non-metals react with water to give acids and react with bases." },
+  SO3: { f: "SO₃", kind: "ox", el: "S", nm: "sulfur trioxide", ox: 6, den: 0.86, st: "simple molecular", mp: "17 (b.p. 45)", mpv: 17, nature: "acidic",
+    look: { liquid: true },
+    water: { eqs: ["SO₃(l) + H₂O(l) → H₂SO₄(aq)"], obs: "Reacts violently, giving a colourless solution of sulfuric acid.", pH: 1, pHt: "about 1", res: "dissolve" },
+    hcl: { none: true, obs: NOACID + "SO₃ is an acidic oxide. (It still reacts with the water in the dilute acid, giving H₂SO₄.)", res: "dissolve" },
+    naoh: { eqs: ["SO₃(l) + 2NaOH(aq) → Na₂SO₄(aq) + H₂O(l)"], obs: "SO₃ is neutralised, giving a colourless solution of sodium sulfate.", res: "dissolve" },
+    why: "SO₃ is covalent (simple molecular) with the smallest Δ<i>EN</i>. It reacts with water to give a strong acid." },
+  // ---------- hydroxides ----------
+  NaOH: { f: "NaOH", kind: "hy", el: "Na", nm: "sodium hydroxide", ox: 1, nature: "basic", look: { solid: "white" },
+    water: { eqs: ["NaOH(s) → Na⁺(aq) + OH⁻(aq)"], obs: "Dissolves readily, giving a colourless, strongly alkaline solution.", pH: 14, pHt: "about 14", res: "dissolve" },
+    hcl: { eqs: ["NaOH(aq) + HCl(aq) → NaCl(aq) + H₂O(l)"], obs: "Neutralisation: the solution stays colourless and warms up.", res: "dissolve" },
+    naoh: { none: true, obs: NOACID + "NaOH is a strong base; a base does not react with a base.", res: "dissolve" },
+    why: "NaOH is a strong base: basic only." },
+  MgOH2: { f: "Mg(OH)₂", kind: "hy", el: "Mg", nm: "magnesium hydroxide", ox: 2, nature: "basic", look: { solid: "white" },
+    water: { eqs: ["Mg(OH)₂(s) ⇌ Mg²⁺(aq) + 2OH⁻(aq)"], obs: "Slightly soluble: a white suspension; the little that dissolves makes the water slightly alkaline.", pH: 9, pHt: "about 9", res: "suspension" },
+    hcl: { eqs: ["Mg(OH)₂(s) + 2HCl(aq) → MgCl₂(aq) + 2H₂O(l)"], obs: "The white solid dissolves to give a colourless solution.", res: "dissolve" },
+    naoh: { none: true, obs: NOACID + "Mg(OH)₂ is basic only. The white solid remains.", res: "solid" },
+    why: "Mg(OH)₂ is basic only: it reacts with acids but not with NaOH(aq)." },
+  AlOH3: { f: "Al(OH)₃", kind: "hy", el: "Al", nm: "aluminium hydroxide", ox: 3, nature: "amphoteric", look: { solid: "white" },
+    water: { none: true, obs: "Insoluble: a white precipitate that does not dissolve in water.", pH: 7, pHt: "7", res: "solid" },
+    hcl: { eqs: ["Al(OH)₃(s) + 3HCl(aq) → AlCl₃(aq) + 3H₂O(l)"], obs: "The white precipitate dissolves in excess acid: Al(OH)₃ acts as a base.", res: "dissolve" },
+    naoh: { eqs: ["Al(OH)₃(s) + NaOH(aq) → NaAl(OH)₄(aq)"], obs: "The white precipitate dissolves in excess NaOH(aq): Al(OH)₃ acts as an acid.", res: "dissolve" },
+    why: "Al(OH)₃ is amphoteric: the white precipitate dissolves in excess of either acid or alkali." },
+  // ---------- chlorides ----------
+  NaCl: { f: "NaCl", kind: "cl", el: "Na", nm: "sodium chloride", ox: 1, den: 2.23, st: "giant ionic", mp: "801", mpv: 801, look: { solid: "white" },
+    water: { eqs: ["NaCl(s) → Na⁺(aq) + Cl⁻(aq)"], obs: "Dissolves without hydrolysis, giving a colourless, neutral solution.", pH: 7, pHt: "7", res: "dissolve" },
+    why: "Na⁺ has a low charge density, so the hydrated ion does not release H⁺: no hydrolysis." },
+  MgCl2: { f: "MgCl₂", kind: "cl", el: "Mg", nm: "magnesium chloride", ox: 2, den: 1.85, st: "giant ionic", mp: "714", mpv: 714, look: { solid: "white" },
+    water: { eqs: ["MgCl₂(s) → Mg²⁺(aq) + 2Cl⁻(aq)", "[Mg(H₂O)₆]²⁺(aq) ⇌ [Mg(H₂O)₅(OH)]⁺(aq) + H⁺(aq)"], obs: "Dissolves, with slight hydrolysis: a colourless, very slightly acidic solution.", pH: 6.5, pHt: "about 6.5", res: "dissolve" },
+    why: "Mg²⁺ is small and doubly charged, so it polarises the water molecules around it slightly: a little H⁺ is released (slight hydrolysis)." },
+  AlCl3: { f: "AlCl₃", kind: "cl", el: "Al", nm: "aluminium chloride", ox: 3, den: 1.55, st: "simple molecular (covalent); Al₂Cl₆ dimers", mp: "sublimes at 178", mpv: 178, look: { solid: "white" }, amt: true,
+    water: { eqs: ["AlCl₃(s) + 6H₂O(l) → [Al(H₂O)₆]³⁺(aq) + 3Cl⁻(aq)", "[Al(H₂O)₆]³⁺(aq) ⇌ [Al(H₂O)₅(OH)]²⁺(aq) + H⁺(aq)"], obs: "In excess water the solid dissolves, giving a colourless acidic solution.", pH: 3, pHt: "about 3", res: "dissolve" },
+    limited: { eqs: ["AlCl₃(s) + 3H₂O(l) → Al(OH)₃(s) + 3HCl(g)"], obs: "In limited water or moist air: white fumes of HCl, and a white solid, Al(OH)₃.", res: "fumes-solid" },
+    why: "Al is a metal, and metal chlorides such as NaCl and MgCl₂ are ionic, so you might expect AlCl₃ to be ionic too. It isn't: the small, highly charged Al³⁺ polarises the large Cl⁻ so strongly that the bonding is covalent. Its charge density is 3 ÷ 0.050 = 60.0 nm⁻¹. In water, [Al(H₂O)₆]³⁺ has such a high charge density that it releases H⁺ (hydrolysis)." },
+  SiCl4: { f: "SiCl₄", kind: "cl", el: "Si", nm: "silicon tetrachloride", ox: 4, den: 1.26, st: "simple molecular", mp: "−69 (b.p. 58)", mpv: -69, look: { liquid: true },
+    water: { eqs: ["SiCl₄(l) + 2H₂O(l) → SiO₂(s) + 4HCl(aq)"], obs: "Complete hydrolysis: white fumes of HCl and a white solid (SiO₂); the solution is acidic.", pH: 2, pHt: "about 2", res: "fumes-solid" },
+    why: "SiCl₄ is covalent (simple molecular). Unlike the ionic chlorides, it is completely hydrolysed by water, giving HCl and SiO₂." },
+  PCl5: { f: "PCl₅", kind: "cl", el: "P", nm: "phosphorus(V) chloride", ox: 5, den: 0.97, st: "simple molecular", mp: "sublimes at 160", mpv: 160, look: { solid: "white" }, amt: true,
+    water: { eqs: ["PCl₅(s) + 4H₂O(l) → H₃PO₄(aq) + 5HCl(aq)"], obs: "In excess water: reacts vigorously, with white fumes of HCl, giving a colourless, strongly acidic solution.", pH: 2, pHt: "about 2", res: "fumes" },
+    limited: { eqs: ["PCl₅(s) + H₂O(l) → POCl₃(l) + 2HCl(g)"], obs: "In limited water: white fumes of HCl and liquid POCl₃ (phosphorus oxychloride).", res: "fumes-liquid" },
+    why: "PCl₅ is covalent (simple molecular) and is completely hydrolysed, giving two acids." }
+};
+const OXK = ["Na2O", "MgO", "Al2O3", "SiO2", "P4O10", "SO3"], HYK = ["NaOH", "MgOH2", "AlOH3"], CLK = ["NaCl", "MgCl2", "AlCl3", "SiCl4", "PCl5"];
+PT.CMP = CMP; PT.EL = EL; PT.HAL = HAL; PT.CARB = CARB;
+// the O²⁻ explanation is shown with the basic oxides
+const OXIDE_ION = "O²⁻ + H₂O → 2OH⁻";
+
+/* =====================================================
+   1. TRENDS EXPLORER
+   ===================================================== */
+const PROPS = {
+  cfg: { lab: "Configuration" },
+  r: { lab: "Atomic radius", unit: "nm", src: "db", get: e => e.r, f: v => v.toFixed(3), min: 0, max: 0.25, ylab: "atomic radius / nm", word: "larger atomic radius" },
+  ir: { lab: "Ionic radius", unit: "nm", src: "db", get: e => e.ir, f: v => v.toFixed(3), min: 0, max: 0.25, ylab: "ionic radius / nm", word: "larger ion" },
+  ie1: { lab: "First IE", unit: "kJ mol⁻¹", src: "db", get: e => e.ie1, f: v => String(v), min: 0, ylab: "first IE / kJ mol⁻¹", word: "higher first ionisation energy" },
+  ie12: { lab: "IE₁ + IE₂", unit: "kJ mol⁻¹", src: "db", get: e => e.ie1 + e.ie2, f: v => String(v), min: 0, max: 2400, ylab: "IE₁ + IE₂ / kJ mol⁻¹", word: "larger IE₁ + IE₂" },
+  en: { lab: "Electronegativity", unit: "", src: "lit", get: e => e.en, f: v => v.toFixed(2), min: 0, ylab: "electronegativity (Pauling)", word: "higher electronegativity" },
+  mp: { lab: "Melting point", unit: "°C", src: "lit", get: e => e.mpC, f: v => minus(v), min: -250, max: 1750, ylab: "melting point / °C", word: "higher melting point" },
+  cond: { lab: "Electrical conductivity", unit: "S m⁻¹", src: "lit", get: e => e.cond, word: "higher electrical conductivity" },
+  vol: { lab: "Volatility (b.p.)", unit: "°C", src: "lit", get: e => e.bpC, f: v => minus(v), min: -50, max: 200, ylab: "boiling point / °C", word: "higher boiling point (less volatile)" }
+};
+const SETPROPS = { P3: ["cfg", "r", "ir", "ie1", "en", "mp", "cond"], G2: ["cfg", "r", "ir", "ie1", "ie12", "en"], G17: ["cfg", "r", "ir", "ie1", "en", "vol"] };
+const TR = { set: "P3", prop: "r" };
+PT.TR = TR;
+const STCOL = { met: "var(--s1)", gm: "var(--s2)", sm: "var(--s3)", mono: "var(--s4)" };
+
+function trProps(){
+  $("tr-props").innerHTML = SETPROPS[TR.set].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === TR.prop}">${H(PROPS[p].lab)}</button>`).join("");
+  $("tr-props").querySelectorAll("button").forEach(b => b.onclick = () => { TR.prop = b.dataset.p; trProps(); trDraw(); trNewQ(); });
+}
+
+// generic value chart: bars (default), points joined by a line, or a log axis
+function drawChart(svg, items, o){
+  const W = widthOf(svg.parentElement), Hh = o.h || 270;
+  const m = { l: 56, r: 12, t: 26, b: o.sub ? 46 : 32 };
+  const pw = W - m.l - m.r, ph = Hh - m.t - m.b;
+  const tr = o.log ? (v => Math.log10(v)) : (v => v);
+  const lo = o.min, hi = o.max;
+  const Y = v => m.t + ph - (tr(Math.max(v, lo)) - tr(lo)) / (tr(hi) - tr(lo)) * ph;
+  const n = items.length, slot = pw / n, X = i => m.l + slot * (i + 0.5);
+  const bw = Math.min(48, slot * 0.58);
+  const uid = "c" + Math.random().toString(36).slice(2, 7);
+  let s = `<defs><pattern id="${uid}h" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--surface)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s4)" stroke-width="2.4"/></pattern></defs>`;
+  if (o.log){
+    for (let p = Math.log10(lo); p <= Math.log10(hi) + 1e-9; p += 2){
+      const y = Y(Math.pow(10, p));
+      s += `<line class="grid" x1="${m.l}" x2="${m.l + pw}" y1="${y}" y2="${y}"/>` + T(m.l - 6, y + 4, `10${String(p).replace("-", "⁻").replace(/\d/g, d => SUPD[d])}`, "tick", 'text-anchor="end"', 11);
+    }
+  } else {
+    niceTicks(lo, hi, 5).ticks.forEach(v => { const y = Y(v); s += `<line class="grid" x1="${m.l}" x2="${m.l + pw}" y1="${y}" y2="${y}"/><text class="tick" x="${m.l - 6}" y="${y + 4}" text-anchor="end">${minus(o.tf ? o.tf(v) : +v.toFixed(3))}</text>`; });
+  }
+  s += `<line class="axis" x1="${m.l}" x2="${m.l + pw}" y1="${lo < 0 && !o.log ? Y(0) : m.t + ph}" y2="${lo < 0 && !o.log ? Y(0) : m.t + ph}"/><line class="axis" x1="${m.l}" x2="${m.l}" y1="${m.t}" y2="${m.t + ph}"/>`;
+  s += `<text class="axlab" transform="translate(13 ${m.t + ph / 2}) rotate(-90)" text-anchor="middle">${svgChem(o.ylab, 11.5)}</text>`;
+  if (o.line){
+    const pts = items.map((it, i) => it.v == null ? null : [X(i), Y(it.v)]).filter(Boolean);
+    s += `<polyline points="${pts.map(p => p.map(c => c.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="var(--s1)" stroke-width="2" stroke-linejoin="round"/>`;
+  }
+  items.forEach((it, i) => {
+    const x = X(i);
+    if (it.v == null || it.none){
+      s += T(x, m.t + ph - 6, it.none || "no value", "cap", 'text-anchor="middle"', 11);
+    } else if (o.line){
+      s += `<circle cx="${x}" cy="${Y(it.v)}" r="4.5" fill="${it.fill || "var(--s1)"}" stroke="var(--surface)" stroke-width="1.5"/>`;
+      s += T(x, Y(it.v) - 10, it.txt, "val halo", 'text-anchor="middle"', 11.5);
+    } else {
+      const y0 = Y(Math.max(lo, 0)), y = Y(it.v), top = Math.min(y, y0), h = Math.abs(y0 - y), neg = it.v < 0;
+      const fill = it.hatch ? `url(#${uid}h)` : it.ghost ? "none" : it.fill || "var(--s1)";
+      const stroke = it.outline ? ` stroke="${it.outline}" stroke-width="1.5" stroke-dasharray="4 3"` : it.ghost ? ` stroke="var(--s3)" stroke-width="1.5" stroke-dasharray="4 3"` : it.hatch ? ` stroke="var(--s4)" stroke-width="1.5"` : "";
+      s += `<rect x="${(x - bw / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(h, 0).toFixed(1)}" rx="2" fill="${fill}"${stroke}/>`;
+      s += T(x, neg ? y0 - 6 : y - 6, it.txt, "val halo", 'text-anchor="middle"', slot < 40 ? 9.5 : slot < 50 ? 10.5 : 11.5);
+      (it.marks || []).forEach(mk => { const yy = Y(mk.v); s += `<line x1="${x - bw / 2 - 3}" x2="${x + bw / 2 + 3}" y1="${yy}" y2="${yy}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 2"/>` + T(x - bw / 2 - 5, yy + 4, mk.lab, "cap halo", 'text-anchor="end"', 10.5); });
+    }
+    s += T(x, m.t + ph + 16, it.lab, "lblb", 'text-anchor="middle"', 12.5);
+    if (it.sub) s += T(x, m.t + ph + 32, it.sub, "cap", 'text-anchor="middle"', 11);
+  });
+  (o.refs || []).forEach(rf => { const y = Y(rf.v); s += `<line x1="${m.l}" x2="${m.l + pw}" y1="${y}" y2="${y}" stroke="var(--ref)" stroke-width="1.2" stroke-dasharray="5 4"/>` ; });
+  setSvg(svg, W, Hh, s);
+}
+
+function trChartItems(){
+  const p = TR.prop, set = TR.set;
+  const list = SETS[set].filter(s => {
+    if (s !== "Ar") return true;
+    return ["r", "ie1", "en", "mp", "cond"].includes(p);
+  });
+  if (p === "ir"){
+    return list.filter(s => EL[s].ir).map(s => ({ lab: EL[s].ion, v: EL[s].ir, txt: EL[s].ir.toFixed(3), fill: EL[s].q > 0 ? "var(--s1)" : "var(--s2)" }));
+  }
+  if (p === "r") return list.map(s => s === "Ar" ? { lab: "Ar", v: 0.190, txt: "0.190", ghost: true, sub: "vdW" } : { lab: s, v: EL[s].r, txt: EL[s].r.toFixed(3) });
+  if (p === "ie1") return list.map(s => ({ lab: s, v: EL[s].ie1, txt: String(EL[s].ie1) }));
+  if (p === "ie12") return list.map(s => ({ lab: s, v: EL[s].ie1 + EL[s].ie2, txt: String(EL[s].ie1 + EL[s].ie2) }));
+  if (p === "en") return list.map(s => EL[s].en == null ? { lab: s, v: null, none: "none" } : { lab: s, v: EL[s].en, txt: EL[s].en.toFixed(2), fill: "var(--s1)" });
+  if (p === "mp") return list.map(s => ({ lab: s, v: EL[s].mpC, txt: minus(EL[s].mpC), fill: STCOL[EL[s].st], hatch: EL[s].st === "mono", sub: EL[s].mol || "" }));
+  if (p === "cond") return list.map(s => EL[s].cond ? { lab: s, v: EL[s].cond, txt: condTxt(EL[s].cond), fill: STCOL[EL[s].st] } : { lab: s, v: null, none: "none", sub: EL[s].mol || "" });
+  if (p === "vol") return list.map(s => ({ lab: EL[s].mol, v: EL[s].bpC, txt: minus(EL[s].bpC), fill: "var(--s1)", sub: EL[s].eMol + " e⁻", marks: s === "I" ? [{ v: 114, lab: "m.p." }] : [] }));
+  return [];
+}
+const condTxt = v => { const e = Math.floor(Math.log10(v)), m = v / Math.pow(10, e); return `${m.toFixed(1)} × 10${String(e).replace("-", "⁻").replace(/\d/g, d => SUPD[d])}`; };
+
+function trTable(){
+  const p = TR.prop, P = PROPS[p], list = SETS[TR.set];
+  const rows = list.map(s => {
+    const e = EL[s];
+    if (p === "ir") return e.ir ? `<tr><td>${H(e.ion)}</td><td class="num">${e.ir.toFixed(3)}</td><td>${e.q > 0 ? "cation" : "anion"}, ${Math.abs(e.Z - e.q)} electrons</td></tr>` : "";
+    if (p === "r") return `<tr><td>${s}</td><td class="num">${e.r.toFixed(3)}</td><td>${s === "Ar" ? "van der Waals radius: not comparable with the others" : `${e.n} occupied shells`}</td></tr>`;
+    if (p === "ie1") return `<tr><td>${s}</td><td class="num">${e.ie1}</td><td>${H(e.cfg)}</td></tr>`;
+    if (p === "ie12") return `<tr><td>${s}</td><td class="num">${e.ie1} + ${e.ie2} = ${e.ie1 + e.ie2}</td><td>forms ${H(e.ion)}</td></tr>`;
+    if (p === "en") return `<tr><td>${s}</td><td class="num">${e.en == null ? "none" : e.en.toFixed(2)}</td><td>${e.en == null ? "argon forms no compounds in this syllabus" : ""}</td></tr>`;
+    if (p === "mp") return `<tr><td>${s}</td><td class="num">${minus(e.mpC)} °C / ${e.mpK} K</td><td>${STNAME[e.st]}${e.mol ? ", " + H(e.mol) + " (" + e.eMol + " electrons)" : e.deloc ? `, ${e.deloc} delocalised electron${e.deloc > 1 ? "s" : ""} per atom` : s === "Ar" ? " (18 electrons)" : ""}</td></tr>`;
+    if (p === "cond") return `<tr><td>${s}</td><td class="num">${e.cond ? H(condTxt(e.cond)) : "none"}</td><td>${e.st === "met" ? "metal: delocalised electrons" : e.st === "gm" ? "pure Si, about 4 × 10⁻⁴: semiconductor" : "non-conductor: no mobile charge carriers"}</td></tr>`;
+    if (p === "vol") return `<tr><td>${H(e.mol)}</td><td class="num">${minus(e.bpC)} °C / ${e.bpC + 273} K</td><td>${e.eMol} electrons; ${HAL[s].appear}${s === "I" ? "; m.p. 114 °C" : ""}</td></tr>`;
+    return "";
+  }).join("");
+  const head = { ir: "radius / nm", r: "radius / nm", ie1: "IE₁ / kJ mol⁻¹", ie12: "IE₁ + IE₂ / kJ mol⁻¹", en: "Pauling", mp: "melting point", cond: "S m⁻¹ at 20 °C", vol: "boiling point" }[p];
+  return `<div class="tblwrap" style="padding:0 12px 10px"><table class="data"><tr><th></th><th class="num">${H(head)}</th><th></th></tr>${rows}</table></div>`;
+}
+
+function shellSvg(e){
+  const W = 100, c = 50, rings = e.n, rMax = 44, rMin = 12;
+  let s = `<circle cx="${c}" cy="${c}" r="9" fill="var(--s1)"/><text x="${c}" y="${c + 3.5}" text-anchor="middle" style="font-size:9px;font-weight:600;fill:var(--accent-ink)">${e.Z}+</text>`;
+  for (let k = 1; k <= rings; k++){
+    const r = rMin + (rMax - rMin) * (k - 1) / Math.max(1, rings - 1);
+    s += `<circle cx="${c}" cy="${c}" r="${r.toFixed(1)}" fill="none" stroke="${k === rings ? "var(--s2)" : "var(--axis)"}" stroke-width="${k === rings ? 1.6 : 1}"${k === rings ? "" : ' stroke-dasharray="2 2"'}/>`;
+  }
+  for (let j = 0; j < e.ve; j++){
+    const a = -Math.PI / 2 + j * 2 * Math.PI / e.ve;
+    s += `<circle cx="${(c + rMax * Math.cos(a)).toFixed(1)}" cy="${(c + rMax * Math.sin(a)).toFixed(1)}" r="3.6" fill="var(--s2)"/>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${W}" aria-hidden="true">${s}</svg>`;
+}
+
+function trDraw(){
+  const p = TR.prop, P = PROPS[p], set = TR.set;
+  $("tr-atom-sw").hidden = p !== "ir";
+  $("tr-hal").hidden = p !== "vol";
+  $("tr-circ-wrap").hidden = !(p === "r" || p === "ir");
+  let legend = "", note = "", hint = "";
+  if (p === "cfg"){
+    $("tr-title").innerHTML = `Electronic configurations, ${SETNAME[set]} <span class="hint">written as in Topic 1 (3d before 4s)</span>`;
+    $("tr-body").innerHTML = `<div class="tiles">${SETS[set].map(s => { const e = EL[s]; return `<div class="tile"><span class="z">Z = ${e.Z}</span><div class="sym">${s}</div><div class="cfg">${H(e.cfg)}</div><div class="meta">outer shell n = ${e.n} · ${e.ve} outer electron${e.ve > 1 ? "s" : ""} · ${e.block}-block</div>${shellSvg(e)}</div>`; }).join("")}</div>`;
+    legend = `<span><i class="key" style="border-color:var(--axis);border-top-style:dashed"></i>inner shell</span><span><i class="key" style="border-color:var(--s2)"></i>outer shell, with its electrons as dots</span>`;
+    note = "Rings show the occupied shells, not to scale. The nucleus carries the nuclear charge, +Z.";
+  } else {
+    const svgId = "tr-chart";
+    $("tr-body").innerHTML = `<svg id="${svgId}" role="img" aria-label="${esc(P.lab)} chart"></svg>${trTable()}`;
+    const items = trChartItems();
+    const mx = Math.max(...items.filter(i => i.v != null).map(i => i.v));
+    const o = { min: P.min || 0, max: P.max || niceTicks(0, mx * 1.12, 5).ticks.slice(-1)[0], ylab: P.ylab, sub: items.some(i => i.sub), line: p === "ie1" };
+    if (o.max < mx * 1.08) o.max = niceTicks(0, mx * 1.15, 5).ticks.slice(-1)[0] + niceTicks(0, mx * 1.15, 5).step;
+    if (p === "cond"){ Object.assign(o, { log: true, min: 1e-6, max: 1e8, ylab: "conductivity / S m⁻¹ (log axis)" }); }
+    if (p === "vol") o.refs = [{ v: 20, lab: "" }];
+    drawChart($(svgId), items, o);
+    $("tr-title").innerHTML = `${H(P.lab)}, ${SETNAME[set]} ${SRC(P.src)}${p === "en" ? ' <span class="hint">the Data Booklet has no electronegativities</span>' : ""}`;
+    if (p === "ir") legend = `<span><i class="lkey" style="background:var(--s1)"></i>cation</span><span><i class="lkey" style="background:var(--s2)"></i>anion</span>`;
+    if (p === "r" && set === "P3") legend = `<span><i class="lkey" style="background:var(--s1)"></i>atomic (covalent or metallic) radius</span><span><i class="lkey" style="border:1.5px dashed var(--s3)"></i>Ar: van der Waals radius, not comparable</span>`;
+    if (p === "vol") legend = `<span><i class="key" style="border-color:var(--ref);border-top-style:dashed"></i>room temperature, 20 °C</span><span><i class="key" style="border-color:var(--ink);border-top-style:dashed"></i>I<sub>2</sub> melting point, 114 °C</span>`;
+    if (p === "mp" || p === "cond") legend = Object.entries(STNAME).filter(([k]) => p === "mp" || k !== "mono").map(([k, v]) => `<span><i class="lkey" style="${k === "mono" ? "background:repeating-linear-gradient(45deg,var(--s4) 0 2px,var(--surface) 2px 4px);border:1px solid var(--s4)" : "background:" + STCOL[k]}"></i>${v}</span>`).join("");
+    note = {
+      r: "Data Booklet radii in nm. Down a group the radius increases; across Period 3 it decreases.",
+      ir: "Data Booklet ionic radii in nm. Si⁴⁺ and P³⁻ are not found as free ions in ordinary compounds, but the Data Booklet values show the trend.",
+      ie1: "Data Booklet values, kJ mol⁻¹.",
+      ie12: "Energy to form M²⁺(g) from M(g): Data Booklet first and second IEs added.",
+      en: "Pauling values from the literature; the Data Booklet does not list electronegativities.",
+      mp: "Melting points from the literature: P is white phosphorus (P₄), S is rhombic sulfur (S₈). Bars start from 0 °C: Cl₂ and Ar melt below 0 °C, so their bars go below the axis.",
+      cond: "Log axis: each grid line is a factor of 100. P, S, Cl and Ar are non-conductors: no mobile charge carriers, so there is no bar.",
+      vol: "Boiling points from the literature, in °C; the Cl₂ bar goes below 0 °C. The lower the boiling point, the more volatile the element."
+    }[p];
+  }
+  $("tr-legend").innerHTML = legend; $("tr-legend").hidden = !legend;
+  $("tr-note").innerHTML = H(note);
+  $("tr-hint").innerHTML = H({ cfg: "Every element in a period has the same number of shells; every element in a group has the same outer configuration.", r: "", ir: "Switch on the overlay to compare each ion with its atom.", ie1: "", ie12: "Group 2 only: links to reducing power, 5(f).", en: "", mp: "", cond: "", vol: "Group 17 only, 5(d)." }[p] || "");
+  if (p === "r" || p === "ir") trCircles();
+  if (p === "vol") trHalogens();
+  trExplain();
+}
+
+function trCircles(){
+  const p = TR.prop, set = TR.set, svg = $("tr-circ"), W = widthOf(svg.parentElement);
+  const list = SETS[set].filter(s => s !== "Ar" && (p === "r" || EL[s].ir));
+  const overlay = p === "ir" && $("tr-atom").checked;
+  const rad = s => p === "r" ? EL[s].r : EL[s].ir;
+  const maxR = Math.max(...list.map(s => overlay ? Math.max(EL[s].r, EL[s].ir) : rad(s)));
+  const pad = 10, slot = (W - 2 * pad) / list.length;
+  const sc = Math.min(slot * 0.47 / maxR, 46 / maxR);   // px per nm
+  const cy = 18 + maxR * sc;
+  const Hh = cy + maxR * sc + (p === "ir" && set === "P3" ? 64 : 44);
+  let s = "";
+  list.forEach((sym, i) => {
+    const e = EL[sym], x = pad + slot * (i + 0.5);
+    const isAnion = p === "ir" && e.q < 0;
+    const col = p === "ir" ? (isAnion ? "var(--s2)" : "var(--s1)") : "var(--s1)";
+    const wash = p === "ir" ? (isAnion ? "var(--s2-wash)" : "var(--s1-wash)") : "var(--s1-wash)";
+    s += `<circle cx="${x.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(rad(sym) * sc).toFixed(1)}" fill="${wash}" stroke="${col}" stroke-width="1.6"/>`;
+    if (overlay) s += `<circle cx="${x.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(e.r * sc).toFixed(1)}" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+    s += T(x, cy + maxR * sc + 16, p === "ir" ? e.ion : sym, "lblb", 'text-anchor="middle"', 12.5);
+    s += T(x, cy + maxR * sc + 30, rad(sym).toFixed(3), "cap", 'text-anchor="middle"', 11);
+  });
+  if (p === "ir" && set === "P3"){
+    const yb = cy + maxR * sc + 40;
+    const x0 = pad + slot * 0.1, x1 = pad + slot * 3.9, x2 = pad + slot * 4.1, x3 = pad + slot * 6.9;
+    s += `<path d="M${x0} ${yb} v5 H${x1} v-5" fill="none" stroke="var(--s1)" stroke-width="1.4"/>` + T((x0 + x1) / 2, yb + 18, "10 e⁻, [Ne], 2 shells", "cap", 'text-anchor="middle"', 11);
+    s += `<path d="M${x2} ${yb} v5 H${x3} v-5" fill="none" stroke="var(--s2)" stroke-width="1.4"/>` + T((x2 + x3) / 2, yb + 18, "18 e⁻, [Ar], 3 shells", "cap", 'text-anchor="middle"', 11);
+  }
+  // scale bar 0.1 nm
+  const sb = 0.1 * sc;
+  s += `<line x1="${W - pad - sb}" x2="${W - pad}" y1="10" y2="10" stroke="var(--ink)" stroke-width="2"/>` + T(W - pad - sb - 4, 14, "0.1 nm", "cap", 'text-anchor="end"', 11);
+  setSvg(svg, W, Math.round(Hh), s);
+  $("tr-circ-title").innerHTML = p === "r" ? `Atoms drawn to scale <span class="hint">Data Booklet radii</span>` : `Ions drawn to scale <span class="hint">Data Booklet radii${overlay ? "; dashed outline = the atom" : ""}</span>`;
+  $("tr-circ-note").innerHTML = H(p === "r"
+    ? (set === "P3" ? "Same three shells for every atom, but the nuclear charge rises from 11+ to 17+: the electron cloud is pulled in." : "One more shell for each step down the group, so each atom is larger.")
+    : set === "P3" ? "Cations Na⁺ to Si⁴⁺ are isoelectronic (10 electrons); anions P³⁻ to Cl⁻ are isoelectronic (18 electrons). Within each series the radius falls as nuclear charge rises. The big jump from Si⁴⁺ to P³⁻ is an extra shell."
+      : set === "G2" ? "Each M²⁺ ion has lost its whole outer shell, so it is much smaller than its atom; the ions grow down the group as shells are added."
+        : "Each X⁻ ion has one more electron than its atom in the same outer shell: more repulsion, same nuclear charge, so the ion is larger than the atom.");
+}
+
+function trHalogens(){
+  const svg = $("tr-hal-svg"), W = widthOf(svg.parentElement), Hh = 190, slot = W / 3;
+  let s = `<defs><linearGradient id="hal-i2v" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${PC.i2vap}" stop-opacity=".55"/><stop offset="1" stop-color="${PC.i2vap}" stop-opacity="0"/></linearGradient></defs>`;
+  ["Cl", "Br", "I"].forEach((x, i) => {
+    const cx = slot * (i + 0.5), w = Math.min(70, slot * 0.55), top = 26, bot = 150, l = cx - w / 2;
+    // jar
+    const jar = `M${l} ${top} V${bot - 6} Q${l} ${bot} ${l + 6} ${bot} H${l + w - 6} Q${l + w} ${bot} ${l + w} ${bot - 6} V${top}`;
+    if (x === "Cl") s += `<rect x="${l}" y="${top + 8}" width="${w}" height="${bot - top - 8}" rx="4" fill="${PC.cl2gas}" fill-opacity=".55"/>`;
+    if (x === "Br"){ s += `<rect x="${l}" y="${top + 8}" width="${w}" height="${bot - top - 40}" fill="${PC.br2vap}" fill-opacity=".35"/><path d="M${l} ${bot - 32} H${l + w} V${bot - 6} Q${l + w} ${bot} ${l + w - 6} ${bot} H${l + 6} Q${l} ${bot} ${l} ${bot - 6} Z" fill="${PC.br2liq}"/>`; }
+    if (x === "I"){ s += `<rect x="${l}" y="${top + 8}" width="${w}" height="${bot - top - 8}" fill="url(#hal-i2v)"/>`; for (let k = 0; k < 7; k++){ const gx = l + 8 + k * (w - 16) / 6, gy = bot - 8 - (k % 2) * 4; s += `<path d="M${gx - 5} ${gy} l4 -6 l6 1 l1 6 z" fill="${PC.i2s}"/>`; } }
+    s += `<path d="${jar}" fill="none" stroke="${PC.glass}" stroke-width="1.6"/><rect x="${l - 4}" y="${top - 6}" width="${w + 8}" height="8" rx="2" fill="#cfd6dc" stroke="${PC.glass}"/>`;
+    s += T(cx, bot + 18, EL[x].mol, "btb", 'text-anchor="middle"', 12.5);
+    s += `<text class="bt" x="${cx}" y="${bot + 33}" text-anchor="middle">${x === "Cl" ? "gas" : x === "Br" ? "liquid" : "solid"}, ${EL[x].eMol} electrons</text>`;
+  });
+  setSvg(svg, W, Hh, s);
+}
+
+/* explanation cards */
+const EXPLAIN = {
+  P3: {
+    cfg: ["Across Period 3 each element adds one electron to the third shell: 3s for Na and Mg, then 3p from Al to Ar.", "The inner shells, [Ne] = 1s²2s²2p⁶, are the same for all eight elements, so the number of outer (valence) electrons rises from 1 (Na) to 8 (Ar).", "Na and Mg are s-block elements; Al to Ar are p-block elements."],
+    r: ["Atomic radius decreases from Na (0.186 nm) to Cl (0.099 nm).", "Nuclear charge increases by +1 at each step.", "The added electron enters the same (third) shell, so shielding by the inner electrons stays almost the same.", "So the outer electrons are attracted more strongly and pulled closer to the nucleus.", "Ar is left out of the comparison: its Data Booklet value (0.190 nm) is a van der Waals radius, measured between atoms that are not bonded."],
+    ir: ["Na⁺, Mg²⁺, Al³⁺ and Si⁴⁺ have lost the whole third shell: each has 10 electrons in two shells, [Ne]. They are isoelectronic, so the radius falls (0.095 to 0.041 nm) as the nuclear charge rises from 11+ to 14+.", "P³⁻, S²⁻ and Cl⁻ have gained electrons to fill the third shell: each has 18 electrons in three shells, [Ar]. Again isoelectronic, so the radius falls (0.212 to 0.181 nm) as nuclear charge rises from 15+ to 17+.", "The big jump from Si⁴⁺ (0.041 nm) to P³⁻ (0.212 nm) is because the anions have one more occupied shell than the cations.", "Every cation is smaller than its atom (a whole shell lost); every anion is larger than its atom (more repulsion between electrons, same nuclear charge)."],
+    ie1: ["First IE generally increases across Period 3: nuclear charge increases while shielding stays about the same, and the atoms get smaller, so the outer electron is held more strongly.", "Dip at Al (577) below Mg (736): Al loses a 3p electron, which is higher in energy than the 3s electrons and is partly shielded by them.", "Dip at S (1000) below P (1060): S has two electrons paired in one 3p orbital; the repulsion between them makes one easier to remove.", "Topic 1 Part 2 explains these two dips in detail."],
+    en: ["Electronegativity increases across Period 3, from Na (0.93) to Cl (3.16).", "Nuclear charge increases while shielding stays about the same, and the atoms get smaller.", "So the nucleus attracts a bonding pair of electrons more strongly.", "Ar has no value: it forms no compounds in this syllabus."],
+    mp: ["Na (98 °C) < Mg (650 °C) < Al (660 °C): giant metallic. More delocalised electrons per atom (1, 2, 3) and smaller cations of higher charge give stronger metallic bonding. Mg and Al are close.", "Si (1414 °C) is the highest: giant molecular (covalent). Melting breaks many strong covalent bonds.", "P₄ (44 °C), S₈ (115 °C) and Cl₂ (−101 °C) are simple molecular: melting overcomes only weak instantaneous dipole-induced dipole (id-id) attractions between molecules, not the covalent bonds inside them.", "Order S₈ > P₄ > Cl₂ > Ar follows the size of the electron cloud: 128, 60, 34 and 18 electrons. A larger cloud is more polarisable, giving stronger id-id attractions.", "Ar (−189 °C) is monatomic: only weak id-id attractions between single atoms."],
+    cond: ["Na, Mg and Al conduct well: giant metallic lattices with delocalised electrons that move when a voltage is applied. Conductivity rises Na < Mg < Al as the number of delocalised electrons per atom rises (1, 2, 3).", "Si is a semiconductor: a giant molecular lattice in which almost all electrons are held in covalent bonds; pure Si conducts only very slightly (about 4 × 10⁻⁴ S m⁻¹).", "P, S, Cl and Ar are non-conductors: simple molecules (or single atoms) with every electron held in bonds or lone pairs, so there are no mobile charge carriers."]
+  },
+  G2: {
+    cfg: ["Every Group 2 atom has two outer electrons in an s orbital: ns².", "Down the group one more shell is occupied at each step: Mg n = 3, Ca 4, Sr 5, Ba 6.", "The same outer configuration gives similar chemistry: all form M²⁺ ions."],
+    r: ["Atomic radius increases down Group 2, from Mg (0.160 nm) to Ba (0.217 nm).", "Each step adds a shell, so the outer electrons are further from the nucleus.", "Nuclear charge also increases, but the extra inner electrons shield the outer electrons, so the larger number of shells wins."],
+    ir: ["M²⁺ ions increase in radius down the group, from Mg²⁺ (0.065 nm) to Ba²⁺ (0.135 nm), because each has one more occupied shell.", "Each ion is much smaller than its atom: forming M²⁺ removes the whole outer shell.", "Small, highly charged Mg²⁺ has the highest charge density: this drives the carbonate stability trend, 5(g)."],
+    ie1: ["First IE decreases down Group 2, from Mg (736) to Ba (502).", "The outer electron is in a shell further from the nucleus and is better shielded by more inner shells.", "The increase in nuclear charge is outweighed, so the outer electron is easier to remove."],
+    ie12: ["IE₁ + IE₂ is the energy needed to form M²⁺(g): it falls from Mg (2186) to Ba (1468).", "Same reason as for the first IE: more shells, more shielding.", "So down the group the atoms lose two electrons more easily: they are stronger reducing agents, and E⦵(M²⁺/M) becomes more negative."],
+    en: ["Electronegativity decreases down Group 2, from Mg (1.31) to Ba (0.89).", "The atoms are larger and the bonding pair is further from the nucleus and better shielded, so it is attracted less strongly."]
+  },
+  G17: {
+    cfg: ["Every Group 17 atom has seven outer electrons: ns²np⁵.", "Down the group one more shell is occupied: Cl n = 3, Br 4, I 5. Br and I also have a filled d sub-shell (3d¹⁰, 4d¹⁰) inside the outer shell.", "One electron short of a noble-gas configuration, so each atom readily gains one electron: the halogens are oxidising agents, 5(f)."],
+    r: ["Atomic radius increases down Group 17, from Cl (0.099 nm) to I (0.133 nm).", "Each step adds a shell, so the outer electrons are further from the nucleus; the extra shielding outweighs the larger nuclear charge."],
+    ir: ["X⁻ ions increase in radius down the group, from Cl⁻ (0.181 nm) to I⁻ (0.216 nm), because each has one more occupied shell.", "Each anion is larger than its atom: one more electron, same nuclear charge, more repulsion.", "The large, polarisable I⁻ ion is easy to oxidise: link to displacement, 5(f)."],
+    ie1: ["First IE decreases down Group 17, from Cl (1260) to I (1010).", "The outer electron is further from the nucleus and better shielded, which outweighs the increase in nuclear charge."],
+    en: ["Electronegativity decreases down Group 17, from Cl (3.16) to I (2.66).", "The atoms are larger, so the bonding pair is further from the nucleus and better shielded: it is attracted less strongly."],
+    vol: ["Volatility decreases down Group 17: Cl₂ is a gas (b.p. −34 °C), Br₂ a liquid (b.p. 59 °C), I₂ a solid (m.p. 114 °C, b.p. 184 °C).", "All three are simple molecular. Boiling overcomes only the instantaneous dipole-induced dipole (id-id) attractions between molecules.", "The number of electrons per molecule rises: Cl₂ 34, Br₂ 70, I₂ 106. A larger electron cloud is more polarisable, so the id-id attractions are stronger and more energy is needed to separate the molecules.", "The X–X covalent bond is not broken on boiling: I₂ vapour is still made of I₂ molecules."]
+  }
+};
+function trExplain(){
+  const p = TR.prop, set = TR.set;
+  const lines = EXPLAIN[set][p] || [];
+  $("tr-explain").innerHTML = `<span class="eyebrow">Explain the trend · <span class="nc">${set === "P3" ? "across a Period" : "down a Group"}</span></span><ul class="notes">${lines.map(l => `<li>${H(l)}</li>`).join("")}</ul>`;
+}
+
+/* predict mode */
+const TP = { q: null, ans: null, why: null };
+PT.TP = TP;
+PT.trNewQ = () => trNewQ();
+function trReasons(set, p, w, l){
+  // w: element (or ion holder) with the larger value; l: the other
+  const E = EL;
+  if (set === "P3"){
+    if (p === "r") return ["Across the period nuclear charge increases while shielding stays about the same, so the outer electrons of " + l + " are pulled closer.", ["Further across the period the extra electrons enter a new shell, so the atom gets bigger.", "More electrons means more repulsion, so atoms further across the period are larger."]];
+    if (p === "ir"){
+      const wq = E[w].q, lq = E[l].q;
+      if (wq < 0 && lq > 0) return [`${E[w].ion} has 18 electrons in three shells; ${E[l].ion} has only 10 electrons in two shells.`, [`${E[w].ion} has the higher nuclear charge, which makes an ion larger.`, `${E[l].ion} is more polarising, so its electron cloud shrinks.`]];
+      if (wq > 0) return [`Both have 10 electrons ([Ne]); ${E[l].ion} has the higher nuclear charge, which pulls the same electrons in more.`, [`${E[w].ion} has more electrons than ${E[l].ion}.`, `${E[w].ion} has one more occupied shell than ${E[l].ion}.`]];
+      return [`Both have 18 electrons ([Ar]); ${E[l].ion} has the higher nuclear charge, which pulls the same electrons in more.`, [`${E[w].ion} has fewer electrons, so less repulsion.`, `${E[w].ion} has one more occupied shell than ${E[l].ion}.`]];
+    }
+    if (p === "ie1"){
+      const pair = [w, l].sort().join("");
+      if (pair === "AlMg") return ["Al's outer electron is in a 3p orbital: higher in energy than 3s and partly shielded by the 3s² electrons, so it is easier to remove.", ["Mg has a smaller nuclear charge, so its electrons are held more strongly.", "Al has a full 3s sub-shell, which is especially stable."]];
+      if (pair === "PS") return ["In S two electrons share one 3p orbital; their repulsion makes one easier to remove. P has three unpaired 3p electrons.", ["S has a larger nuclear charge, so its electrons are easier to remove.", "S has one more shell than P."]];
+      return [`${w} has the higher nuclear charge with about the same shielding (same number of inner shells), so its outer electron is held more strongly.`, [`${w} has more electrons, and more electrons are always harder to remove.`, `${w} has more occupied shells, so its outer electron is closer to the nucleus.`]];
+    }
+    if (p === "en") return [`${w} has the higher nuclear charge with about the same shielding and a smaller radius, so it attracts a bonding pair more strongly.`, [`${w} has more occupied shells, so it holds bonding electrons more strongly.`, `${w} is a metal, and metals attract bonding electrons more strongly.`]];
+    if (p === "mp"){
+      const sw = E[w].st, sl = E[l].st;
+      if (sw === "gm") return [`Si is giant molecular: melting breaks many strong covalent bonds. ${sl === "met" ? "Metallic bonding in " + l + " is weaker." : "Melting " + l + " overcomes only weak id-id attractions."}`, ["Si has the most delocalised electrons per atom, so the strongest metallic bonding.", "Si has the largest electron cloud, so the strongest id-id attractions."]];
+      if (sw === "met" && sl === "met") return [`${w} has more delocalised electrons per atom and a smaller cation of higher charge, so stronger metallic bonding.`, [`${w} has stronger id-id attractions between its molecules.`, `${w} has more covalent bonds to break.`]];
+      if (sl === "met") return [`${w} melts higher than ${l} here, but the comparison is not a clean one: metallic bonding and id-id attractions are different kinds of interaction.`, ["Melting breaks covalent bonds inside the molecules.", "Metallic bonding is always weaker than id-id attractions."]];
+      if (sw === "met") return [`Melting ${w} overcomes strong metallic bonding; melting ${l} overcomes only weak id-id attractions between ${l === "Ar" ? "atoms" : "molecules"}.`, [`Melting ${l} breaks the strong covalent bonds inside its molecules.`, `${w} has more electrons per particle than ${l}.`]];
+      return [`${E[w].mol || w} has more electrons (${E[w].eMol}) than ${E[l].mol || l} (${E[l].eMol}): a larger, more polarisable electron cloud, so stronger id-id attractions.`, [`The covalent bonds inside ${E[w].mol || w} are stronger and must be broken on melting.`, `${E[w].mol || w} has stronger permanent dipole–permanent dipole attractions.`]];
+    }
+    if (p === "cond"){
+      const sw = E[w].st, sl = E[l].st;
+      if (sw === "met" && sl === "met") return [`${w} has more delocalised electrons per atom (${E[w].deloc} against ${E[l].deloc}).`, [`${w} has a larger atomic radius, so its electrons move further.`, `${w} has more ions free to move in the solid.`]];
+      if (sw === "met") return [`${w} has a sea of delocalised electrons; ${l === "Si" ? "Si is a semiconductor with very few mobile electrons" : l + " has no mobile charge carriers"}.`, [`${w} has mobile ions in the solid.`, `${l} is ionic, and ionic solids do not conduct.`]];
+      return [`Si is a semiconductor with a few mobile electrons; ${l} is simple molecular with no mobile charge carriers.`, ["Si has delocalised electrons like a metal.", `${l} is ionic, and ionic solids do not conduct.`]];
+    }
+  }
+  const down = set === "G2" ? "Group 2" : "Group 17";
+  if (p === "r") return [`${w} has more occupied shells, so its outer electrons are further from the nucleus; the extra shielding outweighs the larger nuclear charge.`, [`${w} has the smaller nuclear charge, so its electrons are held less tightly.`, `${w} has fewer electrons, so its electron cloud spreads out.`]];
+  if (p === "ir") return [`${E[w].ion} has one more occupied shell than ${E[l].ion}.`, [`${E[w].ion} has the higher charge.`, `${E[w].ion} has the smaller nuclear charge with the same number of shells.`]];
+  if (p === "ie1" || p === "ie12") return [`${w} is higher in ${down}: its outer electrons are closer to the nucleus and less shielded.`, [`${w} has the larger nuclear charge, which always wins.`, `${w} has more electrons, so more energy is needed.`]];
+  if (p === "en") return [`${w} is smaller: the bonding pair is closer to the nucleus and less shielded.`, [`${w} has the larger nuclear charge, which always wins.`, `${w} has more occupied shells to hold the bonding pair.`]];
+  if (p === "vol") return [`${E[w].mol} has more electrons (${E[w].eMol}) than ${E[l].mol} (${E[l].eMol}), so stronger id-id attractions between molecules.`, [`The ${w}–${w} bond is stronger and must be broken on boiling.`, `${E[w].mol} is polar, with permanent dipole attractions.`]];
+  return ["", ["", ""]];
+}
+function trNewQ(){
+  const set = TR.set, p = TR.prop;
+  const box = $("tr-pfb"); box.hidden = true; box.innerHTML = "";
+  if (p === "cfg"){
+    const list = SETS[set], s = pick(list);
+    TP.q = { kind: "cfg", ans: s };
+    $("tr-pq").innerHTML = `Which element has the configuration ${H(EL[s].cfg)}?`;
+    $("tr-pa").innerHTML = list.map(x => `<button type="button" data-a="${x}" aria-pressed="false">${x}</button>`).join("");
+    $("tr-pr-box").hidden = true;
+  } else {
+    const val = s => p === "ir" ? EL[s].ir : PROPS[p].get(EL[s]);
+    let list = SETS[set].filter(s => val(s) != null && !Number.isNaN(val(s)) && val(s) !== undefined);
+    if (p === "r") list = list.filter(s => s !== "Ar");
+    if (p === "ir") list = list.filter(s => EL[s].ir);
+    if (p === "en") list = list.filter(s => EL[s].en != null);
+    let a, b, tries = 0;
+    do {
+      [a, b] = shuffle(list).slice(0, 2); tries++;
+      const pr = [a, b].sort().join("");
+      const bad = (p === "mp" && (pr === "AlMg" || pr === "NaS" || pr === "NaP" || (EL[a].st === "met") !== (EL[b].st === "met") && Math.abs(EL[a].mpC - EL[b].mpC) < 150)) || (p === "cond" && !EL[a].cond && !EL[b].cond);
+      if (!bad) break;
+    } while (tries < 50);
+    const w = (p === "cond" ? (EL[a].cond || 0) > (EL[b].cond || 0) : val(a) > val(b)) ? a : b, l = w === a ? b : a;
+    const nm = s => p === "ir" ? EL[s].ion : p === "vol" ? EL[s].mol : s;
+    const [right, wrong] = trReasons(set, p, w, l);
+    TP.q = { kind: "num", a, b, ans: w, right, opts: shuffle([[right, true], [wrong[0], false], [wrong[1], false]]) };
+    $("tr-pq").innerHTML = `Which has the ${PROPS[p].word}: ${H(nm(a))} or ${H(nm(b))}?`;
+    $("tr-pa").innerHTML = [a, b].map(x => `<button type="button" data-a="${x}" aria-pressed="false">${H(nm(x))}</button>`).join("");
+    $("tr-pr-box").hidden = false;
+    $("tr-pr").innerHTML = TP.q.opts.map((o, i) => `<button type="button" class="opt" data-i="${i}" aria-pressed="false"><b>${"ABC"[i]}</b><span>${H(o[0])}</span></button>`).join("");
+    $("tr-pr").querySelectorAll(".opt").forEach(b => b.onclick = () => { if (TP.done) return; $("tr-pr").querySelectorAll(".opt").forEach(x => x.setAttribute("aria-pressed", x === b)); TP.why = +b.dataset.i; });
+  }
+  TP.ans = null; TP.why = null; TP.done = false;
+  $("tr-pa").querySelectorAll("button").forEach(b => b.onclick = () => { if (TP.done) return; $("tr-pa").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); TP.ans = b.dataset.a; });
+  $("tr-pcheck").disabled = false;
+}
+function trCheck(){
+  const q = TP.q, box = $("tr-pfb");
+  if (!q) return;
+  if (TP.ans == null || (q.kind === "num" && TP.why == null)){ box.className = "fb warn"; box.hidden = false; box.textContent = q.kind === "num" ? "Choose an answer and a reason first." : "Choose an answer first."; return; }
+  TP.done = true; $("tr-pcheck").disabled = true;
+  const p = TR.prop;
+  if (q.kind === "cfg"){
+    const ok = TP.ans === q.ans;
+    box.className = "fb " + (ok ? "ok" : "no");
+    box.innerHTML = `<p>${ok ? "Correct." : "Not quite."} ${H(EL[q.ans].cfg)} is ${EL[q.ans].nm} (${q.ans}): outer shell n = ${EL[q.ans].n} with ${EL[q.ans].ve} outer electron${EL[q.ans].ve > 1 ? "s" : ""}.</p>`;
+  } else {
+    const okA = TP.ans === q.ans, okR = q.opts[TP.why][1];
+    $("tr-pr").querySelectorAll(".opt").forEach((b, i) => { b.disabled = true; if (q.opts[i][1]) b.classList.add("right"); else if (i === TP.why) b.classList.add("wrong"); });
+    const val = s => p === "ir" ? `${H(EL[s].ion)} ${EL[s].ir.toFixed(3)} nm` : p === "cond" ? `${s} ${EL[s].cond ? H(condTxt(EL[s].cond)) + " S m⁻¹" : "non-conductor"}` : p === "vol" ? `${H(EL[s].mol)} b.p. ${minus(EL[s].bpC)} °C` : p === "mp" ? `${s} ${minus(EL[s].mpC)} °C` : `${s} ${PROPS[p].f(PROPS[p].get(EL[s]))}${PROPS[p].unit ? " " + H(PROPS[p].unit) : ""}`;
+    box.className = "fb " + (okA && okR ? "ok" : "no");
+    box.innerHTML = `<p>${okA ? "Right answer" : "Wrong answer"}, ${okR ? "right reason" : "wrong reason"}. ${H(q.right)}</p><p>Values: ${val(q.a)}; ${val(q.b)} ${SRC(PROPS[p].src)}</p>`;
+  }
+  box.hidden = false;
+}
+function bindTrends(){
+  document.querySelectorAll('input[name="tr-set"]').forEach(r => r.onchange = () => {
+    TR.set = r.value; if (!SETPROPS[TR.set].includes(TR.prop)) TR.prop = "r";
+    trProps(); trDraw(); trNewQ();
+  });
+  $("tr-atom").onchange = trCircles;
+  $("tr-pnew").onclick = trNewQ;
+  $("tr-pcheck").onclick = trCheck;
+  trProps(); trDraw(); trNewQ();
+}
+
+/* =====================================================
+   shared glassware (physical colours, light bench card)
+   ===================================================== */
+let CLIPN = 0;
+// test tube centred at cx; layers bottom-up [{c, h, op}]; grains {n, c}; drops (liquid sample) {c}
+function tubeSVG(cx, top, w, h, o){
+  o = o || {};
+  const l = cx - w / 2, r = w / 2, bot = top + h, id = "tc" + (++CLIPN);
+  const path = `M${l} ${top} V${bot - r} A${r} ${r} 0 0 0 ${l + w} ${bot - r} V${top}`;
+  let s = `<clipPath id="${id}"><path d="${path} Z"/></clipPath><g clip-path="url(#${id})">`;
+  let y = bot;
+  (o.layers || []).forEach(L => { s += `<rect x="${l}" y="${(y - L.h).toFixed(1)}" width="${w}" height="${(L.h + 0.5).toFixed(1)}" fill="${L.c}" fill-opacity="${L.op == null ? 1 : L.op}"/>`; if (L.cloudy) for (let k = 0; k < 26; k++){ s += `<circle cx="${(l + 4 + ((k * 37) % (w - 8))).toFixed(1)}" cy="${(y - 3 - ((k * 53) % Math.max(4, L.h - 6))).toFixed(1)}" r="1.6" fill="#ffffff" fill-opacity=".9"/>`; } y -= L.h; });
+  if (o.grains){ for (let k = 0; k < o.grains.n; k++){ const gx = l + 5 + ((k * 29) % (w - 10)), gy = bot - 4 - (k % 3) * 3.2 - Math.floor(k / 9) * 3; s += `<circle cx="${gx.toFixed(1)}" cy="${gy.toFixed(1)}" r="2.6" fill="${o.grains.c || PC.grain}" stroke="${PC.grainS}" stroke-width=".6"/>`; } }
+  if (o.drops) s += `<rect x="${l}" y="${bot - 10}" width="${w}" height="10" fill="${o.drops}" fill-opacity=".8"/>`;
+  if (o.bubbles){ for (let k = 0; k < o.bubbles; k++){ const bx = l + 6 + ((k * 23) % (w - 12)), by = bot - 8 - ((k * 41 + (o.phase || 0)) % Math.max(10, (o.level || h * 0.5) - 10)); s += `<circle cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="2" fill="none" stroke="#6f8796" stroke-width=".9"/>`; } }
+  s += `</g><path d="${path}" fill="none" stroke="${PC.glass}" stroke-width="1.6"/>`;
+  if (o.fumes){ for (let k = 0; k < 5; k++){ s += `<circle cx="${(cx - 10 + k * 5 + Math.sin(k + (o.phase || 0) / 9) * 4).toFixed(1)}" cy="${(top - 8 - k * 7).toFixed(1)}" r="${(6 + k * 1.6).toFixed(1)}" fill="#ffffff" fill-opacity="${(0.85 - k * 0.12).toFixed(2)}" stroke="#c9d1d8" stroke-width=".8"/>`; } }
+  if (o.heat) s += flameSVG(cx, bot + 10, 1);
+  return s;
+}
+function flameSVG(cx, y, k){
+  return `<path d="M${cx - 9 * k} ${y + 22 * k} Q${cx - 11 * k} ${y + 6 * k} ${cx} ${y - 6 * k} Q${cx + 11 * k} ${y + 6 * k} ${cx + 9 * k} ${y + 22 * k} Z" fill="${PC.flame}" fill-opacity=".75"/><path d="M${cx - 4 * k} ${y + 22 * k} Q${cx - 5 * k} ${y + 12 * k} ${cx} ${y + 4 * k} Q${cx + 5 * k} ${y + 12 * k} ${cx + 4 * k} ${y + 22 * k} Z" fill="${PC.flameIn}"/><rect x="${cx - 7 * k}" y="${y + 22 * k}" width="${14 * k}" height="${22 * k}" fill="#8a949c"/>`;
+}
+function phStrip(pH){
+  const pos = (pH + 0.5) / 15 * 100;
+  return `<div class="phbox"><div class="phstrip" role="img" aria-label="Universal indicator: pH ${pH}">${UI.map(c => `<i style="background:${c}"></i>`).join("")}<span class="phmark" style="left:calc(${pos.toFixed(2)}% - 1.5px)"></span></div><div class="phnums">${UI.map((c, i) => `<span>${i}</span>`).join("")}</div></div>`;
+}
+const phBand = pH => pH < 2.5 ? 0 : pH < 6.9 ? 1 : pH <= 7.1 ? 2 : pH <= 11.5 ? 3 : 4;
+const PHBANDS = ["pH 0–2, strongly acidic", "pH 3–6.5, weakly acidic", "pH 7, neutral", "pH 8–11, weakly alkaline", "pH 12–14, strongly alkaline"];
+PT.phBand = phBand;
+
+/* =====================================================
+   2. OXIDES AND CHLORIDES BENCH
+   ===================================================== */
+const BX = { k: "Na2O", rg: "water", amt: "excess", done: false, anim: 0, tested: {}, pred: null };
+PT.BX = BX;
+function bxRecord(){ const c = CMP[BX.k]; return BX.rg === "water" && c.amt && BX.amt === "limited" ? c.limited : c[BX.rg]; }
+function bxChips(){
+  const mk = (ids, el) => { $(el).innerHTML = ids.map(k => `<button type="button" data-k="${k}" aria-pressed="${k === BX.k}">${H(CMP[k].f)}</button>`).join(""); };
+  mk(OXK, "bx-ox"); mk(HYK, "bx-hy"); mk(CLK, "bx-cl");
+  document.querySelectorAll("#bx-ox button, #bx-hy button, #bx-cl button").forEach(b => b.onclick = () => { BX.k = b.dataset.k; bxSelect(); });
+}
+function bxSelect(){
+  const c = CMP[BX.k];
+  document.querySelectorAll("#bx-ox button, #bx-hy button, #bx-cl button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === BX.k));
+  const isCl = c.kind === "cl";
+  document.querySelectorAll('input[name="bx-rg"]').forEach(r => { r.disabled = isCl && r.value !== "water"; });
+  if (isCl && BX.rg !== "water"){ BX.rg = "water"; document.querySelector('input[name="bx-rg"][value="water"]').checked = true; }
+  $("bx-rg-hint").innerHTML = isCl ? "9476 asks only for the reactions of the chlorides with water." : BX.k === "SiO2" ? H("For SiO₂ the NaOH(aq) is hot and concentrated.") : "";
+  $("bx-naoh-l").innerHTML = BX.k === "SiO2" ? "hot, conc. NaOH(aq)" : "NaOH(aq)";
+  $("bx-amt-box").hidden = !c.amt;
+  $("bx-dimer-wrap").hidden = BX.k !== "AlCl3";
+  if (BX.k === "AlCl3") drawDimer($("bx-dimer"));
+  bxReset();
+  bxEN();
+}
+function bxReset(){
+  cancelAnimationFrame(BX.anim); BX.done = false; BX.pred = null;
+  $("bx-result").hidden = true; $("bx-pbox").hidden = true;
+  $("bx-add").disabled = false;
+  $("bx-obs").innerHTML = H(`${CMP[BX.k].f} in a test tube. ${$("bx-pred").checked ? "Make your predictions, then add the reagent." : "Press Add reagent."}`);
+  bxTube(0, null);
+  if ($("bx-pred").checked) bxPredictBox();
+}
+function bxTube(level, rec, phase){
+  const svg = $("bx-svg"), W = widthOf(svg.parentElement), Hh = 230, c = CMP[BX.k];
+  const cx = Math.min(W * 0.32, 120), top = 52, h = 150, w = 46;
+  const liqH = h * (c.amt && BX.rg === "water" && BX.amt === "limited" ? 0.12 : 0.55) * level;
+  const res = rec ? rec.res : null;
+  const o = { layers: [], phase };
+  const sampleLiquid = c.look.liquid;
+  const keepSolid = !rec || res === "solid" || res === "suspension" || res === "fumes-solid";
+  if (!rec || keepSolid){
+    if (sampleLiquid && !rec) o.drops = PC.soln;
+    else o.grains = { n: res === "suspension" ? 10 : 18, c: PC.white };
+  }
+  if (liqH > 0) o.layers.push({ c: PC.soln, h: liqH, op: 0.9, cloudy: res === "suspension" || res === "fumes-solid" });
+  if (res === "fumes-liquid") o.drops = "#f2f1e6";
+  if (rec && (res === "fumes" || res === "fumes-solid" || res === "fumes-liquid")) o.fumes = true;
+  if (rec && rec.hot) o.heat = true;
+  if (BX.rg === "naoh" && CMP[BX.k].naoh && CMP[BX.k].naoh.hot && level > 0) o.heat = true;
+  let s = tubeSVG(cx, top, w, h, o);
+  // stand clamp
+  s += `<rect x="${cx + w / 2 + 2}" y="${top + 20}" width="${W * 0.06 + 14}" height="6" fill="#9aa3ab"/>`;
+  const tx = cx + w / 2 + W * 0.06 + 26;
+  s += T(tx, top + 26, c.f, "btb", "", 13);
+  s += `<text class="bt" x="${tx}" y="${top + 44}">${esc(c.nm)}</text>`;
+  const rgName = { water: c.amt && BX.amt === "limited" ? "limited water" : "water", hcl: "dilute HCl(aq)", naoh: BX.k === "SiO2" ? "hot, conc. NaOH(aq)" : "NaOH(aq)" }[BX.rg];
+  s += T(tx, top + 64, (level > 0 ? "+ " : "reagent: ") + rgName, "bt", "", 11.5);
+  if (rec && BX.rg === "water" && rec.pH != null) s += T(tx, top + 84, `pH ${rec.pHt}`, "btb", "", 12.5);
+  setSvg(svg, W, Hh, s);
+}
+function bxPredictBox(){
+  const c = CMP[BX.k], box = $("bx-pbox");
+  const qs = [];
+  if (BX.rg === "water") qs.push({ id: "ph", q: "What will the pH of the mixture be?", o: PHBANDS });
+  else qs.push({ id: "re", q: `Will ${H(c.f)} react with ${BX.rg === "hcl" ? "HCl(aq)" : "NaOH(aq)"}?`, o: ["Yes, it reacts", "No reaction"] });
+  if (c.kind !== "cl") qs.push({ id: "na", q: `Is ${H(c.f)} acidic, basic or amphoteric?`, o: ["acidic", "basic", "amphoteric"] });
+  BX.pred = { qs, a: {} };
+  box.innerHTML = `<span class="eyebrow">Predict first</span>` + qs.map(q => `<div class="stack" style="gap:6px"><span class="qtext" style="font-size:.93rem">${q.q}</span><div class="chips" data-q="${q.id}">${q.o.map((t, i) => `<button type="button" data-i="${i}" aria-pressed="false">${H(t)}</button>`).join("")}</div></div>`).join("") + `<span class="hint">Then press Add reagent to check.</span>`;
+  box.querySelectorAll(".chips").forEach(g => g.querySelectorAll("button").forEach(b => b.onclick = () => { g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); BX.pred.a[g.dataset.q] = +b.dataset.i; }));
+  box.hidden = false;
+}
+function bxAdd(){
+  const rec = bxRecord(), c = CMP[BX.k];
+  if (!rec) return;
+  if ($("bx-pred").checked && BX.pred && Object.keys(BX.pred.a).length < BX.pred.qs.length){
+    const n = $("bx-pbox").querySelector(".fb") || document.createElement("div");
+    n.className = "fb warn"; n.textContent = "Answer the prediction first."; $("bx-pbox").appendChild(n); return;
+  }
+  $("bx-add").disabled = true;
+  const t0 = performance.now();
+  const step = t => {
+    const k = Math.min(1, (t - t0) / 650);
+    bxTube(k, k >= 1 ? rec : null, t / 40);
+    if (k < 1) BX.anim = requestAnimationFrame(step);
+    else bxShow(rec);
+  };
+  BX.anim = requestAnimationFrame(step);
+}
+function bxShow(rec){
+  const c = CMP[BX.k], E = EL[c.el];
+  BX.done = true;
+  $("bx-obs").innerHTML = H(rec.obs);
+  let predFb = "";
+  if ($("bx-pred").checked && BX.pred){
+    const out = [];
+    BX.pred.qs.forEach(q => {
+      const a = BX.pred.a[q.id];
+      let right, ok;
+      if (q.id === "ph"){ right = phBand(rec.pH); ok = a === right; out.push(`${ok ? "Right" : "Wrong"}: pH ${rec.pHt} (${PHBANDS[right]}).`); }
+      if (q.id === "re"){ right = rec.none ? 1 : 0; ok = a === right; out.push(`${ok ? "Right" : "Wrong"}: ${rec.none ? "no reaction" : "it reacts"}.`); }
+      if (q.id === "na"){ right = ["acidic", "basic", "amphoteric"].indexOf(c.nature); ok = a === right; out.push(`${ok ? "Right" : "Wrong"}: ${c.f} is ${c.nature}.`); }
+      $("bx-pbox").querySelectorAll(`.chips[data-q="${q.id}"] button`).forEach((b, i) => { b.disabled = true; if (i === right) b.style.borderColor = "var(--good)"; });
+    });
+    const allOk = out.every(t => t.startsWith("Right"));
+    predFb = `<div class="fb ${allOk ? "ok" : "no"}"><p>${allOk ? "All predictions right." : "Check your predictions:"}</p><ul>${out.map(t => `<li>${H(t)}</li>`).join("")}</ul></div>`;
+  }
+  const eqs = rec.none ? `<div><span class="lab">Equation</span>No reaction</div>` : rec.eqs.map((e, i) => `<div>${rec.eqs.length > 1 ? `<span class="lab">${i === 0 ? "Dissolving" : "Hydrolysis"}</span>` : ""}${EQ(e)}</div>`).join("");
+  const stats = [];
+  stats.push(`<div class="stat"><div class="l">Highest oxidation number of ${E.s}</div><div class="v">+${c.ox}</div></div>`);
+  if (c.st) stats.push(`<div class="stat"><div class="l">Structure and bonding</div><div class="v" style="font-size:.92rem">${H(c.st)}</div></div>`);
+  if (c.den != null) stats.push(`<div class="stat"><div class="l">Δ<i>EN</i> (${E.s}–${c.kind === "ox" ? "O" : "Cl"}) ${SRC("lit")}</div><div class="v">${c.den.toFixed(2)}</div></div>`);
+  if (c.mp) stats.push(`<div class="stat"><div class="l">Melting point / °C ${SRC("lit")}</div><div class="v" style="font-size:.92rem">${H(c.mp)}</div></div>`);
+  if (c.nature) stats.push(`<div class="stat"><div class="l">Nature</div><div class="v">${c.nature}</div></div>`);
+  const ph = BX.rg === "water" && rec.pH != null ? `<div class="stack" style="gap:4px"><span class="hint">Universal indicator reading</span>${phStrip(rec.pH)}<span class="phread">pH ${rec.pHt}</span></div>` : "";
+  const why = `<div class="callout"><p>${H(c.why)}</p>${c.ionic && c.nature === "basic" ? `<p>The oxide ion is a strong base: ${EQ(OXIDE_ION)}</p>` : ""}${BX.k === "SiO2" ? `<p>${ENR}SiO₂ does react with hydrofluoric acid: ${EQ("SiO₂(s) + 6HF(aq) → H₂SiF₆(aq) + 2H₂O(l)")}</p>` : ""}${BX.k === "PCl5" ? `<p>${ENR}Solid PCl₅ is in fact ionic, [PCl₄]⁺[PCl₆]⁻; in the vapour it is PCl₅ molecules.</p>` : ""}</div>`;
+  $("bx-result").innerHTML = predFb + `<div class="eqs">${eqs}</div>` + ph + `<div class="readout">${stats.join("")}</div>` + why;
+  $("bx-result").hidden = false;
+  // summary table record
+  const t = BX.tested[BX.k] = BX.tested[BX.k] || {};
+  t.any = true; t[BX.rg] = true;
+  bxSummary();
+}
+function bxSummary(all){
+  const cell = (ok, v) => ok ? `<td>${v}</td>` : `<td class="blank">·</td>`;
+  const tOf = k => all ? { any: 1, water: 1, hcl: 1, naoh: 1 } : (BX.tested[k] || {});
+  let s = `<tr><th>Oxide</th><th class="num">ox. no.</th><th class="num">Δ<i>EN</i></th><th>structure and bonding</th><th class="num">m.p. / °C</th><th>with water</th><th class="num">pH</th><th>+ HCl(aq)</th><th>+ NaOH(aq)</th><th>nature</th></tr>`;
+  OXK.forEach(k => {
+    const c = CMP[k], t = tOf(k);
+    s += `<tr><td>${H(c.f)}</td>${cell(t.any, "+" + c.ox).replace("<td>", '<td class="num">')}${cell(t.any, c.den.toFixed(2)).replace("<td>", '<td class="num">')}${cell(t.any, H(c.st))}${cell(t.any, H(c.mp)).replace("<td>", '<td class="num">')}${cell(t.water, c.water.none ? "no reaction" : "reacts")}${cell(t.water, c.water.pHt).replace("<td>", '<td class="num">')}${cell(t.hcl, c.hcl.none ? "no reaction" : "reacts")}${cell(t.naoh, c.naoh.none ? "no reaction" : "reacts")}${cell(t.hcl && t.naoh, c.nature)}</tr>`;
+  });
+  $("bx-sum-ox").innerHTML = s;
+  s = `<tr><th>Chloride</th><th class="num">ox. no.</th><th class="num">Δ<i>EN</i></th><th>structure and bonding</th><th class="num">m.p. / °C</th><th>with water</th><th class="num">pH</th></tr>`;
+  CLK.forEach(k => {
+    const c = CMP[k], t = tOf(k);
+    const w = { NaCl: "dissolves, no hydrolysis", MgCl2: "dissolves, slight hydrolysis", AlCl3: "hydrolysis; fumes in moist air", SiCl4: "complete hydrolysis, white fumes", PCl5: "complete hydrolysis, white fumes" }[k];
+    s += `<tr><td>${H(c.f)}</td>${cell(t.any, "+" + c.ox).replace("<td>", '<td class="num">')}${cell(t.any, c.den.toFixed(2)).replace("<td>", '<td class="num">')}${cell(t.any, H(c.st))}${cell(t.any, H(c.mp)).replace("<td>", '<td class="num">')}${cell(t.water, w)}${cell(t.water, c.water.pHt).replace("<td>", '<td class="num">')}</tr>`;
+  });
+  $("bx-sum-cl").innerHTML = s;
+}
+function bxEN(){
+  const svg = $("bx-en"), W = widthOf(svg.parentElement), Hh = 170;
+  const m = { l: 74, r: 18 }, lo = 0.6, hi = 2.7, X = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r);
+  const rows = [{ ks: OXK, y: 52, lab: "oxides", col: "var(--s1)", shape: "c" }, { ks: CLK, y: 112, lab: "chlorides", col: "var(--s2)", shape: "d" }];
+  let s = "";
+  [1, 1.5, 2, 2.5].forEach(v => { s += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="22" y2="140"/><text class="tick" x="${X(v)}" y="156" text-anchor="middle">${v.toFixed(1)}</text>`; });
+  s += `<text class="cap" x="${m.l}" y="14">more covalent</text><text class="cap" x="${W - m.r}" y="14" text-anchor="end">more ionic</text>`;
+  s += `<line x1="${m.l + 90}" x2="${W - m.r - 70}" y1="10" y2="10" stroke="var(--axis)" stroke-width="1"/><path d="M${W - m.r - 70} 10 l-6 -3 v6 z" fill="var(--axis)"/>`;
+  rows.forEach(R => {
+    s += `<line class="axis" x1="${m.l}" x2="${W - m.r}" y1="${R.y}" y2="${R.y}"/><text class="axlab" x="${m.l - 8}" y="${R.y + 4}" text-anchor="end">${R.lab}</text>`;
+    R.ks.forEach((k, i) => {
+      const c = CMP[k], x = X(c.den), sel = k === BX.k, up = i % 2 === 0;
+      if (sel) s += `<circle cx="${x}" cy="${R.y}" r="10" fill="none" stroke="var(--ink)" stroke-width="1.6"/>`;
+      s += R.shape === "c" ? `<circle cx="${x}" cy="${R.y}" r="5.5" fill="${R.col}"/>` : `<rect x="${x - 5}" y="${R.y - 5}" width="10" height="10" transform="rotate(45 ${x} ${R.y})" fill="${R.col}"/>`;
+      s += T(x, up ? R.y - 15 : R.y + 24, c.f, sel ? "lblb halo" : "lbl halo", 'text-anchor="middle"', sel ? 12.5 : 11.5);
+    });
+  });
+  setSvg(svg, W, Hh, s);
+  $("bx-en-leg").innerHTML = `<span><i class="lkey" style="background:var(--s1);border-radius:50%"></i>oxide, Δ<i>EN</i> = 3.44 − <i>EN</i>(element)</span><span><i class="lkey" style="background:var(--s2);transform:rotate(45deg) scale(.8)"></i>chloride, Δ<i>EN</i> = 3.16 − <i>EN</i>(element)</span>`;
+}
+function drawDimer(svg){
+  const W = Math.min(widthOf(svg.parentElement), 420), Hh = 210, cx = W / 2, cy = 105;
+  const d = Math.min(52, W * 0.13), hb = 52, ta = Math.min(48, W * 0.12), tb = 48;
+  const A1 = [cx - d, cy], A2 = [cx + d, cy], Bt = [cx, cy - hb], Bb = [cx, cy + hb];
+  const T1 = [cx - d - ta, cy - tb], T2 = [cx - d - ta, cy + tb], T3 = [cx + d + ta, cy - tb], T4 = [cx + d + ta, cy + tb];
+  const line = (a, b) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="var(--ink)" stroke-width="2"/>`;
+  const arrow = (a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L; const e = [b[0] - ux * 17, b[1] - uy * 17], st = [a[0] + ux * 15, a[1] + uy * 15]; return `<line x1="${st[0]}" y1="${st[1]}" x2="${e[0] - ux * 6}" y2="${e[1] - uy * 6}" stroke="var(--s2)" stroke-width="2.2"/><path d="M${e[0]} ${e[1]} L${e[0] - ux * 9 - uy * 5} ${e[1] - uy * 9 + ux * 5} L${e[0] - ux * 9 + uy * 5} ${e[1] - uy * 9 - ux * 5} Z" fill="var(--s2)"/>`; };
+  let s = line(A1, T1) + line(A1, T2) + line(A2, T3) + line(A2, T4) + line(A1, Bt) + line(A2, Bb) + arrow(Bt, A2) + arrow(Bb, A1);
+  const atom = (p, lab, col, r) => `<circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${col}" stroke="#2b3238" stroke-width="1"/><text x="${p[0]}" y="${p[1] + 4.5}" text-anchor="middle" style="font-size:12.5px;font-weight:600;fill:#10161c">${lab}</text>`;
+  s += atom(A1, "Al", "#c8b0b0", 15) + atom(A2, "Al", "#c8b0b0", 15);
+  [Bt, Bb, T1, T2, T3, T4].forEach(p => s += atom(p, "Cl", "#3fc43f", 14));
+  s += `<text class="cap" x="${cx}" y="${cy - hb - 22}" text-anchor="middle">bridging Cl</text>`;
+  setSvg(svg, W, Hh, s);
+  svg.style.margin = "0 auto";
+  $("bx-dimer").parentElement.querySelector(".vnote").innerHTML = "Lines: covalent bonds. Arrows: dative (co-ordinate) bonds, each from a lone pair on a bridging Cl to the other Al. Each Al then has four bonding pairs (an octet) and is tetrahedral. Al atoms grey-pink, Cl atoms green (CPK colours).";
+}
+function bindBench(){
+  bxChips();
+  document.querySelectorAll('input[name="bx-rg"]').forEach(r => r.onchange = () => { BX.rg = r.value; bxReset(); });
+  document.querySelectorAll('input[name="bx-amt"]').forEach(r => r.onchange = () => { BX.amt = r.value; bxReset(); });
+  $("bx-pred").onchange = bxReset;
+  $("bx-add").onclick = bxAdd;
+  $("bx-reset").onclick = bxReset;
+  $("bx-fill").onclick = () => { OXK.concat(CLK).forEach(k => BX.tested[k] = { any: 1, water: 1, hcl: 1, naoh: 1 }); bxSummary(); };
+  $("bx-clear").onclick = () => { BX.tested = {}; bxSummary(); };
+  bxSelect(); bxSummary();
+}
+
+/* =====================================================
+   3. GROUPS 2 AND 17
+   ===================================================== */
+function bindGroupTabs(){
+  const tabs = ["ladder", "disp", "carb", "hyd"];
+  tabs.forEach(t => $("gp-t-" + t).onclick = () => {
+    tabs.forEach(u => { $("gp-t-" + u).setAttribute("aria-selected", u === t); $("gp-" + u).hidden = u !== t; });
+    if (t === "ladder"){ ldDraw(); ldWater(0); }
+    if (t === "disp") dpDraw();
+    if (t === "carb") cbDraw();
+    if (t === "hyd") hxDraw();
+  });
+}
+
+/* ---- (a) E⦵ ladder ---- */
+const HALF = {
+  Mg: "Mg²⁺(aq) + 2e⁻ ⇌ Mg(s)", Ca: "Ca²⁺(aq) + 2e⁻ ⇌ Ca(s)", Sr: "Sr²⁺(aq) + 2e⁻ ⇌ Sr(s)", Ba: "Ba²⁺(aq) + 2e⁻ ⇌ Ba(s)",
+  Cl: "Cl₂(aq) + 2e⁻ ⇌ 2Cl⁻(aq)", Br: "Br₂(aq) + 2e⁻ ⇌ 2Br⁻(aq)", I: "I₂(aq) + 2e⁻ ⇌ 2I⁻(aq)", F: "F₂(g) + 2e⁻ ⇌ 2F⁻(aq)"
+};
+const E_F2 = 2.87;
+function declutter(ys, gap){
+  const idx = ys.map((y, i) => i).sort((a, b) => ys[a] - ys[b]), out = ys.slice();
+  for (let k = 1; k < idx.length; k++){ const a = idx[k - 1], b = idx[k]; if (out[b] - out[a] < gap) out[b] = out[a] + gap; }
+  // centre the cluster on the original mean
+  const shift = (ys.reduce((p, c) => p + c, 0) - out.reduce((p, c) => p + c, 0)) / ys.length;
+  return out.map(y => y + shift);
+}
+function ldDraw(){
+  const svg = $("ld-svg"), W = widthOf(svg.parentElement), fx = $("ld-fx").checked;
+  const Hh = 380, m = { t: 24, b: 18, l: 46 }, lo = -3.2, hi = fx ? 3.2 : 1.8;
+  const Y = v => m.t + (hi - v) / (hi - lo) * (Hh - m.t - m.b);
+  const colW = (W - m.l - 8) / 2, xa = m.l + 10, xb = m.l + 10 + colW;
+  let s = "";
+  niceTicks(lo, hi, 7).ticks.forEach(v => { s += `<line class="grid" x1="${m.l}" x2="${W - 4}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end">${sgn(v, 1)}</text>`; });
+  s += `<line class="axis" x1="${m.l}" x2="${m.l}" y1="${m.t}" y2="${Hh - m.b}"/>`;
+  s += `<line x1="${m.l}" x2="${W - 4}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--ref)" stroke-dasharray="5 4"/>` + T(m.l + 4, Y(0) + 14, "H⁺/H₂ 0.00", "cap halo", "", 11);
+  s += T(xa, m.t - 8, "Group 2: M²⁺/M", "lblb", "", 12.5) + T(xb, m.t - 8, "Group 17: X₂/X⁻", "lblb", "", 12.5);
+  s += T(0, 0, "E⦵ / V", "axlab", `transform="translate(12 ${Hh / 2}) rotate(-90)" text-anchor="middle"`, 11.5);
+  // Group 2: ticks, decluttered labels, arrow down
+  const g2 = ["Mg", "Ca", "Sr", "Ba"], y2 = g2.map(k => Y(EL[k].E)), l2 = declutter(y2, 17);
+  g2.forEach((k, i) => {
+    s += `<line x1="${xa + 14}" x2="${xa + 38}" y1="${y2[i]}" y2="${y2[i]}" stroke="var(--s1)" stroke-width="3"/>`;
+    s += `<line x1="${xa + 38}" x2="${xa + 46}" y1="${y2[i]}" y2="${l2[i]}" stroke="var(--axis)" stroke-width="1"/>`;
+    s += T(xa + 50, l2[i] + 4, `${k}²⁺/${k}  ${fx2(EL[k].E)}${EL[k].Elit ? " (lit.)" : ""}`, "lbl halo", "", 11.5);
+  });
+  const ya = Y(-1.0), yz = Y(-3.12);
+  s += T(xa, ya - 8, "stronger reducing agent", "cap halo", "", 11);
+  s += `<line x1="${xa + 5}" x2="${xa + 5}" y1="${ya}" y2="${yz - 8}" stroke="var(--s1)" stroke-width="2"/><path d="M${xa + 5} ${yz} l-5 -10 h10 z" fill="var(--s1)"/>`;
+  // Group 17: ticks, labels, arrow up
+  const g17 = ["Cl", "Br", "I"].concat(fx ? ["F"] : []);
+  g17.forEach(k => {
+    const E = k === "F" ? E_F2 : EL[k].E, y = Y(E), isF = k === "F";
+    s += `<line x1="${xb + 14}" x2="${xb + 38}" y1="${y}" y2="${y}" stroke="${isF ? "var(--c6)" : "var(--s2)"}" stroke-width="3"${isF ? ' stroke-dasharray="5 3"' : ""}/>`;
+    s += T(xb + 44, y + 4, `${k}₂/${k}⁻  ${fx2(E)}`, "lbl halo", "", 11.5);
+  });
+  const yb1 = Y(0.42), yb2 = Y(fx ? 3.12 : 1.72);
+  s += T(xb, yb1 + 15, "stronger oxidising agent", "cap halo", "", 11);
+  s += `<line x1="${xb + 5}" x2="${xb + 5}" y1="${yb1}" y2="${yb2 + 8}" stroke="var(--s2)" stroke-width="2"/><path d="M${xb + 5} ${yb2} l-5 10 h10 z" fill="var(--s2)"/>`;
+  setSvg(svg, W, Hh, s);
+  $("ld-leg").innerHTML = `<span><i class="key" style="border-color:var(--s1);border-top-width:3px"></i>Group 2</span><span><i class="key" style="border-color:var(--s2);border-top-width:3px"></i>Group 17</span>${fx ? `<span><i class="key" style="border-color:var(--c6);border-top-width:3px;border-top-style:dashed"></i>F<sub>2</sub>/F<sup>−</sup> +2.87 (Further example)</span>` : ""}`;
+  const rows = ["Mg", "Ca", "Sr", "Ba", "Cl", "Br", "I"].concat(fx ? ["F"] : []).map(k => {
+    const E = k === "F" ? E_F2 : EL[k].E;
+    return `<tr><td>${k === "F" ? FEX : ""}${EQ(HALF[k])}</td><td class="num">${fx2(E)}</td><td>${SRC(k === "Sr" ? "lit" : "db")}</td></tr>`;
+  }).join("");
+  let tb = $("ld-table");
+  if (!tb){ tb = document.createElement("div"); tb.id = "ld-table"; tb.className = "tblwrap"; tb.style.padding = "0 12px 10px"; svg.parentElement.appendChild(tb); }
+  tb.innerHTML = `<table class="data"><tr><th>half-equation</th><th class="num">${H("E⦵ / V")}</th><th></th></tr>${rows}</table><p class="hint" style="margin:6px 0 0">E⦵(Sr²⁺/Sr) is not in the Data Booklet: literature value.</p>`.replace("<p class=\"hint\" style=\"margin:6px 0 0\">E⦵(Sr²⁺/Sr)", "<p class=\"hint\" style=\"margin:6px 0 0\">" + H("E⦵(Sr²⁺/Sr)"));
+  drawChart($("ld-ie"), ["Mg", "Ca", "Sr", "Ba"].map(k => ({ lab: k, v: EL[k].ie1 + EL[k].ie2, txt: String(EL[k].ie1 + EL[k].ie2) })), { min: 0, max: 2500, ylab: "IE₁ + IE₂", h: 210 });
+}
+const fx2 = v => sgn(v, 2);
+
+const WATER = {
+  Mg: { rate: 0.4, eq: "Mg(s) + H₂O(g) → MgO(s) + H₂(g)", obs: "Mg: only a very slow reaction with cold water (a few bubbles). With steam it reacts fast and burns with a white flame." },
+  Ca: { rate: 3, eq: "Ca(s) + 2H₂O(l) → Ca(OH)₂(aq) + H₂(g)", obs: "Ca: steady fizzing; the mixture turns cloudy because some calcium hydroxide, being only slightly soluble, comes out as a white solid.", cloudy: true },
+  Sr: { rate: 5, eq: "Sr(s) + 2H₂O(l) → Sr(OH)₂(aq) + H₂(g)", obs: "Sr: faster fizzing than Ca." },
+  Ba: { rate: 8, eq: "Ba(s) + 2H₂O(l) → Ba(OH)₂(aq) + H₂(g)", obs: "Ba: vigorous fizzing." }
+};
+const LD = { anim: 0 };
+function ldWater(run){
+  cancelAnimationFrame(LD.anim);
+  const m = document.querySelector('input[name="ld-m"]:checked').value, w = WATER[m];
+  const svg = $("ld-water"), W = widthOf(svg.parentElement), Hh = 170;
+  const t0 = performance.now();
+  const frame = t => {
+    const el = run ? (t - t0) / 1000 : 0, cx = Math.min(W * 0.3, 130);
+    let s = "";
+    const bw = 110, l = cx - bw / 2, top = 30, bot = 150;
+    s += `<rect x="${l}" y="${top + 34}" width="${bw}" height="${bot - top - 34}" fill="${PC.water}" fill-opacity=".85"/>`;
+    if (run && w.cloudy) s += `<rect x="${l}" y="${top + 34}" width="${bw}" height="${bot - top - 34}" fill="${PC.milky}" fill-opacity="${Math.min(0.75, el * 0.25).toFixed(2)}"/>`;
+    const piece = Math.max(0, 1 - (run ? el * w.rate / 60 : 0));
+    s += `<rect x="${cx - 12 * piece}" y="${bot - 9}" width="${24 * piece}" height="8" rx="2" fill="#b9bec2" stroke="#6c757d" stroke-width=".8"/>`;
+    if (run){
+      const n = Math.round(w.rate * 3);
+      for (let k = 0; k < n; k++){ const ph = (el * (30 + w.rate * 12) + k * 37) % (bot - top - 40); s += `<circle cx="${(cx - 10 + (k * 13) % 22 + Math.sin(el * 3 + k) * 3).toFixed(1)}" cy="${(bot - 12 - ph).toFixed(1)}" r="${(1.6 + (k % 3) * 0.6).toFixed(1)}" fill="none" stroke="#5f7a8a" stroke-width=".9"/>`; }
+    }
+    s += `<path d="M${l} ${top} V${bot} H${l + bw} V${top}" fill="none" stroke="${PC.glass}" stroke-width="1.6"/>`;
+    const tx = cx + bw / 2 + 16;
+    s += `<text class="btb" x="${tx}" y="${top + 40}">${m} in cold water</text>` + T(tx, top + 58, run ? "bubbles of H₂" : "press Drop into cold water", "bt", "", 11.5);
+    setSvg(svg, W, Hh, s);
+    if (run && el < 4) LD.anim = requestAnimationFrame(frame);
+  };
+  frame(t0);
+  if (run) LD.anim = requestAnimationFrame(frame);
+  $("ld-water-obs").innerHTML = run ? `${FEX}${H(w.obs)} ${EQ(w.eq)}` : H("Reactivity with water increases down the group, matching the more negative E⦵ values.");
+}
+
+/* ---- (b) displacement ---- */
+const DP = { h: "Cl", k: "Br", stage: 0, pred: null };
+PT.DP = DP;
+const DPCOL = { Cl: { aq: PC.cl2aq, hex: PC.cl2hex, aqT: "pale yellow-green", hexT: "pale yellow-green" }, Br: { aq: PC.br2aq, hex: PC.br2hex, aqT: "yellow to orange", hexT: "orange-red" }, I: { aq: PC.i2aq, hex: PC.i2hex, aqT: "brown", hexT: "purple (violet)" } };
+function dpResult(h, k){
+  // h: halogen added (X₂), k: halide ion (Y⁻) from KY
+  if (h === k) return { react: false, same: true, Ecell: null, present: h };
+  const Ecell = +(HAL[h].E - HAL[k].E).toFixed(2);
+  return { react: Ecell > 0, Ecell, present: Ecell > 0 ? k : h };
+}
+PT.dpResult = dpResult;
+const dpEq = (h, k) => `${HAL[h].X2}(aq) + 2${HAL[k].X}(aq) → 2${HAL[h].X}(aq) + ${HAL[k].X2}(aq)`;
+function dpGrid(){
+  const g = $("dp-grid"), ks = ["Cl", "Br", "I"];
+  let s = `<span class="h"></span>` + ks.map(k => `<span class="h">${HAL[k].K}(aq)</span>`).join("");
+  ks.forEach(h => {
+    s += `<span class="h row">${H(HAL[h].X2)}(aq)</span>`;
+    ks.forEach(k => { const t = DP.tested && DP.tested[h + k]; const r = dpResult(h, k); s += `<button type="button" data-h="${h}" data-k="${k}" aria-pressed="${DP.h === h && DP.k === k}" aria-label="${HAL[h].nm} water with ${HAL[k].K}">${t ? `<span class="w">${r.same ? "same halogen" : r.react ? "reacts" : "no reaction"}</span>${r.Ecell != null ? fx2(r.Ecell) + " V" : ""}` : "test"}</button>`; });
+  });
+  g.innerHTML = s;
+  g.querySelectorAll("button").forEach(b => b.onclick = () => { DP.h = b.dataset.h; DP.k = b.dataset.k; DP.stage = 0; dpGrid(); dpDraw(); });
+}
+function dpDraw(){
+  const svg = $("dp-svg"), W = widthOf(svg.parentElement), Hh = 230, r = dpResult(DP.h, DP.k);
+  const cx = Math.min(W * 0.3, 120), top = 30, h = 165, w = 48;
+  let layers;
+  if (DP.stage === 0) layers = [{ c: PC.soln, h: 62, op: 0.8 }];
+  else if (DP.stage === 1) layers = [{ c: DPCOL[r.present].aq, h: 88, op: r.present === "Cl" ? 0.8 : 0.9 }];
+  else layers = [{ c: DPCOL[r.present].aq, h: 88, op: 0.35 }, { c: DPCOL[r.present].hex, h: 40, op: 0.95 }];
+  let s = tubeSVG(cx, top, w, h, { layers });
+  const tx = cx + w / 2 + 18;
+  s += T(tx, top + 30, `${HAL[DP.k].K}(aq)${DP.stage ? " + " + HAL[DP.h].X2 + "(aq)" : ""}`, "btb", "", 12.5);
+  if (DP.stage === 2){ s += `<text class="bt" x="${tx}" y="${top + 62}">upper layer: hexane</text><text class="bt" x="${tx}" y="${top + 78}">${DPCOL[r.present].hexT}</text><text class="bt" x="${tx}" y="${top + 104}">lower layer: aqueous</text>`; }
+  else if (DP.stage === 1) s += `<text class="bt" x="${tx}" y="${top + 62}">aqueous: ${DPCOL[r.present].aqT}</text>`;
+  else s += `<text class="bt" x="${tx}" y="${top + 62}">colourless solution</text>`;
+  setSvg(svg, W, Hh, s);
+  $("dp-shake").disabled = DP.stage !== 1;
+  $("dp-mix").disabled = DP.stage !== 0;
+  $("dp-obs").innerHTML = DP.stage === 0 ? H(`${HAL[DP.k].K}(aq) is colourless. Add ${HAL[DP.h].X2}(aq).`) : DP.stage === 1 ? H(`After adding ${HAL[DP.h].X2}(aq): the solution is ${DPCOL[r.present].aqT}${r.present === DP.h ? `, the colour of ${HAL[DP.h].X2}(aq) itself` : `: ${HAL[r.present].X2} has formed`}.`) : H(`After shaking with hexane (less dense than water, so it is the upper layer): ${DPCOL[r.present].hexT}, showing ${HAL[r.present].X2} is present.`);
+  if (DP.stage === 0){ $("dp-res").innerHTML = ""; if ($("dp-pred").checked) dpPredBox(); else $("dp-pbox").hidden = true; }
+}
+function dpPredBox(){
+  const box = $("dp-pbox");
+  DP.pred = { a: {} };
+  const q = (id, t, o) => `<div class="stack" style="gap:6px"><span class="qtext" style="font-size:.93rem">${t}</span><div class="chips" data-q="${id}">${o.map((x, i) => `<button type="button" data-i="${i}" aria-pressed="false">${x}</button>`).join("")}</div></div>`;
+  box.innerHTML = `<span class="eyebrow">Predict first</span>` + q("re", H(`Does ${HAL[DP.h].X2}(aq) react with ${HAL[DP.k].X}(aq)?`), ["Yes, displacement", "No reaction"]) + q("hx", "Colour of the hexane layer after shaking?", ["pale yellow-green", "orange-red", "purple"]);
+  box.querySelectorAll(".chips").forEach(g => g.querySelectorAll("button").forEach(b => b.onclick = () => { g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); DP.pred.a[g.dataset.q] = +b.dataset.i; }));
+  box.hidden = false;
+}
+function dpMix(){
+  if ($("dp-pred").checked && DP.pred && Object.keys(DP.pred.a).length < 2){ const n = document.createElement("div"); n.className = "fb warn"; n.textContent = "Answer both predictions first."; const old = $("dp-pbox").querySelector(".fb"); if (old) old.remove(); $("dp-pbox").appendChild(n); return; }
+  DP.stage = 1; dpDraw(); dpShowRes();
+}
+function dpShowRes(){
+  const r = dpResult(DP.h, DP.k), h = HAL[DP.h], k = HAL[DP.k];
+  let s = "";
+  if ($("dp-pred").checked && DP.pred){
+    const okR = (DP.pred.a.re === 0) === r.react, okH = DP.pred.a.hx === ["Cl", "Br", "I"].indexOf(r.present);
+    $("dp-pbox").querySelectorAll(".chips button").forEach(b => b.disabled = true);
+    s += `<div class="fb ${okR && okH ? "ok" : "no"}"><p>${okR ? "Right" : "Wrong"}: ${r.react ? "displacement occurs" : "no reaction"}. ${okH ? "Right" : "Wrong"}: the hexane layer will be ${DPCOL[r.present].hexT}.</p></div>`;
+  }
+  if (r.same) s += `<div class="callout"><p>Same halogen: ${H(h.X2)} cannot displace itself. No change apart from dilution.</p></div>`;
+  else {
+    const calc = `E⦵cell = E⦵(${h.X2}/${h.X}) − E⦵(${k.X2}/${k.X}) = ${fx2(h.E)} − (${fx2(k.E)}) = ${fx2(r.Ecell)} V`;
+    s += `<div class="eqs"><div><span class="lab">${r.react ? "Ionic equation" : "Would-be reaction (does not happen)"}</span>${r.react ? EQ(dpEq(DP.h, DP.k)) : H(`${h.X2}(aq) + 2${k.X}(aq) → no reaction`)}</div><div><span class="lab">E⦵ values from the Data Booklet ${SRC("db")}</span>${H(calc)}</div></div>`.replace("E⦵ values", H("E⦵") + " values");
+    s += `<div class="callout"><p>${H(r.react ? `Positive E⦵cell: ${h.X2} is the stronger oxidising agent and oxidises ${k.X} to ${k.X2}.` : `Negative E⦵cell: ${h.X2} is a weaker oxidising agent than ${k.X2}, so it cannot oxidise ${k.X}.`)}</p></div>`;
+  }
+  $("dp-res").innerHTML = s;
+  DP.tested = DP.tested || {}; DP.tested[DP.h + DP.k] = true; dpGrid();
+}
+
+/* ---- (c) carbonates ---- */
+const CB = { m: "Mg", T: 20, anim: 0, since: null, heating: false };
+PT.CB = CB;
+function cbDraw(){
+  const m = CB.m, c = CARB[m], dec = CB.T >= c.T;
+  $("cb-T-o").textContent = CB.T + " °C";
+  $("cb-T").value = CB.T;
+  // apparatus
+  const svg = $("cb-svg"), W = widthOf(svg.parentElement), Hh = 230;
+  const x1 = Math.min(W * 0.24, 100), x2 = Math.min(W * 0.62, x1 + 170), top = 40;
+  let s = "";
+  const milk = dec && CB.since != null ? Math.min(1, (performance.now() - CB.since) / 2500) : dec ? 1 : 0;
+  s += tubeSVG(x1, top, 44, 120, { grains: { n: 18, c: PC.white }, heat: CB.T > 20 });
+  s += tubeSVG(x2, top + 20, 40, 120, { layers: [milk > 0 ? { c: PC.milky, h: 70, op: 0.35 + 0.6 * milk, cloudy: true } : { c: PC.soln, h: 70, op: 0.85 }], bubbles: dec ? 7 : 0, level: 70, phase: performance.now() / 30 });
+  // delivery tube
+  s += `<path d="M${x1 + 6} ${top + 4} V${top - 18} H${x2 + 4} V${top + 128}" fill="none" stroke="${PC.glass}" stroke-width="3"/><rect x="${x1 - 25}" y="${top - 4}" width="50" height="10" rx="2" fill="#b98b5a"/>`;
+  // flame size grows with temperature
+  if (CB.T > 20) s += flameSVG(x1, top + 132, 0.6 + CB.T / 2800);
+  s += T(x1 - 28, top + 70, c.f, "btb", 'text-anchor="end"', 12.5);
+  s += `<text class="bt" x="${x2}" y="${top + 166}" text-anchor="middle">limewater</text>`;
+  s += `<text x="${W - 12}" y="${Hh - 14}" text-anchor="end" style="font-family:var(--mono);font-size:16px;font-weight:500;fill:#141a20">${CB.T} °C</text>`;
+  setSvg(svg, W, Hh, s);
+  $("cb-obs").innerHTML = dec ? `${H(c.f)} decomposes (about ${c.T} °C ${SRC("lit")}): CO<sub>2</sub> turns the limewater milky. ${EQ(`${c.f}(s) → ${c.o}(s) + CO₂(g)`)}<br>Limewater test: ${EQ("Ca(OH)₂(aq) + CO₂(g) → CaCO₃(s) + H₂O(l)")}` : `Heating ${H(c.f)}: no gas yet, the limewater stays clear.`;
+  cbPol(); cbChart(); cbRead();
+}
+function cbPol(){
+  const svg = $("cb-pol"), W = widthOf(svg.parentElement), Hh = 190, m = CB.m, e = EL[m];
+  const sc = 230, rc = e.ir * sc, cd = chargeDensity(m);
+  const ox = W / 2 + 40, oy = 100, d = 26;            // carbonate centre, C–O drawn length (schematic)
+  const ccx = ox - 70 - rc, ccy = oy;               // cation centre, to the left
+  const k = cd / 30.8 * 0.42;                       // distortion in proportion to charge density
+  const R0 = 46;
+  let pts = [];
+  for (let i = 0; i <= 72; i++){ const th = i / 72 * 2 * Math.PI, cos = Math.cos(th - Math.PI); const r = R0 * (1 + k * Math.pow(Math.max(0, cos), 3) * 1.1 - k * 0.12); pts.push([ox + r * Math.cos(th), oy + r * Math.sin(th)]); }
+  let s = `<circle cx="${ox}" cy="${oy}" r="${R0}" fill="none" stroke="var(--axis)" stroke-dasharray="3 3"/>`;
+  s += `<path d="M${pts.map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L")} Z" fill="var(--s2-wash)" stroke="var(--s2)" stroke-width="1.5"/>`;
+  const O = [[ox - d, oy], [ox + d / 2, oy - d * 0.866], [ox + d / 2, oy + d * 0.866]];
+  O.forEach((p, i) => { s += `<line x1="${ox}" y1="${oy}" x2="${p[0]}" y2="${p[1]}" stroke="var(--ink)" stroke-width="${i === 0 ? 1.5 : 2.2}"${i === 0 ? ` stroke-dasharray="${(6 - k * 8).toFixed(1)} 3"` : ""}/>`; });
+  O.forEach(p => { s += `<circle cx="${p[0]}" cy="${p[1]}" r="8" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/><text x="${p[0]}" y="${p[1] + 4}" text-anchor="middle" class="lbl" style="font-size:10.5px">O</text>`; });
+  s += `<circle cx="${ox}" cy="${oy}" r="7" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/><text x="${ox}" y="${oy + 4}" text-anchor="middle" class="lbl" style="font-size:10.5px">C</text>`;
+  s += `<circle cx="${ccx}" cy="${ccy}" r="${rc.toFixed(1)}" fill="var(--s1)" stroke="none"/>` + T(ccx, ccy + 4.5, e.ion, "", `text-anchor="middle" style="font-size:12px;font-weight:600;fill:var(--accent-ink)"`, 12);
+  s += T(ccx, ccy + Math.max(rc, 14) + 18, `r = ${e.ir.toFixed(3)} nm`, "cap", 'text-anchor="middle"', 11);
+  s += T(ox, oy + R0 + 26, "CO₃²⁻ electron cloud", "cap", 'text-anchor="middle"', 11);
+  s += `<line x1="${ox - d / 2}" y1="${oy - 2}" x2="${ox - 22}" y2="${oy - R0 - 6}" stroke="var(--axis)" stroke-width="1"/>` + T(ox - 22, oy - R0 - 10, "weakened C–O bond", "cap halo", 'text-anchor="middle"', 11);
+  // scale bar 0.1 nm for the cation
+  s += `<line x1="10" x2="${10 + 0.1 * sc}" y1="14" y2="14" stroke="var(--ink)" stroke-width="2"/>` + T(14 + 0.1 * sc, 18, "0.1 nm (cation scale)", "cap", "", 11);
+  setSvg(svg, W, Hh, s);
+  $("cb-pol-note").innerHTML = H(`Charge density of ${e.ion} = charge ÷ ionic radius = 2 ÷ ${e.ir.toFixed(3)} = ${cd3(m)} nm⁻¹. The higher the charge density, the more the cation polarises (distorts) the large, polarisable CO₃²⁻ electron cloud, weakening the C–O bond nearest to it, so the carbonate decomposes at a lower temperature. The dashed circle is the undistorted ion.`);
+}
+function cbChart(){
+  const svg = $("cb-chart"), W = widthOf(svg.parentElement), Hh = 230, m = { l: 56, r: 16, t: 16, b: 40 };
+  const X = v => m.l + (v - 10) / 25 * (W - m.l - m.r), Y = v => m.t + (1 - v / 1500) * (Hh - m.t - m.b);
+  let s = "";
+  [0, 500, 1000, 1500].forEach(v => s += `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`);
+  [10, 15, 20, 25, 30, 35].forEach(v => s += `<text class="tick" x="${X(v)}" y="${Hh - m.b + 15}" text-anchor="middle">${v}</text>`);
+  s += `<line class="axis" x1="${m.l}" x2="${W - m.r}" y1="${Hh - m.b}" y2="${Hh - m.b}"/><line class="axis" x1="${m.l}" x2="${m.l}" y1="${m.t}" y2="${Hh - m.b}"/>`;
+  s += T((m.l + W - m.r) / 2, Hh - 6, "charge density of M²⁺ / nm⁻¹", "axlab", 'text-anchor="middle"', 11.5);
+  s += `<text class="axlab" transform="translate(13 ${(Hh - m.b + m.t) / 2}) rotate(-90)" text-anchor="middle">decomposition temperature / °C</text>`;
+  const ks = ["Mg", "Ca", "Sr", "Ba"];
+  s += `<polyline points="${ks.map(k => X(chargeDensity(k)).toFixed(1) + "," + Y(CARB[k].T).toFixed(1)).join(" ")}" fill="none" stroke="var(--s1)" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  ks.forEach(k => {
+    const x = X(chargeDensity(k)), y = Y(CARB[k].T), sel = k === CB.m;
+    s += `<circle cx="${x}" cy="${y}" r="${sel ? 7 : 5}" fill="var(--s1)"${sel ? ' stroke="var(--ink)" stroke-width="2"' : ""}/>`;
+    const dx = k === "Ba" || k === "Sr" ? 10 : 0, dy = k === "Sr" ? 18 : -12;
+    s += T(x + dx, y + dy, `${CARB[k].f} ${CARB[k].T}`, sel ? "lblb halo" : "lbl halo", `text-anchor="${dx ? "start" : "middle"}"`, 11.5);
+  });
+  setSvg(svg, W, Hh, s);
+}
+function cbRead(){
+  const m = CB.m, e = EL[m], c = CARB[m];
+  $("cb-read").innerHTML = `<div class="stat"><div class="l">Cation, ionic radius ${SRC("db")}</div><div class="v">${H(e.ion)}, ${e.ir.toFixed(3)} nm</div></div><div class="stat"><div class="l">Charge density</div><div class="v">${cd3(m)} <small>nm<sup>−1</sup></small></div></div><div class="stat"><div class="l">Decomposes at about ${SRC("lit")}</div><div class="v">${c.T} °C</div></div><div class="stat"><div class="l">Products</div><div class="v">${H(c.o)} + CO<sub>2</sub></div></div>`;
+}
+function cbHeat(){
+  if (CB.heating) return;
+  CB.heating = true; $("cb-heat").disabled = true;
+  let last = performance.now();
+  const step = t => {
+    const dt = (t - last) / 1000; last = t;
+    const before = CB.T;
+    CB.T = Math.min(1400, CB.T + Math.max(10, Math.round(260 * dt / 10) * 10));
+    if (before < CARB[CB.m].T && CB.T >= CARB[CB.m].T) CB.since = performance.now();
+    cbDraw();
+    if (CB.T < 1400 || (CB.since && performance.now() - CB.since < 2600)) CB.anim = requestAnimationFrame(step);
+    else { CB.heating = false; $("cb-heat").disabled = false; }
+  };
+  CB.anim = requestAnimationFrame(step);
+}
+function cbReset(){ cancelAnimationFrame(CB.anim); CB.heating = false; $("cb-heat").disabled = false; CB.T = 20; CB.since = null; cbDraw(); }
+
+/* ---- (d) hydrogen halides ---- */
+const HX = { g: "Cl", stage: 0, anim: 0 };
+PT.HX = HX;
+const HXOBS = {
+  Cl: { obs: "HCl: no visible change. The H–Cl bond (431 kJ mol⁻¹) is too strong to break at this temperature.", vap: null },
+  Br: { obs: "HBr: some brown bromine vapour appears around the needle.", vap: PC.br2vap, eq: "2HBr(g) ⇌ H₂(g) + Br₂(g)", op: 0.45 },
+  I: { obs: "HI: dense purple iodine vapour appears.", vap: PC.i2vap, eq: "2HI(g) ⇌ H₂(g) + I₂(g)", op: 0.75 }
+};
+function hxDraw(k){
+  const svg = $("hx-svg"), W = widthOf(svg.parentElement), Hh = 220, cx = Math.min(W * 0.3, 120), w = 84, top = 30, bot = 190, l = cx - w / 2;
+  const o = HXOBS[HX.g];
+  k = k == null ? (HX.stage ? 1 : 0) : k;
+  let s = "";
+  if (o.vap && k > 0.5) s += `<rect x="${l}" y="${top + 8}" width="${w}" height="${bot - top - 8}" fill="${o.vap}" fill-opacity="${(o.op * (k - 0.5) * 2).toFixed(2)}"/>`;
+  s += `<path d="M${l} ${top} V${bot - 6} Q${l} ${bot} ${l + 6} ${bot} H${l + w - 6} Q${l + w} ${bot} ${l + w} ${bot - 6} V${top}" fill="none" stroke="${PC.glass}" stroke-width="1.6"/><rect x="${l - 4}" y="${top - 6}" width="${w + 8}" height="8" rx="2" fill="#cfd6dc" stroke="${PC.glass}"/>`;
+  if (k > 0){ const ny = top - 60 + Math.min(1, k * 2) * 120; s += `<line x1="${cx}" y1="${ny - 90}" x2="${cx}" y2="${ny}" stroke="${PC.needle}" stroke-width="2.4"/><circle cx="${cx}" cy="${ny}" r="3" fill="#ffb347"/>`; }
+  const tx = cx + w / 2 + 16;
+  s += T(tx, top + 30, `${HAL[HX.g].HX}(g)`, "btb", "", 13);
+  s += `<text class="bt" x="${tx}" y="${top + 50}">${HX.stage ? "after the hot needle" : "colourless gas"}</text>`;
+  s += T(tx, top + 68, `H–${HX.g} ${HAL[HX.g].BE} kJ mol⁻¹`, "bt", "", 11.5);
+  setSvg(svg, W, Hh, s);
+  $("hx-obs").innerHTML = HX.stage ? `${H(o.obs)}${o.eq ? " " + EQ(o.eq) : ""}` : H(`A gas jar of ${HAL[HX.g].HX}. Plunge in a red-hot needle.`);
+  hxBars();
+  $("hx-res").innerHTML = HX.stage ? `<div class="callout"><p>${H(HX.g === "Cl" ? "HCl is the most thermally stable of the three: strongest H–X bond." : HX.g === "Br" ? "HBr partly decomposes: the H–Br bond (366 kJ mol⁻¹) is weaker than H–Cl." : "HI decomposes most readily: the H–I bond (299 kJ mol⁻¹) is the weakest.")}</p><p>Thermal stability: HCl > HBr > HI.${$("hx-fx").checked ? " HF (H–F 562 kJ mol⁻¹) is even more stable than HCl." : ""}</p></div>` : "";
+}
+function hxBars(){
+  const fx = $("hx-fx").checked, ks = (fx ? ["F"] : []).concat(["Cl", "Br", "I"]);
+  const BE = { F: 562, Cl: 431, Br: 366, I: 299 };
+  drawChart($("hx-bars"), ks.map(k => ({ lab: "H–" + k, v: BE[k], txt: String(BE[k]), fill: k === "F" ? "var(--c5)" : "var(--s1)", outline: k === "F" ? "var(--s1)" : null })), { min: 0, max: 600, ylab: "bond energy / kJ mol⁻¹", h: 220 });
+}
+function hxGo(){
+  if (HX.stage) return;
+  const t0 = performance.now();
+  const step = t => { const k = Math.min(1, (t - t0) / 1400); hxDraw(k); if (k < 1) HX.anim = requestAnimationFrame(step); else { HX.stage = 1; hxDraw(1); } };
+  HX.anim = requestAnimationFrame(step);
+}
+function bindGroups(){
+  bindGroupTabs();
+  $("ld-fx").onchange = ldDraw;
+  document.querySelectorAll('input[name="ld-m"]').forEach(r => r.onchange = () => ldWater(0));
+  $("ld-drop").onclick = () => ldWater(1);
+  dpGrid();
+  $("dp-mix").onclick = dpMix;
+  $("dp-shake").onclick = () => { DP.stage = 2; dpDraw(); };
+  $("dp-pred").onchange = () => { DP.stage = 0; dpDraw(); };
+  document.querySelectorAll('input[name="cb-m"]').forEach(r => r.onchange = () => { CB.m = r.value; cbReset(); });
+  $("cb-T").oninput = () => { const v = +$("cb-T").value; if (CB.T < CARB[CB.m].T && v >= CARB[CB.m].T) CB.since = performance.now() - 2500; if (v < CARB[CB.m].T) CB.since = null; CB.T = v; cbDraw(); };
+  $("cb-heat").onclick = cbHeat;
+  $("cb-reset").onclick = cbReset;
+  document.querySelectorAll('input[name="hx-g"]').forEach(r => r.onchange = () => { cancelAnimationFrame(HX.anim); HX.g = r.value; HX.stage = 0; hxDraw(); });
+  $("hx-go").onclick = hxGo;
+  $("hx-reset").onclick = () => { cancelAnimationFrame(HX.anim); HX.stage = 0; hxDraw(); };
+  $("hx-fx").onchange = () => hxDraw();
+  ldDraw(); ldWater(0);
+}
+
+/* =====================================================
+   4. UNKNOWN ELEMENT DETECTIVE
+   Each clue is structured data; test() returns true, false or null (no data: cannot rule out)
+   ===================================================== */
+const OXCLUE = {
+  Na: "Its oxide reacts with water to give a strongly alkaline solution (pH about 14).",
+  Mg: "Its oxide is a white solid melting at 2852 °C; with water it gives a slightly alkaline mixture (pH about 9).",
+  Al: "Its oxide is insoluble in water but dissolves in both dilute HCl and NaOH(aq).",
+  Si: "Its oxide melts at 1710 °C, is insoluble in water, and dissolves only in hot, concentrated NaOH(aq).",
+  P: "Its highest oxide sublimes at 360 °C and reacts with water to give a solution of pH about 2.",
+  S: "Its highest oxide melts at 17 °C and reacts with water to give a solution of pH about 1."
+};
+const CLCLUE = {
+  Na: "Its chloride melts at 801 °C and dissolves in water to give a neutral solution.",
+  Mg: "Its chloride melts at 714 °C and dissolves in water to give a solution of pH about 6.5.",
+  Al: "Its chloride sublimes at 178 °C, fumes in moist air, and in excess water gives a solution of pH about 3.",
+  Si: "Its chloride is a liquid (b.p. 58 °C) that fumes in moist air, giving a white solid and an acidic solution (pH about 2).",
+  P: "Its highest chloride is a solid that sublimes at 160 °C and reacts with water to give a strongly acidic solution (pH about 2)."
+};
+const P3OX = ["Na", "Mg", "Al", "Si", "P", "S"], P3CL = ["Na", "Mg", "Al", "Si", "P"];
+const condWord = s => s === "met" ? "conducts electricity well" : s === "gm" ? "is a semiconductor" : "does not conduct electricity";
+const condKey = e => e.st === "met" ? "met" : e.st === "gm" ? "gm" : e.st ? "none" : null;
+const BE_HX = { Cl: 431, Br: 366, I: 299 };
+const CLUES = {
+  jump: { text: c => `Its successive ionisation energies show the first large rise after the ${ord(c.n)} electron has been removed.`, test: (e, c) => e.ve === c.n, why: c => `First large rise after the ${ord(c.n)} IE: ${c.n} outer electron${c.n > 1 ? "s" : ""}, so Group ${c.n <= 2 ? c.n : c.n + 10}.` },
+  shell: { text: c => `Its outer electrons are in the shell with principal quantum number n = ${c.n}.`, test: (e, c) => e.n === c.n, why: c => `n = ${c.n} for the outer shell: Period ${c.n}.` },
+  ie1: { text: c => `Its first ionisation energy is ${c.v} kJ mol⁻¹ (Data Booklet).`, test: (e, c) => e.ie1 === c.v, why: c => `First IE ${c.v} kJ mol⁻¹ matches the Data Booklet value.` },
+  r: { text: c => `Its atomic radius is ${c.v.toFixed(3)} nm (Data Booklet).`, test: (e, c) => e.rVdw ? false : e.r === c.v, why: c => `Atomic radius ${c.v.toFixed(3)} nm matches the Data Booklet value.` },
+  ion: { text: c => `It forms an ion of charge ${c.q > 0 ? c.q + "+" : Math.abs(c.q) + "−"} with radius ${c.v.toFixed(3)} nm (Data Booklet).`, test: (e, c) => e.ir == null ? false : e.q === c.q && e.ir === c.v, why: c => `Ionic radius ${c.v.toFixed(3)} nm for a ${c.q > 0 ? c.q + "+" : Math.abs(c.q) + "−"} ion matches the Data Booklet value.` },
+  en: { text: c => `Its electronegativity is ${c.v.toFixed(2)} (Pauling, literature).`, test: (e, c) => e.en == null ? false : e.en === c.v, why: c => `Electronegativity ${c.v.toFixed(2)} matches the Pauling value.` },
+  mp: { text: c => `The element melts at ${minus(c.v)} °C and ${condWord(c.st)} (literature).`, test: (e, c) => e.mpC == null ? null : e.mpC === c.v && condKey(e) === (c.st === "met" || c.st === "gm" ? c.st : "none"), why: c => `m.p. ${minus(c.v)} °C and ${c.st === "met" ? "a good conductor: giant metallic" : c.st === "gm" ? "a semiconductor: giant molecular" : "a non-conductor: simple molecular"}.` },
+  oxide: { text: c => OXCLUE[c.k], test: (e, c) => P3OX.includes(e.s) ? e.s === c.k : null, why: c => `Oxide behaviour: ${{ Na: "basic, strongly alkaline (Na₂O)", Mg: "basic, slightly alkaline (MgO)", Al: "amphoteric (Al₂O₃)", Si: "acidic, giant molecular (SiO₂)", P: "acidic, simple molecular (P₄O₁₀)", S: "acidic, simple molecular (SO₃)" }[c.k]}.` },
+  chloride: { text: c => CLCLUE[c.k], test: (e, c) => P3CL.includes(e.s) ? e.s === c.k : null, why: c => `Chloride behaviour: ${{ Na: "ionic, no hydrolysis (NaCl)", Mg: "ionic, slight hydrolysis (MgCl₂)", Al: "covalent, hydrolysed, fumes in moist air (AlCl₃)", Si: "simple molecular, complete hydrolysis (SiCl₄)", P: "simple molecular, complete hydrolysis (PCl₅)" }[c.k]}.` },
+  E2: { text: c => `E⦵(M²⁺/M) = ${fx2(c.v)} V.`, test: (e, c) => e.q === 2 && e.E != null ? e.E === c.v : null, why: c => `E⦵(M²⁺/M) = ${fx2(c.v)} V: the more negative, the further down Group 2.` },
+  E17: { text: c => `E⦵(X₂/X⁻) = ${fx2(c.v)} V.`, test: (e, c) => e.q === -1 && e.E != null ? e.E === c.v : null, why: c => `E⦵(X₂/X⁻) = ${fx2(c.v)} V: the less positive, the further down Group 17.` },
+  carb: { text: c => `Its carbonate decomposes at about ${c.v} °C (literature).`, test: (e, c) => CARB[e.s] ? CARB[e.s].T === c.v : null, why: c => `Carbonate decomposes at about ${c.v} °C: thermal stability rises down Group 2.` },
+  state: { text: c => `At room temperature the element is a ${HAL[c.k].appear}.`, test: (e, c) => HAL[e.s] ? e.s === c.k : null, why: c => `${HAL[c.k].appear[0].toUpperCase() + HAL[c.k].appear.slice(1)}: volatility falls down Group 17.` },
+  bp: { text: c => `The element boils at ${minus(c.v)} °C (literature).`, test: (e, c) => e.bpC == null ? null : e.bpC === c.v, why: c => `b.p. ${minus(c.v)} °C matches the halogen trend.` },
+  hx: { text: c => `The H–X bond energy in its hydride is ${c.v} kJ mol⁻¹ (Data Booklet).`, test: (e, c) => BE_HX[e.s] ? BE_HX[e.s] === c.v : null, why: c => `H–X bond energy ${c.v} kJ mol⁻¹ matches the Data Booklet value.` }
+};
+PT.CLUES = CLUES;
+const ALL = ["Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "Ca", "Sr", "Ba", "Br", "I"];
+const POOL = ["Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ca", "Sr", "Ba", "Br", "I"];
+function solve(clues){ return ALL.filter(s => clues.every(c => CLUES[c.t].test(EL[s], c) !== false)); }
+PT.solve = solve;
+function clueFor(t, s){
+  const e = EL[s];
+  switch (t){
+    case "jump": return { t, n: e.ve };
+    case "shell": return { t, n: e.n };
+    case "ie1": return { t, v: e.ie1 };
+    case "r": return { t, v: e.r };
+    case "ion": return { t, q: e.q, v: e.ir };
+    case "en": return { t, v: e.en };
+    case "mp": return { t, v: e.mpC, st: e.st === "met" || e.st === "gm" ? e.st : "none" };
+    case "oxide": return { t, k: s };
+    case "chloride": return { t, k: s };
+    case "E2": return { t, v: e.E };
+    case "E17": return { t, v: e.E };
+    case "carb": return { t, v: CARB[s].T };
+    case "state": return { t, k: s };
+    case "bp": return { t, v: e.bpC };
+    case "hx": return { t, v: BE_HX[s] };
+  }
+}
+function genCase(s){
+  s = s || pick(POOL);
+  const fams = [];
+  if (SETS.P3.includes(s)) fams.push("P3");
+  if (SETS.G2.includes(s)) fams.push("G2");
+  if (SETS.G17.includes(s)) fams.push("G17");
+  const fam = pick(fams);
+  const qual = { P3: [P3OX.includes(s) ? "oxide" : null, P3CL.includes(s) ? "chloride" : null, "mp"], G2: ["E2", "carb"], G17: ["state", "bp", "E17", "hx"] }[fam].filter(Boolean);
+  const nums = ["ie1", "r", "en"].concat(EL[s].ir ? ["ion"] : []);
+  for (let attempt = 0; attempt < 40; attempt++){
+    const loc = s === "Br" || s === "I" ? ["shell", "shell"] : shuffle(["jump", "shell"]);
+    const clues = [clueFor(loc[0], s)];
+    const q2 = shuffle(qual);
+    const order = q2.slice(0, 2).concat(loc[1] !== loc[0] ? [loc[1]] : [], shuffle(nums), q2.slice(2));
+    for (const t of order){
+      if (solve(clues).length === 1 && clues.length >= 3) break;
+      if (clues.length >= 5) break;
+      clues.push(clueFor(t, s));
+    }
+    if (solve(clues).length === 1 && clues.length >= 3 && clues.length <= 5) return { ans: s, fam, clues: shuffle(clues) };
+  }
+  return null;
+}
+PT.genCase = genCase;
+
+const PRED = [
+  { el: "At", intro: "Astatine, At, is the element below iodine in Group 17.", qs: [
+    { q: "Physical state of astatine, At₂, at room temperature?", o: ["solid", "liquid", "gas"], a: 0, why: "Down Group 17 the molecules have more electrons and stronger id-id attractions: Cl₂ gas, Br₂ liquid, I₂ solid. At₂ has even more electrons, so it is predicted to be a solid." },
+    { q: "Oxidising power of At₂ compared with I₂?", o: ["weaker", "stronger", "the same"], a: 0, why: "Oxidising power falls down the group (E⦵: Cl₂ +1.36, Br₂ +1.07, I₂ +0.54 V). At₂ is predicted to be weaker than I₂, with E⦵(At₂/At⁻) below +0.54 V." },
+    { q: "Thermal stability of HAt compared with HI?", o: ["less stable", "more stable", "the same"], a: 0, why: "H–X bond energy falls down the group (H–Cl 431, H–Br 366, H–I 299 kJ mol⁻¹). The H–At bond is predicted to be weaker still, so HAt is very unstable: it decomposes very easily on heating." }] },
+  { el: "Ra", intro: "Radium, Ra, is the element below barium in Group 2.", qs: [
+    { q: "Decomposition temperature of RaCO₃ compared with BaCO₃?", o: ["higher", "lower", "the same"], a: 0, why: "Ra²⁺ is larger than Ba²⁺, so its charge density is lower and it polarises CO₃²⁻ less. RaCO₃ is predicted to be more thermally stable than BaCO₃: it decomposes above about 1360 °C." },
+    { q: "E⦵(Ra²⁺/Ra) compared with E⦵(Ba²⁺/Ba) = −2.90 V?", o: ["more negative", "less negative"], a: 0, why: "E⦵ becomes more negative down Group 2 as IE₁ + IE₂ falls. Predicted: more negative, roughly −2.9 V, so Ra is the strongest reducing agent in the group." },
+    { q: "Reaction of radium with cold water?", o: ["more vigorous than Ba", "slower than Mg", "no reaction"], a: 0, why: "Reactivity with water increases down the group (Mg very slow, Ca steady, Sr faster, Ba vigorous), so Ra is predicted to react even more vigorously:", eq: "Ra(s) + 2H₂O(l) → Ra(OH)₂(aq) + H₂(g)" }] },
+  { el: "F", intro: "Fluorine, F, is the element above chlorine in Group 17.", qs: [
+    { q: "Oxidising power of F₂ compared with Cl₂?", o: ["stronger", "weaker"], a: 0, why: "Oxidising power increases up the group as the atoms get smaller. E⦵(F₂/F⁻) = +2.87 V (Data Booklet), more positive than Cl₂ (+1.36 V): F₂ is the strongest oxidising agent of all." },
+    { q: "Volatility of F₂ compared with Cl₂?", o: ["more volatile", "less volatile"], a: 0, why: "F₂ has 18 electrons against 34 in Cl₂: a smaller electron cloud and weaker id-id attractions, so F₂ is more volatile (a gas with a lower boiling point)." },
+    { q: "Thermal stability of HF compared with HCl?", o: ["more stable", "less stable"], a: 0, why: "The H–F bond energy, 562 kJ mol⁻¹ (Data Booklet), is the largest of the hydrogen halides, so HF is the most thermally stable." }] },
+  { el: "Be", intro: "Beryllium, Be, is the element above magnesium in Group 2.", qs: [
+    { q: "Atomic radius of Be compared with Mg?", o: ["smaller", "larger"], a: 0, why: "One fewer occupied shell: Be 0.112 nm against Mg 0.160 nm (Data Booklet)." },
+    { q: "First ionisation energy of Be compared with Mg?", o: ["higher", "lower"], a: 0, why: "The outer electron is closer to the nucleus and less shielded: Be 900 against Mg 736 kJ mol⁻¹ (Data Booklet)." },
+    { q: "Thermal stability of BeCO₃ compared with MgCO₃?", o: ["less stable", "more stable"], a: 0, why: "Be²⁺ (0.031 nm, Data Booklet) has charge density 2 ÷ 0.031 = 64.5 nm⁻¹, about twice that of Mg²⁺ (30.8). It polarises CO₃²⁻ even more, so BeCO₃ is predicted to decompose at a lower temperature than MgCO₃." }] }
+];
+PT.PRED = PRED;
+const DT = { mode: "id", c: null, set: null, el: null, done: false, solved: 0, tried: 0, pi: -1 };
+PT.DT = DT;
+function dtNew(){
+  DT.done = false; DT.set = null; DT.el = null;
+  if (DT.mode === "id"){ let c = null; while (!c) c = genCase(); DT.c = c; dtRenderId(); }
+  else { DT.pi = (DT.pi + 1) % PRED.length; DT.p = { case: PRED[DT.pi], order: PRED[DT.pi].qs.map(q => shuffle(q.o.map((t, i) => i))), a: {} }; dtRenderPr(); }
+  $("dt-tip").innerHTML = H(DT.mode === "id" ? "Locate first: a big jump after the nth IE means n outer electrons (the group); the n of the outer shell gives the period. Then use the chemistry and the numbers to pin it down." : "Use the trend in the named members of the group, then extend it one step up or down. These elements are outside the named ranges: Further example.");
+}
+function dtRenderId(){
+  const c = DT.c;
+  $("dt-case").innerHTML = `<span class="eyebrow">Case · <span class="nc">5(i)</span></span><p class="qtext">Element X:</p><ol class="clues">${c.clues.map(k => `<li>${H(CLUES[k.t].text(k))}</li>`).join("")}</ol>
+    <div class="stack" style="gap:6px"><span class="hint">Step 1: where is X?</span><div class="chips" id="dt-set">${["P3", "G2", "G17"].map(k => `<button type="button" data-s="${k}" aria-pressed="false">${SETNAME[k]}</button>`).join("")}</div></div>
+    <div class="stack" style="gap:6px"><span class="hint">Step 2: which element?</span><div class="chips" id="dt-el"><span class="hint">Choose a place first.</span></div></div>
+    <div class="btnrow"><button class="btn primary" id="dt-check">Check</button></div><div id="dt-fb" hidden></div>`;
+  $("dt-set").querySelectorAll("button").forEach(b => b.onclick = () => {
+    if (DT.done) return; DT.set = b.dataset.s; DT.el = null;
+    $("dt-set").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    $("dt-el").innerHTML = SETS[DT.set].map(s => `<button type="button" data-e="${s}" aria-pressed="false">${s}, ${EL[s].nm}</button>`).join("");
+    $("dt-el").querySelectorAll("button").forEach(x => x.onclick = () => { if (DT.done) return; DT.el = x.dataset.e; $("dt-el").querySelectorAll("button").forEach(y => y.setAttribute("aria-pressed", y === x)); });
+  });
+  $("dt-check").onclick = dtCheckId;
+}
+function dtCheckId(){
+  const c = DT.c, fb = $("dt-fb");
+  if (!DT.set || !DT.el){ fb.className = "fb warn"; fb.textContent = "Choose a place and an element first."; fb.hidden = false; return; }
+  DT.done = true; DT.tried++;
+  const okSet = SETS[DT.set].includes(c.ans), okEl = DT.el === c.ans;
+  if (okSet && okEl) DT.solved++;
+  const e = EL[c.ans];
+  const also = c.ans === "Mg" ? " Mg is in both Period 3 and Group 2." : c.ans === "Cl" ? " Cl is in both Period 3 and Group 17." : "";
+  fb.className = "fb " + (okSet && okEl ? "ok" : "no");
+  fb.innerHTML = `<p>${okSet ? "Place right" : "Place wrong"}, ${okEl ? "element right" : "element wrong"}. X is <b>${e.nm} (${c.ans})</b>, ${H(e.cfg)}.${also}</p><ul class="reason">${c.clues.map(k => `<li>${H(CLUES[k.t].why(k))}</li>`).join("")}</ul>`;
+  fb.hidden = false;
+  $("dt-check").disabled = true;
+  $("dt-score").textContent = `Solved ${DT.solved} of ${DT.tried} case${DT.tried > 1 ? "s" : ""}.`;
+}
+function dtRenderPr(){
+  const P = DT.p, c = P.case;
+  $("dt-case").innerHTML = `<span class="eyebrow">Predict · <span class="nc">5(h)</span></span><p class="qtext">${FEX}${H(c.intro)}</p>` + c.qs.map((q, i) => `<div class="stack" style="gap:6px"><span class="qtext" style="font-size:.93rem">${i + 1}. ${H(q.q)}</span><div class="chips" data-q="${i}">${P.order[i].map(oi => `<button type="button" data-o="${oi}" aria-pressed="false">${H(q.o[oi])}</button>`).join("")}</div><div class="fb" data-fb="${i}" hidden></div></div>`).join("") + `<div class="btnrow"><button class="btn primary" id="dt-pcheck">Check</button></div><div id="dt-fb" hidden></div>`;
+  $("dt-case").querySelectorAll(".chips").forEach(g => g.querySelectorAll("button").forEach(b => b.onclick = () => { if (DT.done) return; g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); P.a[g.dataset.q] = +b.dataset.o; }));
+  $("dt-pcheck").onclick = () => {
+    if (Object.keys(P.a).length < c.qs.length){ const f = $("dt-fb"); f.className = "fb warn"; f.textContent = "Answer all three first."; f.hidden = false; return; }
+    DT.done = true; $("dt-fb").hidden = true;
+    let n = 0;
+    c.qs.forEach((q, i) => { const ok = P.a[i] === q.a; if (ok) n++; const f = $("dt-case").querySelector(`[data-fb="${i}"]`); f.className = "fb " + (ok ? "ok" : "no"); f.innerHTML = `<p>${ok ? "Right" : "Not quite"}: ${H(q.o[q.a])}. ${H(q.why)}${q.eq ? " " + EQ(q.eq) : ""}</p>`; f.hidden = false; });
+    $("dt-pcheck").disabled = true;
+    DT.tried++; if (n === c.qs.length) DT.solved++;
+    $("dt-score").textContent = `${n} of ${c.qs.length} right on this case.`;
+  };
+}
+function bindDetective(){
+  document.querySelectorAll('input[name="dt-mode"]').forEach(r => r.onchange = () => { DT.mode = r.value; dtNew(); });
+  $("dt-new").onclick = dtNew;
+  dtNew();
+}
+
+/* =====================================================
+   5. FACT CARDS
+   ===================================================== */
+function cmpCard(k){
+  const c = CMP[k], E = EL[c.el];
+  const rows = [];
+  rows.push(["Highest ox. no. of " + E.s, "+" + c.ox]);
+  if (c.st) rows.push(["Structure and bonding", H(c.st)]);
+  if (c.den != null) rows.push(["Δ<i>EN</i>", c.den.toFixed(2) + SRC("lit")]);
+  if (c.mp) rows.push(["m.p. / °C", H(c.mp) + SRC("lit")]);
+  if (c.water && c.water.pH != null) rows.push(["pH with water", c.water.pHt]);
+  if (c.nature) rows.push(["Nature", c.nature]);
+  const eqs = [];
+  const add = (lab, rec) => { if (!rec) return; if (rec.none) eqs.push(`<div><span class="lab">${lab}</span>no reaction</div>`); else rec.eqs.forEach((e, i) => eqs.push(`<div>${i ? "" : `<span class="lab">${lab}</span>`}${EQ(e)}</div>`)); };
+  add("with water" + (c.amt ? " (excess)" : ""), c.water);
+  if (c.limited) add("limited water or moist air", c.limited);
+  if (c.kind !== "cl"){ add("with HCl(aq)", c.hcl); add(k === "SiO2" ? "with hot, concentrated NaOH(aq)" : "with NaOH(aq)", c.naoh); }
+  let extra = "";
+  if (k === "AlCl3") extra = `<svg id="fc-dimer" role="img" aria-label="Al2Cl6 dimer"></svg>`;
+  if (k === "PCl5") extra = `<p>${ENR}${H("Solid PCl₅ is ionic, [PCl₄]⁺[PCl₆]⁻.")}</p>`;
+  if (k === "SiO2") extra = `<p>${ENR}${H("SiO₂ dissolves in hydrofluoric acid:")} ${EQ("SiO₂(s) + 6HF(aq) → H₂SiF₆(aq) + 2H₂O(l)")}</p>`;
+  return { cat: c.kind, html: `<h3>${H(c.f)}</h3><div class="kind">${c.nm}</div><dl>${rows.map(r => `<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join("")}</dl><div class="eqs">${eqs.join("")}</div><p>${H(c.why)}</p>${extra}` };
+}
+function cardsHTML(){
+  const cards = [];
+  OXK.forEach(k => cards.push(cmpCard(k)));
+  HYK.forEach(k => cards.push(cmpCard(k)));
+  CLK.forEach(k => cards.push(cmpCard(k)));
+  ["Mg", "Ca", "Sr", "Ba"].forEach(m => {
+    const c = CARB[m], e = EL[m];
+    cards.push({ cat: "carb", html: `<h3>${H(c.f)}</h3><div class="kind">${e.nm} carbonate</div><dl><dt>Decomposes at about</dt><dd>${c.T} °C${SRC("lit")}</dd><dt>Cation</dt><dd>${H(e.ion)}, ${e.ir.toFixed(3)} nm${SRC("db")}</dd><dt>Charge density</dt><dd>2 ÷ ${e.ir.toFixed(3)} = ${cd3(m)} nm<sup>−1</sup></dd></dl><div class="eqs"><div><span class="lab">on heating</span>${EQ(`${c.f}(s) → ${c.o}(s) + CO₂(g)`)}</div></div><p>${H(m === "Mg" ? "Highest charge density: polarises CO₃²⁻ most, so the least thermally stable." : m === "Ba" ? "Lowest charge density: polarises CO₃²⁻ least, so the most thermally stable." : "Thermal stability increases down the group as charge density falls.")}</p>` });
+  });
+  ["Cl", "Br", "I"].forEach(x => {
+    const h = HAL[x];
+    cards.push({ cat: "hyd", html: `<h3>${H(h.HX)}</h3><div class="kind">hydrogen ${x === "Cl" ? "chloride" : x === "Br" ? "bromide" : "iodide"}</div><dl><dt>H–${x} bond energy</dt><dd>${h.BE} kJ mol<sup>−1</sup>${SRC("db")}</dd><dt>Red-hot needle</dt><dd>${x === "Cl" ? "no visible change" : x === "Br" ? "some brown bromine vapour" : "purple iodine vapour"}</dd></dl>${x === "Cl" ? "" : `<div class="eqs"><div>${EQ(HXOBS[x].eq)}</div></div>`}<p>${H(x === "Cl" ? "Most stable of the three: strongest H–X bond." : x === "Br" ? "Less stable than HCl: longer, weaker H–Br bond." : "Least stable: the longest, weakest H–X bond.")}</p>` });
+  });
+  ["Mg", "Ca", "Sr", "Ba"].forEach(m => {
+    const e = EL[m], w = WATER[m];
+    cards.push({ cat: "g2", html: `<h3>${m}</h3><div class="kind">${e.nm}, Group 2</div><dl><dt>Configuration</dt><dd>${H(e.cfg)}</dd><dt>Atomic radius</dt><dd>${e.r.toFixed(3)} nm${SRC("db")}</dd><dt>${H(e.ion)} radius</dt><dd>${e.ir.toFixed(3)} nm${SRC("db")}</dd><dt><i>IE</i><sub>1</sub> + <i>IE</i><sub>2</sub></dt><dd>${e.ie1} + ${e.ie2} = ${e.ie1 + e.ie2} kJ mol<sup>−1</sup>${SRC("db")}</dd><dt>${H("E⦵(M²⁺/M)")}</dt><dd>${fx2(e.E)} V${SRC(e.Elit ? "lit" : "db")}</dd></dl><div class="eqs"><div><span class="lab">${FEX}${m === "Mg" ? "with steam" : "with cold water"}</span>${EQ(w.eq)}</div></div><p>${H(w.obs)}</p>` });
+  });
+  ["Cl", "Br", "I"].forEach(x => {
+    const e = EL[x], h = HAL[x], col = DPCOL[x];
+    cards.push({ cat: "g17", html: `<h3>${H(h.X2)}</h3><div class="kind">${h.nm}, Group 17</div><dl><dt>Configuration</dt><dd>${H(e.cfg)}</dd><dt>At r.t.p.</dt><dd>${h.appear}</dd><dt>b.p.</dt><dd>${minus(h.bp)} °C${SRC("lit")}${x === "I" ? "; m.p. 114 °C" : ""}</dd><dt>Electrons per molecule</dt><dd>${e.eMol}</dd><dt>${H("E⦵(X₂/X⁻)")}</dt><dd>${fx2(h.E)} V${SRC("db")}</dd><dt>In water</dt><dd><span class="swatch" style="background:${col.aq}"></span>${col.aqT}</dd><dt>In hexane</dt><dd><span class="swatch" style="background:${col.hex}"></span>${col.hexT}</dd></dl><div class="eqs">${x === "Cl" ? `<div>${EQ(dpEq("Cl", "Br"))}</div><div>${EQ(dpEq("Cl", "I"))}</div>` : x === "Br" ? `<div>${EQ(dpEq("Br", "I"))}</div>` : `<div><span class="lab">displaces neither Cl⁻ nor Br⁻</span>no reaction</div>`}</div><p>${H(x === "Cl" ? "Strongest oxidising agent of the three: displaces Br₂ and I₂." : x === "Br" ? "Oxidises I⁻ but not Cl⁻." : "Weakest oxidising agent of the three.")}</p>` });
+  });
+  return cards;
+}
+const FCF = [["all", "All"], ["ox", "Oxides"], ["hy", "Hydroxides"], ["cl", "Chlorides"], ["carb", "Carbonates"], ["hyd", "Hydrogen halides"], ["g2", "Group 2 metals"], ["g17", "Halogens"]];
+let FCSEL = "all";
+function bindCards(){
+  const cards = cardsHTML();
+  PT.nCards = cards.length;
+  const render = () => {
+    $("fc-cards").innerHTML = cards.filter(c => FCSEL === "all" || c.cat === FCSEL).map(c => `<article class="panel card" data-cat="${c.cat}">${c.html}</article>`).join("");
+    const d = $("fc-dimer"); if (d) drawDimerSmall(d);
+    $("fc-filter").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === FCSEL));
+  };
+  $("fc-filter").innerHTML = FCF.map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${k === FCSEL}">${t}</button>`).join("");
+  $("fc-filter").querySelectorAll("button").forEach(b => b.onclick = () => { FCSEL = b.dataset.f; render(); });
+  render();
+}
+function drawDimerSmall(svg){
+  // same geometry as the bench drawing, fixed size
+  const W = 280, Hh = 150, cx = 140, cy = 75, d = 34, hb = 38, ta = 34, tb = 34;
+  const A1 = [cx - d, cy], A2 = [cx + d, cy], Bt = [cx, cy - hb], Bb = [cx, cy + hb];
+  const Ts = [[cx - d - ta, cy - tb], [cx - d - ta, cy + tb], [cx + d + ta, cy - tb], [cx + d + ta, cy + tb]];
+  const line = (a, b) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="var(--ink)" stroke-width="1.8"/>`;
+  const arrow = (a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L; const e = [b[0] - ux * 13, b[1] - uy * 13], st = [a[0] + ux * 12, a[1] + uy * 12]; return `<line x1="${st[0]}" y1="${st[1]}" x2="${e[0] - ux * 5}" y2="${e[1] - uy * 5}" stroke="var(--s2)" stroke-width="2"/><path d="M${e[0]} ${e[1]} L${e[0] - ux * 8 - uy * 4.5} ${e[1] - uy * 8 + ux * 4.5} L${e[0] - ux * 8 + uy * 4.5} ${e[1] - uy * 8 - ux * 4.5} Z" fill="var(--s2)"/>`; };
+  let s = line(A1, Ts[0]) + line(A1, Ts[1]) + line(A2, Ts[2]) + line(A2, Ts[3]) + line(A1, Bt) + line(A2, Bb) + arrow(Bt, A2) + arrow(Bb, A1);
+  const atom = (p, lab, col, r) => `<circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="${col}" stroke="#2b3238" stroke-width="1"/><text x="${p[0]}" y="${p[1] + 4}" text-anchor="middle" style="font-size:11px;font-weight:600;fill:#10161c">${lab}</text>`;
+  s += atom(A1, "Al", "#c8b0b0", 12) + atom(A2, "Al", "#c8b0b0", 12);
+  [Bt, Bb].concat(Ts).forEach(p => s += atom(p, "Cl", "#3fc43f", 11));
+  setSvg(svg, W, Hh, s);
+  svg.style.width = "100%"; svg.style.height = "auto";
+}
+
+/* =====================================================
+   6. QUIZ (option 0 is correct; each option carries its reason)
+   ===================================================== */
+const QZ = [
+  { k: "5(b)", q: "Atomic radius decreases from Na to Cl across Period 3. Which is the best explanation?",
+    o: [["Nuclear charge increases while shielding stays about the same, so the outer electrons are pulled closer to the nucleus.", "The electrons are added to the same (third) shell, so shielding hardly changes while nuclear charge rises from 11+ to 17+."],
+        ["The number of occupied shells decreases across the period.", "Every Period 3 atom has three occupied shells."],
+        ["Electrons are added to inner shells, which increases shielding.", "They are added to the outer (third) shell; more shielding would make the atoms larger, not smaller."],
+        ["Metallic bonding gets stronger across the period, which squeezes the atoms.", "Bonding between atoms does not explain the size of an atom, and most of the period is not metallic."]] },
+  { k: "5(c)", q: "Why does silicon have the highest melting point in Period 3 (1414 °C)?",
+    o: [["It is giant molecular: melting breaks many strong covalent bonds.", "Si has a giant covalent lattice, so a very large amount of energy is needed."],
+        ["It has the most delocalised electrons per atom, so the strongest metallic bonding.", "Si is not a metal; Al has the most delocalised electrons (3 per atom), yet melts at only 660 °C."],
+        ["Its molecules have the largest electron clouds, so the strongest id-id attractions.", "Si is not simple molecular; id-id attractions are weak and explain the low melting points of P₄, S₈ and Cl₂."],
+        ["It is ionic, with strong electrostatic attraction between Si⁴⁺ and Si⁴⁻ ions.", "Silicon is an element with covalent bonding; there are no ions."]] },
+  { k: "5(d)", q: "Bromine is a liquid at room temperature but chlorine is a gas. Why?",
+    o: [["Br₂ has more electrons (70 against 34), so the id-id attractions between Br₂ molecules are stronger.", "A larger electron cloud is more polarisable, so more energy is needed to separate the molecules."],
+        ["The Br–Br bond is stronger than the Cl–Cl bond.", "The X–X bond is not broken on boiling; besides, Br–Br is the weaker bond."],
+        ["Br₂ molecules are polar, with permanent dipoles.", "Br₂ is a non-polar molecule: both atoms are the same."],
+        ["Br₂ forms hydrogen bonds.", "Hydrogen bonding needs H bonded to N, O or F; Br₂ has no H."]] },
+  { k: "5(e)(i)", q: "What are the highest oxidation numbers of P in P₄O₁₀ and of S in SO₃?",
+    o: [["+5 and +6", "Each equals the number of outer electrons: P has 5 and S has 6."],
+        ["+10 and +3", "These are the subscripts, not oxidation numbers: 4x + 10(−2) = 0 gives x = +5."],
+        ["+4 and +6", "P has five outer electrons and reaches +5 in P₄O₁₀."],
+        ["+5 and +3", "In SO₃, x + 3(−2) = 0 gives x = +6."]] },
+  { k: "5(e)(iv)", q: "Which equation shows aluminium oxide behaving as an acid?",
+    o: [["{{Al₂O₃(s) + 2NaOH(aq) + 3H₂O(l) → 2NaAl(OH)₄(aq)}}", "It reacts with a base, NaOH, so here it acts as an acid: Al₂O₃ is amphoteric."],
+        ["{{Al₂O₃(s) + 6HCl(aq) → 2AlCl₃(aq) + 3H₂O(l)}}", "Here it reacts with an acid, so it is acting as a base."],
+        ["{{Al₂O₃(s) + 3H₂O(l) → 2Al(OH)₃(s)}}", "Al₂O₃ is insoluble and does not react with water."],
+        ["{{SiO₂(s) + 2NaOH(aq) → Na₂SiO₃(aq) + H₂O(l)}}", "That is silicon dioxide, an acidic oxide, not aluminium oxide."]] },
+  { k: "5(e)(v)", q: "What is seen when water is added to SiCl₄, and roughly what is the pH?",
+    o: [["White fumes of HCl and a white solid; pH about 2.", "{{SiCl₄(l) + 2H₂O(l) → SiO₂(s) + 4HCl(aq)}}: complete hydrolysis."],
+        ["It dissolves without reaction; pH 7.", "That describes NaCl, an ionic chloride."],
+        ["It dissolves with slight hydrolysis; pH about 6.5.", "That describes MgCl₂."],
+        ["No reaction: it is insoluble, like SiO₂.", "SiO₂ does not react with water, but SiCl₄ is hydrolysed completely."]] },
+  { k: "5(e)(ii)", q: "Al is a metal, and metal chlorides such as NaCl and MgCl₂ are ionic, yet AlCl₃ is covalent. Why?",
+    o: [["The small, highly charged Al³⁺ ion polarises the large Cl⁻ ion so strongly that the bonding becomes covalent.", "Al is a metal, and metal chlorides such as NaCl and MgCl₂ are ionic, so you might expect AlCl₃ to be ionic too. It isn't: the small, highly charged Al³⁺ polarises the large Cl⁻ so strongly that the bonding is covalent. This is the exception named in the syllabus (Al³⁺: 3 ÷ 0.050 = 60.0 nm⁻¹)."],
+        ["Al and Cl have the same electronegativity.", "They do not: Pauling values are 1.61 and 3.16."],
+        ["Al has three delocalised electrons, which form covalent bonds with Cl.", "Delocalised electrons are a feature of the metal, not of its chloride."],
+        ["Cl is more electronegative than O.", "It is less electronegative (3.16 against 3.44), and this would not explain the bonding in AlCl₃ anyway."]] },
+  { k: "5(f)(ii)", q: "Chlorine water is added to aqueous potassium iodide and the mixture is shaken with hexane. What is seen?",
+    o: [["A purple upper layer: I₂ has formed (E⦵cell = +1.36 − 0.54 = +0.82 V).", "Cl₂ oxidises I⁻ to I₂, which dissolves in the upper hexane layer giving a purple colour."],
+        ["An orange-red upper layer.", "That is the colour of Br₂ in hexane; there is no bromine here."],
+        ["No change: Cl₂ cannot oxidise I⁻.", "E⦵cell is positive (+0.82 V), so the reaction is feasible."],
+        ["A purple lower layer.", "Hexane is less dense than water, so it is the upper layer."]] },
+  { k: "5(g)(i)", q: "Why does MgCO₃ decompose at a lower temperature (about 540 °C) than BaCO₃ (about 1360 °C)?",
+    o: [["Mg²⁺ has the higher charge density, so it polarises the CO₃²⁻ ion more, weakening a C–O bond.", "2 ÷ 0.065 = 30.8 nm⁻¹ for Mg²⁺ against 14.8 for Ba²⁺."],
+        ["Mg²⁺ is larger, so it distorts the carbonate ion more.", "Mg²⁺ (0.065 nm) is smaller than Ba²⁺ (0.135 nm); a larger ion would polarise less."],
+        ["Ba is more reactive, so BaCO₃ breaks down less easily.", "Reactivity of the metal is not the reason; the polarising power of the cation is."],
+        ["MgCO₃ has weaker ionic bonds, so it melts more easily.", "Decomposition is not melting: CO₂ is released as the C–O bond breaks."]] },
+  { k: "5(h)", q: "Astatine is below iodine in Group 17. What is the predicted thermal stability of HAt?",
+    o: [["Very unstable: the H–At bond is predicted to be weaker than H–I (299 kJ mol⁻¹).", "Bond energy falls down the group (431, 366, 299 kJ mol⁻¹), so HAt decomposes very easily."],
+        ["More stable than HCl, because At is the largest atom.", "Larger atoms form longer, weaker bonds with H."],
+        ["About the same as HI, because the trend stops at iodine.", "The trend continues one more step down the group."],
+        ["Stable, because the H–At bond is not broken on heating.", "Heating breaks H–X bonds; the weakest break most easily."]] }
+];
+PT.QZ = QZ;
+const Q = { i: 0, score: 0, order: [] };
+PT.Q = Q;
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${TX(q.q)}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${TX(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${TX(q.o[k][1])}</li>`).join("");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${TX(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+
+/* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly. (Scrolling the page here fought the mouse wheel.)
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+/* ---------- redraw on resize and theme change ---------- */
+function visible(id){ const el = $(id); return el && !el.closest("[hidden]"); }
+function redrawAll(){
+  trDraw();
+  bxTube(BX.done ? 1 : 0, BX.done ? bxRecord() : null); bxEN(); if (BX.k === "AlCl3") drawDimer($("bx-dimer"));
+  if (visible("gp-ladder")){ ldDraw(); ldWater(0); }
+  if (visible("gp-disp")) dpDraw();
+  if (visible("gp-carb")) cbDraw();
+  if (visible("gp-hyd")) hxDraw();
+}
+PT.redrawAll = redrawAll;
+let RW = 0, RT = 0;
+window.addEventListener("resize", () => { const w = document.documentElement.clientWidth; if (w === RW) return; RW = w; clearTimeout(RT); RT = setTimeout(redrawAll, 120); });
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+
+RW = document.documentElement.clientWidth;
+bindTrends(); bindBench(); bindGroups(); bindDetective(); bindCards(); startQuiz(); bindNav();
+PT.ready = true;
+})();
+</script>

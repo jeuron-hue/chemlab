@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="The Periodic Table 3: Groups 2 and 17 by E⦵ values, thermal stability of carbonates and hydrides, predicting and identifying unknown elements. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 5).">
+<title>The Periodic Table 3 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 5 · The Periodic Table</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 5 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html">Part 2</a><a href="part-3.html" aria-current="page" class="on">Part 3</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="tutorial-3.html">Tutorial 3</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#standard-electrode-potentials-just-enough-for-now">Standard electrode potentials: just enough for now</a></li><li><a href="#group-2-metals-as-reducing-agents">Group 2 metals as reducing agents</a></li><li><a href="#group-17-elements-as-oxidising-agents">Group 17 elements as oxidising agents</a></li><li><a href="#thermal-stability-of-the-group-2-carbonates">Thermal stability of the Group 2 carbonates</a></li><li><a href="#thermal-stability-of-the-group-17-hydrides">Thermal stability of the Group 17 hydrides</a></li><li><a href="#predicting-the-properties-of-an-element">Predicting the properties of an element</a></li><li><a href="#deducing-an-unknown-element">Deducing an unknown element</a></li><li><a href="#summary">Summary</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">5.3 · 07/10/26</p><h1>The Periodic Table 3</h1><p class="eyebrow">Topic 5 · The Periodic Table Part 3</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#standard-electrode-potentials-just-enough-for-now">Standard electrode potentials: just enough for now</a></li><li><a href="#group-2-metals-as-reducing-agents">Group 2 metals as reducing agents</a></li><li><a href="#group-17-elements-as-oxidising-agents">Group 17 elements as oxidising agents</a></li><li><a href="#thermal-stability-of-the-group-2-carbonates">Thermal stability of the Group 2 carbonates</a></li><li><a href="#thermal-stability-of-the-group-17-hydrides">Thermal stability of the Group 17 hydrides</a></li><li><a href="#predicting-the-properties-of-an-element">Predicting the properties of an element</a></li><li><a href="#deducing-an-unknown-element">Deducing an unknown element</a></li><li><a href="#summary">Summary</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Periodic Table Lab</a></p><p>Use the <em>Groups 2 and 17</em> bench (E<sup>⦵</sup> ladder, halogen displacement with a hexane layer, heating the carbonates, the hot-needle test on the hydrogen halides) and the <em>Unknown element detective</em> alongside this note.</p></aside><p>Part 1 explained the physical trends down Groups 2 and 17 with one idea: each step down adds a shell. Part 3 uses the same idea for their chemistry. Group 2 metals lose electrons; Group 17 elements gain them. Down the group, losing gets easier and gaining gets harder.</p><p class="stamp" aria-hidden="true">5.3 §1 · 07/10/26</p><h2 id="standard-electrode-potentials-just-enough-for-now">Standard electrode potentials: just enough for now</h2><p>Standard electrode potentials, E<sup>⦵</sup>, are covered fully in Topic 12. For now you only need to read them. Each value belongs to a half-equation written as a reduction (electrons on the left), and measures <span class="key">how readily the species on the left gains electrons</span>, compared with hydrogen (E<sup>⦵</sup> = 0.00 V):</p><ul><li>A <span class="key">large positive</span> E<sup>⦵</sup> (Cl<sub>2</sub> + 2e<sup>−</sup> ⇌ 2Cl<sup>−</sup>, +1.36 V): Cl<sub>2</sub> gains electrons readily, so it is a <span class="key">strong oxidising agent</span>.</li><li>A <span class="key">large negative</span> E<sup>⦵</sup> (Ba<sup>2+</sup> + 2e<sup>−</sup> ⇌ Ba, −2.90 V): Ba<sup>2+</sup> hardly gains electrons at all; the reverse change, Ba → Ba<sup>2+</sup> + 2e<sup>−</sup>, is the one that happens readily, so Ba is a <span class="key">strong reducing agent</span>. Fig 1 puts the two groups on one scale.</li></ul><figure><img src="fig/p3_ladder.svg" alt="Fig 1. E⦵ values for Groups 2 and 17 (Data Booklet, except Sr2+/Sr, a literature value)." loading="lazy"><figcaption>Fig 1. E<sup>⦵</sup> values for Groups 2 and 17 (Data Booklet, except Sr<sup>2+</sup>/Sr, a literature value).</figcaption></figure><p class="stamp" aria-hidden="true">5.3 §2 · 07/10/26</p><h2 id="group-2-metals-as-reducing-agents">Group 2 metals as reducing agents</h2><div class="tablewrap"><table><thead><tr><th>Half-equation</th><th>E<sup>⦵</sup> / V</th><th>IE<sub>1</sub> + IE<sub>2</sub> / kJ mol<sup>−1</sup></th></tr></thead><tbody><tr><td>Mg<sup>2+</sup>(aq) + 2e<sup>−</sup> ⇌ Mg(s)</td><td>−2.38</td><td>736 + 1450 = 2186</td></tr><tr><td>Ca<sup>2+</sup>(aq) + 2e<sup>−</sup> ⇌ Ca(s)</td><td>−2.87</td><td>590 + 1150 = 1740</td></tr><tr><td>Sr<sup>2+</sup>(aq) + 2e<sup>−</sup> ⇌ Sr(s)</td><td>−2.89<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup></td><td>548 + 1060 = 1608</td></tr><tr><td>Ba<sup>2+</sup>(aq) + 2e<sup>−</sup> ⇌ Ba(s)</td><td>−2.90</td><td>502 + 966 = 1468</td></tr></tbody></table></div><p><span class="key">E<sup>⦵</sup> becomes more negative down the group, so the metals become stronger reducing agents and more reactive</span>: barium gives up its electrons most readily, magnesium least.</p><p>Why? Each Group 2 metal reacts by losing its two outer s electrons, M → M<sup>2+</sup> + 2e<sup>−</sup>. Down the group the atoms are larger, so the outer electrons are further from the nucleus and more shielded. They are held less strongly, and the energy needed to remove both of them (IE<sub>1</sub> + IE<sub>2</sub>) falls, from 2186 kJ mol<sup>−1</sup> for Mg to 1468 kJ mol<sup>−1</sup> for Ba.<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></p><p>(<em>Further example.</em> You can see the trend in the reactions with water. Magnesium reacts only very slowly with cold water, but burns in steam with a bright white flame; calcium reacts steadily with cold water, the mixture turning cloudy because some of the calcium hydroxide, being only slightly soluble, comes out as a white solid; strontium reacts faster, and barium vigorously.)</p><p class="eq">Mg(s) + H<sub>2</sub>O(g) → MgO(s) + H<sub>2</sub>(g)</p><p class="eq">Ca(s) + 2H<sub>2</sub>O(l) → Ca(OH)<sub>2</sub>(aq) + H<sub>2</sub>(g)</p><p class="eq">Ba(s) + 2H<sub>2</sub>O(l) → Ba(OH)<sub>2</sub>(aq) + H<sub>2</sub>(g)</p><p class="stamp" aria-hidden="true">5.3 §3 · 07/10/26</p><h2 id="group-17-elements-as-oxidising-agents">Group 17 elements as oxidising agents</h2><div class="tablewrap"><table><thead><tr><th>Half-equation</th><th>E<sup>⦵</sup> / V</th></tr></thead><tbody><tr><td>Cl<sub>2</sub>(aq) + 2e<sup>−</sup> ⇌ 2Cl<sup>−</sup>(aq)</td><td>+1.36</td></tr><tr><td>Br<sub>2</sub>(aq) + 2e<sup>−</sup> ⇌ 2Br<sup>−</sup>(aq)</td><td>+1.07</td></tr><tr><td>I<sub>2</sub>(aq) + 2e<sup>−</sup> ⇌ 2I<sup>−</sup>(aq)</td><td>+0.54</td></tr></tbody></table></div><p><span class="key">E<sup>⦵</sup> becomes less positive down the group, so the halogens become weaker oxidising agents</span>: chlorine is the strongest of the three, iodine the weakest.</p><p>Why? A halogen acts as an oxidising agent by gaining an electron into its outer shell. Down the group the atoms are larger, so the incoming electron is further from the nucleus and more shielded from it. It is attracted less strongly, so the halogen has less tendency to gain it. (The same reasoning gave the fall in electronegativity in Part 1.)</p><h3>Displacement reactions</h3><p>The trend shows up directly when a halogen is added to a solution of halide ions: <span class="key">a halogen oxidises the halide ions of any halogen below it in the group</span>, displacing that halogen. Check each with E<sup>⦵</sup><sub>cell</sub> = E<sup>⦵</sup>(oxidising agent) − E<sup>⦵</sup>(the halogen formed); a positive value means the reaction is feasible:</p><p class="eq">Cl<sub>2</sub>(aq) + 2Br<sup>−</sup>(aq) → 2Cl<sup>−</sup>(aq) + Br<sub>2</sub>(aq)   (E<sup>⦵</sup><sub>cell</sub> = 1.36 − 1.07 = +0.29 V)</p><p class="eq">Cl<sub>2</sub>(aq) + 2I<sup>−</sup>(aq) → 2Cl<sup>−</sup>(aq) + I<sub>2</sub>(aq)   (E<sup>⦵</sup><sub>cell</sub> = 1.36 − 0.54 = +0.82 V)</p><p class="eq">Br<sub>2</sub>(aq) + 2I<sup>−</sup>(aq) → 2Br<sup>−</sup>(aq) + I<sub>2</sub>(aq)   (E<sup>⦵</sup><sub>cell</sub> = 1.07 − 0.54 = +0.53 V)</p><p>The colours tell you what has formed. In water the colours of bromine and iodine can look alike, so the mixture is often shaken with hexane: the halogen moves into the upper (hexane) layer, where the colours are distinct:</p><div class="tablewrap"><table><thead><tr><th>Halogen</th><th>In water</th><th>In hexane (upper layer)</th></tr></thead><tbody><tr><td>Cl<sub>2</sub></td><td>pale yellow-green (almost colourless when dilute)</td><td>pale yellow-green</td></tr><tr><td>Br<sub>2</sub></td><td>yellow to orange</td><td>orange-red</td></tr><tr><td>I<sub>2</sub></td><td>brown</td><td>purple (violet)</td></tr></tbody></table></div><p>The halide solutions (e.g. KCl, KBr, KI) are colourless.</p><h3>Worked example 1</h3><p>Use E<sup>⦵</sup> values to predict whether bromine water reacts with potassium chloride solution.</p><p>(To answer this, write the reaction that would have to happen, then find E<sup>⦵</sup><sub>cell</sub>.) Br<sub>2</sub> would have to oxidise Cl<sup>−</sup> to Cl<sub>2</sub>:</p><p class="eq">Br<sub>2</sub>(aq) + 2Cl<sup>−</sup>(aq) → 2Br<sup>−</sup>(aq) + Cl<sub>2</sub>(aq)   (E<sup>⦵</sup><sub>cell</sub> = 1.07 − 1.36 = −0.29 V)</p><p>E<sup>⦵</sup><sub>cell</sub> is negative, so <span class="key">no reaction</span>: the orange colour of the bromine remains. Bromine is a weaker oxidising agent than chlorine and cannot displace it.</p><p>(<em>Further example.</em> Fluorine, F<sub>2</sub> + 2e<sup>−</sup> ⇌ 2F<sup>−</sup>, E<sup>⦵</sup> = +2.87 V, is the strongest oxidising agent of all. It is not used for displacement in water, because it oxidises the water itself: 2F<sub>2</sub>(g) + 2H<sub>2</sub>O(l) → 4HF(aq) + O<sub>2</sub>(g).)</p><p class="stamp" aria-hidden="true">5.3 §4 · 07/10/26</p><h2 id="thermal-stability-of-the-group-2-carbonates">Thermal stability of the Group 2 carbonates</h2><p>On heating, the Group 2 carbonates decompose to the oxide and carbon dioxide:</p><p class="eq">MCO<sub>3</sub>(s) → MO(s) + CO<sub>2</sub>(g)</p><p class="eq">for example, CaCO<sub>3</sub>(s) → CaO(s) + CO<sub>2</sub>(g)</p><div class="tablewrap"><table><thead><tr><th>Carbonate</th><th>Decomposition temperature / °C (literature)</th><th>Ionic radius of M<sup>2+</sup> / nm</th><th>Charge density, charge ÷ radius / nm<sup>−1</sup></th></tr></thead><tbody><tr><td>MgCO<sub>3</sub></td><td>540</td><td>0.065</td><td>2 / 0.065 = 30.8</td></tr><tr><td>CaCO<sub>3</sub></td><td>900</td><td>0.099</td><td>2 / 0.099 = 20.2</td></tr><tr><td>SrCO<sub>3</sub></td><td>1280</td><td>0.113</td><td>2 / 0.113 = 17.7</td></tr><tr><td>BaCO<sub>3</sub></td><td>1360</td><td>0.135</td><td>2 / 0.135 = 14.8</td></tr></tbody></table></div><p><span class="key">Thermal stability increases down the group</span>: MgCO<sub>3</sub> decomposes most easily, BaCO<sub>3</sub> needs the highest temperature.<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup> The explanation is the polarisation idea from Part 2:</p><ul><li>All four cations have the same charge, 2+, but <span class="key">the cation gets larger down the group, so its charge density falls</span> (Mg<sup>2+</sup> 30.8, Ba<sup>2+</sup> 14.8 nm<sup>−1</sup>).</li><li>The carbonate ion, CO<sub>3</sub><sup>2−</sup>, is <span class="key">large and easily polarised</span>: its electron cloud is easily distorted.</li><li>A cation of high charge density, such as Mg<sup>2+</sup>, <span class="key">polarises the carbonate ion strongly</span>, pulling electron density towards itself. This weakens the C–O bonds in the carbonate ion, so CO<sub>2</sub> breaks away at a lower temperature (Fig 2).</li><li>Down the group the cations polarise the carbonate ion less and less, so the C–O bonds are weakened less, and a higher temperature is needed (Fig 3).</li></ul><figure><img src="fig/p3_polar.svg" alt="Fig 2. Polarisation of the carbonate ion by Mg2+ and by Ba2+ (schematic; ions drawn to scale)." loading="lazy"><figcaption>Fig 2. Polarisation of the carbonate ion by Mg<sup>2+</sup> and by Ba<sup>2+</sup> (schematic; ions drawn to scale).</figcaption></figure><figure><img src="fig/p3_decomp.svg" alt="Fig 3. Decomposition temperature of the Group 2 carbonates against the charge density of the cation (literature temperatures, approximate; they depend on the conditions)." loading="lazy"><figcaption>Fig 3. Decomposition temperature of the Group 2 carbonates against the charge density of the cation (literature temperatures, approximate; they depend on the conditions).</figcaption></figure><p>In the laboratory you can compare MgCO<sub>3</sub> and CaCO<sub>3</sub> by heating equal amounts of each in turn with the same flame, passing the gas through limewater, and timing how long it takes for the limewater to turn milky. The shorter the time, the less stable the carbonate. (SrCO<sub>3</sub> and BaCO<sub>3</sub> need far higher temperatures than a test tube over a Bunsen burner can reach.)</p><p>(<em>Further example.</em> The Group 2 nitrates show the same trend for the same reason, e.g. 2Mg(NO<sub>3</sub>)<sub>2</sub>(s) → 2MgO(s) + 4NO<sub>2</sub>(g) + O<sub>2</sub>(g), with magnesium nitrate decomposing most easily.)</p><p class="stamp" aria-hidden="true">5.3 §5 · 07/10/26</p><h2 id="thermal-stability-of-the-group-17-hydrides">Thermal stability of the Group 17 hydrides</h2><div class="tablewrap"><table><thead><tr><th>Bond</th><th>H–Cl</th><th>H–Br</th><th>H–I</th></tr></thead><tbody><tr><td>Bond energy / kJ mol<sup>−1</sup></td><td>431</td><td>366</td><td>299</td></tr></tbody></table></div><p><span class="key">Thermal stability decreases down the group</span>: HCl is very stable to heat, HBr decomposes a little at high temperature, and HI decomposes easily. A classic demonstration is to plunge a red-hot needle (or glass rod) into a gas jar of each:</p><ul><li>HCl: no visible change.</li><li>HBr: a little brown bromine vapour.</li><li>HI: dense purple fumes of iodine:  2HI(g) ⇌ H<sub>2</sub>(g) + I<sub>2</sub>(g)</li></ul><p>The explanation is the bond energy. Down the group the halogen atom is larger, so the H–X bond is longer and the bonding electrons are further from the halogen nucleus. <span class="key">The bond gets weaker (431 → 366 → 299 kJ mol<sup>−1</sup>), so less energy is needed to break it</span>, and the hydride decomposes more easily (Fig 4).</p><figure><img src="fig/p3_hx.svg" alt="Fig 4. H–X bond energies (Data Booklet). H–F is shown as a Further example: the strongest bond and the most stable hydride." loading="lazy"><figcaption>Fig 4. H–X bond energies (Data Booklet). H–F is shown as a Further example: the strongest bond and the most stable hydride.</figcaption></figure><p class="stamp" aria-hidden="true">5.3 §6 · 07/10/26</p><h2 id="predicting-the-properties-of-an-element">Predicting the properties of an element</h2><p>Once you know a trend and the reason for it, you can predict the properties of an element you have never seen. The method: <span class="key">place the element in its group, state the trend, and say which way it goes</span>.</p><h3>Worked example 2 (Further example): astatine</h3><p>Astatine, At, is the element below iodine in Group 17. Predict (a) its physical state at r.t.p., (b) whether At<sub>2</sub> would oxidise iodide ions, and (c) the thermal stability of HAt.</p><ul><li>(a) Volatility decreases down Group 17 as the id-id attractions grow with the number of electrons. At<sub>2</sub> has even more electrons than I<sub>2</sub>, so it would be a <span class="key">solid</span>, darker than iodine (black), with a higher melting and boiling point.</li><li>(b) Oxidising power decreases down the group (E<sup>⦵</sup> less positive). At<sub>2</sub> would be a weaker oxidising agent than I<sub>2</sub>, so it <span class="key">would not</span> oxidise I<sup>−</sup>; instead, I<sub>2</sub> would displace At<sub>2</sub> from astatide ions.</li><li>(c) The H–At bond would be even longer and weaker than H–I, so HAt would be <span class="key">very unstable to heat</span>, less stable than HI.</li></ul><h3>Worked example 3 (Further example): radium</h3><p>Radium, Ra, is below barium in Group 2. Predict how it compares with barium as a reducing agent, and the thermal stability of RaCO<sub>3</sub>.</p><p>Down Group 2 the outer electrons are further from the nucleus and more shielded, so they are lost more easily: Ra should be <span class="key">an even stronger reducing agent than Ba</span>, with E<sup>⦵</sup> at least as negative (predicted, around −2.9 V) and a vigorous reaction with cold water. Ra<sup>2+</sup> (0.140 nm) is larger than Ba<sup>2+</sup> (0.135 nm), so it has a lower charge density and polarises the carbonate ion less: <span class="key">RaCO<sub>3</sub> should be the most thermally stable</span> of the Group 2 carbonates.</p><p class="stamp" aria-hidden="true">5.3 §7 · 07/10/26</p><h2 id="deducing-an-unknown-element">Deducing an unknown element</h2><p>This is the reverse problem: you are given clues and must decide what the element is. Work through the clues in this order:</p><ol class="num"><li><strong>Metal or non-metal?</strong> Conductivity, appearance, m.p.</li><li><strong>Structure?</strong> Giant metallic, giant molecular or simple molecular (Part 1).</li><li><strong>How many outer electrons?</strong> A big jump in successive ionisation energies (Topic 1 Part 2), the highest oxidation number in the oxide or chloride, or the formula of a compound.</li><li><strong>Nature of the oxide and chloride?</strong> Basic, amphoteric or acidic; ionic or covalent (Part 2).</li><li><strong>Then the position and identity</strong>, and check that every clue fits.</li></ol><h3>Worked example 4</h3><p>Element Q is in Period 3. Its first four ionisation energies are 786, 1580, 3230 and 4360 kJ mol<sup>−1</sup>. Q has a melting point of 1414 °C and is a semiconductor. Its oxide has a very high melting point, is insoluble in water and reacts only with hot, concentrated sodium hydroxide. Identify Q and explain how each clue fits.</p><ul><li>The successive IEs rise steadily with <span class="key">no big jump within the first four</span>, so Q has at least four outer electrons.</li><li>A very high melting point with semiconduction means a <span class="key">giant molecular</span> element, not a metal.</li><li>An insoluble, high-melting oxide that reacts only with hot, concentrated alkali is <span class="key">acidic and giant molecular</span>: SiO<sub>2</sub>.</li></ul><p>Q is <strong>silicon</strong>, Group 14, Period 3. Check: the IEs match the Data Booklet values for Si, and Si has four outer electrons (the fifth IE would show the big jump).</p><h3>Worked example 5</h3><p>Element R is a red-brown liquid at r.t.p. When aqueous R is added to potassium iodide solution and the mixture is shaken with hexane, the upper layer turns purple. Aqueous R does not react with potassium chloride solution. Identify R.</p><p>A coloured liquid element that takes part in displacement reactions is a halogen. Purple in hexane means I<sub>2</sub> has formed, so R oxidises I<sup>−</sup>; it does not oxidise Cl<sup>−</sup>, so R is a weaker oxidising agent than Cl<sub>2</sub>. R lies between chlorine and iodine: R is <strong>bromine</strong>, Br<sub>2</sub>, and the reaction is Br<sub>2</sub>(aq) + 2I<sup>−</sup>(aq) → 2Br<sup>−</sup>(aq) + I<sub>2</sub>(aq).</p><p class="stamp" aria-hidden="true">5.3 §8 · 07/10/26</p><h2 id="summary">Summary</h2><div class="tablewrap"><table><thead><tr><th></th><th>Down Group 2 (Mg → Ba)</th><th>Down Group 17 (Cl → I)</th></tr></thead><tbody><tr><td>E<sup>⦵</sup></td><td>more negative (−2.38 → −2.90 V)</td><td>less positive (+1.36 → +0.54 V)</td></tr><tr><td>Redox behaviour</td><td>stronger reducing agents</td><td>weaker oxidising agents</td></tr><tr><td>Reason</td><td>outer electrons further and more shielded: lost more easily</td><td>incoming electron further and more shielded: gained less readily</td></tr><tr><td>Thermal stability</td><td>carbonates more stable (cation charge density falls, polarises CO<sub>3</sub><sup>2−</sup> less)</td><td>hydrides less stable (H–X bond weaker)</td></tr></tbody></table></div>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">The Data Booklet does not list Sr<sup>2+</sup>/Sr. −2.89 V is the literature value. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">Beyond the syllabus: E<sup>⦵</sup> also depends on how much energy is released when the gaseous ions are hydrated, and on the energy to atomise the metal. That is why the E<sup>⦵</sup> values for Ca, Sr and Ba are so close, while their ionisation energies differ more. The ionisation-energy argument is the one expected at this level. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">The temperatures are approximate literature values. The temperature at which a carbonate is seen to decompose depends on how it is heated and on the CO<sub>2</sub> pressure above it, so different books quote different numbers; the order is always the same. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-2.html">← Part 2</a><a href="tutorial-1.html">Tutorial 1 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
