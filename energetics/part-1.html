@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Chemical Energetics 1: Exothermic and endothermic changes, energy profiles, standard enthalpy changes, and calorimetry with heat change = mcΔT. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 7).">
+<title>Chemical Energetics 1 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 7 · Chemical Energetics</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 7 pages"><div class="frame"><a href="part-1.html" aria-current="page" class="on">Part 1</a><a href="part-2.html">Part 2</a><a href="part-3.html">Part 3</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="tutorial-3.html">Tutorial 3</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#exothermic-and-endothermic-changes">Exothermic and endothermic changes</a></li><li><a href="#where-the-energy-comes-from-breaking-and-making-bonds">Where the energy comes from: breaking and making bonds</a></li><li><a href="#energy-profile-diagrams">Energy profile diagrams</a></li><li><a href="#standard-enthalpy-changes">Standard enthalpy changes</a></li><li><a href="#measuring-enthalpy-changes-calorimetry">Measuring enthalpy changes: calorimetry</a></li><li><a href="#summary">Summary</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">7.1 · 07/10/26</p><h1>Chemical Energetics 1</h1><p class="eyebrow">Topic 7 · Chemical Energetics Part 1</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#exothermic-and-endothermic-changes">Exothermic and endothermic changes</a></li><li><a href="#where-the-energy-comes-from-breaking-and-making-bonds">Where the energy comes from: breaking and making bonds</a></li><li><a href="#energy-profile-diagrams">Energy profile diagrams</a></li><li><a href="#standard-enthalpy-changes">Standard enthalpy changes</a></li><li><a href="#measuring-enthalpy-changes-calorimetry">Measuring enthalpy changes: calorimetry</a></li><li><a href="#summary">Summary</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Energetics Lab</a></p><p>Use the <em>Energy profile builder</em> (bonds broken and formed, exothermic and endothermic profiles, the effect of a catalyst) and the <em>Calorimetry bench</em> (four experiments, including the cooling-curve extrapolation) alongside this note.</p></aside><p>Almost every chemical reaction gives out or takes in energy, usually as heat. A camping stove burning gas warms your food; a cold pack in a first-aid kit gets cold when you squeeze it. This Part is about where that energy comes from, how we describe it, and how we measure it. Part 2 shows how to calculate energy changes we cannot measure, and Part 3 asks the bigger question: what decides whether a change happens at all?</p><p class="stamp" aria-hidden="true">7.1 §1 · 07/10/26</p><h2 id="key-terms">Key terms</h2><p>You will meet these terms throughout the topic. The enthalpy changes in the second half of the table are defined fully, with equations, later in this Part.</p><div class="tablewrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>System</td><td>The chemicals we are interested in: the reactants and products.</td></tr><tr><td>Surroundings</td><td>Everything else: the solvent, the container, the thermometer, the air.</td></tr><tr><td>Enthalpy, H</td><td>The heat content of a system at constant pressure. We can never measure H itself, only the change, ΔH.</td></tr><tr><td>Enthalpy change, ΔH</td><td>The heat change at constant pressure: ΔH = H(products) − H(reactants), in kJ mol<sup>−1</sup>.</td></tr><tr><td>Exothermic</td><td>Heat is given out to the surroundings, which get warmer. ΔH is negative.</td></tr><tr><td>Endothermic</td><td>Heat is taken in from the surroundings, which get cooler. ΔH is positive.</td></tr><tr><td>Activation energy, E<sub>a</sub></td><td>The minimum energy that colliding particles need for a reaction to take place (Topic 8).</td></tr><tr><td>Standard conditions</td><td>298 K, 1 bar (10<sup>5</sup> Pa), solutions at 1 mol dm<sup>−3</sup>, every substance in its standard state. Shown by ⦵, as in ΔH<sup>⦵</sup>.</td></tr></tbody></table></div><p class="stamp" aria-hidden="true">7.1 §2 · 07/10/26</p><h2 id="exothermic-and-endothermic-changes">Exothermic and endothermic changes</h2><p>Think of the system as having a store of energy, its enthalpy. If the products have <em>less</em> enthalpy than the reactants, the difference has gone out to the surroundings as heat: the reaction is <span class="key">exothermic</span> and ΔH is <span class="key">negative</span>. If the products have <em>more</em> enthalpy, the difference was taken in from the surroundings: the reaction is <span class="key">endothermic</span> and ΔH is <span class="key">positive</span>.</p><aside class="box"><p><span class="key">The sign of ΔH is always from the point of view of the system.</span> Exothermic: the system loses heat, ΔH &lt; 0, the surroundings warm up. Endothermic: the system gains heat, ΔH &gt; 0, the surroundings cool down.</p></aside><ul><li><strong>Exothermic:</strong> combustion of fuels, neutralisation, respiration, the reaction of magnesium with dilute acid, condensing steam, freezing water.</li><li><strong>Endothermic:</strong> thermal decomposition of calcium carbonate, photosynthesis, dissolving ammonium nitrate in water (the cold pack), melting ice, boiling water.</li></ul><p>Notice that physical changes have enthalpy changes too. Melting and boiling are endothermic; freezing and condensing are exothermic.</p><p class="stamp" aria-hidden="true">7.1 §3 · 07/10/26</p><h2 id="where-the-energy-comes-from-breaking-and-making-bonds">Where the energy comes from: breaking and making bonds</h2><p>A reaction rearranges atoms: some bonds in the reactants break and new bonds in the products form.</p><ul><li><span class="key">Breaking a bond always takes in energy</span> (endothermic): work must be done to pull the bonded atoms apart against the attraction holding them together.</li><li><span class="key">Forming a bond always gives out energy</span> (exothermic): the atoms fall into the lower energy of the bonded state.</li></ul><p>Whether the whole reaction is exothermic or endothermic depends on the balance. If the bonds formed release more energy than the bonds broken take in, the reaction is exothermic. Fig 1 shows this for hydrogen and chlorine, using bond energies from the Data Booklet: breaking one H–H and one Cl–Cl bond takes in 680 kJ, forming two H–Cl bonds gives out 862 kJ, so overall 182 kJ is given out for every mole of H<sub>2</sub> that reacts.</p><figure><img src="fig/p1_bonds.svg" alt="Fig 1. H2(g) + Cl2(g) → 2HCl(g): bonds broken, then bonds formed (Data Booklet bond energies; drawn to scale)." loading="lazy"><figcaption>Fig 1. H<sub>2</sub>(g) + Cl<sub>2</sub>(g) → 2HCl(g): bonds broken, then bonds formed (Data Booklet bond energies; drawn to scale).</figcaption></figure><aside class="box"><p>A common mistake: "energy is released when bonds break". It is not. Energy is released only when bonds form. (Bond energies are always positive: Part 2.)</p></aside><p class="stamp" aria-hidden="true">7.1 §4 · 07/10/26</p><h2 id="energy-profile-diagrams">Energy profile diagrams</h2><p>An <span class="key">energy profile diagram</span> shows how the energy of the reacting system changes as the reaction proceeds. Reactants must first collide with at least the activation energy, E<sub>a</sub>, to reach the high-energy arrangement at the top of the curve (the transition state), where old bonds are partly broken and new ones partly formed. Only then can they fall to the products. Fig 2 shows the two cases.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup></p><figure><img src="fig/p1_profile.svg" alt="Fig 2. Energy profile diagrams for an exothermic and an endothermic reaction (schematic)." loading="lazy"><figcaption>Fig 2. Energy profile diagrams for an exothermic and an endothermic reaction (schematic).</figcaption></figure><p>To construct one:</p><ol class="num"><li>Label the axes: energy (vertical) and progress of reaction (horizontal).</li><li>Draw the reactant level and the product level: products lower for an exothermic reaction, higher for an endothermic one.</li><li>Join them with a smooth hump.</li><li>Show E<sub>a</sub> with an arrow from the reactant level up to the top of the hump, and ΔH with an arrow from the reactant level to the product level (pointing down for exothermic, up for endothermic). Label both.</li></ol><p>Reading the diagram backwards gives the reverse reaction. Its activation energy is measured from the <em>product</em> level to the top, and its ΔH has the same size but the opposite sign.</p><h3>Worked example 1</h3><p>A reaction has E<sub>a</sub> = +75 kJ mol<sup>−1</sup> and ΔH = −40 kJ mol<sup>−1</sup> (illustrative data). (a) Is it exothermic or endothermic? (b) What are E<sub>a</sub> and ΔH for the reverse reaction? (c) What does a catalyst change?</p><p>(a) ΔH is negative, so the reaction is <span class="key">exothermic</span>: the products are 40 kJ mol<sup>−1</sup> below the reactants.</p><p>(b) (To answer this, sketch the profile: the top of the hump is 75 kJ mol<sup>−1</sup> above the reactants, and the products are 40 kJ mol<sup>−1</sup> below them.) Going backwards, the products must climb 75 + 40 = 115 kJ mol<sup>−1</sup> to reach the top: E<sub>a</sub>(reverse) = <span class="key">+115 kJ mol<sup>−1</sup></span>, and ΔH(reverse) = <span class="key">+40 kJ mol<sup>−1</sup></span>.</p><p>(c) A catalyst <span class="key">provides an alternative reaction pathway with lower activation energy</span>, so E<sub>a</sub> falls for both the forward and the reverse reaction. The reactant and product levels do not move, so <span class="key">ΔH is unchanged</span> (Topic 8 Part 2).</p><p class="stamp" aria-hidden="true">7.1 §5 · 07/10/26</p><h2 id="standard-enthalpy-changes">Standard enthalpy changes</h2><p>The size of an enthalpy change depends on the conditions and on the physical states of the substances (ΔH for making liquid water is different from that for making steam). So that values can be compared and tabulated, they are quoted under <span class="key">standard conditions</span>:<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></p><ul><li>a temperature of <span class="key">298 K</span> (25 °C);</li><li>a pressure of <span class="key">1 bar</span> (10<sup>5</sup> Pa);</li><li>solutions at a concentration of <span class="key">1 mol dm<sup>−3</sup></span>;</li><li>every substance in its <span class="key">standard state</span>: its normal physical state at 298 K and 1 bar (O<sub>2</sub>(g), H<sub>2</sub>O(l), Br<sub>2</sub>(l), I<sub>2</sub>(s), and carbon as graphite).</li></ul><p>A standard enthalpy change is written ΔH<sup>⦵</sup>, read "delta H standard". Always write the equation with state symbols: it defines what the value refers to.</p><h3>The enthalpy changes you need</h3><p>Each definition is for <span class="key">one mole</span> of something; check which thing it is one mole of. Values are literature values: the Data Booklet has bond energies, ionisation energies, ionic radii and c, but no enthalpies of formation, combustion, atomisation, hydration, solution or neutralisation.</p><div class="tablewrap"><table><thead><tr><th>Enthalpy change</th><th>Definition (standard conditions)</th><th>Example, ΔH<sup>⦵</sup> / kJ mol<sup>−1</sup></th></tr></thead><tbody><tr><td>Reaction, ΔH<sub>r</sub><sup>⦵</sup></td><td>The enthalpy change when the amounts of reactants shown in the equation react completely.</td><td>N<sub>2</sub>(g) + 3H<sub>2</sub>(g) → 2NH<sub>3</sub>(g); −92</td></tr><tr><td>Formation, ΔH<sub>f</sub><sup>⦵</sup></td><td>The enthalpy change when <span class="key">1 mol of a substance is formed from its elements</span> in their standard states.</td><td>Na(s) + ½Cl<sub>2</sub>(g) → NaCl(s); −411</td></tr><tr><td>Combustion, ΔH<sub>c</sub><sup>⦵</sup></td><td>The enthalpy change when <span class="key">1 mol of a substance is completely burnt in excess oxygen</span>.</td><td>CH<sub>4</sub>(g) + 2O<sub>2</sub>(g) → CO<sub>2</sub>(g) + 2H<sub>2</sub>O(l); −890</td></tr><tr><td>Neutralisation, ΔH<sub>neut</sub><sup>⦵</sup></td><td>The enthalpy change when an acid and a base react to form <span class="key">1 mol of water</span>.</td><td>H<sup>+</sup>(aq) + OH<sup>−</sup>(aq) → H<sub>2</sub>O(l); −57</td></tr><tr><td>Atomisation, ΔH<sub>at</sub><sup>⦵</sup></td><td>The enthalpy change when <span class="key">1 mol of gaseous atoms is formed from the element</span> in its standard state.</td><td>Na(s) → Na(g); +107. ½Cl<sub>2</sub>(g) → Cl(g); +122</td></tr><tr><td>Hydration, ΔH<sub>hyd</sub><sup>⦵</sup></td><td>The enthalpy change when <span class="key">1 mol of gaseous ions dissolves in water</span> to give an infinitely dilute solution.</td><td>Na<sup>+</sup>(g) + aq → Na<sup>+</sup>(aq); −406</td></tr><tr><td>Solution, ΔH<sub>sol</sub><sup>⦵</sup></td><td>The enthalpy change when <span class="key">1 mol of a substance dissolves completely in water</span> to give an infinitely dilute solution.</td><td>NaCl(s) + aq → Na<sup>+</sup>(aq) + Cl<sup>−</sup>(aq); +4</td></tr><tr><td>Bond energy</td><td>The energy needed to break <span class="key">1 mol of a covalent bond in the gaseous state</span> (always positive; for bonds in polyatomic molecules, an average).</td><td>Cl<sub>2</sub>(g) → 2Cl(g); +244 (Data Booklet)</td></tr><tr><td>Lattice energy</td><td>The energy released when <span class="key">1 mol of a solid ionic compound is formed from its gaseous ions</span> (always negative).</td><td>Na<sup>+</sup>(g) + Cl<sup>−</sup>(g) → NaCl(s); −785 (Part 2; literature −787)</td></tr></tbody></table></div><p>Electron affinity, the last term in the syllabus list, is defined in Part 2 with lattice energy, where both are used.</p><h3>Points to watch</h3><ul><li><span class="key">ΔH<sub>f</sub><sup>⦵</sup> of an element in its standard state is zero</span> by definition (O<sub>2</sub>(g), Na(s), C(graphite)): forming it from itself is no change.</li><li>A formation equation may need fractions, because it must make exactly 1 mol of product: ½Cl<sub>2</sub>, not Cl<sub>2</sub>.</li><li>ΔH<sub>c</sub><sup>⦵</sup>(C, graphite) and ΔH<sub>f</sub><sup>⦵</sup>(CO<sub>2</sub>) are the same equation, C(s) + O<sub>2</sub>(g) → CO<sub>2</sub>(g), so they have the same value, −394 kJ mol<sup>−1</sup>. The same is true of H<sub>2</sub>(g) and H<sub>2</sub>O(l): −286 kJ mol<sup>−1</sup>.</li><li><span class="key">Atomisation is always endothermic</span>, and so is breaking a bond. For a gaseous diatomic element, ΔH<sub>at</sub><sup>⦵</sup> is half the bond energy: ΔH<sub>at</sub><sup>⦵</sup>(Cl) = ½ × 244 = +122 kJ mol<sup>−1</sup>, because one Cl–Cl bond gives <em>two</em> Cl atoms.</li><li><span class="key">Hydration is always exothermic</span>: the ions attract the polar water molecules (ion-dipole attractions).</li><li>Neutralisation of any strong acid by any strong base gives about −57 kJ mol<sup>−1</sup>, because the reaction is always H<sup>+</sup>(aq) + OH<sup>−</sup>(aq) → H<sub>2</sub>O(l); the other ions are spectators. With a weak acid it is less exothermic (ethanoic acid about −56, hydrogen cyanide about −12 kJ mol<sup>−1</sup>), because some energy is used to ionise the weak acid as it reacts.<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup></li><li>Per mole of <em>water</em>: H<sub>2</sub>SO<sub>4</sub> + 2NaOH → Na<sub>2</sub>SO<sub>4</sub> + 2H<sub>2</sub>O gives about −114 kJ for the equation as written, but ΔH<sub>neut</sub> is still −57 kJ mol<sup>−1</sup>.</li></ul><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Dissolution exotherms.</strong> Some enthalpy changes of solution are large enough to be a hazard. Dissolving sodium hydroxide gives out about 44.5 kJ mol<sup>−1</sup> (literature value). Using heat change = mcΔT (next section), dissolving 40 g (1 mol) in 1 dm<sup>3</sup> of water would warm it by about 44 500 / (1000 × 4.18) ≈ 11 K if no heat escaped; for a concentrated caustic solution made up in a plant vessel, the local temperature where the pellets dissolve can reach boiling. The solid is therefore added in portions, with stirring and cooling.</p><p>Diluting concentrated sulfuric acid gives out even more heat. The rule is <span class="key">always add acid to water</span>, slowly, with stirring. If water is poured into the acid, the small amount of water floating on top boils on contact and spits acid out of the vessel. On a plant, acid is diluted into a cooled, stirred vessel of water, or mixed continuously in a line.</p></aside><p class="stamp" aria-hidden="true">7.1 §6 · 07/10/26</p><h2 id="measuring-enthalpy-changes-calorimetry">Measuring enthalpy changes: calorimetry</h2><p>We cannot measure the heat a reaction gives out directly. Instead we let it heat (or cool) a known mass of water or solution, measure the temperature change, and calculate the heat from:</p><p class="eq"><span class="key">heat change, q = mcΔT</span></p><ul><li>m = the mass of the water or solution that changes temperature, in g (for dilute solutions, take 1 cm<sup>3</sup> as 1 g);</li><li>c = the specific heat capacity, the heat needed to raise 1 g by 1 K: for water, c = 4.18 J g<sup>−1</sup> K<sup>−1</sup> (Data Booklet);</li><li>ΔT = the change in temperature, in K (a change of 1 K is the same size as a change of 1 °C).</li></ul><p>Then divide by the number of moles that reacted, and give the sign from what the thermometer did:</p><p class="eq"><math display="block"><mrow><mtext>ΔH</mtext><mo>=</mo><mo>−</mo><mfrac><mtext>q</mtext><mtext>n</mtext></mfrac></mrow></math></p><aside class="box"><p><span class="key">Temperature rises: the reaction gave heat to the solution, so ΔH is negative. Temperature falls: the reaction took heat from the solution, so ΔH is positive.</span> Remember to convert J to kJ, and to divide by the moles of the substance named in the definition (moles of water for neutralisation).</p></aside><p>For reactions in solution, a simple calorimeter is an expanded polystyrene cup (Fig 3): polystyrene is a poor conductor and has a very small heat capacity, so almost all the heat goes into the solution.</p><figure><img src="fig/p1_cup.svg" alt="Fig 3. A simple calorimeter for reactions in solution." loading="lazy"><figcaption>Fig 3. A simple calorimeter for reactions in solution.</figcaption></figure><p>The calculation makes some assumptions; when your answer differs from the literature value, these are the places to look:</p><ul><li>the density of the solution is 1.00 g cm<sup>−3</sup>, and its specific heat capacity is that of water;</li><li>the cup, thermometer and stirrer absorb no heat, and no heat is lost to (or gained from) the air;</li><li>the reaction is complete, and the mass of any solid added is small enough to ignore.</li></ul><h3>Worked example 2: enthalpy change of neutralisation</h3><p>50.0 cm<sup>3</sup> of 1.00 mol dm<sup>−3</sup> hydrochloric acid was mixed with 50.0 cm<sup>3</sup> of 1.00 mol dm<sup>−3</sup> sodium hydroxide in a polystyrene cup. Both started at the same temperature, and the temperature rose by 6.8 K. Calculate the enthalpy change of neutralisation (illustrative data).</p><p>(To find ΔH you need q, from the temperature rise, and n, the moles of water formed.) The mass heated is the total volume of solution, 100 cm<sup>3</sup>, so m = 100 g:</p><p class="eq">q = mcΔT = 100 × 4.18 × 6.8 = 2842 J = 2.842 kJ</p><p class="eq">HCl(aq) + NaOH(aq) → NaCl(aq) + H<sub>2</sub>O(l)</p><p class="eq">n(H<sub>2</sub>O) = n(HCl) = (50.0 × 1.00) / 1000 = 0.0500 mol</p><p>The temperature rose, so ΔH is negative:</p><p class="eq">ΔH<sub>neut</sub> = −2.842 / 0.0500 = −56.8 kJ mol<sup>−1</sup></p><p>(Answer to 2 s.f., the precision of ΔT: <span class="key">−57 kJ mol<sup>−1</sup></span>, in line with the literature value.)</p><h3>Worked example 3: enthalpy change of solution</h3><p>8.00 g of ammonium nitrate, NH<sub>4</sub>NO<sub>3</sub> (M<sub>r</sub> 80.0), was dissolved in 50.0 cm<sup>3</sup> of water. The temperature fell by 12.3 K. Calculate the enthalpy change of solution (illustrative data).</p><p>(This time the temperature falls: the dissolving takes heat from the water.) Take the mass heated as the 50.0 g of water, ignoring the small mass of solid:</p><p class="eq">q = 50.0 × 4.18 × 12.3 = 2571 J = 2.571 kJ (taken in)</p><p class="eq">n(NH<sub>4</sub>NO<sub>3</sub>) = 8.00 / 80.0 = 0.100 mol</p><p class="eq">ΔH<sub>sol</sub> = +2.571 / 0.100 = <span class="key">+25.7 kJ mol<sup>−1</sup></span></p><p>This is the reaction in an instant cold pack: NH<sub>4</sub>NO<sub>3</sub>(s) + aq → NH<sub>4</sub><sup>+</sup>(aq) + NO<sub>3</sub><sup>−</sup>(aq). Why an endothermic change like this happens at all, without being pushed, is the question of Part 3.</p><h3>Worked example 4: correcting for heat loss with a cooling curve</h3><p>Many reactions do not finish instantly, and the solution starts to lose heat to the air while the reaction is still going. The highest temperature you read is then lower than it should be. The fix is to take readings for several minutes before and after mixing, plot temperature against time, and <span class="key">extrapolate the cooling line back to the moment of mixing</span>. That gives the temperature the solution would have reached if the reaction had been instant, with no heat lost.</p><p>Excess zinc powder was added at 3.0 min to 50.0 cm<sup>3</sup> of 0.200 mol dm<sup>−3</sup> copper(II) sulfate solution in a polystyrene cup, with stirring. The readings are below (illustrative data). Calculate ΔH for the reaction.</p><p class="eq">Zn(s) + Cu<sup>2+</sup>(aq) → Zn<sup>2+</sup>(aq) + Cu(s)</p><div class="tablewrap"><table><thead><tr><th>Time / min</th><th>0.0</th><th>1.0</th><th>2.0</th><th>3.0</th><th>3.5</th><th>4.0</th><th>4.5</th><th>5.0</th><th>6.0</th><th>7.0</th><th>8.0</th><th>9.0</th></tr></thead><tbody><tr><td>Temperature / °C</td><td>28.0</td><td>28.0</td><td>28.0</td><td>28.0</td><td>35.0</td><td>37.6</td><td>37.8</td><td>37.6</td><td>37.2</td><td>36.8</td><td>36.4</td><td>36.0</td></tr></tbody></table></div><figure><img src="fig/p1_cooling.svg" alt="Fig 4. Temperature against time for zinc with copper(II) sulfate solution (illustrative data). The cooling line from 5.0 to 9.0 min, extrapolated back to 3.0 min, gives 38.4 °C." loading="lazy"><figcaption>Fig 4. Temperature against time for zinc with copper(II) sulfate solution (illustrative data). The cooling line from 5.0 to 9.0 min, extrapolated back to 3.0 min, gives 38.4 °C.</figcaption></figure><p>(The highest reading is 37.8 °C, but the solution was already cooling by then.) Extrapolating the cooling line to 3.0 min gives 38.4 °C, so ΔT = 38.4 − 28.0 = 10.4 K:</p><p class="eq">q = 50.0 × 4.18 × 10.4 = 2174 J = 2.174 kJ</p><p>Zinc is in excess, so copper(II) ions are the limiting reagent (Topic 6 Part 2) and fix the amount that reacts:</p><p class="eq">n(Cu<sup>2+</sup>) = (50.0 × 0.200) / 1000 = 0.0100 mol</p><p class="eq">ΔH = −2.174 / 0.0100 = <span class="key">−217 kJ mol<sup>−1</sup></span></p><p>(Using the highest reading instead would give ΔT = 9.8 K and ΔH = −205 kJ mol<sup>−1</sup>: too small, because of the heat already lost.)</p><h3>Worked example 5: enthalpy change of combustion</h3><p>For a liquid fuel, burn it in a spirit burner under a copper can of water (Fig 5), and weigh the burner before and after to find the mass burnt.</p><figure><img src="fig/p1_burner.svg" alt="Fig 5. Measuring the enthalpy change of combustion of a liquid fuel." loading="lazy"><figcaption>Fig 5. Measuring the enthalpy change of combustion of a liquid fuel.</figcaption></figure><p>Burning 0.920 g of ethanol, C<sub>2</sub>H<sub>5</sub>OH (M<sub>r</sub> 46.0), raised the temperature of 200 g of water by 20.0 K. Calculate ΔH<sub>c</sub> of ethanol and compare it with the literature value, −1367 kJ mol<sup>−1</sup> (illustrative data).</p><p class="eq">q = 200 × 4.18 × 20.0 = 16 720 J = 16.72 kJ</p><p class="eq">n(C<sub>2</sub>H<sub>5</sub>OH) = 0.920 / 46.0 = 0.0200 mol</p><p class="eq">ΔH<sub>c</sub> = −16.72 / 0.0200 = <span class="key">−836 kJ mol<sup>−1</sup></span></p><p>This is only 836 / 1367 × 100 = 61 % of the literature value. The experiment is simple but not accurate:</p><ul><li><span class="key">heat is lost</span> to the air around the flame and the can, and to heating the can itself;</li><li><span class="key">combustion is incomplete</span>: a sooty, yellow flame means some carbon or carbon monoxide forms instead of CO<sub>2</sub>;</li><li>some ethanol evaporates from the wick without burning, so the mass loss overstates the amount burnt;</li><li>the literature value is for water formed as a liquid at 298 K; here much of it leaves as steam.</li></ul><p>A draught shield, a lid on the can, a short distance from flame to can and stirring all help. Accurate values come from a bomb calorimeter, in which the fuel burns in pure oxygen inside a sealed steel vessel sunk in water.</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Reaction calorimetry.</strong> Before a reaction is scaled up, process chemists measure the heat it gives out in a reaction calorimeter: a jacketed laboratory reactor that measures the heat flowing through its wall while the reaction runs. One key number is the <span class="key">adiabatic temperature rise</span>, ΔT<sub>ad</sub>: how far the batch would heat up if the cooling failed and no heat at all were removed. It comes straight from heat change = mcΔT:</p><p>ΔT<sub>ad</sub> = (n × |ΔH|) / (m × c)</p><p>For example (illustrative data), a reaction with ΔH = −150 kJ mol<sup>−1</sup>, run with 1.0 mol of the limiting reagent per kg of reaction mixture and c about 1.8 J g<sup>−1</sup> K<sup>−1</sup> (typical of organic solvents such as toluene), gives ΔT<sub>ad</sub> = 150 000 / (1000 × 1.8) ≈ 83 K. A batch at 20 °C would end up above 100 °C: past the boiling point of many solvents, and perhaps hot enough to start a decomposition (Part 2). The calorimeter also shows <em>when</em> the heat comes out, which matters as much as how much.</p></aside><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Heat removal at scale.</strong> A batch makes heat throughout its volume but loses it only through the wall in contact with the cooling jacket. Scale a vessel up ten times in every length and its volume grows 1000 times, but its wall area only 100 times: the area available to remove each joule falls ten-fold. So a reaction that warms gently in a 1 dm<sup>3</sup> flask can overheat in a plant reactor.</p><p>Strongly exothermic reactions are therefore run <span class="key">semi-batch</span>: one reagent is added slowly, at a rate the jacket can keep up with, so heat is released only as fast as the reagent goes in and stopping the addition stops the heat. This works only if the reagent reacts as it is added; if it builds up unreacted (for example because the batch is too cold), stopping the addition no longer protects the batch.</p></aside><p class="stamp" aria-hidden="true">7.1 §7 · 07/10/26</p><h2 id="summary">Summary</h2><div class="tablewrap"><table><thead><tr><th>Idea</th><th>Key point</th></tr></thead><tbody><tr><td>Sign of ΔH</td><td>Exothermic: ΔH &lt; 0, surroundings warm. Endothermic: ΔH &gt; 0, surroundings cool.</td></tr><tr><td>Bonds</td><td>Breaking bonds takes in energy; forming bonds gives out energy. ΔH is the balance.</td></tr><tr><td>Energy profile</td><td>Reactant and product levels, a hump of height E<sub>a</sub> above the reactants; ΔH from reactants to products. A catalyst lowers E<sub>a</sub>, not ΔH.</td></tr><tr><td>Standard conditions</td><td>298 K, 1 bar, 1 mol dm<sup>−3</sup>, standard states; ΔH<sup>⦵</sup>.</td></tr><tr><td>Definitions</td><td>Each is per mole of something: substance formed, substance burnt, water formed, gaseous atoms formed, gaseous ions hydrated, solute dissolved, bonds broken, solid lattice formed.</td></tr><tr><td>Calorimetry</td><td>q = mcΔT, then ΔH = −q / n; temperature rise means ΔH negative. Extrapolate a cooling curve to correct for heat loss.</td></tr></tbody></table></div>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">Topic 8 uses the same diagram to explain how temperature and catalysts change the rate. In Part 2 we will see how the bond energies behind Fig 1 let you calculate ΔH. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">These are not the same as s.t.p. in Topic 3 (273 K, 10<sup>5</sup> Pa), which is used for gas volumes. Some older books use 1 atm (101 325 Pa) as the standard pressure; the difference in ΔH values is negligible. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">These are approximate literature values. Topic 10 deals with weak acids and their ionisation. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><span></span><a href="part-2.html">Part 2 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
