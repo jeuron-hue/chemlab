@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Chemistry of Aqueous Solutions 3: Solubility product, predicting precipitation, the common ion effect and complex ion formation. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 10).">
+<title>Chemistry of Aqueous Solutions 3 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 10 · Chemistry of Aqueous Solutions</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 10 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html">Part 2</a><a href="part-3.html" aria-current="page" class="on">Part 3</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="tutorial-3.html">Tutorial 3</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#solubility-equilibria">Solubility equilibria</a></li><li><a href="#calculations-with-k-sp">Calculations with K<sub>sp</sub></a></li><li><a href="#predicting-precipitation">Predicting precipitation</a></li><li><a href="#the-common-ion-effect">The common ion effect</a></li><li><a href="#complex-ion-formation">Complex ion formation</a></li><li><a href="#summary">Summary</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">10.3 · 13/10/26</p><h1>Chemistry of Aqueous Solutions 3</h1><p class="eyebrow">Topic 10 · Chemistry of Aqueous Solutions Part 3</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#key-terms">Key terms</a></li><li><a href="#solubility-equilibria">Solubility equilibria</a></li><li><a href="#calculations-with-k-sp">Calculations with K<sub>sp</sub></a></li><li><a href="#predicting-precipitation">Predicting precipitation</a></li><li><a href="#the-common-ion-effect">The common ion effect</a></li><li><a href="#complex-ion-formation">Complex ion formation</a></li><li><a href="#summary">Summary</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Aqueous Solutions Lab</a></p><p>Use the <em>Solubility bench</em> (mix two solutions and compare the ionic product with K<sub>sp</sub>, then watch the common ion effect), the <em>Silver halides</em> test tubes and the <em>Practice</em> generator alongside this note.</p></aside><p>"Insoluble" salts such as silver chloride and barium sulfate do dissolve, just very slightly. The little that dissolves sets up an equilibrium between the solid and its ions, and the equilibrium law (Topic 9) applies to it like any other. This Part puts a number on how much dissolves, uses it to predict whether a precipitate will form, and looks at two ways of changing the solubility: adding an ion that is already there, and pulling one of the ions away into a complex.</p><p class="stamp" aria-hidden="true">10.3 §1 · 13/10/26</p><h2 id="key-terms">Key terms</h2><div class="tablewrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>Solubility</td><td>The amount (mol dm<sup>−3</sup>) or mass (g dm<sup>−3</sup>) of a substance that dissolves in a solvent to give a saturated solution, at a given temperature.</td></tr><tr><td>Saturated solution</td><td>A solution in dynamic equilibrium with undissolved solute: no more will dissolve at that temperature.</td></tr><tr><td>Solubility product, K<sub>sp</sub></td><td>The product of the concentrations of the ions in a saturated solution of a sparingly soluble salt, each raised to the power of its coefficient in the equilibrium equation, at a given temperature.</td></tr><tr><td>Ionic product</td><td>The same product worked out with the actual concentrations in a solution, saturated or not.</td></tr><tr><td>Common ion effect</td><td>The lowering of the solubility of a salt by adding a solution that already contains one of its ions.</td></tr><tr><td>Complex ion</td><td>A central metal ion bonded to one or more ligands (molecules or ions with a lone pair) by dative covalent bonds, e.g. [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>.</td></tr></tbody></table></div><p class="stamp" aria-hidden="true">10.3 §2 · 13/10/26</p><h2 id="solubility-equilibria">Solubility equilibria</h2><p>Shake some solid silver chloride with water. A very small amount dissolves, and soon the solution is saturated. Ions are still leaving the solid, but at the same rate as ions are rejoining it: a <span class="key">dynamic equilibrium</span> between the solid and its ions in solution.</p><p class="eq">AgCl(s) ⇌ Ag<sup>+</sup>(aq) + Cl<sup>−</sup>(aq)</p><p>Writing K for this equilibrium, the solid is left out, as all pure solids are (Topic 9 Part 1). What is left is the <span class="key">solubility product</span>:</p><p class="eq">K<sub>sp</sub> = [Ag<sup>+</sup>][Cl<sup>−</sup>] = 1.8 × 10<sup>−10</sup> mol<sup>2</sup> dm<sup>−6</sup> at 298 K</p><p>For a general sparingly soluble salt A<sub>x</sub>B<sub>y</sub>:</p><p class="eq">A<sub>x</sub>B<sub>y</sub>(s) ⇌ xA<sup>y+</sup>(aq) + yB<sup>x−</sup>(aq)  K<sub>sp</sub> = [A<sup>y+</sup>]<sup>x</sup>[B<sup>x−</sup>]<sup>y</sup></p><p>Like every equilibrium constant, K<sub>sp</sub> depends only on temperature. Work the units out from the expression each time:</p><div class="tablewrap"><table><thead><tr><th>Salt</th><th>Equilibrium</th><th>K<sub>sp</sub></th><th>Units</th></tr></thead><tbody><tr><td>AgBr</td><td>AgBr(s) ⇌ Ag<sup>+</sup>(aq) + Br<sup>−</sup>(aq)</td><td>[Ag<sup>+</sup>][Br<sup>−</sup>]</td><td>mol<sup>2</sup> dm<sup>−6</sup></td></tr><tr><td>PbI<sub>2</sub></td><td>PbI<sub>2</sub>(s) ⇌ Pb<sup>2+</sup>(aq) + 2I<sup>−</sup>(aq)</td><td>[Pb<sup>2+</sup>][I<sup>−</sup>]<sup>2</sup></td><td>mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>Ag<sub>2</sub>CrO<sub>4</sub></td><td>Ag<sub>2</sub>CrO<sub>4</sub>(s) ⇌ 2Ag<sup>+</sup>(aq) + CrO<sub>4</sub><sup>2−</sup>(aq)</td><td>[Ag<sup>+</sup>]<sup>2</sup>[CrO<sub>4</sub><sup>2−</sup>]</td><td>mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>Mg(OH)<sub>2</sub></td><td>Mg(OH)<sub>2</sub>(s) ⇌ Mg<sup>2+</sup>(aq) + 2OH<sup>−</sup>(aq)</td><td>[Mg<sup>2+</sup>][OH<sup>−</sup>]<sup>2</sup></td><td>mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub></td><td>Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub>(s) ⇌ 3Ca<sup>2+</sup>(aq) + 2PO<sub>4</sub><sup>3−</sup>(aq)</td><td>[Ca<sup>2+</sup>]<sup>3</sup>[PO<sub>4</sub><sup>3−</sup>]<sup>2</sup></td><td>mol<sup>5</sup> dm<sup>−15</sup></td></tr></tbody></table></div><p>K<sub>sp</sub> is used only for sparingly soluble salts.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup> Some literature values at 298 K (the Data Booklet does not list K<sub>sp</sub>; sources differ by a few per cent):</p><div class="tablewrap"><table><thead><tr><th>Salt</th><th>K<sub>sp</sub></th><th>Salt</th><th>K<sub>sp</sub></th></tr></thead><tbody><tr><td>AgCl</td><td>1.8 × 10<sup>−10</sup> mol<sup>2</sup> dm<sup>−6</sup></td><td>Ag<sub>2</sub>CrO<sub>4</sub></td><td>1.1 × 10<sup>−12</sup> mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>AgBr</td><td>5.0 × 10<sup>−13</sup> mol<sup>2</sup> dm<sup>−6</sup></td><td>CaF<sub>2</sub></td><td>3.5 × 10<sup>−11</sup> mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>AgI</td><td>8.5 × 10<sup>−17</sup> mol<sup>2</sup> dm<sup>−6</sup></td><td>Mg(OH)<sub>2</sub></td><td>5.6 × 10<sup>−12</sup> mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>BaSO<sub>4</sub></td><td>1.1 × 10<sup>−10</sup> mol<sup>2</sup> dm<sup>−6</sup></td><td>Ca(OH)<sub>2</sub></td><td>5.0 × 10<sup>−6</sup> mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>CaCO<sub>3</sub></td><td>3.4 × 10<sup>−9</sup> mol<sup>2</sup> dm<sup>−6</sup></td><td>PbI<sub>2</sub></td><td>9.8 × 10<sup>−9</sup> mol<sup>3</sup> dm<sup>−9</sup></td></tr><tr><td>CaSO<sub>4</sub></td><td>4.9 × 10<sup>−6</sup> mol<sup>2</sup> dm<sup>−6</sup></td><td>PbCl<sub>2</sub></td><td>1.7 × 10<sup>−5</sup> mol<sup>3</sup> dm<sup>−9</sup></td></tr></tbody></table></div><p class="stamp" aria-hidden="true">10.3 §3 · 13/10/26</p><h2 id="calculations-with-k-sp">Calculations with K<sub>sp</sub></h2><p>Let the solubility be s mol dm<sup>−3</sup>. Each formula unit that dissolves gives its ions in the ratio of the formula:</p><ul><li>for a 1 : 1 salt such as AgCl: [Ag<sup>+</sup>] = [Cl<sup>−</sup>] = s, so <span class="key">K<sub>sp</sub> = s<sup>2</sup></span>;</li><li>for a 1 : 2 salt such as PbI<sub>2</sub>: [Pb<sup>2+</sup>] = s, [I<sup>−</sup>] = 2s, so K<sub>sp</sub> = s × (2s)<sup>2</sup> = <span class="key">4s<sup>3</sup></span>. The same holds for 2 : 1 salts such as Ag<sub>2</sub>CrO<sub>4</sub>.</li></ul><p>Notice the 2s is squared: a common slip is to write s × 2s<sup>2</sup>.</p><h3>Worked example 1: solubility from K<sub>sp</sub></h3><p>Calculate the solubility of (a) silver chloride, in mol dm<sup>−3</sup> and g dm<sup>−3</sup>; (b) magnesium hydroxide, and the pH of its saturated solution, at 298 K.</p><p>(a)  K<sub>sp</sub> = s<sup>2</sup> = 1.8 × 10<sup>−10</sup></p><p class="eq">s = √(1.8 × 10<sup>−10</sup>) = <span class="key">1.34 × 10<sup>−5</sup> mol dm<sup>−3</sup></span></p><p class="eq">in g dm<sup>−3</sup>: 1.34 × 10<sup>−5</sup> × 143.4 = 1.92 × 10<sup>−3</sup> g dm<sup>−3</sup>  (M<sub>r</sub> of AgCl 143.4)</p><p>(b)  (To answer (b), notice that [OH<sup>−</sup>] = 2s.)  K<sub>sp</sub> = s(2s)<sup>2</sup> = 4s<sup>3</sup> = 5.6 × 10<sup>−12</sup></p><p class="eq">s = ∛((5.6 × 10<sup>−12</sup>) / 4) = <span class="key">1.12 × 10<sup>−4</sup> mol dm<sup>−3</sup></span>  (6.5 × 10<sup>−3</sup> g dm<sup>−3</sup>; M<sub>r</sub> 58.3)</p><p class="eq">[OH<sup>−</sup>] = 2 × 1.12 × 10<sup>−4</sup> = 2.24 × 10<sup>−4</sup> mol dm<sup>−3</sup></p><p class="eq">pOH = 3.65  pH = 14.00 − 3.65 = <span class="key">10.35</span></p><p>(Saturated magnesium hydroxide is only mildly alkaline, which is why a suspension of it, milk of magnesia, can be swallowed as an antacid.)</p><h3>Worked example 2: K<sub>sp</sub> from solubility</h3><p>At 298 K, 0.621 g of lead(II) iodide dissolves in 1.00 dm<sup>3</sup> of water. Calculate K<sub>sp</sub>.</p><p class="eq">M<sub>r</sub>(PbI<sub>2</sub>) = 207.2 + (2 × 126.9) = 461.0</p><p class="eq">s = 0.621 / 461.0 = 1.347 × 10<sup>−3</sup> mol dm<sup>−3</sup>  (keep 4 figures until the end)</p><p class="eq">[Pb<sup>2+</sup>] = 1.347 × 10<sup>−3</sup> mol dm<sup>−3</sup>  [I<sup>−</sup>] = 2.694 × 10<sup>−3</sup> mol dm<sup>−3</sup></p><p class="eq">K<sub>sp</sub> = [Pb<sup>2+</sup>][I<sup>−</sup>]<sup>2</sup> = (1.347 × 10<sup>−3</sup>) × (2.694 × 10<sup>−3</sup>)<sup>2</sup> = <span class="key">9.8 × 10<sup>−9</sup> mol<sup>3</sup> dm<sup>−9</sup></span></p><h3>Comparing solubilities</h3><p>For salts of the <span class="key">same formula type</span>, the smaller K<sub>sp</sub>, the less soluble the salt: AgCl &gt; AgBr &gt; AgI (1.34 × 10<sup>−5</sup>, 7.1 × 10<sup>−7</sup>, 9.2 × 10<sup>−9</sup> mol dm<sup>−3</sup>). But you cannot compare K<sub>sp</sub> values across formula types, because the units and the algebra differ. Ag<sub>2</sub>CrO<sub>4</sub> has the smaller K<sub>sp</sub> (1.1 × 10<sup>−12</sup>, against 1.8 × 10<sup>−10</sup> for AgCl), yet it is the <em>more</em> soluble: s = ∛((1.1 × 10<sup>−12</sup>) / 4) = 6.5 × 10<sup>−5</sup> mol dm<sup>−3</sup>, about five times the solubility of AgCl. To compare, work out s for each.</p><p class="stamp" aria-hidden="true">10.3 §4 · 13/10/26</p><h2 id="predicting-precipitation">Predicting precipitation</h2><p>Mix two solutions, each containing one of the ions of a sparingly soluble salt. Will a precipitate form? Work out the <span class="key">ionic product</span>: the K<sub>sp</sub> expression with the concentrations <em>just after mixing</em>, before anything precipitates.<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></p><aside class="box"><p>Ionic product <span class="key">&gt; K<sub>sp</sub></span>: the solution is supersaturated; the salt precipitates until the ionic product falls to K<sub>sp</sub>.</p><p>Ionic product <span class="key">= K<sub>sp</sub></span>: the solution is just saturated.</p><p>Ionic product <span class="key">&lt; K<sub>sp</sub></span>: no precipitate; more solid could dissolve.</p></aside><p>Remember that mixing dilutes both solutions.</p><h3>Worked example 3</h3><p>Predict whether a precipitate forms when (a) equal volumes of 1.0 × 10<sup>−4</sup> mol dm<sup>−3</sup> silver nitrate and 1.0 × 10<sup>−4</sup> mol dm<sup>−3</sup> sodium chloride are mixed; (b) 10.0 cm<sup>3</sup> of 0.0100 mol dm<sup>−3</sup> lead(II) nitrate is mixed with 10.0 cm<sup>3</sup> of 0.0100 mol dm<sup>−3</sup> potassium iodide.</p><p>(a)  (Equal volumes: each concentration is halved.)  [Ag<sup>+</sup>] = [Cl<sup>−</sup>] = 5.0 × 10<sup>−5</sup> mol dm<sup>−3</sup></p><p class="eq">ionic product = (5.0 × 10<sup>−5</sup>) × (5.0 × 10<sup>−5</sup>) = 2.5 × 10<sup>−9</sup> mol<sup>2</sup> dm<sup>−6</sup></p><p>This is greater than K<sub>sp</sub> (1.8 × 10<sup>−10</sup> mol<sup>2</sup> dm<sup>−6</sup>), so <span class="key">AgCl precipitates</span>.</p><p>(b)  [Pb<sup>2+</sup>] = [I<sup>−</sup>] = 0.0100 × (10.0 / 20.0) = 0.00500 mol dm<sup>−3</sup></p><p class="eq">ionic product = [Pb<sup>2+</sup>][I<sup>−</sup>]<sup>2</sup> = 0.00500 × (0.00500)<sup>2</sup> = 1.25 × 10<sup>−7</sup> mol<sup>3</sup> dm<sup>−9</sup></p><p>This is greater than K<sub>sp</sub> (9.8 × 10<sup>−9</sup> mol<sup>3</sup> dm<sup>−9</sup>), so <span class="key">PbI<sub>2</sub> precipitates</span> (a bright yellow solid).</p><p class="stamp" aria-hidden="true">10.3 §5 · 13/10/26</p><h2 id="the-common-ion-effect">The common ion effect</h2><p>Add sodium chloride solution to a saturated solution of silver chloride. The extra Cl<sup>−</sup> shifts the position of</p><p class="eq">AgCl(s) ⇌ Ag<sup>+</sup>(aq) + Cl<sup>−</sup>(aq)</p><p>to the left (Le Chatelier, Topic 9 Part 2): the ionic product [Ag<sup>+</sup>][Cl<sup>−</sup>] is now greater than K<sub>sp</sub>, so AgCl precipitates until the product is back to K<sub>sp</sub>. Less AgCl can stay in solution. This lowering of solubility by an ion that is already present is the <span class="key">common ion effect</span>. K<sub>sp</sub> itself does not change (only temperature changes it); the solubility does.</p><figure><img src="fig/p3_common_ion.svg" alt="Fig 1. Solubility of AgCl against the concentration of NaCl added (calculated from Ksp = 1.8 × 10-10 mol2 dm-6; both axes log scales)." loading="lazy"><figcaption>Fig 1. Solubility of AgCl against the concentration of NaCl added (calculated from K<sub>sp</sub> = 1.8 × 10<sup>−10</sup> mol<sup>2</sup> dm<sup>−6</sup>; both axes log scales).</figcaption></figure><h3>Worked example 4</h3><p>Calculate the solubility of silver chloride in 0.100 mol dm<sup>−3</sup> sodium chloride at 298 K, and compare it with its solubility in water.</p><p>(Let s mol dm<sup>−3</sup> of AgCl dissolve. Then [Ag<sup>+</sup>] = s, but [Cl<sup>−</sup>] = 0.100 + s ≈ 0.100, because s is tiny compared with 0.100.)</p><p class="eq">K<sub>sp</sub> = [Ag<sup>+</sup>][Cl<sup>−</sup>]:  1.8 × 10<sup>−10</sup> = s × 0.100  s = <span class="key">1.8 × 10<sup>−9</sup> mol dm<sup>−3</sup></span></p><p>In pure water s = 1.34 × 10<sup>−5</sup> mol dm<sup>−3</sup>, so the AgCl is about 7500 times less soluble in the salt solution. In the same way, magnesium hydroxide in 0.0100 mol dm<sup>−3</sup> NaOH: s = (5.6 × 10<sup>−12</sup>) / (0.0100)<sup>2</sup> = 5.6 × 10<sup>−8</sup> mol dm<sup>−3</sup>, against 1.12 × 10<sup>−4</sup> in water.</p><p>The common ion effect is used whenever a precipitate must be collected with as little loss as possible: a precipitate of barium sulfate, for example, is washed with very dilute sulfuric acid rather than pure water (Further example). It also explains the buffer calculations of Part 2: the CH<sub>3</sub>COO<sup>−</sup> from the salt suppresses the dissociation of CH<sub>3</sub>COOH, which is why [CH<sub>3</sub>COOH] can be taken as the concentration of acid put in.</p><h3>Worked example 5: when does a hydroxide start to precipitate? (Further example)</h3><p>A solution contains 0.0100 mol dm<sup>−3</sup> Mg<sup>2+</sup>. Sodium hydroxide is added slowly. At what pH does magnesium hydroxide start to precipitate?</p><p>Precipitation starts when the ionic product [Mg<sup>2+</sup>][OH<sup>−</sup>]<sup>2</sup> reaches K<sub>sp</sub>:</p><p class="eq">[OH<sup>−</sup>] = √((5.6 × 10<sup>−12</sup>) / 0.0100) = 2.37 × 10<sup>−5</sup> mol dm<sup>−3</sup></p><p class="eq">pOH = 4.63  pH = 14.00 − 4.63 = <span class="key">9.37</span></p><p class="stamp" aria-hidden="true">10.3 §6 · 13/10/26</p><h2 id="complex-ion-formation">Complex ion formation</h2><p>The second way to change a solubility is to remove one of the ions from solution altogether. Silver ions bond to two ammonia molecules, each NH<sub>3</sub> giving a lone pair to Ag<sup>+</sup> in a dative covalent bond (a Lewis acid-base reaction, Topic 4), to form the linear <span class="key">diamminesilver(I) ion</span>:</p><p class="eq">Ag<sup>+</sup>(aq) + 2NH<sub>3</sub>(aq) ⇌ [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>(aq)</p><p>Complex ions are covered in Topic 13. Here we need only their effect on solubility.</p><h3>The silver halides and ammonia</h3><p>The test for halide ions: acidify the solution with dilute nitric acid,<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup> add aqueous silver nitrate, then add aqueous ammonia. The Data Booklet (Qualitative Analysis Notes) gives the results (Fig 2):</p><div class="tablewrap"><table><thead><tr><th>Halide</th><th>With Ag<sup>+</sup>(aq)</th><th>Then NH<sub>3</sub>(aq)</th><th>K<sub>sp</sub> of AgX / mol<sup>2</sup> dm<sup>−6</sup></th></tr></thead><tbody><tr><td>Cl<sup>−</sup>(aq)</td><td>white ppt. of AgCl</td><td>soluble</td><td>1.8 × 10<sup>−10</sup></td></tr><tr><td>Br<sup>−</sup>(aq)</td><td>pale cream ppt. of AgBr</td><td>partially soluble</td><td>5.0 × 10<sup>−13</sup></td></tr><tr><td>I<sup>−</sup>(aq)</td><td>yellow ppt. of AgI</td><td>insoluble</td><td>8.5 × 10<sup>−17</sup></td></tr></tbody></table></div><p class="eq">Ag<sup>+</sup>(aq) + X<sup>−</sup>(aq) → AgX(s)</p><figure><img src="fig/p3_silver.svg" alt="Fig 2. Silver halide precipitates (a) and the effect of dilute aqueous ammonia (b). AgBr dissolves completely in concentrated ammonia; AgI does not." loading="lazy"><figcaption>Fig 2. Silver halide precipitates (a) and the effect of dilute aqueous ammonia (b). AgBr dissolves completely in concentrated ammonia; AgI does not.</figcaption></figure><p>Why does ammonia dissolve the precipitate? Two equilibria are linked through [Ag<sup>+</sup>]:</p><p class="eq">AgCl(s) ⇌ Ag<sup>+</sup>(aq) + Cl<sup>−</sup>(aq)</p><p class="eq">Ag<sup>+</sup>(aq) + 2NH<sub>3</sub>(aq) ⇌ [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>(aq)</p><ul><li>The ammonia takes Ag<sup>+</sup> out of solution as the complex ion, so [Ag<sup>+</sup>] falls.</li><li>The ionic product [Ag<sup>+</sup>][Cl<sup>−</sup>] drops below K<sub>sp</sub>, so more AgCl dissolves: the position of the first equilibrium shifts to the right.</li><li>With enough ammonia, all the AgCl dissolves. Overall:</li></ul><p class="eq">AgCl(s) + 2NH<sub>3</sub>(aq) → [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>(aq) + Cl<sup>−</sup>(aq)</p><p>The difference between the halides is the size of K<sub>sp</sub>. To dissolve AgCl, ammonia only has to bring [Ag<sup>+</sup>] down to below 1.8 × 10<sup>−10</sup> / [Cl<sup>−</sup>], which dilute ammonia easily does. AgBr has a K<sub>sp</sub> 360 times smaller, so [Ag<sup>+</sup>] must be pushed much lower: dilute ammonia dissolves only part of it, concentrated ammonia all of it. AgI has a K<sub>sp</sub> about two million times smaller than AgCl's: even concentrated ammonia dissolves only a tiny amount of it (about 7 × 10<sup>−5</sup> mol dm<sup>−3</sup> even in 2.0 mol dm<sup>−3</sup> NH<sub>3</sub>), far too little to see the precipitate go, so the Data Booklet calls it insoluble.</p><aside class="box"><p>Complex formation lowers [Ag<sup>+</sup>](aq), so the ionic product falls below K<sub>sp</sub> and the precipitate dissolves. The smaller K<sub>sp</sub>, the lower [Ag<sup>+</sup>] must go, and the harder the precipitate is to dissolve.</p></aside><p>The same idea explains other observations in the Qualitative Analysis Notes (Further example): copper(II) hydroxide, a blue precipitate, dissolves in excess aqueous ammonia to give a dark blue solution, because Cu<sup>2+</sup> forms a complex with ammonia (Topic 13).</p><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p><strong>Putting numbers on it.</strong> Add the two equations: AgX(s) + 2NH<sub>3</sub>(aq) ⇌ [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>(aq) + X<sup>−</sup>(aq). Its equilibrium constant is K<sub>sp</sub> × K<sub>stab</sub>, where K<sub>stab</sub> = [Ag(NH<sub>3</sub>)<sub>2</sub><sup>+</sup>] / ([Ag<sup>+</sup>][NH<sub>3</sub>]<sup>2</sup>) ≈ 1.6 × 10<sup>7</sup> mol<sup>−2</sup> dm<sup>6</sup> (literature value). That gives K = 2.9 × 10<sup>−3</sup> for AgCl, 8.0 × 10<sup>−6</sup> for AgBr and 1.4 × 10<sup>−9</sup> for AgI, and solubilities in 2.0 mol dm<sup>−3</sup> ammonia of about 0.097, 5.6 × 10<sup>−3</sup> and 7.4 × 10<sup>−5</sup> mol dm<sup>−3</sup>. So "insoluble" for AgI means far too little dissolves to see the precipitate go: 7.4 × 10<sup>−5</sup> mol dm<sup>−3</sup> is about 0.02 g of AgI per dm<sup>3</sup>.</p></aside><p class="stamp" aria-hidden="true">10.3 §7 · 13/10/26</p><h2 id="summary">Summary</h2><aside class="box"><p>• A saturated solution of a sparingly soluble salt is a dynamic equilibrium: A<sub>x</sub>B<sub>y</sub>(s) ⇌ xA<sup>y+</sup>(aq) + yB<sup>x−</sup>(aq); K<sub>sp</sub> = [A<sup>y+</sup>]<sup>x</sup>[B<sup>x−</sup>]<sup>y</sup>, solid left out; units from the expression.</p><p>• 1 : 1 salt: K<sub>sp</sub> = s<sup>2</sup>; 1 : 2 or 2 : 1 salt: K<sub>sp</sub> = 4s<sup>3</sup>. Compare solubilities through s, not K<sub>sp</sub>, unless the formula types match.</p><p>• Ionic product (just after mixing, after dilution) &gt; K<sub>sp</sub>: precipitate; &lt; K<sub>sp</sub>: none.</p><p>• Common ion effect: an ion already present lowers the solubility; K<sub>sp</sub> is unchanged.</p><p>• Complex formation: NH<sub>3</sub> removes Ag<sup>+</sup> as [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>, the ionic product falls below K<sub>sp</sub> and the solid dissolves: AgCl dissolves, AgBr partly, AgI not.</p></aside>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">Beyond the syllabus: for a very soluble salt such as NaCl the ions in a saturated solution are so crowded that they no longer behave independently, and the simple K<sub>sp</sub> expression does not hold. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">Beyond the syllabus: this is the reaction quotient Q of Topic 9 (Part 2, footnote 1) for a solubility equilibrium. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">The nitric acid removes ions such as CO<sub>3</sub><sup>2−</sup> and OH<sup>−</sup>, which would also give precipitates with Ag<sup>+</sup>. Hydrochloric acid cannot be used, because it adds Cl<sup>−</sup>. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-2.html">← Part 2</a><a href="tutorial-1.html">Tutorial 1 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
