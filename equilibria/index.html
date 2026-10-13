@@ -1,0 +1,2120 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 9 Chemical Equilibria.">
+<title>Equilibria Lab</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --grid:#E9EDEF; --axis:#7A8A94; --line:#DDE3E6; --accent:#1F6F8B; --accent-ink:#FFFFFF; --accent-soft:#E3EEF2;
+  --s1:#1F6F8B; --s1-wash:rgba(31,111,139,.20); --s2:#7B4B94; --s2-wash:rgba(123,75,148,.18); --s3:#5B6B75; --s4:#1E2A33; --ref:#7A8A94;
+  --s1-ink:#1F6F8B; --s2-ink:#7B4B94; --s3-ink:#5B6B75; --s4-ink:#1E2A33; --s3-wash:rgba(91,107,117,.14); --s4-wash:rgba(30,42,51,.12);
+  --good:#2E7D4F; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
+  --band:rgba(31,111,139,.05);
+  --shadow:none;
+  --serif:var(--sans);
+  --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+    --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --s4:#E8EDF0; --ref:#6E7D87;
+    --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s4-ink:#E8EDF0; --s3-wash:rgba(155,170,179,.20); --s4-wash:rgba(232,237,240,.16);
+    --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+    --band:rgba(102,186,214,.06);
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+  --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --s4:#E8EDF0; --ref:#6E7D87;
+  --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s4-ink:#E8EDF0; --s3-wash:rgba(155,170,179,.20); --s4-wash:rgba(232,237,240,.16);
+  --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+  --band:rgba(102,186,214,.06);
+  --shadow:none;
+}
+/* lighter partners of teal and plum (as gases/): always paired with a dash pattern */
+:root{ --c5:#5FA9C2; --c6:#B58BCB; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --c5:#2E8CAB; --c6:#9C6BB5; } }
+:root[data-theme="dark"]{ --c5:#2E8CAB; --c6:#9C6BB5; }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+.nc{text-transform:none; letter-spacing:.02em}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0; overflow-wrap:break-word}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3,h4{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.crumbs{margin:0 0 10px; font-size:.86rem; line-height:1.7}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:0; text-transform:none; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
+.controls{display:flex; flex-direction:column; gap:14px; min-width:0}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+.seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(14px)}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.sm{padding:4px 10px; font-size:.8rem}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2)}
+.legend > span{display:inline-block}
+.legend .lkey, .legend .key{vertical-align:middle; margin-right:6px; position:relative; top:-1px}
+.lkey{display:inline-block; width:14px; height:10px; border-radius:2px; flex:none}
+.key{display:inline-block; width:18px; height:0; border-top:2px solid; flex:none}
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px; min-width:0}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.0rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.stat .v small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.stat.wide{grid-column:1/-1}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
+.callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
+.callout p{margin:0}
+.callout p + p{margin-top:6px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
+.src.lit{border-style:dashed}
+.nw{white-space:nowrap}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
+.field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.fb.info{background:var(--surface-2); color:var(--ink-2)}
+.fb.warn{background:var(--warn-bg); color:var(--warn)}
+.fb ul{margin:6px 0 0; padding-left:18px}
+.fb p{margin:0}
+.fb p + p{margin-top:6px}
+.fb .ink{color:var(--ink)}
+.stack{display:flex; flex-direction:column; gap:14px; min-width:0}
+h3.sub3{font-size:1.1rem; margin:0}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tabs button{font-size:.86rem; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chips button{font-size:.86rem; padding:4px 9px; border-radius:4px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; line-height:1.5; font-variant-numeric:tabular-nums; text-align:left}
+.chips button:hover{border-color:var(--axis)}
+.chips button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft); color:var(--ink)}
+.chips button:disabled{opacity:.45; cursor:not-allowed}
+.chipgrp{display:flex; flex-direction:column; gap:4px}
+.chipgrp > span{font-size:.76rem; color:var(--muted); font-weight:600}
+.qtext{font-size:1.0rem; font-weight:500; margin:0}
+.eqn{font-variant-numeric:tabular-nums; white-space:normal}
+.eqs{display:flex; flex-direction:column; gap:4px; overflow-x:auto; font-size:.93rem; line-height:1.6}
+.eqs > div{min-width:0}
+.eqs .lab{font-size:.76rem; color:var(--muted); display:block; line-height:1.3}
+
+/* viewers and charts */
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:6px; overflow:hidden; min-width:0}
+.viewer svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+.viewer .vhead{padding:9px 12px 0; font-size:.84rem; font-weight:600; color:var(--ink-2)}
+.viewer .vhead .hint{font-weight:400; margin-left:6px}
+.viewer .vnote{padding:7px 12px 9px; font-size:.78rem; color:var(--muted); border-top:1px solid var(--line)}
+.viewer .vlegend{padding:0 12px 8px}
+svg .axis{stroke:var(--axis); stroke-width:1}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .cap{font-size:11.5px; fill:var(--muted)}
+svg .tick{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+svg .axlab{font-size:11.5px; fill:var(--ink-2)}
+svg .lbl{font-size:12px; fill:var(--ink)}
+svg .lblb{font-size:12.5px; font-weight:600; fill:var(--ink)}
+svg .val{font-size:11.5px; font-weight:600; fill:var(--ink); font-variant-numeric:tabular-nums}
+svg .halo{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+.tblwrap{overflow-x:auto; min-width:0}
+table.data{border-collapse:collapse; font-size:.86rem; width:100%}
+table.data td, table.data th{padding:6px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+table.data th{font-size:.76rem; color:var(--ink-2); font-weight:600}
+table.data td.num, table.data th.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.data td.c, table.data th.c{text-align:center}
+table.data tr.hl td{background:var(--accent-soft)}
+table.data td.blank{color:var(--muted)}
+
+/* predict boxes */
+.pbox{border:1px dashed var(--axis); border-radius:6px; padding:12px; display:flex; flex-direction:column; gap:10px}
+.optlist{display:flex; flex-direction:column; gap:6px}
+.opt{text-align:left; font-size:.92rem; padding:9px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good); background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+
+/* detective */
+.clues{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:6px; font-size:.93rem}
+.clues li::marker{color:var(--muted); font-family:var(--mono); font-size:.8em}
+.reason{margin:6px 0 0; padding-left:18px; font-size:.88rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+
+/* cards */
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+@media (max-width:420px){ .cards{grid-template-columns:minmax(0,1fr)} }
+.card h3{font-size:1.08rem; margin-bottom:2px}
+.card .kind{font-size:.8rem; color:var(--muted); margin-bottom:8px}
+.card p{margin:8px 0 0; font-size:.88rem; color:var(--ink-2)}
+.card dl{margin:6px 0 0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:3px 10px; font-size:.86rem}
+.card dt{color:var(--muted)}
+.card dd{margin:0; color:var(--ink); font-variant-numeric:tabular-nums}
+.card .eqs{margin-top:8px; font-size:.86rem}
+.card svg{display:block; width:100%; max-width:300px; margin-top:6px}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.opts{display:flex; flex-direction:column; gap:8px; margin-top:12px}
+.explain{margin-top:12px; font-size:.9rem}
+.whyl{margin:8px 0 0; padding-left:18px; color:var(--ink-2); font-size:.88rem; display:flex; flex-direction:column; gap:4px}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+
+/* ---------- shared with the Topic 7 lab ---------- */
+.mono{font-family:var(--mono); font-variant-ligatures:none}
+.working{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; font-size:.92rem; max-width:80ch; overflow-wrap:anywhere}
+.working li::marker{color:var(--muted); font-variant-numeric:tabular-nums}
+.working .aside{color:var(--ink-2); font-style:italic}
+.form{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; align-items:end}
+.field input{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.field input[aria-invalid=true]{border-color:var(--bad)}
+.field input.ok{border-color:var(--good)}
+.ansrow{display:flex; flex-wrap:wrap; gap:8px; align-items:end}
+.ansrow .field{flex:1 1 180px; max-width:260px}
+
+/* physical-colour benches: realistic colours on a light card in both themes */
+.bench{background:#f3f5f7; border:1px solid var(--line); border-radius:6px; overflow:hidden; min-width:0; position:relative}
+.bench svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+.bench svg text{fill:#3a434d}
+.bench .bt{font-size:11.5px; fill:#3a434d}
+.bench .btb{font-size:12.5px; font-weight:600; fill:#141a20}
+.bench .bnote{padding:7px 11px 9px; font-size:.8rem; color:#3f4953; border-top:1px solid #d4dbe2; background:#f3f5f7}
+.thermo{position:absolute; top:10px; right:10px; background:#141a20; color:#e8f3ea; font-family:var(--mono); font-variant-ligatures:none; font-size:1.05rem; font-weight:500; padding:4px 10px; border-radius:4px; font-variant-numeric:tabular-nums; letter-spacing:.02em}
+.thermo small{font-size:.7rem; color:#9fb3a6; margin-left:4px}
+.clock{position:absolute; top:10px; left:10px; background:#ffffff; color:#141a20; border:1px solid #c5ccd3; font-family:var(--mono); font-variant-ligatures:none; font-size:.82rem; padding:3px 8px; border-radius:4px; font-variant-numeric:tabular-nums}
+
+
+.stepchips{display:flex; flex-direction:column; gap:6px}
+.stepchips button{text-align:left; font-size:.88rem; padding:7px 10px; border-radius:4px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; line-height:1.4}
+.stepchips button:hover:not(:disabled){border-color:var(--accent)}
+.stepchips button:disabled{opacity:.45; cursor:default}
+.stepchips button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+.viewer canvas{display:block; width:100%; touch-action:pan-y; user-select:none; -webkit-user-select:none}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+.card ul{margin:8px 0 0; padding-left:18px; font-size:.88rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+.card .tblwrap{margin-top:8px}
+.card table.data{font-size:.82rem}
+
+/* ---------- Topic 9 additions ---------- */
+.viewer .legend svg, .legend svg{display:inline-block; width:auto; vertical-align:middle; margin-right:6px; position:relative; top:-1px}
+.meter{height:8px; background:var(--surface); border:1px solid var(--line); border-radius:4px; overflow:hidden; margin:6px 0 4px}
+.meter i{display:block; height:100%}
+table.ice th[scope=row]{font-size:.8rem; color:var(--ink-2); font-weight:500; white-space:nowrap}
+table.ice td.num{white-space:nowrap}
+table.ice tr.pend td{color:var(--muted)}
+#ic-work li{overflow-wrap:anywhere}
+.optlist .opt span{min-width:0; overflow-wrap:anywhere}
+.chips button .fex, .stepchips button .fex{margin-right:6px}
+.pbox .chips button{font-size:.88rem}
+#lc-read .stat .l + .l{margin-top:2px}
+.bench .thermo{font-size:.95rem}
+@media (max-width:600px){
+  table.cond thead{display:none}
+  table.cond tr{display:block; border-bottom:1px solid var(--line); padding:8px 0}
+  table.cond td{display:block; border:0; padding:2px 0}
+  table.cond td:first-child{font-weight:600; color:var(--ink)}
+}
+@media (max-width:520px){
+  table.ice{font-size:.78rem}
+  table.ice th, table.ice td{padding:5px 4px}
+  table.ice th[scope=row]{white-space:normal; min-width:6.5em}
+  table.ice td.num{white-space:normal}
+}
+/* readouts that update while animating keep a fixed height (no page jump while scrolling) */
+#lc-read .stat{min-height:7.6em}
+#dy-read .stat{min-height:5.4em}
+#dy-read .stat.wide{min-height:4.4em}
+#dy-read #dy-labstat{min-height:7em}
+/* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
+.eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
+.top .title-block{border:1px solid var(--line); border-radius:6px; padding:16px 20px; background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.top h1{font-size:22px; line-height:28px}
+.top .sub{font-size:13px; line-height:18px; color:var(--muted)}
+.sechead h2{font-size:18px; line-height:24px}
+.tag{font-size:12px; line-height:18px; letter-spacing:0; text-transform:none; font-weight:400; color:var(--accent); background:var(--accent-soft); border-color:transparent; padding:0 8px}
+.ctl output, .val{font-family:var(--mono); font-variant-ligatures:none; font-size:.92em}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1</a>, <a href="part-2.html">Part 2</a> &nbsp;·&nbsp; <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a></p>
+    <div class="title-block"><p class="stamp" aria-hidden="true">Lab 9 · 13/10/26</p><div class="row">
+      <h1>Topic 9 · Chemical Equilibria</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Equilibria Lab: interactive companion to H2 Chemistry notes © Gary Chan</p></div>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#dynamic">Dynamic equilibrium</a>
+    <a href="#bench">Le Chatelier bench</a>
+    <a href="#ice">ICE tables</a>
+    <a href="#expressions">K expressions</a>
+    <a href="#practice">Practice</a>
+    <a href="#haber">Haber plant</a>
+    <a href="#cards">Fact cards</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 DYNAMIC EQUILIBRIUM -->
+<section class="lab" id="dynamic">
+  <div class="sechead">
+    <span class="eyebrow">Explorer · <span class="nc">9476 9(a)</span></span>
+    <h2>Dynamic equilibrium in a closed box</h2>
+    <p>A reversible reaction goes both ways at once. Watch the forward and reverse rates: as the reactants are used up the forward rate falls, as the products build up the reverse rate rises, until the two are equal. From then on the amounts stay constant, but both reactions carry on.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><span class="lab">Reaction</span>
+        <div class="seg" role="radiogroup" aria-label="Reaction">
+          <label><input type="radio" name="dy-pre" value="A" checked>A ⇌ B (model)</label>
+          <label><input type="radio" name="dy-pre" value="B">H<sub>2</sub> + I<sub>2</sub> ⇌ 2HI</label>
+        </div></div>
+      <div class="ctl"><span class="lab">Start from</span>
+        <div class="seg" role="radiogroup" aria-label="Start from" id="dy-start"></div></div>
+      <div id="dy-kctl" class="controls">
+        <div class="ctl"><label for="dy-kf"><span>Forward rate constant, <i>k</i><sub>f</sub></span> <output id="dy-kfo"></output></label><input type="range" id="dy-kf" min="0.05" max="1" step="0.05" value="0.4"></div>
+        <div class="ctl"><label for="dy-kr"><span>Reverse rate constant, <i>k</i><sub>r</sub></span> <output id="dy-kro"></output></label><input type="range" id="dy-kr" min="0.05" max="1" step="0.05" value="0.2"></div>
+      </div>
+      <div class="ctl"><label for="dy-speed">Speed <output id="dy-speedo"></output></label><input type="range" id="dy-speed" min="0.5" max="4" step="0.5" value="1"></div>
+      <div class="btnrow"><button class="btn primary" id="dy-play">Pause</button><button class="btn" id="dy-reset">Restart</button></div>
+      <div class="btnrow" id="dy-labrow" hidden><button class="btn" id="dy-label">Add labelled iodine, I<sub>2</sub>*</button></div>
+      <p class="hint" id="dy-hint" style="margin:0"></p>
+    </div>
+    <div class="stack">
+      <div class="viewer">
+        <div class="vhead" id="dy-title"></div>
+        <canvas id="dy-canvas" role="img" aria-label="Particles reacting in a closed box"></canvas>
+        <div class="vlegend legend" id="dy-leg"></div>
+        <div class="vnote" id="dy-note"></div>
+      </div>
+      <div class="readout" id="dy-read"></div>
+      <div class="viewer">
+        <div class="vhead">Amounts against time</div>
+        <svg id="dy-amt" role="img" aria-label="Graph of amounts against time"></svg>
+        <div class="vlegend legend" id="dy-amt-leg"></div>
+      </div>
+      <div class="viewer">
+        <div class="vhead">Forward and reverse rates against time <span class="hint">events per second, smoothed</span></div>
+        <svg id="dy-rate" role="img" aria-label="Graph of forward and reverse rates against time"></svg>
+        <div class="vlegend legend" id="dy-rate-leg"></div>
+      </div>
+      <div class="panel stack">
+        <h3 class="sub3">Features of a dynamic equilibrium</h3>
+        <ul class="notes" id="dy-features"></ul>
+        <div class="callout" id="dy-enrich"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 LE CHATELIER BENCH -->
+<section class="lab" id="bench">
+  <div class="sechead">
+    <span class="eyebrow">Bench · <span class="nc">9476 9(b)(c)</span></span>
+    <h2>Le Chatelier bench</h2>
+    <p><b>Le Chatelier's Principle:</b> if a change is made to a system at equilibrium, the position of equilibrium shifts so as to oppose (reduce) the effect of the change. Predict first, then watch. <i>K</i> changes only when the temperature changes.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="chipgrp"><span>System</span><div class="chips" id="lc-sys" role="group" aria-label="System"></div></div>
+      <label class="switch"><input type="checkbox" id="lc-predict" checked><span>Predict before you see it</span></label>
+      <div class="chipgrp"><span>Make a change</span><div class="stepchips" id="lc-changes"></div></div>
+      <div class="btnrow"><button class="btn" id="lc-reset">Start again</button></div>
+      <p class="hint" id="lc-model" style="margin:0"></p>
+    </div>
+    <div class="stack">
+      <div class="bench">
+        <svg id="lc-app" role="img" aria-label="Apparatus"></svg>
+        <div class="thermo" id="lc-temp">298<small>K</small></div>
+        <div class="bnote" id="lc-appnote"></div>
+      </div>
+      <div class="pbox" id="lc-pred" hidden>
+        <span class="eyebrow">Predict · <span class="nc">9(b)(c)</span></span>
+        <p class="qtext" id="lc-pq" style="margin:0"></p>
+        <div class="chipgrp"><span>Position of equilibrium</span><div class="chips" id="lc-pshift" role="group" aria-label="Position of equilibrium"></div></div>
+        <div class="chipgrp"><span>Value of the equilibrium constant</span><div class="chips" id="lc-pk" role="group" aria-label="Equilibrium constant"></div></div>
+        <div class="btnrow"><button class="btn primary" id="lc-go" disabled>Check and run</button><button class="btn" id="lc-skip">Just show me</button></div>
+      </div>
+      <div id="lc-pfb" hidden></div>
+      <div class="readout" id="lc-read"></div>
+      <div class="viewer">
+        <div class="vhead" id="lc-gtitle">Concentrations against time</div>
+        <svg id="lc-graph" role="img" aria-label="Graph of concentrations against time around the change"></svg>
+        <div class="vlegend legend" id="lc-gleg"></div>
+      </div>
+      <div class="panel stack" id="lc-explain"></div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:20px">
+    <div class="panel controls">
+      <span class="eyebrow">Catalyst · <span class="nc">9476 9(c)</span></span>
+      <p class="hint" style="margin:0">A generic gas-phase reaction A ⇌ B started from pure A. A catalyst provides an alternative reaction pathway with lower activation energy. <i>E</i><sub>a</sub> falls by the same amount for the forward and reverse reactions, so both rates rise by the same factor.</p>
+      <label class="switch"><input type="checkbox" id="ct-on" checked><span>Show the catalysed run</span></label>
+      <div class="ctl"><label for="ct-f">Speed-up factor <output id="ct-fo"></output></label><input type="range" id="ct-f" min="2" max="10" step="1" value="4"></div>
+    </div>
+    <div class="stack">
+      <div class="viewer">
+        <div class="vhead">Amount of B against time, with and without a catalyst</div>
+        <svg id="ct-graph" role="img" aria-label="Amount of product against time for the catalysed and uncatalysed reactions"></svg>
+        <div class="vlegend legend" id="ct-leg"></div>
+      </div>
+      <div class="readout" id="ct-read"></div>
+    </div>
+  </div>
+  <div class="cards" style="margin-top:20px" id="lc-cards"></div>
+</section>
+
+<!-- 3 ICE TABLES -->
+<section class="lab" id="ice">
+  <div class="sechead">
+    <span class="eyebrow">Workbench · <span class="nc">9476 9(e)(f)</span></span>
+    <h2>ICE table workbench</h2>
+    <p>The six worked examples of Part 1, one step at a time. Initial, Change, Equilibrium: the Change row always follows the mole ratio in the equation. Work in amounts first, then convert to concentrations (or mole fractions and partial pressures).</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="chipgrp"><span>Worked example</span><div class="stepchips" id="ic-we"></div></div>
+      <div class="btnrow"><button class="btn primary" id="ic-next">Next step</button><button class="btn" id="ic-all">Show all</button><button class="btn" id="ic-reset">Start again</button></div>
+      <p class="hint" id="ic-prog" style="margin:0"></p>
+    </div>
+    <div class="stack">
+      <div class="panel stack">
+        <div class="eqs"><div id="ic-eq"></div></div>
+        <p class="qtext" id="ic-q" style="margin:0"></p>
+        <div class="tblwrap"><table class="data ice" id="ic-table"></table></div>
+      </div>
+      <div class="panel stack">
+        <ol class="working" id="ic-work"></ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 EXPRESSIONS -->
+<section class="lab" id="expressions">
+  <div class="sechead">
+    <span class="eyebrow">Drill · <span class="nc">9476 9(d)</span></span>
+    <h2>Writing <i>K</i><sub>c</sub> and <i>K</i><sub>p</sub></h2>
+    <p>Products over reactants, each raised to the power of its coefficient. Pure solids and pure liquids are left out, and so is water when it is the solvent of a dilute solution. <i>K</i><sub>p</sub> uses partial pressures, so it is written only for gases; units follow from the expression.</p>
+  </div>
+  <div class="panel stack" style="max-width:860px">
+    <div class="btnrow" style="justify-content:space-between"><span class="hint" id="kx-count"></span><span class="hint" id="kx-score"></span></div>
+    <div class="eqs" style="font-size:1.02rem"><div id="kx-eq"></div></div>
+    <div class="stack" id="kx-parts"></div>
+    <div class="btnrow"><button class="btn" id="kx-prev">Previous</button><button class="btn primary" id="kx-next">Next equation</button></div>
+  </div>
+</section>
+
+<!-- 5 PRACTICE -->
+<section class="lab" id="practice">
+  <div class="sechead">
+    <span class="eyebrow">Practice · <span class="nc">9476 9(e)(f)</span></span>
+    <h2>Calculation generator</h2>
+    <p>Questions are generated at random (illustrative data). None needs a quadratic. Give the answer to the precision of the data (an answer within about 1 % is accepted) and choose its units. Keep unrounded values between steps.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" id="gn-tabs">
+      <button role="tab" data-type="kc1" aria-selected="true"><i>K</i><sub>c</sub> from equilibrium amounts</button>
+      <button role="tab" data-type="kc2" aria-selected="false"><i>K</i><sub>c</sub> by ICE</button>
+      <button role="tab" data-type="sqrt" aria-selected="false">Amounts from <i>K</i><sub>c</sub></button>
+      <button role="tab" data-type="kp1" aria-selected="false"><i>K</i><sub>p</sub> from moles</button>
+      <button role="tab" data-type="kp2" aria-selected="false"><i>K</i><sub>p</sub> from <i>α</i></button>
+      <button role="tab" data-type="kp3" aria-selected="false">Amounts from <i>K</i><sub>p</sub></button>
+      <button role="tab" data-type="man" aria-selected="false">Manipulating <i>K</i></button>
+      <button role="tab" data-type="mix" aria-selected="false">Mixed</button>
+    </div>
+    <div class="panel stack">
+      <p class="qtext" id="gn-q" style="margin:0"></p>
+      <div class="ansrow">
+        <label class="field"><span id="gn-lab">Answer</span><input id="gn-ans" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="e.g. 50.3 or 1.5e-8"></label>
+        <label class="field" id="gn-ufield"><span>Units</span><select id="gn-unit"></select></label>
+      </div>
+      <p class="hint" style="margin:0" id="gn-fmt"></p>
+      <div class="btnrow"><button class="btn primary" id="gn-check">Check</button><button class="btn" id="gn-show">Show working</button><button class="btn" id="gn-new">New question</button><span class="hint" id="gn-score"></span></div>
+      <div id="gn-fb" hidden></div>
+      <ol class="working" id="gn-work" hidden></ol>
+    </div>
+  </div>
+</section>
+
+<!-- 6 HABER -->
+<section class="lab" id="haber">
+  <div class="sechead">
+    <span class="eyebrow">Plant · <span class="nc">9476 9(g)</span></span>
+    <h2>The Haber process</h2>
+    <p>N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ⇌ 2NH<sub>3</sub>(g) &nbsp; Δ<i>H</i> = −92 kJ mol<sup>−1</sup>. Set the conditions and see the trade-offs. Equilibrium figures use a stated model: ideal gases, a 1 : 3 feed and the <span class="src lit">literature</span> Gillespie–Beattie <i>K</i><sub>p</sub>(<i>T</i>).</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="ctl"><label for="hb-T">Temperature <output id="hb-To"></output></label><input type="range" id="hb-T" min="300" max="550" step="10" value="450"></div>
+      <div class="ctl"><label for="hb-P">Pressure <output id="hb-Po"></output></label><input type="range" id="hb-P" min="50" max="400" step="10" value="200"></div>
+      <label class="switch"><input type="checkbox" id="hb-cat" checked><span>Iron catalyst</span></label>
+      <label class="switch"><input type="checkbox" id="hb-rec" checked><span>Recycle unreacted N<sub>2</sub> and H<sub>2</sub></span></label>
+      <div class="btnrow"><button class="btn" id="hb-real">Real plant conditions</button></div>
+    </div>
+    <div class="stack">
+      <div class="readout" id="hb-read"></div>
+      <div class="viewer">
+        <div class="vhead">Equilibrium % NH<sub>3</sub> by volume against temperature <span class="hint">model: ideal gases, 1 : 3 feed</span></div>
+        <svg id="hb-chart" role="img" aria-label="Equilibrium percentage of ammonia against temperature for five pressures"></svg>
+        <div class="vlegend legend" id="hb-leg"></div>
+        <div class="vnote">Real mixtures at 200 atm and above give a few per cent more NH<sub>3</sub> than this ideal-gas model (the gases are not ideal). A plant does not reach equilibrium in one pass.</div>
+      </div>
+      <div class="viewer">
+        <div class="vhead">Why 400 to 450 °C? <span class="hint">illustrative rate model; each curve scaled to its own maximum</span></div>
+        <svg id="hb-trade" role="img" aria-label="Equilibrium yield, rate and ammonia made per hour against temperature"></svg>
+        <div class="vlegend legend" id="hb-tleg"></div>
+        <div class="vnote" id="hb-tnote"></div>
+      </div>
+      <div class="viewer">
+        <div class="vhead">The plant</div>
+        <svg id="hb-flow" role="img" aria-label="Flow diagram of the Haber process: compressor, converter, condenser, recycle loop and purge"></svg>
+      </div>
+      <div class="panel stack" id="hb-text"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 FACT CARDS -->
+<section class="lab" id="cards">
+  <div class="sechead">
+    <span class="eyebrow">Fact cards · <span class="nc">9476 9(a)–(g)</span></span>
+    <h2>Fact cards</h2>
+    <p>The key statements and rules of Topic 9, each with an example.</p>
+  </div>
+  <div class="stack">
+    <div class="chips" id="fc-filter" role="group" aria-label="Filter the cards"></div>
+    <div class="cards" id="fc-cards"></div>
+  </div>
+</section>
+
+<!-- 8 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions across 9(a) to 9(g). Pick an answer to see the explanation, including why each other option is wrong.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 9 Chemical Equilibria</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · <i>R</i> and bond energies from the Data Booklet · Δ<i>H</i>, Δ<i>S</i> and <i>K</i><sub>p</sub>(<i>T</i>) for N<sub>2</sub>O<sub>4</sub> and NH<sub>3</sub> are literature values · worked-example and generator data are illustrative</span>
+  </div>
+</footer>
+<script>
+(function(){
+"use strict";
+const LAB = window.LAB = {};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+const supCh = c => c === "⁺" ? "+" : c === "⁻" ? "−" : String(SUPD.indexOf(c));
+// Unicode sub/superscripts in data strings become <sub>/<sup>.
+// "ΔH⦵{f}" becomes Δ<i>H</i><sup>⦵</sup><sub>f</sub>; "Ea" written as "E{a}" becomes <i>E</i><sub>a</sub>.
+const H = t => String(t)
+  .replace(/Δ([HGS])(⦵?)(?:\{([^}]*)\})?/g, (m, v, p, s) => `Δ<i>${v}</i>${p ? "<sup>⦵</sup>" : ""}${s ? `<sub>${s}</sub>` : ""}`)
+  .replace(/\bE\{a\}/g, "<i>E</i><sub>a</sub>")
+  .replace(/\bK\{([a-z]+)\}/g, "<i>K</i><sub>$1</sub>")
+  .replace(/(?<![A-Za-z])([QKTVnpxyR])\{\}/g, "<i>$1</i>")
+  .replace(/\bp\(/g, "<i>p</i>(").replace(/\bx\(/g, "<i>x</i>(")
+  .replace(/\bM\{r\}/g, "<i>M</i><sub>r</sub>")
+  .replace(/[₀-₉]+/g, m => `<sub>${[...m].map(c => SUBD.indexOf(c)).join("")}</sub>`)
+  .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+/g, m => `<sup>${[...m].map(supCh).join("")}</sup>`);
+const minus = s => String(s).replace(/-/g, "−");
+const fx = (v, d) => minus((Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixed(d));
+const sgn = (v, d) => { d = d || 0; const r = +v.toFixed(d); return (r > 0 ? "+" : r < 0 ? "−" : "") + Math.abs(r).toFixed(d); };
+// grouped thousands with a thin space for numbers of five or more digits (16 720)
+const grp = s => { const m = String(s).match(/^([−+]?)(\d+)(\.\d+)?$/); if (!m || m[2].length < 5) return s; return m[1] + m[2].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (m[3] || ""); };
+const sf = (v, n) => {
+  if (v === 0) return "0";
+  let e = n - 1 - Math.floor(Math.log10(Math.abs(v)));
+  const r = +v.toFixed(Math.max(0, e));
+  if (e >= 0 && Math.floor(Math.log10(Math.abs(r))) > Math.floor(Math.log10(Math.abs(v)))) e -= 1;   // 9.996 → 10.0
+  if (e >= 0) return v.toFixed(e);
+  const k = Math.pow(10, -e); return String(Math.round(v / k) * k);
+};
+const sfS = (v, n) => grp(minus(sf(v, n)));          // to n s.f., true minus, grouped
+const sfSg = (v, n) => (v > 0 ? "+" : "") + sfS(v, n); // signed
+const SRC = k => k === "lit" ? `<span class="src lit">literature</span>` : `<span class="src">Data Booklet</span>`;
+const FEX = `<span class="fex">Further example</span>`;
+const ENR = `<span class="beyond">Enrichment</span>`;
+const KJ = "kJ mol<sup>−1</sup>";
+const JK = "J K<sup>−1</sup> mol<sup>−1</sup>";
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const EQS = new Set();
+LAB.EQS = EQS;
+const TX = t => String(t).split(/\{\{|\}\}/).map((p, i) => i % 2 ? EQ(p) : H(p)).join("");
+function EQ(s, cls){ EQS.add(s); return `<span class="eqn${cls ? " " + cls : ""}" data-eq="${esc(s)}">${H(s)}</span>`; }
+
+// SVG text with sub/superscripts as tspans; {x} is a subscript, ⦵ a superscript
+function svgChem(s, fs){
+  let out = "", cur = 0;
+  const re = /([₀-₉]+)|([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)|(⦵)|\{([^}]*)\}|([^₀-₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⦵{]+)/g;
+  let m;
+  while ((m = re.exec(s))){
+    let target = 0, txt, small = false;
+    if (m[1]){ target = 0.3 * fs; txt = [...m[1]].map(c => SUBD.indexOf(c)).join(""); small = true; }
+    else if (m[2]){ target = -0.42 * fs; txt = [...m[2]].map(supCh).join(""); small = true; }
+    else if (m[3]){ target = -0.42 * fs; txt = "⦵"; small = true; }
+    else if (m[4] != null){ target = 0.3 * fs; txt = esc(m[4]); small = true; }
+    else txt = esc(m[5]);
+    const dy = target - cur; cur = target;
+    out += `<tspan dy="${dy.toFixed(1)}"${small ? ` font-size="${(fs * 0.72).toFixed(1)}"` : ""}>${txt}</tspan>`;
+  }
+  if (cur !== 0) out += `<tspan dy="${(-cur).toFixed(1)}"></tspan>`;
+  return out;
+}
+const T = (x, y, s, cls, extra, fs) => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}"${cls ? ` class="${cls}"` : ""}${extra ? " " + extra : ""}${fs ? ` style="font-size:${fs}px"` : ""}>${svgChem(String(s), fs || 12)}</text>`;
+function widthOf(el){ const w = el.getBoundingClientRect().width; return Math.max(260, Math.round(w || 600)); }
+function setSvg(svg, W, Hh, inner){ svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("width", W); svg.setAttribute("height", Hh); svg.style.height = Hh + "px"; svg.innerHTML = inner; }
+function niceTicks(lo, hi, n){
+  const span = hi - lo, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(k => k * mag).find(s => s >= raw) || mag * 10;
+  const out = []; for (let v = Math.ceil(lo / step - 1e-9) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
+  return { ticks: out, step };
+}
+// vertical arrow from y1 to y2 at x, with a filled head at y2
+function vArrow(x, y1, y2, col, o){
+  o = o || {};
+  const dir = y2 < y1 ? -1 : 1, hl = Math.min(9, Math.abs(y2 - y1) * 0.45), hw = o.hw || 4.5;
+  if (Math.abs(y2 - y1) < 1) return "";
+  const sw = o.sw || 2, dash = o.dash ? ` stroke-dasharray="${o.dash}"` : "";
+  return `<line x1="${x.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x.toFixed(1)}" y2="${(y2 - dir * hl).toFixed(1)}" stroke="${col}" stroke-width="${sw}"${dash}/>` +
+    `<path d="M${x.toFixed(1)} ${y2.toFixed(1)} L${(x - hw).toFixed(1)} ${(y2 - dir * hl).toFixed(1)} L${(x + hw).toFixed(1)} ${(y2 - dir * hl).toFixed(1)} Z" fill="${col}"/>`;
+}
+function hArrow(x1, x2, y, col, o){
+  o = o || {};
+  const dir = x2 < x1 ? -1 : 1, hl = 9, sw = o.sw || 2, dash = o.dash ? ` stroke-dasharray="${o.dash}"` : "";
+  return `<line x1="${x1.toFixed(1)}" y1="${y.toFixed(1)}" x2="${(x2 - dir * hl).toFixed(1)}" y2="${y.toFixed(1)}" stroke="${col}" stroke-width="${sw}"${dash}/>` +
+    `<path d="M${x2.toFixed(1)} ${y.toFixed(1)} L${(x2 - dir * hl).toFixed(1)} ${(y - 4.5).toFixed(1)} L${(x2 - dir * hl).toFixed(1)} ${(y + 4.5).toFixed(1)} Z" fill="${col}"/>`;
+}
+// arrow between two points
+function arrow(a, b, col, o){
+  o = o || {};
+  const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+  const hl = 10, hw = 5, sw = o.sw || 2, dash = o.dash ? ` stroke-dasharray="${o.dash}"` : "";
+  const e = [b[0] - ux * hl, b[1] - uy * hl];
+  return `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}" stroke="${col}" stroke-width="${sw}"${dash}/>` +
+    `<path d="M${b[0].toFixed(1)} ${b[1].toFixed(1)} L${(e[0] - uy * hw).toFixed(1)} ${(e[1] + ux * hw).toFixed(1)} L${(e[0] + uy * hw).toFixed(1)} ${(e[1] - ux * hw).toFixed(1)} Z" fill="${col}"/>`;
+}
+// spread label positions so they are at least gap apart (keeps order)
+function declutter(ys, gap, lo, hi){
+  const idx = ys.map((y, i) => [y, i]).sort((a, b) => a[0] - b[0]);
+  const out = idx.map(p => p[0]);
+  for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap;
+  if (hi != null && out.length && out[out.length - 1] > hi){ out[out.length - 1] = hi; for (let i = out.length - 2; i >= 0; i--) if (out[i + 1] - out[i] < gap) out[i] = out[i + 1] - gap; }
+  if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
+  const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
+}
+function parseNum(s){
+  if (s == null) return NaN;
+  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
+  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
+  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
+  t = t.replace(/(kPa\^?-?\d*|mol.*|dm.*|atm|kJmol\^?-1|kJ\/mol|kJ|K|J|°C|%)$/i, "");
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
+  return parseFloat(t);
+}
+LAB.parseNum = parseNum;
+
+// scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
+const SUPS = n => String(n).split("").map(c => c === "-" ? "⁻" : SUPD[+c]).join("");
+function sci(v, n){
+  if (!isFinite(v)) return "?";
+  if (v === 0) return "0";
+  const a = Math.abs(v);
+  if (a >= 0.01 && a < 1e4) return sfS(v, n);
+  let e = Math.floor(Math.log10(a)), m = v / Math.pow(10, e);
+  let ms = sf(m, n); if (Math.abs(+ms) >= 10){ e += 1; ms = sf(v / Math.pow(10, e), n); }
+  return minus(ms) + " × 10" + SUPS(e);
+}
+LAB.sci = sci; LAB.sf = sf;
+// a generic SVG line chart; returns { X, Y, svg string pieces }
+function lineChart(svg, o){
+  const W = widthOf(svg.parentElement), Hh = o.h || (W < 520 ? 230 : 270);
+  const m = { l: o.ml || 50, r: o.mr || 14, t: o.mt || 14, b: o.mb || 40 };
+  const [x0, x1] = o.x, [y0, y1] = o.y, logY = !!o.logY;
+  const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+  const ly = v => logY ? Math.log10(Math.max(v, 1e-30)) : v;
+  const Y = v => Hh - m.b - (ly(v) - ly(y0)) / (ly(y1) - ly(y0)) * (Hh - m.t - m.b);
+  let s = "";
+  if (o.under) s += o.under(X, Y, W, Hh, m);
+  const xt = o.xticks || niceTicks(x0, x1, W < 520 ? 4 : 7).ticks;
+  xt.forEach(v => { s += `<line class="grid" x1="${X(v).toFixed(1)}" y1="${m.t}" x2="${X(v).toFixed(1)}" y2="${Hh - m.b}"/>` + T(X(v), Hh - m.b + 15, o.xfmt ? o.xfmt(v) : minus(String(v)), "tick", 'text-anchor="middle"'); });
+  let yt;
+  if (logY){ yt = []; for (let e = Math.ceil(Math.log10(y0) - 1e-9); e <= Math.log10(y1) + 1e-9; e++) yt.push(Math.pow(10, e)); }
+  else yt = o.yticks || niceTicks(y0, y1, Hh < 200 ? 3 : 5).ticks;
+  yt.forEach(v => { s += `<line class="grid" x1="${m.l}" y1="${Y(v).toFixed(1)}" x2="${W - m.r}" y2="${Y(v).toFixed(1)}"/>` + T(m.l - 6, Y(v) + 4, o.yfmt ? o.yfmt(v) : logY ? "10" + SUPS(Math.round(Math.log10(v))) : minus(String(v)), "tick", 'text-anchor="end"'); });
+  s += `<line class="axis" x1="${m.l}" y1="${Hh - m.b}" x2="${W - m.r}" y2="${Hh - m.b}"/><line class="axis" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${Hh - m.b}"/>`;
+  if (o.xlab) s += T(m.l + (W - m.l - m.r) / 2, Hh - 6, o.xlab, "axlab", 'text-anchor="middle"');
+  if (o.ylab) s += `<g transform="translate(13 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
+  (o.series || []).forEach(se => {
+    if (!se.pts.length) return;
+    const d = se.pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join("");
+    s += `<path d="${d}" fill="none" stroke="${se.col}" stroke-width="${se.w || 2}"${se.dash ? ` stroke-dasharray="${se.dash}"` : ""} stroke-linejoin="round"${se.cls ? ` class="${se.cls}"` : ""}/>`;
+  });
+  if (o.over) s += o.over(X, Y, W, Hh, m);
+  setSvg(svg, W, Hh, s);
+  return { X, Y, W, H: Hh, m };
+}
+const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" style="background:${it.col}"></i>${H(it.t)}</span>` : `<span><svg width="22" height="10" class="key2" aria-hidden="true"><line x1="1" y1="5" x2="21" y2="5" stroke="${it.col}" stroke-width="${it.w || 2.2}"${it.dash ? ` stroke-dasharray="${it.dash}"` : ""}/></svg>${H(it.t)}</span>`).join("");
+const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
+
+/* =====================================================
+   DATA (exactly as DATA.md, issue 13/10/26)
+   ===================================================== */
+const R_GAS = 8.31;                       // J K⁻¹ mol⁻¹ (Data Booklet)
+const KC_HI = 50.3;                       // H₂ + I₂ ⇌ 2HI at 731 K (WE1, illustrative; literature about 50)
+// N₂O₄(g) ⇌ 2NO₂(g): literature ΔH and ΔS taken as constant (model)
+const N2O4 = { dH: 57.2, dS: 175.9 };     // kJ mol⁻¹, J K⁻¹ mol⁻¹
+const kpN2O4 = T => Math.exp(-(N2O4.dH * 1000 - T * N2O4.dS) / (R_GAS * T)) * 100;   // bar → kPa
+// Haber: Gillespie–Beattie log₁₀ Ka for ½N₂ + 3/2 H₂ ⇌ NH₃ (Ka in atm⁻¹); Kp = Ka² (atm⁻²); T/K = θ/°C + 273
+const logKa = T => -2.691122 * Math.log10(T) - 5.519265e-5 * T + 1.848863e-7 * T * T + 2001.6 / T + 2.6899;
+const kpHaber = T => Math.pow(10, 2 * logKa(T));                       // atm⁻²
+// equilibrium mole fraction of NH₃ for a 1 : 3 feed at total pressure P atm (ideal gases)
+function yNH3(tC, P){
+  const K = kpHaber(tC + 273);
+  let lo = 0, hi = 1;
+  for (let i = 0; i < 80; i++){ const m = (lo + hi) / 2; if (m * m * 256 / (27 * Math.pow(1 - m, 4) * P * P) < K) lo = m; else hi = m; }
+  return (lo + hi) / 2;
+}
+const HABER_TABLE = { 300: [38.2, 50.0, 61.0, 66.7, 70.4], 350: [24.4, 35.5, 47.3, 54.1, 58.6], 400: [14.8, 23.8, 34.8, 41.7, 46.6], 450: [8.9, 15.4, 24.5, 30.8, 35.6], 500: [5.5, 9.9, 16.9, 22.2, 26.4], 550: [3.4, 6.5, 11.5, 15.7, 19.2] };
+const HABER_P = [50, 100, 200, 300, 400];
+LAB.DATA = { R_GAS, KC_HI, N2O4, HABER_TABLE, HABER_P };
+LAB.kpN2O4 = kpN2O4; LAB.kpHaber = kpHaber; LAB.yNH3 = yNH3;
+
+/* =====================================================
+   1. DYNAMIC EQUILIBRIUM BOX
+   Amounts follow the rate equations exactly (RK4). Particle events are drawn from
+   the running integrals of the forward and reverse rates, so the particle counts
+   track the amounts and the reactions never stop at equilibrium.
+   ===================================================== */
+const DYP = {
+  A: { V: 1, ppm: 80, sp: ["A", "B"], starts: [["A", "all A", [1, 0]], ["B", "all B", [0, 1]], ["M", "half and half", [0.5, 0.5]]] },
+  B: { V: 10.0, ppm: 50, kf: 5, sp: ["H₂", "I₂", "HI"], starts: [["HI0", "1.00 mol H₂ + 1.00 mol I₂", [1, 1, 0]], ["HI1", "2.00 mol HI", [0, 0, 2]]] }
+};
+DYP.B.kr = DYP.B.kf / KC_HI;
+const DY = { pre: "A", start: "A", kf: 0.4, kr: 0.2, speed: 1, playing: true, t: 0, n: [1, 0], hist: [], parts: [], accF: 0, accR: 0, evF: 0, evR: 0, flashes: [], labelled: false, raf: 0, last: 0, visible: true, col: {} };
+LAB.DY = DY;
+function dyRates(n){
+  if (DY.pre === "A") return [DY.kf * n[0], DY.kr * n[1]];                     // mol s⁻¹
+  const P = DYP.B, c = n.map(x => x / P.V);
+  return [P.kf * c[0] * c[1] * P.V, P.kr * c[2] * c[2] * P.V];               // mol s⁻¹ (forward events, reverse events)
+}
+function dyDeriv(n){
+  const [f, r] = dyRates(n);
+  return DY.pre === "A" ? [-f + r, f - r] : [-f + r, -f + r, 2 * (f - r)];
+}
+function dyStepODE(dt){
+  const n = DY.n, a = dyDeriv(n), add = (x, d, h) => x.map((v, i) => v + d[i] * h);
+  const b = dyDeriv(add(n, a, dt / 2)), c = dyDeriv(add(n, b, dt / 2)), d = dyDeriv(add(n, c, dt));
+  DY.n = n.map((v, i) => Math.max(0, v + dt / 6 * (a[i] + 2 * b[i] + 2 * c[i] + d[i])));
+}
+function dyEq(){
+  if (DY.pre === "A"){ const N = DY.n[0] + DY.n[1]; return [N * DY.kr / (DY.kf + DY.kr), N * DY.kf / (DY.kf + DY.kr)]; }
+  // H₂ + I₂ ⇌ 2HI from the atom totals (equal H and I here): x = moles of H₂ left; (2(N − x))² / x² = Kc
+  const N = DY.n[0] + DY.n[2] / 2, s = Math.sqrt(KC_HI), x = 2 * N / (2 + s);
+  return [x, x, 2 * (N - x)];
+}
+LAB.dyEq = dyEq;
+function gaussD(){ let u = 0; while (!u) u = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random()); }
+function dyNewPart(kind){ return { k: kind, x: 0.05 + Math.random() * 0.9, y: 0.05 + Math.random() * 0.9, vx: gaussD() * 0.09, vy: gaussD() * 0.09, a: Math.random() * 6.28, va: gaussD() * 1.2, L: 0 }; }
+function dyReset(){
+  const P = DYP[DY.pre], st = P.starts.find(s => s[0] === DY.start) || P.starts[0];
+  DY.start = st[0]; DY.n = st[2].slice(); DY.t = 0; DY.accF = 0; DY.accR = 0; DY.evF = 0; DY.evR = 0; DY.labelled = false; DY.flashes = [];
+  DY.parts = [];
+  P.sp.forEach((s, i) => { for (let k = 0; k < Math.round(st[2][i] * P.ppm); k++) DY.parts.push(dyNewPart(i)); });
+  DY.hist = [dySample()];
+}
+function dySample(){ const [f, r] = dyRates(DY.n), P = DYP[DY.pre]; return { t: DY.t, n: DY.n.slice(), f: f * P.ppm, r: r * P.ppm }; }
+function dyPickIdx(kind, not){ const idx = []; DY.parts.forEach((p, i) => { if (p.k === kind && i !== not) idx.push(i); }); return idx.length ? pick(idx) : -1; }
+function dyEvent(fwd){
+  const ps = DY.parts;
+  if (DY.pre === "A"){
+    const i = dyPickIdx(fwd ? 0 : 1); if (i < 0) return false;
+    ps[i].k = fwd ? 1 : 0; DY.flashes.push({ x: ps[i].x, y: ps[i].y, t: DY.t, f: fwd }); return true;
+  }
+  if (fwd){
+    const i = dyPickIdx(0), j = dyPickIdx(1); if (i < 0 || j < 0) return false;
+    const L = ps[j].L; ps[i].k = 2; ps[j].k = 2; ps[i].L = L >= 1 ? 1 : 0; ps[j].L = L >= 2 ? 1 : 0;
+    DY.flashes.push({ x: ps[i].x, y: ps[i].y, t: DY.t, f: true }, { x: ps[j].x, y: ps[j].y, t: DY.t, f: true });
+  } else {
+    const i = dyPickIdx(2), j = dyPickIdx(2, i); if (i < 0 || j < 0) return false;
+    const L = ps[i].L + ps[j].L; ps[i].k = 0; ps[i].L = 0; ps[j].k = 1; ps[j].L = L;
+    DY.flashes.push({ x: ps[i].x, y: ps[i].y, t: DY.t, f: false }, { x: ps[j].x, y: ps[j].y, t: DY.t, f: false });
+  }
+  return true;
+}
+// advance the model by dt seconds (model time)
+function dyAdvance(dt){
+  const P = DYP[DY.pre], h = 0.01;
+  let left = dt;
+  while (left > 1e-9){
+    const s = Math.min(h, left);
+    const [f, r] = dyRates(DY.n);
+    DY.accF += f * P.ppm * s; DY.accR += r * P.ppm * s;
+    dyStepODE(s); DY.t += s; left -= s;
+    while (DY.accF >= 1){ if (!dyEvent(true)) { DY.accF = 0.999; break; } DY.accF -= 1; DY.evF++; }
+    while (DY.accR >= 1){ if (!dyEvent(false)) { DY.accR = 0.999; break; } DY.accR -= 1; DY.evR++; }
+    const last = DY.hist[DY.hist.length - 1];
+    if (DY.t - last.t >= 0.1 - 1e-9) DY.hist.push(dySample());
+  }
+  while (DY.hist.length > 2 && DY.hist[DY.hist.length - 1].t - DY.hist[0].t > 60) DY.hist.shift();
+  // particle motion (cosmetic)
+  // reflect off the walls (folding works for any step length)
+  const fold = (v, lo, hi) => { const L = hi - lo, u = ((v - lo) % (2 * L) + 2 * L) % (2 * L); return [u <= L ? lo + u : hi - (u - L)]; };
+  for (const p of DY.parts){
+    const fx = fold(p.x + p.vx * dt, 0.03, 0.97), fy = fold(p.y + p.vy * dt, 0.04, 0.96);
+    const px = p.x, py = p.y;
+    p.x = fx[0]; p.y = fy[0]; p.a += p.va * dt;
+    const nx = Math.floor((px - 0.03 + p.vx * dt) / 0.94), ny = Math.floor((py - 0.04 + p.vy * dt) / 0.92);   // wall crossings
+    if (Math.abs(nx) % 2 === 1) p.vx = -p.vx;
+    if (Math.abs(ny) % 2 === 1) p.vy = -p.vy;
+  }
+  DY.flashes = DY.flashes.filter(f => DY.t - f.t < 0.6);
+}
+LAB.dyAdvance = dyAdvance;
+function dyAtEq(){ const [f, r] = dyRates(DY.n); const m = Math.max(f, r); return m > 0 && Math.abs(f - r) <= 0.01 * m; }
+LAB.dyAtEq = dyAtEq;
+function dyRatio(){
+  const P = DYP[DY.pre];
+  if (DY.pre === "A") return DY.n[0] > 1e-9 ? DY.n[1] / DY.n[0] : Infinity;
+  const c = DY.n.map(x => x / P.V);
+  return c[0] * c[1] > 1e-15 ? c[2] * c[2] / (c[0] * c[1]) : Infinity;
+}
+LAB.dyRatio = dyRatio;
+function dyLabelled(){
+  const lab = DY.parts.filter(p => p.L > 0);
+  return { I2: lab.filter(p => p.k === 1).length, HI: lab.filter(p => p.k === 2).length };
+}
+LAB.dyLabelled = dyLabelled;
+function dyAddLabel(){
+  if (DY.pre !== "B" || !dyAtEq()) return false;
+  const I2 = DY.parts.filter(p => p.k === 1 && p.L === 0);
+  shuffle(I2).slice(0, Math.max(2, Math.ceil(I2.length / 2))).forEach(p => { p.L = 2; });
+  DY.labelled = true; DY.labT = DY.t; dyRead(); dyDraw();
+  return true;
+}
+LAB.dyAddLabel = dyAddLabel;
+
+/* ---- drawing ---- */
+function dyPalette(){ DY.col = { s1: cssVar("--s1"), s2: cssVar("--s2"), s3: cssVar("--s3"), s4: cssVar("--s4"), ink2: cssVar("--ink-2"), axis: cssVar("--axis"), bg2: cssVar("--surface-2"), line: cssVar("--line") }; }
+function dyGeom(){ const cv = $("dy-canvas"), W = Math.max(260, cv.parentElement.clientWidth), Hh = W < 520 ? 230 : 270; return { W, H: Hh }; }
+function dyDraw(){
+  const cv = $("dy-canvas"), g = dyGeom(), dpr = window.devicePixelRatio || 1, C = DY.col;
+  if (cv.width !== Math.round(g.W * dpr) || cv.height !== Math.round(g.H * dpr)){ cv.width = Math.round(g.W * dpr); cv.height = Math.round(g.H * dpr); cv.style.width = g.W + "px"; cv.style.height = g.H + "px"; }
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, g.W, g.H);
+  const L = 10, Tp = 10, BW = g.W - 20, BH = g.H - 20;
+  ctx.fillStyle = C.bg2; ctx.fillRect(L, Tp, BW, BH);
+  ctx.strokeStyle = C.ink2; ctx.lineWidth = 2; ctx.strokeRect(L, Tp, BW, BH);
+  const X = p => L + p.x * BW, Y = p => Tp + p.y * BH;
+  // reaction flashes: thin rings that fade
+  for (const f of DY.flashes){
+    const a = Math.max(0, 1 - (DY.t - f.t) / 0.6);
+    ctx.globalAlpha = a * 0.8; ctx.strokeStyle = C.axis; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(L + f.x * BW, Tp + f.y * BH, 9 + (1 - a) * 10, 0, 6.283); ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+  const circ = (x, y, r, fill, stroke) => { ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); if (fill){ ctx.fillStyle = fill; ctx.fill(); } if (stroke){ ctx.strokeStyle = stroke; ctx.lineWidth = 1.8; ctx.stroke(); } };
+  for (const p of DY.parts){
+    const x = X(p), y = Y(p);
+    if (DY.pre === "A"){
+      if (p.k === 0) circ(x, y, 4.6, C.s1);
+      else { ctx.fillStyle = C.s2; ctx.fillRect(x - 4.4, y - 4.4, 8.8, 8.8); }
+      continue;
+    }
+    const ca = Math.cos(p.a), sa = Math.sin(p.a);
+    if (p.k === 0){ circ(x - ca * 2.6, y - sa * 2.6, 3.0, C.s3); circ(x + ca * 2.6, y + sa * 2.6, 3.0, C.s3); }
+    else if (p.k === 1){
+      const a1 = [x - ca * 4.2, y - sa * 4.2], a2 = [x + ca * 4.2, y + sa * 4.2];
+      circ(a1[0], a1[1], 4.8, C.s2); circ(a2[0], a2[1], 4.8, C.s2);
+      if (p.L >= 1) circ(a1[0], a1[1], 7.4, null, C.s4);
+      if (p.L >= 2) circ(a2[0], a2[1], 7.4, null, C.s4);
+    } else {
+      const h = [x - ca * 4.6, y - sa * 4.6], i = [x + ca * 2.2, y + sa * 2.2];
+      circ(h[0], h[1], 3.0, C.s3); circ(i[0], i[1], 4.8, C.s2);
+      if (p.L >= 1) circ(i[0], i[1], 7.4, null, C.s4);
+    }
+  }
+}
+function dyLegend(){
+  const C = DY.col;
+  const sw = (svg, t) => `<span><svg width="26" height="16" aria-hidden="true" style="vertical-align:middle;margin-right:5px">${svg}</svg>${H(t)}</span>`;
+  if (DY.pre === "A") $("dy-leg").innerHTML = sw(`<circle cx="9" cy="8" r="4.6" fill="${C.s1}"/>`, "A (circle)") + sw(`<rect x="4.6" y="3.6" width="8.8" height="8.8" fill="${C.s2}"/>`, "B (square)") + sw(`<circle cx="13" cy="8" r="7" fill="none" stroke="${C.axis}" stroke-width="1.5"/>`, "a reaction event");
+  else $("dy-leg").innerHTML = sw(`<circle cx="9" cy="8" r="3" fill="${C.s3}"/><circle cx="14" cy="8" r="3" fill="${C.s3}"/>`, "H₂") + sw(`<circle cx="8" cy="8" r="4.8" fill="${C.s2}"/><circle cx="17" cy="8" r="4.8" fill="${C.s2}"/>`, "I₂") + sw(`<circle cx="7" cy="8" r="3" fill="${C.s3}"/><circle cx="14" cy="8" r="4.8" fill="${C.s2}"/>`, "HI") + sw(`<circle cx="13" cy="8" r="4.8" fill="${C.s2}"/><circle cx="13" cy="8" r="7" fill="none" stroke="${C.s4}" stroke-width="1.8"/>`, "labelled iodine atom, I* (ringed)");
+}
+function dyCharts(){
+  const P = DYP[DY.pre], C = DY.col, hs = DY.hist, t1 = Math.max(20, DY.t), t0 = Math.max(0, hs[0].t);
+  const xr = [t0, Math.max(t0 + 20, t1)];
+  const eq = dyEq();
+  const ser = DY.pre === "A" ? [[0, C.s1, null, "A"], [1, C.s2, "6 3", "B"]] : [[0, C.s3, null, "H₂"], [1, C.s2, "6 4", "I₂ (same as H₂)"], [2, C.s1, null, "HI"]];
+  const ymax = DY.pre === "A" ? 1.0 : 2.0;
+  lineChart($("dy-amt"), { x: xr, y: [0, ymax * 1.05], xlab: "time / s (model)", ylab: "amount / mol", yticks: DY.pre === "A" ? [0, 0.25, 0.5, 0.75, 1] : [0, 0.5, 1, 1.5, 2], h: 210,
+    under: (X, Y, W) => eq.map((v, i) => DY.pre === "B" && i === 1 ? "" : `<line x1="${X(xr[0])}" x2="${X(xr[1])}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="${cssVar("--ref")}" stroke-width="1" stroke-dasharray="2 3"/>`).join(""),
+    series: ser.map(([i, col, dash]) => ({ pts: hs.map(h => [h.t, h.n[i]]), col, dash, w: 2.2 })),
+    over: (X, Y, W) => DY.pre === "B" ? T(W - 18, Y(eq[2]) - 6, "equilibrium 1.56 mol", "cap", 'text-anchor="end"') + T(W - 18, Y(eq[0]) - 6, "equilibrium 0.22 mol", "cap", 'text-anchor="end"') : T(W - 18, Y(eq[1]) - 6, "equilibrium", "cap", 'text-anchor="end"') });
+  $("dy-amt-leg").innerHTML = legendHTML(ser.map(([, col, dash, t]) => ({ col, dash, t }))) + legendHTML([{ col: cssVar("--ref"), dash: "2 3", t: "equilibrium amounts", w: 1.2 }]);
+  const rmax = Math.max(0.5, ...hs.map(h => Math.max(h.f, h.r)));
+  lineChart($("dy-rate"), { x: xr, y: [0, rmax * 1.08], xlab: "time / s (model)", ylab: "events per second", h: 190,
+    series: [{ pts: hs.map(h => [h.t, h.f]), col: C.s1, w: 2.2 }, { pts: hs.map(h => [h.t, h.r]), col: C.s2, dash: "6 3", w: 2.2 }] });
+  $("dy-rate-leg").innerHTML = legendHTML([{ col: C.s1, t: "forward rate" }, { col: C.s2, dash: "6 3", t: "reverse rate" }]);
+}
+function dyRead(){
+  const P = DYP[DY.pre], [f, r] = dyRates(DY.n), at = dyAtEq(), ratio = dyRatio();
+  const st = at ? `<span class="v" style="color:var(--good)">Equilibrium: forward rate = reverse rate</span>` : `<span class="v">Not yet: ${f > r ? "forward" : "reverse"} faster</span>`;
+  let h = "";
+  if (DY.pre === "A"){
+    h += `<div class="stat"><div class="l">n(A) / mol</div><div class="v">${DY.n[0].toFixed(2)}</div></div><div class="stat"><div class="l">n(B) / mol</div><div class="v">${DY.n[1].toFixed(2)}</div></div>`;
+    h += `<div class="stat"><div class="l">[B] / [A]</div><div class="v">${isFinite(ratio) ? sf(ratio, 3) : "not defined yet (no A)"}</div></div>`;
+    h += `<div class="stat"><div class="l">${ENR}<i>k</i><sub>f</sub> / <i>k</i><sub>r</sub></div><div class="v">${sf(DY.kf / DY.kr, 3)}</div></div>`;
+  } else {
+    ["H₂", "I₂", "HI"].forEach((s, i) => { h += `<div class="stat"><div class="l">${H("n(" + s + ")")} / mol</div><div class="v">${DY.n[i].toFixed(2)}</div></div>`; });
+    h += `<div class="stat"><div class="l">[HI]<sup>2</sup> / ([H<sub>2</sub>][I<sub>2</sub>])</div><div class="v">${isFinite(ratio) ? sf(ratio, 3) : "not defined yet"} <small><i>K</i><sub>c</sub> = 50.3</small></div></div>`;
+  }
+  h += `<div class="stat"><div class="l">Forward / reverse events per second</div><div class="v">${(f * P.ppm).toFixed(2)} / ${(r * P.ppm).toFixed(2)}</div></div>`;
+  h += `<div class="stat"><div class="l">Time / s (model)</div><div class="v">${DY.t.toFixed(1)}</div></div>`;
+  h += `<div class="stat wide"><div class="l">Status</div>${st}</div>`;
+  if (DY.pre === "B" && DY.labelled){
+    const L = dyLabelled();
+    h += `<div class="stat wide" id="dy-labstat"><div class="l">Molecules containing labelled iodine (I*)</div><div class="v">I<sub>2</sub>* ${L.I2} &nbsp;·&nbsp; HI* ${L.HI}</div><div class="l">${L.HI > 0 ? "HI* has formed although the amounts of H₂, I₂ and HI have not changed: the forward and reverse reactions are both still going on." : "Watch for HI*: if the equilibrium were static, none would form."}</div></div>`;
+  }
+  $("dy-read").innerHTML = h;
+  $("dy-label").disabled = !(DY.pre === "B" && at && !DY.labelled);
+  $("dy-hint").innerHTML = DY.pre === "B" ? (DY.labelled ? "Labelled iodine is in. Keep watching the HI* count." : at ? "At equilibrium. Now add labelled iodine." : "Wait for equilibrium, then add labelled iodine (the button switches on).") : "Change k{f} or k{r} and the equilibrium amounts change. Watch the ratio [B] / [A] settle at a constant value.".replace(/k\{(f|r)\}/g, "<i>k</i><sub>$1</sub>");
+}
+function dyRenderAll(){ dyDraw(); dyCharts(); dyRead(); }
+let DY_FRAME = 0;
+function dyLoop(ts){
+  DY.raf = 0;
+  if (!DY.playing || !DY.visible || document.hidden){ DY.last = 0; return; }
+  const dt = DY.last ? Math.min(0.05, (ts - DY.last) / 1000) : 0;
+  DY.last = ts;
+  if (dt > 0) dyAdvance(dt * DY.speed);
+  dyDraw();
+  if (++DY_FRAME % 6 === 0){ dyCharts(); dyRead(); }
+  DY.raf = requestAnimationFrame(dyLoop);
+}
+function dyKick(){ if (DY.playing && DY.visible && !document.hidden && !DY.raf && !window.LAB_NOANIM) DY.raf = requestAnimationFrame(dyLoop); }
+function dySetup(){
+  const P = DYP[DY.pre];
+  $("dy-start").innerHTML = P.starts.map(([k, t], i) => `<label><input type="radio" name="dy-st" value="${k}"${k === DY.start ? " checked" : ""}>${H(t)}</label>`).join("");
+  $("dy-start").querySelectorAll("input").forEach(r => r.onchange = () => { DY.start = r.value; dyReset(); dyRenderAll(); dyKick(); });
+  $("dy-kctl").hidden = DY.pre !== "A";
+  $("dy-labrow").hidden = DY.pre !== "B";
+  $("dy-title").innerHTML = DY.pre === "A" ? "A ⇌ B, a one-step model reaction" : H("H₂(g) + I₂(g) ⇌ 2HI(g) at 731 K in a sealed 10.0 dm³ vessel");
+  $("dy-note").innerHTML = DY.pre === "A" ? `Each A particle has the same chance per second of turning into B (set by <i>k</i><sub>f</sub>), and each B of turning back (<i>k</i><sub>r</sub>). 80 particles = 1 mol.` : H(`Forward rate = k{f}[H₂][I₂]; reverse rate = k{r}[HI]². Rate constants are chosen so that the ratio settles at K{c} = 50.3 (illustrative data, WE1; literature K{c} at 731 K is about 50). 50 molecules = 1 mol.`).replace(/k\{(f|r)\}/g, "<i>k</i><sub>$1</sub>");
+  dyLegend();
+}
+function bindDynamic(){
+  dyPalette();
+  $("dy-features").innerHTML = [
+    "It happens in a <b>closed system</b>: nothing enters or leaves.",
+    "The <b>forward rate equals the reverse rate</b>, and both are <b>non-zero</b>: the reactions have not stopped.",
+    "The <b>concentrations are constant</b>, but not (in general) equal.",
+    "<b>Macroscopic properties</b> such as colour and pressure are constant.",
+    "The same equilibrium can be <b>reached from either side</b>: from the reactants or from the products."
+  ].map(x => `<li>${x}</li>`).join("");
+  $("dy-enrich").innerHTML = `<p>${ENR}For a one-step reaction, at equilibrium <i>k</i><sub>f</sub>[A] = <i>k</i><sub>r</sub>[B], so <i>K</i><sub>c</sub> = [B]/[A] = <i>k</i><sub>f</sub>/<i>k</i><sub>r</sub>. This link between <i>K</i> and the rate constants is beyond the 9476 syllabus.</p><p>Evidence that the equilibrium is dynamic (9(a)): add a little radioactive iodine, I<sub>2</sub>*, to an equilibrium mixture of H<sub>2</sub>, I<sub>2</sub> and HI. Soon HI* appears, although the amounts of each species stay the same. Try it with the H<sub>2</sub> + I<sub>2</sub> reaction.</p>`;
+  document.querySelectorAll('input[name="dy-pre"]').forEach(r => r.onchange = () => { DY.pre = r.value; DY.start = DYP[DY.pre].starts[0][0]; dySetup(); dyReset(); dyRenderAll(); dyKick(); });
+  const kfo = () => { $("dy-kfo").textContent = (+DY.kf).toFixed(2) + " s⁻¹"; $("dy-kro").textContent = (+DY.kr).toFixed(2) + " s⁻¹"; };
+  $("dy-kf").oninput = e => { DY.kf = +e.target.value; kfo(); dyRead(); dyCharts(); };
+  $("dy-kr").oninput = e => { DY.kr = +e.target.value; kfo(); dyRead(); dyCharts(); };
+  $("dy-speed").oninput = e => { DY.speed = +e.target.value; $("dy-speedo").textContent = "× " + DY.speed; };
+  $("dy-speedo").textContent = "× 1";
+  kfo();
+  $("dy-play").onclick = () => { DY.playing = !DY.playing; $("dy-play").textContent = DY.playing ? "Pause" : "Play"; $("dy-play").setAttribute("aria-pressed", String(!DY.playing)); dyKick(); };
+  $("dy-reset").onclick = () => { dyReset(); dyRenderAll(); dyKick(); };
+  $("dy-label").onclick = dyAddLabel;
+  new IntersectionObserver(ents => { DY.visible = ents[ents.length - 1].isIntersecting; dyKick(); }).observe($("dy-canvas"));
+  document.addEventListener("visibilitychange", dyKick);
+  if (NOANIM() && !window.LAB_NOANIM){ DY.playing = false; $("dy-play").textContent = "Play"; }
+  dySetup(); dyReset(); dyRenderAll(); dyKick();
+}
+LAB.dyRender = dyRenderAll;
+LAB.dyReset = dyReset;
+
+/* =====================================================
+   2. LE CHATELIER BENCH
+   State: concentrations (mol dm⁻³) of the species in K, volume (cm³), T (K).
+   A change gives an immediate state; the equilibrium state is found by bisection on the
+   extent of reaction so that the concentration ratio equals K at the new temperature.
+   ===================================================== */
+const RT = T => R_GAS * T;                      // kPa dm³ mol⁻¹ (p / kPa = c / mol dm⁻³ × RT)
+const KC_FESCN = 200;                           // mol⁻¹ dm³, illustrative
+const CO_K298 = 8.0e-4, CO_DH = 50;             // mol⁻⁴ dm¹², kJ mol⁻¹: illustrative
+const coK = T => CO_K298 * Math.exp(-CO_DH * 1000 / R_GAS * (1 / T - 1 / 298));
+// light absorbed per channel (R, G, B) per mol dm⁻³ for the drawing (Beer–Lambert, path fixed)
+const EPS = { NO2: [14, 26, 40], N2O4: [0, 0, 0], Fe: [0, 30, 450], SCN: [0, 0, 0], FeSCN: [200, 8000, 6000], CoAq: [0.3, 4, 1.5], CoCl: [6, 4, 0.3], Cl: [0, 0, 0] };
+function colourOf(sp, c){
+  const bg = [247, 246, 240];
+  const A = [0, 1, 2].map(k => sp.reduce((a, s, i) => a + (EPS[s.e] || [0, 0, 0])[k] * c[i], 0));
+  return `rgb(${A.map((a, k) => Math.round(bg[k] * Math.pow(10, -a))).join(",")})`;
+}
+const SYS = {
+  n2o4: {
+    name: "N₂O₄(g) ⇌ 2NO₂(g)", short: "N₂O₄ ⇌ 2NO₂", dH: "+57.2 kJ mol⁻¹ (forward endothermic)",
+    sp: [{ f: "N₂O₄", nu: -1, e: "N2O4", nm: "N₂O₄ (colourless)" }, { f: "NO₂", nu: 2, e: "NO2", nm: "NO₂ (brown)" }],
+    gas: true,
+    K: T => kpN2O4(T) / RT(T),                 // Kc / mol dm⁻³ used for the solve
+    Kshow: T => ({ lab: "K{p}", v: kpN2O4(T), u: "kPa" }),
+    Qshow: (c, T) => c[1] * c[1] / c[0] * RT(T),
+    init: () => ({ c: [0.040, 0], V: 50, T: 298, ar: 0 }),
+    plot: [0, 1],
+    changes: ["in", "out", "hot", "ice", "room", "arV", "arP"]
+  },
+  fescn: {
+    name: "Fe³⁺(aq) + SCN⁻(aq) ⇌ [Fe(SCN)]²⁺(aq)", short: "Fe³⁺ + SCN⁻ ⇌ [Fe(SCN)]²⁺",
+    sp: [{ f: "Fe³⁺", nu: -1, e: "Fe", nm: "Fe³⁺ (pale yellow)" }, { f: "SCN⁻", nu: -1, e: "SCN", nm: "SCN⁻ (colourless)" }, { f: "[Fe(SCN)]²⁺", nu: 1, e: "FeSCN", nm: "[Fe(SCN)]²⁺ (blood red)" }],
+    K: () => KC_FESCN,
+    Kshow: () => ({ lab: "K{c}", v: KC_FESCN, u: "mol⁻¹ dm³", ill: true }),
+    Qshow: c => c[2] / (c[0] * c[1]),
+    init: () => ({ c: [1.0e-3, 1.0e-3, 0], V: 10, T: 298 }),
+    plot: [2, 0],
+    changes: ["fe", "scn", "water"]
+  },
+  co: {
+    name: "[Co(H₂O)₆]²⁺(aq) + 4Cl⁻(aq) ⇌ [CoCl₄]²⁻(aq) + 6H₂O(l)", short: "[Co(H₂O)₆]²⁺ + 4Cl⁻ ⇌ [CoCl₄]²⁻ + 6H₂O", dH: "positive (forward endothermic)",
+    sp: [{ f: "[Co(H₂O)₆]²⁺", nu: -1, e: "CoAq", nm: "[Co(H₂O)₆]²⁺ (pink)" }, { f: "Cl⁻", nu: -4, e: "Cl", nm: "Cl⁻ (colourless)" }, { f: "[CoCl₄]²⁻", nu: 1, e: "CoCl", nm: "[CoCl₄]²⁻ (blue)" }],
+    K: T => coK(T),
+    Kshow: T => ({ lab: "K{c}", v: coK(T), u: "mol⁻⁴ dm¹²", ill: true }),
+    Qshow: c => c[2] / (c[0] * Math.pow(c[1], 4)),
+    init: () => ({ c: [0.10, 6.0, 0], V: 10, T: 298 }),
+    plot: [2, 0],
+    changes: ["hcl", "cowater", "coheat", "coice", "coroom"]
+  }
+};
+LAB.SYS = SYS;
+// equilibrium from any starting concentrations
+function eqSolve(sys, c, T){
+  const nu = sys.sp.map(s => s.nu), K = sys.K(T);
+  let lo = -Infinity, hi = Infinity;
+  nu.forEach((v, i) => { const b = -c[i] / v; if (v > 0) lo = Math.max(lo, b); else hi = Math.min(hi, b); });
+  const lnQ = x => nu.reduce((a, v, i) => a + v * Math.log(Math.max(c[i] + v * x, 1e-300)), 0);
+  const span = hi - lo, eps = span * 1e-13;
+  let a = lo + eps, b = hi - eps;
+  for (let k = 0; k < 200; k++){ const m = (a + b) / 2; if (lnQ(m) < Math.log(K)) a = m; else b = m; }
+  const x = (a + b) / 2;
+  return { c: c.map((v, i) => v + nu[i] * x), xi: x };
+}
+LAB.eqSolve = eqSolve;
+// the changes: label, which systems, apply(state) → immediate state (or null if not possible)
+const CHG = {
+  in: { t: "Push the plunger in (halve the volume)", ok: s => s.V / 2 >= 25, app: s => ({ ...s, V: s.V / 2, c: s.c.map(x => x * 2) }) },
+  out: { t: "Pull the plunger out (double the volume)", ok: s => s.V * 2 <= 100, app: s => ({ ...s, V: s.V * 2, c: s.c.map(x => x / 2) }) },
+  hot: { t: "Put the syringe in hot water (353 K)", ok: s => s.T !== 353, app: s => ({ ...s, T: 353 }) },
+  ice: { t: "Put the syringe in ice water (273 K)", ok: s => s.T !== 273, app: s => ({ ...s, T: 273 }) },
+  room: { t: "Back to room temperature (298 K)", ok: s => s.T !== 298, app: s => ({ ...s, T: 298 }) },
+  arV: { t: "Add argon, plunger clamped (constant volume)", fex: true, ok: () => true, app: s => ({ ...s, ar: s.ar + (s.c[0] + s.c[1]) * s.V / 1000 }) },
+  arP: { t: "Add argon, plunger free (constant total pressure)", fex: true, ok: s => { const ng = (s.c[0] + s.c[1]) * s.V / 1000, nt = ng + s.ar; return s.V * (nt + ng) / nt <= 100.5; },
+    app: s => { const ng = (s.c[0] + s.c[1]) * s.V / 1000, nt = ng + s.ar, V2 = s.V * (nt + ng) / nt; return { ...s, ar: s.ar + ng, V: V2, c: s.c.map(x => x * s.V / V2) }; } },
+  fe: { t: "Add a few drops of FeCl₃(aq) (more Fe³⁺)", ok: s => s.V + 0.5 <= 40, app: s => { const V2 = s.V + 0.5, n = s.c.map(x => x * s.V); n[0] += 0.050 * 0.5; return { ...s, V: V2, c: n.map(x => x / V2) }; } },
+  scn: { t: "Add a few drops of KSCN(aq) (more SCN⁻)", ok: s => s.V + 0.5 <= 40, app: s => { const V2 = s.V + 0.5, n = s.c.map(x => x * s.V); n[1] += 0.050 * 0.5; return { ...s, V: V2, c: n.map(x => x / V2) }; } },
+  water: { t: "Add water (double the volume)", ok: s => s.V * 2 <= 40, app: s => ({ ...s, V: s.V * 2, c: s.c.map(x => x / 2) }) },
+  hcl: { t: "Add concentrated HCl (more Cl⁻)", ok: s => s.V + 2 <= 30, app: s => { const V2 = s.V + 2, n = s.c.map(x => x * s.V); n[1] += 12.0 * 2; return { ...s, V: V2, c: n.map(x => x / V2) }; } },
+  cowater: { t: "Add water", ok: s => s.V + 5 <= 30, app: s => { const V2 = s.V + 5; return { ...s, V: V2, c: s.c.map(x => x * s.V / V2) }; } },
+  coheat: { t: "Heat in a hot water bath (353 K)", ok: s => s.T !== 353, app: s => ({ ...s, T: 353 }) },
+  coice: { t: "Cool in ice water (273 K)", ok: s => s.T !== 273, app: s => ({ ...s, T: 273 }) },
+  coroom: { t: "Back to room temperature (298 K)", ok: s => s.T !== 298, app: s => ({ ...s, T: 298 }) }
+};
+LAB.CHG = CHG;
+const LC = { sys: "n2o4", st: null, prev: null, imm: null, fin: null, chg: null, pick: {}, anim: 0, t0: 0, frac: 1, pending: null, score: [0, 0] };
+LAB.LC = LC;
+function lcInit(){
+  const S = SYS[LC.sys], s = S.init();
+  const e = eqSolve(S, s.c, s.T);
+  LC.st = { ...s, c: e.c }; LC.prev = LC.imm = LC.fin = LC.st; LC.chg = null; LC.frac = 1; LC.pending = null;
+}
+// apply a change: returns { prev, imm, fin, xi, shift, kdir }
+function lcCompute(id, st){
+  const S = SYS[LC.sys], imm = CHG[id].app(st);
+  const e = eqSolve(S, imm.c, imm.T), fin = { ...imm, c: e.c };
+  const scale = Math.max(...imm.c.map(Math.abs));
+  const rel = Math.abs(e.xi) / scale;
+  const shift = rel < 1e-9 ? "none" : e.xi > 0 ? "right" : "left";
+  const k0 = S.K(st.T), k1 = S.K(imm.T), kdir = Math.abs(k1 / k0 - 1) < 1e-9 ? "same" : k1 > k0 ? "up" : "down";
+  return { prev: st, imm, fin, xi: e.xi, shift, kdir };
+}
+LAB.lcCompute = (sys, id, st) => { const old = LC.sys; LC.sys = sys; const r = lcCompute(id, st || (() => { const S = SYS[sys], s = S.init(); return { ...s, c: eqSolve(S, s.c, s.T).c }; })()); LC.sys = old; return r; };
+// state at fraction f of the way from the immediate state to equilibrium
+const lerpC = (a, b, f) => a.map((v, i) => v + (b[i] - v) * f);
+const LCTAU = 0.7, LCTEND = 4.5;
+const gfrac = t => (1 - Math.exp(-t / LCTAU)) / (1 - Math.exp(-LCTEND / LCTAU));
+function lcNow(){ return LC.chg ? { ...LC.fin, c: lerpC(LC.imm.c, LC.fin.c, gfrac(LC.frac * LCTEND)) } : LC.st; }
+
+/* ---- apparatus ---- */
+function lcApp(){
+  const S = SYS[LC.sys], svg = $("lc-app"), W = widthOf(svg.parentElement), narrow = W < 520;
+  const now = lcNow(), col = colourOf(S.sp, now.c);
+  let s = "", Hh;
+  const sw = (x, y, w, h, c, lab) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${c}" stroke="#8b96a0"/>` + T(x + w / 2, y + h + 14, lab, "bt", 'text-anchor="middle"');
+  if (LC.sys === "n2o4"){
+    Hh = narrow ? 230 : 240;
+    const x0 = 24, L = W - (narrow ? 90 : 160), y = 50, h = narrow ? 44 : 52, xp = x0 + L * now.V / 100;
+    // bath
+    if (now.T !== 298){
+      const hot = now.T > 298;
+      s += `<rect x="${x0 - 12}" y="${y - 22}" width="${L + 24}" height="${h + 44}" rx="4" fill="${hot ? "#f6dcc6" : "#dcebf4"}" stroke="${hot ? "#d8a27a" : "#9fc0d6"}"/>`;
+      if (!hot) for (let i = 0; i < 7; i++){ const xx = x0 + (i + 0.5) * L / 7; s += `<rect x="${(xx - 7).toFixed(1)}" y="${y + h + 8 + (i % 2) * 4}" width="13" height="10" rx="2" fill="#f4fbff" stroke="#9fc0d6" transform="rotate(${(i * 23) % 30 - 15} ${xx.toFixed(1)} ${y + h + 13})"/>`; }
+      s += T(x0 + L + 6, y - 8, hot ? "hot water, 353 K" : "ice water, 273 K", "bt", 'text-anchor="end"');
+    }
+    // barrel and gas
+    s += `<rect x="${x0}" y="${y}" width="${(xp - x0).toFixed(1)}" height="${h}" fill="${col}"/>`;
+    s += `<rect x="${x0}" y="${y}" width="${L}" height="${h}" fill="none" stroke="#5d6973" stroke-width="2"/>`;
+    s += `<path d="M${x0} ${y + h / 2 - 5} h-12 v10 h12" fill="#e9edf0" stroke="#5d6973" stroke-width="1.5"/><line x1="${x0 - 12}" y1="${y + h / 2 - 9}" x2="${x0 - 12}" y2="${y + h / 2 + 9}" stroke="#5d6973" stroke-width="3"/>`;
+    // plunger
+    s += `<rect x="${xp.toFixed(1)}" y="${y + 2}" width="7" height="${h - 4}" fill="#47525c"/><rect x="${(xp + 7).toFixed(1)}" y="${y + h / 2 - 3}" width="${(x0 + L + (narrow ? 40 : 90) - xp - 7).toFixed(1)}" height="6" fill="#8b96a0"/><rect x="${x0 + L + (narrow ? 40 : 90)}" y="${y + h / 2 - 14}" width="6" height="28" fill="#47525c"/>`;
+    for (let v = 0; v <= 100; v += 25){ const xx = x0 + L * v / 100; s += `<line x1="${xx.toFixed(1)}" y1="${y + h}" x2="${xx.toFixed(1)}" y2="${y + h + 6}" stroke="#5d6973"/>` + T(xx, y + h + 18, v === 100 ? "100 cm³" : String(v), "bt", 'text-anchor="middle"'); }
+    if (now.ar > 0) s += T(x0 + 6, y - 6, "contains argon", "bt");
+    const yy = y + h + 52;
+    s += lcSwatches(yy, W, S);
+    Hh = yy + 44;
+  } else {
+    Hh = narrow ? 330 : 250;
+    const cx = narrow ? W / 2 : W / 2 - 70, tw = 44, top = 24, bot = 186, cap = 40;
+    const lvl = bot - (bot - top - 18) * Math.min(1, now.V / cap);
+    if (now.T !== 298){
+      const hot = now.T > 298;
+      s += `<rect x="${cx - 60}" y="${top + 70}" width="120" height="${bot - top - 50}" rx="4" fill="${hot ? "#f6dcc6" : "#dcebf4"}" stroke="${hot ? "#d8a27a" : "#9fc0d6"}"/>` + T(cx, bot + 36, hot ? "hot water, 353 K" : "ice water, 273 K", "bt", 'text-anchor="middle"');
+    }
+    s += `<path d="M${cx - tw / 2} ${lvl.toFixed(1)} V${bot - tw / 2} a${tw / 2} ${tw / 2} 0 0 0 ${tw} 0 V${lvl.toFixed(1)} Z" fill="${col}"/>`;
+    s += `<path d="M${cx - tw / 2} ${top} V${bot - tw / 2} a${tw / 2} ${tw / 2} 0 0 0 ${tw} 0 V${top}" fill="none" stroke="#5d6973" stroke-width="2"/>`;
+    s += T(cx + tw / 2 + 8, lvl + 4, `${sf(now.V, 3)} cm³`, "bt");
+    s += narrow ? lcSwatches(272, W, S) : lcSwatches(60, W, S, W / 2 + 10);
+  }
+  setSvg(svg, W, Hh, s);
+  $("lc-temp").innerHTML = `${now.T}<small>K</small>`;
+  $("lc-appnote").innerHTML = lcAppNote(S, now);
+}
+// three swatches: before the change, immediately after, now
+function lcSwatches(y, W, S, xstart){
+  const items = [[LC.prev, "before"], [LC.imm, "at once"], [lcNow(), "now"]];
+  const narrow = W < 520, sw = narrow ? 48 : 64, gap = narrow ? 12 : 20;
+  const tot = 3 * sw + 2 * gap, x0 = xstart != null ? xstart : (W - tot) / 2;
+  let s = xstart != null ? T(x0, y - 12, "Colour (side view)", "btb") : "";
+  if (!LC.chg) return s + `<rect x="${x0.toFixed(1)}" y="${y}" width="${sw}" height="26" rx="3" fill="${colourOf(S.sp, LC.st.c)}" stroke="#8b96a0"/>` + T(x0 + sw / 2, y + 40, "at equilibrium", "bt", 'text-anchor="middle"');
+  items.forEach(([st, lab], i) => { const x = x0 + i * (sw + gap); s += `<rect x="${x.toFixed(1)}" y="${y}" width="${sw}" height="26" rx="3" fill="${colourOf(S.sp, st.c)}" stroke="#8b96a0" data-sw="${lab}"/>` + T(x + sw / 2, y + 40, lab, "bt", 'text-anchor="middle"'); });
+  return s;
+}
+function lcAppNote(S, now){
+  if (LC.sys === "n2o4") return `Gas syringe, sealed. Seen from the side the depth of brown follows [NO<sub>2</sub>]. Total pressure ${sf((now.c[0] + now.c[1]) * RT(now.T) + now.ar / (now.V / 1000) * RT(now.T), 3)} kPa.`;
+  if (LC.sys === "fescn") return `Test tube seen from the side: the depth of red follows [Fe(SCN)<sup>2+</sup>]; Fe<sup>3+</sup> adds a little yellow.`;
+  return `Test tube seen from the side: [Co(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup> is pink, [CoCl<sub>4</sub>]<sup>2−</sup> is blue; a mixture of the two looks violet.`;
+}
+
+/* ---- readouts, graph ---- */
+function cFmt(v){ return v >= 0.01 ? sf(v, 3) : sci(v, 3); }
+function lcRead(){
+  const S = SYS[LC.sys], now = lcNow(), K = S.Kshow(now.T), Q = S.Qshow(now.c, now.T);
+  let h = S.sp.filter(s => EPS[s.e].some(x => x > 0) || LC.sys !== "n2o4").map((s, i) => `<div class="stat"><div class="l">${H(brk(s.f))} / mol dm<sup>−3</sup></div><div class="v">${H(cFmt(now.c[S.sp.indexOf(s)]))}</div></div>`).join("");
+  if (LC.sys === "n2o4") h = S.sp.map((s, i) => `<div class="stat"><div class="l">${H("p(" + s.f + ")")} / kPa</div><div class="v">${sf(now.c[i] * RT(now.T), 3)}</div></div>`).join("") + `<div class="stat"><div class="l">[NO<sub>2</sub>] / mol dm<sup>−3</sup></div><div class="v">${sf(now.c[1], 3)}</div></div>`;
+  h += `<div class="stat" id="lc-K"><div class="l">${H(K.lab)}${K.ill ? " (illustrative)" : ""} / ${H(K.u)}</div><div class="v">${H(sci(K.v, 3))}</div><div class="l">changes only with temperature</div></div>`;
+  h += `<div class="stat" id="lc-Q"><div class="l">Q (beyond the syllabus)</div><div class="v">${H(sci(Q, 3))}</div><div class="l">${Math.abs(Q / K.v - 1) < 0.005 ? "= K: at equilibrium" : Q < K.v ? "less than K: forward reaction faster" : "greater than K: reverse reaction faster"}</div></div>`;
+  $("lc-read").innerHTML = h;
+}
+function lcGraph(){
+  const S = SYS[LC.sys], svg = $("lc-graph"), C = { s1: cssVar("--s1"), s2: cssVar("--s2") };
+  const [ia, ib] = S.plot, tEnd = LCTEND;
+  const at = t => lerpC(LC.imm.c, LC.fin.c, gfrac(t));
+  const tNow = LC.chg ? LC.frac * tEnd : tEnd;
+  const pts = i => { if (!LC.chg) return [[-1, LC.st.c[i]], [tEnd, LC.st.c[i]]]; const out = [[-1, LC.prev.c[i]], [0, LC.prev.c[i]], [0, LC.imm.c[i]]]; for (let t = 0.05; t <= tNow + 1e-9; t += 0.05) out.push([t, at(t)[i]]); return out; };
+  const all = [LC.prev, LC.imm, LC.fin, LC.st].flatMap(s => [s.c[ia], s.c[ib]]);
+  const ymax = Math.max(...all) * 1.12;
+  const scaled = ymax < 0.01;
+  lineChart(svg, { x: [-1, tEnd], y: [0, ymax], h: 200, xlab: "time after the change / s (illustrative)", ylab: scaled ? "conc. / 10⁻⁴ mol dm⁻³" : "conc. / mol dm⁻³", ml: 54, xticks: [-1, 0, 1, 2, 3, 4],
+    yfmt: v => scaled ? (v * 1e4).toFixed(Number.isInteger(+(v * 1e4).toFixed(6)) ? 0 : 1) : minus(String(+v.toFixed(4))),
+    under: (X, Y, W, Hh, m) => LC.chg ? `<line x1="${X(0)}" x2="${X(0)}" y1="${m.t}" y2="${Hh - m.b}" stroke="${cssVar("--ref")}" stroke-dasharray="3 3"/>` + T(X(0) + 4, m.t + 10, "change", "cap") : "",
+    series: [{ pts: pts(ia), col: C.s1, w: 2.4 }, { pts: pts(ib), col: C.s2, dash: "6 3", w: 2.2 }] });
+  $("lc-gleg").innerHTML = legendHTML([{ col: C.s1, t: brk(S.sp[ia].f) }, { col: C.s2, dash: "6 3", t: brk(S.sp[ib].f) }]);
+}
+function lcAll(){ lcApp(); lcRead(); lcGraph(); }
+
+/* ---- explanations ---- */
+const word = { left: "shifts left", right: "shifts right", none: "does not shift" };
+const kword = { up: "K increases", down: "K decreases", same: "K is unchanged" };
+function lcExplain(id, r){
+  const S = SYS[LC.sys], pc = r.prev.c, ic = r.imm.c, fc = r.fin.c, T0 = r.prev.T, T1 = r.imm.T;
+  const K1 = S.Kshow(T1), Q1 = S.Qshow(ic, T1), K0 = S.Kshow(T0);
+  const Kt = `${H(K1.lab)} = ${H(sci(K1.v, 3))} ${H(K1.u)}`;
+  const qline = `Q = ${H(sci(Q1, 3))} (beyond the syllabus)`;
+  const L = [];
+  const kSame = `${H(K1.lab)} is unchanged (${H(sci(K1.v, 3))} ${H(K1.u)}): the temperature has not changed, and only a change in temperature changes K.`;
+  if (id === "in"){
+    L.push(`<b>At once:</b> halving the volume doubles every concentration, so the mixture looks darker immediately: [NO₂] goes from ${sf(pc[1], 3)} to ${sf(ic[1], 3)} mol dm⁻³.`);
+    L.push(`<b>Le Chatelier:</b> the system opposes the increase in pressure by shifting to the side with fewer gas molecules: <b>left</b> (2 molecules of NO₂ → 1 of N₂O₄). The brown fades a little.`);
+    L.push(`<b>Using K:</b> K{p} = p(NO₂)² / p(N₂O₄). Doubling both partial pressures multiplies the top by 4 and the bottom by 2, so the ratio becomes 2 × K{p} (${qline}). It is now larger than K{p}, so the reverse reaction goes faster than the forward until the ratio is back to K{p}.`);
+    L.push(`<b>At the new equilibrium</b> [NO₂] = ${sf(fc[1], 3)} mol dm⁻³: lighter than just after the push, but still darker than before (${sf(pc[1], 3)}). [NO₂]² = K{c}[N₂O₄], and [N₂O₄] has risen.`);
+    L.push(kSame);
+  } else if (id === "out"){
+    L.push(`<b>At once:</b> doubling the volume halves every concentration, so the mixture looks paler immediately: [NO₂] falls from ${sf(pc[1], 3)} to ${sf(ic[1], 3)} mol dm⁻³.`);
+    L.push(`<b>Le Chatelier:</b> the system opposes the fall in pressure by shifting to the side with more gas molecules: <b>right</b>. The brown deepens a little.`);
+    L.push(`<b>Using K:</b> halving both partial pressures makes p(NO₂)² / p(N₂O₄) = ½ × K{p} (${qline}): smaller than K{p}, so the forward reaction goes faster until the ratio is back to K{p}.`);
+    L.push(`<b>At the new equilibrium</b> [NO₂] = ${sf(fc[1], 3)} mol dm⁻³: darker than just after the pull, but paler than before (${sf(pc[1], 3)}).`);
+    L.push(kSame);
+  } else if (id === "hot" || id === "ice" || id === "room" || id === "coheat" || id === "coice" || id === "coroom"){
+    const up = T1 > T0, co = LC.sys === "co";
+    L.push(`<b>Le Chatelier:</b> the forward reaction is endothermic${co ? "" : " (ΔH = +57.2 kJ mol⁻¹)"}. ${up ? "Raising" : "Lowering"} the temperature from ${T0} K to ${T1} K is opposed by the system ${up ? "absorbing heat: the endothermic (forward) reaction is favoured, so the position shifts <b>right</b>" : "releasing heat: the exothermic (reverse) reaction is favoured, so the position shifts <b>left</b>"}.`);
+    L.push(co ? (up ? "The solution turns bluer: more [CoCl₄]²⁻." : "The solution turns pinker: more [Co(H₂O)₆]²⁺.") : (up ? "The gas turns browner: more NO₂." : "The gas turns paler: less NO₂."));
+    L.push(`<b>K changes:</b> ${H(K0.lab)} goes from ${H(sci(K0.v, 3))} to ${H(sci(K1.v, 3))} ${H(K1.u)}${K1.ill ? " (illustrative values)" : ""}. For an endothermic forward reaction K ${up ? "increases" : "decreases"} as the temperature ${up ? "rises" : "falls"}. The old concentrations now give a ratio ${up ? "smaller" : "larger"} than the new K, so the ${up ? "forward" : "reverse"} reaction goes faster until the ratio equals the new K.`);
+    L.push(co ? `Concentrations at the new equilibrium: [CoCl₄²⁻] = ${cFmt(fc[2])}, [Co(H₂O)₆²⁺] = ${cFmt(fc[0])} mol dm⁻³.` : `[NO₂] at the new equilibrium: ${sf(fc[1], 3)} mol dm⁻³ (was ${sf(pc[1], 3)}).`);
+  } else if (id === "arV"){
+    L.push(`${FEX}<b>At once:</b> the argon raises the total pressure, but the volume is fixed, so the amounts and concentrations (and partial pressures) of N₂O₄ and NO₂ do not change.`);
+    L.push(`<b>Using K:</b> p(NO₂)² / p(N₂O₄) is still equal to K{p} (${qline}), so there is <b>no shift</b>. The colour does not change.`);
+    L.push(`Le Chatelier's Principle is about the partial pressures of the reacting gases: an inert gas at constant volume changes none of them. ${kSame}`);
+  } else if (id === "arP"){
+    L.push(`${FEX}<b>At once:</b> to keep the total pressure the same, the plunger moves out (volume ${sf(r.prev.V, 3)} → ${sf(r.imm.V, 3)} cm³). The partial pressures of N₂O₄ and NO₂ fall, just as if you had pulled the plunger out.`);
+    L.push(`<b>Le Chatelier:</b> the system opposes the fall in the partial pressures by shifting to the side with more gas molecules: <b>right</b>.`);
+    L.push(`<b>Using K:</b> the ratio p(NO₂)² / p(N₂O₄) is now smaller than K{p} (${qline}), so the forward reaction goes faster until it is back to K{p}. ${kSame}`);
+  } else if (id === "fe" || id === "scn"){
+    const sp = id === "fe" ? "Fe³⁺" : "SCN⁻";
+    L.push(`<b>Le Chatelier:</b> adding ${sp} increases its concentration. The system opposes this by using some of it up: the position shifts <b>right</b>, making more [Fe(SCN)]²⁺. The solution turns redder.`);
+    L.push(`<b>Using K:</b> K{c} = [Fe(SCN)²⁺] / ([Fe³⁺][SCN⁻]). With more ${sp} the bottom is larger, so the ratio is smaller than K{c} (${qline}): the forward reaction goes faster until the ratio is back to K{c}.`);
+    L.push(`[Fe(SCN)²⁺]: ${sci(pc[2], 3)} before, ${sci(fc[2], 3)} mol dm⁻³ after. ${kSame}`);
+  } else if (id === "water"){
+    L.push(`<b>At once:</b> doubling the volume halves every concentration: [Fe(SCN)²⁺] would be ${sci(ic[2], 3)} mol dm⁻³ if nothing else happened.`);
+    L.push(`<b>Le Chatelier:</b> diluting lowers the total concentration of dissolved particles. The system opposes this by shifting to the side with more dissolved particles: <b>left</b> (2 ions on the left, 1 on the right). [Fe(SCN)]²⁺ breaks up.`);
+    L.push(`<b>Using K:</b> halving every concentration halves the top and quarters the bottom of [Fe(SCN)²⁺] / ([Fe³⁺][SCN⁻]), so the ratio becomes 2 × K{c} (${qline}). The reverse reaction goes faster until the ratio is back to K{c}.`);
+    L.push(`<b>Result:</b> [Fe(SCN)²⁺] = ${sci(fc[2], 3)} mol dm⁻³, less than the ${sci(ic[2], 3)} from dilution alone: the solution is paler than dilution by itself would make it. ${kSame}`);
+  } else if (id === "hcl"){
+    L.push(`<b>Le Chatelier:</b> concentrated HCl raises [Cl⁻] (from ${sf(pc[1], 3)} to ${sf(ic[1], 3)} mol dm⁻³). The system opposes this by using up Cl⁻: the position shifts <b>right</b> and the solution turns bluer.`);
+    L.push(`<b>Using K:</b> K{c} = [CoCl₄²⁻] / ([Co(H₂O)₆²⁺][Cl⁻]⁴). Water is the solvent, so it is left out. More Cl⁻ makes the ratio smaller than K{c} (${qline}); the forward reaction goes faster until the ratio is back to K{c}. ${kSame}`);
+  } else if (id === "cowater"){
+    L.push(`<b>Le Chatelier:</b> adding water dilutes every ion, so the position shifts to the side with more dissolved ions: <b>left</b> (1 + 4 = 5 ions on the left, 1 on the right). The solution turns pinker.`);
+    L.push(`<b>Using K:</b> diluting by a factor f divides the top of [CoCl₄²⁻] / ([Co(H₂O)₆²⁺][Cl⁻]⁴) by f but the bottom by f⁵, so the ratio rises above K{c} (${qline}). The reverse reaction goes faster until the ratio is back to K{c}. ${kSame}`);
+  }
+  return `<span class="eyebrow">What happened · <span class="nc">${H(CHG[id].t)}</span></span><ul class="notes">${L.map(x => `<li>${TX(x)}</li>`).join("")}</ul>`;
+}
+LAB.lcExplain = lcExplain;
+
+/* ---- flow: pick a change → predict → run ---- */
+function lcChanges(){
+  const S = SYS[LC.sys];
+  $("lc-changes").innerHTML = S.changes.map(id => `<button type="button" data-c="${id}"${CHG[id].ok(LC.st) ? "" : " disabled"}>${CHG[id].fex ? FEX : ""}${H(CHG[id].t)}</button>`).join("");
+  $("lc-changes").querySelectorAll("button").forEach(b => b.onclick = () => lcStart(b.dataset.c));
+}
+function lcStart(id){
+  if (!CHG[id].ok(LC.st)) return;
+  if (LC.chg){ LC.st = LC.fin; }
+  LC.frac = 1; cancelAnimationFrame(LC.anim);
+  const r = lcCompute(id, LC.st);
+  LC.pending = { id, r };
+  if ($("lc-predict").checked){
+    LC.pick = {};
+    $("lc-pq").innerHTML = `${CHG[id].fex ? FEX : ""}${H(CHG[id].t)}. What happens?`;
+    const chips = (el, opts, key) => { $(el).innerHTML = opts.map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="false">${t}</button>`).join(""); $(el).querySelectorAll("button").forEach(b => b.onclick = () => { LC.pick[key] = b.dataset.v; $(el).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); $("lc-go").disabled = !(LC.pick.shift && LC.pick.k); }); };
+    chips("lc-pshift", [["left", "Shifts left"], ["right", "Shifts right"], ["none", "No shift"]], "shift");
+    chips("lc-pk", [["up", "<i>K</i> increases"], ["down", "<i>K</i> decreases"], ["same", "<i>K</i> unchanged"]], "k");
+    $("lc-go").disabled = true;
+    $("lc-pred").hidden = false; $("lc-pfb").hidden = true;
+    $("lc-changes").querySelectorAll("button").forEach(b => b.disabled = true);
+  } else lcRun(null);
+}
+function lcRun(pred){
+  const { id, r } = LC.pending; LC.pending = null;
+  $("lc-pred").hidden = true;
+  const fb = $("lc-pfb");
+  if (pred){
+    const a = pred.shift === r.shift, b = pred.k === r.kdir;
+    LC.score[0] += (a ? 1 : 0) + (b ? 1 : 0); LC.score[1] += 2;
+    fb.className = "fb " + (a && b ? "ok" : "no");
+    fb.innerHTML = `<p><b>Position: ${a ? "right" : "not quite"}.</b> It ${word[r.shift]}.${a ? "" : ` You said it ${word[pred.shift]}.`}</p><p><b>${H("K")}: ${b ? "right" : "not quite"}.</b> ${kword[r.kdir].replace("K", "<i>K</i>")}.${b ? "" : ` You said ${kword[pred.k].replace("K", "<i>K</i>")}.`}</p><p class="ink" style="font-size:.82rem">Predictions so far: ${LC.score[0]} / ${LC.score[1]} right.</p>`;
+    fb.hidden = false;
+  } else {
+    fb.className = "fb info"; fb.innerHTML = `<p>The position of equilibrium ${word[r.shift]}; ${kword[r.kdir].replace("K", "<i>K</i>")}.</p>`; fb.hidden = false;
+  }
+  LC.prev = r.prev; LC.imm = r.imm; LC.fin = r.fin; LC.chg = id; LC.st = r.fin; LC.last = r;
+  $("lc-explain").innerHTML = lcExplain(id, r);
+  lcChanges();
+  if (NOANIM()){ LC.frac = 1; lcAll(); return; }
+  LC.frac = 0; const t0 = performance.now(), dur = 2600;
+  const step = ts => { LC.frac = Math.min(1, (ts - t0) / dur); lcAll(); if (LC.frac < 1) LC.anim = requestAnimationFrame(step); };
+  LC.anim = requestAnimationFrame(step);
+}
+LAB.lcRun = (id, pred) => { lcStart(id); if (LC.pending) lcRun(pred || null); };
+LAB.lcPredictRun = (id, shift, k) => { lcStart(id); LC.pick = { shift, k }; lcRun(LC.pick); };
+function lcSetSys(k){
+  LC.sys = k; cancelAnimationFrame(LC.anim); lcInit();
+  $("lc-sys").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.s === k)));
+  const S = SYS[k];
+  $("lc-model").innerHTML = k === "n2o4" ? `Model: <i>K</i><sub>p</sub>(<i>T</i>) = exp(−(Δ<i>H</i> − <i>T</i>Δ<i>S</i>)/<i>RT</i>) with <span class="src lit">literature</span> Δ<i>H</i> = +57.2 kJ mol<sup>−1</sup> and Δ<i>S</i> = +175.9 J K<sup>−1</sup> mol<sup>−1</sup> taken as constant (in reality both vary a little with temperature): 14.5 kPa at 298 K, against the literature value of about 15 kPa. Ideal gases.`
+    : k === "fescn" ? `<i>K</i><sub>c</sub> = 200 mol<sup>−1</sup> dm<sup>3</sup> is illustrative (chosen to show the effect clearly). Start: 1.0 × 10<sup>−3</sup> mol dm<sup>−3</sup> each of Fe<sup>3+</sup> and SCN<sup>−</sup>, 10 cm<sup>3</sup>. The added solutions are 0.050 mol dm<sup>−3</sup>.`
+    : `Qualitative only: <i>K</i><sub>c</sub> and the way it changes with temperature are illustrative, chosen so that the room-temperature mixture is violet. Start: 0.10 mol dm<sup>−3</sup> cobalt(II) in 6.0 mol dm<sup>−3</sup> Cl<sup>−</sup>, 10 cm<sup>3</sup>.`;
+  $("lc-explain").innerHTML = `<span class="eyebrow">System · <span class="nc">${H(S.short)}</span></span><p class="qtext" style="margin:0">${EQ(S.name)}</p>${S.dH ? `<p class="hint" style="margin:0">Δ<i>H</i> ${H(S.dH)}</p>` : ""}<p class="hint" style="margin:0">Colours: ${S.sp.map(s => H(s.nm)).join("; ")}.</p><p class="hint" style="margin:0">Choose a change on the left.</p>`;
+  $("lc-pred").hidden = true; $("lc-pfb").hidden = true;
+  lcChanges(); lcAll();
+}
+LAB.lcSetSys = lcSetSys;
+
+/* ---- catalyst ---- */
+const CT = { kf: 0.5, kr: 0.25, F: 4, on: true };
+function ctB(t, f){ const k = (CT.kf + CT.kr) * f; return CT.kf / (CT.kf + CT.kr) * (1 - Math.exp(-k * t)); }
+LAB.ctB = ctB; LAB.CT = CT;
+function ctDraw(){
+  const C = { s1: cssVar("--s1"), s2: cssVar("--s2") }, tE = 12;
+  const pts = f => { const o = []; for (let t = 0; t <= tE + 1e-9; t += 0.1) o.push([t, ctB(t, f)]); return o; };
+  const ser = [{ pts: pts(1), col: C.s1, w: 2.4 }];
+  if (CT.on) ser.push({ pts: pts(CT.F), col: C.s2, dash: "6 3", w: 2.2 });
+  const t99 = f => Math.log(100) / ((CT.kf + CT.kr) * f);
+  lineChart($("ct-graph"), { x: [0, tE], y: [0, 1], h: 200, xlab: "time / s (illustrative)", ylab: "n(B) / mol", yticks: [0, 0.25, 0.5, 0.75, 1],
+    under: (X, Y, W, Hh, m) => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(2 / 3)}" y2="${Y(2 / 3)}" stroke="${cssVar("--ref")}" stroke-dasharray="2 3"/>` + T(W - m.r - 4, Y(2 / 3) - 6, "equilibrium: 0.67 mol for both", "cap", 'text-anchor="end"'),
+    series: ser, over: (X, Y) => [1].concat(CT.on ? [CT.F] : []).map((f, i) => `<line x1="${X(t99(f)).toFixed(1)}" x2="${X(t99(f)).toFixed(1)}" y1="${Y(0)}" y2="${Y(0.99 * 2 / 3).toFixed(1)}" stroke="${i ? C.s2 : C.s1}" stroke-width="1" stroke-dasharray="2 2"/>`).join("") });
+  $("ct-leg").innerHTML = legendHTML([{ col: C.s1, t: "no catalyst" }].concat(CT.on ? [{ col: C.s2, dash: "6 3", t: `with catalyst (both rates × ${CT.F})` }] : []));
+  const K = CT.kf / CT.kr;
+  $("ct-read").innerHTML = `<div class="stat"><div class="l">Equilibrium n(B), no catalyst</div><div class="v">0.67 mol</div></div>` + (CT.on ? `<div class="stat"><div class="l">Equilibrium n(B), with catalyst</div><div class="v">0.67 mol</div></div>` : "") +
+    `<div class="stat"><div class="l">Time to reach 99 % of the way</div><div class="v">${t99(1).toFixed(1)} s${CT.on ? ` → ${t99(CT.F).toFixed(1)} s` : ""}</div></div>` +
+    `<div class="stat"><div class="l"><i>K</i><sub>c</sub> = [B] / [A] at equilibrium</div><div class="v">${K.toFixed(2)}${CT.on ? " for both" : ""}</div></div>` +
+    `<div class="stat wide"><div class="l">Conclusion</div><div class="v" style="font-weight:500;font-family:var(--sans)">A catalyst provides an alternative reaction pathway with lower activation energy, so the system reaches equilibrium sooner. The position of equilibrium and the value of <i>K</i> are unchanged.</div></div>`;
+}
+function bindBench(){
+  $("lc-sys").innerHTML = Object.entries(SYS).map(([k, S]) => `<button type="button" data-s="${k}" aria-pressed="false">${H(S.short)}</button>`).join("");
+  $("lc-sys").querySelectorAll("button").forEach(b => b.onclick = () => lcSetSys(b.dataset.s));
+  $("lc-reset").onclick = () => lcSetSys(LC.sys);
+  $("lc-go").onclick = () => lcRun({ ...LC.pick });
+  $("lc-skip").onclick = () => lcRun(null);
+  $("lc-predict").onchange = () => { if (LC.pending && !$("lc-predict").checked) lcRun(null); };
+  $("ct-on").onchange = e => { CT.on = e.target.checked; ctDraw(); };
+  $("ct-f").oninput = e => { CT.F = +e.target.value; $("ct-fo").textContent = "× " + CT.F; ctDraw(); };
+  $("ct-fo").textContent = "× " + CT.F;
+  $("lc-cards").innerHTML = [
+    `<article class="panel card"><h3>${FEX}Adding an inert gas</h3><div class="kind">9476 9(b) · try the two argon changes on the N<sub>2</sub>O<sub>4</sub> syringe</div>
+      <p><b>At constant volume:</b> the total pressure rises, but the partial pressures of the reacting gases do not change, so there is <b>no shift</b>.</p>
+      <p><b>At constant total pressure:</b> the volume must increase, so the partial pressures of the reacting gases fall. This is <b>like lowering the pressure</b>: the position shifts to the side with more gas molecules.</p>
+      <p>Either way <i>K</i> is unchanged. In the Haber process, argon and methane in the recycle loop lower the partial pressures of N<sub>2</sub> and H<sub>2</sub>, which is why a purge is needed.</p></article>`,
+    `<article class="panel card"><h3>Summary: what moves the position, what changes <i>K</i></h3><div class="kind">9476 9(b)(c)</div>
+      <div class="tblwrap"><table class="data"><thead><tr><th>Change</th><th>Position of equilibrium</th><th><i>K</i></th></tr></thead><tbody>
+      <tr><td>Add a reactant or remove a product</td><td>right</td><td>unchanged</td></tr>
+      <tr><td>Increase pressure (gases)</td><td>towards fewer gas molecules</td><td>unchanged</td></tr>
+      <tr><td>Raise temperature, exothermic forward</td><td>left</td><td>decreases</td></tr>
+      <tr><td>Raise temperature, endothermic forward</td><td>right</td><td>increases</td></tr>
+      <tr><td>Add a catalyst</td><td>no shift (reached sooner)</td><td>unchanged</td></tr></tbody></table></div></article>`
+  ].join("");
+  lcSetSys("n2o4"); ctDraw();
+}
+
+/* =====================================================
+   3. ICE TABLE WORKBENCH (WE1 to WE6 of Part 1, values exactly as DATA.md)
+   Each step may reveal one table row (r) and adds working lines (w).
+   ===================================================== */
+const ASIDE = t => `<span class="aside">(${t})</span>`;
+const WE = [
+  { id: "WE1", t: "WE1 · K{c} from equilibrium amounts", eq: "H₂(g) + I₂(g) ⇌ 2HI(g)", cols: ["H₂", "I₂", "HI"],
+    q: "1.00 mol of H₂ and 1.00 mol of I₂ were sealed in a 10.0 dm³ vessel at 731 K. At equilibrium the mixture contained 1.56 mol of HI. Calculate K{c} at 731 K.",
+    rows: [["Initial / mol", "1.00", "1.00", "0"], ["Change / mol", "−0.78", "−0.78", "+1.56"], ["Equilibrium / mol", "0.22", "0.22", "1.56"], ["Concentration / mol dm⁻³", "0.022", "0.022", "0.156"]],
+    steps: [
+      { r: 0, w: [ASIDE("To find K{c}, you first need the equilibrium concentrations. Set up an ICE table in moles."), "Initial amounts: 1.00 mol H₂, 1.00 mol I₂, no HI."] },
+      { r: 1, w: ["1.56 mol of HI formed. From the equation, 2 mol of HI form from 1 mol of H₂ and 1 mol of I₂, so 1.56 / 2 = 0.78 mol of each reacted."] },
+      { r: 2, w: ["Equilibrium amounts: H₂ = I₂ = 1.00 − 0.78 = 0.22 mol; HI = 1.56 mol."] },
+      { r: 3, w: ["Divide each amount by the volume, 10.0 dm³: [H₂] = [I₂] = 0.022 mol dm⁻³, [HI] = 0.156 mol dm⁻³."] },
+      { w: ["K{c} = [HI]² / ([H₂][I₂])"] },
+      { w: ["K{c} = (0.156)² / ((0.022)(0.022)) = 50.28 = <b>50.3</b> (no units)"] },
+      { w: ["Units: (mol dm⁻³)² / ((mol dm⁻³)(mol dm⁻³)): they cancel. The volume cancels too, because there are 2 moles of gas on each side.", "Illustrative data: the literature K{c} at this temperature is about 50. ΔH is small and negative: about −11 kJ mol⁻¹ from Data Booklet bond energies (436 + 151 − 2 × 299)."] }
+    ], ans: 50.3 },
+  { id: "WE2", t: "WE2 · Esterification: liquids, water kept", eq: "CH₃COOH(l) + C₂H₅OH(l) ⇌ CH₃COOC₂H₅(l) + H₂O(l)", cols: ["CH₃COOH", "C₂H₅OH", "CH₃COOC₂H₅", "H₂O"],
+    q: "1.00 mol of ethanoic acid and 1.00 mol of ethanol were heated with a few drops of concentrated sulfuric acid (catalyst) until equilibrium was reached. The mixture then contained 0.667 mol of ethyl ethanoate. Calculate K{c}.",
+    rows: [["Initial / mol", "1.00", "1.00", "0", "0"], ["Change / mol", "−0.667", "−0.667", "+0.667", "+0.667"], ["Equilibrium / mol", "0.333", "0.333", "0.667", "0.667"], ["Concentration / mol dm⁻³", "0.333 / V{}", "0.333 / V{}", "0.667 / V{}", "0.667 / V{}"]],
+    steps: [
+      { r: 0, w: [ASIDE("To find K{c}, you first need the equilibrium amounts. Every species is a liquid in the same mixture, so all four go into K{c}."), "Initial: 1.00 mol acid, 1.00 mol ethanol, no ester, no water."] },
+      { r: 1, w: ["0.667 mol of ester formed, so 0.667 mol of acid and of ethanol reacted and 0.667 mol of water formed (1 : 1 : 1 : 1)."] },
+      { r: 2, w: ["Equilibrium amounts: acid = ethanol = 1.00 − 0.667 = 0.333 mol; ester = water = 0.667 mol."] },
+      { r: 3, w: ["The volume V{} of the mixture is not known, but it cancels: two concentration terms on the top and two on the bottom."] },
+      { w: ["K{c} = [CH₃COOC₂H₅][H₂O] / ([CH₃COOH][C₂H₅OH])", "Water is a product in a liquid mixture, not the solvent of a dilute solution, so it is kept in the expression."] },
+      { w: ["K{c} = (0.667 × 0.667) / (0.333 × 0.333) = <b>4.01</b> (no units)"] },
+      { w: ["About 4 is the literature value. The catalyst does not change K{c}; it only makes the mixture reach equilibrium sooner."] }
+    ], ans: 4.01 },
+  { id: "WE3", t: "WE3 · K{c} with units, by ICE", eq: "2SO₂(g) + O₂(g) ⇌ 2SO₃(g)", cols: ["SO₂", "O₂", "SO₃"],
+    q: "0.400 mol of SO₂ and 0.200 mol of O₂ were put in a 2.00 dm³ vessel at a fixed temperature. At equilibrium there was 0.320 mol of SO₃. Calculate K{c}, with its units.",
+    rows: [["Initial / mol", "0.400", "0.200", "0"], ["Change / mol", "−0.320", "−0.160", "+0.320"], ["Equilibrium / mol", "0.080", "0.040", "0.320"], ["Concentration / mol dm⁻³", "0.0400", "0.0200", "0.160"]],
+    steps: [
+      { r: 0, w: [ASIDE("To find K{c}, you first need the equilibrium concentrations; only the SO₃ amount is given, so use the mole ratio."), "Initial: 0.400 mol SO₂, 0.200 mol O₂, no SO₃."] },
+      { r: 1, w: ["0.320 mol of SO₃ formed. Mole ratio SO₂ : O₂ : SO₃ = 2 : 1 : 2, so 0.320 mol of SO₂ and 0.160 mol of O₂ reacted."] },
+      { r: 2, w: ["Equilibrium amounts: SO₂ = 0.400 − 0.320 = 0.080 mol; O₂ = 0.200 − 0.160 = 0.040 mol; SO₃ = 0.320 mol."] },
+      { r: 3, w: ["Divide by 2.00 dm³: [SO₂] = 0.0400, [O₂] = 0.0200, [SO₃] = 0.160 mol dm⁻³."] },
+      { w: ["K{c} = [SO₃]² / ([SO₂]²[O₂])"] },
+      { w: ["K{c} = (0.160)² / ((0.0400)² × (0.0200)) = 0.0256 / (3.20 × 10⁻⁵) = <b>800 mol⁻¹ dm³</b>"] },
+      { w: ["Units: (mol dm⁻³)² / ((mol dm⁻³)² (mol dm⁻³)) = (mol dm⁻³)⁻¹ = mol⁻¹ dm³. Here the volume does not cancel, so you must use concentrations.", "Illustrative data."] }
+    ], ans: 800 },
+  { id: "WE4", t: "WE4 · Amounts from K{c} (square root)", eq: "H₂(g) + I₂(g) ⇌ 2HI(g)", cols: ["H₂", "I₂", "HI"],
+    q: "At 731 K, K{c} = 50.3. 0.50 mol of H₂ and 0.50 mol of I₂ are sealed in a 10.0 dm³ vessel at this temperature. Calculate the amount of each substance at equilibrium.",
+    rows: [["Initial / mol", "0.50", "0.50", "0"], ["Change / mol", "−x{}", "−x{}", "+2x{}"], ["Equilibrium / mol", "0.50 − x{}", "0.50 − x{}", "2x{}"], ["Concentration / mol dm⁻³", "(0.50 − x{}) / 10.0", "(0.50 − x{}) / 10.0", "2x{} / 10.0"]],
+    steps: [
+      { r: 0, w: [ASIDE("To find the amounts, let x mol of H₂ react, write everything in terms of x, then use K{c}.").replace("let x mol", "let <i>x</i> mol"), "Initial: 0.50 mol H₂, 0.50 mol I₂, no HI."] },
+      { r: 1, w: ["If x{} mol of H₂ reacts, x{} mol of I₂ reacts and 2x{} mol of HI forms (1 : 1 : 2)."] },
+      { r: 2, w: ["Equilibrium: H₂ = I₂ = (0.50 − x{}) mol; HI = 2x{} mol."] },
+      { r: 3, w: ["K{c} = (2x{} / 10.0)² / ((0.50 − x{}) / 10.0)² = 50.3. The volume cancels."] },
+      { w: ["Both sides are perfect squares, so take the square root (no quadratic needed): 2x{} / (0.50 − x{}) = √50.3 = 7.092"] },
+      { w: ["2x{} = 7.092(0.50 − x{}), so 9.092x{} = 3.546 and x{} = <b>0.390</b>"] },
+      { w: ["Equilibrium amounts: HI = 2 × 0.390 = <b>0.780 mol</b> (0.78 to 2 s.f.); H₂ = I₂ = 0.50 − 0.390 = <b>0.110 mol</b> (0.11).", "Check: (0.780)² / (0.110)² = 50.3. The data are given to 2 s.f., so quote 0.78 and 0.11 mol."] }
+    ], ans: 0.390 },
+  { id: "WE5", t: "WE5 · K{p} from moles and total pressure", eq: "N₂O₄(g) ⇌ 2NO₂(g)", cols: ["N₂O₄", "NO₂"],
+    q: "1.00 mol of N₂O₄ was heated in a sealed container. At equilibrium 0.50 mol of it had dissociated and the total pressure was 100 kPa. Calculate K{p}.",
+    rows: [["Initial / mol", "1.00", "0"], ["Change / mol", "−0.50", "+1.00"], ["Equilibrium / mol (total 1.50)", "0.50", "1.00"], ["Mole fraction", "0.50 / 1.50 = 1/3", "1.00 / 1.50 = 2/3"], ["Partial pressure / kPa", "33.3", "66.7"]],
+    steps: [
+      { r: 0, w: [ASIDE("To find K{p}, you first need the partial pressures: amounts, then mole fractions, then x{} × total pressure (Dalton's Law)."), "Initial: 1.00 mol N₂O₄."] },
+      { r: 1, w: ["0.50 mol of N₂O₄ dissociated, giving 2 × 0.50 = 1.00 mol of NO₂."] },
+      { r: 2, w: ["Equilibrium: N₂O₄ = 0.50 mol, NO₂ = 1.00 mol; total = 1.50 mol."] },
+      { r: 3, w: ["Mole fractions: x(N₂O₄) = 0.50 / 1.50 = 1/3; x(NO₂) = 1.00 / 1.50 = 2/3."] },
+      { r: 4, w: ["Partial pressures, p = x × p{}(total): p(N₂O₄) = 1/3 × 100 = 33.3 kPa; p(NO₂) = 2/3 × 100 = 66.7 kPa."] },
+      { w: ["K{p} = p(NO₂)² / p(N₂O₄)"] },
+      { w: ["K{p} = (66.7)² / 33.3 = <b>133 kPa</b> (1.3 × 10² kPa to 2 s.f.). Keep the unrounded values (66.67 and 33.33) in the calculator: the rounded ones give 134.", "Units: kPa² / kPa = kPa. Illustrative data (about 60 °C)."] }
+    ], ans: 133 },
+  { id: "WE6", t: "WE6 · Partial pressures from K{p} (no quadratic)", eq: "PCl₅(g) ⇌ PCl₃(g) + Cl₂(g)", cols: ["PCl₅", "PCl₃", "Cl₂"],
+    q: "At 523 K (250 °C), K{p} = 180 kPa for the dissociation of PCl₅. Find the degree of dissociation, α, and the partial pressure of each gas when the total pressure at equilibrium is 200 kPa.",
+    rows: [["Initial / mol", "1", "0", "0"], ["Change / mol", "−α", "+α", "+α"], ["Equilibrium / mol (total 1 + α)", "1 − α", "α", "α"], ["Mole fraction", "(1 − α) / (1 + α)", "α / (1 + α)", "α / (1 + α)"], ["Partial pressure / kPa", "36.9", "81.5", "81.5"]],
+    steps: [
+      { r: 0, w: [ASIDE("To find the partial pressures, start with 1 mol of PCl₅ (any amount gives the same answer) and let a fraction α dissociate."), "Initial: 1 mol PCl₅."] },
+      { r: 1, w: ["α mol of PCl₅ dissociates, giving α mol of PCl₃ and α mol of Cl₂."] },
+      { r: 2, w: ["Equilibrium: PCl₅ (1 − α), PCl₃ α, Cl₂ α; total (1 + α) mol."] },
+      { r: 3, w: ["Mole fractions: (1 − α)/(1 + α) for PCl₅, α/(1 + α) for each of PCl₃ and Cl₂."] },
+      { w: ["K{p} = p(PCl₃) p(Cl₂) / p(PCl₅) = [α/(1 + α)]² p² / ([(1 − α)/(1 + α)] p) = α²p / (1 − α²)"] },
+      { w: ["180 = 200α² / (1 − α²), so 180 − 180α² = 200α²: α² = 180 / 380 = 0.4737 and α = <b>0.6882</b> (keep 4 s.f. for the next step)"] },
+      { r: 4, w: ["p(PCl₃) = p(Cl₂) = (0.6882 × 200) / 1.6882 = <b>81.5 kPa</b>; p(PCl₅) = (0.3118 × 200) / 1.6882 = <b>36.9 kPa</b>", "Using α rounded to 0.688 gives p(PCl₅) = 37.0 kPa: keep the extra figure. Check: (81.5)² / 36.9 = 180 kPa. Literature K{p}: about 1.8 atm."] }
+    ], ans: 0.688 }
+];
+LAB.WE = WE;
+const IC = { i: 0, step: 0 };
+LAB.IC = IC;
+function icRender(){
+  const w = WE[IC.i], shown = w.steps.slice(0, IC.step);
+  const rowsShown = new Set(shown.filter(s => s.r != null).map(s => s.r));
+  $("ic-we").querySelectorAll("button").forEach((b, i) => b.setAttribute("aria-pressed", String(i === IC.i)));
+  $("ic-eq").innerHTML = EQ(w.eq);
+  $("ic-q").innerHTML = H(w.q);
+  let t = `<thead><tr><th></th>${w.cols.map(c => `<th class="num">${H(c)}</th>`).join("")}</tr></thead><tbody>`;
+  w.rows.forEach((r, i) => { t += `<tr${rowsShown.has(i) ? "" : ' class="pend"'}><th scope="row">${H(r[0])}</th>${r.slice(1).map(v => `<td class="num">${rowsShown.has(i) ? H(v) : "…"}</td>`).join("")}</tr>`; });
+  $("ic-table").innerHTML = t + "</tbody>";
+  $("ic-work").innerHTML = shown.flatMap(s => s.w).map(x => `<li>${H(x)}</li>`).join("") || `<li class="aside">Press Next step to start.</li>`;
+  $("ic-prog").textContent = `Step ${IC.step} of ${w.steps.length}`;
+  $("ic-next").disabled = IC.step >= w.steps.length;
+}
+function bindIce(){
+  $("ic-we").innerHTML = WE.map((w, i) => `<button type="button" data-i="${i}" aria-pressed="false">${H(w.t)}</button>`).join("");
+  $("ic-we").querySelectorAll("button").forEach(b => b.onclick = () => { IC.i = +b.dataset.i; IC.step = 0; icRender(); });
+  $("ic-next").onclick = () => { IC.step = Math.min(WE[IC.i].steps.length, IC.step + 1); icRender(); };
+  $("ic-all").onclick = () => { IC.step = WE[IC.i].steps.length; icRender(); };
+  $("ic-reset").onclick = () => { IC.step = 0; icRender(); };
+  icRender();
+}
+
+/* =====================================================
+   4. K EXPRESSION DRILL
+   Species: [coefficient, formula, state, inK, note]. inK false: left out of K.
+   ===================================================== */
+const KX = [
+  { r: [[1, "H₂", "g"], [1, "I₂", "g"]], p: [[2, "HI", "g"]] },
+  { r: [[1, "N₂", "g"], [3, "H₂", "g"]], p: [[2, "NH₃", "g"]] },
+  { r: [[1, "N₂O₄", "g"]], p: [[2, "NO₂", "g"]] },
+  { r: [[2, "SO₂", "g"], [1, "O₂", "g"]], p: [[2, "SO₃", "g"]] },
+  { r: [[1, "PCl₅", "g"]], p: [[1, "PCl₃", "g"], [1, "Cl₂", "g"]] },
+  { r: [[1, "CaCO₃", "s", false, "a pure solid"]], p: [[1, "CaO", "s", false, "a pure solid"], [1, "CO₂", "g"]], note: "Pure solids are left out: their concentration is fixed. K{c} = [CO₂(g)] and K{p} = p(CO₂)." },
+  { r: [[1, "CH₃COOH", "l"], [1, "C₂H₅OH", "l"]], p: [[1, "CH₃COOC₂H₅", "l"], [1, "H₂O", "l"]], liq: true, note: "All four are liquids in one mixture, so all four appear, water included (it is a product here, not the solvent). No gases, so no K{p}." },
+  { r: [[1, "Fe³⁺", "aq"], [1, "SCN⁻", "aq"]], p: [[1, "[Fe(SCN)]²⁺", "aq"]], note: "Ions in solution: K{c} only." },
+  { r: [[1, "[Co(H₂O)₆]²⁺", "aq"], [4, "Cl⁻", "aq"]], p: [[1, "[CoCl₄]²⁻", "aq"], [6, "H₂O", "l", false, "the solvent"]], note: "Water is the solvent of a dilute solution, so it is left out." },
+  { r: [[1, "CH₄", "g"], [1, "H₂O", "g"]], p: [[1, "CO", "g"], [3, "H₂", "g"]], note: "Steam reforming (hydrogen for the Haber process). Here water is steam, a gas, so it is included." }
+];
+const sideStr = L => L.map(([n, f, s]) => (n === 1 ? "" : n) + f + "(" + s + ")").join(" + ");
+KX.forEach(k => { k.eq = sideStr(k.r) + " ⇌ " + sideStr(k.p); });
+const inK = s => s[3] !== false;
+const brk = (f, s) => `[${f.replace(/^\[(.*)\]([²³⁺⁻\d]*)$/, "$1$2")}]`;           // [Fe(SCN)]²⁺ → [Fe(SCN)²⁺]
+const powS = n => n === 1 ? "" : String(n).split("").map(c => "⁰¹²³⁴⁵⁶⁷⁸⁹"[+c]).join("");
+function termC(L, mode){                          // mode: pow (correct), mult (2[HI]), all (include excluded)
+  return L.filter(s => mode === "all" || inK(s)).map(([n, f, s]) => mode === "mult" ? (n === 1 ? "" : n + " × ") + brk(f) : brk(f) + powS(n)).join(mode === "mult" ? " × " : "");
+}
+function termP(L, mode){ return L.filter(s => mode === "all" || inK(s)).map(([n, f]) => mode === "mult" ? (n === 1 ? "" : n + " × ") + `p(${f})` : `p(${f})` + powS(n)).join(mode === "mult" ? " × " : " "); }
+const frac = (a, b, n) => !b ? a : (n > 1 ? `${a} / (${b})` : `${a} / ${b}`);
+const nK = L => L.filter(inK).length;
+function exprC(k, mode){ const top = termC(mode === "inv" ? k.r : k.p, mode === "inv" ? "pow" : mode), bot = termC(mode === "inv" ? k.p : k.r, mode === "inv" ? "pow" : mode); return frac(top || "1", bot, mode === "inv" ? nK(k.p) : nK(k.r) + (mode === "all" ? 1 : 0)); }
+function exprP(k, mode){ const top = termP(mode === "inv" ? k.r : k.p, mode === "inv" ? "pow" : mode), bot = termP(mode === "inv" ? k.p : k.r, mode === "inv" ? "pow" : mode); return frac(top || "1", bot, bot.includes(" ") ? 2 : 1); }
+const dN = k => k.p.filter(inK).reduce((a, s) => a + s[0], 0) - k.r.filter(inK).reduce((a, s) => a + s[0], 0);
+function unitC(d){ return d === 0 ? "no units" : d === 1 ? "mol dm⁻³" : d === -1 ? "mol⁻¹ dm³" : `mol${powS(Math.abs(d)).replace(/^/, d < 0 ? "⁻" : "")} dm${d < 0 ? powS(3 * -d) : "⁻" + powS(3 * d)}`; }
+function unitP(d){ return d === 0 ? "no units" : d === 1 ? "kPa" : d === -1 ? "kPa⁻¹" : `kPa${d < 0 ? "⁻" : ""}${powS(Math.abs(d))}`; }
+LAB.KX = KX; LAB.unitC = unitC; LAB.unitP = unitP; LAB.dN = dN; LAB.exprC = exprC; LAB.exprP = exprP;
+const hasKp = k => k.r.concat(k.p).filter(inK).every(s => s[2] === "g");
+// three questions per equation, each { q, opts: [[text, ok, why]] }
+function kxQuestions(k){
+  const out = [];
+  const excl = k.r.concat(k.p).filter(s => !inK(s));
+  const cOpts = [[exprC(k, "pow"), true, "Products over reactants, each raised to the power of its coefficient" + (excl.length ? `; ${excl.map(s => s[1] + "(" + s[2] + ")").join(" and ")} left out (${excl.map(s => s[4]).filter((v, i, a) => a.indexOf(v) === i).join(", ")}).` : ".")],
+    [exprC(k, "inv"), false, "Upside down: products go on the top."]];
+  if (k.r.concat(k.p).some(s => s[0] > 1 && inK(s))) cOpts.push([exprC(k, "mult"), false, "Coefficients become powers, not multipliers."]);
+  if (excl.length) cOpts.push([exprC(k, "all"), false, `${excl.map(s => s[1]).join(" and ")} must be left out: ${excl.map(s => s[4]).filter((v, i, a) => a.indexOf(v) === i).join(", ")}.`]);
+  else if (nK(k.r) > 1){ const t = termC(k.p, "pow"), b = k.r.filter(inK).map(([n, f]) => brk(f) + powS(n)).join(" + "); cOpts.push([`${t} / (${b})`, false, "The concentration terms are multiplied, not added."]); }
+  else if (nK(k.p) > 1){ const t = k.p.filter(inK).map(([n, f]) => brk(f) + powS(n)).join(" + "), b = termC(k.r, "pow"); cOpts.push([`(${t}) / ${b}`, false, "The concentration terms are multiplied, not added."]); }
+  else { const t = k.p.filter(inK).map(([, f]) => brk(f)).join(""), b = k.r.filter(inK).map(([, f]) => brk(f)).join(""); cOpts.push([`${t} / ${b}`, false, "Each concentration must be raised to the power of its coefficient."]); }
+  out.push({ q: "Which is the expression for K{c}?", opts: cOpts.slice(0, 4) });
+  const d = dN(k), uc = unitC(d);
+  const uset = [...new Set([d, -d, d === 0 ? 1 : 0, d + (d >= 0 ? 1 : -1), -1, 2].map(unitC))].slice(0, 4);
+  out.push({ q: "What are the units of K{c}?", opts: uset.map(u => [u, u === uc, u === uc ? (d === 0 ? "The concentration units cancel: the same total power on the top and the bottom." : `(mol dm⁻³) raised to the power ${minus(String(d))} (powers on the top minus powers on the bottom of the expression).`) : u === unitC(-d) && d !== 0 ? "This is the inverse: the units come from the expression with the products on top." : "Count the powers: top minus bottom, using only the species in the expression."]) });
+  if (hasKp(k)){
+    const dp = dN(k), up = unitP(dp);
+    out.push({ q: "Which is K{p}, with its units?", opts: [
+      [`${exprP(k, "pow")}, ${up}`, true, `Partial pressures of the gases, with the same powers; units kPa raised to the power ${minus(String(dp))}${dp === 0 ? " (none)" : ""}.`],
+      [`${exprP(k, "inv")}, ${unitP(-dp)}`, false, "Upside down: products go on the top."],
+      [`${exprP(k, "pow")}, ${unitP(dp === 0 ? 1 : -dp)}`, false, "Right expression, wrong units: work them out from the powers."],
+      excl.length ? [`No K{p}: not every species is a gas`, false, "K{p} is written with the gases only; the solids are left out, just as they are in K{c}."] : [`${exprC(k, "pow")}, ${up}`, false, "K{p} uses partial pressures, not concentrations."]] });
+  } else {
+    out.push({ q: "Which is K{p}?", opts: [
+      ["There is no K{p}: no species is a gas", true, "K{p} uses partial pressures, which only gases have."],
+      [exprP(k, "pow") + ", no units", false, "Partial pressures belong to gases; there are none here."],
+      [exprP(k, "inv") + ", no units", false, "There is no gas, so no K{p} at all (and this one is upside down)."]] });
+  }
+  return out;
+}
+LAB.kxQuestions = kxQuestions;
+const KXS = { i: 0, ans: {}, right: 0, tried: 0, order: null };
+LAB.KXS = KXS;
+function kxRender(){
+  const k = KX[KXS.i], qs = kxQuestions(k);
+  if (!KXS.order || KXS.order.i !== KXS.i) KXS.order = { i: KXS.i, o: qs.map(q => shuffle(q.opts.map((_, j) => j))) };
+  $("kx-count").textContent = `Equation ${KXS.i + 1} of ${KX.length}`;
+  $("kx-eq").innerHTML = (k.fex ? FEX : "") + EQ(k.eq);
+  $("kx-parts").innerHTML = qs.map((q, qi) => {
+    const a = KXS.ans[KXS.i + ":" + qi];
+    const opts = KXS.order.o[qi].map(j => { const [t, ok] = q.opts[j]; const cls = a == null ? "" : ok ? " right" : (a === j ? " wrong" : ""); return `<button class="opt${cls}" data-q="${qi}" data-j="${j}"${a != null ? " disabled" : ""}><span>${H(t)}</span></button>`; }).join("");
+    let fb = "";
+    if (a != null){ const [, ok, why] = q.opts[a], good = q.opts.find(o => o[1]); fb = `<div class="fb ${ok ? "ok" : "no"}">${ok ? "Right. " : `Not quite. ${H(why)} The answer is ${H(good[0])}. `}${ok ? H(why) : ""}</div>`; }
+    return `<div class="stack" style="gap:6px"><p class="qtext" style="margin:0">${H(q.q)}</p><div class="optlist">${opts}</div>${fb}</div>`;
+  }).join("") + (Object.keys(KXS.ans).filter(x => x.startsWith(KXS.i + ":")).length === 3 && k.note ? `<div class="callout"><p>${H(k.note)}</p></div>` : "");
+  $("kx-parts").querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    const key = KXS.i + ":" + b.dataset.q; if (KXS.ans[key] != null) return;
+    KXS.ans[key] = +b.dataset.j; KXS.tried++; if (qs[+b.dataset.q].opts[+b.dataset.j][1]) KXS.right++;
+    kxRender();
+  });
+  $("kx-score").textContent = KXS.tried ? `${KXS.right} / ${KXS.tried} right` : "";
+  $("kx-prev").disabled = KXS.i === 0;
+  $("kx-next").textContent = KXS.i === KX.length - 1 ? "Start again" : "Next equation";
+}
+function bindExpr(){
+  $("kx-prev").onclick = () => { KXS.i = Math.max(0, KXS.i - 1); kxRender(); };
+  $("kx-next").onclick = () => { if (KXS.i === KX.length - 1){ KXS.i = 0; KXS.ans = {}; KXS.right = 0; KXS.tried = 0; } else KXS.i++; KXS.order = null; kxRender(); };
+  kxRender();
+}
+
+/* =====================================================
+   5. CALCULATION GENERATOR (no quadratics; illustrative data)
+   Every question keeps its data in q.p so the test suite can recompute the answer.
+   ===================================================== */
+const GS = {
+  hi: { eq: "H₂(g) + I₂(g) ⇌ 2HI(g)", sp: [["H₂", -1], ["I₂", -1], ["HI", 2]] },
+  so3: { eq: "2SO₂(g) + O₂(g) ⇌ 2SO₃(g)", sp: [["SO₂", -2], ["O₂", -1], ["SO₃", 2]] },
+  nh3: { eq: "N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", sp: [["N₂", -1], ["H₂", -3], ["NH₃", 2]] },
+  pcl5: { eq: "PCl₅(g) ⇌ PCl₃(g) + Cl₂(g)", sp: [["PCl₅", -1], ["PCl₃", 1], ["Cl₂", 1]] },
+  n2o4: { eq: "N₂O₄(g) ⇌ 2NO₂(g)", sp: [["N₂O₄", -1], ["NO₂", 2]] },
+  meoh: { eq: "CO(g) + 2H₂(g) ⇌ CH₃OH(g)", sp: [["CO", -1], ["H₂", -2], ["CH₃OH", 1]], fex: true }
+};
+LAB.GS = GS;
+const dnOf = S => S.sp.reduce((a, s) => a + s[1], 0);
+function kExpr(S, br){
+  const j = br === bkt ? "" : " ";
+  const t = S.sp.filter(x => x[1] > 0).map(([f, n]) => br(f) + powS(n)).join(j);
+  const bs = S.sp.filter(x => x[1] < 0), b = bs.map(([f, n]) => br(f) + powS(-n)).join(j);
+  return `${t} / ${bs.length > 1 ? `(${b})` : b}`;
+}
+const bkt = f => `[${f}]`, ppr = f => `p(${f})`;
+const r3 = v => +sf(v, 3);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
+function ansN(v, n, unit){ return { v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.01 * Math.abs(v)), unit }; }
+const UNITS_C = [0, 1, -1, 2, -2].map(unitC), UNITS_P = [0, 1, -1, 2, -2].map(unitP);
+const amt = v => sf(v, 3);
+const listAnd = a => a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+function prodStr(S, vals){
+  const tm = sgn => S.sp.map((x, i) => [x, vals[i]]).filter(([x]) => sgn * x[1] > 0).map(([x, v]) => `(${v})${powS(Math.abs(x[1]))}`);
+  const t = tm(1).join(" × "), b = tm(-1);
+  return `${t} / ${b.length > 1 ? `(${b.join(" × ")})` : b[0]}`;
+}
+function kOf(S, vals){ return S.sp.reduce((a, s, i) => a * Math.pow(vals[i], s[1]), 1); }
+
+/* (1) Kc from equilibrium amounts and volume */
+function genKc1(){
+  const id = pick(["hi", "so3", "nh3", "pcl5", "n2o4", "meoh"]), S = GS[id];
+  const V = pick([0.500, 1.00, 2.00, 5.00, 10.0]);
+  const n = S.sp.map(() => r3(rnd(0.100, 2.00)));
+  const c = n.map(x => x / V), K = kOf(S, c), d = dnOf(S), u = unitC(d);
+  const ans = ansN(K, 3, u);
+  const amtTxt = listAnd(S.sp.map((s, i) => `${amt(n[i])} mol of ${s[0]}`));
+  const alts = d !== 0 ? [{ v: kOf(S, n), msg: "Did you use amounts instead of concentrations? Divide each amount by the volume first." }] : [];
+  alts.push({ v: 1 / K, msg: "That is 1 / K{c}: the products go on the top of the expression." });
+  return { type: "kc1", ans, units: UNITS_C, label: "K{c}", p: { id, V, n },
+    text: `${S.fex ? FEX : ""}For {{${S.eq}}}, an equilibrium mixture in a ${sf(V, 3)} dm³ vessel contains ${amtTxt}. Calculate K{c} and give its units.`,
+    alts, fmt: "3 significant figures",
+    work: [ASIDE("To find K{c}, you first need the equilibrium concentrations: divide each amount by the volume."),
+      S.sp.map((s, i) => `[${s[0]}] = ${amt(n[i])} / ${sf(V, 3)} = ${H(sci(c[i], 3))} mol dm⁻³`).join("; "),
+      `K{c} = ${kExpr(S, bkt)}`,
+      `K{c} = ${prodStr(S, c.map(x => sci(x, 3)))} = <b>${ans.str} ${u === "no units" ? "(no units)" : u}</b>`,
+      `Units: (mol dm⁻³) to the power ${minus(String(d))}${d === 0 ? ": they cancel" : ` = ${u}`}.`] };
+}
+/* (2) Kc from initial amounts and one equilibrium amount (ICE) */
+function genKc2(){
+  const id = pick(["hi", "so3", "nh3", "pcl5", "n2o4", "meoh"]), S = GS[id];
+  const V = pick([1.00, 2.00, 5.00]);
+  // integers in units of 0.001 mol
+  const a = S.sp.map(s => s[1] < 0 ? 5 * ri(30, 200) * (id === "nh3" && s[0] === "H₂" ? 3 : 1) : 0);
+  const xmax = Math.min(...S.sp.map((s, i) => s[1] < 0 ? a[i] / -s[1] : Infinity));
+  const xi = 5 * Math.max(1, Math.round(rnd(0.25, 0.8) * xmax / 5));
+  const e = a.map((v, i) => v + S.sp[i][1] * xi);
+  const gi = S.sp.findIndex(s => s[1] > 0);
+  const n0 = a.map(v => v / 1000), ne = e.map(v => v / 1000);
+  const c = ne.map(x => x / V), K = kOf(S, c), d = dnOf(S), u = unitC(d);
+  const ans = ansN(K, 3, u);
+  const f3 = v => v.toFixed(3);
+  const init = listAnd(S.sp.map((s, i) => [s, i]).filter(([s]) => s[1] < 0).map(([s, i]) => `${f3(n0[i])} mol of ${s[0]}`));
+  const alts = d !== 0 ? [{ v: kOf(S, ne), msg: "Did you use amounts instead of concentrations? Divide each equilibrium amount by the volume." }] : [];
+  alts.push({ v: 1 / K, msg: "That is 1 / K{c}: the products go on the top." });
+  alts.push({ v: kOf(S, n0.map((x, i) => S.sp[i][1] > 0 ? ne[i] / V : x / V)), msg: "Use the equilibrium amounts of the reactants, not the initial amounts: subtract what reacted (ICE table)." });
+  return { type: "kc2", ans, units: UNITS_C, label: "K{c}", p: { id, V, n0, eqIdx: gi, eqAmt: ne[gi] },
+    text: `${S.fex ? FEX : ""}${init} were sealed in a ${sf(V, 3)} dm³ vessel and allowed to reach equilibrium: {{${S.eq}}}. The equilibrium mixture contained ${f3(ne[gi])} mol of ${S.sp[gi][0]}. Calculate K{c}, with its units.`,
+    alts, fmt: "3 significant figures",
+    work: [ASIDE("To find K{c}, you first need the equilibrium amounts: use an ICE table and the mole ratio."),
+      `Initial / mol: ${S.sp.map((s, i) => `${s[0]} ${f3(n0[i])}`).join(", ")}`,
+      `${f3(ne[gi])} mol of ${S.sp[gi][0]} formed, so the change is ${S.sp.map((s, i) => `${s[0]} ${s[1] < 0 ? "−" : "+"}${f3(Math.abs(s[1]) * xi / 1000)}`).join(", ")} (mole ratio ${S.sp.map(s => Math.abs(s[1])).join(" : ")}).`,
+      `Equilibrium / mol: ${S.sp.map((s, i) => `${s[0]} ${f3(ne[i])}`).join(", ")}`,
+      `Concentrations (÷ ${sf(V, 3)} dm³) / mol dm⁻³: ${S.sp.map((s, i) => `[${s[0]}] = ${H(sci(c[i], 3))}`).join(", ")}`,
+      `K{c} = ${kExpr(S, bkt)} = ${prodStr(S, c.map(x => sci(x, 3)))} = <b>${ans.str} ${u === "no units" ? "(no units)" : u}</b>`] };
+}
+/* (3) equilibrium amounts from Kc by square root */
+const SQ = [
+  { id: "hi", eq: "H₂(g) + I₂(g) ⇌ 2HI(g)", r: ["H₂", "I₂"], p: ["HI"], pc: 2, Kf: () => r3(rnd(20, 80)), T: "at a fixed temperature" },
+  { id: "hirev", eq: "2HI(g) ⇌ H₂(g) + I₂(g)", rev: true, Kf: () => r3(rnd(0.0100, 0.0500)), T: "at a fixed temperature" },
+  { id: "ester", eq: "CH₃COOH(l) + C₂H₅OH(l) ⇌ CH₃COOC₂H₅(l) + H₂O(l)", r: ["CH₃COOH", "C₂H₅OH"], p: ["CH₃COOC₂H₅", "H₂O"], pc: 1, Kf: () => 4.01, T: "" },
+  { id: "wgs", eq: "CO(g) + H₂O(g) ⇌ CO₂(g) + H₂(g)", r: ["CO", "H₂O"], p: ["CO₂", "H₂"], pc: 1, Kf: () => r3(rnd(1.5, 9.5)), T: "at a fixed temperature" }
+];
+function genSqrt(){
+  const C = pick(SQ), K = C.Kf(), a = r3(rnd(0.200, 2.00)), s = Math.sqrt(K);
+  let ask, v, work, text;
+  if (C.rev){
+    // y mol H₂ formed from a mol HI: y² / (a − 2y)² = K
+    const y = a * s / (1 + 2 * s);
+    ask = pick(["H₂", "HI"]); v = ask === "H₂" ? y : a - 2 * y;
+    text = `${a.toFixed(3)} mol of HI was sealed in a vessel and heated: {{${C.eq}}}, K{c} = ${sf(K, 3)}${C.T ? " " + C.T : ""}. Calculate the amount of ${ask} at equilibrium.`;
+    work = [ASIDE("To find the amounts, let y mol of H₂ form, write the ICE table in terms of y, then use K{c}."),
+      `Equilibrium / mol: HI ${a.toFixed(3)} − 2y, H₂ y, I₂ y`,
+      `K{c} = [H₂][I₂] / [HI]² = y² / (${a.toFixed(3)} − 2y)² = ${sf(K, 3)} (the volume cancels)`,
+      `Square root: y / (${a.toFixed(3)} − 2y) = √${sf(K, 3)} = ${sf(s, 3)}`,
+      `y = ${sf(s, 3)}(${a.toFixed(3)} − 2y), so y(1 + 2 × ${sf(s, 3)}) = ${sf(a * s, 3)} and y = ${sf(y, 3)}`,
+      `n(${ask}) = ${ask === "H₂" ? sf(y, 3) : `${a.toFixed(3)} − 2 × ${sf(y, 3)}`} = <b>${sf(v, 3)} mol</b>`];
+  } else {
+    // x mol of each reactant reacts: (pc·x)^(np) ... for these systems (pc x)² / (a − x)² = K or x² / (a − x)² = K
+    const x = a * s / (C.pc + s);
+    ask = pick([C.r[0], C.p[0]]); v = ask === C.p[0] ? C.pc * x : a - x;
+    text = `${C.fex ? FEX : ""}${a.toFixed(3)} mol of ${C.r[0]} and ${a.toFixed(3)} mol of ${C.r[1]} were ${C.id === "ester" ? "mixed with a few drops of concentrated sulfuric acid and warmed" : "sealed in a vessel"} until equilibrium was reached: {{${C.eq}}}, K{c} = ${sf(K, 3)}${C.T ? " " + C.T : ""}. Calculate the amount of ${ask} at equilibrium.`;
+    const top = C.pc === 2 ? "(2x)²" : "x²";
+    work = [ASIDE("To find the amounts, let x mol of each reactant react, write the ICE table in terms of x, then use K{c}."),
+      `Equilibrium / mol: ${C.r.map(f => `${f} ${a.toFixed(3)} − x`).join(", ")}, ${C.p.map(f => `${f} ${C.pc === 2 ? "2x" : "x"}`).join(", ")}`,
+      `K{c} = ${top} / (${a.toFixed(3)} − x)² = ${sf(K, 3)} (the volume cancels)`,
+      `Both sides are perfect squares, so take the square root: ${C.pc === 2 ? "2x" : "x"} / (${a.toFixed(3)} − x) = √${sf(K, 3)} = ${sf(s, 3)}`,
+      `${C.pc === 2 ? "2x" : "x"} = ${sf(s, 3)}(${a.toFixed(3)} − x), so x(${C.pc} + ${sf(s, 3)}) = ${sf(a * s, 3)} and x = ${sf(x, 3)}`,
+      `n(${ask}) = ${ask === C.p[0] ? (C.pc === 2 ? `2 × ${sf(x, 3)}` : sf(x, 3)) : `${a.toFixed(3)} − ${sf(x, 3)}`} = <b>${sf(v, 3)} mol</b>`];
+  }
+  work = work.map(w => w.replace(/\b([xy])\b/g, "$1{}"));
+  return { type: "sqrt", ans: ansN(v, 3, "mol"), units: null, fixedUnit: "mol", label: `n(${ask})`, p: { id: C.id, K, a, ask }, text, alts: [], fmt: "3 significant figures", work };
+}
+/* (4) Kp from equilibrium moles and total pressure */
+function genKp1(){
+  const id = pick(["n2o4", "pcl5", "nh3", "so3", "hi"]), S = GS[id];
+  const n = S.sp.map(() => r3(rnd(0.100, 2.00)));
+  const P = id === "nh3" ? pick([1.00e4, 1.50e4, 2.00e4]) : pick([100, 150, 200, 250, 300, 500]);
+  const tot = n.reduce((a, b) => a + b, 0), x = n.map(v => v / tot), pp = x.map(v => v * P);
+  const K = kOf(S, pp), d = dnOf(S), u = unitP(d), ans = ansN(K, 3, u);
+  const Ptxt = P >= 1e4 ? `${sci(P, 3)} kPa` : `${P} kPa`;
+  const alts = d !== 0 ? [{ v: kOf(S, x), msg: "You used mole fractions: multiply each by the total pressure to get the partial pressures." }] : [];
+  alts.push({ v: 1 / K, msg: "That is 1 / K{p}: products go on the top." });
+  return { type: "kp1", ans, units: UNITS_P, label: "K{p}", p: { id, n, P },
+    text: `For {{${S.eq}}}, an equilibrium mixture contains ${listAnd(S.sp.map((s, i) => `${amt(n[i])} mol of ${s[0]}`))} at a total pressure of ${Ptxt}. Calculate K{p} and give its units.`,
+    alts, fmt: "3 significant figures",
+    work: [ASIDE("To find K{p}, you first need the partial pressures: p = x × p(total) (Dalton's Law)."),
+      `Total amount = ${S.sp.map((s, i) => amt(n[i])).join(" + ")} = ${sf(tot, 3)} mol`,
+      `Mole fractions: ${S.sp.map((s, i) => `x(${s[0]}) = ${amt(n[i])} / ${sf(tot, 3)} = ${sf(x[i], 3)}`).join("; ")}`,
+      `Partial pressures / kPa: ${S.sp.map((s, i) => `p(${s[0]}) = ${sf(x[i], 3)} × ${Ptxt.replace(" kPa", "")} = ${H(sci(pp[i], 3))}`).join("; ")}`,
+      `K{p} = ${kExpr(S, ppr)} = ${prodStr(S, pp.map(v => sci(v, 3)))} = <b>${ans.str} ${u === "no units" ? "(no units)" : u}</b>`,
+      `Units: kPa to the power ${minus(String(d))}${d === 0 ? ": they cancel" : ` = ${u}`}. Keep unrounded values between steps.`] };
+}
+/* (5) Kp from the degree of dissociation */
+function genKp2(){
+  const id = pick(["n2o4", "pcl5"]), al = r3(rnd(0.150, 0.850)), P = pick([100, 150, 200, 250, 300]);
+  const two = id === "n2o4", K = (two ? 4 : 1) * al * al * P / (1 - al * al), ans = ansN(K, 3, "kPa");
+  const sp = two ? ["N₂O₄", "NO₂"] : ["PCl₅", "PCl₃", "Cl₂"];
+  const alts = [{ v: (two ? 1 : 1) * al * al * P / (1 - al * al) * (two ? 1 : 4), msg: two ? "Remember the 2 in 2NO₂: 2α mol of NO₂ forms, and p(NO₂) is squared." : "Each PCl₅ gives one PCl₃ and one Cl₂: α mol of each." }, { v: 1 / K, msg: "That is 1 / K{p}." }];
+  return { type: "kp2", ans, units: UNITS_P, label: "K{p}", p: { id, al, P },
+    text: `When ${sp[0]} is heated in a closed container, a fraction α = ${sf(al, 3)} of it dissociates: {{${GS[id].eq}}}. The total pressure at equilibrium is ${P} kPa. Calculate K{p}, with its units.`,
+    alts, fmt: "3 significant figures",
+    work: [ASIDE("To find K{p}, start with 1 mol of " + sp[0] + " and write each amount in terms of α."),
+      two ? "Equilibrium / mol: N₂O₄ 1 − α, NO₂ 2α; total 1 + α" : "Equilibrium / mol: PCl₅ 1 − α, PCl₃ α, Cl₂ α; total 1 + α",
+      two ? "p(N₂O₄) = (1 − α)/(1 + α) × p; p(NO₂) = 2α/(1 + α) × p" : "p(PCl₅) = (1 − α)/(1 + α) × p; p(PCl₃) = p(Cl₂) = α/(1 + α) × p",
+      two ? "K{p} = p(NO₂)² / p(N₂O₄) = 4α²p / (1 − α²)" : "K{p} = p(PCl₃) p(Cl₂) / p(PCl₅) = α²p / (1 − α²)",
+      `K{p} = ${two ? "4 × " : ""}(${sf(al, 3)})² × ${P} / (1 − (${sf(al, 3)})²) = <b>${ans.str} kPa</b>`] };
+}
+/* (6) amounts from Kp without a quadratic: α² = Kp / (p + Kp) (or 4p + Kp for N₂O₄) */
+function genKp3(){
+  const id = pick(["pcl5", "pcl5", "n2o4"]), two = id === "n2o4";
+  const K = r3(rnd(20, 600)), P = pick([100, 150, 200, 250, 300, 500]);
+  const al = Math.sqrt(K / ((two ? 4 : 1) * P + K));
+  const asks = two ? ["α", "p(NO₂)", "p(N₂O₄)"] : ["α", "p(PCl₅)", "p(Cl₂)"];
+  const ask = pick(asks);
+  const v = ask === "α" ? al : ask === "p(NO₂)" ? 2 * al / (1 + al) * P : ask === "p(Cl₂)" ? al / (1 + al) * P : (1 - al) / (1 + al) * P;
+  const unit = ask === "α" ? "no units" : "kPa";
+  const sp = two ? "N₂O₄" : "PCl₅";
+  const work = [ASIDE(`To find ${ask === "α" ? "α" : "the partial pressure"}, write K{p} in terms of α (start with 1 mol of ${sp}) and solve for α²: no quadratic is needed.`),
+    two ? "K{p} = 4α²p / (1 − α²), so K{p} − K{p}α² = 4pα² and α² = K{p} / (4p + K{p})" : "K{p} = α²p / (1 − α²), so K{p} − K{p}α² = pα² and α² = K{p} / (p + K{p})",
+    `α² = ${sf(K, 3)} / (${two ? `4 × ${P}` : P} + ${sf(K, 3)}) = ${sf(al * al, 3)}, so α = ${sf(al, 3)}`];
+  if (ask !== "α") work.push(ask === "p(NO₂)" ? `p(NO₂) = 2α / (1 + α) × p = 2 × ${sf(al, 3)} / ${sf(1 + al, 3)} × ${P} = <b>${sf(v, 3)} kPa</b>` : ask === "p(Cl₂)" ? `p(Cl₂) = α / (1 + α) × p = ${sf(al, 3)} / ${sf(1 + al, 3)} × ${P} = <b>${sf(v, 3)} kPa</b>` : `${ask} = (1 − α) / (1 + α) × p = ${sf(1 - al, 3)} / ${sf(1 + al, 3)} × ${P} = <b>${sf(v, 3)} kPa</b>`);
+  else work.push(`Degree of dissociation α = <b>${sf(al, 3)}</b> (no units)`);
+  return { type: "kp3", ans: ansN(v, 3, unit), units: null, fixedUnit: unit, label: ask, p: { id, K, P, ask },
+    text: `For {{${GS[id].eq}}}, K{p} = ${sf(K, 3)} kPa at a fixed temperature. Pure ${sp} is heated to this temperature in a closed container, and the total pressure at equilibrium is ${P} kPa. Calculate ${ask === "α" ? "the degree of dissociation, α" : `the partial pressure ${ask}`}.`,
+    alts: ask === "α" ? [{ v: al * al, msg: "That is α²: take the square root." }] : [], fmt: "3 significant figures", work };
+}
+/* (7) manipulated K */
+const MAN = [
+  { base: "H₂(g) + I₂(g) ⇌ 2HI(g)", K: 50.3, n: 3, kind: "c", pw: 0, lab: "K{c}", note: "at 731 K", ops: [["rev", "2HI(g) ⇌ H₂(g) + I₂(g)"], ["half", "½H₂(g) + ½I₂(g) ⇌ HI(g)"], ["revhalf", "HI(g) ⇌ ½H₂(g) + ½I₂(g)"], ["dbl", "2H₂(g) + 2I₂(g) ⇌ 4HI(g)"]] },
+  { base: "N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", K: 1.5e-8, n: 2, kind: "p", pw: -2, lab: "K{p}", note: "at 400 °C", ops: [["rev", "2NH₃(g) ⇌ N₂(g) + 3H₂(g)"], ["half", "½N₂(g) + 3/2 H₂(g) ⇌ NH₃(g)"], ["revhalf", "NH₃(g) ⇌ ½N₂(g) + 3/2 H₂(g)"]] },
+  { base: "2SO₂(g) + O₂(g) ⇌ 2SO₃(g)", K: 800, n: 3, kind: "c", pw: -1, lab: "K{c}", note: "at a fixed temperature", ops: [["rev", "2SO₃(g) ⇌ 2SO₂(g) + O₂(g)"], ["dbl", "4SO₂(g) + 2O₂(g) ⇌ 4SO₃(g)"]] },
+  { base: "N₂O₄(g) ⇌ 2NO₂(g)", K: 133, n: 3, kind: "p", pw: 1, lab: "K{p}", note: "at about 60 °C", ops: [["rev", "2NO₂(g) ⇌ N₂O₄(g)"], ["dbl", "2N₂O₄(g) ⇌ 4NO₂(g)"]] },
+  { base: "PCl₅(g) ⇌ PCl₃(g) + Cl₂(g)", K: 180, n: 3, kind: "p", pw: 1, lab: "K{p}", note: "at 523 K", ops: [["rev", "PCl₃(g) + Cl₂(g) ⇌ PCl₅(g)"], ["dbl", "2PCl₅(g) ⇌ 2PCl₃(g) + 2Cl₂(g)"]] }
+];
+LAB.MAN = MAN;
+const OPF = { rev: [-1, "Reversing the equation turns K upside down: K′ = 1 / K."], half: [0.5, "Halving every coefficient takes the square root: K′ = √K."], revhalf: [-0.5, "Reversing and halving: K′ = 1 / √K."], dbl: [2, "Doubling every coefficient squares K: K′ = K²."] };
+function genMan(){
+  const M = pick(MAN), [op, eq2] = pick(M.ops), f = OPF[op][0];
+  const v = Math.pow(M.K, f), pw = M.pw * f, u = M.kind === "c" ? unitC(pw) : unitP(pw);
+  const uBase = M.kind === "c" ? unitC(M.pw) : unitP(M.pw);
+  const ans = ansN(v, M.n, u);
+  const alts = [{ v: 1 / v, msg: "Check which way up: is the new equation the reverse of the one given?" }];
+  if (op !== "rev") alts.push({ v: Math.pow(M.K, -f), msg: "Right power, wrong way up." });
+  return { type: "man", ans, units: M.kind === "c" ? UNITS_C : UNITS_P, label: M.lab + "′", p: { K: M.K, op, kind: M.kind, pw: M.pw, n: M.n },
+    text: `For {{${M.base}}}, ${M.lab} = ${sci(M.K, M.n)}${uBase === "no units" ? "" : " " + uBase} ${M.note}. Calculate ${M.lab} for {{${eq2}}} at the same temperature, with its units.`,
+    alts, fmt: `${M.n} significant figures`,
+    work: [ASIDE("To find the new K, compare the new equation with the one given."), OPF[op][1],
+      `${M.lab}′ = ${op === "rev" ? `1 / ${sci(M.K, M.n)}` : op === "half" ? `√(${sci(M.K, M.n)})` : op === "revhalf" ? `1 / √(${sci(M.K, M.n)})` : `(${sci(M.K, M.n)})²`} = <b>${ans.str}${u === "no units" ? " (no units)" : " " + u}</b>`,
+      `Units: the old units raised to the same power: (${uBase === "no units" ? "none" : uBase})${op === "rev" ? "⁻¹" : op === "dbl" ? "²" : op === "half" ? "^½" : "^−½"} → ${u}.`] };
+}
+const GENS = { kc1: genKc1, kc2: genKc2, sqrt: genSqrt, kp1: genKp1, kp2: genKp2, kp3: genKp3, man: genMan };
+LAB.GENS = GENS;
+const GN = { type: "kc1", q: null, right: 0, tried: 0 };
+LAB.GN = GN;
+function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; return GENS[tt](); }
+function gnGrade(q, s, unit){
+  const v = parseNum(s);
+  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 50.3, 0.00125 or 1.5e-8 (or 1.5 × 10^-8)." };
+  const a = q.ans.v, tol = q.ans.tol * 1.0001;
+  const numOk = Math.abs(v - a) <= tol;
+  if (numOk && q.units && unit !== q.ans.unit) return { ok: false, msg: unit === "no units" ? "The number is right, but this K has units: work them out from the expression." : q.ans.unit === "no units" ? "The number is right, but this K has no units: they cancel." : "The number is right; check the units: (unit) raised to the power (top minus bottom)." };
+  if (numOk) return { ok: true };
+  for (const al of q.alts || []) if (Math.abs(v - al.v) <= Math.max(lastUnit(al.v, 3), 0.01 * Math.abs(al.v))) return { ok: false, msg: al.msg };
+  if (a !== 0 && Math.abs(v / a - 1) < 0.05) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
+  return { ok: false, msg: "Not right. Press Show working to compare." };
+}
+LAB.gnGrade = gnGrade; LAB.genQ = genQ;
+function gnRender(){
+  const q = GN.q;
+  document.querySelectorAll("#gn-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.type === GN.type)));
+  $("gn-q").innerHTML = TX(q.text);
+  $("gn-lab").innerHTML = H(q.label + (q.units ? "" : q.fixedUnit === "no units" ? "" : " / " + q.fixedUnit));
+  $("gn-ufield").hidden = !q.units;
+  if (q.units) $("gn-unit").innerHTML = `<option value="">choose…</option>` + q.units.map(u => `<option value="${u}">${u}</option>`).join("");
+  $("gn-fmt").innerHTML = H(`Answer to ${q.fmt}${q.units ? ", and choose the units" : q.fixedUnit === "no units" ? " (no units)" : `, in ${q.fixedUnit}`}. Very large or small numbers: type 1.5e-8 or 1.5 × 10^-8.`);
+  $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
+  $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
+}
+function gnCheck(){
+  const q = GN.q;
+  if (q.units && !$("gn-unit").value && !isNaN(parseNum($("gn-ans").value))){ const fb = $("gn-fb"); fb.className = "fb warn"; fb.innerHTML = "Choose the units too (or “no units”)."; fb.hidden = false; return; }
+  const r = gnGrade(q, $("gn-ans").value, $("gn-unit").value), fb = $("gn-fb");
+  GN.tried++; if (r.ok) GN.right++;
+  $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
+  fb.className = "fb " + (r.ok ? "ok" : "no");
+  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.ans.unit === "no units" ? " (no units)" : " " + q.ans.unit}.`) : H(r.msg);
+  fb.hidden = false;
+  $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
+}
+function bindGN(){
+  document.querySelectorAll("#gn-tabs button").forEach(b => b.onclick = () => { GN.type = b.dataset.type; GN.q = genQ(GN.type); gnRender(); });
+  $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
+  $("gn-check").onclick = gnCheck;
+  $("gn-ans").onkeydown = e => { if (e.key === "Enter") gnCheck(); };
+  $("gn-show").onclick = () => { $("gn-work").innerHTML = GN.q.work.map(w => `<li>${TX(w)}</li>`).join(""); $("gn-work").hidden = false; };
+  GN.q = genQ(GN.type); gnRender();
+}
+LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
+
+/* =====================================================
+   6. HABER PLANT
+   Equilibrium: ideal gases, 1 : 3 feed, Gillespie–Beattie Kp(T) (DATA.md).
+   Rate and output: illustrative Arrhenius model only.
+   ===================================================== */
+const HB = { T: 450, P: 200, cat: true, rec: true };
+LAB.HB = HB;
+const ATM_KPA = 101.325;
+const EA_CAT = 80, EA_UNCAT = 230, TAU = 2;             // kJ mol⁻¹ (illustrative); contact-time factor
+// relative rate (1 at 450 °C, 200 atm, with catalyst)
+function hbRate(tC, P, cat){ const Tk = tC + 273, Ea = (cat ? EA_CAT : EA_UNCAT) * 1000; return Math.exp(-Ea / R_GAS * (1 / Tk - 1 / 723)) * (cat ? 1 : Math.exp(-(EA_UNCAT - EA_CAT) * 1000 / (R_GAS * 723))) * P / 200; }
+// fraction of N₂ converted at equilibrium (1 : 3 feed): y = 2f / (4 − 2f) → f = 2y / (1 + y)
+const fEq = (tC, P) => { const y = yNH3(tC, P); return 2 * y / (1 + y); };
+function hbOut(tC, P, cat){ return fEq(tC, P) * (1 - Math.exp(-hbRate(tC, P, cat) * TAU)); }
+LAB.hbRate = hbRate; LAB.hbOut = hbOut;
+// a value label on a solid background box so chart lines never run through it
+function boxLabel(x, y, text, end, cls){
+  const w = String(text).replace(/[₀-₉]/g, "").length * 6.4 + 10, x0 = end ? x - w : x;
+  return `<rect x="${x0.toFixed(1)}" y="${(y - 13).toFixed(1)}" width="${w.toFixed(1)}" height="18" rx="3" fill="var(--surface)" stroke="var(--line)"/>` + T(x0 + 5, y, text, cls || "val");
+}
+const HB_SER = [[50, "--c6", "2 3"], [100, "--s3", "7 3"], [200, "--s1", null], [300, "--s2", "10 3 2 3"], [400, "--s4", "12 4"]];
+function hbRead(){
+  const y = yNH3(HB.T, HB.P) * 100, Kp = kpHaber(HB.T + 273), Pk = HB.P * ATM_KPA;
+  const r = hbRate(HB.T, HB.P, HB.cat), out = hbOut(HB.T, HB.P, HB.cat) / hbOut(450, 200, true) * 100;
+  const cost = HB.P / 400, costW = HB.P <= 150 ? "moderate" : HB.P <= 250 ? "high" : "very high";
+  $("hb-To").textContent = `${HB.T} °C (${HB.T + 273} K)`;
+  $("hb-Po").innerHTML = `${HB.P} atm (${H(sci(Pk, 2))} kPa)`;
+  $("hb-read").innerHTML =
+    `<div class="stat" id="hb-y"><div class="l">Equilibrium NH<sub>3</sub> (model)</div><div class="v">${y.toFixed(1)} %</div><div class="l">by volume</div></div>` +
+    `<div class="stat"><div class="l"><i>K</i><sub>p</sub> at ${HB.T} °C <span class="src lit">literature</span></div><div class="v">${H(sci(Kp, 2))} atm<sup>−2</sup></div><div class="l">${H(sci(Kp / ATM_KPA / ATM_KPA, 2))} kPa<sup>−2</sup></div></div>` +
+    `<div class="stat" id="hb-r"><div class="l">Rate (illustrative, 1.00 at 450 °C, 200 atm, iron)</div><div class="v">${r >= 0.01 ? r.toFixed(2) : H(sci(r, 2))}</div><div class="l">${HB.cat ? (HB.T < 400 ? "slow: the iron catalyst works well only from about 400 °C" : "fast enough") : "far too slow without the catalyst"}</div></div>` +
+    `<div class="stat" id="hb-o"><div class="l">NH<sub>3</sub> made per hour (illustrative, 100 at 450 °C, 200 atm)</div><div class="v">${out >= 0.1 ? out.toFixed(0) : "≈ 0"}</div><div class="l">${out < 0.1 ? "almost none: the reaction is too slow" : HB.T < 400 ? "low: good yield but slow" : HB.T > 470 ? "falling: fast but little NH₃ at equilibrium" : "near the best compromise"}</div></div>` +
+    `<div class="stat wide" id="hb-c"><div class="l">Cost and hazard of the pressure (illustrative)</div><div class="meter" aria-hidden="true"><i style="width:${(cost * 100).toFixed(0)}%;background:${HB.P > 250 ? "var(--warn)" : "var(--s1)"}"></i></div><div class="l">${costW}${HB.P > 250 ? " (warning): compressors, energy and thick-walled plant cost more, and leaks are more dangerous" : ": compressors and energy cost more as the pressure rises"}</div></div>` +
+    `<div class="stat wide" id="hb-rc"><div class="l">${HB.rec ? "With recycling" : "Without recycling"}</div><div class="v" style="font-family:var(--sans);font-weight:500">${HB.rec ? "about 98 % of the N₂ and H₂ is converted overall" : "only about 15 % is converted in one pass; the rest would be wasted"}</div><div class="l">Typical plant figures. About 15 % is converted on each pass through the converter, because the gases do not stay long enough to reach equilibrium.</div></div>`;
+}
+function hbChart(){
+  const C = n => cssVar(n), svg = $("hb-chart");
+  const pts = P => { const o = []; for (let t = 300; t <= 550; t += 5) o.push([t, yNH3(t, P) * 100]); return o; };
+  const ser = HB_SER.map(([P, col, dash]) => ({ pts: pts(P), col: C(col), dash, w: P === 200 ? 2.6 : 2 }));
+  const extra = !HB_SER.some(s => s[0] === HB.P);
+  if (extra) ser.push({ pts: pts(HB.P), col: C("--ink"), dash: "1 3", w: 1.6 });
+  const y = yNH3(HB.T, HB.P) * 100;
+  lineChart(svg, { x: [300, 550], y: [0, 80], xlab: "temperature / °C", ylab: "equilibrium NH₃ / %", xticks: [300, 350, 400, 450, 500, 550], yticks: [0, 20, 40, 60, 80], h: 260,
+    under: (X, Y, W, Hh, m) => `<rect x="${X(400)}" y="${m.t}" width="${X(450) - X(400)}" height="${Hh - m.b - m.t}" fill="var(--band)" stroke="none"/><rect x="${X(400)}" y="${m.t}" width="${X(450) - X(400)}" height="${Hh - m.b - m.t}" fill="var(--s1-wash)" opacity=".35"/>` + T((X(400) + X(450)) / 2, m.t + 11, "plant", "cap", 'text-anchor="middle"'),
+    series: ser,
+    over: (X, Y, W) => { const x = X(HB.T), yy = Y(y), right = x > W - 120; return `<circle cx="${x.toFixed(1)}" cy="${yy.toFixed(1)}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>` + boxLabel(x + (right ? -9 : 9), yy + 22, `${y.toFixed(1)} %`, right); } });
+  $("hb-leg").innerHTML = legendHTML(HB_SER.map(([P, col, dash]) => ({ col: C(col), dash, t: `${P} atm` })).concat(extra ? [{ col: C("--ink"), dash: "1 3", t: `${HB.P} atm (your setting)`, w: 1.6 }] : []));
+}
+function hbTrade(){
+  const C = n => cssVar(n), ts = []; for (let t = 300; t <= 550; t += 5) ts.push(t);
+  const yv = ts.map(t => yNH3(t, HB.P)), rv = ts.map(t => hbRate(t, HB.P, HB.cat)), ov = ts.map(t => hbOut(t, HB.P, HB.cat));
+  const ymax = Math.max(...yv), rmaxC = Math.max(...ts.map(t => hbRate(t, HB.P, true))), omaxC = Math.max(...ts.map(t => hbOut(t, HB.P, true)));
+  const best = ts[ov.indexOf(Math.max(...ov))];
+  lineChart($("hb-trade"), { x: [300, 550], y: [0, 105], xlab: "temperature / °C", ylab: "relative scale", xticks: [300, 350, 400, 450, 500, 550], yticks: [0, 25, 50, 75, 100], h: 230,
+    series: [{ pts: ts.map((t, i) => [t, yv[i] / ymax * 100]), col: C("--s2"), dash: "6 3" }, { pts: ts.map((t, i) => [t, rv[i] / rmaxC * 100]), col: C("--s3"), dash: "2 3" }, { pts: ts.map((t, i) => [t, ov[i] / omaxC * 100]), col: C("--s1"), w: 2.6 }],
+    over: (X, Y, W, Hh, m) => `<line x1="${X(HB.T)}" x2="${X(HB.T)}" y1="${m.t}" y2="${Hh - m.b}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/>` + (HB.cat ? `<circle cx="${X(best)}" cy="${Y(100)}" r="4" fill="var(--s1)"/>` + (() => { const endA = X(best) > W * 0.55; return boxLabel(X(best) + (endA ? -8 : 8), Y(100) + 20, W < 520 ? `best: about ${best} °C` : `most NH₃ per hour: about ${best} °C`, endA, "cap"); })() : "") });
+  $("hb-tleg").innerHTML = legendHTML([{ col: C("--s2"), dash: "6 3", t: "equilibrium yield (falls as T rises)" }, { col: C("--s3"), dash: "2 3", t: "rate (rises as T rises)" }, { col: C("--s1"), t: "NH₃ made per hour" }]);
+  $("hb-tnote").innerHTML = HB.cat ? `At ${HB.P} atm this illustrative model makes the most NH<sub>3</sub> per hour at about ${best} °C. Too cold and the reaction is too slow; too hot and there is too little NH<sub>3</sub> at equilibrium. Rate model: Arrhenius with <i>E</i><sub>a</sub> = 80 kJ mol<sup>−1</sup> on iron (illustrative), proportional to pressure.`
+    : `Without the catalyst the rate (illustrative <i>E</i><sub>a</sub> = 230 kJ mol<sup>−1</sup>) is so low that the rate and output curves lie along the axis. The catalyst does not change the equilibrium yield: the dashed curve is the same.`;
+}
+function hbFlow(){
+  const svg = $("hb-flow"), W = widthOf(svg.parentElement), narrow = W < 600, C = n => cssVar(n);
+  const box = (x, y, w, h, t1, t2, hl) => `<rect x="${x.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="${h}" rx="4" fill="${hl ? "var(--accent-soft)" : "var(--surface-2)"}" stroke="var(--axis)"/>` + T(x + w / 2, y + h / 2 - (t2 ? 3 : -4), t1, "lblb", 'text-anchor="middle"') + (t2 ? T(x + w / 2, y + h / 2 + 13, t2, "cap", 'text-anchor="middle"') : "");
+  const ink = C("--ink-2"), s1 = C("--s1"), s2 = C("--s2"), rec = HB.rec;
+  const recCol = rec ? s2 : C("--axis");
+  let s = "", Hh;
+  if (!narrow){
+    Hh = 230;
+    const m = 12, gap = 34, bw = (W - 2 * m - 3 * gap) / 4, y = 96, h = 56;
+    const xs = [0, 1, 2, 3].map(i => m + i * (bw + gap));
+    s += box(xs[0], y, bw, h, "N₂ + H₂ feed", "1 : 3 by volume");
+    s += box(xs[1], y, bw, h, "Compressor", `about 200 atm`);
+    s += box(xs[2], y, bw, h, "Converter", "iron catalyst, 400 to 450 °C", true);
+    s += box(xs[3], y, bw, h, "Cooler and condenser", "NH₃ liquefies");
+    for (let i = 0; i < 3; i++) s += hArrow(xs[i] + bw + 2, xs[i + 1] - 2, y + h / 2, ink);
+    // NH3 out
+    s += vArrow(xs[3] + bw / 2, y + h + 2, y + h + 40, s1, { sw: 2.4 }) + T(xs[3] + bw / 2, y + h + 56, "liquid NH₃ out", "lbl", 'text-anchor="middle"');
+    // recycle loop over the top: condenser → compressor inlet
+    const yr = 40, xa = xs[3] + bw / 2, xb = xs[1] + bw / 2;
+    s += `<path d="M${xa.toFixed(1)} ${y - 2} V${yr} H${xb.toFixed(1)} V${y - 12}" fill="none" stroke="${recCol}" stroke-width="2"${rec ? "" : ' stroke-dasharray="5 4"'}/>` + (rec ? `<path d="M${xb.toFixed(1)} ${y - 2} l-4.5 -10 h9 Z" fill="${recCol}"/>` : "");
+    const xp = xa - Math.min(60, bw / 2);
+    s += T((xb + xp) / 2, yr - 8, rec ? "unreacted N₂ and H₂ recycled" : "recycle off: unreacted gas wasted", "lbl halo", 'text-anchor="middle"');
+    // purge
+    s += vArrow(xp, yr, 10, C("--axis"), { sw: 1.6 }) + T(xp + 7, 20, "purge (Ar, CH₄)", "cap");
+  } else {
+    Hh = 330;
+    const m = 10, gap = 40, bw = (W - 2 * m - gap) / 2, h = 56, y1 = 46, y2 = 196;
+    const xl = m, xr = m + bw + gap;
+    s += box(xl, y1, bw, h, "N₂ + H₂ feed", "1 : 3");
+    s += box(xr, y1, bw, h, "Compressor", "about 200 atm");
+    s += box(xr, y2, bw, h, "Converter", "iron, 400 to 450 °C", true);
+    s += box(xl, y2, bw, h, "Condenser", "NH₃ liquefies");
+    s += hArrow(xl + bw + 2, xr - 2, y1 + h / 2, ink);
+    s += vArrow(xr + bw / 2, y1 + h + 2, y2 - 2, ink);
+    s += hArrow(xr - 2, xl + bw + 2, y2 + h / 2, ink);
+    s += vArrow(xl + bw / 2, y2 + h + 2, y2 + h + 34, s1, { sw: 2.4 }) + T(xl + bw / 2, y2 + h + 50, "liquid NH₃ out", "lbl", 'text-anchor="middle"');
+    // recycle: up from the condenser into the feed line
+    const xj = xl + bw + gap / 2;
+    s += `<path d="M${(xl + bw * 0.75).toFixed(1)} ${y2 - 2} V${y2 - 40} H${xj.toFixed(1)} V${y1 + h / 2 + 8}" fill="none" stroke="${recCol}" stroke-width="2"${rec ? "" : ' stroke-dasharray="5 4"'}/>` + (rec ? `<path d="M${xj.toFixed(1)} ${y1 + h / 2 + 2} l-4.5 10 h9 Z" fill="${recCol}"/>` : "");
+    s += T(xl + 4, y2 - 48, rec ? "N₂ and H₂ recycled" : "recycle off", "cap halo");
+    s += `<line x1="${(xl + bw * 0.4).toFixed(1)}" y1="${y2 - 40}" x2="${(xl + bw * 0.75).toFixed(1)}" y2="${y2 - 40}" stroke="var(--axis)" stroke-width="1.6"/>` + vArrow(xl + bw * 0.4, y2 - 40, y2 - 66, C("--axis"), { sw: 1.6 }) + T(xl + bw * 0.4 - 4, y2 - 72, "purge", "cap");
+    void s2;
+  }
+  setSvg(svg, W, Hh, s);
+}
+function hbText(){
+  $("hb-text").innerHTML = `<h3 class="sub3">The conditions used, and why <span class="hint nc">· 9(g)</span></h3>
+    <div class="tblwrap"><table class="data cond"><thead><tr><th>Condition</th><th>Used</th><th>Reason</th></tr></thead><tbody>
+    <tr><td>Temperature</td><td>400 to 450 °C</td><td>The forward reaction is exothermic, so a lower temperature gives more NH<sub>3</sub> at equilibrium, but the rate would be too slow, and the iron catalyst needs about 400&nbsp;°C to work well. 400 to 450&nbsp;°C is a compromise between yield and rate.</td></tr>
+    <tr><td>Pressure</td><td>about 200 atm<br><span class="hint">(2 × 10<sup>4</sup> kPa; plants run 100 to 250 atm)</span></td><td>Higher pressure gives more NH<sub>3</sub> (4 mol of gas → 2 mol) and a faster rate, but costs more (compressors, energy, thick-walled plant) and is more hazardous. About 200 atm is a compromise.</td></tr>
+    <tr><td>Catalyst</td><td>finely divided iron, promoted with K<sub>2</sub>O and Al<sub>2</sub>O<sub>3</sub></td><td>Provides an alternative reaction pathway with lower activation energy, so equilibrium is reached faster at a workable temperature. No effect on the yield at equilibrium. Heterogeneous catalysis (Topic 8).</td></tr>
+    <tr><td>Feed ratio</td><td>N<sub>2</sub> : H<sub>2</sub> = 1 : 3 by volume</td><td>The ratio in the equation.</td></tr>
+    <tr><td>Removing NH<sub>3</sub></td><td>cooled: NH<sub>3</sub> liquefies (b.p. −33 °C, <span class="src lit">literature</span>)</td><td>Taking out a product; the unreacted N<sub>2</sub> and H<sub>2</sub> are recycled. About 15 % is converted per pass, about 98 % overall.</td></tr>
+    </tbody></table></div>
+    <div class="callout"><p><b>Industry: recycle and purge.</b> After the converter the gas is cooled, NH<sub>3</sub> condenses and is removed, and the unreacted N<sub>2</sub> and H<sub>2</sub> are recompressed and returned. Argon (from the air) and methane (left from making the hydrogen) do not react, so they build up in the loop and lower the partial pressures of N<sub>2</sub> and H<sub>2</sub>. A small purge stream is bled off continuously to keep them low; hydrogen is often recovered from it and the rest burned as fuel.</p></div>
+    <p class="hint" style="margin:0">Model: ideal gases, 1 : 3 feed, <i>K</i><sub>p</sub> from the Gillespie–Beattie correlation (<span class="src lit">literature</span>): log<sub>10</sub> <i>K</i><sub>a</sub> = −2.691122 log<sub>10</sub> <i>T</i> − 5.519265 × 10<sup>−5</sup> <i>T</i> + 1.848863 × 10<sup>−7</sup> <i>T</i><sup>2</sup> + 2001.6/<i>T</i> + 2.6899 for ½N<sub>2</sub> + 3/2 H<sub>2</sub> ⇌ NH<sub>3</sub> (<i>K</i><sub>a</sub> in atm<sup>−1</sup>); <i>K</i><sub>p</sub> = <i>K</i><sub>a</sub><sup>2</sup>. 1 atm = 101 kPa.</p>`;
+}
+function hbAll(){ hbRead(); hbChart(); hbTrade(); hbFlow(); }
+LAB.hbAll = hbAll;
+function bindHaber(){
+  $("hb-T").oninput = e => { HB.T = +e.target.value; hbRead(); hbChart(); hbTrade(); };
+  $("hb-P").oninput = e => { HB.P = +e.target.value; hbRead(); hbChart(); hbTrade(); };
+  $("hb-cat").onchange = e => { HB.cat = e.target.checked; hbRead(); hbTrade(); };
+  $("hb-rec").onchange = e => { HB.rec = e.target.checked; hbRead(); hbFlow(); };
+  $("hb-real").onclick = () => { HB.T = 450; HB.P = 200; HB.cat = true; HB.rec = true; $("hb-T").value = 450; $("hb-P").value = 200; $("hb-cat").checked = true; $("hb-rec").checked = true; hbAll(); };
+  hbText(); hbAll();
+}
+
+/* =====================================================
+   7. FACT CARDS
+   ===================================================== */
+const FC = [
+  { cat: "lc", h: "Le Chatelier's Principle", k: "9(b)", d: "If a change is made to a system at equilibrium, the position of equilibrium shifts so as to oppose (reduce) the effect of the change.",
+    e: [["N₂O₄(g) ⇌ 2NO₂(g)", "compress: shifts left (fewer gas molecules); heat: shifts right (forward endothermic)"]], list: ["The shift only partly undoes the change: compressed NO₂/N₂O₄ ends darker than before, though lighter than just after the push."] },
+  { cat: "eq", h: "Dynamic equilibrium", k: "9(a)", d: "A reversible reaction in a closed system in which the forward and reverse reactions continue at equal rates, so the concentrations stay constant.",
+    e: [], list: ["Closed system.", "Forward rate = reverse rate, both non-zero.", "Concentrations constant, but not (in general) equal.", "Macroscopic properties (colour, pressure) constant.", "Can be reached from either side.", "Evidence: add a little radioactive I₂* to an equilibrium mixture of H₂, I₂ and HI; HI* soon appears although the amounts stay the same."] },
+  { cat: "lc", h: "What changes K", k: "9(c)", d: "Only temperature. Changes in concentration or pressure move the position of equilibrium but leave K unchanged: the concentrations readjust until the ratio equals K again.",
+    e: [], list: ["Exothermic forward reaction: K falls as the temperature rises (N₂ + 3H₂ ⇌ 2NH₃).", "Endothermic forward reaction: K rises as the temperature rises (N₂O₄ ⇌ 2NO₂)."] },
+  { cat: "lc", h: "A catalyst", k: "9(c)", d: "A catalyst provides an alternative reaction pathway with lower activation energy. E{a} falls by the same amount for the forward and reverse reactions, so both rates rise by the same factor. Equilibrium is reached sooner; the position of equilibrium and K are unchanged.",
+    e: [], list: ["The iron catalyst in the Haber process does not raise the yield; it lets the plant reach a useful conversion quickly at 400 to 450 °C."] },
+  { cat: "lc", h: "Three colour systems", k: "9(b)", d: "Equilibria whose shifts you can see.",
+    e: [["N₂O₄(g) ⇌ 2NO₂(g)", "colourless ⇌ brown; ΔH = +57.2 kJ mol⁻¹ (literature). Hot: browner; ice: paler."], ["Fe³⁺(aq) + SCN⁻(aq) ⇌ [Fe(SCN)]²⁺(aq)", "pale yellow + colourless ⇌ blood red. Add Fe³⁺ or SCN⁻: redder; add water: paler than dilution alone."], ["[Co(H₂O)₆]²⁺(aq) + 4Cl⁻(aq) ⇌ [CoCl₄]²⁻(aq) + 6H₂O(l)", "pink ⇌ blue; forward endothermic. Conc. HCl or heat: bluer; water or ice: pinker."]] },
+  { cat: "k", h: "Units of K{c} and K{p}", k: "9(d)", d: "Work them out from the expression: concentration units (mol dm⁻³) or pressure units (kPa) raised to the power (sum of powers on the top − sum on the bottom).",
+    e: [["2SO₂(g) + O₂(g) ⇌ 2SO₃(g)", "K{c}: (mol dm⁻³)²⁻³ = mol⁻¹ dm³; K{p}: kPa⁻¹"], ["H₂(g) + I₂(g) ⇌ 2HI(g)", "no units: they cancel"], ["N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", "K{c}: mol⁻² dm⁶; K{p}: kPa⁻²"]] },
+  { cat: "k", h: "Heterogeneous equilibria", k: "9(d)", d: "Pure solids and pure liquids do not appear in K: their concentrations are fixed. Water is left out when it is the solvent of a dilute solution, but kept when it is a product in a liquid mixture.",
+    e: [["CaCO₃(s) ⇌ CaO(s) + CO₂(g)", "K{c} = [CO₂(g)]; K{p} = p(CO₂)"], ["CH₃COOH(l) + C₂H₅OH(l) ⇌ CH₃COOC₂H₅(l) + H₂O(l)", "K{c} = [CH₃COOC₂H₅][H₂O] / ([CH₃COOH][C₂H₅OH]) = 4.01"]], list: ["p(CO₂) over CaCO₃ reaches 1 bar at about 1110 K (Topic 7 Part 3)."] },
+  { cat: "k", h: "K{p} with Dalton's Law", k: "9(d)(e) · Topic 3", d: "Partial pressure p{}(A) = x{}(A) × p{}(total), where the mole fraction x{}(A) = n{}(A) / n{}(total). K{p} uses partial pressures in kPa.",
+    e: [["N₂O₄(g) ⇌ 2NO₂(g)", "0.50 mol N₂O₄ and 1.00 mol NO₂ at 100 kPa: p = 33.3 and 66.7 kPa; K{p} = 133 kPa"]] },
+  { cat: "k", h: "Size of K", k: "9(d)", d: "K ≫ 1: products favoured at equilibrium. K ≪ 1: reactants favoured. K tells you the extent of reaction, not its rate.",
+    e: [["N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", "K is large at 298 K, but without a catalyst the reaction is immeasurably slow"]] },
+  { cat: "k", h: "Manipulating K", k: "9(d)", d: "Reverse the equation: K′ = 1 / K. Double every coefficient: K′ = K². Halve them: K′ = √K.",
+    e: [["2HI(g) ⇌ H₂(g) + I₂(g)", "K{c} = 1 / 50.3 = 0.0199 at 731 K"], ["HI(g) ⇌ ½H₂(g) + ½I₂(g)", "K{c} = √0.0199 = 0.141"]] },
+  { cat: "hb", h: "Haber process conditions", k: "9(g)", d: "N₂(g) + 3H₂(g) ⇌ 2NH₃(g), ΔH = −92 kJ mol⁻¹.",
+    e: [], list: ["400 to 450 °C: compromise between yield (lower T better, exothermic) and rate; the iron catalyst needs about 400 °C.", "About 200 atm: more NH₃ and faster (4 mol gas → 2 mol), but cost and hazard rise with pressure.", "Finely divided iron catalyst (promoted with K₂O and Al₂O₃): equilibrium reached faster, no change in yield.", "N₂ : H₂ = 1 : 3; NH₃ liquefied and removed; unreacted gases recycled (about 15 % per pass, about 98 % overall)."] },
+  { cat: "enr", enr: true, h: "ΔG⦵ = −RT ln K", k: "beyond 9476 · Topic 7", d: "Links the Gibbs free energy change to the equilibrium constant (K dimensionless, pressures relative to 1 bar). Negative ΔG⦵: K > 1.",
+    e: [["N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", "298 K: ΔG⦵ = −32.7 kJ mol⁻¹, K = 5.4 × 10⁵"], ["same, 700 K", "ΔG⦵ = +47.3 kJ mol⁻¹, K = 2.9 × 10⁻⁴"]], list: ["Uses ΔH⦵ = −92 kJ mol⁻¹ and ΔS⦵ = −199 J K⁻¹ mol⁻¹ taken as constant. The Gillespie–Beattie value at 700 K is 7.6 × 10⁻⁵ bar⁻²: the difference is because ΔH and ΔS change with temperature."] },
+  { cat: "enr", enr: true, h: "K{p} and K{c}", k: "not required by 9476", d: "For ideal gases K{p} = K{c}(RT)<sup>Δ<i>n</i></sup>, where Δ<i>n</i> = moles of gas on the right − moles on the left. With p in kPa and c in mol dm⁻³, R = 8.31 J K⁻¹ mol⁻¹.",
+    e: [["N₂O₄(g) ⇌ 2NO₂(g)", "Δ<i>n</i> = 1: K{p} = K{c} × RT"]] },
+  { cat: "enr", enr: true, h: "The reaction quotient, Q", k: "beyond the syllabus", d: "Same expression as K but with the concentrations (or partial pressures) at any moment. Q < K: the forward reaction is faster until Q = K. Q > K: the reverse reaction is faster.",
+    e: [], list: ["The Le Chatelier bench shows Q beside K after every change."] }
+];
+LAB.FC = FC;
+const FCF = [["all", "All"], ["eq", "Dynamic equilibrium"], ["lc", "Le Chatelier and K"], ["k", "Expressions and calculations"], ["hb", "Haber process"], ["enr", "Enrichment"]];
+let FCSEL = "all";
+function fcHTML(c){
+  const eqs = c.e.map(([eq, v]) => `<div>${/⇌/.test(eq) ? EQ(eq) : H(eq)}<span class="lab">${H(v)}</span></div>`).join("");
+  return `<h3>${c.enr ? ENR : ""}${H(c.h)}</h3><div class="kind">${/^\d/.test(c.k) ? "9476 " : ""}${H(c.k)}</div><p>${H(c.d)}</p>${eqs ? `<div class="eqs">${eqs}</div>` : ""}${c.list ? `<ul>${c.list.map(x => `<li>${H(x)}</li>`).join("")}</ul>` : ""}`;
+}
+function bindCards(){
+  const render = () => {
+    $("fc-cards").innerHTML = FC.filter(c => FCSEL === "all" || c.cat === FCSEL).map(c => `<article class="panel card" data-cat="${c.cat}">${fcHTML(c)}</article>`).join("");
+    $("fc-filter").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === FCSEL));
+  };
+  $("fc-filter").innerHTML = FCF.map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${k === FCSEL}">${H(t)}</button>`).join("");
+  $("fc-filter").querySelectorAll("button").forEach(b => b.onclick = () => { FCSEL = b.dataset.f; render(); });
+  render();
+}
+
+/* =====================================================
+   8. QUIZ (option 0 is correct; each option carries its reason)
+   ===================================================== */
+const QZ = [
+  { k: "9(a)", q: "Which statement describes a system in dynamic equilibrium?",
+    o: [["The forward and reverse rates are equal and non-zero, so the concentrations stay constant.", "Both reactions carry on at the same rate, so there is no overall change."],
+        ["Both reactions have stopped, so the concentrations stay constant.", "The reactions have not stopped: labelled-atom experiments show both still go on."],
+        ["The concentrations of the reactants and the products are equal.", "The concentrations are constant, not (in general) equal: H₂ + I₂ ⇌ 2HI settles at 0.22, 0.22 and 1.56 mol."],
+        ["The forward rate is at its maximum and the reverse rate is zero.", "At equilibrium the two rates are equal; neither is zero."]] },
+  { k: "9(b)", q: "A sealed syringe holds N₂O₄(g) ⇌ 2NO₂(g) at equilibrium (N₂O₄ colourless, NO₂ brown). The plunger is pushed in quickly and held, at constant temperature. Compared with before, the final colour is",
+    o: [["darker: it darkens at once, then fades a little as the position shifts left.", "Compressing raises every concentration; the shift left only partly opposes this, so [NO₂] ends higher than before."],
+        ["paler, because the position shifts left to fewer molecules.", "The shift left only partly undoes the rise in concentration: [NO₂]² = K{c}[N₂O₄], and [N₂O₄] has risen."],
+        ["the same, because K is unchanged.", "K is unchanged, but the concentrations are not: both rise, so [NO₂] is higher."],
+        ["darker, and it keeps getting darker as the position shifts right.", "Increasing the pressure shifts the position to the side with fewer gas molecules: left, not right."]] },
+  { k: "9(b)", q: "Water is added to an equilibrium mixture of Fe³⁺(aq) + SCN⁻(aq) ⇌ [Fe(SCN)]²⁺(aq), doubling the volume. What happens to the red colour?",
+    o: [["It becomes paler than dilution alone would make it: the position shifts left.", "Diluting favours the side with more dissolved particles (2 on the left, 1 on the right)."],
+        ["It becomes exactly half as intense: dilution has no effect on the position.", "Dilution changes the position here: the ratio [Fe(SCN)²⁺]/([Fe³⁺][SCN⁻]) becomes 2 × K{c}, so the system shifts left."],
+        ["It becomes redder: the position shifts right.", "Dilution favours the side with more dissolved particles, which is the left."],
+        ["It does not change, because water is not in the K{c} expression.", "Water is left out of K{c}, but adding it lowers every concentration in the expression."]] },
+  { k: "9(c)", q: "For an exothermic forward reaction, which change increases the value of K?",
+    o: [["Lowering the temperature", "With an exothermic forward reaction, K rises as the temperature falls."],
+        ["Increasing the pressure", "Pressure moves the position of equilibrium but does not change K."],
+        ["Adding a catalyst", "A catalyst changes neither the position nor K; equilibrium is just reached sooner."],
+        ["Adding more of a reactant", "The position shifts right, but K is unchanged: the concentrations readjust until the ratio equals K again."]] },
+  { k: "9(c)", q: "What is the effect of adding a catalyst to a reaction mixture before it reaches equilibrium?",
+    o: [["Equilibrium is reached sooner; the position of equilibrium and K are unchanged.", "A catalyst provides an alternative reaction pathway with lower activation energy. E{a} falls by the same amount for the forward and reverse reactions, so both rates rise by the same factor."],
+        ["More product is formed at equilibrium.", "The alternative pathway lowers E{a} by the same amount in both directions, so both rates rise by the same factor and the position does not change."],
+        ["K increases because the forward reaction is faster.", "The reverse reaction is speeded up just as much; only temperature changes K."],
+        ["The forward reaction speeds up and the reverse reaction slows down.", "A catalyst speeds up both directions."]] },
+  { k: "9(d)", q: "What is K{c} for {{CaCO₃(s) ⇌ CaO(s) + CO₂(g)}}?",
+    o: [["K{c} = [CO₂(g)]", "Pure solids are left out of K; only CO₂ remains."],
+        ["K{c} = [CaO][CO₂] / [CaCO₃]", "The solids must be left out: their concentrations are fixed."],
+        ["K{c} = [CaCO₃] / ([CaO][CO₂])", "Upside down, and the solids should not appear."],
+        ["There is no K{c}, because the reactant is a solid.", "There is: K{c} = [CO₂(g)], and K{p} = p(CO₂)."]] },
+  { k: "9(d)", q: "What are the units of K{p} for {{N₂(g) + 3H₂(g) ⇌ 2NH₃(g)}}, with partial pressures in kPa?",
+    o: [["kPa⁻²", "K{p} = p(NH₃)² / (p(N₂) p(H₂)³): kPa² / kPa⁴ = kPa⁻²."],
+        ["kPa²", "Upside down: the top has power 2 and the bottom power 4."],
+        ["no units", "The powers do not balance: 2 on the top, 4 on the bottom."],
+        ["mol⁻² dm⁶", "These are the units of K{c}; K{p} uses kPa."]] },
+  { k: "9(e)", q: "A 2.00 dm³ vessel holds 0.10 mol H₂, 0.10 mol I₂ and 0.70 mol HI at equilibrium: H₂(g) + I₂(g) ⇌ 2HI(g). What is K{c}?",
+    o: [["49 (no units)", "[HI] = 0.35, [H₂] = [I₂] = 0.050 mol dm⁻³; K{c} = 0.35² / (0.050 × 0.050) = 49."],
+        ["70 (no units)", "This uses the amounts and does not square [HI]: 0.70 / (0.10 × 0.10) = 70. K{c} = [HI]² / ([H₂][I₂]); with [HI] squared the volume cancels and K{c} = 49."],
+        ["0.020 (no units)", "Upside down: products go on the top."],
+        ["49 mol⁻¹ dm³", "The units cancel: two concentration terms on the top and two on the bottom."]] },
+  { k: "9(f)", q: "For esterification, K{c} = 4.0. 1.0 mol of ethanoic acid and 1.0 mol of ethanol are mixed. How much ethyl ethanoate is there at equilibrium?",
+    o: [["0.67 mol", "x² / (1.0 − x)² = 4.0, so x / (1.0 − x) = 2.0 and x = 0.67."],
+        ["0.80 mol", "This uses x / (1.0 − x) = 4.0: take the square root of K{c} first."],
+        ["0.50 mol", "That would need K{c} = 1."],
+        ["0.33 mol", "That is the amount of acid (and of ethanol) left, not the ester formed."]] },
+  { k: "9(g)", q: "Why is the Haber process run at 400 to 450 °C rather than at a lower temperature?",
+    o: [["At lower temperatures the yield is higher but the rate is too slow, and the iron catalyst needs about 400 °C.", "A compromise between yield at equilibrium and rate."],
+        ["Because the equilibrium yield of NH₃ is highest at 400 to 450 °C.", "The forward reaction is exothermic, so the equilibrium yield is higher at lower temperatures."],
+        ["Because a higher temperature increases K for this reaction.", "The forward reaction is exothermic, so K decreases as the temperature rises."],
+        ["Because the catalyst only increases the yield at high temperature.", "A catalyst never changes the yield at equilibrium; it only increases the rate."]] }
+];
+LAB.QZ = QZ;
+const Q = { i: 0, score: 0, order: [] };
+LAB.Q = Q;
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${TX(q.q)}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${TX(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${TX(q.o[k][1])}</li>`).join("");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${TX(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+
+/* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly. (Scrolling the page here fought the mouse wheel.)
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+/* ---------- redraw on resize and theme change ---------- */
+function redrawAll(){
+  dyPalette(); dyLegend(); dyRenderAll();
+  lcAll(); ctDraw();
+  hbAll();
+}
+LAB.redrawAll = redrawAll;
+let RW = 0, RTM = 0;
+window.addEventListener("resize", () => { const w = document.documentElement.clientWidth; if (w === RW) return; RW = w; clearTimeout(RTM); RTM = setTimeout(redrawAll, 120); });
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+
+RW = document.documentElement.clientWidth;
+bindDynamic(); bindBench(); bindIce(); bindExpr(); bindGN(); bindHaber(); bindCards(); startQuiz(); bindNav();
+LAB.ready = true;
+})();
+</script>

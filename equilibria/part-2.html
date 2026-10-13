@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Chemical Equilibria 2: Le Chatelier's Principle, what changes the value of K, catalysts, and the conditions of the Haber process. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 9).">
+<title>Chemical Equilibria 2 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 9 · Chemical Equilibria</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 9 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html" aria-current="page" class="on">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#le-chatelier-s-principle">Le Chatelier's Principle</a></li><li><a href="#changing-the-concentration">Changing the concentration</a></li><li><a href="#changing-the-pressure">Changing the pressure</a></li><li><a href="#changing-the-temperature">Changing the temperature</a></li><li><a href="#adding-a-catalyst">Adding a catalyst</a></li><li><a href="#what-changes-the-value-of-k">What changes the value of K?</a></li><li><a href="#the-haber-process">The Haber process</a></li><li><a href="#summary">Summary</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">9.2 · 13/10/26</p><h1>Chemical Equilibria 2</h1><p class="eyebrow">Topic 9 · Chemical Equilibria Part 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#le-chatelier-s-principle">Le Chatelier's Principle</a></li><li><a href="#changing-the-concentration">Changing the concentration</a></li><li><a href="#changing-the-pressure">Changing the pressure</a></li><li><a href="#changing-the-temperature">Changing the temperature</a></li><li><a href="#adding-a-catalyst">Adding a catalyst</a></li><li><a href="#what-changes-the-value-of-k">What changes the value of K?</a></li><li><a href="#the-haber-process">The Haber process</a></li><li><a href="#summary">Summary</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Equilibria Lab</a></p><p>Use the <em>Le Chatelier bench</em> (the NO<sub>2</sub>/N<sub>2</sub>O<sub>4</sub> syringe, the iron(III) thiocyanate and cobalt chloride tubes: predict first, then watch) and the <em>Haber plant</em> (temperature, pressure, catalyst and recycle) alongside this note.</p></aside><p>In Part 1 the conditions were fixed and we worked out where the equilibrium settled. Now we change the conditions while the system is at equilibrium. Does it shift? Which way? Does K change? The answers explain how a chemical plant gets a useful yield from a reaction that, left to itself, would stop a long way short of completion.</p><p class="stamp" aria-hidden="true">9.2 §1 · 13/10/26</p><h2 id="le-chatelier-s-principle">Le Chatelier's Principle</h2><aside class="box"><p><span class="key">Le Chatelier's Principle:</span> if a change is made to a system at equilibrium, the position of equilibrium shifts so as to oppose (reduce) the effect of the change.</p></aside><p>Two words to be careful with:</p><ul><li><strong>"Oppose"</strong>, not "cancel". The system reduces the effect of the change, but it never undoes it completely. You will see this with the gas syringe below.</li><li><strong>"Position"</strong>: a shift to the right means more products and less reactants than before; to the left, the opposite. A shift in position does <em>not</em> by itself mean K has changed. Only a change of temperature changes K.</li></ul><p>Le Chatelier's Principle predicts the direction. The K expression explains <em>why</em>, and it gives the better explanation for concentration and pressure changes.</p><p class="stamp" aria-hidden="true">9.2 §2 · 13/10/26</p><h2 id="changing-the-concentration">Changing the concentration</h2><p>Iron(III) ions and thiocyanate ions form a blood-red complex ion:</p><p class="eq">Fe<sup>3+</sup>(aq) + SCN<sup>−</sup>(aq) ⇌ [Fe(SCN)]<sup>2+</sup>(aq)        K<sub>c</sub> = [Fe(SCN)<sup>2+</sup>] / ([Fe<sup>3+</sup>][SCN<sup>−</sup>])</p><p>Fe<sup>3+</sup>(aq) is pale yellow and SCN<sup>−</sup>(aq) colourless, so the depth of red tells you where the equilibrium lies. Add a few drops of concentrated iron(III) chloride solution to an equilibrium mixture and it turns deeper red.</p><ul><li><strong>Le Chatelier:</strong> [Fe<sup>3+</sup>] has been increased, so the position of equilibrium shifts to the right to remove some of the added Fe<sup>3+</sup>. More [Fe(SCN)]<sup>2+</sup> forms.</li><li><strong>Using K<sub>c</sub>:</strong> at the moment of adding, the denominator [Fe<sup>3+</sup>][SCN<sup>−</sup>] is bigger, so the ratio [Fe(SCN)<sup>2+</sup>] / ([Fe<sup>3+</sup>][SCN<sup>−</sup>]) is now <em>less than</em> K<sub>c</sub>. The forward reaction is now faster than the reverse, until the ratio rises back to K<sub>c</sub>.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup> K<sub>c</sub> itself has not changed: the temperature is the same.</li></ul><figure><img src="fig/p2_add.svg" alt="Fig 1. Adding Fe3+ to the Fe3+/SCN- equilibrium (calculated with an illustrative Kc; schematic axes). [Fe3+] ends higher than before, but lower than just after adding: the change is opposed, not cancelled." loading="lazy"><figcaption>Fig 1. Adding Fe<sup>3+</sup> to the Fe<sup>3+</sup>/SCN<sup>−</sup> equilibrium (calculated with an illustrative K<sub>c</sub>; schematic axes). [Fe<sup>3+</sup>] ends higher than before, but lower than just after adding: the change is opposed, not cancelled.</figcaption></figure><p>Adding SCN<sup>−</sup> (as potassium thiocyanate) has the same effect. Removing either reactant, or adding a reagent that removes one, shifts the position to the left and the colour fades.</p><h3>Diluting with water</h3><p>Add water and the red fades by more than dilution alone would cause. Every concentration falls by the same factor, but there are two dissolved particles on the left and only one on the right, so the denominator of K<sub>c</sub> falls more than the numerator: the ratio is now <em>greater</em> than K<sub>c</sub>, and the position shifts to the left, the side with more dissolved particles.</p><h3>The cobalt chloride equilibrium</h3><p>In concentrated chloride solutions, pink hexaaquacobalt(II) ions are in equilibrium with blue tetrachlorocobaltate(II) ions:</p><p class="eq">[Co(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>(aq) + 4Cl<sup>−</sup>(aq) ⇌ [CoCl<sub>4</sub>]<sup>2−</sup>(aq) + 6H<sub>2</sub>O(l)        (pink ⇌ blue)</p><p>A mixture of the two looks violet. Add concentrated hydrochloric acid ([Cl<sup>−</sup>] up): the position shifts right and the solution turns blue. Add water: the position shifts left and it turns pink. (Water is the solvent, so it does not appear in K<sub>c</sub>; adding it lowers [Cl<sup>−</sup>] and the other concentrations.) This system also responds to temperature: see below.</p><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Removing a product.</strong> Many steps in fine-chemical and pharmaceutical manufacture are equilibrium-limited, and the plant drives them on by taking a product out as it forms, Le Chatelier's Principle on a large scale.</p><p>• Water from an esterification or acetal formation is removed by azeotropic distillation with toluene: the vapour condenses into a Dean-Stark trap, the water sinks to the bottom and is drained off, and the toluene runs back into the reactor.</p><p>• A volatile by-product such as methanol is distilled out of the reaction as it forms.</p><p>• A gaseous by-product such as HCl is swept out with a stream of nitrogen, or removed under reduced pressure.</p><p>Using an excess of the cheaper reagent does the same job from the other side of the equation.</p></aside><p class="stamp" aria-hidden="true">9.2 §3 · 13/10/26</p><h2 id="changing-the-pressure">Changing the pressure</h2><p>Pressure matters only for equilibria involving <span class="key">gases</span>, and only when the two sides have <span class="key">different numbers of moles of gas</span>. The usual way to change the pressure is to change the volume. Take dinitrogen tetroxide (colourless) and nitrogen dioxide (brown):</p><p class="eq">N<sub>2</sub>O<sub>4</sub>(g) ⇌ 2NO<sub>2</sub>(g)        1 mol of gas ⇌ 2 mol of gas</p><p>Push in the plunger of a sealed gas syringe holding the equilibrium mixture, halving the volume, and watch from the end (Fig 2):</p><ul><li><strong>At once, darker.</strong> Every concentration doubles, including [NO<sub>2</sub>].</li><li><strong>Then lighter.</strong> By Le Chatelier, the position shifts to the left, the side with fewer moles of gas, which lowers the pressure. Some NO<sub>2</sub> dimerises.</li><li><strong>But still darker than at the start.</strong> The change is opposed, not cancelled: the final [NO<sub>2</sub>] is higher than before the push.</li></ul><figure><img src="fig/p2_compress.svg" alt="Fig 2. Halving the volume of an N2O4/NO2 equilibrium mixture at 298 K (calculated from literature ΔH and ΔS; schematic axes)." loading="lazy"><figcaption>Fig 2. Halving the volume of an N<sub>2</sub>O<sub>4</sub>/NO<sub>2</sub> equilibrium mixture at 298 K (calculated from literature ΔH and ΔS; schematic axes).</figcaption></figure><p><strong>Using K<sub>p</sub>:</strong> doubling the total pressure doubles every partial pressure. In K<sub>p</sub> = p<sub>NO₂</sub><sup>2</sup> / p<sub>N₂O₄</sub> the top is multiplied by 4 and the bottom by 2, so the ratio is now <em>twice</em> K<sub>p</sub>. The reverse reaction is faster until the ratio falls back to K<sub>p</sub>. K<sub>p</sub> itself is unchanged.</p><p>For H<sub>2</sub>(g) + I<sub>2</sub>(g) ⇌ 2HI(g), with 2 mol of gas on each side, a change of pressure has <span class="key">no effect</span> on the position: top and bottom of K<sub>p</sub> change by the same factor.</p><aside class="box"><p><strong>Further example: adding an inert gas.</strong> Add argon to an equilibrium mixture <em>at constant volume</em>: the total pressure rises, but the partial pressures of the reacting gases do not change, so the position does not move. Add argon <em>at constant total pressure</em> (the container expands): the partial pressures of the reacting gases fall, just as if the pressure had been lowered, so the position shifts to the side with more moles of gas.</p></aside><p class="stamp" aria-hidden="true">9.2 §4 · 13/10/26</p><h2 id="changing-the-temperature">Changing the temperature</h2><p>Temperature is different from everything else in this Part: <span class="key">changing the temperature changes the value of K</span>.</p><ul><li>Raise the temperature: by Le Chatelier, the position shifts in the <span class="key">endothermic</span> direction, which absorbs some of the added heat.</li><li>Lower the temperature: the position shifts in the <span class="key">exothermic</span> direction, which releases heat.</li></ul><p>For N<sub>2</sub>O<sub>4</sub>(g) ⇌ 2NO<sub>2</sub>(g), ΔH = +57.2 kJ mol<sup>−1</sup> (literature value): the forward reaction is endothermic. A sealed tube of the mixture turns browner in hot water and paler in ice. K<sub>p</sub> rises with temperature:</p><div class="tablewrap"><table><thead><tr><th>Temperature / K</th><th>273</th><th>298</th><th>323</th><th>353</th></tr></thead><tbody><tr><td>K<sub>p</sub> / kPa</td><td>1.75</td><td>14.5</td><td>86.7</td><td>530</td></tr></tbody></table></div><p>(Calculated from literature values of ΔH and ΔS taken as constant; the measured K<sub>p</sub> at 298 K is about 15 kPa.) For an exothermic reaction such as the Haber reaction it is the other way round: K falls as the temperature rises (Fig 3). The cobalt equilibrium is endothermic in the forward direction, so a pink-violet solution turns blue when warmed and pink when cooled.</p><figure><img src="fig/p2_K_T.svg" alt="Fig 3. Kp against temperature (log scale) for (a) an endothermic and (b) an exothermic reaction. (a) from literature ΔH and ΔS; (b) from the literature Gillespie–Beattie correlation for the Haber reaction. Note the temperature scales: (a) in K, (b) in °C." loading="lazy"><figcaption>Fig 3. K<sub>p</sub> against temperature (log scale) for (a) an endothermic and (b) an exothermic reaction. (a) from literature ΔH and ΔS; (b) from the literature Gillespie–Beattie correlation for the Haber reaction. Note the temperature scales: (a) in K, (b) in °C.</figcaption></figure><p><em>Beyond the syllabus:</em> why does temperature change K when concentration and pressure do not? Raising the temperature speeds up both reactions, but it speeds up the one with the higher activation energy more. For an endothermic forward reaction, that is the forward reaction (Topic 7 Part 1: E<sub>a</sub>(forward) = E<sub>a</sub>(reverse) + ΔH), so the balance between the rates settles at a new, larger K.</p><p class="stamp" aria-hidden="true">9.2 §5 · 13/10/26</p><h2 id="adding-a-catalyst">Adding a catalyst</h2><p>A catalyst <span class="key">provides an alternative reaction pathway with lower activation energy</span> (Topic 8 Part 2). The forward and reverse reactions go through the same pathway, so E<sub>a</sub> falls by the same amount for both, and both rates increase by the same factor.</p><ul><li>Equilibrium is <span class="key">reached sooner</span>.</li><li>The <span class="key">position of equilibrium does not change</span>, and <span class="key">K does not change</span>: the same amounts are present at equilibrium, with or without the catalyst.</li></ul><figure><img src="fig/p2_catalyst.svg" alt="Fig 4. Approach to equilibrium with and without a catalyst (schematic)." loading="lazy"><figcaption>Fig 4. Approach to equilibrium with and without a catalyst (schematic).</figcaption></figure><p class="stamp" aria-hidden="true">9.2 §6 · 13/10/26</p><h2 id="what-changes-the-value-of-k">What changes the value of K?</h2><p>This is 9476 outcome 9(c), and a favourite in examinations.</p><div class="tablewrap"><table><thead><tr><th>Change</th><th>Position of equilibrium</th><th>Value of K</th></tr></thead><tbody><tr><td>Concentration of a reactant or product</td><td>Shifts to oppose the change</td><td>Unchanged</td></tr><tr><td>Pressure (gases, different moles of gas on each side)</td><td>Shifts towards fewer moles of gas when pressure rises</td><td>Unchanged</td></tr><tr><td>Temperature</td><td>Shifts in the endothermic direction when T rises</td><td><span class="key">Changes</span> (rises for endothermic, falls for exothermic forward reactions)</td></tr><tr><td>Catalyst</td><td>No change; equilibrium reached sooner</td><td>Unchanged</td></tr></tbody></table></div><p class="stamp" aria-hidden="true">9.2 §7 · 13/10/26</p><h2 id="the-haber-process">The Haber process</h2><p>Ammonia is made from nitrogen and hydrogen; most of it goes into fertilisers.</p><p class="eq">N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ⇌ 2NH<sub>3</sub>(g)        ΔH = −92 kJ mol<sup>−1</sup></p><p>The nitrogen comes from the air and the hydrogen from natural gas (methane). The conditions are:</p><div class="tablewrap"><table><thead><tr><th>Condition</th><th>Typical value</th></tr></thead><tbody><tr><td>Temperature</td><td>400 to 450 °C (about 700 K)</td></tr><tr><td>Pressure</td><td>about 200 atm (2.0 × 10<sup>4</sup> kPa); plants run between 100 and 250 atm</td></tr><tr><td>Catalyst</td><td>finely divided iron<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></td></tr><tr><td>Feed ratio</td><td>N<sub>2</sub> : H<sub>2</sub> = 1 : 3 by volume, the ratio in the equation</td></tr><tr><td>Product removal</td><td>the gas leaving the converter is cooled, ammonia condenses (b.p. −33 °C, literature value) and is run off; unreacted N<sub>2</sub> and H<sub>2</sub> are recycled</td></tr></tbody></table></div><p>Each condition is a balance between the <span class="key">yield</span> (where the equilibrium lies) and the <span class="key">rate</span> (how fast it gets there), with cost and safety in the background. Fig 5 shows how much ammonia there is at equilibrium under different conditions.</p><figure><img src="fig/p2_haber_yield.svg" alt="Fig 5. Ammonia at equilibrium for a 1 : 3 feed, calculated for ideal gases from the literature Gillespie–Beattie Kp. Real mixtures at 200 atm and above give a few per cent more." loading="lazy"><figcaption>Fig 5. Ammonia at equilibrium for a 1 : 3 feed, calculated for ideal gases from the literature Gillespie–Beattie K<sub>p</sub>. Real mixtures at 200 atm and above give a few per cent more.</figcaption></figure><h3>Temperature</h3><p>The forward reaction is exothermic, so a <span class="key">lower temperature</span> shifts the equilibrium to the right and K is larger: at 200 atm the model gives 61 % ammonia at 300 °C but only 24.5 % at 450 °C. But at low temperature the rate is far too slow, and the iron catalyst needs about 400 °C to work well. 400 to 450 °C is a <span class="key">compromise</span>: a lower equilibrium yield, reached quickly enough to be worthwhile.</p><h3>Pressure</h3><p>4 mol of gas on the left, 2 mol on the right, so a <span class="key">higher pressure</span> shifts the equilibrium to the right (Fig 5), and it also increases the rate, because the gas molecules are closer together and collide more often. Against that, high pressure is expensive: powerful compressors, a lot of electrical energy, and thick-walled vessels and pipework, with a greater hazard if anything fails. Above about 200 atm the extra ammonia does not pay for the extra cost, so this is a compromise too.</p><h3>Catalyst</h3><p>The iron catalyst does not change the yield at equilibrium; it lets the plant get close to equilibrium quickly at a temperature where the yield is still reasonable. It is heterogeneous (solid iron, gaseous reactants): N<sub>2</sub> and H<sub>2</sub> adsorb onto the iron surface, their bonds weaken, they react, and NH<sub>3</sub> desorbs (Topic 8 Part 2).</p><h3>Removing the ammonia and recycling</h3><p>The gas spends only a short time in the converter, so it never quite reaches equilibrium: only about <span class="key">15 %</span> of it leaves as ammonia. Cooling it liquefies the ammonia, which is removed; the unreacted nitrogen and hydrogen are recompressed and sent round again (Fig 6). Removing the product keeps pulling the reaction forward, and recycling means that overall about <span class="key">98 %</span> of the nitrogen and hydrogen ends up as ammonia.</p><figure><img src="fig/p2_haber_plant.svg" alt="Fig 6. The Haber process in outline (schematic)." loading="lazy"><figcaption>Fig 6. The Haber process in outline (schematic).</figcaption></figure><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Recycle and purge.</strong> The air that supplies the nitrogen also brings in about 1 % argon, and a little methane is left over from making the hydrogen. Neither reacts, and neither condenses with the ammonia, so in a closed recycle loop they would build up, lowering the partial pressures of N<sub>2</sub> and H<sub>2</sub> and so the rate and the yield. A small <span class="key">purge</span> stream is therefore bled off the loop all the time to keep them low. Hydrogen is usually recovered from the purge gas and the rest burned as fuel.</p></aside><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Hydrogen for the Haber process.</strong> The hydrogen is made from methane in two equilibrium steps, each run under conditions you can now explain.</p><p>• Steam reforming, over a nickel catalyst: CH<sub>4</sub>(g) + H<sub>2</sub>O(g) ⇌ CO(g) + 3H<sub>2</sub>(g), ΔH = +206 kJ mol<sup>−1</sup> (literature value). Endothermic, with more moles of gas on the right, so it is run hot (about 800 to 900 °C) and at only moderate pressure (about 30 atm, because the rest of the plant needs the gas under pressure anyway). Air is added in a second reformer: its oxygen burns some of the gas to keep the temperature up, and its nitrogen is exactly what the Haber reaction needs.</p><p>• The water-gas shift: CO(g) + H<sub>2</sub>O(g) ⇌ CO<sub>2</sub>(g) + H<sub>2</sub>(g), ΔH = −41 kJ mol<sup>−1</sup> (literature value). Exothermic, so it is run cooler (about 400 °C, then about 200 °C) with excess steam to push it to the right.</p><p>The CO<sub>2</sub> is then absorbed, and the last traces of CO are converted to methane, because CO poisons the iron catalyst.</p></aside><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p><strong>ΔG<sup>⦵</sup> and K.</strong> Topic 7 Part 3 showed that the sign of ΔG<sup>⦵</sup> tells you whether a reaction is feasible. The size of ΔG<sup>⦵</sup> is linked to the size of K:</p><p>ΔG<sup>⦵</sup> = −RT ln K</p><p>(Here K is written with each pressure divided by the standard pressure, 1 bar, so it has no units.) For the Haber reaction, with ΔH<sup>⦵</sup> = −92 kJ mol<sup>−1</sup> and ΔS<sup>⦵</sup> = −199 J K<sup>−1</sup> mol<sup>−1</sup> taken as constant: at 298 K, ΔG<sup>⦵</sup> = −32.7 kJ mol<sup>−1</sup> and K = 5.4 × 10<sup>5</sup>; at 700 K, ΔG<sup>⦵</sup> = +47.3 kJ mol<sup>−1</sup> and K = 2.9 × 10<sup>−4</sup>. A positive ΔG<sup>⦵</sup> does not mean no ammonia forms: it means K is less than 1, and the high pressure and recycling make up for it. (The literature K at 700 K, on the same 1 bar basis, is about 7.6 × 10<sup>−5</sup>; the difference is because ΔH and ΔS themselves change with temperature.)</p></aside><p class="stamp" aria-hidden="true">9.2 §8 · 13/10/26</p><h2 id="summary">Summary</h2><aside class="box"><p>• <span class="key">Le Chatelier's Principle:</span> the position of equilibrium shifts so as to oppose (reduce) the effect of a change.</p><p>• Concentration: shifts to use up what was added, or replace what was removed. Pressure: shifts towards fewer moles of gas when the pressure rises. Neither changes K; explain both with the K expression.</p><p>• Temperature: a rise favours the endothermic direction, and <span class="key">K changes</span>.</p><p>• A catalyst speeds up both directions equally: equilibrium is reached sooner; position and K unchanged.</p><p>• Haber process: 400 to 450 °C, about 200 atm, iron catalyst, 1 : 3 feed, ammonia liquefied and removed, unreacted gases recycled. Temperature and pressure are compromises between yield, rate and cost.</p></aside>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">Beyond the syllabus: the ratio worked out with the concentrations at any moment, whether or not the system is at equilibrium, is called the reaction quotient, Q. If Q &lt; K the forward reaction is faster; if Q &gt; K the reverse reaction is faster; at equilibrium Q = K. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">In practice the iron is "promoted" with small amounts of potassium oxide and aluminium oxide, which make it more active and stop the tiny iron crystals sintering together. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-1.html">← Part 1</a><a href="tutorial-1.html">Tutorial 1 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
