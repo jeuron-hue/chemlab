@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Hydroxy Compounds 2: Phenol: acidity, reactions with bases and sodium, bromination and nitration, and the relative acidities of water, phenol and ethanol. H2 Chemistry notes by Gary Chan (SEAB 9476, Topic 11.6).">
+<title>Hydroxy Compounds 2 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 11.6 · Hydroxy Compounds</p>
+  </div>
+</header>
+<nav class="secnav" aria-label="Topic 11.6 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html" aria-current="page" class="on">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#introduction">Introduction</a></li><li><a href="#the-bonding-in-phenol">The bonding in phenol</a></li><li><a href="#phenol-as-an-acid">Phenol as an acid</a></li><li><a href="#relative-acidity-of-water-phenol-and-ethanol">Relative acidity of water, phenol and ethanol</a></li><li><a href="#reactions-of-the-benzene-ring">Reactions of the benzene ring</a></li><li><a href="#comparing-ethanol-and-phenol">Comparing ethanol and phenol</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">11.6.2 · 14/10/26</p><h1>Hydroxy Compounds 2</h1><p class="eyebrow">Topic 11.6 · Hydroxy Compounds Part 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#introduction">Introduction</a></li><li><a href="#the-bonding-in-phenol">The bonding in phenol</a></li><li><a href="#phenol-as-an-acid">Phenol as an acid</a></li><li><a href="#relative-acidity-of-water-phenol-and-ethanol">Relative acidity of water, phenol and ethanol</a></li><li><a href="#reactions-of-the-benzene-ring">Reactions of the benzene ring</a></li><li><a href="#comparing-ethanol-and-phenol">Comparing ethanol and phenol</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Hydroxy Compounds Lab</a></p><p>Use the <em>acidity ladder</em> (water, phenol and ethanol with sodium, NaOH(aq) and Na<sub>2</sub>CO<sub>3</sub>(aq), and why their conjugate bases differ in stability) and the <em>phenol and benzene</em> panel (bromine and nitric acid with each ring) alongside this note.</p></aside><p class="stamp" aria-hidden="true">11.6.2 §1 · 14/10/26</p><h2 id="introduction">Introduction</h2><p>In phenol, C<sub>6</sub>H<sub>5</sub>OH, the –OH group is bonded <strong>directly</strong> to a carbon atom of a benzene ring. That one difference from an alcohol changes its chemistry: phenol is a far stronger acid than ethanol, and its ring reacts with electrophiles much more readily than benzene does. Phenylmethanol, C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>OH, has a benzene ring too, but its –OH is on a CH<sub>2</sub> group, so it is an alcohol (a primary one) and behaves like the alcohols of Part 1.</p><figure><img src="fig/hy2_structures.svg" alt="Fig 1. Phenols have –OH on a ring carbon; in alcohols it is on an sp3 carbon." loading="lazy"><figcaption>Fig 1. Phenols have –OH on a ring carbon; in alcohols it is on an sp<sup>3</sup> carbon.</figcaption></figure><p>Phenol is a colourless solid at room temperature (m.p. 41 °C) and is only slightly soluble in water: about 8 g dissolves in 100 g of water at 20 °C (literature values). It is toxic and burns the skin. As "carbolic acid" it was the first antiseptic used in surgery, by Joseph Lister in the 1860s.</p><p class="stamp" aria-hidden="true">11.6.2 §2 · 14/10/26</p><h2 id="the-bonding-in-phenol">The bonding in phenol</h2><p>The oxygen atom of phenol has two lone pairs. One of them is in a p orbital that is parallel to the p orbitals of the ring carbons, so it overlaps sideways with the ring's delocalised π system. The lone pair is partly delocalised into the ring. (Chlorobenzene is the same: Topic 11.3.)</p><figure><img src="fig/hy2_overlap.svg" alt="Fig 2. The O p orbital overlaps with the π system of the ring (schematic)." loading="lazy"><figcaption>Fig 2. The O p orbital overlaps with the π system of the ring (schematic).</figcaption></figure><p>This has three consequences, and they are the main ideas of this Part:</p><ol class="num"><li><strong>Phenol is more acidic than water and alcohols.</strong> When phenol loses H<sup>+</sup>, the negative charge on the oxygen can also spread into the ring (below).</li><li><strong>The ring is activated.</strong> The extra electron density in the ring makes it attack electrophiles far more readily than benzene (below).</li><li><strong>The C–O bond is strengthened.</strong> It gains some double-bond character. (Beyond the syllabus: so, unlike ethanol, phenol does not react with HX to replace the –OH by a halogen.)</li></ol><p class="stamp" aria-hidden="true">11.6.2 §3 · 14/10/26</p><h2 id="phenol-as-an-acid">Phenol as an acid</h2><p>Phenol is a weak acid. In water it gives up a proton to form the <span class="key">phenoxide ion</span>:</p><p class="eq">C<sub>6</sub>H<sub>5</sub>OH(aq) + H<sub>2</sub>O(l) ⇌ C<sub>6</sub>H<sub>5</sub>O<sup>−</sup>(aq) + H<sub>3</sub>O<sup>+</sup>(aq)  K<sub>a</sub> = 1.1 × 10<sup>−10</sup> mol dm<sup>−3</sup>, pK<sub>a</sub> = 9.96</p><p>(literature values; K<sub>a</sub> and pK<sub>a</sub> are in Topic 10 Part 1). It is a very weak acid, far weaker than ethanoic acid (pK<sub>a</sub> 4.74), but much stronger than ethanol.</p><p><strong>Worked example 1.</strong> Calculate the pH of 0.100 mol dm<sup>−3</sup> aqueous phenol. Compare it with 0.100 mol dm<sup>−3</sup> ethanol.</p><p>(Phenol is a weak monobasic acid, so use [H<sup>+</sup>] = √(K<sub>a</sub>c), as in Topic 10 Part 1. About 0.9 mol of phenol dissolves per dm<sup>3</sup>, so this solution can be made.)</p><p class="eq">[H<sup>+</sup>] = √(1.1 × 10<sup>−10</sup> × 0.100) = √(1.1 × 10<sup>−11</sup>) = 3.32 × 10<sup>−6</sup> mol dm<sup>−3</sup></p><p class="eq">pH = −lg(3.32 × 10<sup>−6</sup>) = 5.48</p><p>Only 3.32 × 10<sup>−6</sup> / 0.100 = 3.3 × 10<sup>−5</sup> of the molecules (0.0033 %) are dissociated, so the approximation is excellent. For ethanol (pK<sub>a</sub> about 16), √(10<sup>−16</sup> × 0.100) = 3 × 10<sup>−9</sup> mol dm<sup>−3</sup>, far less than the 1.00 × 10<sup>−7</sup> mol dm<sup>−3</sup> of H<sup>+</sup> that water itself provides, so 0.100 mol dm<sup>−3</sup> ethanol is neutral: pH 7.00. (0.100 mol dm<sup>−3</sup> ethanoic acid has pH 2.87.)</p><h3>Reaction with bases</h3><p>Phenol is acidic enough to react with a strong base. It dissolves in aqueous sodium hydroxide, although it is only slightly soluble in water, giving a colourless solution of sodium phenoxide:</p><p class="eq">C<sub>6</sub>H<sub>5</sub>OH(s) + NaOH(aq) → C<sub>6</sub>H<sub>5</sub>O<sup>−</sup>Na<sup>+</sup>(aq) + H<sub>2</sub>O(l)</p><p>Adding a strong acid, such as dilute hydrochloric acid, reverses the reaction. The phenoxide ion is a base, it takes the H<sup>+</sup> back, and phenol separates out, so the solution turns cloudy:</p><p class="eq">C<sub>6</sub>H<sub>5</sub>O<sup>−</sup>(aq) + H<sup>+</sup>(aq) → C<sub>6</sub>H<sub>5</sub>OH(s)</p><p>Ethanol shows no visible reaction with NaOH(aq). Ethanol is a slightly weaker acid than water, so in dilute NaOH(aq), where water molecules far outnumber the ethanol, it is too weak an acid to be noticeably deprotonated: very little ethoxide forms in CH<sub>3</sub>CH<sub>2</sub>OH + OH<sup>−</sup> ⇌ CH<sub>3</sub>CH<sub>2</sub>O<sup>−</sup> + H<sub>2</sub>O. (The same equilibrium explains Part 1: ethoxide added to water gives a strongly alkaline solution.)</p><p>Phenol gives <strong>no effervescence</strong> with aqueous sodium carbonate or sodium hydrogencarbonate. To release CO<sub>2</sub>, an acid must protonate HCO<sub>3</sub><sup>−</sup> to carbonic acid, and phenol (pK<sub>a</sub> 9.96) is a much weaker acid than carbonic acid (pK<sub>a</sub> 6.35). Carboxylic acids are stronger than carbonic acid and do fizz with carbonates (Topic 11.8 Part 1), so this is how phenol is told apart from a carboxylic acid.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup></p><h3>Reaction with sodium</h3><p>Like ethanol (Part 1, section 3), phenol reacts with sodium: the O–H bond breaks, hydrogen is given off and sodium phenoxide forms. Phenol is a solid, so it is first melted by gentle warming (or dissolved in a dry, unreactive solvent):</p><p class="eq">2C<sub>6</sub>H<sub>5</sub>OH + 2Na → 2C<sub>6</sub>H<sub>5</sub>O<sup>−</sup>Na<sup>+</sup> + H<sub>2</sub></p><p>Effervescence is seen, and the sodium dissolves.</p><p class="stamp" aria-hidden="true">11.6.2 §4 · 14/10/26</p><h2 id="relative-acidity-of-water-phenol-and-ethanol">Relative acidity of water, phenol and ethanol</h2><p>All three are Brønsted-Lowry acids: each can donate a proton from an O–H group to a water molecule.</p><p class="eq">CH<sub>3</sub>CH<sub>2</sub>OH(aq) + H<sub>2</sub>O(l) ⇌ CH<sub>3</sub>CH<sub>2</sub>O<sup>−</sup>(aq) + H<sub>3</sub>O<sup>+</sup>(aq)</p><p class="eq">H<sub>2</sub>O(l) + H<sub>2</sub>O(l) ⇌ OH<sup>−</sup>(aq) + H<sub>3</sub>O<sup>+</sup>(aq)</p><p class="eq">C<sub>6</sub>H<sub>5</sub>OH(aq) + H<sub>2</sub>O(l) ⇌ C<sub>6</sub>H<sub>5</sub>O<sup>−</sup>(aq) + H<sub>3</sub>O<sup>+</sup>(aq)</p><p>The pK<sub>a</sub> values (literature values) put them in order:</p><div class="tablewrap"><table><thead><tr><th>Acid</th><th>Conjugate base</th><th>K<sub>a</sub> / mol dm<sup>−3</sup></th><th>pK<sub>a</sub></th></tr></thead><tbody><tr><td>ethanol</td><td>ethoxide, CH<sub>3</sub>CH<sub>2</sub>O<sup>−</sup></td><td>about 1 × 10<sup>−16</sup></td><td>about 16</td></tr><tr><td>water<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></td><td>hydroxide, OH<sup>−</sup></td><td>1.8 × 10<sup>−16</sup></td><td>15.7</td></tr><tr><td>phenol</td><td>phenoxide, C<sub>6</sub>H<sub>5</sub>O<sup>−</sup></td><td>1.1 × 10<sup>−10</sup></td><td>9.96</td></tr></tbody></table></div><aside class="box"><p>Acid strength:   <span class="key">ethanol &lt; water &lt; phenol</span></p></aside><figure><img src="fig/hy2_ladder.svg" alt="Fig 3. pKa values of ethanol, water and phenol, with carbonic acid and ethanoic acid (Topic 11.8) for comparison (literature values)." loading="lazy"><figcaption>Fig 3. pK<sub>a</sub> values of ethanol, water and phenol, with carbonic acid and ethanoic acid (Topic 11.8) for comparison (literature values).</figcaption></figure><p>To explain the order, compare the <strong>conjugate bases</strong>. The more stable the anion left behind when the proton goes, the further the equilibrium lies to the right, and the stronger the acid.</p><figure><img src="fig/hy2_conj_bases.svg" alt="Fig 4. The conjugate bases. The arrowheads on the C–O bond of ethoxide show electron donation by the ethyl group." loading="lazy"><figcaption>Fig 4. The conjugate bases. The arrowheads on the C–O bond of ethoxide show electron donation by the ethyl group.</figcaption></figure><ul><li><strong>Phenoxide is the most stable.</strong> The negative charge on the oxygen is not held on the oxygen alone: one lone pair is delocalised into the benzene ring through the p orbital overlap of Fig 2, so the charge is spread over the oxygen and the ring (mainly over carbons 2, 4 and 6). Spreading a charge stabilises the ion, so phenol is a stronger acid than water.</li><li><strong>Ethoxide is the least stable.</strong> The ethyl group is electron-donating (Topic 11.3). It pushes electron density towards the O<sup>−</sup>, which <strong>intensifies</strong> the negative charge. Ethoxide is less stable than hydroxide, so ethanol is a weaker acid than water.<sup class="fnref"><a href="#fn3" id="fnref3" aria-label="Note 3">3</a></sup></li><li><strong>Hydroxide</strong> has neither effect, and lies in between.</li></ul><aside class="box"><p>The more stable the conjugate base, the stronger the acid. Phenoxide's charge is <span class="key">delocalised into the ring</span>; ethoxide's is <span class="key">intensified by the electron-donating ethyl group</span>.</p></aside><p>The order shows up in the test tube:</p><div class="tablewrap"><table><thead><tr><th></th><th>Ethanol</th><th>Water</th><th>Phenol</th></tr></thead><tbody><tr><td>Sodium</td><td>steady fizzing; Na sinks</td><td>vigorous fizzing; Na floats and melts</td><td>fizzing (molten phenol)</td></tr><tr><td>NaOH(aq)</td><td>no visible reaction</td><td>–</td><td>phenol dissolves: sodium phenoxide</td></tr><tr><td>Na<sub>2</sub>CO<sub>3</sub>(aq)</td><td>no effervescence</td><td>–</td><td>no effervescence</td></tr><tr><td>pH of a 0.100 mol dm<sup>−3</sup> solution</td><td>7.00</td><td>7.00 (pure water)</td><td>5.48</td></tr></tbody></table></div><aside class="box enrich"><p class="boxhead"><strong>Enrichment</strong> <em>(beyond the 9476 syllabus)</em></p><p><strong>Where the charge goes in phenoxide.</strong> The delocalisation can be shown by resonance (canonical) forms. Moving the O lone pair into the ring puts the negative charge on carbon 2, 4 or 6 in turn. No single form is the real ion: the real phenoxide ion is a blend of them all, with the charge spread over O, C2, C4 and C6. The same carbons carry the extra electron density in phenol itself, which is why electrophiles attack the ring at 2, 4 and 6 (below).</p></aside><figure><img src="fig/hy2_resonance.svg" alt="Fig 5. Resonance forms of the phenoxide ion (Enrichment). The circled carbon carries the negative charge." loading="lazy"><figcaption>Fig 5. Resonance forms of the phenoxide ion (Enrichment). The circled carbon carries the negative charge.</figcaption></figure><p><strong>Further example: substituted phenols.</strong> The same argument works for other groups on the ring (literature values). 4-Nitrophenol (pK<sub>a</sub> 7.15) is a stronger acid than phenol: the electron-withdrawing NO<sub>2</sub> group draws the negative charge of the anion further, onto the NO<sub>2</sub> group as well, so the anion is more stable. 4-Methylphenol (pK<sub>a</sub> 10.26) is weaker than phenol: the electron-donating CH<sub>3</sub> group intensifies the charge. So the order is 4-methylphenol &lt; phenol &lt; 4-nitrophenol.</p><p><strong>Worked example 2.</strong> Three unlabelled bottles contain ethanol, aqueous phenol and ethanoic acid. Suggest tests to identify them.</p><p>(You want tests that each pick out one compound, with something to see.) Add aqueous sodium carbonate to a sample of each: only ethanoic acid fizzes (CO<sub>2</sub>, which turns limewater milky). Then add bromine water to the other two: phenol decolourises it at once and gives a white precipitate (below), while ethanol leaves it orange. (Warm alkaline aqueous iodine would also confirm ethanol: a pale yellow precipitate of CHI<sub>3</sub>, Part 1.)</p><p class="stamp" aria-hidden="true">11.6.2 §5 · 14/10/26</p><h2 id="reactions-of-the-benzene-ring">Reactions of the benzene ring</h2><p>Benzene reacts with electrophiles only with a catalyst and, for nitration, with a concentrated acid mixture (Topic 11.4 Part 2). Phenol's ring reacts far more easily. The lone pair on the oxygen is delocalised into the ring, which raises the electron density of the ring, most of all at positions 2, 4 and 6. The ring attracts electrophiles more strongly, and is even able to polarise a bromine molecule without a halogen carrier. The mechanism is the electrophilic substitution of Topic 11.3, and the new groups go to positions 2, 4 and 6.</p><figure><img src="fig/hy2_activation.svg" alt="Fig 6. The O lone pair is delocalised into the ring, raising the electron density most at positions 2, 4 and 6." loading="lazy"><figcaption>Fig 6. The O lone pair is delocalised into the ring, raising the electron density most at positions 2, 4 and 6.</figcaption></figure><h3>Bromination</h3><p>Phenol reacts with Br<sub>2</sub>(aq) (bromine water) at room temperature, with no catalyst. Three H atoms are replaced at once, at positions 2, 4 and 6:</p><figure><img src="fig/hy2_bromination.svg" alt="Fig 7. Bromination of phenol." loading="lazy"><figcaption>Fig 7. Bromination of phenol.</figcaption></figure><p class="eq">C<sub>6</sub>H<sub>5</sub>OH(aq) + 3Br<sub>2</sub>(aq) → C<sub>6</sub>H<sub>2</sub>Br<sub>3</sub>OH(s) + 3HBr(aq)</p><p><strong>What you see:</strong> the <span class="key">orange bromine water is decolourised</span> and a <span class="key">white precipitate</span> of 2,4,6-tribromophenol forms, with an antiseptic smell. Compare benzene, which does not react with bromine water at all: it needs Br<sub>2</sub>, AlBr<sub>3</sub> catalyst, room temperature, with no water present, and gives only bromobenzene, with one Br atom (Topic 11.4 Part 2). Phenylamine reacts with bromine water in the same way as phenol (Topic 11.9 Part 1).</p><p><strong>Worked example 3.</strong> What mass of 2,4,6-tribromophenol (M<sub>r</sub> 330.7) can be made from 0.940 g of phenol, and what amount of bromine does it need?</p><p class="eq">n(phenol) = 0.940 / 94.0 = 0.0100 mol  mass of product = 0.0100 × 330.7 = 3.31 g</p><p class="eq">n(Br<sub>2</sub>) = 3 × 0.0100 = 0.0300 mol (4.79 g)</p><h3>Nitration</h3><p>Phenol is nitrated by <strong>dilute</strong> nitric acid at room temperature, giving a mixture of 2-nitrophenol and 4-nitrophenol:<sup class="fnref"><a href="#fn4" id="fnref4" aria-label="Note 4">4</a></sup></p><figure><img src="fig/hy2_nitration.svg" alt="Fig 8. Nitration of phenol with dilute nitric acid." loading="lazy"><figcaption>Fig 8. Nitration of phenol with dilute nitric acid.</figcaption></figure><p class="eq">C<sub>6</sub>H<sub>5</sub>OH + HNO<sub>3</sub> → C<sub>6</sub>H<sub>4</sub>(OH)NO<sub>2</sub> + H<sub>2</sub>O  (2-nitrophenol)</p><p class="eq">C<sub>6</sub>H<sub>5</sub>OH + HNO<sub>3</sub> → C<sub>6</sub>H<sub>4</sub>(OH)NO<sub>2</sub> + H<sub>2</sub>O  (4-nitrophenol)</p><p>Benzene needs a mixture of concentrated HNO<sub>3</sub> and concentrated H<sub>2</sub>SO<sub>4</sub> at 50 °C to make the electrophile NO<sub>2</sub><sup>+</sup> (Topic 11.4 Part 2). Phenol's activated ring does not need it.</p><p><strong>Further example: separating the two nitrophenols.</strong> 2-Nitrophenol melts at 45 °C, but 4-nitrophenol at 114 °C (literature values). In 2-nitrophenol the O–H group is next to the NO<sub>2</sub> group, and forms a hydrogen bond with it <strong>within the same molecule</strong> (intramolecular). That leaves fewer hydrogen bonds between molecules, so the forces between molecules are weaker. In 4-nitrophenol the groups are too far apart, so each O–H hydrogen-bonds to a neighbouring molecule (intermolecular; Topic 2 Part 3). 2-Nitrophenol is volatile in steam, so the mixture is separated by steam distillation.</p><figure><img src="fig/hy2_nitro_hbond.svg" alt="Fig 9. Intramolecular and intermolecular hydrogen bonds (dotted) in the nitrophenols." loading="lazy"><figcaption>Fig 9. Intramolecular and intermolecular hydrogen bonds (dotted) in the nitrophenols.</figcaption></figure><p>Compare the two rings:</p><div class="tablewrap"><table><thead><tr><th></th><th>Benzene</th><th>Phenol</th></tr></thead><tbody><tr><td>With bromine</td><td>Br<sub>2</sub>, AlBr<sub>3</sub> catalyst, room temperature (no water present); bromobenzene (one Br)</td><td>Br<sub>2</sub>(aq) (bromine water), room temperature, no catalyst; 2,4,6-tribromophenol (three Br), white precipitate</td></tr><tr><td>Nitration</td><td>concentrated HNO<sub>3</sub> and concentrated H<sub>2</sub>SO<sub>4</sub>, 50 °C; nitrobenzene</td><td>dilute HNO<sub>3</sub>, room temperature; 2-nitrophenol and 4-nitrophenol</td></tr><tr><td>Why</td><td>delocalised π electrons only</td><td>O lone pair delocalised into the ring: more electron-rich, especially at 2, 4 and 6</td></tr></tbody></table></div><p class="stamp" aria-hidden="true">11.6.2 §6 · 14/10/26</p><h2 id="comparing-ethanol-and-phenol">Comparing ethanol and phenol</h2><div class="tablewrap"><table><thead><tr><th>Reagent</th><th>Ethanol</th><th>Phenol</th></tr></thead><tbody><tr><td>Na</td><td>H<sub>2</sub> given off; sodium ethoxide</td><td>H<sub>2</sub> given off; sodium phenoxide</td></tr><tr><td>NaOH(aq)</td><td>no visible reaction</td><td>reacts: sodium phenoxide (phenol dissolves)</td></tr><tr><td>Na<sub>2</sub>CO<sub>3</sub>(aq)</td><td>no reaction</td><td>no effervescence</td></tr><tr><td>HX, heat</td><td>halogenoalkane</td><td>no reaction (beyond the syllabus: the C–O bond is strengthened)</td></tr><tr><td>Br<sub>2</sub>(aq) (bromine water)</td><td>no reaction</td><td>decolourised; white precipitate of 2,4,6-tribromophenol</td></tr><tr><td>dilute HNO<sub>3</sub>, room temperature</td><td>no nitration</td><td>2-nitrophenol and 4-nitrophenol</td></tr></tbody></table></div>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">Beyond the syllabus: phenol is a slightly stronger acid than the hydrogencarbonate ion (pK<sub>a</sub> 10.33, literature value), so with Na<sub>2</sub>CO<sub>3</sub>(aq) it can turn some CO<sub>3</sub><sup>2−</sup> into HCO<sub>3</sub><sup>−</sup> (C<sub>6</sub>H<sub>5</sub>OH + CO<sub>3</sub><sup>2−</sup> → C<sub>6</sub>H<sub>5</sub>O<sup>−</sup> + HCO<sub>3</sub><sup>−</sup>) and it dissolves better than in water, but no gas is given off. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">Beyond the syllabus: water's value comes from K<sub>a</sub> = K<sub>w</sub> / [H<sub>2</sub>O] = (1.00 × 10<sup>−14</sup>) / 55.5 = 1.8 × 10<sup>−16</sup> mol dm<sup>−3</sup>. Some books use a different convention and quote 14 for water. The values for water and ethanol are approximate; the point to learn is the order. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li><li id="fn3">Beyond the syllabus: in water, solvation also matters. The bulkier ethoxide ion is less well surrounded by water molecules than the small hydroxide ion, so it is less stabilised by them. <a href="#fnref3" class="back" aria-label="Back to text">↩</a></li><li id="fn4">Beyond the syllabus: concentrated nitric acid nitrates phenol three times, giving 2,4,6-trinitrophenol. <a href="#fnref4" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-1.html">← Part 1</a><a href="tutorial-1.html">Tutorial 1 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>

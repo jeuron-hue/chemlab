@@ -1,0 +1,2298 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 11.8 Carboxylic Acids and Derivatives.">
+<title>Carboxylic Acids and Derivatives Lab</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --grid:#E9EDEF; --axis:#7A8A94; --line:#DDE3E6; --accent:#1F6F8B; --accent-ink:#FFFFFF; --accent-soft:#E3EEF2;
+  --s1:#1F6F8B; --s1-wash:rgba(31,111,139,.20); --s2:#7B4B94; --s2-wash:rgba(123,75,148,.18); --s3:#5B6B75; --s4:#1E2A33; --ref:#7A8A94;
+  --s1-ink:#1F6F8B; --s2-ink:#7B4B94; --s3-ink:#5B6B75; --s4-ink:#1E2A33; --s3-wash:rgba(91,107,117,.14); --s4-wash:rgba(30,42,51,.12);
+  --good:#2E7D4F; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
+  --band:rgba(31,111,139,.05);
+  --shadow:none;
+  --serif:var(--sans);
+  --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+    --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --s4:#E8EDF0; --ref:#6E7D87;
+    --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s4-ink:#E8EDF0; --s3-wash:rgba(155,170,179,.20); --s4-wash:rgba(232,237,240,.16);
+    --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+    --band:rgba(102,186,214,.06);
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
+  --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --s4:#E8EDF0; --ref:#6E7D87;
+  --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s4-ink:#E8EDF0; --s3-wash:rgba(155,170,179,.20); --s4-wash:rgba(232,237,240,.16);
+  --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+  --band:rgba(102,186,214,.06);
+  --shadow:none;
+}
+/* lighter partners of teal and plum (as gases/): always paired with a dash pattern */
+:root{ --c5:#5FA9C2; --c6:#B58BCB; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --c5:#2E8CAB; --c6:#9C6BB5; } }
+:root[data-theme="dark"]{ --c5:#2E8CAB; --c6:#9C6BB5; }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+.nc{text-transform:none; letter-spacing:.02em}
+html{scroll-behavior:smooth; scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; margin:0; overflow-wrap:break-word}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+h1,h2,h3,h4{font-family:var(--serif); text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.005em}
+sub,sup{font-size:.72em; line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* header */
+.top{padding-block:28px 18px}
+.top .row{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline; justify-content:space-between}
+.top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
+.top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
+.crumbs{margin:0 0 10px; font-size:.86rem; line-height:1.7}
+.tag{display:inline-block; font-size:.72rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
+
+/* nav */
+.secnav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg); border-bottom:1px solid var(--line)}
+.secnav .wrap{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:.86rem; font-weight:500; padding:11px 10px 10px; border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+/* sections */
+main{padding-block:10px 40px}
+section.lab{padding-block:34px 8px; border-bottom:1px solid var(--line)}
+section.lab:last-of-type{border-bottom:0}
+.sechead{display:flex; flex-direction:column; gap:4px; margin-bottom:18px; max-width:72ch}
+.sechead h2{font-size:1.5rem}
+.sechead p{margin:0; color:var(--ink-2)}
+.eyebrow{font-size:.72rem; letter-spacing:0; text-transform:none; color:var(--muted); font-weight:600}
+.grid2{display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
+.controls{display:flex; flex-direction:column; gap:14px; min-width:0}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+.hint{font-size:.78rem; color:var(--muted)}
+.seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
+.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
+.seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(14px)}
+button{font:inherit}
+.btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
+.btn:hover{border-color:var(--axis)}
+.btn.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.sm{padding:4px 10px; font-size:.8rem}
+.btnrow{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+svg text{font-family:var(--sans); fill:var(--ink-2)}
+.legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.8rem; color:var(--ink-2)}
+.legend > span{display:inline-block}
+.legend .lkey, .legend .key{vertical-align:middle; margin-right:6px; position:relative; top:-1px}
+.lkey{display:inline-block; width:14px; height:10px; border-radius:2px; flex:none}
+.key{display:inline-block; width:18px; height:0; border-top:2px solid; flex:none}
+.readout{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px}
+.stat{background:var(--surface-2); border-radius:6px; padding:9px 11px; min-width:0}
+.stat .l{font-size:.76rem; color:var(--ink-2)}
+.stat .v{font-size:1.0rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.stat .v small{font-weight:400; color:var(--ink-2); font-size:.8rem}
+.stat.wide{grid-column:1/-1}
+.notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
+.callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
+.callout p{margin:0}
+.callout p + p{margin-top:6px}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
+.src.lit{border-style:dashed}
+.nw{white-space:nowrap}
+.pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
+.field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
+.field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
+.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.no{background:var(--bad-bg); color:var(--bad)}
+.fb.info{background:var(--surface-2); color:var(--ink-2)}
+.fb.warn{background:var(--warn-bg); color:var(--warn)}
+.fb ul{margin:6px 0 0; padding-left:18px}
+.fb p{margin:0}
+.fb p + p{margin-top:6px}
+.fb .ink{color:var(--ink)}
+.stack{display:flex; flex-direction:column; gap:14px; min-width:0}
+h3.sub3{font-size:1.1rem; margin:0}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tabs button{font-size:.86rem; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chips button{font-size:.86rem; padding:4px 9px; border-radius:4px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; line-height:1.5; font-variant-numeric:tabular-nums; text-align:left}
+.chips button:hover{border-color:var(--axis)}
+.chips button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft); color:var(--ink)}
+.chips button:disabled{opacity:.45; cursor:not-allowed}
+.chipgrp{display:flex; flex-direction:column; gap:4px}
+.chipgrp > span{font-size:.76rem; color:var(--muted); font-weight:600}
+.qtext{font-size:1.0rem; font-weight:500; margin:0}
+.eqn{font-variant-numeric:tabular-nums; white-space:normal}
+.eqs{display:flex; flex-direction:column; gap:4px; overflow-x:auto; font-size:.93rem; line-height:1.6}
+.eqs > div{min-width:0}
+.eqs .lab{font-size:.76rem; color:var(--muted); display:block; line-height:1.3}
+
+/* viewers and charts */
+.viewer{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:6px; overflow:hidden; min-width:0}
+.viewer svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+.viewer .vhead{padding:9px 12px 0; font-size:.84rem; font-weight:600; color:var(--ink-2)}
+.viewer .vhead .hint{font-weight:400; margin-left:6px}
+.viewer .vnote{padding:7px 12px 9px; font-size:.78rem; color:var(--muted); border-top:1px solid var(--line)}
+.viewer .vlegend{padding:0 12px 8px}
+svg .axis{stroke:var(--axis); stroke-width:1}
+svg .grid{stroke:var(--grid); stroke-width:1}
+svg .cap{font-size:11.5px; fill:var(--muted)}
+svg .tick{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+svg .axlab{font-size:11.5px; fill:var(--ink-2)}
+svg .lbl{font-size:12px; fill:var(--ink)}
+svg .lblb{font-size:12.5px; font-weight:600; fill:var(--ink)}
+svg .val{font-size:11.5px; font-weight:600; fill:var(--ink); font-variant-numeric:tabular-nums}
+svg .halo{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
+.tblwrap{overflow-x:auto; min-width:0}
+table.data{border-collapse:collapse; font-size:.86rem; width:100%}
+table.data td, table.data th{padding:6px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+table.data th{font-size:.76rem; color:var(--ink-2); font-weight:600}
+table.data td.num, table.data th.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+table.data td.c, table.data th.c{text-align:center}
+table.data tr.hl td{background:var(--accent-soft)}
+table.data td.blank{color:var(--muted)}
+
+/* predict boxes */
+.pbox{border:1px dashed var(--axis); border-radius:6px; padding:12px; display:flex; flex-direction:column; gap:10px}
+.optlist{display:flex; flex-direction:column; gap:6px}
+.opt{text-align:left; font-size:.92rem; padding:9px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:10px; line-height:1.45}
+.opt b{font-weight:600; color:var(--muted); flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good); background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+
+/* detective */
+.clues{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:6px; font-size:.93rem}
+.clues li::marker{color:var(--muted); font-family:var(--mono); font-size:.8em}
+.reason{margin:6px 0 0; padding-left:18px; font-size:.88rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+
+/* cards */
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+@media (max-width:420px){ .cards{grid-template-columns:minmax(0,1fr)} }
+.card h3{font-size:1.08rem; margin-bottom:2px}
+.card .kind{font-size:.8rem; color:var(--muted); margin-bottom:8px}
+.card p{margin:8px 0 0; font-size:.88rem; color:var(--ink-2)}
+.card dl{margin:6px 0 0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:3px 10px; font-size:.86rem}
+.card dt{color:var(--muted)}
+.card dd{margin:0; color:var(--ink); font-variant-numeric:tabular-nums}
+.card .eqs{margin-top:8px; font-size:.86rem}
+.card svg{display:block; width:100%; max-width:300px; margin-top:6px}
+
+/* quiz */
+.quiz{max-width:760px}
+.qmeta{display:flex; justify-content:space-between; font-size:.82rem; color:var(--muted); margin-bottom:6px}
+.qprog{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin-bottom:14px}
+.qprog i{display:block; height:100%; background:var(--accent)}
+.opts{display:flex; flex-direction:column; gap:8px; margin-top:12px}
+.explain{margin-top:12px; font-size:.9rem}
+.whyl{margin:8px 0 0; padding-left:18px; color:var(--ink-2); font-size:.88rem; display:flex; flex-direction:column; gap:4px}
+footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
+
+/* ---------- shared with the Topic 7 lab ---------- */
+.mono{font-family:var(--mono); font-variant-ligatures:none}
+.working{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; font-size:.92rem; max-width:80ch; overflow-wrap:anywhere}
+.working li::marker{color:var(--muted); font-variant-numeric:tabular-nums}
+.working .aside{color:var(--ink-2); font-style:italic}
+.form{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; align-items:end}
+.field input{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.field input[aria-invalid=true]{border-color:var(--bad)}
+.field input.ok{border-color:var(--good)}
+.ansrow{display:flex; flex-wrap:wrap; gap:8px; align-items:end}
+.ansrow .field{flex:1 1 180px; max-width:260px}
+
+/* physical-colour benches: realistic colours on a light card in both themes */
+.bench{background:#f3f5f7; border:1px solid var(--line); border-radius:6px; overflow:hidden; min-width:0; position:relative}
+.bench svg{display:block; width:100%; user-select:none; -webkit-user-select:none}
+.bench svg text{fill:#3a434d}
+.bench .bt{font-size:11.5px; fill:#3a434d}
+.bench .btb{font-size:12.5px; font-weight:600; fill:#141a20}
+.bench .bnote{padding:7px 11px 9px; font-size:.8rem; color:#3f4953; border-top:1px solid #d4dbe2; background:#f3f5f7}
+.thermo{position:absolute; top:10px; right:10px; background:#141a20; color:#e8f3ea; font-family:var(--mono); font-variant-ligatures:none; font-size:1.05rem; font-weight:500; padding:4px 10px; border-radius:4px; font-variant-numeric:tabular-nums; letter-spacing:.02em}
+.thermo small{font-size:.7rem; color:#9fb3a6; margin-left:4px}
+.clock{position:absolute; top:10px; left:10px; background:#ffffff; color:#141a20; border:1px solid #c5ccd3; font-family:var(--mono); font-variant-ligatures:none; font-size:.82rem; padding:3px 8px; border-radius:4px; font-variant-numeric:tabular-nums}
+
+
+.stepchips{display:flex; flex-direction:column; gap:6px}
+.stepchips button{text-align:left; font-size:.88rem; padding:7px 10px; border-radius:4px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; line-height:1.4}
+.stepchips button:hover:not(:disabled){border-color:var(--accent)}
+.stepchips button:disabled{opacity:.45; cursor:default}
+.stepchips button[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
+.viewer canvas{display:block; width:100%; touch-action:pan-y; user-select:none; -webkit-user-select:none}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+.card ul{margin:8px 0 0; padding-left:18px; font-size:.88rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
+.card .tblwrap{margin-top:8px}
+.card table.data{font-size:.82rem}
+
+/* ---------- Topic 10 additions ---------- */
+.viewer .legend svg, .legend svg{display:inline-block; width:auto; vertical-align:middle; margin-right:6px; position:relative; top:-1px}
+.optlist .opt span{min-width:0; overflow-wrap:anywhere}
+.chips button .fex, .stepchips button .fex{margin-right:6px}
+.eqs > div.hl{background:var(--accent-soft); border-radius:4px; padding:2px 6px; margin-inline:-6px}
+.beyond, .fex, .src{font-size:11px}
+.swatch{display:inline-block; width:12px; height:12px; border-radius:2px; border:1px solid #9aa4ad; vertical-align:-1px; margin-right:3px}
+.stat.fb{padding:8px 11px}
+.card.wide{grid-column:1 / -1}
+.grid2b{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.25fr); gap:20px; align-items:start}
+@media (max-width:860px){ .grid2b{grid-template-columns:minmax(0,1fr)} }
+.card.wide table.data td{vertical-align:middle}
+.bench .thermo{font-size:.95rem}
+#tt-flask{min-height:210px}
+@media (max-width:519px){ #tt-flask{min-height:300px} }
+.pbox .chips button{font-size:.88rem}
+.form .field select{font-size:.88rem}
+#ph-read .stat, #tt-read .stat, #bf-read .stat, #oc-read .stat, #ci-read .stat{min-height:4.4em}
+#tt-read .stat.wide, #bf-read .stat.wide{min-height:3.6em}
+@media (max-width:600px){ #tt-read .stat.wide{min-height:5.6em} #tt-read .stat{min-height:5.6em} }
+.working .aside button{font-style:normal}
+@media (max-width:520px){
+  table.data{font-size:.8rem}
+  table.data td, table.data th{padding:5px 5px}
+}
+/* ---------- Topic 11.8 additions ---------- */
+/* structure drawings and the curly-arrow player (tokens as the Topic 11.1-11.3 lab) */
+:root{ --mol:#1E2A33; --arrow:#1F6F8B; --bondc:#8A98A1; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --mol:#E8EDF0; --arrow:#66BAD6; --bondc:#6E7D87; } }
+:root[data-theme="dark"]{ --mol:#E8EDF0; --arrow:#66BAD6; --bondc:#6E7D87; }
+.molcard{background:#ffffff; border:1px solid var(--line); border-radius:6px; overflow:hidden; min-width:0}
+.molcard svg{display:block; width:100%; height:auto; user-select:none; -webkit-user-select:none}
+.molcard svg text{fill:#1E2A33}
+svg .mlab{font-size:19px; fill:var(--mol); font-weight:500}
+svg .mprod{font-size:17px; fill:var(--ink-2)}
+svg .mbond{stroke:var(--mol); stroke-width:1.8; stroke-linecap:round; fill:none}
+svg .mbondd{stroke:var(--mol); stroke-width:1.8; stroke-dasharray:4 4; stroke-linecap:round; fill:none}
+svg .mdot{fill:var(--mol)}
+svg .mchg{font-size:16px; font-weight:600; fill:var(--mol)}
+svg .mdel{font-size:14px; font-style:italic; fill:var(--s1-ink)}
+svg .mrx{stroke:var(--ink-2); stroke-width:1.6; fill:none}
+svg .mrxh{fill:var(--ink-2)}
+svg .mcond{font-size:13px; fill:var(--ink-2)}
+svg .mnote{font-size:13.5px; fill:var(--muted)}
+svg .mring{fill:none; stroke:var(--mol); stroke-width:1.8}
+svg .mbr{stroke:var(--ink-2); stroke-width:1.6; fill:none}
+svg .carrow{stroke:var(--arrow); stroke-width:2; fill:none; stroke-linecap:round}
+svg .carrowh{fill:var(--arrow)}
+svg .ind{fill:var(--s2)}
+svg .mhl{fill:var(--s2-wash); stroke:none}
+svg .hit{fill:transparent; stroke:transparent; cursor:pointer}
+svg .hitl{stroke:transparent; stroke-width:16; cursor:pointer; fill:none}
+svg .hit:hover, svg .hitl:hover{stroke:var(--accent); stroke-opacity:.35}
+svg .hit:hover{fill:var(--accent-soft); fill-opacity:.5}
+svg .hit.ok{fill:var(--good-bg); fill-opacity:.7; stroke:var(--good); stroke-opacity:1; stroke-width:2}
+svg .hitl.ok{stroke:var(--good); stroke-opacity:.45}
+svg .hit.no{fill:var(--bad-bg); fill-opacity:.7; stroke:var(--bad); stroke-opacity:1; stroke-width:2}
+svg .hitl.no{stroke:var(--bad); stroke-opacity:.45}
+/* on the white molecule cards the ink stays dark in both themes */
+.molcard svg .mlab, .molcard svg .mchg{fill:#1E2A33}
+.molcard svg .mbond, .molcard svg .mbondd, .molcard svg .mring, .molcard svg .mbr{stroke:#1E2A33}
+.molcard svg .mdot{fill:#1E2A33}
+.molcard svg .mdel{fill:#1F6F8B}
+.molcard svg .ind{fill:#7B4B94}
+.molcard svg .mhl{fill:rgba(123,75,148,.16)}
+.molcard svg .mnote, .molcard svg .mcond{fill:#5B6B75}
+.molcard svg .mprod{fill:#1E2A33}
+.molcard svg .mrx{stroke:#5B6B75} .molcard svg .mrxh{fill:#5B6B75}
+.stage{background:var(--surface); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+.stage svg{display:block; width:100%; max-width:640px; margin:0 auto; user-select:none; -webkit-user-select:none}
+.mxnav{display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between}
+.mxnav .hint{font-variant-numeric:tabular-nums}
+.mcap{font-size:.93rem; margin:0; max-width:78ch}
+.eqline{font-size:1rem; overflow-wrap:anywhere; font-variant-numeric:tabular-nums}
+/* hub */
+.hubwrap svg{display:block; width:100%; height:auto; user-select:none; -webkit-user-select:none}
+svg .spoke{stroke:var(--axis); stroke-width:1.6}
+svg .spoke.on{stroke:var(--accent); stroke-width:2.6}
+svg .node rect{fill:var(--surface); stroke:var(--line); stroke-width:1.2}
+svg .node.on rect{fill:var(--accent-soft); stroke:var(--accent); stroke-width:2}
+svg .node text{fill:var(--ink); font-size:13px}
+svg .node .nsub{fill:var(--muted); font-size:11px}
+svg .node{cursor:pointer}
+svg .node:focus-visible rect{stroke:var(--accent); stroke-width:2.4}
+svg .hubc rect{fill:var(--surface); stroke:var(--ink-2); stroke-width:1.4}
+svg .hubc text{fill:var(--ink); font-size:14px; font-weight:600}
+/* bars */
+svg .bar{fill:var(--s1)}
+svg .bar.cur{fill:var(--s2)}
+svg .barw{fill:var(--s1-wash)}
+svg .ref{stroke:var(--ref); stroke-width:1.4; stroke-dasharray:5 4}
+svg .lim{stroke:var(--bad); stroke-width:1.4; stroke-dasharray:3 3}
+svg .shade{fill:var(--grid)}
+svg .pt{fill:var(--s2); stroke:var(--surface); stroke-width:2}
+svg .crv{fill:none; stroke:var(--s1); stroke-width:2.2}
+svg .crv2{fill:none; stroke:var(--s1); stroke-width:2.2; stroke-dasharray:6 4}
+.verdict{font-weight:600}
+.verdict.ok{color:var(--good)} .verdict.no{color:var(--bad)}
+.chips .beyond, .chips .fex{margin:0 0 0 4px; vertical-align:1px}
+.grid3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+@media (max-width:860px){ .grid3{grid-template-columns:minmax(0,1fr)} }
+.why3 h4{font-size:.95rem; margin:0 0 4px}
+.why3 p{margin:0; font-size:.88rem; color:var(--ink-2)}
+.bars2{display:flex; flex-direction:column; gap:6px}
+.comp{display:grid; grid-template-columns:minmax(90px,auto) minmax(0,1fr) auto; gap:4px 10px; align-items:center; font-size:.86rem}
+.comp .track{height:12px; background:var(--surface-2); border:1px solid var(--line); border-radius:3px; overflow:hidden}
+.comp .track i{display:block; height:100%; background:var(--s1)}
+.comp .track i.s2{background:var(--s2)}
+.comp .num{font-family:var(--mono); font-variant-ligatures:none; font-size:.82rem; font-variant-numeric:tabular-nums; white-space:nowrap}
+.rgrid{border-collapse:collapse; width:100%; font-size:.86rem}
+.rgrid th, .rgrid td{border:1px solid var(--line); padding:6px 7px; text-align:left; vertical-align:top}
+.rgrid th{font-size:.78rem; color:var(--ink-2); font-weight:600; background:var(--surface-2)}
+.rgrid td button{font:inherit; font-size:.84rem; width:100%; text-align:left; border:1px dashed var(--axis); background:var(--surface); color:var(--ink-2); border-radius:4px; padding:5px 7px; cursor:pointer; line-height:1.35}
+.rgrid td button:hover{border-color:var(--accent)}
+.rgrid td.done{background:var(--surface)}
+.rgrid td .obs{color:var(--ink)}
+.rgrid td .obs.yes{font-weight:600}
+@media (max-width:560px){ .rgrid{font-size:.8rem} .rgrid th, .rgrid td{padding:4px 4px} .rgrid td button{font-size:.78rem; padding:4px} }
+.namegrid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:10px}
+@media (max-width:520px){ .namegrid{grid-template-columns:minmax(0,1fr)} }
+.bigname{font-size:1.15rem; font-weight:600}
+/* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
+.eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
+.top .title-block{border:1px solid var(--line); border-radius:6px; padding:16px 20px; background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.top h1{font-size:22px; line-height:28px}
+.top .sub{font-size:13px; line-height:18px; color:var(--muted)}
+.sechead h2{font-size:18px; line-height:24px}
+.tag{font-size:12px; line-height:18px; letter-spacing:0; text-transform:none; font-weight:400; color:var(--accent); background:var(--accent-soft); border-color:transparent; padding:0 8px}
+.ctl output, .val{font-family:var(--mono); font-variant-ligatures:none; font-size:.92em}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumbs"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1 · Carboxylic acids</a>, <a href="part-2.html">Part 2 · Acyl chlorides and esters</a> &nbsp;·&nbsp; <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a></p>
+    <div class="title-block"><p class="stamp" aria-hidden="true">Lab 11.8 · 14/10/26</p><div class="row">
+      <h1>Topic 11.8 · Carboxylic Acids and Derivatives</h1>
+      <span class="tag">SEAB H2 Chemistry 9476</span>
+    </div>
+    <p class="sub">Carboxylic Acids and Derivatives Lab: interactive companion to H2 Chemistry notes © Gary Chan</p></div>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="wrap">
+    <a href="#acidity">Acidity</a>
+    <a href="#ester">Ester bench</a>
+    <a href="#hub">Acyl chloride hub</a>
+    <a href="#hydrolysis">Ease of hydrolysis</a>
+    <a href="#practice">Practice</a>
+    <a href="#cards">Fact cards</a>
+    <a href="#quiz">Quick quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 ACIDITY -->
+<section class="lab" id="acidity">
+  <div class="sechead">
+    <span class="eyebrow">Explorer · <span class="nc">9476 11.8(b)(i), (c)</span></span>
+    <h2>Acidity: why carboxylic acids are acids</h2>
+    <p>Pick an acid to see its anion, its <i>K</i><sub>a</sub> and p<i>K</i><sub>a</sub>, and the pH of its solution from [H<sup>+</sup>] = √(<i>K</i><sub>a</sub><i>c</i>) with the 5&nbsp;% check (Topic 10 Part 1). Every <i>K</i><sub>a</sub> and p<i>K</i><sub>a</sub> is a <span class="src lit">literature</span> value at 298&nbsp;K: the Data Booklet has no <i>K</i><sub>a</sub> data.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="chipgrp"><span>Ethanoic acid and its chlorine derivatives</span><div class="chips" id="ac-g1" role="group" aria-label="Chlorine-substituted acids"></div></div>
+      <div class="chipgrp"><span>For comparison</span><div class="chips" id="ac-g2" role="group" aria-label="Acids for comparison"></div></div>
+      <div class="chipgrp"><span>Other groups and distance</span><div class="chips" id="ac-g3" role="group" aria-label="Further examples"></div></div>
+      <div class="ctl" id="ac-cctl">
+        <label for="ac-c"><span>Concentration, <i>c</i></span><output id="ac-cout"></output></label>
+        <input type="range" id="ac-c" min="-3" max="-1" step="0.005" value="-1" aria-describedby="ac-chint">
+        <div class="btnrow" id="ac-pre"></div>
+        <span class="hint" id="ac-chint"></span>
+      </div>
+      <label class="switch"><input type="checkbox" id="ac-exact"><span>Show the exact pH (Enrichment)</span></label>
+    </div>
+    <div class="stack">
+      <div class="molcard"><svg id="ac-svg" role="img" aria-label="The acid and its anion"></svg></div>
+      <div class="readout" id="ac-read"></div>
+      <div id="ac-why" class="callout"></div>
+      <div class="grid2e">
+        <div class="viewer"><div class="vhead">p<i>K</i><sub>a</sub> at 298&nbsp;K <span class="hint">the lower the p<i>K</i><sub>a</sub>, the stronger the acid</span></div><svg id="ac-bars" role="img" aria-label="Bar chart of pKa values"></svg></div>
+        <div class="viewer"><div class="vhead">The 5&nbsp;% check <span class="hint">% dissociated = 100√(<i>K</i><sub>a</sub> / <i>c</i>)</span></div><svg id="ac-pct" role="img" aria-label="Percentage dissociated against concentration"></svg><div class="vnote" id="ac-pctnote"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel stack" style="margin-top:20px">
+    <div><span class="eyebrow">Test-tube grid · <span class="nc">11.8(b)(i)</span></span><h3 class="sub3">Which –OH compounds react?</h3></div>
+    <p style="margin:0;font-size:.9rem">Ethanol, phenol and ethanoic acid, each with sodium and with aqueous sodium hydroxide, sodium carbonate and sodium hydrogencarbonate at room temperature. Tap a cell to add the reagent. With Predict on, say what you expect first.</p>
+    <label class="switch"><input type="checkbox" id="rg-pred" checked><span>Predict before you add</span></label>
+    <div class="tblwrap"><table class="rgrid" id="rg-tab"></table></div>
+    <div class="pbox" id="rg-pbox" hidden>
+      <p class="qtext" id="rg-pq" style="margin:0"></p>
+      <div class="chips" id="rg-pchips" role="group" aria-label="Your prediction"></div>
+    </div>
+    <p class="hint" id="rg-fn" hidden></p>
+    <div id="rg-fb" hidden></div>
+    <div class="btnrow"><button class="btn" id="rg-reset">Empty the grid</button><button class="btn" id="rg-all">Fill it all in</button></div>
+  </div>
+</section>
+
+<!-- 2 ESTER BENCH -->
+<section class="lab" id="ester">
+  <div class="sechead">
+    <span class="eyebrow">Bench · <span class="nc">9476 11.8(b)(ii), (e), (g), (h)</span></span>
+    <h2>Ester bench: making and hydrolysing esters</h2>
+    <p>Make an ester from a carboxylic acid or from an acyl chloride, hydrolyse it with acid or with alkali, and name it from its two halves. The equilibrium amounts use <i>K</i><sub>c</sub> = 4.01 for ethyl ethanoate from Topic 9 Part 1, Worked example 2.</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" id="es-tabs">
+      <button role="tab" data-m="make" aria-selected="true">Make an ester</button>
+      <button role="tab" data-m="hyd" aria-selected="false">Hydrolyse an ester</button>
+      <button role="tab" data-m="name" aria-selected="false">Name builder</button>
+    </div>
+    <div class="grid2" id="es-make">
+      <div class="panel controls">
+        <div class="chipgrp"><span>Route</span><div class="stepchips" id="es-routes"></div></div>
+      </div>
+      <div class="stack">
+        <div class="eqs" id="es-meq"></div>
+        <div class="readout" id="es-mread"></div>
+        <div class="viewer"><div class="vhead" id="es-mhead"></div><div class="bars2" id="es-mbars" style="padding:10px 12px 12px"></div><div class="vnote" id="es-mnote"></div></div>
+        <div class="callout" id="es-mwhy"></div>
+      </div>
+    </div>
+    <div class="grid2" id="es-hyd" hidden>
+      <div class="panel controls">
+        <div class="chipgrp"><span>Ester</span><div class="chips" id="es-hester" role="group" aria-label="Ester"></div></div>
+        <div class="chipgrp"><span>Conditions</span><div class="seg" role="radiogroup" aria-label="Conditions">
+          <label><input type="radio" name="es-cond" value="acid" checked>dilute HCl(aq), heat under reflux</label>
+          <label><input type="radio" name="es-cond" value="alk">NaOH(aq), heat under reflux</label>
+        </div></div>
+        <div class="btnrow"><button class="btn primary" id="es-heat">Heat under reflux</button><button class="btn" id="es-acidify" disabled>Cool, then acidify</button><button class="btn" id="es-hreset">Start again</button></div>
+      </div>
+      <div class="stack">
+        <div class="bench"><svg id="es-hsvg" role="img" aria-label="Flask with the ester mixture"></svg><div class="bnote" id="es-hnote"></div></div>
+        <div class="eqs" id="es-heq"></div>
+        <div class="readout" id="es-hread"></div>
+        <div class="callout" id="es-hwhy"></div>
+      </div>
+    </div>
+    <div class="grid2" id="es-name" hidden>
+      <div class="panel controls">
+        <div class="chipgrp"><span>Acid part (from the carboxylic acid or acyl chloride)</span><div class="chips" id="es-nacid" role="group" aria-label="Acid part"></div></div>
+        <div class="chipgrp"><span>Alcohol part (from the alcohol or phenol)</span><div class="chips" id="es-nalc" role="group" aria-label="Alcohol part"></div></div>
+      </div>
+      <div class="stack">
+        <div class="panel stack"><span class="bigname" id="es-nname"></span><div class="eqs" id="es-neq"></div><div class="readout" id="es-nread"></div></div>
+        <div class="molcard"><svg id="es-nsvg" role="img" aria-label="Structure of the ester"></svg></div>
+        <div class="callout" id="es-nwhy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 ACYL CHLORIDE HUB -->
+<section class="lab" id="hub">
+  <div class="sechead">
+    <span class="eyebrow">Hub · <span class="nc">9476 11.8(b)(iii), (d), (e), (g)</span></span>
+    <h2>Acyl chloride hub</h2>
+    <p>An acyl chloride reacts with any H–Nu that has a lone pair: the –Cl is replaced by –Nu and HCl is lost, at room temperature. Tap a reagent. Predict mode generates questions with other acyl chlorides and reagents.</p>
+  </div>
+  <div class="stack">
+    <div class="btnrow">
+      <div class="seg" role="radiogroup" aria-label="Mode" style="min-width:240px">
+        <label><input type="radio" name="hb-mode" value="explore" checked>Explore</label>
+        <label><input type="radio" name="hb-mode" value="pred">Predict the product</label>
+      </div>
+    </div>
+    <div class="grid2b" id="hb-explore">
+      <div class="stack">
+        <div class="seg" role="radiogroup" aria-label="Acyl chloride">
+          <label><input type="radio" name="hb-acyl" value="eth" checked>ethanoyl chloride</label>
+          <label><input type="radio" name="hb-acyl" value="benz">benzoyl chloride</label>
+        </div>
+        <div class="viewer hubwrap"><svg id="hb-svg" role="img" aria-label="Acyl chloride and its reagents"></svg></div>
+        <label class="switch" id="hb-xswitch"><input type="checkbox" id="hb-excess" checked><span>Excess amine or ammonia</span></label>
+      </div>
+      <div class="stack">
+        <div class="panel stack" id="hb-out"></div>
+        <div class="molcard"><svg id="hb-psvg" role="img" aria-label="Structure of the product"></svg></div>
+      </div>
+    </div>
+    <div class="panel stack" id="hb-pred" hidden>
+      <span class="eyebrow">Predict · <span class="nc">11.8(d), (e)</span></span>
+      <p class="qtext" id="hb-pq" style="margin:0"></p>
+      <div class="optlist" id="hb-popts"></div>
+      <div id="hb-pfb" hidden></div>
+      <div class="btnrow"><button class="btn primary" id="hb-pnew">New question</button><span class="hint" id="hb-pscore"></span></div>
+    </div>
+    <div class="panel stack">
+      <div><span class="eyebrow"><span class="beyond">Enrichment</span>Mechanism player</span><h3 class="sub3">Addition-elimination (not required by 9476)</h3></div>
+      <p style="margin:0;font-size:.9rem">The nucleophile adds to the δ+ carbonyl carbon, then Cl<sup>−</sup> is eliminated and H<sup>+</sup> is lost. Each arrow starts at a lone pair, a bond or a negative charge. In Predict mode, tap where each arrow starts, then where it ends.</p>
+      <div class="tabs" role="tablist" id="mx-tabs"></div>
+      <div class="seg" role="radiogroup" aria-label="Mechanism mode" style="max-width:240px">
+        <label><input type="radio" name="mx-mode" value="watch" checked>Watch</label>
+        <label><input type="radio" name="mx-mode" value="pred">Predict</label>
+      </div>
+      <div class="eqline" id="mx-eq"></div>
+      <div class="stage" id="mx-stage"><svg id="mx-svg" role="img" aria-label="Curly-arrow mechanism step"></svg></div>
+      <div id="mx-fb" hidden></div>
+      <p class="mcap" id="mx-cap"></p>
+      <div class="mxnav">
+        <div class="btnrow"><button class="btn" id="mx-back">Back</button><button class="btn primary" id="mx-next">Next</button><button class="btn" id="mx-show" hidden>Show the arrow</button></div>
+        <span class="hint" id="mx-count"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 HYDROLYSIS BENCH -->
+<section class="lab" id="hydrolysis">
+  <div class="sechead">
+    <span class="eyebrow">Bench · <span class="nc">9476 11.8(d), (f)</span></span>
+    <h2>Ease of hydrolysis: acyl, alkyl and aryl chlorides</h2>
+    <p>A few drops of each chloride in aqueous silver nitrate with a little ethanol (to dissolve the organic liquid): room temperature first, then warm in a water bath. Any Cl<sup>−</sup> released by hydrolysis gives a white precipitate of AgCl. 1-Chlorobutane is used rather than chloroethane, which is a gas at room temperature (b.p. 12&nbsp;°C, <span class="src lit">literature</span>). Times on the clock are illustrative.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel controls">
+      <div class="chipgrp"><span>Steps</span><div class="stepchips" id="hy-steps"></div></div>
+      <label class="switch"><input type="checkbox" id="hy-pred" checked><span>Predict before each step</span></label>
+      <div class="btnrow"><button class="btn" id="hy-reset">Start again</button></div>
+    </div>
+    <div class="stack">
+      <div class="bench"><svg id="hy-svg" role="img" aria-label="Three test tubes with silver nitrate"></svg><div class="clock" id="hy-clock" hidden></div><div class="bnote" id="hy-note"></div></div>
+      <div class="pbox" id="hy-pbox" hidden>
+        <span class="eyebrow">Predict · <span class="nc">11.8(f)</span></span>
+        <p class="qtext" id="hy-pq" style="margin:0"></p>
+        <div id="hy-pchips" class="stack" style="gap:8px"></div>
+        <div class="btnrow"><button class="btn primary" id="hy-pgo">Check and go</button></div>
+      </div>
+      <div id="hy-pfb" hidden></div>
+      <div class="eqs" id="hy-eq"></div>
+      <div class="grid3 why3" id="hy-why"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 PRACTICE -->
+<section class="lab" id="practice">
+  <div class="sechead">
+    <span class="eyebrow">Practice · <span class="nc">9476 11.8(a)–(c), (h)</span></span>
+    <h2>Calculation generator</h2>
+    <p>Questions are generated at random (illustrative data; <i>K</i><sub>a</sub> and p<i>K</i><sub>a</sub> are <span class="src lit">literature</span> values, <i>A</i><sub>r</sub> from the <span class="src">Data Booklet</span>). None needs a quadratic. Give pH to 2 decimal places and other answers to 3 significant figures (an answer within about 1&nbsp;% is accepted).</p>
+  </div>
+  <div class="stack">
+    <div class="tabs" role="tablist" id="gn-tabs">
+      <button role="tab" data-type="ph" aria-selected="true">pH of an acid</button>
+      <button role="tab" data-type="chk" aria-selected="false">The 5&nbsp;% check</button>
+      <button role="tab" data-type="pka" aria-selected="false"><i>K</i><sub>a</sub> and p<i>K</i><sub>a</sub></button>
+      <button role="tab" data-type="yld" aria-selected="false">Percentage yield</button>
+      <button role="tab" data-type="naoh" aria-selected="false">NaOH for hydrolysis</button>
+      <button role="tab" data-type="mix" aria-selected="false">Mixed</button>
+    </div>
+    <div class="panel stack">
+      <p class="qtext" id="gn-q" style="margin:0"></p>
+      <div class="ansrow">
+        <label class="field"><span id="gn-lab">Answer</span><input id="gn-ans" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="e.g. 2.87 or 1.4e-3"></label>
+        <label class="field" id="gn-ufield"><span id="gn-ulab">5&nbsp;% check</span><select id="gn-unit"></select></label>
+      </div>
+      <p class="hint" style="margin:0" id="gn-fmt"></p>
+      <div class="btnrow"><button class="btn primary" id="gn-check">Check</button><button class="btn" id="gn-show">Show working</button><button class="btn" id="gn-new">New question</button><span class="hint" id="gn-score"></span></div>
+      <div id="gn-fb" hidden></div>
+      <ol class="working" id="gn-work" hidden></ol>
+    </div>
+  </div>
+</section>
+
+<!-- 6 FACT CARDS -->
+<section class="lab" id="cards">
+  <div class="sechead">
+    <span class="eyebrow">Fact cards · <span class="nc">9476 11.8</span></span>
+    <h2>Fact cards</h2>
+    <p>The compounds 9476 names, with chloroethanoic acid. <i>M</i><sub>r</sub> from <span class="src">Data Booklet</span> <i>A</i><sub>r</sub>; boiling and melting points are <span class="src lit">literature</span> values.</p>
+  </div>
+  <div class="cards" id="fc-cards"></div>
+  <div class="panel stack" style="margin-top:20px">
+    <div><span class="eyebrow"><span class="nc">11.8(a)–(h)</span></span><h3 class="sub3">Reaction summary</h3></div>
+    <div class="tblwrap"><table class="data" id="rx-tab"></table></div>
+  </div>
+</section>
+
+<!-- 7 QUIZ -->
+<section class="lab" id="quiz">
+  <div class="sechead">
+    <span class="eyebrow">Check yourself</span>
+    <h2>Quick quiz</h2>
+    <p>Ten questions across 11.8. Pick an answer to see the explanation, including why each other option is wrong.</p>
+  </div>
+  <div class="panel quiz" id="quiz-box"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>H2 Chemistry notes © Gary Chan · Topic 11.8 Carboxylic Acids and Derivatives</span>
+    <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub> and bond energies from the Data Booklet · <i>K</i><sub>a</sub>, p<i>K</i><sub>a</sub>, boiling and melting points and bond lengths are literature values · generator data and bench times are illustrative</span>
+  </div>
+</footer>
+<script>
+(function(){
+"use strict";
+const LAB = window.LAB = {};
+const $ = id => document.getElementById(id);
+const MINUS = "−";
+const D2R = Math.PI / 180;
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+const supCh = c => c === "⁺" ? "+" : c === "⁻" ? "−" : String(SUPD.indexOf(c));
+// Unicode sub/superscripts in data strings become <sub>/<sup>; K{a} becomes italic K with subscript a.
+const H = t => String(t)
+  .replace(/S_\{N\}([12])/g, "S<sub>N</sub>$1")
+  .replace(/K\{([A-Za-z]+)\}/g, "<i>K</i><sub>$1</sub>")
+  .replace(/\bpK\{([a-z])\}/g, "p<i>K</i><sub>$1</sub>")
+  .replace(/(?<![A-Za-z])([cnxV])\{\}/g, "<i>$1</i>")
+  .replace(/\bM\{r\}/g, "<i>M</i><sub>r</sub>")
+  .replace(/\bA\{r\}/g, "<i>A</i><sub>r</sub>")
+  .replace(/[₀-₉]+/g, m => `<sub>${[...m].map(c => SUBD.indexOf(c)).join("")}</sub>`)
+  .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+/g, m => `<sup>${[...m].map(supCh).join("")}</sup>`)
+  .replace(/(\d) × 10/g, "$1 × 10")
+  .replace(/(\d) : (\d)/g, "$1 : $2")
+  .replace(/\bpH (?=[\d−])/g, "pH ")
+  .replace(/\bpK<\/i><sub>a<\/sub> (?=[\d−])/g, "pK</i><sub>a</sub> ")
+  .replace(/(\d|<\/sup>|<\/sub>) (?=(mol|cm<sup>|dm<sup>|g dm|g\b|K\b|°C|%|kJ|nm))/g, "$1 ");
+LAB.H = H;
+const minus = s => String(s).replace(/-/g, "−");
+const fx = (v, d) => minus((Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixed(d));
+const sf = (v, n) => {
+  if (v === 0) return "0";
+  let e = n - 1 - Math.floor(Math.log10(Math.abs(v)));
+  const r = +v.toFixed(Math.max(0, e));
+  if (e >= 0 && Math.floor(Math.log10(Math.abs(r))) > Math.floor(Math.log10(Math.abs(v)))) e -= 1;
+  if (e >= 0) return v.toFixed(e);
+  const k = Math.pow(10, -e); return String(Math.round(v / k) * k);
+};
+const grp = s => { const m = String(s).match(/^([−+]?)(\d+)(\.\d+)?$/); if (!m || m[2].length < 5) return s; return m[1] + m[2].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (m[3] || ""); };
+const sfS = (v, n) => grp(minus(sf(v, n)));
+const SUPS = n => String(n).split("").map(c => c === "-" ? "⁻" : SUPD[+c]).join("");
+// scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
+function sci(v, n){
+  if (!isFinite(v)) return "?";
+  if (v === 0) return "0";
+  const a = Math.abs(v);
+  if (a >= 0.01 && a < 1e4) return sfS(v, n);
+  let e = Math.floor(Math.log10(a)), m = v / Math.pow(10, e);
+  if (+Math.abs(m).toFixed(n - 1) >= 10){ e += 1; m = v / Math.pow(10, e); }
+  return `${minus(m.toFixed(n - 1))} × 10${SUPS(e)}`;
+}
+// a concentration: 3 s.f., plain decimal from 0.01 up, standard form below
+const cS = c => c >= 0.01 ? sf(c, 3) : sci(c, 3);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const rnd = (a, b) => a + Math.random() * (b - a);
+const reduced = () => { try { return window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
+const st = (l, v, cls) => `<div class="stat${cls ? " " + cls : ""}"><div class="l">${l}</div><div class="v">${v}</div></div>`;
+const SRC = k => k === "lit" ? `<span class="src lit">literature</span>` : `<span class="src">Data Booklet</span>`;
+const FEX = `<span class="fex">Further example</span>`;
+const ENR = `<span class="beyond">Enrichment</span>`;
+const BEY = `<span class="beyond">Beyond the syllabus</span>`;
+const EQS = new Set();
+LAB.EQS = EQS;
+// an equation: kept whole for the tests, each species unbreakable
+function EQ(s, cls){ EQS.add(s); return `<span class="eqn${cls ? " " + cls : ""}" data-eq="${esc(s)}">${String(s).split(" ").map(t => `<span class="nw">${H(t)}</span>`).join(" ")}</span>`; }
+const TX = t => String(t).split(/\{\{|\}\}/).map((p, i) => i % 2 ? EQ(p) : H(p)).join("");
+const ASIDE = t => `<span class="aside">(${t}.)</span>`;
+
+// SVG text with sub/superscripts as tspans
+function svgChem(s, fs){
+  let out = "", cur = 0;
+  const re = /([₀-₉]+)|([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)|([^₀-₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+)/g;
+  let m;
+  while ((m = re.exec(s))){
+    let target = 0, txt, small = false;
+    if (m[1]){ target = 0.3 * fs; txt = [...m[1]].map(c => SUBD.indexOf(c)).join(""); small = true; }
+    else if (m[2]){ target = -0.42 * fs; txt = [...m[2]].map(supCh).join(""); small = true; }
+    else txt = esc(m[3]);
+    const dy = target - cur; cur = target;
+    out += `<tspan dy="${dy.toFixed(1)}"${small ? ` font-size="${(fs * 0.72).toFixed(1)}"` : ""}>${txt}</tspan>`;
+  }
+  if (cur !== 0) out += `<tspan dy="${(-cur).toFixed(1)}">​</tspan>`;
+  return out;
+}
+// approximate rendered width of chemical text (for clearing bond ends)
+function chemW(s, fs){ let w = 0; for (const c of s){ if (/[₀-₉⁰¹²³⁴-⁹⁺⁻]/.test(c)) w += 0.42 * fs; else if (c === " ") w += 0.28 * fs; else if (/[il•·]/.test(c)) w += 0.3 * fs; else if (/[A-Z]/.test(c)) w += 0.64 * fs; else w += 0.54 * fs; } return w; }
+const f1 = x => x.toFixed(1);
+const T = (x, y, s, cls, extra, fs) => `<text x="${f1(x)}" y="${f1(y)}"${cls ? ` class="${cls}"` : ""}${extra ? " " + extra : ""}${fs ? ` style="font-size:${fs}px"` : ""}>${svgChem(String(s).replace(/(\d) (?=(%|mol|cm|dm|K\b|°C|g\b|×))/g, "$1 ").replace(/× 10/g, "× 10"), fs || 12)}</text>`;
+function widthOf(el){ const w = el.getBoundingClientRect().width; return Math.max(260, Math.round(w || 600)); }
+function setSvg(svg, W, Hh, inner){ svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("width", W); svg.setAttribute("height", Hh); svg.style.height = Hh + "px"; svg.innerHTML = inner; }
+function parseNum(s){
+  if (s == null) return NaN;
+  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
+  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
+  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
+  t = t.replace(/(mol.*|dm.*|cm3|cm³|g|%)$/i, "");
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
+  return parseFloat(t);
+}
+LAB.parseNum = parseNum;
+
+/* ---------- formulae: atom counts and M_r from Data Booklet A_r ---------- */
+const AR = { H: 1.0, C: 12.0, N: 14.0, O: 16.0, F: 19.0, Na: 23.0, Mg: 24.3, P: 31.0, Cl: 35.5, Br: 79.9, I: 126.9 };
+LAB.AR = AR;
+// "CH₃COOC₂H₅", "(CH₃COO)₂Mg", "CH₃CH₂NH₃⁺Cl⁻" → { C: 4, H: 8, O: 2 } (charges ignored here)
+function atomsOf(f){
+  const s = String(f).replace(/[₀-₉]/g, c => String(SUBD.indexOf(c))).replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]/g, "");
+  let i = 0;
+  function group(){
+    const out = {};
+    while (i < s.length && s[i] !== ")"){
+      let part;
+      if (s[i] === "("){ i++; part = group(); i++; }
+      else { const m = s.slice(i).match(/^[A-Z][a-z]?/); if (!m) throw new Error("bad formula " + f); i += m[0].length; part = { [m[0]]: 1 }; }
+      const n = s.slice(i).match(/^\d+/); let k = 1; if (n){ k = +n[0]; i += n[0].length; }
+      Object.keys(part).forEach(e => out[e] = (out[e] || 0) + part[e] * k);
+    }
+    return out;
+  }
+  return group();
+}
+const mrOf = f => { const a = atomsOf(f); return Math.round(Object.keys(a).reduce((s, e) => s + AR[e] * a[e], 0) * 10) / 10; };
+LAB.atomsOf = atomsOf; LAB.mrOf = mrOf;
+// Hill-order molecular formula with Unicode subscripts
+function molF(f){
+  const a = atomsOf(f), keys = Object.keys(a).sort((x, y) => (x === "C" ? -2 : x === "H" ? -1 : 0) - (y === "C" ? -2 : y === "H" ? -1 : 0) || (x < y ? -1 : 1));
+  if (!a.C) keys.sort();
+  return keys.map(e => e + (a[e] > 1 ? String(a[e]).split("").map(d => SUBD[+d]).join("") : "")).join("");
+}
+LAB.molF = molF;
+
+/* =====================================================
+   STRUCTURE DRAWINGS (2D, hand-placed; labels clear the bond ends)
+   spec: n {key: [x, y, label]}, b [[id, a, b, order, style]], hex [[prefix, cx, cy, R, rot]] (aromatic ring),
+   lp, chg, del, ind (inductive arrowheads), hl (highlight discs), br (brackets), tx, rx
+   ===================================================== */
+const MFS = 19;
+function geo(fr, fs){
+  fs = fs || MFS;
+  const n = {}, bonds = [];
+  Object.keys(fr.n || {}).forEach(k => { n[k] = { x: fr.n[k][0], y: fr.n[k][1], l: fr.n[k][2] }; });
+  (fr.hex || []).forEach(([p, cx, cy, R, rot]) => {
+    const r0 = rot == null ? -90 : rot;
+    for (let k = 0; k < 6; k++){ const t = (r0 + 60 * k) * D2R; n[p + k] = { x: cx + R * Math.cos(t), y: cy + R * Math.sin(t), l: "" }; }
+    for (let k = 0; k < 6; k++) bonds.push({ id: p + "b" + k, a: p + k, b: p + ((k + 1) % 6), o: 1, ring: true });
+  });
+  (fr.b || []).forEach(([id, a, b, o, sty]) => bonds.push({ id, a, b, o, sty }));
+  const clear = (nd, dx, dy) => {
+    if (!nd.l) return 0;
+    const hw = chemW(nd.l, fs) / 2 + 3, hh = fs * 0.62, ax = Math.abs(dx) || 1e-6, ay = Math.abs(dy) || 1e-6;
+    return Math.min(hw / ax, hh / ay);
+  };
+  const pt = {};
+  const polar = (nd, ang, d) => [nd.x + d * Math.cos(ang * D2R), nd.y - d * Math.sin(ang * D2R)];
+  (fr.lp || []).forEach(([id, at, ang, d]) => { pt["lp:" + id] = { p: polar(n[at], ang, d || 15), ang, at }; });
+  (fr.chg || []).forEach(([id, at, t, dx, dy]) => { pt["chg:" + id] = { p: [n[at].x + dx, n[at].y + dy], t, at }; });
+  bonds.forEach(b => {
+    const A = n[b.a], B = n[b.b]; if (!A || !B) throw new Error("bond " + b.id);
+    let dx = B.x - A.x, dy = B.y - A.y; const L = Math.hypot(dx, dy); dx /= L; dy /= L;
+    const ca = clear(A, dx, dy) + (A.l ? 2 : 0), cb = clear(B, dx, dy) + (B.l ? 2 : 0);
+    b.p1 = [A.x + dx * ca, A.y + dy * ca]; b.p2 = [B.x - dx * cb, B.y - dy * cb]; b.u = [dx, dy];
+    pt["bond:" + b.id] = { p: [(b.p1[0] + b.p2[0]) / 2, (b.p1[1] + b.p2[1]) / 2], b };
+  });
+  Object.keys(n).forEach(k => { pt["atom:" + k] = { p: [n[k].x, n[k].y], nd: n[k] }; });
+  return { n, bonds, pt, clear, fs };
+}
+// draw everything except curly arrows; returns the SVG text
+function molBody(fr, G){
+  let s = "";
+  (fr.hl || []).forEach(([x, y, r]) => { s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${r}" class="mhl"/>`; });
+  (fr.br || []).forEach(([x1, y1, x2, y2]) => { s += `<path d="M${x1 + 9},${y1}H${x1}V${y2}H${x1 + 9}M${x2 - 9},${y1}H${x2}V${y2}H${x2 - 9}" class="mbr"/>`; });
+  (fr.hex || []).forEach(([p, cx, cy, R]) => { s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(R * 0.58)}" class="mring"/>`; });
+  G.bonds.forEach(b => {
+    const [x1, y1] = b.p1, [x2, y2] = b.p2, [ux, uy] = b.u, nx = -uy, ny = ux;
+    const ln = (o, cls, sh) => { const s1 = sh || 0; return `<line x1="${f1(x1 + nx * o + ux * s1)}" y1="${f1(y1 + ny * o + uy * s1)}" x2="${f1(x2 + nx * o - ux * s1)}" y2="${f1(y2 + ny * o - uy * s1)}" class="${cls || "mbond"}"/>`; };
+    const side = b.sty === "r" ? -1 : 1;
+    if (b.o === 2) s += b.sty === "in" || b.sty === "r" ? ln(0) + ln(6.5 * side, "mbond", 5) : ln(3.4) + ln(-3.4);
+    else if (b.o === 3) s += ln(0) + ln(5) + ln(-5);
+    else if (b.o === 1.5) s += ln(0) + ln(6.5 * side, "mbondd", 4);
+    else if (b.sty === "dash") s += ln(0, "mbondd");
+    else s += ln(0);
+  });
+  (fr.ind || []).forEach(([a, b, t]) => {
+    const bd = G.bonds.find(x => (x.a === a && x.b === b) || (x.a === b && x.b === a)); if (!bd) throw new Error("ind " + a + b);
+    const fwd = bd.a === a, P = fwd ? bd.p1 : bd.p2, Q = fwd ? bd.p2 : bd.p1, tt = t == null ? 0.62 : t;
+    const cx = P[0] + (Q[0] - P[0]) * tt, cy = P[1] + (Q[1] - P[1]) * tt;
+    let ux = Q[0] - P[0], uy = Q[1] - P[1]; const L = Math.hypot(ux, uy); ux /= L; uy /= L;
+    const nx = -uy, ny = ux, hl = 11, hw = 5.5;
+    s += `<path d="M${f1(cx + ux * hl / 2)},${f1(cy + uy * hl / 2)}L${f1(cx - ux * hl / 2 + nx * hw)},${f1(cy - uy * hl / 2 + ny * hw)}L${f1(cx - ux * hl / 2 - nx * hw)},${f1(cy - uy * hl / 2 - ny * hw)}z" class="ind" data-ind="${a}>${b}"/>`;
+  });
+  Object.keys(G.n).forEach(k => { const nd = G.n[k]; if (nd.l) s += `<text x="${f1(nd.x)}" y="${f1(nd.y + G.fs * 0.34)}" text-anchor="middle" class="mlab"${G.fs !== MFS ? ` style="font-size:${G.fs}px"` : ""}>${svgChem(nd.l, G.fs)}</text>`; });
+  Object.keys(G.pt).forEach(k => {
+    const q = G.pt[k];
+    if (k.startsWith("lp:")){ const a = q.ang * D2R, px = Math.sin(a) * 4.2, py = Math.cos(a) * 4.2; s += `<circle cx="${f1(q.p[0] + px)}" cy="${f1(q.p[1] + py)}" r="2.4" class="mdot"/><circle cx="${f1(q.p[0] - px)}" cy="${f1(q.p[1] - py)}" r="2.4" class="mdot"/>`; }
+    else if (k.startsWith("chg:")) s += `<text x="${f1(q.p[0])}" y="${f1(q.p[1] + 5)}" text-anchor="middle" class="mchg">${esc(q.t)}</text>`;
+  });
+  (fr.del || []).forEach(([at, t, dx, dy]) => { const nd = G.n[at]; s += `<text x="${f1(nd.x + dx)}" y="${f1(nd.y + dy)}" text-anchor="middle" class="mdel">${svgChem(t, 14)}</text>`; });
+  (fr.rx || []).forEach(([x1, y, x2, t, eq]) => {
+    if (eq) s += `<line x1="${x1}" y1="${y - 3}" x2="${x2 - 2}" y2="${y - 3}" class="mrx"/><path d="M${x2},${y - 3}l-10,-5v5z" class="mrxh"/><line x1="${x1 + 2}" y1="${y + 3}" x2="${x2}" y2="${y + 3}" class="mrx"/><path d="M${x1},${y + 3}l10,5v-5z" class="mrxh"/>`;
+    else s += `<line x1="${x1}" y1="${y}" x2="${x2 - 8}" y2="${y}" class="mrx"/><path d="M${x2},${y}l-10,-5v10z" class="mrxh"/>`;
+    if (t) s += `<text x="${(x1 + x2) / 2}" y="${y - 10}" text-anchor="middle" class="mcond">${svgChem(t, 13)}</text>`;
+  });
+  (fr.tx || []).forEach(([x, y, t, cls, anc]) => { const fs = cls === "mprod" ? 17 : cls === "mchg" ? 16 : 13.5; s += `<text x="${x}" y="${y}" text-anchor="${anc || "middle"}" class="${cls}">${svgChem(t, fs)}</text>`; });
+  return s;
+}
+// bounding box of a spec, from nodes, label widths and text items (no layout pass needed)
+function molBox(fr, G){
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  const add = (a, b, c, d) => { x0 = Math.min(x0, a); y0 = Math.min(y0, b); x1 = Math.max(x1, c); y1 = Math.max(y1, d); };
+  Object.values(G.n).forEach(nd => { const hw = nd.l ? chemW(nd.l, G.fs) / 2 : 2; add(nd.x - hw, nd.y - G.fs * 0.7, nd.x + hw, nd.y + G.fs * 0.6); });
+  Object.values(G.pt).forEach(q => { if (q.t || q.ang != null) add(q.p[0] - 7, q.p[1] - 9, q.p[0] + 7, q.p[1] + 7); });
+  (fr.del || []).forEach(([at, t, dx, dy]) => { const nd = G.n[at]; add(nd.x + dx - 9, nd.y + dy - 12, nd.x + dx + 9, nd.y + dy + 3); });
+  (fr.hl || []).forEach(([x, y, r]) => add(x - r, y - r, x + r, y + r));
+  (fr.br || []).forEach(([a, b, c, d]) => add(a, b, c, d));
+  (fr.rx || []).forEach(([a, y, c, t]) => { add(a, y - (t ? 24 : 8), c, y + 8); if (t){ const w = chemW(t, 13) / 2, m = (a + c) / 2; add(m - w, y - 24, m + w, y); } });
+  (fr.tx || []).forEach(([x, y, t, cls, anc]) => { const fs = cls === "mprod" ? 17 : cls === "mchg" ? 16 : 13.5, w = chemW(t, fs); const xa = anc === "start" ? x : anc === "end" ? x - w : x - w / 2; add(xa, y - fs, xa + w, y + fs * 0.35); });
+  return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+}
+function molSVG(svg, fr, o){
+  o = o || {};
+  const G = geo(fr, o.fs), bb = molBox(fr, G), pd = o.pad == null ? 12 : o.pad;
+  const vw = Math.max(bb.w + 2 * pd, o.minW || 0), vx = bb.x + bb.w / 2 - vw / 2;
+  const vh = Math.max(bb.h + 2 * pd, o.minH || 0), vy = bb.y + bb.h / 2 - vh / 2;
+  svg.setAttribute("viewBox", `${f1(vx)} ${f1(vy)} ${f1(vw)} ${f1(vh)}`);
+  svg.removeAttribute("width"); svg.removeAttribute("height");
+  svg.style.maxHeight = (o.maxH || 260) + "px";
+  svg.innerHTML = molBody(fr, G);
+  return G;
+}
+LAB.geo = geo; LAB.molBox = molBox;
+
+/* ---------- builders ---------- */
+const BL = 56;
+function M(){ return { n: {}, b: [], hex: [], lp: [], chg: [], del: [], ind: [], hl: [], br: [], tx: [], rx: [] }; }
+const pol = (x, y, ang, L) => [x + (L || BL) * Math.cos(ang * D2R), y - (L || BL) * Math.sin(ang * D2R)];
+let BID = 0;
+function at(m, k, x, y, l){ m.n[k] = [x, y, l]; return k; }
+function bd(m, a, b, o, sty){ m.b.push(["b" + (++BID), a, b, o || 1, sty]); }
+function near(m, from, k, ang, l, o, L, sty){ const [x, y] = m.n[from]; const p = pol(x, y, ang, L); at(m, k, p[0], p[1], l); bd(m, from, k, o, sty); return k; }
+// benzene ring attached to atom `from`, with the ring's ipso vertex at distance BL in direction ang
+function ring(m, p, from, ang){
+  const [x, y] = m.n[from], R = 30, ip = pol(x, y, ang, BL * 0.85), c = pol(ip[0], ip[1], ang, R);
+  const rot = -ang + 180;     // svg angle of the ipso vertex seen from the centre
+  m.hex.push([p, c[0], c[1], R, rot]);
+  m.b.push(["b" + (++BID), from, p + "0", 1]);
+  return { c, R, rot };
+}
+const vtx = (m, p, k) => { const h = m.hex.find(q => q[0] === p), t = (h[4] + 60 * k) * D2R; return [h[1] + h[3] * Math.cos(t), h[2] + h[3] * Math.sin(t)]; };
+
+/* R groups for the acids (attached to the carboxyl carbon "Cc" on its left, at angle 180°) */
+const RG = {
+  me: m => { near(m, "Cc", "R", 180, "H₃C"); m.ind.push(["R", "Cc", 0.55]); },
+  h: m => { near(m, "Cc", "R", 180, "H"); },
+  ph: m => { ring(m, "r", "Cc", 180); },
+  cl1: m => { near(m, "Cc", "R", 180, "C"); near(m, "R", "X1", 90, "Cl"); near(m, "R", "Ha", 180, "H", 1, 44); near(m, "R", "Hb", 270, "H", 1, 44); m.ind.push(["R", "X1"]); },
+  cl2: m => { near(m, "Cc", "R", 180, "C"); near(m, "R", "X1", 90, "Cl"); near(m, "R", "X2", 180, "Cl"); near(m, "R", "Hb", 270, "H", 1, 44); m.ind.push(["R", "X1"], ["R", "X2"]); },
+  cl3: m => { near(m, "Cc", "R", 180, "C"); near(m, "R", "X1", 90, "Cl"); near(m, "R", "X2", 180, "Cl"); near(m, "R", "X3", 270, "Cl"); m.ind.push(["R", "X1"], ["R", "X2"], ["R", "X3"]); },
+  f1: m => { near(m, "Cc", "R", 180, "C"); near(m, "R", "X1", 90, "F"); near(m, "R", "Ha", 180, "H", 1, 44); near(m, "R", "Hb", 270, "H", 1, 44); m.ind.push(["R", "X1"]); },
+  br1: m => { near(m, "Cc", "R", 180, "C"); near(m, "R", "X1", 90, "Br"); near(m, "R", "Ha", 180, "H", 1, 44); near(m, "R", "Hb", 270, "H", 1, 44); m.ind.push(["R", "X1"]); },
+  i1: m => { near(m, "Cc", "R", 180, "C"); near(m, "R", "X1", 90, "I"); near(m, "R", "Ha", 180, "H", 1, 44); near(m, "R", "Hb", 270, "H", 1, 44); m.ind.push(["R", "X1"]); },
+  but: m => { near(m, "Cc", "R", 180, "CH₂"); near(m, "R", "R2", 180, "CH₂", 1, 62); near(m, "R2", "R3", 180, "H₃C", 1, 62); },
+  c2: m => { near(m, "Cc", "R", 180, "CH"); near(m, "R", "X1", 270, "Cl"); near(m, "R", "R2", 180, "CH₂", 1, 60); near(m, "R2", "R3", 180, "H₃C", 1, 62); m.ind.push(["R", "X1"]); },
+  c3: m => { near(m, "Cc", "R", 180, "CH₂"); near(m, "R", "R2", 180, "CH", 1, 60); near(m, "R2", "X1", 270, "Cl"); near(m, "R2", "R3", 180, "H₃C", 1, 58); m.ind.push(["R2", "X1"]); },
+  c4: m => { near(m, "Cc", "R", 180, "CH₂"); near(m, "R", "R2", 180, "CH₂", 1, 62); near(m, "R2", "R3", 180, "CH₂", 1, 62); near(m, "R3", "X1", 270, "Cl"); m.ind.push(["R3", "X1"]); }
+};
+// the acid RCOOH (anion = false) or the carboxylate ion (anion = true), carboxyl carbon at (x, y)
+function carboxyl(m, x, y, rg, anion){
+  at(m, "Cc", x, y, "C");
+  const o1 = pol(x, y, 60), o2 = pol(x, y, -60);
+  at(m, "O1", o1[0], o1[1], "O"); at(m, "O2", o2[0], o2[1], anion ? "O" : "O");
+  if (anion){ bd(m, "Cc", "O1", 1.5, "r"); bd(m, "Cc", "O2", 1.5); }
+  else { bd(m, "Cc", "O1", 2); bd(m, "Cc", "O2", 1); near(m, "O2", "Hx", 0, "H", 1, 44); }
+  RG[rg](m);
+  if (anion){ m.hl.push([o1[0], o1[1], 17], [o2[0], o2[1], 17]); }
+}
+// alcohol, water, phenol: R–O–H or R–O⁻
+function hydroxy(m, x, y, kind, anion){
+  at(m, "Ox", x, y, "O");
+  if (!anion) near(m, "Ox", "Hx", -30, "H", 1, 44);
+  if (kind === "water"){ near(m, "Ox", "R", 210, "H", 1, 44); }
+  else if (kind === "eth"){ near(m, "Ox", "R", 150, "CH₂"); near(m, "R", "R2", 210, "H₃C", 1, 60); if (anion) m.ind.push(["R", "Ox"]); }
+  else if (kind === "phen"){ ring(m, "r", "Ox", 180); }
+  if (anion){ const [ox, oy] = m.n.Ox; m.hl.push([ox, oy, kind === "phen" ? 15 : 18]); m.chg.push(["ox", "Ox", "−", 13, -15]);
+    if (kind === "phen"){ [1, 3, 5].forEach(k => { const v = vtx(m, "r", k); m.hl.push([v[0], v[1], 8]); }); } }
+}
+LAB.carboxyl = carboxyl;
+// copy spec src into dst with every key prefixed and every position shifted by (dx, dy)
+function mergeSpec(dst, src, pre, dx, dy){
+  const P = k => pre + k;
+  Object.keys(src.n).forEach(k => { const [x, y, l] = src.n[k]; dst.n[P(k)] = [x + dx, y + dy, l]; });
+  src.b.forEach(([id, a, b, o, sty]) => dst.b.push([pre + id, P(a), P(b), o, sty]));
+  src.hex.forEach(([p, cx, cy, R, rot]) => dst.hex.push([P(p), cx + dx, cy + dy, R, rot]));
+  src.lp.forEach(([id, a, ang, d]) => dst.lp.push([pre + id, P(a), ang, d]));
+  src.chg.forEach(([id, a, t, x, y]) => dst.chg.push([pre + id, P(a), t, x, y]));
+  src.del.forEach(([a, t, x, y]) => dst.del.push([P(a), t, x, y]));
+  src.ind.forEach(([a, b, t]) => dst.ind.push([P(a), P(b), t]));
+  src.hl.forEach(([x, y, r]) => dst.hl.push([x + dx, y + dy, r]));
+  src.br.forEach(([a, b, c, d]) => dst.br.push([a + dx, b + dy, c + dx, d + dy]));
+  src.tx.forEach(([x, y, t, c, a]) => dst.tx.push([x + dx, y + dy, t, c, a]));
+  src.rx.forEach(([a, y, c, t, e]) => dst.rx.push([a + dx, y + dy, c + dx, t, e]));
+  return dst;
+}
+const boxOf = m => molBox(m, geo(m));
+LAB.mergeSpec = mergeSpec;
+
+/* =====================================================
+   1. ACIDITY EXPLORER (DATA.md "Part 1 acidity"; literature Ka at 298 K)
+   [H⁺] = √(Ka c) and the 5 % check as Topic 10 Part 1; exact pH (quadratic) only as Beyond the syllabus
+   ===================================================== */
+const pK = Ka => -Math.log10(Ka);
+const ACIDS = [
+  // chlorine series (core)
+  { id: "eth", g: 1, set: "cl", nm: "ethanoic acid", f: "CH₃COOH", an: "ethanoate", af: "CH₃COO⁻", Ka: 1.8e-5, rg: "me", c0: 0.100,
+    why: "The negative charge of the ethanoate ion is delocalised over two electronegative O atoms, so the anion is far more stable than ethoxide and ethanoic acid is far more acidic than ethanol. The CH₃ group is electron-donating (arrowhead towards the –COO⁻ group): it concentrates the negative charge a little." },
+  { id: "clac", g: 1, set: "cl", nm: "chloroethanoic acid", f: "ClCH₂COOH", an: "chloroethanoate", af: "ClCH₂COO⁻", Ka: 1.4e-3, rg: "cl1", c0: 0.100,
+    why: "Cl is more electronegative than C, so it withdraws electron density along the σ bonds (negative inductive effect; arrowhead on the C–Cl bond). This spreads the negative charge of the –COO⁻ group further, the anion is more stable, and the acid is about 80 times stronger than ethanoic acid (K{a} 1.4 × 10⁻³ against 1.8 × 10⁻⁵)." },
+  { id: "dcl", g: 1, set: "cl", nm: "dichloroethanoic acid", f: "Cl₂CHCOOH", an: "dichloroethanoate", af: "Cl₂CHCOO⁻", Ka: 5.0e-2, rg: "cl2", c0: 0.100,
+    why: "Two Cl atoms withdraw more electron density than one, so the charge on the anion is spread further and the acid is stronger again." },
+  { id: "tcl", g: 1, set: "cl", nm: "trichloroethanoic acid", f: "Cl₃CCOOH", an: "trichloroethanoate", af: "Cl₃CCOO⁻", Ka: 2.2e-1, rg: "cl3", c0: 0.100,
+    why: "Three Cl atoms give the strongest electron withdrawal: the acid is about 12 000 times stronger than ethanoic acid. Each extra Cl adds to the effect: CH₃COOH < ClCH₂COOH < Cl₂CHCOOH < Cl₃CCOOH." },
+  // comparison
+  { id: "etoh", g: 2, set: "oh", nm: "ethanol", f: "CH₃CH₂OH", an: "ethoxide", af: "CH₃CH₂O⁻", Ka: null, pKaT: "about 16", pKa: 16, oh: "eth", noPH: "about 7: ethanol is a weaker acid than water, so its solution is neutral.",
+    why: "In the ethoxide ion the charge sits on one O atom, with no delocalisation, and the electron-donating ethyl group (arrowhead towards O) makes it worse. Ethoxide is the least stable anion here, so ethanol is the weakest acid." },
+  { id: "h2o", g: 2, set: "oh", nm: "water", f: "H₂O", an: "hydroxide", af: "OH⁻", Ka: null, pKaT: "15.7", pKa: 15.7, oh: "water", noPH: "7.00 (pure water at 298 K).", fn: 1,
+    why: "In the hydroxide ion the charge sits on one O atom. With no alkyl group pushing electrons onto it, OH⁻ is a little more stable than ethoxide, so water is a slightly stronger acid than ethanol." },
+  { id: "phen", g: 2, set: "oh", nm: "phenol", f: "C₆H₅OH", an: "phenoxide", af: "C₆H₅O⁻", Ka: 1.1e-10, oh: "phen", c0: 0.100, cmin: 0.0100,
+    why: "In the phenoxide ion the charge is partly delocalised into the ring (shaded at the 2-, 4- and 6-positions), but onto C atoms, which are less electronegative than O. The anion is more stable than ethoxide, less stable than ethanoate. Phenol (pK{a} 9.96) is weaker than carbonic acid (6.35), so it gives no CO₂ with carbonates (Topic 11.6 Part 2)." },
+  { id: "benz", g: 2, set: "oh", nm: "benzoic acid", f: "C₆H₅COOH", an: "benzoate", af: "C₆H₅COO⁻", Ka: 6.3e-5, rg: "ph", c0: 0.0270, cmax: 0.028, fexWhy: 1,
+    why: "As in ethanoate, the charge is delocalised over two O atoms. Benzoic acid (4.20) is a little stronger than ethanoic acid (4.74): one explanation is that the sp² ring carbon attached to the –COOH group is more electron-withdrawing than the sp³ carbon of a CH₃ group." },
+  { id: "meth", g: 2, set: "oh", nm: "methanoic acid", f: "HCOOH", an: "methanoate", af: "HCOO⁻", Ka: 1.8e-4, rg: "h", c0: 0.100, fexWhy: 1,
+    why: "Methanoic acid (3.74) is stronger than ethanoic acid (4.74): it has an H atom where ethanoic acid has an electron-donating CH₃ group, so the charge on methanoate is less concentrated and the anion is more stable." },
+  // Further example (Tutorial 1 Question 8; literature pKa)
+  { id: "fac", g: 3, set: "hal", nm: "fluoroethanoic acid", f: "FCH₂COOH", an: "fluoroethanoate", af: "FCH₂COO⁻", pKa: 2.59, rg: "f1", c0: 0.100, fex: 1,
+    why: "Fluoroethanoic acid, pK{a} 2.59 (literature): much stronger than ethanoic acid (4.74). Compare it with the other three halogenoethanoic acids." },
+  { id: "bac", g: 3, set: "hal", nm: "bromoethanoic acid", f: "BrCH₂COOH", an: "bromoethanoate", af: "BrCH₂COO⁻", pKa: 2.90, rg: "br1", c0: 0.100, fex: 1,
+    why: "Bromoethanoic acid, pK{a} 2.90 (literature): much stronger than ethanoic acid (4.74)." },
+  { id: "iac", g: 3, set: "hal", nm: "iodoethanoic acid", f: "ICH₂COOH", an: "iodoethanoate", af: "ICH₂COO⁻", pKa: 3.18, rg: "i1", c0: 0.100, fex: 1,
+    why: "Iodoethanoic acid, pK{a} 3.18 (literature): much stronger than ethanoic acid (4.74)." },
+  { id: "buta", g: 3, set: "dist", nm: "butanoic acid", f: "CH₃CH₂CH₂COOH", an: "butanoate", af: "CH₃CH₂CH₂COO⁻", pKa: 4.82, rg: "but", c0: 0.100, fex: 1,
+    why: "Butanoic acid, pK{a} 4.82 (literature): about as weak as ethanoic acid (4.74)." },
+  { id: "c2b", g: 3, set: "dist", nm: "2-chlorobutanoic acid", f: "CH₃CH₂CHClCOOH", an: "2-chlorobutanoate", af: "CH₃CH₂CHClCOO⁻", pKa: 2.86, rg: "c2", c0: 0.100, fex: 1,
+    why: "2-Chlorobutanoic acid, pK{a} 2.86 (literature): about as strong as chloroethanoic acid (2.85)." },
+  { id: "c3b", g: 3, set: "dist", nm: "3-chlorobutanoic acid", f: "CH₃CHClCH₂COOH", an: "3-chlorobutanoate", af: "CH₃CHClCH₂COO⁻", pKa: 4.05, rg: "c3", c0: 0.100, fex: 1,
+    why: "3-Chlorobutanoic acid, pK{a} 4.05 (literature), against 4.82 for butanoic acid." },
+  { id: "c4b", g: 3, set: "dist", nm: "4-chlorobutanoic acid", f: "ClCH₂CH₂CH₂COOH", an: "4-chlorobutanoate", af: "ClCH₂CH₂CH₂COO⁻", pKa: 4.52, rg: "c4", c0: 0.100, fex: 1,
+    why: "4-Chlorobutanoic acid, pK{a} 4.52 (literature), against 4.82 for butanoic acid." }
+];
+ACIDS.forEach(A => { if (A.Ka == null && A.pKa != null && !A.oh) { A.Ka = Math.pow(10, -A.pKa); A.fromP = true; } if (A.Ka != null && A.pKa == null) A.pKa = +pK(A.Ka).toFixed(2); });
+// rounded Ka shown for the Further examples (2 s.f., from the pKa)
+ACIDS.forEach(A => { if (A.fromP) A.KaS = +sf(A.Ka, 2); });
+LAB.ACIDS = ACIDS;
+const SETS = {
+  cl: { t: "Chlorine-substituted ethanoic acids", ids: ["eth", "clac", "dcl", "tcl"] },
+  oh: { t: "–OH compounds and carboxylic acids", ids: ["etoh", "h2o", "phen", "co2", "eth", "benz", "meth"] },
+  hal: { t: "Halogenoethanoic acids (Further example)", ids: ["eth", "iac", "bac", "clac", "fac"] },
+  dist: { t: "Chlorobutanoic acids: distance (Further example)", ids: ["buta", "c4b", "c3b", "c2b"] }
+};
+const CO2REF = { id: "co2", nm: "carbonic acid (first)", f: "H₂CO₃", pKa: 6.35, Ka: 4.5e-7 };
+const AC = { id: "eth", c: 0.100, exact: false };
+LAB.AC = AC;
+const acid = id => ACIDS.find(a => a.id === id);
+// the numbers for an acid at concentration c (rounded to 3 s.f. as displayed)
+function acCalc(A, c){
+  if (A.Ka == null || A.noPH) return null;
+  const Ka = A.fromP ? A.KaS : A.Ka, h = Math.sqrt(Ka * c), pct = 100 * h / c;
+  const x = (-Ka + Math.sqrt(Ka * Ka + 4 * Ka * c)) / 2;
+  return { Ka, h, pH: -Math.log10(h), pct, holds: pct < 5, over: h > c, xh: x, xpH: -Math.log10(x), xpct: 100 * x / c };
+}
+LAB.acCalc = acCalc;
+const cLim = A => [A.cmin || 0.00100, A.cmax || 0.100];
+function acChips(){
+  [1, 2, 3].forEach(g => {
+    $("ac-g" + g).innerHTML = ACIDS.filter(A => A.g === g).map(A => `<button type="button" data-id="${A.id}" aria-pressed="${AC.id === A.id}">${H(A.nm)}</button>`).join("") + (g === 3 ? `<span class="fex" style="align-self:center">Further example</span>` : "");
+    $("ac-g" + g).querySelectorAll("button").forEach(b => b.onclick = () => acSet(b.dataset.id));
+  });
+}
+function acSet(id, c){
+  const A = acid(id); AC.id = id;
+  const [lo, hi] = cLim(A);
+  AC.c = c != null ? c : (AC.c >= lo && AC.c <= hi ? AC.c : A.c0 || 0.100);
+  if (A.noPH) AC.c = 0.100;
+  acAll();
+}
+LAB.acSet = acSet;
+function acSlider(){
+  const A = acid(AC.id), [lo, hi] = cLim(A), sl = $("ac-c");
+  sl.min = Math.log10(lo).toFixed(4); sl.max = Math.log10(hi).toFixed(4);
+  sl.value = Math.log10(AC.c);
+  sl.disabled = !!A.noPH;
+  $("ac-cout").innerHTML = A.noPH ? "" : H(`${cS(AC.c)} mol dm⁻³`);
+  const pres = [0.100, 0.0500, 0.0270, 0.0100, 0.00100];
+  $("ac-pre").innerHTML = pres.map(v => `<button type="button" class="btn sm" data-c="${v}"${A.noPH || v < lo - 1e-12 || v > hi + 1e-12 ? " disabled" : ""}>${H(cS(v))}</button>`).join("");
+  $("ac-pre").querySelectorAll("button").forEach(b => b.onclick = () => { AC.c = +b.dataset.c; acAll(); });
+  $("ac-chint").innerHTML = A.noPH ? "" : A.id === "benz" ? H("Benzoic acid dissolves only to about 0.028 mol dm⁻³ at 25 °C (literature solubility 3.4 g dm⁻³), so 0.100 mol dm⁻³ cannot be made.") : A.id === "phen" ? H("From 0.0100 mol dm⁻³ up: below that, the H⁺ from water is no longer negligible.") : H("From 0.00100 to 0.100 mol dm⁻³.");
+}
+function acDraw(){
+  const A = acid(AC.id), svg = $("ac-svg"), narrow = widthOf(svg.parentElement) < 560;
+  const left = M(), right = M();
+  if (A.oh){ hydroxy(left, 0, 0, A.oh, false); hydroxy(right, 0, 0, A.oh, true); }
+  else { carboxyl(left, 0, 0, A.rg, false); carboxyl(right, 0, 0, A.rg, true); }
+  const bl = boxOf(left), br = boxOf(right);
+  const m = M();
+  mergeSpec(m, left, "a", -bl.x, -bl.y);
+  // brackets round a delocalised carboxylate, charge outside
+  if (!A.oh){ right.br.push([br.x - 8, br.y - 4, br.x + br.w + 8, br.y + br.h + 4]); right.tx.push([br.x + br.w + 16, br.y + 8, "−", "mchg"]); }
+  const br2 = boxOf(right);
+  if (!narrow){
+    const ax = bl.w + 22, ay = bl.h / 2, aw = 74;
+    m.rx.push([ax, ay, ax + aw, "", true]);
+    const dx = ax + aw + 22 - br2.x, dy = ay - (br2.y + br2.h / 2);
+    mergeSpec(m, right, "b", dx, dy);
+    m.tx.push([dx + br2.x + br2.w + 14, ay + 6, "+  H⁺", "mprod", "start"]);
+  } else {
+    const ay = bl.h + 34;
+    m.tx.push([bl.w / 2, ay + 8, "⇌", "mprod"]);
+    const dx = bl.w / 2 - (br2.x + br2.w / 2) - 30, dy = ay + 34 - br2.y;
+    mergeSpec(m, right, "b", dx, dy);
+    m.tx.push([dx + br2.x + br2.w + 14, dy + br2.y + br2.h / 2 + 6, "+  H⁺", "mprod", "start"]);
+  }
+  molSVG(svg, m, { maxH: narrow ? 330 : 190, pad: 14 });
+  svg.setAttribute("aria-label", `${A.nm}, ${A.f}, and its anion ${A.af}`);
+}
+function acRead(){
+  const A = acid(AC.id), R = acCalc(A, AC.c);
+  const kaTxt = A.Ka == null ? (A.id === "etoh" ? "about 10⁻¹⁶" : "see the footnote") : A.fromP ? `${sci(A.KaS, 2)} <small>from pK{a}</small>` : sci(A.Ka, 2);
+  const pkaTxt = A.pKaT || fx(A.pKa, 2);
+  let h = st(H("K{a} / mol dm⁻³") + " " + SRC("lit"), H(kaTxt)) + st(H("pK{a}"), H(pkaTxt + (A.fn ? "<sup>*</sup>" : "")));
+  if (!R){
+    h += st("pH", H(A.noPH), "wide");
+    if (A.fn) h += `<div class="stat wide"><div class="l">${BEY}</div><div class="v" style="font-weight:400;font-size:.86rem">${H("* The pK{a} of water comes from K{a} = K{w} / [H₂O], taking [H₂O] as 55.5 mol dm⁻³ in pure water. Treat both 15.7 and the ethanol value (about 16) as approximate.")}</div></div>`;
+  } else {
+    h += st(H("c{} / mol dm⁻³"), H(cS(AC.c)));
+    h += st(H("[H⁺] = √(K{a}c{}) / mol dm⁻³"), R.over ? H(`${sci(R.h, 3)} <small>more H⁺ than acid</small>`) : H(sci(R.h, 3)));
+    h += st("pH (formula)", R.holds ? fx(R.pH, 2) : R.over ? "none" : H(`(${fx(R.pH, 2)}) <small>unreliable</small>`));
+    h += st("% dissociated", H(R.over ? `${sf(R.pct, 3)} %: impossible` : `${sf(R.pct, 3)} %`));
+    h += `<div class="stat wide"><div class="l">5 % check</div><div class="v"><span class="verdict ${R.holds ? "ok" : "no"}">${R.holds ? "holds" : "fails"}</span> <small>${H(R.holds ? `under 5 %, so [${A.f}] ≈ c{} and the pH of ${fx(R.pH, 2)} stands` : R.over ? "the formula gives more H⁺ than there is acid: the acid is far from “only slightly dissociated”. Compare by pK{a} instead" : "over 5 %, so the assumption that the acid is only slightly dissociated fails. Compare by pK{a} instead (the exact answer needs a quadratic, beyond the syllabus)")}</small></div></div>`;
+    if (AC.exact) h += `<div class="stat wide"><div class="l">${BEY}Exact (quadratic)</div><div class="v">${H(`[H⁺] = ${sci(R.xh, 3)} mol dm⁻³, pH ${fx(R.xpH, 2)}, ${sf(R.xpct, 2)} % dissociated`)} <small>${H("from x² / (c − x) = K{a}")}</small></div></div>`;
+  }
+  $("ac-read").innerHTML = h;
+  const fexTag = A.fex || A.fexWhy ? FEX : "";
+  $("ac-why").innerHTML = `<p>${fexTag}${H(A.why)}</p><p class="hint" style="margin-top:6px">${H(`${A.f}(aq) ⇌ ${A.af}(aq) + H⁺(aq): the more stable the anion, the further the position of equilibrium lies to the right, and the stronger the acid.`)}</p>`;
+}
+function acBars(){
+  const A = acid(AC.id), S = SETS[A.set], svg = $("ac-bars"), W = widthOf(svg.parentElement);
+  const items = S.ids.map(id => id === "co2" ? CO2REF : acid(id));
+  const rowH = 30, top = 10, lw = Math.min(190, Math.max(130, W * 0.42)), r = W - 46, Hh = top + items.length * rowH + 30;
+  const max = A.set === "oh" ? 17 : 5;
+  const X = v => lw + (r - lw) * v / max;
+  let s = "";
+  const ticks = A.set === "oh" ? [0, 4, 8, 12, 16] : [0, 1, 2, 3, 4, 5];
+  ticks.forEach(t => { s += `<line x1="${f1(X(t))}" y1="${top - 2}" x2="${f1(X(t))}" y2="${top + items.length * rowH}" class="grid"/>` + T(X(t), top + items.length * rowH + 15, String(t), "tick", 'text-anchor="middle"'); });
+  s += `<text x="${f1((lw + r) / 2)}" y="${Hh - 2}" class="axlab" text-anchor="middle">p<tspan font-style="italic">K</tspan><tspan dy="3" font-size="9">a</tspan></text>`;
+  items.forEach((I, i) => {
+    const y = top + i * rowH, cur = I.id === A.id, ref = I.id === "co2", w = X(I.pKa) - lw;
+    s += ref ? `<rect x="${f1(lw)}" y="${f1(y + 7)}" width="${f1(w)}" height="14" class="barw" stroke="var(--s1)" stroke-dasharray="4 3"/>` : `<rect x="${f1(lw)}" y="${f1(y + 7)}" width="${f1(w)}" height="14" class="bar${cur ? " cur" : ""}"/>`;
+    s += T(lw - 8, y + 18, I.nm, cur ? "lblb" : "lbl", 'text-anchor="end"', W < 420 ? 11 : 12);
+    s += T(X(I.pKa) + 5, y + 18, I.id === "etoh" ? "about 16" : fx(I.pKa, 2), "val");
+  });
+  setSvg(svg, W, Hh, s);
+  svg.setAttribute("aria-label", `${S.t}: bar chart of pKa`);
+}
+function acPct(){
+  const A = acid(AC.id), svg = $("ac-pct"), W = widthOf(svg.parentElement), Hh = 210, ml = 40, mr = 14, mt = 12, mb = 34;
+  const R = acCalc(A, AC.c), note = $("ac-pctnote");
+  if (!R){ setSvg(svg, W, 60, T(W / 2, 34, "No pH calculation for this compound.", "cap", 'text-anchor="middle"')); note.innerHTML = H(A.noPH); return; }
+  const [lo, hi] = [-3, -1], ymax = 20;
+  const X = l => ml + (W - ml - mr) * (l - lo) / (hi - lo), Y = p => Hh - mb - (Hh - mt - mb) * Math.min(p, ymax) / ymax;
+  let s = "";
+  const [cl, ch] = cLim(A);
+  if (ch < 0.1) s += `<rect x="${f1(X(Math.log10(ch)))}" y="${mt}" width="${f1(X(hi) - X(Math.log10(ch)))}" height="${Hh - mt - mb}" class="shade"/>` + T((X(Math.log10(ch)) + X(hi)) / 2, mt + 14, "cannot be made", "cap", 'text-anchor="middle"');
+  if (cl > 0.001) s += `<rect x="${f1(X(lo))}" y="${mt}" width="${f1(X(Math.log10(cl)) - X(lo))}" height="${Hh - mt - mb}" class="shade"/>`;
+  [0, 5, 10, 15, 20].forEach(p => { s += `<line x1="${ml}" y1="${f1(Y(p))}" x2="${W - mr}" y2="${f1(Y(p))}" class="grid"/>` + T(ml - 6, Y(p) + 4, String(p), "tick", 'text-anchor="end"'); });
+  [[-3, "0.001"], [-2, "0.01"], [-1, "0.1"]].forEach(([l, t]) => { s += T(X(l), Hh - mb + 15, t, "tick", 'text-anchor="middle"'); });
+  s += T((ml + W - mr) / 2, Hh - 4, "c / mol dm⁻³ (log scale)", "axlab", 'text-anchor="middle"');
+  s += T(12, (mt + Hh - mb) / 2, "% dissociated", "axlab", `text-anchor="middle" transform="rotate(-90 12 ${f1((mt + Hh - mb) / 2)})"`);
+  s += `<line x1="${ml}" y1="${f1(Y(5))}" x2="${W - mr}" y2="${f1(Y(5))}" class="ref"/>` + T(W - mr - 4, Y(5) - 5, "5 %", "cap", 'text-anchor="end"');
+  const Ka = R.Ka; let d = "";
+  for (let k = 0; k <= 80; k++){ const l = lo + (hi - lo) * k / 80, p = 100 * Math.sqrt(Ka / Math.pow(10, l)); d += (k ? "L" : "M") + f1(X(l)) + "," + f1(Y(p)); }
+  s += `<clipPath id="acclip"><rect x="${ml}" y="${mt}" width="${W - ml - mr}" height="${Hh - mt - mb}"/></clipPath><path d="${d}" class="crv" clip-path="url(#acclip)"/>`;
+  s += `<line x1="${ml}" y1="${Hh - mb}" x2="${W - mr}" y2="${Hh - mb}" class="axis"/><line x1="${ml}" y1="${mt}" x2="${ml}" y2="${Hh - mb}" class="axis"/>`;
+  if (R.pct <= ymax) s += `<circle cx="${f1(X(Math.log10(AC.c)))}" cy="${f1(Y(R.pct))}" r="5.5" class="pt"/>`;
+  else s += T(X(Math.log10(AC.c)), mt + 28, `${sf(R.pct, 3)} % ↑`, "val", 'text-anchor="middle"');
+  setSvg(svg, W, Hh, s);
+  const c5 = Ka / 0.0025;
+  note.innerHTML = H(c5 > 0.1 ? `For ${A.nm} the curve is above 5 % at every concentration up to 0.100 mol dm⁻³: the check always fails here.` :
+    `The check holds where the curve is under the 5 % line: for ${A.nm}, from c{} = K{a} / 0.05² = ${cS(c5)} mol dm⁻³ up${A.cmax ? `, and benzoic acid cannot be made above about 0.028 mol dm⁻³, so only from ${cS(c5)} to 0.028 mol dm⁻³` : ""}. Diluting a weak acid raises the % dissociated.`);
+}
+function acAll(){ acChips(); acSlider(); acDraw(); acRead(); acBars(); acPct(); }
+LAB.acAll = acAll;
+function bindAC(){
+  $("ac-c").oninput = e => { AC.c = +sf(Math.pow(10, +e.target.value), 3); const A = acid(AC.id), [lo, hi] = cLim(A); AC.c = Math.min(hi, Math.max(lo, AC.c)); acSlider(); acRead(); acPct(); };
+  $("ac-exact").onchange = e => { AC.exact = e.target.checked; acRead(); };
+  acAll();
+}
+
+/* ---------- which –OH compounds react? (DATA.md distinguishing table) ---------- */
+const RG_C = [
+  { id: "etoh", nm: "ethanol", f: "CH₃CH₂OH" }, { id: "phen", nm: "phenol", f: "C₆H₅OH" }, { id: "eth", nm: "ethanoic acid", f: "CH₃COOH" }
+];
+const RG_R = [
+  { id: "na", nm: "Na(s)" }, { id: "naoh", nm: "NaOH(aq)" }, { id: "co3", nm: "Na₂CO₃(aq)" }, { id: "hco3", nm: "NaHCO₃(aq)" }
+];
+const RG_OPTS = [["eff", "effervescence"], ["neut", "reacts (neutralised), no gas"], ["none", "no reaction"]];
+// phenol with a carbonate: the answer is no effervescence (a little HCO₃⁻ forms, so not strictly "no reaction")
+const rgLabel = (v, k) => v === "none" && /^phen\|h?co3$/.test(k) ? "no effervescence" : RG_OPTS.find(x => x[0] === v)[1];
+// k: the right prediction; o: observation (as the notes' table); eq: equation
+const RG_OUT = {
+  "etoh|na": { k: "eff", o: "effervescence (H₂)", eq: "2CH₃CH₂OH + 2Na → 2CH₃CH₂ONa + H₂(g)" },
+  "phen|na": { k: "eff", o: "effervescence (H₂)", eq: "2C₆H₅OH + 2Na → 2C₆H₅ONa + H₂(g)" },
+  "eth|na": { k: "eff", o: "effervescence (H₂)", eq: "2CH₃COOH + 2Na → 2CH₃COONa + H₂(g)" },
+  "etoh|naoh": { k: "none", o: "no reaction" },
+  "phen|naoh": { k: "neut", o: "reacts (sodium phenoxide; solid phenol dissolves)", eq: "C₆H₅OH + NaOH → C₆H₅ONa + H₂O" },
+  "eth|naoh": { k: "neut", o: "neutralised (no visible change)", eq: "CH₃COOH + NaOH → CH₃COONa + H₂O" },
+  "etoh|co3": { k: "none", o: "no reaction" },
+  "phen|co3": { k: "none", o: "no effervescence (no CO₂)", fn: 1 },
+  "eth|co3": { k: "eff", o: "effervescence (CO₂; limewater milky)", eq: "2CH₃COOH + Na₂CO₃ → 2CH₃COONa + H₂O + CO₂(g)" },
+  "etoh|hco3": { k: "none", o: "no reaction" },
+  "phen|hco3": { k: "none", o: "no effervescence (no CO₂)" },
+  "eth|hco3": { k: "eff", o: "effervescence (CO₂; limewater milky)", eq: "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂(g)" }
+};
+LAB.RG_OUT = RG_OUT;
+$("rg-fn").innerHTML = `<sup>*</sup> ${BEY}${H("Phenol does react very slightly with the carbonate ion, turning a little CO₃²⁻ into HCO₃⁻, but no CO₂ is released, so there is no effervescence.")}`;
+const RGS = { done: {}, pred: true, pend: null, right: 0, tried: 0 };
+LAB.RGS = RGS;
+function rgWhy(c, r){
+  const pk = { etoh: "about 16", phen: "9.96", eth: "4.74" }[c];
+  if (r === "na") return "Na reacts with any –OH group, releasing H₂, so this is not a test for acids.";
+  if (r === "naoh") return c === "etoh" ? `Ethanol (pK{a} about 16) is a weaker acid than water (15.7), so OH⁻ cannot remove its proton.` : `${c === "phen" ? "Phenol" : "Ethanoic acid"} (pK{a} ${pk}) is a stronger acid than water (15.7), so OH⁻ removes its proton.`;
+  return c === "eth" ? "Ethanoic acid (pK{a} 4.74) is stronger than carbonic acid (6.35), so it releases CO₂: the test for –COOH." : `${c === "phen" ? "Phenol" : "Ethanol"} (pK{a} ${pk}) is weaker than carbonic acid (6.35), so no CO₂ is released.`;
+}
+function rgDraw(){
+  let h = `<thead><tr><th></th>${RG_C.map(C => `<th>${H(C.nm)}<br><span class="hint">${H(C.f)}</span></th>`).join("")}</tr></thead><tbody>`;
+  RG_R.forEach(R => {
+    h += `<tr><th>${H(R.nm)}</th>`;
+    RG_C.forEach(C => {
+      const k = C.id + "|" + R.id, O = RG_OUT[k];
+      if (RGS.done[k]) h += `<td class="done"><span class="obs${O.k === "eff" ? " yes" : ""}">${H(O.o)}</span>${O.fn ? `<sup>*</sup>` : ""}</td>`;
+      else h += `<td><button type="button" data-k="${k}" aria-pressed="${RGS.pend === k}">add ${H(R.nm)}</button></td>`;
+    });
+    h += `</tr>`;
+  });
+  h += `<tr><th>${H("pH of 0.100 mol dm⁻³")}</th><td>about 7</td><td>5.48</td><td>2.87</td></tr></tbody>`;
+  $("rg-tab").innerHTML = h;
+  $("rg-fn").hidden = !Object.keys(RGS.done).some(k => RG_OUT[k].fn);
+  $("rg-tab").querySelectorAll("button").forEach(b => b.onclick = () => rgTap(b.dataset.k));
+  const box = $("rg-pbox");
+  box.hidden = !RGS.pend;
+  if (RGS.pend){
+    const [c, r] = RGS.pend.split("|"), C = RG_C.find(x => x.id === c), R = RG_R.find(x => x.id === r);
+    $("rg-pq").innerHTML = H(`What do you expect when ${R.nm} is added to ${C.nm}?`);
+    $("rg-pchips").innerHTML = RG_OPTS.map(([v]) => `<button type="button" data-v="${v}">${H(rgLabel(v, RGS.pend))}</button>`).join("");
+    $("rg-pchips").querySelectorAll("button").forEach(b => b.onclick = () => rgAnswer(b.dataset.v));
+  }
+}
+function rgShow(k, said){
+  const O = RG_OUT[k], [c, r] = k.split("|"), fb = $("rg-fb");
+  RGS.done[k] = true; RGS.pend = null;
+  let msg = "";
+  if (said != null){
+    const ok = said === O.k; RGS.tried++; if (ok) RGS.right++;
+    fb.className = "fb " + (ok ? "ok" : "no");
+    msg = `<p>${ok ? "Correct." : `Not quite: you said “${rgLabel(said, k)}”.`} ${H(O.o.charAt(0).toUpperCase() + O.o.slice(1))}. ${H(rgWhy(c, r))}</p>`;
+  } else { fb.className = "fb info"; msg = `<p>${H(O.o.charAt(0).toUpperCase() + O.o.slice(1))}. ${H(rgWhy(c, r))}</p>`; }
+  if (O.eq) msg += `<p class="ink">${EQ(O.eq)}</p>`;
+  if (said != null) msg += `<p class="hint">${RGS.right} / ${RGS.tried} predictions right</p>`;
+  fb.innerHTML = msg; fb.hidden = false;
+  rgDraw();
+}
+function rgTap(k){ if (RGS.pred){ RGS.pend = k; $("rg-fb").hidden = true; rgDraw(); } else rgShow(k); }
+function rgAnswer(v){ if (RGS.pend) rgShow(RGS.pend, v); }
+LAB.rgTap = rgTap; LAB.rgAnswer = rgAnswer;
+function bindRG(){
+  $("rg-pred").onchange = e => { RGS.pred = e.target.checked; RGS.pend = null; rgDraw(); };
+  $("rg-reset").onclick = () => { RGS.done = {}; RGS.pend = null; RGS.right = RGS.tried = 0; $("rg-fb").hidden = true; rgDraw(); };
+  $("rg-all").onclick = () => { Object.keys(RG_OUT).forEach(k => RGS.done[k] = true); RGS.pend = null; $("rg-fb").hidden = true; rgDraw(); };
+  rgDraw();
+}
+
+/* =====================================================
+   2. ESTER BENCH (DATA.md reactions 17-20, 28-31, 34-38)
+   ===================================================== */
+const KC = 4.01;   // ethyl ethanoate, Topic 9 Part 1 Worked example 2
+// equilibrium amount of ester from a mol acid and b mol alcohol (no ester or water at the start)
+function eqEster(a, b, K){ const A = K - 1, B = -K * (a + b), C = K * a * b; return (-B - Math.sqrt(B * B - 4 * A * C)) / (2 * A); }
+LAB.eqEster = eqEster;
+const ROUTES = [
+  { id: "r1", t: "ethanoic acid + ethanol", from: "acid", eq: ["CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O"], cond: "concentrated H₂SO₄, heat under reflux",
+    ester: "ethyl ethanoate", by: "H₂O", obs: "fruity smell (pear drops)", ext: "kc",
+    why: "Concentrated H₂SO₄ is a catalyst (it provides H⁺). Without it, and without heating, the reaction is very slow; heating under reflux speeds it up without losing the volatile alcohol and ester. The reaction is reversible: from 1.00 mol of each, about two-thirds becomes ester at equilibrium (K{c} = 4.01, Topic 9 Part 1, Worked example 2). How to push the position of equilibrium to the right is Topic 9 Part 2.",
+    enr: "Which bond breaks? With ethanol made with oxygen-18, CH₃CH₂¹⁸OH, all the ¹⁸O ends up in the ester, CH₃CO¹⁸OCH₂CH₃, and none in the water: the acid loses OH and the alcohol loses H." },
+  { id: "r2", t: "benzoic acid + methanol", from: "acid", eq: ["C₆H₅COOH + CH₃OH ⇌ C₆H₅COOCH₃ + H₂O"], cond: "concentrated H₂SO₄, heat under reflux",
+    ester: "methyl benzoate", by: "H₂O", obs: "ester with a fruity smell", ext: "rev",
+    why: "The same method works for any carboxylic acid with an alcohol: methanol and benzoic acid give methyl benzoate. It is reversible, like every esterification of an acid." },
+  { id: "r3", t: "ethanoyl chloride + ethanol", from: "acyl", eq: ["CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)"], cond: "room temperature (anhydrous)",
+    ester: "ethyl ethanoate", by: "HCl", obs: "steamy white fumes of HCl", ext: "full",
+    why: "No catalyst and no heating are needed. The reaction is fast and goes to completion: the acyl chloride is far more reactive than the acid, the reverse reaction is not favourable (Cl⁻ cannot displace –OR′) and HCl(g) is lost." },
+  { id: "r4", t: "ethanoyl chloride + phenol", from: "acyl", eq: ["CH₃COCl + C₆H₅OH → CH₃COOC₆H₅ + HCl(g)"], cond: "room temperature",
+    ester: "phenyl ethanoate", by: "HCl", obs: "steamy white fumes of HCl", ext: "full",
+    why: "Phenol is not esterified by carboxylic acids, but an acyl chloride is reactive enough." },
+  { id: "r5", t: "benzoyl chloride + phenol", from: "acyl", eq: ["C₆H₅OH + NaOH → C₆H₅ONa + H₂O", "C₆H₅COCl + C₆H₅ONa → C₆H₅COOC₆H₅ + NaCl"], cond: "benzoyl chloride with phenol in NaOH(aq), room temperature",
+    ester: "phenyl benzoate", by: "NaCl", obs: "white solid phenyl benzoate forms (filter, recrystallise from ethanol)", ext: "full",
+    why: "The ester named in 9476. The phenol is first dissolved in NaOH(aq), which turns it into the phenoxide ion: its negative charge makes the O atom more electron-rich, so it is a much better nucleophile than phenol. Benzoyl chloride is then shaken with the solution at room temperature. (The molecular equation is C₆H₅COCl + C₆H₅OH → C₆H₅COOC₆H₅ + HCl(g).)" },
+  { id: "r6", t: "benzoic acid + phenol", from: "acid", eq: [], cond: "concentrated H₂SO₄, heat under reflux",
+    ester: null, by: "", obs: "no useful amount of ester", ext: "none",
+    why: "Phenols are not esterified by carboxylic acids. The lone pair on the O atom of phenol is partly delocalised into the ring (Topic 11.6 Part 2), so phenol is a poorer nucleophile than an alcohol, and the equilibrium lies too far to the left to be useful. Use the acyl chloride instead (benzoyl chloride + phenol)." }
+];
+LAB.ROUTES = ROUTES;
+const ES = { m: "make", r: "r1", ester: "ee", cond: "acid", stage: 0, acid: "eth", alc: "et" };
+LAB.ES = ES;
+function esMake(){
+  const R = ROUTES.find(x => x.id === ES.r);
+  $("es-routes").innerHTML = ROUTES.map(x => `<button type="button" data-r="${x.id}" aria-pressed="${x.id === ES.r}">${H(x.t)}<br><span class="hint">${x.from === "acid" ? "from the carboxylic acid" : "from the acyl chloride"}</span></button>`).join("");
+  $("es-routes").querySelectorAll("button").forEach(b => b.onclick = () => { ES.r = b.dataset.r; esMake(); });
+  $("es-meq").innerHTML = R.eq.length ? R.eq.map(e => `<div>${EQ(e)}</div>`).join("") + `<div><span class="lab">${H(R.cond)}</span></div>` : `<div>${H("C₆H₅COOH + C₆H₅OH: no useful reaction")}<span class="lab">${H(R.cond)}</span></div>`;
+  $("es-mread").innerHTML = st("Ester", R.ester ? H(R.ester) : "none") + st("By-product", R.by ? H(R.by) : "none") +
+    st("Extent", R.ext === "kc" || R.ext === "rev" ? "reversible (equilibrium)" : R.ext === "full" ? "goes to completion" : "equilibrium far to the left") + st("Observation", H(R.obs));
+  let bars = "", head = "", note = "";
+  const row = (lab, v, cls) => `<div class="comp"><span>${H(lab)}</span><span class="track"><i class="${cls || ""}" style="width:${(Math.max(0, Math.min(1, v)) * 100).toFixed(1)}%"></i></span><span class="num">${v.toFixed(3)} mol</span></div>`;
+  if (R.ext === "kc"){
+    const x = eqEster(1, 1, KC);
+    head = H("At equilibrium, from 1.00 mol of acid and 1.00 mol of ethanol");
+    bars = row("CH₃COOH", 1 - x) + row("CH₃CH₂OH", 1 - x) + row("CH₃COOCH₂CH₃", x, "s2") + row("H₂O", x);
+    note = H(`K{c} = x² / (1.00 − x)² = 4.01 gives x = ${x.toFixed(3)} mol of ester: about two-thirds conversion (Topic 9 Part 1, Worked example 2).`);
+  } else if (R.ext === "full"){
+    const est = R.id === "r5" ? "C₆H₅COOC₆H₅" : R.id === "r4" ? "CH₃COOC₆H₅" : "CH₃COOCH₂CH₃";
+    head = H("At the end, from 1.00 mol of each reactant");
+    bars = row(R.id === "r5" ? "C₆H₅COCl" : "CH₃COCl", 0) + row(est, 1, "s2") + row(R.by, 1);
+    note = H("Goes to completion: nothing reacts back with the ester.");
+  } else if (R.ext === "rev"){ head = "Reversible"; note = H("An equilibrium mixture of acid, alcohol, ester and water (no K{c} is given here)."); }
+  else { head = "No useful reaction"; note = H("Phenols need the acyl chloride."); }
+  $("es-mhead").innerHTML = head; $("es-mbars").innerHTML = bars; $("es-mbars").hidden = !bars; $("es-mnote").innerHTML = note;
+  $("es-mwhy").innerHTML = `<p>${H(R.why)}</p>` + (R.enr ? `<p>${ENR}${H(R.enr)} (The mechanism is not required by 9476.)</p>` : "");
+}
+
+/* ---- hydrolysis ---- */
+const ESTERS = [
+  { id: "ee", nm: "ethyl ethanoate", f: "CH₃COOCH₂CH₃", kind: "liq",
+    acid: { eq: ["CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH"], why: "Acid hydrolysis is the reverse of esterification and reaches the same kind of equilibrium (Topic 9 Part 1); the H⁺ ions are a catalyst. A large excess of water pushes the position of equilibrium to the right, but the reaction never goes to completion. (Dilute H₂SO₄(aq) does the same job.)", left: 0.35 },
+    alk: { eq: ["CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH"], acidify: ["CH₃COONa + HCl → CH₃COOH + NaCl"], n: 1,
+      why: "Alkaline hydrolysis goes to completion. The carboxylate ion has its negative charge delocalised over its two O atoms and does not react with the alcohol, so the reverse reaction cannot happen. The NaOH is used up (1 mol per mol of ester): it is a reactant, not a catalyst. The oily layer of ester disappears as the reaction goes on.", after: "Acidifying the cooled mixture with dilute HCl(aq) gives the free carboxylic acid." } },
+  { id: "pb", nm: "phenyl benzoate", f: "C₆H₅COOC₆H₅", kind: "sol",
+    acid: { eq: ["C₆H₅COOC₆H₅ + H₂O ⇌ C₆H₅COOH + C₆H₅OH"], why: "Acid hydrolysis of phenyl benzoate is slow and reversible, so alkaline hydrolysis is used.", left: 0.8 },
+    alk: { eq: ["C₆H₅COOC₆H₅ + 2NaOH → C₆H₅COONa + C₆H₅ONa + H₂O"], acidify: ["C₆H₅COONa + HCl → C₆H₅COOH + NaCl", "C₆H₅ONa + HCl → C₆H₅OH + NaCl"], n: 2, nFex: 1,
+      why: "It goes to completion, as for any ester with alkali. Two moles of NaOH are needed per mole of ester, because the phenol released is itself an acid and is neutralised too (Topic 11.6 Part 2).", after: "Acidifying the cooled mixture gives a white precipitate of benzoic acid (only sparingly soluble in cold water) and phenol." } },
+  { id: "fat", nm: "glyceryl tristearate (a fat)", f: "(C₁₇H₃₅COO)₃C₃H₅", kind: "fat", fex: 1,
+    alk: { eq: ["(C₁₇H₃₅COO)₃C₃H₅ + 3NaOH → C₃H₅(OH)₃ + 3C₁₇H₃₅COONa"], n: 3,
+      why: "Saponification: boiling a fat with NaOH(aq) hydrolyses all three ester links, giving propane-1,2,3-triol (glycerol) and sodium octadecanoate (sodium stearate), a soap. Some polyesters can be broken down by the same hydrolysis (Topic 11.10)." } }
+];
+LAB.ESTERS = ESTERS;
+function esFlask(){
+  const svg = $("es-hsvg"), W = widthOf(svg.parentElement), Hh = 275, E = ESTERS.find(x => x.id === ES.ester);
+  const cx = W / 2, cy = 168, r = 62, clear = "#e4eef3";
+  const done = ES.stage >= 1, alk = ES.cond === "alk", C = alk ? E.alk : E.acid;
+  let s = `<clipPath id="flk"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath>`;
+  // liquid
+  s += `<g clip-path="url(#flk)"><rect x="${cx - r}" y="${cy - 20}" width="${2 * r}" height="${r + 22}" fill="${clear}"/>`;
+  let left = 1;
+  if (done) left = alk ? 0 : C.left;
+  if (E.kind === "liq" && left > 0){ const h = 22 * left; s += `<rect x="${cx - r}" y="${(cy - 20 - h).toFixed(1)}" width="${2 * r}" height="${h.toFixed(1)}" fill="#f4efd6" stroke="#c9c1a0" stroke-width="1" data-layer="ester"/>`; }
+  if (E.kind === "sol" && left > 0){ for (let k = 0; k < Math.round(14 * left); k++) s += `<rect x="${(cx - 34 + (k * 23) % 68).toFixed(1)}" y="${(cy + r - 12 - ((k * 7) % 10)).toFixed(1)}" width="9" height="6" fill="#ffffff" stroke="#9aa4ad" stroke-width=".8" data-layer="solid"/>`; }
+  if (E.kind === "fat" && left > 0){ s += `<rect x="${cx - r}" y="${cy - 34}" width="${2 * r}" height="14" fill="#fbf7ea" stroke="#c9c1a0" stroke-width="1" data-layer="fat"/>`; }
+  if (ES.stage >= 2 && E.id === "pb"){ for (let k = 0; k < 26; k++) s += `<circle cx="${(cx - 50 + (k * 37) % 100).toFixed(1)}" cy="${(cy - 12 + (k * 53) % 66).toFixed(1)}" r="1.8" fill="#ffffff" stroke="#9aa4ad" stroke-width=".7" data-layer="ppt"/>`; }
+  s += `</g><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#8b96a0" stroke-width="1.6"/>`;
+  // neck and condenser
+  s += `<rect x="${cx - 11}" y="40" width="22" height="${cy - r - 38}" fill="none" stroke="#8b96a0" stroke-width="1.6"/><rect x="${cx - 18}" y="6" width="36" height="40" fill="none" stroke="#8b96a0" stroke-width="1.4" rx="3"/>`;
+  s += T(cx + 26, 30, "reflux condenser", "bt", "", 11.5);
+  if (ES.stage === 1 && !reduced()) s += `<path d="M${cx - 5} ${cy - 30} q5 -10 0 -20 q-5 -10 0 -20" fill="none" stroke="#b8c2ca" stroke-width="1.4"/>`;
+  // heat
+  s += `<path d="M${cx - 30} ${cy + r + 12} h60" stroke="#8b96a0" stroke-width="2"/>` + T(cx, cy + r + 28, ES.stage === 0 ? "not yet heated" : ES.stage === 1 ? "heated under reflux" : "cooled and acidified", "bt", 'text-anchor="middle"', 11.5);
+  setSvg(svg, W, Hh, s);
+  let note;
+  if (ES.stage === 0) note = E.kind === "liq" ? "Ethyl ethanoate floats as an oily layer on the aqueous reagent." : E.kind === "sol" ? "Phenyl benzoate is a white solid (m.p. about 70 °C, literature)." : "The fat floats as a solid layer.";
+  else if (ES.stage === 1) note = alk ? (E.kind === "liq" ? "The oily layer has gone: all the ester is hydrolysed." : E.kind === "sol" ? "The solid has gone: the ester is hydrolysed to the two sodium salts, which dissolve." : "The fat layer has gone: the solution now contains soap and glycerol.") : (E.kind === "liq" ? "Some ester layer is left: the mixture reaches equilibrium." : "Most of the solid is still there: slow and reversible.");
+  else note = "White precipitate of benzoic acid in the cold acidified mixture.";
+  $("es-hnote").innerHTML = H(note);
+}
+function esHyd(){
+  const E = ESTERS.find(x => x.id === ES.ester);
+  if (E.id === "fat" && ES.cond === "acid"){ ES.cond = "alk"; }
+  document.querySelectorAll('input[name="es-cond"]').forEach(r => { r.checked = r.value === ES.cond; r.disabled = E.id === "fat" && r.value === "acid"; });
+  $("es-hester").innerHTML = ESTERS.map(x => `<button type="button" data-e="${x.id}" aria-pressed="${x.id === ES.ester}">${H(x.nm)}${x.fex ? FEX : ""}</button>`).join("");
+  $("es-hester").querySelectorAll("button").forEach(b => b.onclick = () => { ES.ester = b.dataset.e; ES.stage = 0; esHyd(); });
+  const alk = ES.cond === "alk", C = alk ? E.alk : E.acid;
+  const cond = alk ? "NaOH(aq), heat under reflux" : "dilute HCl(aq), heat under reflux";
+  let eq = C.eq.map(e => `<div>${EQ(e)}</div>`).join("") + `<div><span class="lab">${H(cond)}</span></div>`;
+  if (ES.stage >= 2 && C.acidify) eq += C.acidify.map(e => `<div>${EQ(e)}</div>`).join("") + `<div><span class="lab">${H("then acidify with dilute HCl(aq)")}</span></div>`;
+  $("es-heq").innerHTML = ES.stage >= 1 ? eq : `<div><span class="lab">${H(`${E.nm}, ${E.f}, with ${cond}: press Heat under reflux.`)}</span></div>`;
+  $("es-hread").innerHTML = st("Extent", alk ? "goes to completion" : "reversible (equilibrium)") + st("Role of the reagent", alk ? H(`reactant: ${C.n} mol NaOH per mol of ester${C.nFex ? " " + FEX : ""}`) : H("catalyst (H⁺)")) + st("Products", ES.stage >= 1 ? H(alk ? (E.id === "ee" ? "sodium ethanoate + ethanol" : E.id === "pb" ? "sodium benzoate + sodium phenoxide" : "glycerol + sodium stearate (soap)") : (E.id === "ee" ? "ethanoic acid + ethanol (with ester left)" : "benzoic acid + phenol (with ester left)")) : "–");
+  $("es-hwhy").innerHTML = ES.stage >= 1 ? `<p>${H(C.why)}</p>` + (ES.stage >= 2 && C.after ? `<p>${H(C.after)}</p>` : "") : `<p>${H(alk ? "Alkaline hydrolysis: NaOH(aq), heat under reflux, then acidify to obtain the free acid." : "Acid hydrolysis: dilute HCl(aq), heat under reflux.")}</p>`;
+  $("es-heat").disabled = ES.stage >= 1;
+  $("es-acidify").disabled = !(ES.stage === 1 && alk && C.acidify);
+  esFlask();
+}
+LAB.esHyd = esHyd;
+
+/* ---- name builder ---- */
+const ACP = [
+  { id: "meth", nm: "methanoate", acid: "methanoic acid", acyl: "methanoyl chloride", r: "H", rf: "HCOO" },
+  { id: "eth", nm: "ethanoate", acid: "ethanoic acid", acyl: "ethanoyl chloride", r: "CH₃", rf: "CH₃COO" },
+  { id: "prop", nm: "propanoate", acid: "propanoic acid", acyl: "propanoyl chloride", r: "CH₃CH₂", rf: "CH₃CH₂COO" },
+  { id: "benz", nm: "benzoate", acid: "benzoic acid", acyl: "benzoyl chloride", r: "C₆H₅", rf: "C₆H₅COO" }
+];
+const ALP = [
+  { id: "me", nm: "methyl", alc: "methanol", af: "CH₃" }, { id: "et", nm: "ethyl", alc: "ethanol", af: "CH₂CH₃" },
+  { id: "pr", nm: "propyl", alc: "propan-1-ol", af: "CH₂CH₂CH₃" }, { id: "ph", nm: "phenyl", alc: "phenol", af: "C₆H₅" }
+];
+LAB.ACP = ACP; LAB.ALP = ALP;
+const alcF = L => L.id === "ph" ? "C₆H₅OH" : L.id === "me" ? "CH₃OH" : L.id === "et" ? "CH₃CH₂OH" : "CH₃CH₂CH₂OH";
+const acidF = A => A.rf + "H";
+const acylF = A => A.rf.replace(/OO$/, "O") + "Cl";
+function esterOf(a, l){
+  const A = ACP.find(x => x.id === a), L = ALP.find(x => x.id === l);
+  const f = A.rf + L.af, name = `${L.nm} ${A.nm}`;
+  let eqs, cond;
+  if (L.id === "ph" && A.id === "meth"){
+    cond = "not made from an acyl chloride: methanoyl chloride, HCOCl, is unstable (beyond the syllabus), and phenols are not esterified by carboxylic acids";
+    eqs = [];
+  } else if (L.id === "ph"){
+    cond = A.id === "benz" ? "benzoyl chloride with phenol in NaOH(aq), room temperature" : "phenol, room temperature";
+    eqs = A.id === "benz" ? ["C₆H₅OH + NaOH → C₆H₅ONa + H₂O", `${acylF(A)} + C₆H₅ONa → ${f} + NaCl`] : [`${acylF(A)} + C₆H₅OH → ${f} + HCl(g)`];
+  } else {
+    cond = A.id === "meth" ? "concentrated H₂SO₄, heat under reflux" : "concentrated H₂SO₄, heat under reflux (or the acyl chloride, room temperature)";
+    eqs = [`${acidF(A)} + ${alcF(L)} ⇌ ${f} + H₂O`];
+  }
+  return { A, L, f, name, eqs, cond };
+}
+LAB.esterOf = esterOf;
+function esterSpec(A, L){
+  const m = M();
+  at(m, "Cc", 0, 0, "C"); near(m, "Cc", "O1", 60, "O", 2); near(m, "Cc", "O2", -60, "O");
+  if (A.id === "meth") near(m, "Cc", "R", 180, "H");
+  else if (A.id === "eth") near(m, "Cc", "R", 180, "H₃C");
+  else if (A.id === "prop"){ near(m, "Cc", "R", 180, "CH₂"); near(m, "R", "R2", 150, "H₃C", 1, 60); }
+  else ring(m, "ra", "Cc", 180);
+  if (L.id === "me") near(m, "O2", "Q", 0, "CH₃");
+  else if (L.id === "et"){ near(m, "O2", "Q", 0, "CH₂"); near(m, "Q", "Q2", -30, "CH₃", 1, 60); }
+  else if (L.id === "pr"){ near(m, "O2", "Q", 0, "CH₂"); near(m, "Q", "Q2", 30, "CH₂", 1, 62); near(m, "Q2", "Q3", -30, "CH₃", 1, 62); }
+  else ring(m, "rb", "O2", 0);
+  const c = m.n.Cc, o = m.n.O2; m.hl.push([c[0], c[1], 15], [o[0], o[1], 15], [m.n.O1[0], m.n.O1[1], 15]);
+  m.tx.push([c[0] + 14, o[1] + 40, "ester link, –COO–", "mnote"]);
+  return m;
+}
+function esName(){
+  $("es-nacid").innerHTML = ACP.map(A => `<button type="button" data-a="${A.id}" aria-pressed="${A.id === ES.acid}">${H(A.nm)}<br><span class="hint">${H(A.acid)}</span></button>`).join("");
+  $("es-nalc").innerHTML = ALP.map(L => `<button type="button" data-l="${L.id}" aria-pressed="${L.id === ES.alc}">${H(L.nm)}<br><span class="hint">${H(L.alc)}</span></button>`).join("");
+  $("es-nacid").querySelectorAll("button").forEach(b => b.onclick = () => { ES.acid = b.dataset.a; esName(); });
+  $("es-nalc").querySelectorAll("button").forEach(b => b.onclick = () => { ES.alc = b.dataset.l; esName(); });
+  const E = esterOf(ES.acid, ES.alc);
+  $("es-nname").innerHTML = H(E.name);
+  $("es-neq").innerHTML = E.eqs.map(e => `<div>${EQ(e)}</div>`).join("") + `<div><span class="lab">${H(E.cond)}</span></div>`;
+  const iso = [];
+  ACP.forEach(a => ALP.forEach(l => { const X = esterOf(a.id, l.id); if (X.name !== E.name && molF(X.f) === molF(E.f)) iso.push(X.name); }));
+  $("es-nread").innerHTML = st("Structural formula", H(E.f)) + st("Molecular formula", H(molF(E.f))) + st(H("M{r}") + " " + SRC("db"), mrOf(E.f).toFixed(1)) + st("Isomers in this grid", iso.length ? H(iso.join(", ")) : "none");
+  molSVG($("es-nsvg"), esterSpec(E.A, E.L), { maxH: 200 });
+  $("es-nwhy").innerHTML = `<p>${H(`Named alcohol part first (${E.L.nm}, from ${E.L.alc}), then the acid with -oic acid changed to -oate (${E.A.nm}, from ${E.A.acid}). The formula is written acid part first, the opposite of the name.`)}</p>` +
+    (E.L.id === "ph" && E.A.id !== "meth" ? `<p>${H(`Phenols are not esterified by carboxylic acids: use the acyl chloride, ${E.A.acyl}.`)}</p>` : "");
+}
+LAB.esName = esName;
+function esMode(m){
+  ES.m = m;
+  document.querySelectorAll("#es-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.m === m)));
+  $("es-make").hidden = m !== "make"; $("es-hyd").hidden = m !== "hyd"; $("es-name").hidden = m !== "name";
+  if (m === "make") esMake(); else if (m === "hyd") esHyd(); else esName();
+}
+LAB.esMode = esMode;
+function bindES(){
+  document.querySelectorAll("#es-tabs button").forEach(b => b.onclick = () => esMode(b.dataset.m));
+  document.querySelectorAll('input[name="es-cond"]').forEach(r => r.onchange = () => { ES.cond = r.value; ES.stage = 0; esHyd(); });
+  $("es-heat").onclick = () => { ES.stage = 1; esHyd(); };
+  $("es-acidify").onclick = () => { ES.stage = 2; esHyd(); };
+  $("es-hreset").onclick = () => { ES.stage = 0; esHyd(); };
+  esMode("make");
+}
+
+/* =====================================================
+   3. ACYL CHLORIDE HUB (DATA.md reactions 26-33; WE5)
+   ===================================================== */
+const HUB = {
+  eth: { nm: "ethanoyl chloride", f: "CH₃COCl", r: "me", rx: [
+    { id: "w", reag: "water", rf: "H₂O", nu: "w", cond: "water, room temperature", eqs: ["CH₃COCl + H₂O → CH₃COOH + HCl(g)"], ion: "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)",
+      prod: "ethanoic acid", pf: "CH₃COOH", by: "HCl", type: "hydrolysis", site: "a lone pair on the O atom of H₂O",
+      obs: "Vigorous at room temperature and exothermic; steamy white fumes of HCl(g) in moist air. With AgNO₃(aq) in the water, a white precipitate of AgCl forms at once." },
+    { id: "e", reag: "ethanol", rf: "CH₃CH₂OH", nu: "et", cond: "ethanol, room temperature", eqs: ["CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)"],
+      prod: "ethyl ethanoate", pf: "CH₃COOCH₂CH₃", by: "HCl", type: "condensation", site: "a lone pair on the O atom of ethanol",
+      obs: "Steamy fumes of HCl. Fast, no catalyst, goes to completion (compare ethanoic acid + ethanol, reversible, Part 1)." },
+    { id: "p", reag: "phenol", rf: "C₆H₅OH", nu: "ph", cond: "phenol, room temperature", eqs: ["CH₃COCl + C₆H₅OH → CH₃COOC₆H₅ + HCl(g)"],
+      prod: "phenyl ethanoate", pf: "CH₃COOC₆H₅", by: "HCl", type: "condensation", site: "a lone pair on the O atom of phenol",
+      obs: "Steamy fumes of HCl. Phenol is not esterified by carboxylic acids, but an acyl chloride is reactive enough." },
+    { id: "a", reag: "ethylamine", rf: "CH₃CH₂NH₂", nu: "am", cond: "ethylamine (as an aqueous or ethanolic solution; b.p. 17 °C), room temperature",
+      eqs: ["CH₃COCl + CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + HCl"], eqx: ["CH₃COCl + 2CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + CH₃CH₂NH₃⁺Cl⁻"],
+      prod: "N-ethylethanamide", pf: "CH₃CONHCH₂CH₃", by: "HCl", byx: "ethylammonium chloride, CH₃CH₂NH₃⁺Cl⁻ (white solid)", type: "condensation", site: "the lone pair on the N atom of ethylamine",
+      obs: "Vigorous at room temperature. Ethylamine is a gas at room temperature (b.p. 17 °C, literature), so it is used as a solution. The amine is also a base: with excess amine, a second molecule takes up the HCl." },
+    { id: "n", reag: "ammonia", rf: "NH₃", nu: "nh3", cond: "concentrated NH₃(aq), room temperature", eqx: ["CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl"], always: 1,
+      prod: "ethanamide", pf: "CH₃CONH₂", byx: "ammonium chloride, NH₄Cl", type: "condensation", site: "the lone pair on the N atom of NH₃",
+      obs: "A white solid mixture of ethanamide and ammonium chloride. Concentrated NH₃(aq) is in excess, so the HCl ends up as NH₄Cl. Amide properties are in Topic 11.9 Part 2." }
+  ] },
+  benz: { nm: "benzoyl chloride", f: "C₆H₅COCl", r: "ph", rx: [
+    { id: "w", reag: "water", rf: "H₂O", nu: "w", cond: "cold water", eqs: ["C₆H₅COCl + H₂O → C₆H₅COOH + HCl(g)"], fex: 1,
+      prod: "benzoic acid", pf: "C₆H₅COOH", by: "HCl", type: "hydrolysis", site: "a lone pair on the O atom of H₂O",
+      obs: "Much slower with cold water than ethanoyl chloride: the π electrons of the benzene ring are delocalised into the C=O group, which reduces the δ+ charge on the carbonyl carbon. A white solid, benzoic acid, slowly forms." },
+    { id: "e", reag: "ethanol", rf: "CH₃CH₂OH", nu: "et", cond: "ethanol, room temperature", eqs: ["C₆H₅COCl + CH₃CH₂OH → C₆H₅COOCH₂CH₃ + HCl(g)"],
+      prod: "ethyl benzoate", pf: "C₆H₅COOCH₂CH₃", by: "HCl", type: "condensation", site: "a lone pair on the O atom of ethanol",
+      obs: "The –Cl is replaced by –OCH₂CH₃ (Part 2, Worked example 5)." },
+    { id: "p", reag: "phenol", rf: "C₆H₅OH", nu: "ph", cond: "benzoyl chloride with phenol in NaOH(aq), room temperature", eqs: ["C₆H₅OH + NaOH → C₆H₅ONa + H₂O", "C₆H₅COCl + C₆H₅ONa → C₆H₅COOC₆H₅ + NaCl"],
+      prod: "phenyl benzoate", pf: "C₆H₅COOC₆H₅", by: "NaCl", type: "condensation", site: "a lone pair on the O⁻ of the phenoxide ion",
+      obs: "Shake at room temperature: phenyl benzoate separates as a white solid. The phenoxide ion is a much better nucleophile than phenol, because its negative charge makes the O atom more electron-rich. (Molecular equation: C₆H₅COCl + C₆H₅OH → C₆H₅COOC₆H₅ + HCl(g).)" }
+  ] }
+};
+LAB.HUB = HUB;
+const HB = { acyl: "eth", sel: "w", excess: true, mode: "explore" };
+LAB.HB = HB;
+// structure of RCO–Nu: r = me | et | ph, nu = w | me | et | ph | am | nh3 | cl
+function acylSpec(r, nu){
+  const m = M();
+  at(m, "Cc", 0, 0, "C"); near(m, "Cc", "O1", 60, "O", 2);
+  if (r === "me") near(m, "Cc", "R", 180, "H₃C");
+  else if (r === "et"){ near(m, "Cc", "R", 180, "CH₂"); near(m, "R", "R2", 150, "H₃C", 1, 60); }
+  else ring(m, "ra", "Cc", 180);
+  if (nu === "cl") near(m, "Cc", "X", -60, "Cl");
+  else if (nu === "w"){ near(m, "Cc", "X", -60, "O"); near(m, "X", "Xh", 0, "H", 1, 44); }
+  else if (nu === "me"){ near(m, "Cc", "X", -60, "O"); near(m, "X", "Q", 0, "CH₃"); }
+  else if (nu === "et"){ near(m, "Cc", "X", -60, "O"); near(m, "X", "Q", 0, "CH₂"); near(m, "Q", "Q2", -30, "CH₃", 1, 60); }
+  else if (nu === "ph"){ near(m, "Cc", "X", -60, "O"); ring(m, "rb", "X", 0); }
+  else if (nu === "am"){ near(m, "Cc", "X", -60, "N"); near(m, "X", "Xh", 270, "H", 1, 42); near(m, "X", "Q", 0, "CH₂"); near(m, "Q", "Q2", 30, "CH₃", 1, 60); }
+  else if (nu === "nh3"){ near(m, "Cc", "X", -60, "NH₂"); }
+  return m;
+}
+LAB.acylSpec = acylSpec;
+function hubDraw(){
+  const svg = $("hb-svg"), W = widthOf(svg.parentElement), A = HUB[HB.acyl], n = A.rx.length, narrow = W < 480;
+  const Hh = narrow ? 330 : 320, cx = W / 2, cy = Hh / 2 + 4, rx = W / 2 - (narrow ? 62 : 92), ry = Hh / 2 - 40;
+  const nw = narrow ? 108 : 132, nh = 44;
+  let s = "", nodes = "";
+  A.rx.forEach((R, i) => {
+    const ang = (-90 + 360 * i / n) * D2R, x = cx + rx * Math.cos(ang), y = cy + ry * Math.sin(ang), on = R.id === HB.sel;
+    s += `<line x1="${f1(cx)}" y1="${f1(cy)}" x2="${f1(x)}" y2="${f1(y)}" class="spoke${on ? " on" : ""}"/>`;
+    nodes += `<g class="node${on ? " on" : ""}" data-r="${R.id}" role="button" tabindex="0" aria-pressed="${on}" aria-label="${esc(R.reag)}"><rect x="${f1(x - nw / 2)}" y="${f1(y - nh / 2)}" width="${nw}" height="${nh}" rx="4"/>` +
+      `<text x="${f1(x)}" y="${f1(y - 4)}" text-anchor="middle">${svgChem(R.reag, 13)}</text><text x="${f1(x)}" y="${f1(y + 13)}" text-anchor="middle" class="nsub">${svgChem(R.rf, 11)}</text></g>`;
+  });
+  const bw = narrow ? 132 : 160;
+  s += `<g class="hubc"><rect x="${f1(cx - bw / 2)}" y="${f1(cy - 26)}" width="${bw}" height="52" rx="4"/><text x="${f1(cx)}" y="${f1(cy - 5)}" text-anchor="middle">${svgChem(A.nm, 14)}</text><text x="${f1(cx)}" y="${f1(cy + 15)}" text-anchor="middle" style="font-weight:400;font-size:12px">${svgChem(A.f, 12)}</text></g>`;
+  setSvg(svg, W, Hh, s + nodes);
+  svg.querySelectorAll(".node").forEach(g => { g.onclick = () => hubSel(g.dataset.r); g.onkeydown = e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); hubSel(g.dataset.r); } }; });
+}
+function hubOut(){
+  const A = HUB[HB.acyl], R = A.rx.find(x => x.id === HB.sel);
+  const useX = R.always || (R.eqx && HB.excess), eqs = useX ? R.eqx : R.eqs;
+  $("hb-xswitch").hidden = !R.eqx || R.always;
+  let h = `<div><span class="eyebrow">${H(A.nm)} + ${H(R.reag)}</span><h3 class="sub3">${R.fex ? FEX : ""}${H(R.prod)}, ${H(R.pf)}</h3></div>`;
+  h += `<div class="eqs">${eqs.map(e => `<div>${EQ(e)}</div>`).join("")}${R.ion ? `<div>${EQ(R.ion)}<span class="lab">with AgNO₃(aq) present</span></div>` : ""}<div><span class="lab">${H(R.cond)}</span></div></div>`;
+  h += `<div class="readout">${st("Type of reaction", H(R.type === "hydrolysis" ? "hydrolysis (water breaks the C–Cl bond)" : "condensation: two molecules join, losing a small molecule"))}${st("Other product", H(useX ? R.byx : R.by))}${st("Nucleophile", H(R.site))}</div>`;
+  h += `<p class="callout" style="margin:0">${H(R.obs)}</p>`;
+  $("hb-out").innerHTML = h;
+  molSVG($("hb-psvg"), acylSpec(A.r, R.nu), { maxH: 190 });
+  $("hb-psvg").setAttribute("aria-label", `Structure of ${R.prod}`);
+}
+function hubSel(id){ HB.sel = id; hubDraw(); hubOut(); }
+LAB.hubSel = hubSel;
+function hubAcyl(a){ HB.acyl = a; if (!HUB[a].rx.find(x => x.id === HB.sel)) HB.sel = "w"; hubDraw(); hubOut(); }
+LAB.hubAcyl = hubAcyl;
+
+/* ---------- predict the product (generator) ---------- */
+const PA = [
+  { id: "eth", nm: "ethanoyl chloride", f: "CH₃COCl", r: "CH₃", stem: "ethan", acid: "ethanoic acid", oate: "ethanoate", amide: "ethanamide", ald: "ethanal", alc: "ethanol", aP: "ethyl" },
+  { id: "prop", nm: "propanoyl chloride", f: "CH₃CH₂COCl", r: "CH₃CH₂", stem: "propan", acid: "propanoic acid", oate: "propanoate", amide: "propanamide", ald: "propanal", alc: "propan-1-ol", aP: "propyl" },
+  { id: "benz", nm: "benzoyl chloride", f: "C₆H₅COCl", r: "C₆H₅", acid: "benzoic acid", oate: "benzoate", amide: "benzamide", ald: "benzaldehyde", alc: "phenylmethanol", aP: "phenylmethyl" }
+];
+const PN = [
+  { id: "w", nm: "water", f: "H₂O", g: "OH" },
+  { id: "me", nm: "methanol", f: "CH₃OH", g: "OCH₃", al: "methyl", ac: "methanoate", acF: "HCOOCH₂CH₃" },
+  { id: "et", nm: "ethanol", f: "CH₃CH₂OH", g: "OCH₂CH₃", al: "ethyl", ac: "ethanoate" },
+  { id: "ph", nm: "phenol", f: "C₆H₅OH", g: "OC₆H₅", al: "phenyl", ac: "benzoate" },
+  { id: "am", nm: "excess ethylamine", f: "CH₃CH₂NH₂", g: "NHCH₂CH₃" },
+  { id: "nh3", nm: "concentrated aqueous ammonia", f: "NH₃", g: "NH₂" }
+];
+LAB.PA = PA; LAB.PN = PN;
+// the right answer for acyl a + reagent n
+function prodOf(a, n){
+  const A = PA.find(x => x.id === a), N = PN.find(x => x.id === n), f = A.r + "CO" + N.g.replace(/^OH$/, "OH");
+  let name;
+  if (n === "w") name = A.acid;
+  else if (n === "am") name = "N-ethyl" + A.amide;
+  else if (n === "nh3") name = A.amide;
+  else name = `${N.al} ${A.oate}`;
+  const pf = n === "w" ? A.r + "COOH" : f;
+  const other = n === "am" ? "CH₃CH₂NH₃⁺Cl⁻" : n === "nh3" ? "NH₄Cl" : a === "benz" && n === "ph" ? "NaCl" : "HCl";
+  const eq = n === "am" ? `${A.f} + 2CH₃CH₂NH₂ → ${pf} + CH₃CH₂NH₃⁺Cl⁻` : n === "nh3" ? `${A.f} + 2NH₃ → ${pf} + NH₄Cl` : a === "benz" && n === "ph" ? `${A.f} + C₆H₅ONa → ${pf} + NaCl` : `${A.f} + ${N.f} → ${pf} + HCl(g)`;
+  return { A, N, name, pf, other, eq };
+}
+LAB.prodOf = prodOf;
+const ALK2ACID = { methyl: "methanoate", ethyl: "ethanoate", propyl: "propanoate", phenyl: "benzoate" };
+const ACID2ALK = { methanoate: "methyl", ethanoate: "ethyl", propanoate: "propyl", benzoate: "phenyl" };
+const ACN = { methanoate: "methanoic acid", ethanoate: "ethanoic acid", propanoate: "propanoic acid", benzoate: "benzoic acid" };
+const ALN = { methyl: "methanol", ethyl: "ethanol", propyl: "propan-1-ol", phenyl: "phenol" };
+const ALKF = { methyl: "CH₃", ethyl: "CH₂CH₃", propyl: "CH₂CH₂CH₃", phenyl: "C₆H₅" };
+const ACF = { methanoate: "HCOO", ethanoate: "CH₃COO", propanoate: "CH₃CH₂COO", benzoate: "C₆H₅COO" };
+function predQ(a, n){
+  const P = prodOf(a, n), A = P.A, N = P.N, D = [];
+  const right = { t: `${P.name}, ${P.pf}`, why: "" };
+  if (n === "w"){
+    D.push({ t: `${A.ald}`, why: "Water does not reduce anything: the –Cl is replaced by –OH and the C=O stays, giving the carboxylic acid." });
+    D.push({ t: `${A.alc}`, why: "Turning the acyl group into a primary alcohol needs a reducing agent such as LiAlH₄. Water replaces –Cl by –OH, giving the acid." });
+    D.push({ t: "no reaction", why: a === "benz" ? "Benzoyl chloride is hydrolysed by cold water, though much more slowly than ethanoyl chloride." : "Acyl chlorides react vigorously with cold water at room temperature." });
+  } else if (n === "am"){
+    D.push({ t: `${A.amide}, ${A.r}CONH₂`, why: "That is the product with ammonia. With ethylamine the N atom keeps its ethyl group: N-ethyl" + A.amide + "." });
+    D.push({ t: `ethylammonium ${A.oate}, ${A.r}COO⁻ CH₃CH₂NH₃⁺`, why: "That salt would come from the carboxylic acid and the amine. The acyl chloride forms an amide; excess amine takes up the HCl, as ethylammonium chloride." });
+    D.push({ t: `${A.acid}, ${A.r}COOH`, why: "That is the product with water. Here the lone pair on the N atom of ethylamine attacks, so –Cl is replaced by –NHCH₂CH₃." });
+  } else if (n === "nh3"){
+    D.push({ t: `ammonium ${A.oate}, ${A.r}COO⁻ NH₄⁺`, why: "That salt would come from the carboxylic acid and ammonia. The acyl chloride gives the amide, and the HCl is taken up as NH₄Cl." });
+    D.push({ t: `${A.acid}, ${A.r}COOH`, why: "That is the product with water. The lone pair on the N atom of NH₃ attacks, so –Cl is replaced by –NH₂." });
+    D.push({ t: "no reaction: NH₃ is a base, not a nucleophile", why: "NH₃ has a lone pair on N, so it is a nucleophile as well as a base: it reacts vigorously, giving the amide." });
+  } else {
+    D.push({ t: `${A.acid}, ${A.r}COOH`, why: `That is the product with water. Here the lone pair on the O atom of ${N.nm} attacks, so –Cl is replaced by –${N.g}.` });
+    const rev = ACID2ALK[A.oate] && ALK2ACID[N.al] ? `${ACID2ALK[A.oate]} ${ALK2ACID[N.al]}` : null;
+    if (rev && rev !== P.name) D.push({ t: `${rev}, ${ACF[ALK2ACID[N.al]]}${ALKF[ACID2ALK[A.oate]]}`, why: `Esters are named alcohol part first, acid part second: ${N.al} (from ${N.nm}), then ${A.oate} (from ${A.nm}). ${rev[0].toUpperCase() + rev.slice(1)} would have its acid part from ${ACN[ALK2ACID[N.al]]} and its alcohol part from ${ALN[ACID2ALK[A.oate]]}.` });
+    else D.push({ t: `${N.al === "phenyl" ? "chlorobenzene" : N.al === "methyl" ? "chloromethane" : "chloroethane"}`, why: `The Cl leaves the acyl chloride as Cl⁻ and ends up as ${P.other}; it is not transferred to the ${n === "ph" ? "phenol" : "alcohol"}.` });
+    D.push({ t: "no reaction without concentrated H₂SO₄ and heat", why: n === "ph" ? "Phenols are not esterified by carboxylic acids, but an acyl chloride is reactive enough at room temperature, with no catalyst." : "Acid and heat are needed for a carboxylic acid. An acyl chloride reacts at room temperature, with no catalyst." });
+  }
+  return { a, n, P, right, D: D.slice(0, 3) };
+}
+LAB.predQ = predQ;
+const HP = { q: null, order: [], answered: false, right: 0, tried: 0 };
+LAB.HP = HP;
+function hpNew(a, n){
+  a = a || pick(PA).id; n = n || pick(PN).id;
+  HP.q = predQ(a, n); HP.answered = false;
+  HP.order = shuffle([0, 1, 2, 3]);
+  const q = HP.q, P = q.P;
+  const cond = q.a === "benz" && q.n === "ph" ? "benzoyl chloride with phenol in NaOH(aq), room temperature" : q.n === "am" ? "as an aqueous or ethanolic solution, room temperature" : q.n === "nh3" ? "concentrated NH₃(aq), room temperature" : "room temperature";
+  $("hb-pq").innerHTML = H(`${P.A.nm[0].toUpperCase() + P.A.nm.slice(1)}, ${P.A.f}, reacts with ${P.N.nm}, ${P.N.f} (${cond}). What is the organic product?`);
+  const all = [q.right].concat(q.D);
+  $("hb-popts").innerHTML = HP.order.map((k, j) => `<button class="opt" data-k="${k}"><b>${"ABCD"[j]}</b><span>${H(all[k].t)}</span></button>`).join("");
+  $("hb-popts").querySelectorAll(".opt").forEach(b => b.onclick = () => hpAnswer(+b.dataset.k));
+  $("hb-pfb").hidden = true;
+  $("hb-pscore").textContent = HP.tried ? `${HP.right} / ${HP.tried} correct` : "";
+}
+LAB.hpNew = hpNew;
+function hpAnswer(k){
+  if (HP.answered) return; HP.answered = true;
+  const q = HP.q, all = [q.right].concat(q.D), ok = k === 0;
+  HP.tried++; if (ok) HP.right++;
+  $("hb-popts").querySelectorAll(".opt").forEach(b => { b.disabled = true; if (+b.dataset.k === 0) b.classList.add("right"); else if (+b.dataset.k === k) b.classList.add("wrong"); });
+  const others = HP.order.map((kk, j) => [kk, j]).filter(([kk]) => kk !== 0).map(([kk, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(all[kk].why)}</li>`).join("");
+  const fb = $("hb-pfb");
+  fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = `<p>${ok ? "Correct." : `Not quite. The answer is ${"ABCD"[HP.order.indexOf(0)]}.`} ${H(`The –Cl is replaced by –${q.P.N.g}; the other product is ${q.P.other}.`)}</p><p class="ink">${EQ(q.P.eq)}</p><ul class="whyl">${others}</ul>`;
+  fb.hidden = false;
+  $("hb-pscore").textContent = `${HP.right} / ${HP.tried} correct`;
+}
+LAB.hpAnswer = hpAnswer;
+function hubMode(m){
+  HB.mode = m;
+  document.querySelectorAll('input[name="hb-mode"]').forEach(r => { r.checked = r.value === m; });
+  $("hb-explore").hidden = m !== "explore"; $("hb-pred").hidden = m !== "pred";
+  if (m === "pred" && !HP.q) hpNew(); else if (m === "explore"){ hubDraw(); hubOut(); }
+}
+LAB.hubMode = hubMode;
+function bindHub(){
+  document.querySelectorAll('input[name="hb-acyl"]').forEach(r => r.onchange = () => hubAcyl(r.value));
+  document.querySelectorAll('input[name="hb-mode"]').forEach(r => r.onchange = () => hubMode(r.value));
+  $("hb-excess").onchange = e => { HB.excess = e.target.checked; hubOut(); };
+  $("hb-pnew").onclick = () => hpNew();
+  hubDraw(); hubOut();
+}
+
+/* =====================================================
+   ENRICHMENT: ADDITION-ELIMINATION PLAYER (player as the Topic 11.1-11.3 lab)
+   ===================================================== */
+const A_ = (s, e, c, o) => Object.assign({ s, e, c }, o || {});
+function aeFrames(R){
+  const eth = R === "et", HL = eth ? "CH₃CH₂" : "H", nm = eth ? "ethanol" : "water", Nu = eth ? "CH₃CH₂OH" : "H₂O";
+  const ox1 = eth ? 108 : 96;
+  return [
+    { t: "Step 1: addition", eq: eth ? "CH₃COCl + CH₃CH₂OH → CH₃C(O⁻)(Cl)O⁺HCH₂CH₃" : "CH₃COCl + H₂O → CH₃C(O⁻)(Cl)O⁺H₂", h: 220,
+      n: { Ow: [ox1, 112, "O"], H1: [ox1 - 34, 72, HL], H2: [ox1 - 30, 152, "H"], C: [232, 120, "C"], O: [232, 50, "O"], Cl: [292, 156, "Cl"], Me: [172, 160, "H₃C"] },
+      b: [["bo1", "Ow", "H1", 1], ["bo2", "Ow", "H2", 1], ["bco", "C", "O", 2], ["bcl", "C", "Cl", 1], ["bme", "C", "Me", 1]],
+      lp: [["l1", "Ow", 18, 16], ["l2", "Ow", -40, 16]],
+      del: [["C", "δ⁺", 22, 4], ["O", "δ⁻", -24, -2], ["Cl", "δ⁻", 26, -6]],
+      rx: [[336, 120, 378, ""]], tx: [[452, 126, "intermediate", "mprod"]],
+      a: [A_("lp:l1", "atom:C", [176, 82], { okE: ["atom:C"], why: `A lone pair on the O atom of ${nm} attacks the δ+ carbonyl carbon (two electronegative atoms, O and Cl, pull electron density from it).`, hs: `The electrons come from a lone pair on the O atom of ${nm}.`, he: "They go to the δ+ carbonyl carbon." }),
+          A_("bond:bco", "atom:O", [286, 66], { so: [4, 0], okE: ["atom:O"], why: "The π electrons of C=O move onto the more electronegative O atom, which becomes O⁻. The carbon becomes sp³: a tetrahedral intermediate.", hs: "The π bond of C=O breaks.", he: "Its electrons go to the O atom." })],
+      cap: `Step 1 (addition). ${nm[0].toUpperCase() + nm.slice(1)}, a nucleophile, uses a lone pair on its O atom to attack the δ+ carbonyl carbon, and the π electrons of C=O move onto the O atom. This is a nucleophilic addition, as for aldehydes and ketones (Topic 11.3). The carbon is planar (sp²), so it is easy to reach from above or below the plane.` },
+    { t: "Step 2: elimination", eq: eth ? "CH₃C(O⁻)(Cl)O⁺HCH₂CH₃ → CH₃C(=O)O⁺HCH₂CH₃ + Cl⁻" : "CH₃C(O⁻)(Cl)O⁺H₂ → CH₃C(=O)O⁺H₂ + Cl⁻", h: 236,
+      n: { C: [232, 128, "C"], O: [232, 56, "O"], Cl: [300, 164, "Cl"], Me: [170, 168, "H₃C"], Ow: [162, 92, "O"], H1: [eth ? 112 : 128, 58, HL], H2: [118, 120, "H"] },
+      b: [["bco", "C", "O", 1], ["bcl", "C", "Cl", 1], ["bme", "C", "Me", 1], ["bcw", "C", "Ow", 1], ["bo1", "Ow", "H1", 1], ["bo2", "Ow", "H2", 1]],
+      lp: [["lo1", "O", 25, 18], ["lo2", "O", 90, 18], ["lo3", "O", 155, 18]], chg: [["om", "O", "−", -24, 10], ["op", "Ow", "+", 6, -22]],
+      rx: [[340, 128, 382, ""]], tx: [[462, 124, eth ? "protonated ester" : "protonated acid", "mnote"], [462, 148, "+  Cl⁻", "mprod"]],
+      a: [A_("lp:lo1", "mid:C,O", [272, 82], { okS: ["lp:lo1", "lp:lo2", "lp:lo3", "chg:om"], okE: ["atom:C", "atom:O"], eo: [6, 0], why: "A lone pair on O⁻ moves back to re-form the C=O π bond.", hs: "The electrons come from a lone pair on the negatively charged O atom.", he: "They go back between C and O, re-forming the π bond." }),
+          A_("bond:bcl", "atom:Cl", [292, 124], { so: [3, -2], okE: ["atom:Cl"], why: "The C–Cl bonding pair goes to Cl, which leaves as Cl⁻: an elimination.", hs: "The C–Cl bond breaks.", he: "Both electrons go to Cl." })],
+      cap: "Step 2 (elimination). The C=O double bond re-forms, and the C–Cl bond breaks heterolytically: Cl⁻ is lost. Overall so far, –Cl has been replaced by the O of the nucleophile, which still carries an extra H and a positive charge." },
+    { t: "Step 3: loss of H⁺", eq: eth ? "CH₃C(=O)O⁺HCH₂CH₃ + Cl⁻ → CH₃COOCH₂CH₃ + HCl(g)" : "CH₃C(=O)O⁺H₂ + Cl⁻ → CH₃COOH + HCl(g)", h: 230,
+      n: { C: [200, 116, "C"], O: [200, 46, "O"], Me: [140, 152, "H₃C"], Ow: [262, 152, "O"], H1: [eth ? 330 : 312, 128, eth ? "CH₂CH₃" : "H"], H2: [262, 210, "H"], Cl: [372, 210, "Cl"] },
+      b: [["bco", "C", "O", 2], ["bme", "C", "Me", 1], ["bcw", "C", "Ow", 1], ["bo1", "Ow", "H1", 1], ["bo2", "Ow", "H2", 1]],
+      lp: [["lc", "Cl", 180, 17], ["lc2", "Cl", 90, 16], ["lc3", "Cl", 270, 16], ["lc4", "Cl", 0, 17]], chg: [["cm", "Cl", "−", 20, -14], ["op", "Ow", "+", 20, 14]],
+      rx: [[412, 150, 452, ""]], tx: [[490, 156, "+ HCl(g)", "mprod"]],
+      a: [A_("lp:lc", "atom:H2", [314, 238], { okS: ["lp:lc", "lp:lc2", "lp:lc3", "lp:lc4", "chg:cm"], okE: ["atom:H2"], why: "A lone pair on Cl⁻ (or on a water molecule) takes the H⁺ from the positively charged O.", hs: "The electrons come from a lone pair on Cl⁻.", he: "They go to the H atom on the positive O." }),
+          A_("bond:bo2", "atom:Ow", [242, 186], { so: [-3, 0], okE: ["atom:Ow"], why: "The O–H bonding pair stays on O, which loses its positive charge.", hs: "The O–H bond breaks.", he: "Both electrons go to the O atom." })],
+      cap: "Step 3. Cl⁻ (or another molecule of the nucleophile) removes H⁺ from the positively charged O atom, giving HCl(g). These steps are why the by-product of every acyl chloride condensation is HCl." },
+    { t: "Overall", eq: eth ? "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)" : "CH₃COCl + H₂O → CH₃COOH + HCl(g)", h: 150,
+      tx: [[270, 56, eth ? "Overall:  CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)" : "Overall:  CH₃COCl + H₂O → CH₃COOH + HCl(g)", "mprod"], [270, 92, "–Cl is replaced by –" + (eth ? "OCH₂CH₃" : "OH") + ": addition, then elimination.", "mnote"], [270, 114, "Phenols and amines react the same way, with the lone pair on O or N.", "mnote"]],
+      cap: `Overall, –Cl has been replaced by –${eth ? "OCH₂CH₃" : "OH"}: addition followed by elimination. The mechanism is not required by 9476; what 9476 asks for is the equation, the conditions (room temperature) and the HCl by-product. Alcohols, phenols and amines react in the same way, using the lone pair on their O or N atom.` }
+  ];
+}
+const MECH = [
+  { id: "w", name: "Ethanoyl chloride + water", cond: "water, room temperature", frames: aeFrames("w") },
+  { id: "e", name: "Ethanoyl chloride + ethanol", cond: "ethanol, room temperature", frames: aeFrames("et") }
+];
+LAB.MECH = MECH;
+const MX = { m: MECH[0], f: 0, pred: false, done: [], start: null, tries: 0, flash: null };
+LAB.MX = MX;
+function arrowPath(G, a){
+  const S0 = G.pt[a.s].p.slice();
+  if (a.so){ S0[0] += a.so[0]; S0[1] += a.so[1]; }
+  const C = a.c;
+  let E;
+  if (a.e.startsWith("mid:")){ const [x, y] = a.e.slice(4).split(","); E = [(G.n[x].x + G.n[y].x) / 2, (G.n[x].y + G.n[y].y) / 2]; }
+  else {
+    const nd = G.n[a.e.slice(5)];
+    let dx = C[0] - nd.x, dy = C[1] - nd.y; const L = Math.hypot(dx, dy); dx /= L; dy /= L;
+    const cl = nd.l ? G.clear(nd, dx, dy) + 4 : 7;
+    E = [nd.x + dx * cl, nd.y + dy * cl];
+  }
+  if (a.eo){ E[0] += a.eo[0]; E[1] += a.eo[1]; }
+  const S = S0;
+  let tx = E[0] - C[0], ty = E[1] - C[1]; const tl = Math.hypot(tx, ty); tx /= tl; ty /= tl;
+  let nx = -ty, ny = tx;
+  if ((nx * (C[0] - E[0]) + ny * (C[1] - E[1])) > 0){ nx = -nx; ny = -ny; }
+  const hl = 11, hw = 5.2, base = [E[0] - tx * hl, E[1] - ty * hl];
+  const head = `M${f1(E[0])},${f1(E[1])}L${f1(base[0] + nx * hw)},${f1(base[1] + ny * hw)}L${f1(E[0] - tx * hl * 0.72)},${f1(E[1] - ty * hl * 0.72)}L${f1(base[0] - nx * hw)},${f1(base[1] - ny * hw)}z`;
+  const E2 = [E[0] - tx * hl * 0.6, E[1] - ty * hl * 0.6];
+  return `<path d="M${f1(S[0])},${f1(S[1])}Q${f1(C[0])},${f1(C[1])} ${f1(E2[0])},${f1(E2[1])}" class="carrow" data-arrow="${a.s}>${a.e}"/><path d="${head}" class="carrowh"/>`;
+}
+LAB.arrowPath = arrowPath;
+function drawFrame(){
+  const fr = MX.m.frames[MX.f], svg = $("mx-svg"), G = geo(fr), W = 540, Hh = fr.h;
+  MX.G = G;
+  const narrow = $("mx-stage").clientWidth < 500;
+  // on narrow screens the reaction arrow and the text after it move to a second row
+  const cut = narrow && fr.rx && fr.rx.length === 1 ? fr.rx[0][0] - 4 : null;
+  const main = Object.assign({}, fr, { rx: cut != null ? [] : fr.rx, tx: cut != null ? (fr.tx || []).filter(t => t[0] < cut) : fr.tx });
+  let s = molBody(main, G), s2 = "";
+  if (cut != null){
+    const tail = { rx: fr.rx, tx: (fr.tx || []).filter(t => t[0] >= cut), n: {} };
+    s2 = molBody(Object.assign({ b: [], hex: [], lp: [], chg: [], del: [], ind: [], hl: [], br: [] }, tail), geo({ n: {} }));
+  }
+  const arrows = fr.a || [];
+  arrows.forEach((a, i) => { if (!MX.pred || MX.done[i]) s += arrowPath(G, a); });
+  if (MX.pred && arrows.some((a, i) => !MX.done[i])){
+    let hb = "", ha = "", hs = "";
+    G.bonds.forEach(b => { hb += `<line x1="${f1(b.p1[0])}" y1="${f1(b.p1[1])}" x2="${f1(b.p2[0])}" y2="${f1(b.p2[1])}" class="hitl${tapCls("bond:" + b.id)}" data-k="bond:${b.id}"/>`; });
+    Object.keys(G.pt).forEach(k => {
+      const q = G.pt[k];
+      if (k.startsWith("atom:")){ const nd = q.nd; if (!nd.l) return; const r = Math.max(14, chemW(nd.l, 19) / 2 + 2); ha += `<circle cx="${f1(q.p[0])}" cy="${f1(q.p[1])}" r="${f1(r)}" class="hit${tapCls(k)}" data-k="${k}"/>`; }
+      else if (!k.startsWith("bond:")) hs += `<circle cx="${f1(q.p[0])}" cy="${f1(q.p[1])}" r="10" class="hit${tapCls(k)}" data-k="${k}"/>`;
+    });
+    s += hb + ha + hs;
+  }
+  svg.innerHTML = `<g>${s}</g><g>${s2}</g>`;
+  if (narrow){
+    const g1 = svg.firstChild, g2 = g1.nextSibling;
+    let bb = g1.getBBox();
+    if (s2){
+      const b2 = g2.getBBox(), dx = bb.x + bb.width / 2 - (b2.x + b2.width / 2), dy = bb.y + bb.height + 16 - b2.y;
+      g2.setAttribute("transform", `translate(${f1(dx)},${f1(dy)})`);
+      const x0 = Math.min(bb.x, b2.x + dx), x1 = Math.max(bb.x + bb.width, b2.x + dx + b2.width);
+      bb = { x: x0, y: bb.y, width: x1 - x0, height: b2.y + dy + b2.height - bb.y };
+    }
+    const pd = 10, sw = $("mx-stage").clientWidth;
+    const vw = Math.max(bb.width + 2 * pd, Math.min(sw, 420)), vx = bb.x + bb.width / 2 - vw / 2;
+    svg.setAttribute("viewBox", `${f1(vx)} ${f1(bb.y - pd)} ${f1(vw)} ${f1(bb.height + 2 * pd)}`);
+  } else svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`);
+  svg.querySelectorAll("[data-k]").forEach(el => el.addEventListener("click", () => tap(el.dataset.k)));
+}
+function tapCls(k){ if (MX.flash && MX.flash.k === k) return " " + MX.flash.c; if (MX.start === k) return " ok"; return ""; }
+const pending = () => (MX.m.frames[MX.f].a || []).map((a, i) => ({ a, i })).filter(x => !MX.done[x.i]);
+const okS = a => a.okS || [a.s];
+const okE = a => a.okE || [a.e];
+function tap(k){
+  const fb = $("mx-fb"), pend = pending();
+  if (!pend.length) return;
+  MX.flash = null;
+  if (!MX.start){
+    const hit = pend.filter(x => okS(x.a).includes(k));
+    if (hit.length){ MX.start = k; MX.tries = 0; fb.className = "fb ok"; fb.innerHTML = H("Yes, the electrons start there. Now tap where they go."); }
+    else {
+      MX.tries++;
+      let msg;
+      if (k.startsWith("atom:")) msg = "Arrows start from electrons, not from an atom: tap a lone pair, a bond or a negative charge.";
+      else if (k.startsWith("chg:") && MX.G.pt[k].t === "+") msg = "A positive charge marks a shortage of electrons, so an arrow never starts there.";
+      else msg = "Those electrons do not move in this step.";
+      fb.className = "fb no"; fb.innerHTML = H(msg + (MX.tries >= 2 ? " Hint: " + pend[0].a.hs : ""));
+      MX.flash = { k, c: "no" };
+    }
+  } else {
+    const hit = pend.filter(x => okS(x.a).includes(MX.start) && okE(x.a).includes(k));
+    if (hit.length){
+      const best = hit.find(x => x.a.e === k) || hit[0];
+      MX.done[best.i] = true; MX.start = null; MX.tries = 0;
+      const left = pending().length;
+      fb.className = "fb ok"; fb.innerHTML = H("Correct. " + best.a.why + (left ? ` ${left} more arrow${left > 1 ? "s" : ""} in this step: tap where the next one starts.` : " All the arrows for this step are drawn."));
+    } else {
+      MX.tries++;
+      const cand = pend.filter(x => okS(x.a).includes(MX.start));
+      let msg = "Not there.";
+      if (k === MX.start) msg = "The arrow has to go somewhere else: to where the electrons end up.";
+      else if (!k.startsWith("atom:") && !k.startsWith("chg:")) msg = "Electrons move to an atom (or to between two atoms, to form a new bond): tap the atom they move towards.";
+      fb.className = "fb no"; fb.innerHTML = H(msg + (cand[0] ? " Hint: " + cand[0].a.he : ""));
+      MX.flash = { k, c: "no" };
+    }
+  }
+  fb.hidden = false;
+  drawFrame(); mxCaption();
+}
+LAB.tap = tap;
+function showArrow(){
+  const pend = pending(); if (!pend.length) return;
+  const x = MX.start ? (pend.find(p => okS(p.a).includes(MX.start)) || pend[0]) : pend[0];
+  MX.done[x.i] = true; MX.start = null; MX.tries = 0; MX.flash = null;
+  const fb = $("mx-fb"); fb.className = "fb info"; fb.innerHTML = H("Shown: " + x.a.why); fb.hidden = false;
+  drawFrame(); mxCaption();
+}
+LAB.showArrow = showArrow;
+function mxCaption(){
+  const fr = MX.m.frames[MX.f], pend = MX.pred ? pending() : [];
+  $("mx-cap").innerHTML = pend.length ? H(`<b>${fr.t}.</b> ${pend.length} arrow${pend.length > 1 ? "s" : ""} to place. Tap where ${pend.length > 1 ? "an" : "the"} arrow starts, then where it ends.`) : H(fr.cap);
+  $("mx-show").hidden = !MX.pred || !pend.length;
+}
+function setFrame(f){
+  MX.f = Math.max(0, Math.min(MX.m.frames.length - 1, f));
+  MX.done = []; MX.start = null; MX.tries = 0; MX.flash = null;
+  const fr = MX.m.frames[MX.f];
+  $("mx-eq").innerHTML = H(fr.eq);
+  $("mx-count").textContent = `Step ${MX.f + 1} of ${MX.m.frames.length}: ${fr.t}`;
+  $("mx-back").disabled = MX.f === 0;
+  $("mx-next").disabled = MX.f === MX.m.frames.length - 1;
+  $("mx-fb").hidden = true;
+  drawFrame(); mxCaption();
+}
+LAB.setFrame = setFrame;
+function setMech(id){
+  MX.m = MECH.find(m => m.id === id) || MECH[0];
+  $("mx-tabs").querySelectorAll("button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.m === MX.m.id)));
+  setFrame(0);
+}
+LAB.setMech = setMech;
+function bindMX(){
+  $("mx-tabs").innerHTML = MECH.map(m => `<button role="tab" data-m="${m.id}" aria-selected="false">${H(m.name)}</button>`).join("");
+  $("mx-tabs").querySelectorAll("button").forEach(b => b.onclick = () => setMech(b.dataset.m));
+  document.querySelectorAll('input[name="mx-mode"]').forEach(r => r.onchange = () => { MX.pred = r.value === "pred"; setFrame(MX.f); });
+  $("mx-back").onclick = () => setFrame(MX.f - 1);
+  $("mx-next").onclick = () => setFrame(MX.f + 1);
+  $("mx-show").onclick = showArrow;
+  let lw = 0;
+  new ResizeObserver(() => { const w = $("mx-stage").clientWidth; if (w && Math.abs(w - lw) > 1){ lw = w; drawFrame(); } }).observe($("mx-stage"));
+  setMech("w");
+}
+
+/* =====================================================
+   4. EASE OF HYDROLYSIS BENCH (DATA.md 11.8(f) table)
+   ===================================================== */
+let CLIPN = 0;
+// test tube centred at cx; layers bottom-up [{ c, h, op, cloudy }] (as the Topic 10 lab)
+function tubeSVG(cx, top, w, h, o){
+  o = o || {};
+  const l = cx - w / 2, r = w / 2, bot = top + h, id = "tc" + (++CLIPN);
+  const path = `M${l} ${top} V${bot - r} A${r} ${r} 0 0 0 ${l + w} ${bot - r} V${top}`;
+  let s = `<clipPath id="${id}"><path d="${path} Z"/></clipPath><g clip-path="url(#${id})">`;
+  let y = bot;
+  (o.layers || []).forEach(L => {
+    s += `<rect x="${l}" y="${(y - L.h).toFixed(1)}" width="${w}" height="${(L.h + 0.5).toFixed(1)}" fill="${L.c}" fill-opacity="${L.op == null ? 1 : L.op}"${L.tag ? ` data-layer="${L.tag}"` : ""}${L.stroke ? ` stroke="${L.stroke}" stroke-width="1"` : ""}/>`;
+    if (L.cloudy) for (let k = 0; k < Math.round(22 * (L.dens || 1)); k++) s += `<circle cx="${(l + 4 + ((k * 37) % (w - 8))).toFixed(1)}" cy="${(y - 3 - ((k * 53) % Math.max(4, L.h - 6))).toFixed(1)}" r="1.8" fill="#ffffff" fill-opacity=".95" stroke="#9aa4ad" stroke-width=".7"/>`;
+    y -= L.h;
+  });
+  s += `</g><path d="${path}" fill="none" stroke="#8b96a0" stroke-width="1.6"/>`;
+  return s;
+}
+const HYT = [
+  { id: "acyl", nm: "ethanoyl chloride", f: "CH₃COCl", type: "acyl chloride", rt: 1, warm: 1,
+    o1: "immediate white precipitate of AgCl; steamy fumes; the tube gets warm", o2: "(already complete)" },
+  { id: "alkyl", nm: "1-chlorobutane", f: "CH₃CH₂CH₂CH₂Cl", type: "alkyl chloride", rt: 0, warm: 0.6,
+    o1: "no visible change", o2: "white precipitate forms slowly" },
+  { id: "aryl", nm: "chlorobenzene", f: "C₆H₅Cl", type: "aryl chloride", rt: 0, warm: 0,
+    o1: "no visible change", o2: "no precipitate, even on prolonged heating" }
+];
+LAB.HYT = HYT;
+const HY_OPTS = { 1: ["white precipitate at once", "no visible change"], 2: ["white precipitate forms slowly", "no precipitate"] };
+const HY_ANS = { 1: { acyl: "white precipitate at once", alkyl: "no visible change", aryl: "no visible change" }, 2: { alkyl: "white precipitate forms slowly", aryl: "no precipitate" } };
+LAB.HY_ANS = HY_ANS;
+const HY = { step: 0, t: 0, pred: true, pend: null, choice: {}, raf: 0 };
+LAB.HY = HY;
+// fraction of the final precipitate in each tube at the current step and animation time (0..1)
+function hyAmount(T){ if (HY.step === 0) return 0; if (HY.step === 1) return T.rt * Math.min(1, HY.t * 4); return T.id === "acyl" ? 1 : T.warm * Math.min(1, HY.t); }
+function hyDraw(){
+  const svg = $("hy-svg"), W = widthOf(svg.parentElement), narrow = W < 520, Hh = narrow ? 290 : 262;
+  const top = 46, h = 136, w = 40;
+  let s = "";
+  if (HY.step === 2){ s += `<rect x="${W * 0.06}" y="${top + h - 58}" width="${W * 0.88}" height="66" rx="4" fill="#dbe8ef" fill-opacity=".7" stroke="#aebdc8"/>` + T(W / 3, top + h - 40, "water bath", "bt", 'text-anchor="middle"', 11); }
+  HYT.forEach((X, i) => {
+    const cx = W * (i + 0.5) / 3, f = hyAmount(X), liq = 64;
+    const layers = [];
+    if (f > 0.01){ layers.push({ c: "#ffffff", h: 3 + 9 * f, stroke: "#aab3bb", tag: "solid" }); layers.push({ c: "#e8eff3", h: liq - 3 - 9 * f, cloudy: true, dens: f, tag: "cloudy" }); }
+    else layers.push({ c: "#e4eef3", h: liq, tag: "clear" });
+    s += tubeSVG(cx, top, w, h, { layers });
+    if (X.id === "acyl" && HY.step >= 1 && HY.step < 2){ for (let k = 0; k < 3; k++) s += `<path d="M${(cx - 8 + 8 * k).toFixed(1)} ${top - 4} q6 -10 0 -18 q-6 -8 0 -18" fill="none" stroke="#b8c2ca" stroke-width="2" stroke-linecap="round" data-fumes="1"/>`; s += T(cx + 24, top + 10, "warm", "bt", "", 11); }
+    s += T(cx, top + h + 18, X.nm, "btb", 'text-anchor="middle"', narrow ? 11 : 12.5);
+    s += T(cx, top + h + 34, X.f, "bt", 'text-anchor="middle"', narrow ? 10.5 : 11.5);
+    const word = HY.step === 0 ? "AgNO₃(aq) + ethanol" : f > 0.01 ? (HY.step === 2 && X.id === "alkyl" ? "white ppt. forming" : "white ppt. of AgCl") : "no visible change";
+    s += T(cx, top + h + 52, word, "bt", 'text-anchor="middle"', narrow ? 10.5 : 11.5);
+  });
+  setSvg(svg, W, Hh, s);
+  $("hy-note").innerHTML = H(HY.step === 0 ? "Three tubes of AgNO₃(aq) with a little ethanol, before anything is added." : HY.step === 1 ? "A few drops of each chloride added, at room temperature." : "All three tubes warmed in a water bath.");
+  const ck = $("hy-clock");
+  ck.hidden = HY.step === 0;
+  ck.textContent = HY.step === 1 ? `room temperature · ${Math.round(Math.min(1, HY.t) * 30)} s` : HY.step === 2 ? `warm · ${Math.round(Math.min(1, HY.t) * 10)} min` : "";
+}
+function hyText(){
+  const eq = [];
+  if (HY.step >= 1) eq.push(`<div>${EQ("CH₃COCl + H₂O → CH₃COOH + HCl(g)")}<span class="lab">ethanoyl chloride: at once, at room temperature</span></div>`, `<div>${EQ("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)")}<span class="lab">the white precipitate in every tube that releases Cl⁻</span></div>`);
+  if (HY.step >= 2) eq.push(`<div>${EQ("CH₃CH₂CH₂CH₂Cl + H₂O → CH₃CH₂CH₂CH₂OH + HCl")}<span class="lab">1-chlorobutane: slowly, on warming (with NaOH(aq), heat it is faster)</span></div>`, `<div>${EQ("CH₃CH₂CH₂CH₂Cl + NaOH → CH₃CH₂CH₂CH₂OH + NaCl")}<span class="lab">NaOH(aq), heat</span></div>`, `<div>${H("C₆H₅Cl: no reaction, not even with boiling NaOH(aq)")}</div>`);
+  $("hy-eq").innerHTML = eq.join("");
+  $("hy-eq").hidden = !eq.length;
+  const show = HY.step >= 2;
+  const card = (T, spec, body) => `<div class="panel stack why3"><div><span class="eyebrow">${H(T.type)}</span><h4>${H(T.nm)}</h4></div><div class="molcard"><svg data-spec="${T.id}" role="img" aria-label="Structure of ${esc(T.nm)}"></svg></div><p>${H(body)}</p></div>`;
+  $("hy-why").innerHTML = show ? [
+    card(HYT[0], "acyl", "The carbonyl carbon is bonded to two electronegative atoms, O and Cl, so it is strongly δ+. It is sp² and planar, so water can approach freely from above or below the plane, and the π electrons of C=O can move onto O to make room for the new bond (addition first; Cl leaves afterwards). Low activation energy: fast even with cold water."),
+    card(HYT[1], "alkyl", "The carbon is sp³ and bonded to only one electronegative atom, so it is less δ+. There is no π bond to take the incoming electrons, so the C–Cl bond (340 kJ mol⁻¹, Data Booklet) has to break as the new bond forms, with attack from the side opposite the Cl (S_{N}2; Topic 11.3, 11.5). Slow with water; needs heat or OH⁻."),
+    card(HYT[2], "aryl", "A lone pair on Cl overlaps with the delocalised π system of the ring, so the C–Cl bond has partial double-bond character: stronger and shorter (about 0.174 nm, against about 0.178 nm in chloroethane; literature values) and less polar. The ring blocks attack from the side opposite the Cl, and its π cloud repels the nucleophile. Not hydrolysed.")
+  ].join("") + `<div class="callout" style="grid-column:1/-1"><p><b>${H("Ease of hydrolysis: acyl chloride > alkyl chloride > aryl chloride.")}</b> ${H("Two electronegative atoms on an sp² carbon: hydrolysed at once by cold water. One on an sp³ carbon: slow, needs heat. A C–Cl bond with partial double-bond character on a benzene ring: not hydrolysed.")}</p></div>` : `<div class="callout" style="grid-column:1/-1">${H(HY.step === 0 ? "Add the chlorides to see which give Cl⁻ at once. The explanations appear after the warming step." : "Now warm the tubes in a water bath.")}</div>`;
+  if (show){
+    const S = { acyl: acylSpec("me", "cl"), alkyl: chlorobutaneSpec(), aryl: chlorobenzeneSpec() };
+    S.acyl.del.push(["Cc", "δ⁺", -2, 30], ["O1", "δ⁻", 22, -2], ["X", "δ⁻", 22, -8]); S.acyl.hl.push([S.acyl.n.Cc[0], S.acyl.n.Cc[1], 15]);
+    $("hy-why").querySelectorAll("svg[data-spec]").forEach(sv => molSVG(sv, S[sv.dataset.spec], { maxH: 150 }));
+  }
+}
+function chlorobutaneSpec(){ const m = M(); at(m, "C1", 0, 0, "C"); near(m, "C1", "X", -30, "Cl"); near(m, "C1", "Ha", 90, "H", 1, 42); near(m, "C1", "Hb", 270, "H", 1, 42); near(m, "C1", "R", 180, "CH₃CH₂CH₂", 1, 74); m.del.push(["C1", "δ⁺", -16, -12], ["X", "δ⁻", 22, -8]); m.hl.push([0, 0, 15]); return m; }
+function chlorobenzeneSpec(){ const m = M(); at(m, "X", 0, 0, "Cl"); ring(m, "r", "X", 180); m.lp.push(["l1", "X", 0, 17], ["l2", "X", 90, 16], ["l3", "X", 270, 16]); const v = vtx(m, "r", 0); m.hl.push([v[0], v[1], 12]); return m; }
+LAB.chlorobutaneSpec = chlorobutaneSpec; LAB.chlorobenzeneSpec = chlorobenzeneSpec;
+const HY_STEPS = ["Add a few drops of each, room temperature", "Warm the tubes in a water bath"];
+function hySteps(){
+  $("hy-steps").innerHTML = HY_STEPS.map((t, i) => `<button type="button" data-i="${i + 1}" aria-pressed="${HY.step >= i + 1}"${HY.step !== i || HY.pend ? " disabled" : ""}>${i + 1}. ${H(t)}</button>`).join("");
+  $("hy-steps").querySelectorAll("button").forEach(b => b.onclick = () => hyStart(+b.dataset.i));
+}
+function hyStart(i){ if (HY.pred){ HY.pend = i; HY.choice = {}; hyPBox(); hySteps(); return; } hyGo(i); }
+function hyPBox(){
+  const box = $("hy-pbox"); box.hidden = !HY.pend;
+  if (!HY.pend) return;
+  const i = HY.pend, tubes = Object.keys(HY_ANS[i]);
+  $("hy-pq").innerHTML = H(i === 1 ? "What do you expect to see in each tube at room temperature?" : "Ethanoyl chloride has already reacted. What happens in the other two tubes on warming?");
+  $("hy-pchips").innerHTML = tubes.map(k => { const X = HYT.find(t => t.id === k); return `<div class="chipgrp"><span>${H(X.nm)}</span><div class="chips">${HY_OPTS[i].map(o => `<button type="button" data-k="${k}" data-o="${o}" aria-pressed="${HY.choice[k] === o}">${H(o)}</button>`).join("")}</div></div>`; }).join("");
+  $("hy-pchips").querySelectorAll("button").forEach(b => b.onclick = () => { HY.choice[b.dataset.k] = b.dataset.o; hyPBox(); });
+  $("hy-pgo").disabled = tubes.some(k => !HY.choice[k]);
+}
+function hyCheck(){
+  const i = HY.pend, ans = HY_ANS[i], tubes = Object.keys(ans);
+  const res = tubes.map(k => ({ k, ok: HY.choice[k] === ans[k], said: HY.choice[k], is: ans[k] }));
+  const all = res.every(r => r.ok), fb = $("hy-pfb");
+  fb.className = "fb " + (all ? "ok" : "no");
+  fb.innerHTML = `<p>${all ? "Correct." : "Not quite."}</p><ul>${res.map(r => { const X = HYT.find(t => t.id === r.k); return `<li>${H(`${X.nm}: ${r.ok ? r.is : `you said “${r.said}”; in fact, ${r.is}`}.`)}</li>`; }).join("")}</ul>`;
+  fb.hidden = false;
+  hyGo(i);
+}
+LAB.hyCheck = hyCheck;
+function hyGo(i){
+  HY.step = i; HY.pend = null; HY.t = 0;
+  cancelAnimationFrame(HY.raf);
+  hySteps(); hyPBox(); hyText();
+  if (reduced()){ HY.t = 1; hyDraw(); return; }
+  const t0 = performance.now(), dur = i === 1 ? 1200 : 2600;
+  const run = now => { HY.t = Math.min(1, (now - t0) / dur); hyDraw(); if (HY.t < 1) HY.raf = requestAnimationFrame(run); };
+  HY.raf = requestAnimationFrame(run);
+}
+LAB.hyGo = hyGo; LAB.hyStart = hyStart;
+function hyAll(){ hySteps(); hyPBox(); hyDraw(); hyText(); }
+function bindHY(){
+  $("hy-pred").onchange = e => { HY.pred = e.target.checked; HY.pend = null; hyAll(); };
+  $("hy-reset").onclick = () => { cancelAnimationFrame(HY.raf); HY.step = 0; HY.t = 0; HY.pend = null; $("hy-pfb").hidden = true; hyAll(); };
+  $("hy-pgo").onclick = hyCheck;
+  hyAll();
+}
+
+/* =====================================================
+   5. CALCULATION GENERATOR (illustrative data; literature Ka; Data Booklet Ar)
+   Every question keeps its data in q.p so the tests can recompute the answer.
+   ===================================================== */
+const r3 = v => +sf(v, 3);
+const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
+function ansN(v, n, unit){ return { v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.01 * Math.abs(v)), unit }; }
+function ansP(v){ return { v, ph: true, str: fx(v, 2), tol: 0.011 }; }
+const cR = (lo, hi) => r3(Math.pow(10, rnd(Math.log10(lo), Math.log10(hi))));
+// acids for the pH question: the ranges keep the 5 % check holding (c ≥ Ka / 0.05²)
+const GPH = { eth: [0.0100, 0.200], meth: [0.0750, 0.200], benz: [0.0255, 0.0280], phen: [0.0100, 0.200] };
+function genPH(id, c){
+  id = id || pick(Object.keys(GPH)); const A = acid(id), [lo, hi] = GPH[id];
+  c = c || cR(lo, hi);
+  const h = Math.sqrt(A.Ka * c), ph = -Math.log10(h), pct = 100 * h / c;
+  const work = [ASIDE(`To find the pH of a weak acid, assume only a small fraction dissociates, so [${A.f}] ≈ ${cS(c)} mol dm⁻³ and [H⁺] = [${A.af}]`),
+    `{{${A.f}(aq) ⇌ ${A.af}(aq) + H⁺(aq)}}`,
+    `K{a} = [H⁺]² / c{}, so [H⁺] = √(K{a}c{}) = √(${sci(A.Ka, 2)} × ${cS(c)}) = ${sci(h, 3)} mol dm⁻³`,
+    `pH = −lg(${sci(h, 3)}) = <b>${fx(ph, 2)}</b>`,
+    `Check: (${sci(h, 3)} / ${cS(c)}) × 100 = ${sf(pct, 3)} %, under 5 %, so the approximation holds.`];
+  const alts = [{ v: -Math.log10(A.Ka * c), msg: "Take the square root: [H⁺]² = K{a}c{}, so [H⁺] = √(K{a}c{})." }, { v: -Math.log10(c), msg: "That treats the acid as fully dissociated (a strong acid). A weak acid gives far less H⁺." }, { v: pK(A.Ka), msg: "That is the pK{a}, not the pH." }];
+  return { type: "ph", p: { id, c }, ans: ansP(ph), label: "pH", fmt: "2 decimal places", alts, work,
+    text: `Calculate the pH of ${cS(c)} mol dm⁻³ ${A.nm}, ${A.f}. K{a} = ${sci(A.Ka, 2)} mol dm⁻³ (literature). Check that your approximation is valid.` };
+}
+const GCK = { eth: [0.00100, 0.100], meth: [0.0100, 0.100], benz: [0.00500, 0.0280], clac: [0.0100, 0.100], phen: [0.0100, 0.100] };
+function genCHK(id, c){
+  id = id || pick(Object.keys(GCK)); const A = acid(id), [lo, hi] = GCK[id];
+  c = c || cR(lo, hi);
+  const h = Math.sqrt(A.Ka * c), pct = 100 * h / c, holds = pct < 5;
+  const work = [ASIDE("To apply the 5 % check, find [H⁺] from √(K{a}c{}), then the percentage of the acid that has dissociated"),
+    `[H⁺] = √(${sci(A.Ka, 2)} × ${cS(c)}) = ${sci(h, 3)} mol dm⁻³`,
+    `% dissociated = (${sci(h, 3)} / ${cS(c)}) × 100 = <b>${sf(pct, 3)} %</b>`,
+    holds ? `Under 5 %, so the check holds: pH = −lg(${sci(h, 3)}) = ${fx(-Math.log10(h), 2)}.` : `Over 5 %: the check fails, so [${A.f}] cannot be taken as ${cS(c)} mol dm⁻³ and √(K{a}c{}) is unreliable. Compare by pK{a} (${fx(A.pKa, 2)}) instead; the exact pH needs a quadratic, beyond the syllabus.`];
+  if (id === "benz" && !holds) work.push("For benzoic acid the check holds only from 0.0252 mol dm⁻³ (= K{a} / 0.05²) to about 0.028 mol dm⁻³, its solubility: dilution raises the % dissociated.");
+  return { type: "chk", p: { id, c }, ans: ansN(pct, 3, "%"), label: "% dissociated", fmt: "3 significant figures", verdict: holds ? "holds" : "fails", alts: [{ v: 100 * A.Ka * c / c, msg: "Use [H⁺] = √(K{a}c{}), not K{a}c{}." }], work,
+    text: `For ${cS(c)} mol dm⁻³ ${A.nm}, ${A.f} (K{a} = ${sci(A.Ka, 2)} mol dm⁻³, literature), calculate the percentage of the acid dissociated using [H⁺] = √(K{a}c{}), and say whether the 5 % check holds.` };
+}
+const GPK = ["eth", "clac", "dcl", "tcl", "benz", "meth", "fac", "bac", "iac", "c2b", "c3b", "c4b"];
+function genPKA(id, dir){
+  id = id || pick(GPK); const A = acid(id);
+  dir = dir || (A.fromP ? "toKa" : pick(["toKa", "toPK"]));
+  if (dir === "toKa"){
+    const pk = A.pKa, Ka = Math.pow(10, -pk);
+    return { type: "pka", p: { id, dir }, ans: ansN(Ka, 2, "mol dm⁻³"), label: "K{a} / mol dm⁻³", fmt: "2 significant figures", fex: !!A.fex,
+      alts: [{ v: Math.pow(10, pk), msg: "K{a} = 10^−pK{a}: the power is negative." }, { v: -pk, msg: "K{a} = 10^−pK{a}, not −pK{a}." }],
+      work: [ASIDE("To find K{a}, undo the logarithm: pK{a} = −lg K{a}, so K{a} = 10^−pK{a}"), `K{a} = 10^−${fx(pk, 2)} = <b>${sci(Ka, 2)} mol dm⁻³</b>`],
+      text: `The pK{a} of ${A.nm}, ${A.f}, is ${fx(pk, 2)} (literature). Calculate its K{a}.` };
+  }
+  const v = pK(A.Ka);
+  return { type: "pka", p: { id, dir }, ans: ansP(v), label: "pK{a}", fmt: "2 decimal places",
+    alts: [{ v: Math.log10(A.Ka), msg: "pK{a} = −lg K{a}: the minus sign makes it positive." }],
+    work: [ASIDE("To find pK{a}, take −lg of K{a}"), `pK{a} = −lg(${sci(A.Ka, 2)}) = <b>${fx(v, 2)}</b>`, `The lower the pK{a}, the stronger the acid.`],
+    text: `K{a} for ${A.nm}, ${A.f}, is ${sci(A.Ka, 2)} mol dm⁻³ (literature). Calculate its pK{a}.` };
+}
+const GYL = [
+  { id: "etox", s: "ethanol", sf: "CH₃CH₂OH", pn: "ethanoic acid", pf: "CH₃COOH", how: "is heated under reflux with an excess of acidified potassium dichromate(VI)", eq: "CH₃CH₂OH + 2[O] → CH₃COOH + H₂O" },
+  { id: "prox", s: "propan-1-ol", sf: "CH₃CH₂CH₂OH", pn: "propanoic acid", pf: "CH₃CH₂COOH", how: "is heated under reflux with an excess of acidified potassium dichromate(VI)", eq: "CH₃CH₂CH₂OH + 2[O] → CH₃CH₂COOH + H₂O" },
+  { id: "phox", s: "phenylmethanol", sf: "C₆H₅CH₂OH", pn: "benzoic acid", pf: "C₆H₅COOH", how: "is heated under reflux with an excess of acidified potassium manganate(VII)", eq: "C₆H₅CH₂OH + 2[O] → C₆H₅COOH + H₂O" },
+  { id: "est", s: "ethanoic acid", sf: "CH₃COOH", pn: "ethyl ethanoate", pf: "CH₃COOCH₂CH₃", how: "is heated under reflux with excess ethanol and a few drops of concentrated sulfuric acid", eq: "CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O" },
+  { id: "nit", s: "propanenitrile", sf: "CH₃CH₂CN", pn: "propanoic acid", pf: "CH₃CH₂COOH", how: "is heated under reflux with dilute hydrochloric acid", eq: "CH₃CH₂CN + 2H₂O + HCl → CH₃CH₂COOH + NH₄Cl" }
+];
+LAB.GYL = GYL;
+function genYLD(id, ms, mp){
+  const R = id ? GYL.find(x => x.id === id) : pick(GYL);
+  const Ms = mrOf(R.sf), Mp = mrOf(R.pf);
+  ms = ms || r3(rnd(2.0, 9.5));
+  if (!mp){ const th = ms / Ms * Mp; mp = r3(th * rnd(0.45, 0.92)); }
+  const n = ms / Ms, th = n * Mp, y = mp / th * 100;
+  const shownOk = Math.abs(+sf(mp / +sf(th, 3) * 100, 3) - +sf(y, 3)) < 1e-9;
+  const work = [ASIDE(`To find the percentage yield, work out the mass you would get if every ${R.s} molecule became ${R.pn}`),
+    `{{${R.eq}}}`, `n(${R.s}) = ${sf(ms, 3)} / ${Ms.toFixed(1)} = ${sf(n, 3)} mol; 1 mol ${R.s} gives 1 mol ${R.pn}`,
+    `theoretical mass of ${R.pn} = ${sf(n, 3)} × ${Mp.toFixed(1)} = ${sf(th, 3)} g`,
+    `percentage yield = (${sf(mp, 3)} / ${sf(th, 3)}) × 100 = <b>${sf(y, 3)} %</b>${shownOk ? "" : " (keep the unrounded values)"}`];
+  return { type: "yld", p: { id: R.id, ms, mp }, ans: ansN(y, 3, "%"), label: "percentage yield / %", fmt: "3 significant figures", work,
+    alts: [{ v: mp / ms * 100, msg: "Compare masses of the same substance: work out the theoretical mass of product from the amount of starting material first." }],
+    text: `${sf(ms, 3)} g of ${R.s}, ${R.sf}, ${R.how}. ${sf(mp, 3)} g of pure ${R.pn}, ${R.pf}, is obtained. Calculate the percentage yield. (A{r}: H 1.0, C 12.0, N 14.0, O 16.0.)` };
+}
+const GNA = [
+  { id: "ee", nm: "ethyl ethanoate", f: "CH₃COOCH₂CH₃", k: 1, eq: "CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH" },
+  { id: "mb", nm: "methyl benzoate", f: "C₆H₅COOCH₃", k: 1, eq: "C₆H₅COOCH₃ + NaOH → C₆H₅COONa + CH₃OH" },
+  { id: "pe", nm: "phenyl ethanoate", f: "CH₃COOC₆H₅", k: 2, fex: 1, eq: "CH₃COOC₆H₅ + 2NaOH → CH₃COONa + C₆H₅ONa + H₂O" },
+  { id: "pb", nm: "phenyl benzoate", f: "C₆H₅COOC₆H₅", k: 2, fex: 1, eq: "C₆H₅COOC₆H₅ + 2NaOH → C₆H₅COONa + C₆H₅ONa + H₂O" }
+];
+LAB.GNA = GNA;
+function genNAOH(id, m, c){
+  const E = id ? GNA.find(x => x.id === id) : pick(GNA), Mr = mrOf(E.f);
+  c = c || pick([0.500, 1.00, 2.00]);
+  m = m || r3(rnd(0.8, 4.5));
+  const n = m / Mr, nN = E.k * n, V = nN / c * 1000;
+  const work = [ASIDE(E.k === 2 ? "Watch the ratio. One ester link uses one NaOH, but the phenol it releases uses another" : "One ester link uses one NaOH; the alcohol released does not react with NaOH"),
+    `{{${E.eq}}}`, `n(${E.nm}) = ${sf(m, 3)} / ${Mr.toFixed(1)} = ${sci(n, 3)} mol`,
+    E.k === 2 ? `n(NaOH) = 2 × ${sci(n, 3)} = ${sci(nN, 3)} mol` : `n(NaOH) = ${sci(nN, 3)} mol (1 : 1)`,
+    `volume = (${sci(nN, 3)} / ${sf(c, 3)}) × 1000 = <b>${sf(V, 3)} cm³</b>`];
+  const alts = E.k === 2 ? [{ v: V / 2, msg: "The phenol released is an acid and uses a second NaOH: 2 mol NaOH per mol of a phenyl ester." }] : [{ v: V * 2, msg: "Only the ester link reacts: 1 mol NaOH per mol of this ester (the alcohol released does not react with NaOH)." }];
+  return { type: "naoh", p: { id: E.id, m, c }, ans: ansN(V, 3, "cm³"), label: "volume / cm³", fmt: "3 significant figures", fex: !!E.fex, work, alts,
+    text: `Calculate the volume of ${sf(c, 3)} mol dm⁻³ NaOH(aq) needed to hydrolyse ${sf(m, 3)} g of ${E.nm}, ${E.f}, completely (M{r} ${Mr.toFixed(1)}).` };
+}
+const GENS = { ph: genPH, chk: genCHK, pka: genPKA, yld: genYLD, naoh: genNAOH };
+LAB.GENS = GENS;
+const GN = { type: "ph", q: null, right: 0, tried: 0 };
+LAB.GN = GN;
+function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; return GENS[tt](); }
+function gnGrade(q, s, verdict){
+  const v = parseNum(s);
+  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 2.87, 0.0134 or 1.4e-3 (or 1.4 × 10^-3)." };
+  const a = q.ans.v, tol = q.ans.tol * 1.0001, numOk = Math.abs(v - a) <= tol;
+  if (numOk && q.verdict && verdict !== q.verdict) return { ok: false, msg: `The number is right; check the verdict: the check holds only if under 5 % of the acid has dissociated.` };
+  if (numOk) return { ok: true };
+  for (const al of q.alts || []){
+    const t = q.ans.ph ? 0.011 : Math.max(lastUnit(al.v, 2), 0.01 * Math.abs(al.v));
+    if (Math.abs(al.v - a) > tol && Math.abs(v - al.v) <= t) return { ok: false, msg: al.msg };
+  }
+  if (q.ans.ph ? Math.abs(v - a) <= 0.06 : (a !== 0 && Math.abs(v / a - 1) < 0.05)) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
+  return { ok: false, msg: "Not right. Press Show working to compare." };
+}
+LAB.gnGrade = gnGrade; LAB.genQ = genQ;
+function gnRender(){
+  const q = GN.q;
+  document.querySelectorAll("#gn-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.type === GN.type)));
+  $("gn-q").innerHTML = (q.fex ? FEX : "") + TX(q.text);
+  $("gn-lab").innerHTML = H(q.label);
+  $("gn-ufield").hidden = !q.verdict;
+  $("gn-unit").innerHTML = `<option value="">choose…</option><option value="holds">holds (under 5 %)</option><option value="fails">fails (5 % or more)</option>`;
+  $("gn-fmt").innerHTML = H(`Answer to ${q.fmt}${q.verdict ? ", and choose the verdict" : ""}. Very small numbers: type 1.4e-3 or 1.4 × 10^-3.`);
+  $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
+  $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
+}
+LAB.gnRender = gnRender;
+function gnCheck(){
+  const q = GN.q, fb = $("gn-fb");
+  if (q.verdict && !$("gn-unit").value && !isNaN(parseNum($("gn-ans").value))){ fb.className = "fb warn"; fb.innerHTML = "Choose the verdict too."; fb.hidden = false; return; }
+  const r = gnGrade(q, $("gn-ans").value, $("gn-unit").value);
+  GN.tried++; if (r.ok) GN.right++;
+  $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
+  fb.className = "fb " + (r.ok ? "ok" : "no");
+  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.ans.ph ? "" : q.ans.unit === "%" ? " %" : " " + q.ans.unit}${q.verdict ? `; the check ${q.verdict}` : ""}.`) : H(r.msg);
+  fb.hidden = false;
+  $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
+}
+LAB.gnCheck = gnCheck;
+function bindGN(){
+  document.querySelectorAll("#gn-tabs button").forEach(b => b.onclick = () => { GN.type = b.dataset.type; GN.q = genQ(GN.type); gnRender(); });
+  $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
+  $("gn-check").onclick = gnCheck;
+  $("gn-ans").onkeydown = e => { if (e.key === "Enter") gnCheck(); };
+  $("gn-show").onclick = () => { $("gn-work").innerHTML = GN.q.work.map(w => `<li>${TX(w)}</li>`).join(""); $("gn-work").hidden = false; };
+  GN.q = genQ(GN.type); gnRender();
+}
+LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
+
+/* =====================================================
+   6. FACT CARDS AND REACTION SUMMARY (DATA.md "Compounds"; Part 1 and Part 2 summaries)
+   ===================================================== */
+function fcSpec(id){
+  const m = M();
+  if (id === "eth") carboxyl(m, 0, 0, "me", false);
+  else if (id === "benz") carboxyl(m, 0, 0, "ph", false);
+  else if (id === "clac") carboxyl(m, 0, 0, "cl1", false);
+  else if (id === "etoh"){ at(m, "Ox", 0, 0, "O"); near(m, "Ox", "Hx", -30, "H", 1, 44); near(m, "Ox", "R", 150, "CH₂"); near(m, "R", "R2", 210, "H₃C", 1, 60); }
+  else if (id === "acl") return acylSpec("me", "cl");
+  else if (id === "ee") return esterSpec(ACP[1], ALP[1]);
+  else if (id === "pb") return esterSpec(ACP[3], ALP[3]);
+  return m;
+}
+const FC = [
+  { id: "eth", nm: "Ethanoic acid", kind: "carboxylic acid (named in 9476)", f: "CH₃COOH", st: "liquid", bp: "b.p. 118 °C, m.p. 17 °C (“glacial” below 17 °C); miscible with water", pka: "4.74",
+    made: ["CH₃CH₂OH + 2[O] → CH₃COOH + H₂O", "CH₃CN + 2H₂O + HCl → CH₃COOH + NH₄Cl"], madeL: ["acidified K₂Cr₂O₇, heat under reflux (orange → green)", "dilute HCl(aq), heat under reflux"],
+    rx: ["CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂(g)", "CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O", "CH₃COOH + PCl₅ → CH₃COCl + POCl₃ + HCl(g)", "CH₃COOH + 4[H] → CH₃CH₂OH + H₂O"],
+    rxL: ["the test for –COOH: effervescence, limewater milky", "concentrated H₂SO₄, heat under reflux", "room temperature, dry: steamy white fumes", "LiAlH₄ in dry ether"],
+    use: "Vinegar is a dilute solution of ethanoic acid. It is also the starting point for its esters, such as the solvent ethyl ethanoate." },
+  { id: "benz", nm: "Benzoic acid", kind: "carboxylic acid (named in 9476)", f: "C₆H₅COOH", st: "white solid", bp: "m.p. 122 °C; dissolves only to about 3.4 g dm⁻³ (about 0.028 mol dm⁻³) at 25 °C, much more in hot water", pka: "4.20",
+    made: ["C₆H₅CH₃ + 3[O] → C₆H₅COOH + H₂O", "C₆H₅CH₂OH + 2[O] → C₆H₅COOH + H₂O", "C₆H₅CN + 2H₂O + HCl → C₆H₅COOH + NH₄Cl"], madeL: ["hot, acidified KMnO₄ (Topic 11.4 Part 2)", "from phenylmethanol: acidified K₂Cr₂O₇ (or KMnO₄), heat under reflux", "dilute HCl(aq), heat under reflux"],
+    rx: ["C₆H₅COOH + NaOH → C₆H₅COONa + H₂O", "C₆H₅COO⁻(aq) + H⁺(aq) → C₆H₅COOH(s)", "C₆H₅COOH + PCl₅ → C₆H₅COCl + POCl₃ + HCl(g)", "C₆H₅COOH + 4[H] → C₆H₅CH₂OH + H₂O"],
+    rxL: ["the white solid dissolves", "acidifying the cold solution brings back the white solid", "gives benzoyl chloride", "LiAlH₄ in dry ether: phenylmethanol"],
+    use: "Sodium benzoate is a food preservative. Benzoic acid is purified by recrystallisation from hot water." },
+  { id: "etoh", nm: "Ethanol", kind: "the 11.8(b)(iv) product", f: "CH₃CH₂OH", st: "liquid", bp: "b.p. 78 °C", pka: "about 16",
+    made: ["CH₃COOH + 4[H] → CH₃CH₂OH + H₂O"], madeL: ["LiAlH₄ in dry ether: reduction of ethanoic acid"],
+    rx: ["CH₃CH₂OH + 2[O] → CH₃COOH + H₂O", "CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O", "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)"],
+    rxL: ["acidified K₂Cr₂O₇, heat under reflux", "with ethanoic acid: concentrated H₂SO₄, heat under reflux (reversible)", "with ethanoyl chloride: room temperature (complete)"],
+    use: "A solvent and a fuel. Too weak an acid to react with NaOH(aq) or carbonates (Topic 11.6)." },
+  { id: "acl", nm: "Ethanoyl chloride", kind: "acyl chloride (named in 9476)", f: "CH₃COCl", st: "colourless fuming liquid", bp: "b.p. 51 °C", pka: null,
+    made: ["CH₃COOH + PCl₅ → CH₃COCl + POCl₃ + HCl(g)"], madeL: ["PCl₅, room temperature, anhydrous (dry) conditions"],
+    rx: ["CH₃COCl + H₂O → CH₃COOH + HCl(g)", "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)", "CH₃COCl + C₆H₅OH → CH₃COOC₆H₅ + HCl(g)", "CH₃COCl + 2CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + CH₃CH₂NH₃⁺Cl⁻", "CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl"],
+    rxL: ["water, room temperature: vigorous, steamy white fumes", "ethanol, room temperature", "phenol, room temperature", "excess ethylamine, room temperature", "concentrated NH₃(aq), room temperature"],
+    use: "A laboratory reagent for adding an ethanoyl group, making esters and amides. Industry often uses ethanoic anhydride instead (beyond the syllabus; Part 2, In industry)." },
+  { id: "ee", nm: "Ethyl ethanoate", kind: "ester (named in 9476)", f: "CH₃COOCH₂CH₃", st: "liquid", bp: "b.p. 77 °C; fruity smell (pear drops)", pka: null,
+    made: ["CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O", "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)"], madeL: ["concentrated H₂SO₄, heat under reflux (K{c} 4.01; Topic 9 Part 1)", "ethanol, room temperature"],
+    rx: ["CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH", "CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH"], rxL: ["dilute HCl(aq), heat under reflux: reversible", "NaOH(aq), heat under reflux: complete"],
+    use: "A solvent, for example in glues and nail-varnish remover." },
+  { id: "pb", nm: "Phenyl benzoate", kind: "ester of a phenol (named in 9476)", f: "C₆H₅COOC₆H₅", st: "white solid", bp: "m.p. about 70 °C", pka: null,
+    made: ["C₆H₅OH + NaOH → C₆H₅ONa + H₂O", "C₆H₅COCl + C₆H₅ONa → C₆H₅COOC₆H₅ + NaCl"], madeL: ["", "benzoyl chloride with phenol in NaOH(aq), room temperature"],
+    rx: ["C₆H₅COOC₆H₅ + 2NaOH → C₆H₅COONa + C₆H₅ONa + H₂O", "C₆H₅COOC₆H₅ + H₂O ⇌ C₆H₅COOH + C₆H₅OH"], rxL: ["NaOH(aq), heat under reflux: 2 mol NaOH per mol of ester", "dilute acid: slow and reversible"], fexRx: 0,
+    use: "The 9476 example of an ester of a phenol: phenols are not esterified by carboxylic acids. It is purified by recrystallisation from ethanol." },
+  { id: "clac", nm: "Chloroethanoic acid", kind: "chlorine-substituted acid, 11.8(c)", f: "ClCH₂COOH", st: "solid; very soluble in water", bp: null, pka: "2.85",
+    made: [], madeL: [], rx: [], rxL: [],
+    note: "K{a} 1.4 × 10⁻³ mol dm⁻³, about 80 times ethanoic acid: Cl withdraws electron density and stabilises the anion. At 0.100 mol dm⁻³ √(K{a}c{}) gives 11.8 % dissociated, so the 5 % check fails: compare by pK{a}.",
+    use: "An industrial intermediate, for example for making herbicides." }
+];
+LAB.FC = FC;
+function bindCards(){
+  $("fc-cards").innerHTML = FC.map(C => {
+    const eqs = (L, T) => L.map((e, i) => `<div>${EQ(e)}${T[i] ? `<span class="lab">${H(T[i])}</span>` : ""}</div>`).join("");
+    return `<article class="panel card" id="fc-${C.id}"><h3>${H(C.nm)}</h3><div class="kind">${H(C.kind)}</div>
+      <div class="molcard"><svg data-fc="${C.id}" role="img" aria-label="Structure of ${esc(C.nm.toLowerCase())}"></svg></div>
+      <dl><dt>Formula</dt><dd>${H(C.f)} (${H(molF(C.f))})</dd><dt>${H("M{r}")}</dt><dd>${mrOf(C.f).toFixed(1)} ${SRC("db")}</dd><dt>At r.t.p.</dt><dd>${H(C.st)}</dd>${C.bp ? `<dt>Data</dt><dd>${H(C.bp)} ${SRC("lit")}</dd>` : ""}${C.pka ? `<dt>${H("pK{a}")}</dt><dd>${H(C.pka)} ${SRC("lit")}</dd>` : ""}</dl>
+      ${C.made.length ? `<p><b>How it is made</b></p><div class="eqs">${eqs(C.made, C.madeL)}</div>` : ""}
+      ${C.rx.length ? `<p><b>Key reactions</b></p><div class="eqs">${eqs(C.rx, C.rxL)}</div>` : ""}
+      ${C.note ? `<p>${H(C.note)}</p>` : ""}<p><b>Use.</b> ${H(C.use)}</p></article>`;
+  }).join("");
+  $("fc-cards").querySelectorAll("svg[data-fc]").forEach(sv => molSVG(sv, fcSpec(sv.dataset.fc), { maxH: 170 }));
+  const RX = [
+    ["Oxidation of a primary alcohol", "acidified K₂Cr₂O₇ (or KMnO₄), heat under reflux", "CH₃CH₂OH + 2[O] → CH₃COOH + H₂O", "orange → green (purple → colourless)"],
+    ["Hydrolysis of a nitrile (acid)", "dilute HCl(aq), heat under reflux", "CH₃CN + 2H₂O + HCl → CH₃COOH + NH₄Cl", ""],
+    ["Hydrolysis of a nitrile (alkali)", "NaOH(aq), heat under reflux, then acidify", "CH₃CN + NaOH + H₂O → CH₃COONa + NH₃(g)", "NH₃(g) turns damp red litmus blue"],
+    ["Salt (metal)", "Mg, room temperature", "2CH₃COOH + Mg → (CH₃COO)₂Mg + H₂(g)", "effervescence"],
+    ["Salt (alkali)", "NaOH(aq), room temperature", "CH₃COOH + NaOH → CH₃COONa + H₂O", "no visible change"],
+    ["Salt (carbonate)", "Na₂CO₃(aq) or NaHCO₃(aq)", "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂(g)", "effervescence; limewater milky"],
+    ["Ester", "ethanol, concentrated H₂SO₄, heat under reflux", "CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O", "fruity smell"],
+    ["Acyl chloride", "PCl₅, room temperature, dry", "CH₃COOH + PCl₅ → CH₃COCl + POCl₃ + HCl(g)", "steamy white fumes"],
+    ["Reduction", "LiAlH₄ in dry ether", "CH₃COOH + 4[H] → CH₃CH₂OH + H₂O", ""],
+    ["Hydrolysis of an acyl chloride", "water, room temperature", "CH₃COCl + H₂O → CH₃COOH + HCl(g)", "steamy white fumes; white precipitate with AgNO₃(aq)"],
+    ["Acyl chloride + alcohol", "ethanol, room temperature", "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl(g)", "steamy fumes"],
+    ["Acyl chloride + phenol", "benzoyl chloride with phenol in NaOH(aq), room temperature", "C₆H₅COCl + C₆H₅ONa → C₆H₅COOC₆H₅ + NaCl", "white solid"],
+    ["Acyl chloride + primary amine", "ethylamine (excess), room temperature", "CH₃COCl + 2CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + CH₃CH₂NH₃⁺Cl⁻", "vigorous"],
+    ["Acid hydrolysis of an ester", "dilute HCl(aq), heat under reflux", "CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH", "reversible"],
+    ["Alkaline hydrolysis of an ester", "NaOH(aq), heat under reflux", "CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH", "complete; oily layer disappears"]
+  ];
+  LAB.RX = RX;
+  $("rx-tab").innerHTML = `<thead><tr><th>Reaction</th><th>Reagents and conditions</th><th>Equation</th><th>Observation</th></tr></thead><tbody>` +
+    RX.map(r => `<tr><td>${H(r[0])}</td><td>${H(r[1])}</td><td>${EQ(r[2])}</td><td>${r[3] ? H(r[3]) : "–"}</td></tr>`).join("") + `</tbody>`;
+}
+
+/* =====================================================
+   7. QUIZ (option 0 is correct; each option carries its reason)
+   ===================================================== */
+const QZ = [
+  { q: "Which reagents and conditions convert bromoethane, CH₃CH₂Br, into propanoic acid, CH₃CH₂COOH?",
+    o: [["KCN in ethanol, heat; then dilute HCl(aq), heat under reflux", "The CN⁻ ion brings in a new carbon atom (propanenitrile), and hydrolysis turns –C≡N into –COOH."],
+        ["acidified K₂Cr₂O₇, heat under reflux", "Oxidation never adds a carbon atom, and bromoethane is not an alcohol."],
+        ["NaOH(aq), heat; then acidified K₂Cr₂O₇, heat under reflux", "That gives ethanol, then ethanoic acid: two carbon atoms, not three."],
+        ["KCN in ethanol, heat; then LiAlH₄ in dry ether", "LiAlH₄ reduces a nitrile to an amine (Topic 11.9), not to a carboxylic acid."]] },
+  { q: "Which reagent gives effervescence with ethanoic acid but not with phenol or ethanol?",
+    o: [["NaHCO₃(aq)", "Ethanoic acid (pKa 4.74) is a stronger acid than carbonic acid (6.35), so it releases CO₂; phenol (9.96) and ethanol are weaker."],
+        ["Na(s)", "Sodium gives H₂ with all three –OH compounds, so it does not tell them apart."],
+        ["NaOH(aq)", "NaOH(aq) neutralises ethanoic acid and reacts with phenol, but no gas is given off."],
+        ["bromine water", "Bromine water is decolourised by phenol, with a white precipitate; it does not give a gas with any of them."]] },
+  { q: "Which list puts the acids in order of increasing acid strength?",
+    o: [["CH₃COOH < ClCH₂COOH < Cl₂CHCOOH < Cl₃CCOOH", "Each Cl withdraws electron density and stabilises the anion further: pKa 4.74, 2.85, 1.30, 0.66."],
+        ["Cl₃CCOOH < Cl₂CHCOOH < ClCH₂COOH < CH₃COOH", "That is decreasing strength: Cl₃CCOOH has the lowest pKa (0.66), so it is the strongest."],
+        ["ClCH₂COOH < CH₃COOH < Cl₂CHCOOH < Cl₃CCOOH", "Cl makes the acid stronger, not weaker: ClCH₂COOH (pKa 2.85) is stronger than CH₃COOH (4.74)."],
+        ["All four are equally strong, because each has one –COOH group.", "The substituents change the stability of the anion: Ka changes by a factor of about 12 000."]] },
+  { q: "Why is ethanoic acid a stronger acid than phenol?",
+    o: [["In the ethanoate ion the negative charge is delocalised over two electronegative O atoms; in the phenoxide ion it spreads partly onto less electronegative C atoms of the ring.", "So ethanoate is the more stable anion, and the equilibrium for ethanoic acid lies further to the right."],
+        ["Phenol has no O–H bond.", "Phenol does have an O–H bond; the difference is in the stability of the anion."],
+        ["In the ethanoate ion the negative charge stays on one O atom.", "It is delocalised over both O atoms: the two C–O bonds are the same length."],
+        ["Ethanoic acid is fully dissociated in water.", "Ethanoic acid is a weak acid: only about 1.3 % is dissociated in a 0.100 mol dm⁻³ solution."]] },
+  { q: "Ethanoic acid reacts with phosphorus pentachloride, PCl₅, at room temperature. Which statement is correct?",
+    o: [["Ethanoyl chloride, POCl₃ and HCl form, with steamy white fumes; the apparatus must be dry.", "PCl₅ replaces the –OH of –COOH by –Cl; both PCl₅ and the acyl chloride react with water."],
+        ["The organic product is chloroethanoic acid, ClCH₂COOH.", "PCl₅ replaces the –OH group; it does not substitute an H atom of the CH₃ group."],
+        ["The steamy fumes prove that a –COOH group is present.", "Alcohols give the same fumes with PCl₅: the test shows an –OH group, not specifically –COOH."],
+        ["The reaction is best carried out in aqueous solution.", "PCl₅ and ethanoyl chloride both react with water, so the conditions must be dry."]] },
+  { q: "What is the organic product when benzoic acid is reduced with LiAlH₄ in dry ether?",
+    o: [["phenylmethanol, C₆H₅CH₂OH", "C₆H₅COOH + 4[H] → C₆H₅CH₂OH + H₂O: the acid goes to a primary alcohol."],
+        ["benzaldehyde, C₆H₅CHO", "The aldehyde in between cannot be isolated: LiAlH₄ reduces it straight on to the alcohol."],
+        ["methylbenzene, C₆H₅CH₃", "LiAlH₄ stops at the primary alcohol; it does not remove the O atom."],
+        ["cyclohexylmethanol, C₆H₁₁CH₂OH", "LiAlH₄ does not reduce C=C bonds, and the benzene ring is untouched."]] },
+  { q: "Ethanoyl chloride is added to excess ethylamine at room temperature. What are the products?",
+    o: [["N-ethylethanamide, CH₃CONHCH₂CH₃, and ethylammonium chloride", "The N lone pair attacks, –Cl is replaced by –NHCH₂CH₃, and a second amine molecule takes up the HCl."],
+        ["ethanamide and chloroethane", "The N atom keeps its ethyl group, and the Cl leaves as Cl⁻; it does not end up on carbon."],
+        ["ethylammonium ethanoate only", "That salt comes from ethanoic acid and ethylamine. The acyl chloride gives an amide."],
+        ["N-ethylethanamide and HCl gas", "With excess amine, the HCl does not escape: it reacts with a second amine molecule to give ethylammonium chloride."]] },
+  { q: "A few drops of ethanoyl chloride, 1-chlorobutane and chlorobenzene are each added to AgNO₃(aq) with ethanol, then warmed. In which order does a white precipitate appear?",
+    o: [["ethanoyl chloride at once; 1-chlorobutane slowly on warming; chlorobenzene not at all", "Two electronegative atoms on an sp² carbon: fast. One on an sp³ carbon: slow. C–Cl with partial double-bond character: not hydrolysed."],
+        ["1-chlorobutane first, then ethanoyl chloride; chlorobenzene not at all", "Ethanoyl chloride reacts at once at room temperature; 1-chlorobutane needs warming."],
+        ["chlorobenzene first, then 1-chlorobutane, then ethanoyl chloride", "Chlorobenzene gives no precipitate at all: its C–Cl bond is strengthened by delocalisation."],
+        ["all three at the same rate, because each has a C–Cl bond", "The carbon bonded to Cl is different in each: sp² with O and Cl, sp³, and a ring carbon."]] },
+  { q: "How is phenyl benzoate, C₆H₅COOC₆H₅, made?",
+    o: [["benzoyl chloride with phenol in NaOH(aq), room temperature", "NaOH(aq) turns phenol into phenoxide, a better nucleophile, and the acyl chloride is reactive enough."],
+        ["benzoic acid and phenol, concentrated H₂SO₄, heat under reflux", "Phenols are not esterified by carboxylic acids: the O lone pair is delocalised into the ring, and the equilibrium lies too far left."],
+        ["ethanoyl chloride and phenol, room temperature", "That gives phenyl ethanoate. The benzoate part has to come from benzoyl chloride."],
+        ["benzoic acid and phenol in NaOH(aq), room temperature", "NaOH turns benzoic acid into the benzoate ion, which is not attacked by phenoxide: the acid has to be used as its acyl chloride."]] },
+  { q: "Why does the hydrolysis of ethyl ethanoate by NaOH(aq), heat under reflux, go to completion, when hydrolysis by dilute HCl(aq) does not?",
+    o: [["The carboxylate ion formed does not react with ethanol, so the reverse reaction cannot happen.", "Its charge is delocalised over two O atoms; NaOH is used up, 1 mol per mol of ester."],
+        ["NaOH is a catalyst, and a catalyst moves the position of equilibrium to the right.", "NaOH is a reactant (it is used up), and a catalyst never moves a position of equilibrium."],
+        ["The ethanol formed escapes as a gas.", "Under reflux the ethanol vapour condenses and runs back into the flask."],
+        ["Acid hydrolysis would need a higher temperature to go to completion.", "Acid hydrolysis is reversible at any temperature: it reaches an equilibrium (Topic 9)."]] }
+];
+LAB.QZ = QZ;
+const Q = { i: 0, score: 0, order: [], answered: false };
+LAB.Q = Q;
+const QH = t => H(t).replace(/\bpKa\b/g, "p<i>K</i><sub>a</sub>").replace(/\bKa\b/g, "<i>K</i><sub>a</sub>");
+function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
+LAB.startQuiz = startQuiz;
+function renderQ(){
+  const box = $("quiz-box");
+  if (Q.i >= QZ.length){
+    const s = Q.score;
+    box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:6px">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <button class="btn primary" id="q-retry" style="margin-top:10px">Retry</button>`;
+    $("q-retry").onclick = startQuiz;
+    return;
+  }
+  const q = QZ[Q.i], ord = Q.order[Q.i];
+  Q.answered = false;
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length}</span><span>Score ${Q.score}</span></div>
+    <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
+    <p class="qtext">${QH(q.q)}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${QH(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="explain" id="q-exp" hidden></div>`;
+  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (Q.answered) return; Q.answered = true;
+    const oi = +b.dataset.oi, right = oi === 0;
+    if (right) Q.score++;
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    if (!right) b.classList.add("wrong");
+    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${QH(q.o[k][1])}</li>`).join("");
+    const ex = $("q-exp");
+    ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${QH(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
+    ex.hidden = false;
+    $("q-next").onclick = () => { Q.i++; renderQ(); };
+  });
+}
+
+/* ---------- nav scroll-spy ---------- */
+// Scroll only the tab strip sideways, instantly. (Scrolling the page here fought the mouse wheel.)
+function keepTabVisible(a){
+  const strip = a.parentElement;
+  if (strip.scrollWidth <= strip.clientWidth) return;
+  const l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+  if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+  else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+}
+function bindNav(){
+  const links = [...document.querySelectorAll(".secnav a")];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting){ links.forEach(l => l.classList.remove("on")); const a = map.get(en.target.id); if (a){ a.classList.add("on"); keepTabVisible(a); } } });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section.lab").forEach(s => io.observe(s));
+}
+
+/* ---------- redraw on resize and theme change ---------- */
+function redrawAll(){ acDraw(); acBars(); acPct(); if (ES.m === "hyd") esFlask(); if (HB.mode === "explore") hubDraw(); drawFrame(); hyDraw(); }
+LAB.redrawAll = redrawAll;
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
+new MutationObserver(redrawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+let LW = 0, RT = 0;
+new ResizeObserver(() => { const w = document.querySelector("main").clientWidth; if (Math.abs(w - LW) > 1){ LW = w; clearTimeout(RT); RT = setTimeout(redrawAll, 60); } }).observe(document.querySelector("main"));
+
+bindAC(); bindRG(); bindES(); bindHub(); bindMX(); bindHY(); bindGN(); bindCards(); startQuiz(); bindNav();
+LAB.ready = true;
+})();
+</script>
