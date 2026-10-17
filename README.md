@@ -32,6 +32,7 @@ H3 Chemistry (SEAB 9813):
 | Chapter | Notes | Practice | Interactive |
 |---|---|---|---|
 | H3.1 Molecular Orbitals and Light | [Part 1](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/part-1.html), [Part 2](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/part-2.html) | [Tutorial 1](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/tutorial-1.html), [Tutorial 2](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/tutorial-2.html); worked solutions on request | [Molecular Orbitals and Light Lab](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/) |
+| H3.2 UV/vis and IR Spectroscopy | [Part 1](https://jeuron-hue.github.io/chemlab/h3-uv-ir/part-1.html), [Part 2](https://jeuron-hue.github.io/chemlab/h3-uv-ir/part-2.html) | [Tutorial 1](https://jeuron-hue.github.io/chemlab/h3-uv-ir/tutorial-1.html), [Tutorial 2](https://jeuron-hue.github.io/chemlab/h3-uv-ir/tutorial-2.html); worked solutions on request | [UV/vis and IR Lab](https://jeuron-hue.github.io/chemlab/h3-uv-ir/) |
 
 The notes pages are generated from the same source as the Word editions kept for print, so the two always match. Each page is plain HTML with SVG figures; the labs are single self-contained files with no build step. Pages print cleanly from the browser.
 

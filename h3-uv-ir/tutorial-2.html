@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("chemlab-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="UV/vis and IR Spectroscopy 2 Tutorial: IR-active vibrations, counting absorptions, interpreting and predicting IR spectra, greenhouse gases.. H3 Chemistry notes by Gary Chan (SEAB 9813, Chapter H3.2).">
+<title>UV/vis and IR Spectroscopy 2 Tutorial · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.top-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px}
+.themesw{display:inline-flex; border:1px solid var(--line-strong); border-radius:4px; overflow:hidden; background:var(--surface); font-family:var(--sans)}
+.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button:first-child{border-left:0}
+.themesw button:hover{color:var(--ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent); color:var(--on-accent)}
+.themesw button:focus-visible{outline-offset:-2px}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame top-row">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Chapter H3.2 · UV/vis and IR Spectroscopy</p>
+    <div class="themesw" role="group" aria-label="Colour theme"><button type="button" data-theme-v="auto">Auto</button><button type="button" data-theme-v="light">Light</button><button type="button" data-theme-v="dark">Dark</button></div>
+  </div>
+</header>
+<nav class="secnav" aria-label="Chapter H3.2 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html" aria-current="page" class="on">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li><li><a href="#question-9">Question 9</a></li><li><a href="#question-10">Question 10</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">H3.2.T2</p><h1>UV/vis and IR Spectroscopy 2 Tutorial</h1><p class="eyebrow">Chapter H3.2 · UV/vis and IR Spectroscopy Tutorial 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li><li><a href="#question-9">Question 9</a></li><li><a href="#question-10">Question 10</a></li></ol></details><p>Use the Data Booklet table of characteristic infra-red absorptions, Data Booklet bond energies, and h = 6.63 × 10<sup>−34</sup> J s, c = 3.00 × 10<sup>8</sup> m s<sup>−1</sup> and L = 6.02 × 10<sup>23</sup> mol<sup>−1</sup>. Other values, marked "literature value", are given in the questions. Spectra are simulated. Marks are shown in square brackets.</p><p class="stamp" aria-hidden="true">H3.2.T2 §1</p><h2 id="question-1">Question 1</h2><p>The diatomic gases carbon monoxide, nitrogen monoxide, hydrogen bromide and chlorine are found in some industrial waste gases. CO absorbs at 2143 cm<sup>−1</sup>, NO at 1876 cm<sup>−1</sup> and HBr at 2559 cm<sup>−1</sup> (literature values).</p><ol class="alpha"><li>State which of CO, NO, HBr and Cl<sub>2</sub> absorb infrared radiation, and explain your answer using the dipole rule. [3]</li><li>Each of these molecules has only one vibration. Suggest two reasons why an IR-active diatomic gas is likely to be a much weaker greenhouse gas, molecule for molecule, than a polyatomic gas such as CO<sub>2</sub>. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §2</p><h2 id="question-2">Question 2</h2><p>Carbon disulfide, CS<sub>2</sub>, is a linear molecule, S=C=S.</p><ol class="alpha"><li>State the number of vibrations of CS<sub>2</sub>. [1]</li><li>Draw diagrams to show each vibration, using arrows to show how the atoms move. [3]</li><li>State which vibrations are IR active, and the number of absorptions in the IR spectrum of CS<sub>2</sub>. [2]</li><li>The IR spectrum of CS<sub>2</sub> vapour shows absorptions at 1535 and 397 cm<sup>−1</sup> (literature values). Assign each to a vibration, and explain why the symmetric stretch, at about 658 cm<sup>−1</sup>, does not appear. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §3</p><h2 id="question-3">Question 3</h2><p>Carbonyl sulfide, OCS, is linear, O=C=S. Its IR spectrum shows absorptions at 2062, 859 and 520 cm<sup>−1</sup> (literature values).</p><ol class="alpha"><li>State the number of vibrations of OCS. [1]</li><li>Assign each absorption to a vibration. [2]</li><li>Explain why OCS shows one more absorption than CO<sub>2</sub>, although both are linear triatomic molecules. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §4</p><h2 id="question-4">Question 4</h2><p>Hydrogen sulfide, H<sub>2</sub>S, absorbs at 2626, 2615 and 1183 cm<sup>−1</sup>; water absorbs at 3756, 3657 and 1595 cm<sup>−1</sup> (gas, literature values).</p><ol class="alpha"><li>State the shape of H<sub>2</sub>S, its number of vibrations and the number of IR absorptions expected. [2]</li><li>Assign the three absorptions of H<sub>2</sub>S to vibrations. [1]</li><li>Suggest why each absorption of H<sub>2</sub>S is at a lower wavenumber than the matching absorption of water. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §5</p><h2 id="question-5">Question 5</h2><p>C≡C bonds absorb at 2150–2250 cm<sup>−1</sup> and C=C bonds of alkenes at 1635–1690 cm<sup>−1</sup> (Data Booklet); C–C single bonds absorb at about 800–1200 cm<sup>−1</sup> (literature value). The Data Booklet bond energies are C≡C 840, C=C 610 and C–C 350 kJ mol<sup>−1</sup>.</p><ol class="alpha"><li>Explain the trend in wavenumber in terms of the bonds. [3]</li><li>The bond energies of C–H (410 kJ mol<sup>−1</sup>) and C–Cl (340 kJ mol<sup>−1</sup>) are not very different, yet C–H absorbs at 2850–2950 cm<sup>−1</sup> and C–Cl at 700–800 cm<sup>−1</sup>. Explain this difference. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §6</p><h2 id="question-6">Question 6</h2><p>Butanal, butanone and but-3-en-1-ol, CH<sub>2</sub>=CH–CH<sub>2</sub>–CH<sub>2</sub>OH, are isomers of formula C<sub>4</sub>H<sub>8</sub>O. Fig 1 shows the simulated IR spectra A, B and C of the three compounds, in an unknown order.</p><figure><img src="fig/t2_q6.svg" alt="Fig 1. Simulated IR spectra (liquid film) of three isomers of C4H8O." loading="lazy"><figcaption>Fig 1. Simulated IR spectra (liquid film) of three isomers of C<sub>4</sub>H<sub>8</sub>O.</figcaption></figure><ol class="alpha"><li>Identify which spectrum belongs to but-3-en-1-ol. Explain your answer by identifying three absorptions. [3]</li><li>Identify the functional group responsible for the strongest absorption in B and in C, and explain why the Data Booklet table does not allow you to decide which of B and C is butanal. [2]</li><li>Describe a chemical test that would distinguish butanal from butanone, stating what you would see with each. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §7</p><h2 id="question-7">Question 7</h2><p>Butan-1-ol is oxidised with acidified potassium dichromate(VI) (11.6). In experiment 1 the product D is distilled off as it forms; in experiment 2 the mixture is heated under reflux and gives product E. Their IR spectra show:</p><ul><li>D: absorptions at 2950 and 2870 cm<sup>−1</sup>, and a strong absorption at 1730 cm<sup>−1</sup>; no broad absorption above 3000 cm<sup>−1</sup>.</li><li>E: a strong, very broad absorption from about 2500 to 3300 cm<sup>−1</sup>, and strong absorptions at 1710 and 1280 cm<sup>−1</sup>.</li></ul><ol class="alpha"><li>Identify D and E, explaining how the absorptions support your answers. [4]</li><li>Explain which feature of the spectrum of D shows that no butan-1-ol remains in it. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §8</p><h2 id="question-8">Question 8</h2><p>Paracetamol is N-(4-hydroxyphenyl)ethanamide, HO–C<sub>6</sub>H<sub>4</sub>–NH–CO–CH<sub>3</sub> (the two groups on the benzene ring are opposite each other).</p><ol class="alpha"><li>Use the Data Booklet to predict the characteristic absorptions in the IR spectrum of paracetamol. For each, give the bond, the range and the expected appearance. [4]</li><li>Identify two of these absorptions that are likely to overlap. [2]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §9</p><h2 id="question-9">Question 9</h2><p>A liquid of formula C<sub>3</sub>H<sub>6</sub>O<sub>2</sub> has strong IR absorptions at 1740, 1240 and 1050 cm<sup>−1</sup>, a C–H absorption near 2950 cm<sup>−1</sup>, and no broad absorption anywhere above 2500 cm<sup>−1</sup>.</p><ol class="alpha"><li>Identify the functional group most likely to be present, and explain why the compound is not propanoic acid. [3]</li><li>Give the structural formulae of two esters of formula C<sub>3</sub>H<sub>6</sub>O<sub>2</sub> that fit the spectrum. [2]</li><li>Suggest a method that could decide between these two esters. [1]</li></ol><p class="stamp" aria-hidden="true">H3.2.T2 §10</p><h2 id="question-10">Question 10</h2><p>Read the passage and answer the questions that follow.</p><aside class="box"><p>Sulfur hexafluoride, SF<sub>6</sub>, is an octahedral molecule used as an insulating gas in high-voltage electrical switchgear. Its strongest IR absorption is at 948 cm<sup>−1</sup>, from an S–F stretching vibration. It has one of the highest global warming potentials of the gases assessed by the IPCC: its 100-year GWP is 23 500, and it stays in the atmosphere for about 3200 years. Its concentration in the atmosphere is about 10 parts per trillion, while that of carbon dioxide is above 420 parts per million (literature values).</p></aside><ol class="alpha"><li>Convert 948 cm<sup>−1</sup> to a wavelength in µm, and state its significance for the greenhouse effect. [2]</li><li>SF<sub>6</sub> has no dipole moment. Explain why it can still absorb infrared radiation. [2]</li><li>Explain why SF<sub>6</sub> has such a large global warming potential. [3]</li><li>Explain why carbon dioxide nevertheless contributes far more to global warming than SF<sub>6</sub>. [2]</li><li>Some of the energy absorbed by SF<sub>6</sub> molecules ends up warming the nitrogen and oxygen around them. Explain how. [1]</li></ol><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Chapter H3.2 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Chapter H3.2 UV/vis and IR Spectroscopy)">Email Gary for the solutions</a></p></aside>
+
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="tutorial-1.html">← Tutorial 1</a><a href="./">Interactive lab →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H3 Chemistry © Gary Chan · Written for SEAB H3 Chemistry 9813 · Last updated 18/10/26</p></footer>
+<script>
+(function () {
+  var root = document.documentElement, bs = document.querySelectorAll("[data-theme-v]");
+  function show() { var t = root.getAttribute("data-theme") || "auto"; bs.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-v") === t)); }); }
+  bs.forEach(function (b) { b.addEventListener("click", function () {
+    var v = b.getAttribute("data-theme-v");
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    try { if (v === "auto") localStorage.removeItem("chemlab-theme"); else localStorage.setItem("chemlab-theme", v); } catch (e) {}
+    show(); window.dispatchEvent(new Event("resize"));
+  }); });
+  show();
+})();
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
