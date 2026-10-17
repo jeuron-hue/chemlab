@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <meta charset="utf-8">
+<script>try{var t=localStorage.getItem("chemlab-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
@@ -74,6 +75,12 @@ sub,sup{font-size:.72em; line-height:0}
 .top{padding-block:16px 8px; font-family:var(--sans)}
 .crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
 .crumbs a{text-decoration:none; font-weight:600}
+.top-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px}
+.themesw{display:inline-flex; border:1px solid var(--line-strong); border-radius:4px; overflow:hidden; background:var(--surface); font-family:var(--sans)}
+.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button:first-child{border-left:0}
+.themesw button:hover{color:var(--ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent); color:var(--on-accent)}
 .secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
 .secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
 .secnav .frame::-webkit-scrollbar{display:none}
@@ -168,8 +175,9 @@ tbody tr:first-child td{border-top:0}
 }
 </style>
 <header class="top">
-  <div class="frame">
+  <div class="frame top-row">
     <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Topic 2 · Chemical Bonding</p>
+    <div class="themesw" role="group" aria-label="Colour theme"><button type="button" data-theme-v="auto">Auto</button><button type="button" data-theme-v="light">Light</button><button type="button" data-theme-v="dark">Dark</button></div>
   </div>
 </header>
 <nav class="secnav" aria-label="Topic 2 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html">Part 2</a><a href="part-3.html">Part 3</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html" aria-current="page" class="on">Tutorial 2</a><a href="tutorial-3.html">Tutorial 3</a><a href="./">Interactive lab</a></div></nav>
@@ -177,15 +185,26 @@ tbody tr:first-child td{border-top:0}
 <nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li></ol></nav>
 <main>
 <article class="notes-body">
-<header class="title-block"><p class="stamp" aria-hidden="true">2.T2 · 29/09/26</p><h1>Chemical Bonding 2 Tutorial</h1><p class="eyebrow">Topic 2 · Chemical Bonding Tutorial 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li></ol></details><p class="stamp" aria-hidden="true">2.T2 §1 · 29/09/26</p><h2 id="question-1">Question 1</h2><p>For each species, state the number of bond pairs and lone pairs around the central atom, and give the shape and the bond angle.</p><ol class="alpha"><li>BeCl<sub>2</sub> (in the gas phase)</li><li>BCl<sub>3</sub></li><li>SiH<sub>4</sub></li><li>PH<sub>3</sub></li><li>H<sub>2</sub>S</li><li>PCl<sub>5</sub> <em>(Enrichment)</em></li><li>SF<sub>6</sub></li><li>NH<sub>4</sub><sup>+</sup></li><li>H<sub>3</sub>O<sup>+</sup></li><li>NH<sub>2</sub><sup>−</sup></li></ol><p class="stamp" aria-hidden="true">2.T2 §2 · 29/09/26</p><h2 id="question-2">Question 2</h2><p>The bond angles in CH<sub>4</sub>, NH<sub>3</sub> and H<sub>2</sub>O are 109.5°, 107° and 104.5°. Explain these values.</p><p class="stamp" aria-hidden="true">2.T2 §3 · 29/09/26</p><h2 id="question-3">Question 3</h2><ol class="alpha"><li>Draw the shape of a sulfur dioxide molecule, SO<sub>2</sub>, and predict its bond angle.</li><li>Explain why CO<sub>2</sub> is linear but SO<sub>2</sub> is bent.</li></ol><p class="stamp" aria-hidden="true">2.T2 §4 · 29/09/26</p><h2 id="question-4">Question 4</h2><p>State whether each molecule is polar or non-polar, and give a reason.</p><ol class="alpha"><li>CO<sub>2</sub></li><li>SO<sub>2</sub></li><li>BF<sub>3</sub></li><li>NF<sub>3</sub></li><li>CCl<sub>4</sub></li><li>CH<sub>2</sub>Cl<sub>2</sub></li><li>SF<sub>6</sub></li><li>CS<sub>2</sub></li><li>H<sub>2</sub>O</li></ol><p class="stamp" aria-hidden="true">2.T2 §5 · 29/09/26</p><h2 id="question-5">Question 5</h2><p>Trichloromethane, CHCl<sub>3</sub>, is polar but tetrachloromethane, CCl<sub>4</sub>, is not. Both are tetrahedral. Explain.</p><p class="stamp" aria-hidden="true">2.T2 §6 · 29/09/26</p><h2 id="question-6">Question 6</h2><p><em>Enrichment.</em> Predict the shapes of XeF<sub>4</sub>, SF<sub>4</sub>, ClF<sub>3</sub> and I<sub>3</sub><sup>−</sup>.</p><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Topic 2 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 2 Chemical Bonding)">Email Gary for the solutions</a></p></aside>
+<header class="title-block"><p class="stamp" aria-hidden="true">2.T2</p><h1>Chemical Bonding 2 Tutorial</h1><p class="eyebrow">Topic 2 · Chemical Bonding Tutorial 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li></ol></details><p class="stamp" aria-hidden="true">2.T2 §1</p><h2 id="question-1">Question 1</h2><p>For each species, state the number of bond pairs and lone pairs around the central atom, and give the shape and the bond angle.</p><ol class="alpha"><li>BeCl<sub>2</sub> (in the gas phase)</li><li>BCl<sub>3</sub></li><li>SiH<sub>4</sub></li><li>PH<sub>3</sub></li><li>H<sub>2</sub>S</li><li>PCl<sub>5</sub> <em>(Enrichment)</em></li><li>SF<sub>6</sub></li><li>NH<sub>4</sub><sup>+</sup></li><li>H<sub>3</sub>O<sup>+</sup></li><li>NH<sub>2</sub><sup>−</sup></li></ol><p class="stamp" aria-hidden="true">2.T2 §2</p><h2 id="question-2">Question 2</h2><p>The bond angles in CH<sub>4</sub>, NH<sub>3</sub> and H<sub>2</sub>O are 109.5°, 107° and 104.5°. Explain these values.</p><p class="stamp" aria-hidden="true">2.T2 §3</p><h2 id="question-3">Question 3</h2><ol class="alpha"><li>Draw the shape of a sulfur dioxide molecule, SO<sub>2</sub>, and predict its bond angle.</li><li>Explain why CO<sub>2</sub> is linear but SO<sub>2</sub> is bent.</li></ol><p class="stamp" aria-hidden="true">2.T2 §4</p><h2 id="question-4">Question 4</h2><p>State whether each molecule is polar or non-polar, and give a reason.</p><ol class="alpha"><li>CO<sub>2</sub></li><li>SO<sub>2</sub></li><li>BF<sub>3</sub></li><li>NF<sub>3</sub></li><li>CCl<sub>4</sub></li><li>CH<sub>2</sub>Cl<sub>2</sub></li><li>SF<sub>6</sub></li><li>CS<sub>2</sub></li><li>H<sub>2</sub>O</li></ol><p class="stamp" aria-hidden="true">2.T2 §5</p><h2 id="question-5">Question 5</h2><p>Trichloromethane, CHCl<sub>3</sub>, is polar but tetrachloromethane, CCl<sub>4</sub>, is not. Both are tetrahedral. Explain.</p><p class="stamp" aria-hidden="true">2.T2 §6</p><h2 id="question-6">Question 6</h2><p><em>Enrichment.</em> Predict the shapes of XeF<sub>4</sub>, SF<sub>4</sub>, ClF<sub>3</sub> and I<sub>3</sub><sup>−</sup>.</p><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Topic 2 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 2 Chemical Bonding)">Email Gary for the solutions</a></p></aside>
 
 </article>
 <nav class="pager" aria-label="Previous and next"><a href="tutorial-1.html">← Tutorial 1</a><a href="tutorial-3.html">Tutorial 3 →</a></nav>
 </main>
 <aside class="rail" aria-hidden="true"></aside>
 </div>
-<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476</p></footer>
+<footer class="frame foot"><p>H2 Chemistry © Gary Chan · Written for SEAB H2 Chemistry 9476 · Last updated 29/09/26</p></footer>
 <script>
+(function () {
+  var root = document.documentElement, bs = document.querySelectorAll("[data-theme-v]");
+  function show() { var t = root.getAttribute("data-theme") || "auto"; bs.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-v") === t)); }); }
+  bs.forEach(function (b) { b.addEventListener("click", function () {
+    var v = b.getAttribute("data-theme-v");
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    try { if (v === "auto") localStorage.removeItem("chemlab-theme"); else localStorage.setItem("chemlab-theme", v); } catch (e) {}
+    show(); window.dispatchEvent(new Event("resize"));
+  }); });
+  show();
+})();
 document.addEventListener("click", function (e) {
   var a = e.target.closest("a[data-mail]"); if (!a) return;
   e.preventDefault();

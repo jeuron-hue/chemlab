@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-strand="phys">
 <meta charset="utf-8">
+<!-- labshell:head --><script>try{var t=localStorage.getItem("chemlab-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><!-- /labshell:head -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Interactive companion to H2 Chemistry notes by Gary Chan: Topic 6 The Mole Concept and Stoichiometry.">
 <title>Mole Concept Lab</title>
@@ -273,14 +274,96 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 .sechead h2{font-size:18px; line-height:24px}
 .tag{font-size:12px; line-height:18px; letter-spacing:0; text-transform:none; font-weight:400; color:var(--accent); background:var(--accent-soft); border-color:transparent; padding:0 8px}
 .ctl output, .val{font-family:var(--mono); font-variant-ligatures:none; font-size:.92em}
+
+/* labshell:start */
+/* ChemLab lab shell (17/10/26): strand ink, topic icon, theme switch, numbered sections shown one at a time.
+   Injected by apply_labshell.py between the labshell markers; edit here, then re-run the script on every lab. */
+:root{--ls-s:var(--accent); --ls-s-soft:var(--accent-soft); --ls-line-strong:#7A8A94}
+:root[data-strand="inorg"]{--ls-s:#7B4B94; --ls-s-soft:#F1E9F5}
+:root[data-strand="org"]{--ls-s:#A0522D; --ls-s-soft:#F6E7DE}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--ls-line-strong:#6E7D87}
+  :root[data-strand="inorg"]:not([data-theme="light"]){--ls-s:#C49AD8; --ls-s-soft:#36283F}
+  :root[data-strand="org"]:not([data-theme="light"]){--ls-s:#E09A72; --ls-s-soft:#3F2A1F}
+}
+:root[data-theme="dark"]{--ls-line-strong:#6E7D87}
+:root[data-theme="dark"][data-strand="inorg"]{--ls-s:#C49AD8; --ls-s-soft:#36283F}
+:root[data-theme="dark"][data-strand="org"]{--ls-s:#E09A72; --ls-s-soft:#3F2A1F}
+
+/* title block: icon left, stamp in the strand ink, theme switch beside the syllabus tag */
+.top .title-block.ls-has-ico{display:grid; grid-template-columns:84px minmax(0,1fr); column-gap:18px; align-items:start}
+.top .title-block.ls-has-ico > *:not(.ls-ico){grid-column:2}
+.ls-ico{grid-column:1; grid-row:1 / span 3; width:84px; height:66px; background:var(--ls-s-soft); color:var(--ls-s); border-radius:4px; padding:2px}
+.ls-ico svg{display:block; width:100%; height:100%; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.ls-ico .f{fill:currentColor; stroke:none}
+.ls-ico .fl{fill:currentColor; fill-opacity:.35}
+.ls-ico .bg{fill:var(--ls-s-soft); stroke:currentColor}
+.ls-ico .t{fill:currentColor; stroke:none; font-family:var(--mono); font-weight:500}
+.top .title-block > .stamp{color:var(--ls-s)}
+.ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
+.themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
+.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button:first-child{border-left:0}
+.themesw button:hover{color:var(--ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
+@media (max-width:640px){
+  .top .title-block.ls-has-ico{grid-template-columns:56px minmax(0,1fr); column-gap:12px}
+  .ls-ico{width:56px; height:44px; padding:1px}
+}
+
+/* numbered tabs and Show all */
+.secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
+
+/* In this lab: one card per section */
+.ls-map{margin:24px 0 4px; border:1px solid var(--line); border-radius:6px; background:var(--surface)}
+.ls-map > summary{cursor:pointer; list-style:none; display:flex; align-items:baseline; gap:10px; padding:14px 18px; font-weight:600; font-size:1.05rem}
+.ls-map > summary::-webkit-details-marker{display:none}
+.ls-map > summary::before{content:"+"; font-family:var(--mono); color:var(--ink-2); width:12px}
+.ls-map[open] > summary::before{content:"−"}
+.ls-map > summary .ls-count{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:400; color:var(--ink-2)}
+.ls-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap:10px; padding:0 18px 18px}
+.ls-card{display:grid; grid-template-columns:auto minmax(0,1fr); gap:2px 12px; text-decoration:none; color:var(--ink); background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:12px 14px}
+.ls-card:hover{border-color:var(--accent)}
+.ls-card[aria-current="true"]{border-color:var(--accent); background:var(--accent-soft)}
+.ls-card .ls-num{grid-row:1 / span 3; font-family:var(--mono); font-variant-ligatures:none; font-size:20px; line-height:24px; font-weight:500; color:var(--ls-s)}
+.ls-card .ls-eb{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; color:var(--muted)}
+.ls-card .ls-t{font-weight:600; line-height:1.35}
+.ls-card .ls-l{font-size:.82rem; line-height:1.4; color:var(--ink-2)}
+
+/* section stamp and pager */
+.sechead .ls-stamp{color:var(--ls-s); margin:0}
+.ls-pager{display:none; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:28px 0 8px}
+.ls-pager a{display:inline-block; text-decoration:none; border:1px solid var(--line); border-radius:6px; padding:8px 14px; color:var(--ink); background:var(--surface); max-width:100%}
+.ls-pager a small{display:block; font-size:.75rem; color:var(--ink-2)}
+.ls-pager a.ls-next{margin-left:auto; text-align:right; background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.ls-pager a.ls-next small{color:inherit; opacity:.85}
+.ls-pager a:hover{border-color:var(--accent)}
+
+/* one section at a time; the others keep their width (charts measure it) but take no space */
+.ls-stations main{position:relative}
+.ls-stations .ls-pager{display:flex}
+.ls-stations section.lab{border-bottom:0}
+.ls-stations section.lab.ls-off{position:absolute!important; left:-300vw!important; top:0; width:100%; height:0!important; overflow:hidden!important; visibility:hidden; padding:0!important; margin:0!important}
+
+@media print{
+  .themesw,.ls-all,.ls-map,.ls-pager{display:none!important}
+  .ls-stations section.lab.ls-off{position:static!important; height:auto!important; overflow:visible!important; visibility:visible}
+}
+/* labshell:end */
 </style>
 
 <header class="top">
   <div class="wrap">
     <p class="crumbs"><a href="../">&larr; ChemLab: all topics</a> &nbsp;·&nbsp; Notes: <a href="part-1.html">Part 1 · Relative masses, the mole and formulae</a>, <a href="part-2.html">Part 2 · Equations, reacting quantities and titrations</a> &nbsp;·&nbsp; <a href="tutorial-1.html">Tutorial 1</a>, <a href="tutorial-2.html">Tutorial 2</a></p>
-    <div class="title-block"><p class="stamp" aria-hidden="true">Lab 6 · 04/10/26</p><div class="row">
+    <div class="title-block ls-has-ico"><div class="ls-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <rect x="33" y="3" width="6" height="28" rx="1"/><line x1="36" y1="31" x2="36" y2="38"/><line x1="31.5" y1="27" x2="40.5" y2="27"/>
+    <line x1="35" y1="9" x2="39" y2="9" opacity=".6"/><line x1="35" y1="14" x2="39" y2="14" opacity=".6"/><line x1="35" y1="19" x2="39" y2="19" opacity=".6"/>
+    <path d="M31 36 V42 L19 53 H53 L41 42 V36"/>
+    <path class="f" d="M23.5 49 H48.5 L53 53 H19 Z" opacity=".45"/></svg></div><!-- /ls-ico --><p class="stamp" aria-hidden="true">Lab 6</p><div class="row">
       <h1>Topic 6 · The Mole Concept and Stoichiometry</h1>
-      <span class="tag">SEAB H2 Chemistry 9476</span>
+      <span class="ls-tr"><span class="tag">SEAB H2 Chemistry 9476</span><div class="themesw" role="group" aria-label="Colour theme"><button type="button" data-theme-v="auto">Auto</button><button type="button" data-theme-v="light">Light</button><button type="button" data-theme-v="dark">Dark</button></div></span>
     </div>
     <p class="sub">Mole Concept Lab: interactive companion to H2 Chemistry notes © Gary Chan</p></div>
   </div>
@@ -653,7 +736,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 6 The Mole Concept and Stoichiometry</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub>, <i>L</i>, <i>R</i> and molar volumes from the Data Booklet · isotopic abundances are literature values · all answers computed live in the page</span>
-  </div>
+  <span class="ls-updated">Last updated 04/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -2744,3 +2827,139 @@ bindMap(); bindIso(); bindBL(); bindLR(); blSet(0); bindFF(); bindGB(); bindTI()
 MC.ready = true;
 })();
 </script>
+<!-- labshell:start --><script>
+/* ChemLab lab shell (17/10/26). Runs after the lab's own script.
+   - Theme switch (Auto / Light / Dark, remembered per browser as "chemlab-theme").
+   - Numbered tabs, an "In this lab" map, a "Lab N §k · Section k of n" stamp and Previous / Next on each section.
+   - One section at a time; "Show all" gives the long page back. A bare #section-id in the address opens that section.
+   - Automated browsers (navigator.webdriver, i.e. the Playwright suites) get the long page so every control stays
+     clickable; add ?stations to force one-at-a-time there, or ?all to force the long page anywhere. */
+(function () {
+  var root = document.documentElement;
+
+  // ---- theme switch ----
+  var tb = document.querySelectorAll("[data-theme-v]");
+  function showTheme() { var t = root.getAttribute("data-theme") || "auto"; tb.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-v") === t)); }); }
+  tb.forEach(function (b) { b.addEventListener("click", function () {
+    var v = b.getAttribute("data-theme-v");
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    try { if (v === "auto") localStorage.removeItem("chemlab-theme"); else localStorage.setItem("chemlab-theme", v); } catch (e) {}
+    showTheme(); window.dispatchEvent(new Event("resize"));
+  }); });
+  showTheme();
+
+  // ---- sections ----
+  var secs = Array.prototype.slice.call(document.querySelectorAll("section.lab[id]"));
+  if (!secs.length) return;
+  var n = secs.length, ids = secs.map(function (s) { return s.id; });
+  var stamp = document.querySelector(".top .title-block > .stamp");
+  var labCode = stamp ? stamp.textContent.trim() : "Lab";
+  var strip = document.querySelector(".secnav .wrap");
+  var links = Array.prototype.slice.call(document.querySelectorAll('.secnav a[href^="#"]'));
+  var linkFor = {};
+  links.forEach(function (a) { linkFor[a.getAttribute("href").slice(1)] = a; });
+
+  function title(s) { var h = s.querySelector(".sechead h2"); return h ? h.innerHTML : s.id; }
+  function plain(html) { var d = document.createElement("div"); d.innerHTML = html; return d.textContent; }
+  function firstSentence(s) {
+    var p = s.querySelector(".sechead p:not(.ls-stamp)"); if (!p) return "";
+    var h = p.innerHTML.trim(), m = /^(.*?[.?!])(\s|$)/.exec(plain(h)) ;
+    if (!m) return h;
+    // cut the HTML at the same number of text characters, so sub- and superscripts survive
+    var want = m[1].length, out = "", count = 0, i = 0;
+    while (i < h.length && count < want) {
+      if (h[i] === "<") { var j = h.indexOf(">", i); out += h.slice(i, j + 1); i = j + 1; continue; }
+      if (h[i] === "&") { var k = h.indexOf(";", i); out += h.slice(i, k + 1); i = k + 1; count++; continue; }
+      out += h[i]; i++; count++;
+    }
+    var open = (out.match(/<(sub|sup|i|em|b|strong)>/g) || []).length - (out.match(/<\/(sub|sup|i|em|b|strong)>/g) || []).length;
+    var tail = h.slice(i).match(/^(<\/(sub|sup|i|em|b|strong)>)+/);
+    if (open > 0 && tail) out += tail[0];
+    return out;
+  }
+
+  secs.forEach(function (s, i) {
+    var a = linkFor[s.id];
+    if (a && !a.querySelector(".ls-n")) a.insertAdjacentHTML("afterbegin", '<span class="ls-n" aria-hidden="true">' + (i + 1) + "</span>");
+    var head = s.querySelector(".sechead");
+    if (head) head.insertAdjacentHTML("afterbegin", '<p class="stamp ls-stamp" aria-hidden="true">' + labCode + " §" + (i + 1) + " · Section " + (i + 1) + " of " + n + "</p>");
+    var prev = secs[i - 1], next = secs[i + 1];
+    s.insertAdjacentHTML("beforeend", '<nav class="ls-pager" aria-label="Previous and next section">' +
+      (prev ? '<a class="ls-prev" href="#' + prev.id + '"><small>Previous</small>' + (i) + " · " + title(prev) + "</a>" : "<span></span>") +
+      (next ? '<a class="ls-next" href="#' + next.id + '"><small>Next</small>' + (i + 2) + " · " + title(next) + "</a>" : "") + "</nav>");
+  });
+
+  // "In this lab" map, before the first section
+  var cards = secs.map(function (s, i) {
+    var eb = s.querySelector(".sechead .eyebrow");
+    return '<a class="ls-card" href="#' + s.id + '"><span class="ls-num">' + (i + 1) + '</span><span class="ls-eb">' + (eb ? eb.innerHTML : "") +
+      '</span><span class="ls-t">' + title(s) + '</span><span class="ls-l">' + firstSentence(s) + "</span></a>";
+  }).join("");
+  secs[0].insertAdjacentHTML("beforebegin", '<details class="ls-map"' + (window.innerWidth > 760 ? " open" : "") +
+    '><summary>In this lab <span class="ls-count">' + n + " sections</span></summary><div class=\"ls-grid\">" + cards + "</div></details>");
+
+  // Show all / one at a time
+  var allBtn = document.createElement("button");
+  allBtn.type = "button"; allBtn.className = "ls-all";
+  if (strip) strip.appendChild(allBtn);
+
+  var q = location.search, stations = /[?&]all\b/.test(q) ? false : /[?&]stations\b/.test(q) ? true : !navigator.webdriver;
+  var current = 0;
+
+  function keepVisible(a) {
+    if (!strip || !a) return;
+    if (strip.scrollWidth <= strip.clientWidth) return;
+    var l = a.offsetLeft - strip.offsetLeft, r = l + a.offsetWidth;
+    if (l < strip.scrollLeft) strip.scrollLeft = l - 8;
+    else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 8;
+  }
+  function mark(i) {
+    links.forEach(function (l) { l.classList.remove("on"); l.removeAttribute("aria-current"); });
+    var a = linkFor[ids[i]]; if (a) { a.classList.add("on"); a.setAttribute("aria-current", "true"); keepVisible(a); }
+    document.querySelectorAll(".ls-card").forEach(function (c, k) { c.setAttribute("aria-current", String(stations && k === i)); });
+  }
+  function render() {
+    root.classList.toggle("ls-stations", stations);
+    allBtn.textContent = stations ? "Show all" : "One at a time";
+    allBtn.setAttribute("aria-pressed", String(!stations));
+    secs.forEach(function (s, k) { var off = stations && k !== current; s.classList.toggle("ls-off", off); if (off) s.setAttribute("aria-hidden", "true"); else s.removeAttribute("aria-hidden"); });
+    if (stations) mark(current);
+    window.dispatchEvent(new Event("resize"));
+  }
+  function scrollToSection(i) {
+    var nav = document.querySelector(".secnav"), h = nav ? nav.offsetHeight : 0;
+    var y = secs[i].getBoundingClientRect().top + window.scrollY - h - 4;
+    window.scrollTo(0, Math.max(0, y));
+  }
+  function go(i, scroll) {
+    current = Math.max(0, Math.min(n - 1, i));
+    render();
+    try { history.replaceState(null, "", "#" + ids[current]); } catch (e) {}
+    if (scroll) scrollToSection(current);
+  }
+
+  allBtn.addEventListener("click", function () {
+    stations = !stations; render();
+    if (stations) scrollToSection(current);
+  });
+  document.addEventListener("click", function (e) {
+    if (!stations) return;
+    var a = e.target.closest('a[href^="#"]'); if (!a) return;
+    var i = ids.indexOf(a.getAttribute("href").slice(1)); if (i < 0) return;
+    e.preventDefault(); go(i, true);
+  });
+  window.addEventListener("hashchange", function () {
+    var i = ids.indexOf(location.hash.slice(1)); if (i >= 0 && stations) go(i, true);
+  });
+  // the lab's own scroll-spy marks tabs as the page scrolls; in station mode the open section is the marked one
+  new MutationObserver(function () {
+    var a = linkFor[ids[current]];
+    if (stations && a && !a.classList.contains("on")) mark(current);
+  }).observe(strip || document.body, { subtree: true, attributes: true, attributeFilter: ["class"] });
+
+  var start = ids.indexOf(location.hash.slice(1));
+  current = start >= 0 ? start : 0;
+  render();
+  if (start >= 0) setTimeout(function () { scrollToSection(current); }, 0);
+})();
+</script><!-- labshell:end -->

@@ -1,617 +1,569 @@
 <!doctype html>
 <html lang="en">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("chemlab-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
-<meta name="description" content="H2 Chemistry notes, tutorials and interactive labs by Gary Chan, written for SEAB H2 Chemistry 9476.">
-<title>ChemLab · H2 Chemistry notes by Gary Chan</title>
+<meta name="description" content="Chemistry notes, tutorials and interactive labs by Gary Chan: SEAB H2 Chemistry 9476, with H3 Chemistry 9813 to follow.">
+<title>ChemLab · Chemistry notes by Gary Chan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
 <style>
-:root{--bg:#F7F8F6;--surface:#FFFFFF;--surface-2:#F7F8F6;--ink:#1E2A33;--ink-2:#5B6B75;--muted:#5B6B75;--line:#DDE3E6;--line-strong:#7A8A94;
---accent:#1F6F8B;--accent-soft:#E3EEF2;--accent-2:#7B4B94;--accent-2-soft:#F1E9F5;
---sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#182026;--surface:#222C33;--surface-2:#182026;--ink:#E8EDF0;--ink-2:#9BAAB3;--muted:#9BAAB3;--line:#34414A;--line-strong:#6E7D87;--accent:#66BAD6;--accent-soft:#1E3A45;--accent-2:#C49AD8;--accent-2-soft:#36283F}}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#182026;--surface:#222C33;--surface-2:#182026;--ink:#E8EDF0;--ink-2:#9BAAB3;--muted:#9BAAB3;--line:#34414A;--line-strong:#6E7D87;--accent:#66BAD6;--accent-soft:#1E3A45;--accent-2:#C49AD8;--accent-2-soft:#36283F}
+:root{
+  --bg:#F7F8F6; --surface:#FFFFFF; --ink:#1E2A33; --ink-2:#5B6B75; --line:#DDE3E6; --line-strong:#7A8A94;
+  --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --accent-3:#A0522D; --accent-3-soft:#F6E7DE;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --ink:#E8EDF0; --ink-2:#9BAAB3; --line:#34414A; --line-strong:#6E7D87;
+  --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --accent-3:#E09A72; --accent-3-soft:#3F2A1F}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --ink:#E8EDF0; --ink-2:#9BAAB3; --line:#34414A; --line-strong:#6E7D87;
+  --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --accent-3:#E09A72; --accent-3-soft:#3F2A1F}
+[data-strand]{--s:var(--accent); --s-soft:var(--accent-soft)}
+[data-strand="inorg"]{--s:var(--accent-2); --s-soft:var(--accent-2-soft)}
+[data-strand="org"]{--s:var(--accent-3); --s-soft:var(--accent-3-soft)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:26px}
-.wrap{max-width:1200px;margin:0 auto;padding:32px 16px 48px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
 a{color:var(--accent)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.stamp{font-family:var(--mono);font-variant-ligatures:none;font-size:11px;line-height:16px;font-weight:500;letter-spacing:.04em;color:var(--accent);margin:0}
-.title-block{border:1px solid var(--line);border-radius:6px;padding:24px;margin:0 0 40px;background-color:var(--surface);
-background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:12px 12px;background-position:-1px -1px}
-h1{font-weight:600;font-size:22px;line-height:28px;margin:2px 0 6px}
-.sub{color:var(--ink-2);margin:0;max-width:60ch}
-.meta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
-.tag{font-size:12px;line-height:18px;padding:0 8px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
-h2{font-weight:600;font-size:18px;line-height:24px;margin:0 0 16px}
-.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,560px),1fr));gap:24px}
-.topics .topic{margin:0}
-.topic{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px;margin-bottom:24px}
-.topic header{margin-bottom:4px}
-.topic h3{font-weight:600;font-size:18px;line-height:24px;margin:2px 0 0}
-.topic p.what{color:var(--ink-2);margin:4px 0 16px}
-.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-@media (max-width:680px){.cols{grid-template-columns:minmax(0,1fr)}.title-block,.topic{padding:20px 16px}}
-.col h4{font-size:13px;line-height:18px;color:var(--muted);margin:0 0 6px;font-weight:600}
-.col ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.col a{display:block;text-decoration:none;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:8px 12px;font-weight:600;line-height:22px}
-.col a:hover{border-color:var(--accent);color:var(--accent)}
-.col a small{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:18px;margin-top:1px}
-.col a.lab{background:var(--accent-soft);border-color:transparent}
-.col a.lab:hover{border-color:var(--accent)}
-.soon{color:var(--muted);margin:24px 0 0}
-footer{margin-top:40px;font-size:13px;line-height:18px;color:var(--muted)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+button{font:inherit; color:inherit}
+sub,sup{font-size:.72em; line-height:0}
+.wrap{max-width:1132px; margin:0 auto; padding-block:32px 48px; padding-left:max(16px, env(safe-area-inset-left)); padding-right:max(16px, env(safe-area-inset-right))}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.title-block{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:12px 24px; border:1px solid var(--line); border-radius:6px; padding:24px; margin:0 0 24px; background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:12px 12px; background-position:-1px -1px}
+h1{font-weight:600; font-size:22px; line-height:28px; margin:2px 0 6px}
+.sub{color:var(--ink-2); margin:0; max-width:62ch}
+.themesw{display:inline-flex; border:1px solid var(--line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
+.themesw button{font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button:first-child{border-left:0}
+.themesw button:hover{color:var(--ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent); color:var(--on-accent)}
+.levels{display:flex; border-bottom:1px solid var(--line); margin:0 0 24px; overflow-x:auto; scrollbar-width:none}
+.levels::-webkit-scrollbar{display:none}
+.levels button{flex:none; background:none; border:0; border-bottom:2px solid transparent; padding:10px 14px 8px; cursor:pointer; white-space:nowrap; font-weight:600; color:var(--ink-2); text-align:left}
+.levels button small{display:block; font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:14px; font-weight:400; letter-spacing:.02em}
+.levels button[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--accent)}
+.levels button:hover{color:var(--ink)}
+.panel-intro{display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 24px; align-items:baseline; margin:0 0 20px}
+.panel-intro p{margin:0; color:var(--ink-2); max-width:62ch}
+.legend{display:flex; gap:16px; font-size:13px; line-height:18px; color:var(--ink-2)}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.sw{width:10px; height:10px; border-radius:2px; background:var(--s); display:inline-block; flex:none}
+.group{margin:0 0 28px}
+.group-head{display:flex; align-items:center; gap:10px; margin:0 0 10px}
+.group-head h2{font-size:18px; line-height:24px; font-weight:600; margin:0}
+.group-head .count{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; color:var(--ink-2)}
+.list{background:var(--surface); border:1px solid var(--line); border-radius:6px}
+.list.planned{border-style:dashed; border-color:var(--line-strong); background:transparent}
+.row{display:grid; grid-template-columns:84px minmax(0,1fr) auto; gap:8px 24px; padding:16px 20px; border-top:1px solid var(--line); position:relative}
+.planned .row{grid-template-columns:minmax(0,1fr) auto}
+.row:first-child{border-top:0}
+.row::before{content:""; position:absolute; left:-1px; top:12px; bottom:12px; width:3px; background:var(--s); border-radius:0 2px 2px 0}
+.ico-tile{width:84px; height:66px; background:var(--s-soft); color:var(--s); border-radius:4px; padding:2px; align-self:start}
+.ico{display:block; width:100%; height:100%; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
+.ico .f{fill:currentColor; stroke:none}
+.ico .fl{fill:currentColor; fill-opacity:.35}
+.ico .bg{fill:var(--s-soft); stroke:currentColor}
+.ico .t{fill:currentColor; stroke:none; font-family:var(--mono); font-weight:500}
+.row .stamp{color:var(--s)}
+.row h3{font-size:17px; line-height:24px; font-weight:600; margin:1px 0 2px}
+.row .what{margin:0; color:var(--ink-2); font-size:15px; line-height:22px; max-width:60ch}
+.builds{font-size:13px; line-height:18px; color:var(--ink-2); margin:6px 0 0}
+.links{display:flex; flex-direction:column; gap:6px; align-items:flex-end}
+.lrow{display:flex; align-items:center; gap:6px}
+.lrow .lbl{font-size:13px; line-height:18px; color:var(--ink-2); width:66px; text-align:right}
+.chip{display:inline-grid; place-items:center; min-width:30px; height:30px; padding:0 6px; border:1px solid var(--line-strong); border-radius:4px; text-decoration:none; color:var(--ink); font-family:var(--mono); font-variant-ligatures:none; font-size:13px}
+.chip:hover{border-color:var(--accent); color:var(--accent)}
+.lab-btn{display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 12px; border-radius:4px; background:var(--s-soft); color:var(--s); text-decoration:none; font-weight:600; font-size:14px; border:1px solid transparent}
+.lab-btn:hover{border-color:var(--s)}
+.more{background:none; border:0; padding:0; color:var(--ink-2); font-size:13px; line-height:18px; cursor:pointer; text-decoration:underline; text-underline-offset:3px}
+.more:hover{color:var(--accent)}
+.details{grid-column:2 / -1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:8px}
+.details[hidden]{display:none}
+.details h4{font-size:13px; line-height:18px; color:var(--ink-2); margin:0 0 6px; font-weight:600}
+.details ul{list-style:none; margin:0; padding:0; display:grid; gap:6px}
+.details a{display:block; text-decoration:none; color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:6px 10px; font-weight:600; font-size:15px; line-height:20px}
+.details a:hover{border-color:var(--accent); color:var(--accent)}
+.details a.lab-link{background:var(--s-soft); border-color:transparent}
+.details small{display:block; font-weight:400; color:var(--ink-2); font-size:13px; line-height:18px}
+.state{font-size:12px; line-height:18px; color:var(--ink-2); border:1px dashed var(--line-strong); border-radius:4px; padding:0 8px; white-space:nowrap}
+.empty{border:1px dashed var(--line-strong); border-radius:6px; padding:20px; color:var(--ink-2); margin:0}
+footer{margin-top:40px; font-size:13px; line-height:18px; color:var(--ink-2)}
+@media (max-width:760px){
+  .title-block{padding:20px 16px}
+  .row{grid-template-columns:56px minmax(0,1fr); padding:16px}
+  .planned .row{grid-template-columns:minmax(0,1fr)}
+  .ico-tile{width:56px; height:44px; padding:1px}
+  .links{grid-column:1 / -1; flex-direction:row; flex-wrap:wrap; align-items:center; gap:8px 14px}
+  .lrow .lbl{text-align:left; width:auto}
+  .lrow.last{width:100%; justify-content:space-between}
+  .row .what{display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+  .details{grid-column:1 / -1; grid-template-columns:minmax(0,1fr)}
+}
+@media print{ .themesw,.levels,.more{display:none} .panel[hidden]{display:block} .details[hidden]{display:grid} }
 </style>
 <div class="wrap">
   <header class="title-block">
-    <p class="stamp" aria-hidden="true">9476 · 16/10/26</p>
-    <h1>ChemLab</h1>
-    <p class="sub">H2 Chemistry notes, tutorials and interactive labs by Gary Chan. Read online, print a page, or use the labs in class.</p>
-    <p class="meta"><span class="tag">SEAB H2 Chemistry 9476</span></p>
+    <div>
+      <p class="stamp" aria-hidden="true">H2 9476 · H3 9813</p>
+      <h1>ChemLab</h1>
+      <p class="sub">Chemistry notes, tutorials and interactive labs by Gary Chan. Read online, print a page, or use the labs in class.</p>
+    </div>
+    <div class="themesw" role="group" aria-label="Colour theme"><button type="button" data-theme-v="auto">Auto</button><button type="button" data-theme-v="light">Light</button><button type="button" data-theme-v="dark">Dark</button></div>
   </header>
-
-  <h2>Topics</h2>
-  <div class="topics">
-  <section class="topic" aria-labelledby="t1">
-    <header><p class="stamp">Topic 1 · 04/10/26</p><h3 id="t1">Atomic Structure</h3></header>
-    <p class="what">Protons, neutrons and electrons, isotopes, orbitals and their shapes, electronic configurations and ionisation energies.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="atomic-structure/part-1.html">Part 1<small>Subatomic particles, beams in a field, counting, isotopes</small></a></li>
-          <li><a href="atomic-structure/part-2.html">Part 2<small>Orbitals and shapes, configurations, ionisation energies</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="atomic-structure/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li>
-          <li><a href="atomic-structure/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 1 Atomic Structure)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="atomic-structure/">Atomic Structure Lab<small>Atom builder and beams, 3D orbitals, configurations, ionisation energies, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t2">
-    <header><p class="stamp">Topic 2 · 29/09/26</p><h3 id="t2">Chemical Bonding</h3></header>
-    <p class="what">Ionic, metallic, covalent and dative bonding, shapes of molecules, polarity, intermolecular forces and lattices.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="bonding/part-1.html">Part 1<small>Types of bonding, dot-and-cross, σ and π, bond energy</small></a></li>
-          <li><a href="bonding/part-2.html">Part 2<small>VSEPR shapes, bond angles, polar molecules</small></a></li>
-          <li><a href="bonding/part-3.html">Part 3<small>Intermolecular forces, lattices, properties</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="bonding/tutorial-1.html">Tutorial 1<small>6 questions</small></a></li>
-          <li><a href="bonding/tutorial-2.html">Tutorial 2<small>6 questions</small></a></li>
-          <li><a href="bonding/tutorial-3.html">Tutorial 3<small>7 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 2 Chemical Bonding)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="bonding/">Chemical Bonding Lab<small>3D shapes, bond polarity, lattices, structure from properties, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t3">
-    <header><p class="stamp">Topic 3 · 30/09/26</p><h3 id="t3">The Gaseous State</h3></header>
-    <p class="what">Kinetic theory, the gas laws and pV = nRT, finding M<sub>r</sub>, real gases and Dalton's Law of partial pressures.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="gases/part-1.html">Part 1<small>Kinetic theory, gas laws, pV = nRT, M<sub>r</sub></small></a></li>
-          <li><a href="gases/part-2.html">Part 2<small>Real gases, Dalton's Law, critical point, scCO<sub>2</sub></small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="gases/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li>
-          <li><a href="gases/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 3 The Gaseous State)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="gases/">Gaseous State Lab<small>Particle box, real vs ideal, Dalton mixer, calculations, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t4">
-    <header><p class="stamp">Topic 4 · 01/10/26</p><h3 id="t4">Theories of Acids and Bases</h3></header>
-    <p class="what">Arrhenius, Brønsted-Lowry and Lewis theories, conjugate acid-base pairs, amphoteric water and the BF<sub>3</sub> + NH<sub>3</sub> adduct.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="acids-bases/part-1.html">Part 1<small>The three theories, conjugate pairs, Lewis adducts</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="acids-bases/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 4 Theories of Acids and Bases)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="acids-bases/">Acids and Bases Lab<small>Proton transfer, BF<sub>3</sub> + NH<sub>3</sub> in 3D, which theory?, levelling, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t5">
-    <header><p class="stamp">Topic 5 · 07/10/26</p><h3 id="t5">The Periodic Table</h3></header>
-    <p class="what">Trends across Period 3 and down Groups 2 and 17: radii, ionisation energy, electronegativity, melting points, oxides and chlorides, E⦵ values and thermal stability.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="periodic-table/part-1.html">Part 1<small>Configurations, radii, ionisation energy, electronegativity, melting point and conductivity, halogen volatility</small></a></li>
-          <li><a href="periodic-table/part-2.html">Part 2<small>Period 3 oxides and chlorides: oxidation numbers, bonding, water, acid-base and amphoteric behaviour</small></a></li>
-          <li><a href="periodic-table/part-3.html">Part 3<small>Groups 2 and 17 by E⦵, thermal stability of carbonates and hydrides, unknown elements</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="periodic-table/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li>
-          <li><a href="periodic-table/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li>
-          <li><a href="periodic-table/tutorial-3.html">Tutorial 3<small>9 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 5 The Periodic Table)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="periodic-table/">Periodic Table Lab<small>Trends explorer, oxides and chlorides bench, Groups 2 and 17 bench, unknown element detective, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t6">
-    <header><p class="stamp">Topic 6 · 04/10/26</p><h3 id="t6">The Mole Concept and Stoichiometry</h3></header>
-    <p class="what">Relative masses, the mole, empirical and molecular formulae, balanced equations, reacting masses, gas volumes, solutions and titrations.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="mole-concept/part-1.html">Part 1<small>Relative masses, the mole, A<sub>r</sub> from isotopes, empirical and molecular formulae</small></a></li>
-          <li><a href="mole-concept/part-2.html">Part 2<small>Equations, reacting masses, limiting reagents, gas volumes, solutions and titrations</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="mole-concept/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li>
-          <li><a href="mole-concept/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 6 The Mole Concept and Stoichiometry)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="mole-concept/">Mole Concept Lab<small>Mole map, balancer and limiting reagent, formula finder, gas burner, titration bench, generator, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t7">
-    <header><p class="stamp">Topic 7 · 07/10/26</p><h3 id="t7">Chemical Energetics</h3></header>
-    <p class="what">Enthalpy changes and how to measure them, Hess' Law and Born-Haber cycles, lattice energy, entropy and Gibbs free energy.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="energetics/part-1.html">Part 1<small>Exothermic and endothermic changes, energy profiles, standard enthalpy changes, calorimetry</small></a></li>
-          <li><a href="energetics/part-2.html">Part 2<small>Hess' Law, bond energies, lattice energy and Born-Haber cycles, solution and hydration</small></a></li>
-          <li><a href="energetics/part-3.html">Part 3<small>Entropy, ΔG = ΔH − TΔS, spontaneity and its limitations</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="energetics/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li>
-          <li><a href="energetics/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li>
-          <li><a href="energetics/tutorial-3.html">Tutorial 3<small>9 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 7 Chemical Energetics)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="energetics/">Energetics Lab<small>Energy profile builder, calorimetry bench, Hess and Born-Haber builder, entropy and ΔG explorer, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t8">
-    <header><p class="stamp">Topic 8 · 29/09/26</p><h3 id="t8">Reaction Kinetics</h3></header>
-    <p class="what">Rate equations and orders, half-life, the Boltzmann distribution, catalysis and enzymes.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="kinetics/part-1.html">Part 1<small>Rate equations, orders, half-life, mechanisms</small></a></li>
-          <li><a href="kinetics/part-2.html">Part 2<small>Collisions, Boltzmann, catalysis, enzymes</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="kinetics/tutorial-1.html">Tutorial 1<small>4 questions</small></a></li>
-          <li><a href="kinetics/tutorial-2.html">Tutorial 2<small>9 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 8 Reaction Kinetics)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="kinetics/">Reaction Kinetics Lab<small>Boltzmann explorer, orders, initial rates, half-life, profiles, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t9">
-    <header><p class="stamp">Topic 9 · 13/10/26</p><h3 id="t9">Chemical Equilibria</h3></header>
-    <p class="what">Dynamic equilibrium, Kc and Kp with calculations, Le Chatelier's Principle, what changes K, and the Haber process.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="equilibria/part-1.html">Part 1<small>Dynamic equilibrium, Kc, Kp, calculations</small></a></li>
-          <li><a href="equilibria/part-2.html">Part 2<small>Le Chatelier, what changes K, the Haber process</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="equilibria/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li>
-          <li><a href="equilibria/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 9 Chemical Equilibria)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="equilibria/">Equilibria Lab<small>Dynamic equilibrium box, Le Chatelier bench, ICE workbench, practice, Haber plant, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t10">
-    <header><p class="stamp">Topic 10 · 13/10/26</p><h3 id="t10">Chemistry of Aqueous Solutions</h3></header>
-    <p class="what">Kw, pH, Ka and Kb with calculations, titration curves and indicators, buffers and the ocean's carbonate buffer, solubility product, the common ion effect and complex ions.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="aqueous/part-1.html">Part 1<small>Kw, pH, strong and weak, Ka, Kb, pH calculations</small></a></li>
-          <li><a href="aqueous/part-2.html">Part 2<small>Titration curves, indicators, buffers, the oceans</small></a></li>
-          <li><a href="aqueous/part-3.html">Part 3<small>Ksp, precipitation, common ion effect, complex ions</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="aqueous/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li>
-          <li><a href="aqueous/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li>
-          <li><a href="aqueous/tutorial-3.html">Tutorial 3<small>10 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 10 Chemistry of Aqueous Solutions)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="aqueous/">Aqueous Solutions Lab<small>pH and Ka explorer, titration curve builder, buffer bench, ocean, solubility bench, silver halides, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t11a">
-    <header><p class="stamp">Topic 11.1–11.3 · 04/10/26</p><h3 id="t11a">Introduction to Organic Chemistry</h3></header>
-    <p class="what">Formulae, names and shapes; isomerism and chirality; reaction terminology and the five core mechanisms.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="organic-intro/part-1.html">Part 1<small>Formulae, functional groups, naming, hybridisation, shapes</small></a></li>
-          <li><a href="organic-intro/part-2.html">Part 2<small>Constitutional, cis-trans and optical isomerism</small></a></li>
-          <li><a href="organic-intro/part-3.html">Part 3<small>Terminology, reactivity, the five mechanisms</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="organic-intro/tutorial-1.html">Tutorial 1<small>8 questions</small></a></li>
-          <li><a href="organic-intro/tutorial-2.html">Tutorial 2<small>12 questions</small></a></li>
-          <li><a href="organic-intro/tutorial-3.html">Tutorial 3<small>10 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.1–11.3 Introduction to Organic Chemistry)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="organic-intro/">Introduction to Organic Chemistry Lab<small>Hybrid orbitals in 3D, chirality mirror, curly-arrow mechanisms, spot it, naming drill, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t114">
-    <header><p class="stamp">Topic 11.4 · 14/10/26</p><h3 id="t114">Hydrocarbons</h3></header>
-    <p class="what">Alkanes, alkenes and arenes: free radicals, electrophilic addition and substitution, oxidation, fuels and the environment.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="hydrocarbons/part-1.html">Part 1<small>Alkanes, alkenes, Markovnikov's rule, manganate(VII), fuels and the environment</small></a></li>
-          <li><a href="hydrocarbons/part-2.html">Part 2<small>Arenes: electrophilic substitution, positions, side chain or ring</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="hydrocarbons/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li>
-          <li><a href="hydrocarbons/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.4 Hydrocarbons)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="hydrocarbons/">Hydrocarbons Lab<small>Markovnikov explorer, ring positions, side chain or ring, KMnO₄ detective, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t115">
-    <header><p class="stamp">Topic 11.5 · 14/10/26</p><h3 id="t115">Halogen Derivatives</h3></header>
-    <p class="what">Halogenoalkanes: nucleophilic substitution and elimination, stereochemistry, tests with silver nitrate, fluoroalkanes and CFCs.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="halogen-derivatives/part-1.html">Part 1<small>Substitution, elimination, inversion and racemisation, tests, CFCs</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="halogen-derivatives/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.5 Halogen Derivatives)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="halogen-derivatives/">Halogen Derivatives Lab<small>S<sub>N</sub>1 and S<sub>N</sub>2 in 3D, silver nitrate bench, substitution or elimination, ozone and climate, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t116">
-    <header><p class="stamp">Topic 11.6 · 14/10/26</p><h3 id="t116">Hydroxy Compounds</h3></header>
-    <p class="what">Alcohols and phenol: oxidation, dehydration, the tri-iodomethane test, acidity and ring reactions.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="hydroxy-compounds/part-1.html">Part 1<small>Alcohols: reactions, oxidation, 1°/2°/3° tests, tri-iodomethane</small></a></li>
-          <li><a href="hydroxy-compounds/part-2.html">Part 2<small>Phenol: acidity, bromination, nitration, relative acidity</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="hydroxy-compounds/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li>
-          <li><a href="hydroxy-compounds/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.6 Hydroxy Compounds)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="hydroxy-compounds/">Hydroxy Compounds Lab<small>Oxidation bench, tri-iodomethane tester, acidity ladder, phenol against benzene, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t117">
-    <header><p class="stamp">Topic 11.7 · 14/10/26</p><h3 id="t117">Carbonyl Compounds</h3></header>
-    <p class="what">Aldehydes and ketones: formation and reduction, HCN addition, and the carbonyl tests.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="carbonyl-compounds/part-1.html">Part 1<small>Formation, reduction, HCN addition, 2,4-DNPH, Tollens', Fehling's, tri-iodomethane</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="carbonyl-compounds/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.7 Carbonyl Compounds)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="carbonyl-compounds/">Carbonyl Compounds Lab<small>Test bench with unknowns, HCN addition in 3D, redox ladder, deduce the unknown, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t118">
-    <header><p class="stamp">Topic 11.8 · 14/10/26</p><h3 id="t118">Carboxylic Acids and Derivatives</h3></header>
-    <p class="what">Carboxylic acids, acyl chlorides and esters: formation, acidity, condensation and hydrolysis.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="carboxylic-acids/part-1.html">Part 1<small>Making carboxylic acids, their reactions, acidity and the chloroethanoic acids</small></a></li>
-          <li><a href="carboxylic-acids/part-2.html">Part 2<small>Acyl chlorides, ease of hydrolysis, making and hydrolysing esters</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="carboxylic-acids/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li>
-          <li><a href="carboxylic-acids/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.8 Carboxylic Acids and Derivatives)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="carboxylic-acids/">Carboxylic Acids and Derivatives Lab<small>Acidity explorer, hydrolysis bench, ester bench, acyl chloride hub, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t119">
-    <header><p class="stamp">Topic 11.9 · 14/10/26</p><h3 id="t119">Nitrogen Compounds</h3></header>
-    <p class="what">Amines, amides and amino acids: formation, basicity, neutrality of amides and acid-base behaviour.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="nitrogen-compounds/part-1.html">Part 1<small>Amines: making them, salts, basicity, phenylamine with bromine</small></a></li>
-          <li><a href="nitrogen-compounds/part-2.html">Part 2<small>Amides and amino acids</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="nitrogen-compounds/tutorial-1.html">Tutorial 1<small>11 questions</small></a></li>
-          <li><a href="nitrogen-compounds/tutorial-2.html">Tutorial 2<small>12 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.9 Nitrogen Compounds)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="nitrogen-compounds/">Nitrogen Compounds Lab<small>Basicity ladder, nitrobenzene to phenylamine, amide viewer, glycine speciation, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t1110">
-    <header><p class="stamp">Topic 11.10 · 14/10/26</p><h3 id="t1110">Polymers</h3></header>
-    <p class="what">Addition and condensation polymers, proteins, biodegradability and recycling, and the organic reaction map for 11.4 to 11.10.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="polymers/part-1.html">Part 1<small>Polymers, proteins, biodegradability, recycling and the reaction map</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="polymers/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.10 Polymers)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="polymers/">Polymers Lab<small>Polymer builder, protein hydrolysis, biodegradability sorter, route planner, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t12">
-    <header><p class="stamp">Topic 12 · 16/10/26</p><h3 id="t12">Electrochemistry</h3></header>
-    <p class="what">Redox and half-equations, electrode potentials and cells, ΔG<sup>⦵</sup> = −nFE<sup>⦵</sup>, batteries and fuel cells, and electrolysis.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="electrochemistry/part-1.html">Part 1<small>Redox: oxidation numbers, half-equations and building redox equations</small></a></li>
-          <li><a href="electrochemistry/part-2.html">Part 2<small>Electrode potentials, the hydrogen electrode, cells, concentration, batteries and fuel cells</small></a></li>
-          <li><a href="electrochemistry/part-3.html">Part 3<small>Electrolysis: what forms where, Faraday calculations, anodising and copper purification</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="electrochemistry/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li>
-          <li><a href="electrochemistry/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li>
-          <li><a href="electrochemistry/tutorial-3.html">Tutorial 3<small>11 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 12 Electrochemistry)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="electrochemistry/">Electrochemistry Lab<small>Redox equation builder, cell builder, E and concentration, electrolysis bench, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <section class="topic" aria-labelledby="t13">
-    <header><p class="stamp">Topic 13 · 16/10/26</p><h3 id="t13">Transition Elements</h3></header>
-    <p class="what">What makes a transition element, variable oxidation states, complexes and ligand exchange, d-orbital splitting and colour, redox systems and catalysis.</p>
-    <div class="cols">
-      <div class="col">
-        <h4>Notes</h4>
-        <ul>
-          <li><a href="transition-elements/part-1.html">Part 1<small>Definition, configurations, radii and ionisation energies, m.p. and density against calcium, oxidation states</small></a></li>
-          <li><a href="transition-elements/part-2.html">Part 2<small>Ligands and complexes, ligand exchange, haemoglobin, d-orbital splitting and colour</small></a></li>
-          <li><a href="transition-elements/part-3.html">Part 3<small>Fe³⁺/Fe²⁺, MnO₄⁻/Mn²⁺ and Cr₂O₇²⁻/Cr³⁺, predicting with E<sup>⦵</sup>, catalysis</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Practice</h4>
-        <ul>
-          <li><a href="transition-elements/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li>
-          <li><a href="transition-elements/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li>
-          <li><a href="transition-elements/tutorial-3.html">Tutorial 3<small>10 questions</small></a></li>
-          <li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 13 Transition Elements)">Worked solutions<small>On request: email Gary</small></a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Interactive</h4>
-        <ul>
-          <li><a class="lab" href="transition-elements/">Transition Elements Lab<small>d block against calcium, configurations, splitting and colour, ligand exchange, redox, catalysis, practice, quiz</small></a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <div class="levels" role="tablist" aria-label="Levels"><button type="button" role="tab" id="tab-h2" aria-controls="h2" aria-selected="true">H2 Chemistry<small>9476 · 20 topics</small></button><button type="button" role="tab" id="tab-h3" aria-controls="h3" aria-selected="false" tabindex="-1">H3 Chemistry<small>9813 · coming</small></button><button type="button" role="tab" id="tab-uni" aria-controls="uni" aria-selected="false" tabindex="-1">First-year university<small>planned</small></button><button type="button" role="tab" id="tab-industrial" aria-controls="industrial" aria-selected="false" tabindex="-1">Industrial and process<small>planned</small></button><button type="button" role="tab" id="tab-analytical" aria-controls="analytical" aria-selected="false" tabindex="-1">Analytical<small>planned</small></button></div>
+<div class="panel" id="h2" role="tabpanel" aria-labelledby="tab-h2">
+<div class="panel-intro"><p>SEAB H2 Chemistry 9476. Each topic has notes to read or print, tutorials to practise on, and a lab to try the ideas out.</p>
+  <div class="legend" aria-hidden="true"><span data-strand="phys"><i class="sw"></i>Physical</span><span data-strand="inorg"><i class="sw"></i>Inorganic</span><span data-strand="org"><i class="sw"></i>Organic</span></div></div>
+<section class="group" data-strand="phys">
+  <div class="group-head"><span class="sw" aria-hidden="true"></span><h2>Physical chemistry</h2><span class="count">10 topics</span></div>
+  <div class="list"><article class="row" data-strand="phys" id="t-atomic-structure">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <ellipse cx="36" cy="28" rx="25" ry="9" transform="rotate(25 36 28)"/>
+    <ellipse cx="36" cy="28" rx="25" ry="9" transform="rotate(-25 36 28)"/>
+    <circle class="f" cx="36" cy="28" r="4.5"/>
+    <circle class="f" cx="13.3" cy="17.4" r="2.4"/><circle class="f" cx="58.7" cy="17.4" r="2.4"/></svg></div>
+  <div class="main"><p class="stamp">Topic 1</p><h3>Atomic Structure</h3><p class="what">Protons, neutrons and electrons, isotopes, orbitals and their shapes, electronic configurations and ionisation energies.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="atomic-structure/part-1.html" title="Part 1: Subatomic particles, beams in a field, counting, isotopes">1</a><a class="chip" href="atomic-structure/part-2.html" title="Part 2: Orbitals and shapes, configurations, ionisation energies">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="atomic-structure/tutorial-1.html" title="Tutorial 1: 9 questions">1</a><a class="chip" href="atomic-structure/tutorial-2.html" title="Tutorial 2: 10 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-atomic-structure">Details</button><a class="lab-btn" href="atomic-structure/">Lab <span aria-hidden="true">→</span></a></div>
   </div>
-
-  <p class="soon">More topics are on the way.</p>
-  <footer>H2 Chemistry © Gary Chan</footer>
+  <div class="details" id="d-atomic-structure" hidden>
+    <div><h4>Notes</h4><ul><li><a href="atomic-structure/part-1.html">Part 1<small>Subatomic particles, beams in a field, counting, isotopes</small></a></li><li><a href="atomic-structure/part-2.html">Part 2<small>Orbitals and shapes, configurations, ionisation energies</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="atomic-structure/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li><li><a href="atomic-structure/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 1 Atomic Structure)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="atomic-structure/">Atomic Structure Lab<small>Atom builder and beams, 3D orbitals, configurations, ionisation energies, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-bonding">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <line x1="36" y1="29" x2="36" y2="8"/><line x1="36" y1="29" x2="15" y2="40"/><line x1="36" y1="29" x2="57" y2="40"/>
+    <polygon class="f" points="36,29 40.5,48.5 46,46.5"/>
+    <circle class="bg" cx="36" cy="8" r="4"/><circle class="bg" cx="15" cy="40" r="4"/><circle class="bg" cx="57" cy="40" r="4"/><circle class="bg" cx="44" cy="49" r="4"/>
+    <circle class="f" cx="36" cy="29" r="5.5"/></svg></div>
+  <div class="main"><p class="stamp">Topic 2</p><h3>Chemical Bonding</h3><p class="what">Ionic, metallic, covalent and dative bonding, shapes of molecules, polarity, intermolecular forces and lattices.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="bonding/part-1.html" title="Part 1: Types of bonding, dot-and-cross, σ and π, bond energy">1</a><a class="chip" href="bonding/part-2.html" title="Part 2: VSEPR shapes, bond angles, polar molecules">2</a><a class="chip" href="bonding/part-3.html" title="Part 3: Intermolecular forces, lattices, properties">3</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="bonding/tutorial-1.html" title="Tutorial 1: 6 questions">1</a><a class="chip" href="bonding/tutorial-2.html" title="Tutorial 2: 6 questions">2</a><a class="chip" href="bonding/tutorial-3.html" title="Tutorial 3: 7 questions">3</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-bonding">Details</button><a class="lab-btn" href="bonding/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-bonding" hidden>
+    <div><h4>Notes</h4><ul><li><a href="bonding/part-1.html">Part 1<small>Types of bonding, dot-and-cross, σ and π, bond energy</small></a></li><li><a href="bonding/part-2.html">Part 2<small>VSEPR shapes, bond angles, polar molecules</small></a></li><li><a href="bonding/part-3.html">Part 3<small>Intermolecular forces, lattices, properties</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="bonding/tutorial-1.html">Tutorial 1<small>6 questions</small></a></li><li><a href="bonding/tutorial-2.html">Tutorial 2<small>6 questions</small></a></li><li><a href="bonding/tutorial-3.html">Tutorial 3<small>7 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 2 Chemical Bonding)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="bonding/">Chemical Bonding Lab<small>3D shapes, bond polarity, lattices, structure from properties, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-gases">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <rect x="9" y="7" width="54" height="42" rx="2"/>
+    <circle class="f" cx="22" cy="19" r="2.6"/><line x1="16" y1="15" x2="19" y2="17" opacity=".6"/>
+    <circle class="f" cx="46" cy="16" r="2.6"/><line x1="53" y1="12" x2="49.5" y2="14" opacity=".6"/>
+    <circle class="f" cx="31" cy="34" r="2.6"/><line x1="31" y1="42" x2="31" y2="38" opacity=".6"/>
+    <circle class="f" cx="53" cy="37" r="2.6"/><line x1="58" y1="42" x2="55.5" y2="39.5" opacity=".6"/>
+    <circle class="f" cx="17" cy="40" r="2.6"/><line x1="13" y1="34" x2="15.3" y2="37.2" opacity=".6"/>
+    <circle class="f" cx="39" cy="25" r="2.6"/><line x1="33" y1="22" x2="36.3" y2="23.7" opacity=".6"/></svg></div>
+  <div class="main"><p class="stamp">Topic 3</p><h3>The Gaseous State</h3><p class="what">Kinetic theory, the gas laws and pV = nRT, finding M<sub>r</sub>, real gases and Dalton's Law of partial pressures.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="gases/part-1.html" title="Part 1: Kinetic theory, gas laws, pV = nRT, Mr">1</a><a class="chip" href="gases/part-2.html" title="Part 2: Real gases, Dalton's Law, critical point, scCO2">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="gases/tutorial-1.html" title="Tutorial 1: 10 questions">1</a><a class="chip" href="gases/tutorial-2.html" title="Tutorial 2: 10 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-gases">Details</button><a class="lab-btn" href="gases/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-gases" hidden>
+    <div><h4>Notes</h4><ul><li><a href="gases/part-1.html">Part 1<small>Kinetic theory, gas laws, pV = nRT, M<sub>r</sub></small></a></li><li><a href="gases/part-2.html">Part 2<small>Real gases, Dalton's Law, critical point, scCO<sub>2</sub></small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="gases/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li><li><a href="gases/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 3 The Gaseous State)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="gases/">Gaseous State Lab<small>Particle box, real vs ideal, Dalton mixer, calculations, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-acids-bases">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <circle cx="16" cy="38" r="9"/><circle cx="56" cy="38" r="9"/>
+    <circle class="f" cx="25.5" cy="29.5" r="3"/>
+    <path d="M27 24 C31 10 44 9 49.5 24"/><polygon class="f" points="49.5,24 44.8,19.9 50.4,17.8"/>
+    <text class="t" x="36" y="12" font-size="10" text-anchor="middle">H⁺</text></svg></div>
+  <div class="main"><p class="stamp">Topic 4</p><h3>Theories of Acids and Bases</h3><p class="what">Arrhenius, Brønsted-Lowry and Lewis theories, conjugate acid-base pairs, amphoteric water and the BF<sub>3</sub> + NH<sub>3</sub> adduct.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="acids-bases/part-1.html" title="Part 1: The three theories, conjugate pairs, Lewis adducts">1</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="acids-bases/tutorial-1.html" title="Tutorial 1: 9 questions">1</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-acids-bases">Details</button><a class="lab-btn" href="acids-bases/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-acids-bases" hidden>
+    <div><h4>Notes</h4><ul><li><a href="acids-bases/part-1.html">Part 1<small>The three theories, conjugate pairs, Lewis adducts</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="acids-bases/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 4 Theories of Acids and Bases)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="acids-bases/">Acids and Bases Lab<small>Proton transfer, BF<sub>3</sub> + NH<sub>3</sub> in 3D, which theory?, levelling, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-mole-concept">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <rect x="33" y="3" width="6" height="28" rx="1"/><line x1="36" y1="31" x2="36" y2="38"/><line x1="31.5" y1="27" x2="40.5" y2="27"/>
+    <line x1="35" y1="9" x2="39" y2="9" opacity=".6"/><line x1="35" y1="14" x2="39" y2="14" opacity=".6"/><line x1="35" y1="19" x2="39" y2="19" opacity=".6"/>
+    <path d="M31 36 V42 L19 53 H53 L41 42 V36"/>
+    <path class="f" d="M23.5 49 H48.5 L53 53 H19 Z" opacity=".45"/></svg></div>
+  <div class="main"><p class="stamp">Topic 6</p><h3>The Mole Concept and Stoichiometry</h3><p class="what">Relative masses, the mole, empirical and molecular formulae, balanced equations, reacting masses, gas volumes, solutions and titrations.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="mole-concept/part-1.html" title="Part 1: Relative masses, the mole, Ar from isotopes, empirical and molecular formulae">1</a><a class="chip" href="mole-concept/part-2.html" title="Part 2: Equations, reacting masses, limiting reagents, gas volumes, solutions and titrations">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="mole-concept/tutorial-1.html" title="Tutorial 1: 9 questions">1</a><a class="chip" href="mole-concept/tutorial-2.html" title="Tutorial 2: 11 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-mole-concept">Details</button><a class="lab-btn" href="mole-concept/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-mole-concept" hidden>
+    <div><h4>Notes</h4><ul><li><a href="mole-concept/part-1.html">Part 1<small>Relative masses, the mole, A<sub>r</sub> from isotopes, empirical and molecular formulae</small></a></li><li><a href="mole-concept/part-2.html">Part 2<small>Equations, reacting masses, limiting reagents, gas volumes, solutions and titrations</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="mole-concept/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li><li><a href="mole-concept/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 6 The Mole Concept and Stoichiometry)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="mole-concept/">Mole Concept Lab<small>Mole map, balancer and limiting reagent, formula finder, gas burner, titration bench, generator, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-energetics">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <path d="M8 5 V50 H66"/>
+    <path d="M12 21 H21 C28 21 29 9 35 9 C41 9 42 39 49 39 H63"/>
+    <line x1="21" y1="21" x2="60" y2="21" stroke-dasharray="2.5 2.5" opacity=".7"/>
+    <line x1="57" y1="22" x2="57" y2="33"/><polygon class="f" points="57,38.5 54.2,33.5 59.8,33.5"/></svg></div>
+  <div class="main"><p class="stamp">Topic 7</p><h3>Chemical Energetics</h3><p class="what">Enthalpy changes and how to measure them, Hess' Law and Born-Haber cycles, lattice energy, entropy and Gibbs free energy.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="energetics/part-1.html" title="Part 1: Exothermic and endothermic changes, energy profiles, standard enthalpy changes, calorimetry">1</a><a class="chip" href="energetics/part-2.html" title="Part 2: Hess' Law, bond energies, lattice energy and Born-Haber cycles, solution and hydration">2</a><a class="chip" href="energetics/part-3.html" title="Part 3: Entropy, ΔG = ΔH − TΔS, spontaneity and its limitations">3</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="energetics/tutorial-1.html" title="Tutorial 1: 10 questions">1</a><a class="chip" href="energetics/tutorial-2.html" title="Tutorial 2: 11 questions">2</a><a class="chip" href="energetics/tutorial-3.html" title="Tutorial 3: 9 questions">3</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-energetics">Details</button><a class="lab-btn" href="energetics/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-energetics" hidden>
+    <div><h4>Notes</h4><ul><li><a href="energetics/part-1.html">Part 1<small>Exothermic and endothermic changes, energy profiles, standard enthalpy changes, calorimetry</small></a></li><li><a href="energetics/part-2.html">Part 2<small>Hess' Law, bond energies, lattice energy and Born-Haber cycles, solution and hydration</small></a></li><li><a href="energetics/part-3.html">Part 3<small>Entropy, ΔG = ΔH − TΔS, spontaneity and its limitations</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="energetics/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li><li><a href="energetics/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li><li><a href="energetics/tutorial-3.html">Tutorial 3<small>9 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 7 Chemical Energetics)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="energetics/">Energetics Lab<small>Energy profile builder, calorimetry bench, Hess and Born-Haber builder, entropy and ΔG explorer, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-kinetics">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <path d="M8 5 V50 H66"/>
+    <path d="M9 49 C14 49 16 12 25 12 C34 12 42 43 65 47"/>
+    <path class="f" d="M47 50 V38.8 C53 43.5 59 46 65 47 V50 Z" opacity=".5"/>
+    <line x1="47" y1="8" x2="47" y2="50" stroke-dasharray="2.5 2.5"/></svg></div>
+  <div class="main"><p class="stamp">Topic 8</p><h3>Reaction Kinetics</h3><p class="what">Rate equations and orders, half-life, the Boltzmann distribution, catalysis and enzymes.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="kinetics/part-1.html" title="Part 1: Rate equations, orders, half-life, mechanisms">1</a><a class="chip" href="kinetics/part-2.html" title="Part 2: Collisions, Boltzmann, catalysis, enzymes">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="kinetics/tutorial-1.html" title="Tutorial 1: 4 questions">1</a><a class="chip" href="kinetics/tutorial-2.html" title="Tutorial 2: 9 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-kinetics">Details</button><a class="lab-btn" href="kinetics/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-kinetics" hidden>
+    <div><h4>Notes</h4><ul><li><a href="kinetics/part-1.html">Part 1<small>Rate equations, orders, half-life, mechanisms</small></a></li><li><a href="kinetics/part-2.html">Part 2<small>Collisions, Boltzmann, catalysis, enzymes</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="kinetics/tutorial-1.html">Tutorial 1<small>4 questions</small></a></li><li><a href="kinetics/tutorial-2.html">Tutorial 2<small>9 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 8 Reaction Kinetics)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="kinetics/">Reaction Kinetics Lab<small>Boltzmann explorer, orders, initial rates, half-life, profiles, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-equilibria">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <line x1="12" y1="22" x2="60" y2="22"/><line x1="60" y1="22" x2="51" y2="15"/>
+    <line x1="12" y1="34" x2="60" y2="34"/><line x1="12" y1="34" x2="21" y2="41"/></svg></div>
+  <div class="main"><p class="stamp">Topic 9</p><h3>Chemical Equilibria</h3><p class="what">Dynamic equilibrium, Kc and Kp with calculations, Le Chatelier's Principle, what changes K, and the Haber process.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="equilibria/part-1.html" title="Part 1: Dynamic equilibrium, Kc, Kp, calculations">1</a><a class="chip" href="equilibria/part-2.html" title="Part 2: Le Chatelier, what changes K, the Haber process">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="equilibria/tutorial-1.html" title="Tutorial 1: 10 questions">1</a><a class="chip" href="equilibria/tutorial-2.html" title="Tutorial 2: 10 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-equilibria">Details</button><a class="lab-btn" href="equilibria/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-equilibria" hidden>
+    <div><h4>Notes</h4><ul><li><a href="equilibria/part-1.html">Part 1<small>Dynamic equilibrium, Kc, Kp, calculations</small></a></li><li><a href="equilibria/part-2.html">Part 2<small>Le Chatelier, what changes K, the Haber process</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="equilibria/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li><li><a href="equilibria/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 9 Chemical Equilibria)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="equilibria/">Equilibria Lab<small>Dynamic equilibrium box, Le Chatelier bench, ICE workbench, practice, Haber plant, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-aqueous">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <path d="M8 5 V50 H66"/>
+    <path d="M10 45 C26 44 32 41 35 33 L37 21 C39 14 46 12 64 11"/>
+    <line x1="36" y1="27" x2="36" y2="50" stroke-dasharray="2.5 2.5" opacity=".7"/>
+    <text class="t" x="12" y="13" font-size="9">pH</text></svg></div>
+  <div class="main"><p class="stamp">Topic 10</p><h3>Chemistry of Aqueous Solutions</h3><p class="what">Kw, pH, Ka and Kb with calculations, titration curves and indicators, buffers and the ocean's carbonate buffer, solubility product, the common ion effect and complex ions.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="aqueous/part-1.html" title="Part 1: Kw, pH, strong and weak, Ka, Kb, pH calculations">1</a><a class="chip" href="aqueous/part-2.html" title="Part 2: Titration curves, indicators, buffers, the oceans">2</a><a class="chip" href="aqueous/part-3.html" title="Part 3: Ksp, precipitation, common ion effect, complex ions">3</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="aqueous/tutorial-1.html" title="Tutorial 1: 10 questions">1</a><a class="chip" href="aqueous/tutorial-2.html" title="Tutorial 2: 10 questions">2</a><a class="chip" href="aqueous/tutorial-3.html" title="Tutorial 3: 10 questions">3</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-aqueous">Details</button><a class="lab-btn" href="aqueous/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-aqueous" hidden>
+    <div><h4>Notes</h4><ul><li><a href="aqueous/part-1.html">Part 1<small>Kw, pH, strong and weak, Ka, Kb, pH calculations</small></a></li><li><a href="aqueous/part-2.html">Part 2<small>Titration curves, indicators, buffers, the oceans</small></a></li><li><a href="aqueous/part-3.html">Part 3<small>Ksp, precipitation, common ion effect, complex ions</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="aqueous/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li><li><a href="aqueous/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li><li><a href="aqueous/tutorial-3.html">Tutorial 3<small>10 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 10 Chemistry of Aqueous Solutions)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="aqueous/">Aqueous Solutions Lab<small>pH and Ka explorer, titration curve builder, buffer bench, ocean, solubility bench, silver halides, practice, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="phys" id="t-electrochemistry">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <path d="M7 24 V50 H29 V24"/><path d="M43 24 V50 H65 V24"/>
+    <line x1="7" y1="33" x2="29" y2="33" stroke-dasharray="2.5 2.5" opacity=".6"/><line x1="43" y1="33" x2="65" y2="33" stroke-dasharray="2.5 2.5" opacity=".6"/>
+    <rect class="f" x="16" y="14" width="4" height="30" rx="1"/><rect class="f" x="52" y="14" width="4" height="30" rx="1"/>
+    <path d="M18 14 V7 H31"/><path d="M41 7 H54 V14"/>
+    <circle cx="36" cy="7" r="5"/><text class="t" x="36" y="9.7" font-size="7" text-anchor="middle">V</text>
+    <path d="M24 38 V20 H48 V38" stroke-width="3" opacity=".55"/></svg></div>
+  <div class="main"><p class="stamp">Topic 12</p><h3>Electrochemistry</h3><p class="what">Redox and half-equations, electrode potentials and cells, ΔG<sup>⦵</sup> = −nFE<sup>⦵</sup>, batteries and fuel cells, and electrolysis.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="electrochemistry/part-1.html" title="Part 1: Redox: oxidation numbers, half-equations and building redox equations">1</a><a class="chip" href="electrochemistry/part-2.html" title="Part 2: Electrode potentials, the hydrogen electrode, cells, concentration, batteries and fuel cells">2</a><a class="chip" href="electrochemistry/part-3.html" title="Part 3: Electrolysis: what forms where, Faraday calculations, anodising and copper purification">3</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="electrochemistry/tutorial-1.html" title="Tutorial 1: 10 questions">1</a><a class="chip" href="electrochemistry/tutorial-2.html" title="Tutorial 2: 11 questions">2</a><a class="chip" href="electrochemistry/tutorial-3.html" title="Tutorial 3: 11 questions">3</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-electrochemistry">Details</button><a class="lab-btn" href="electrochemistry/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-electrochemistry" hidden>
+    <div><h4>Notes</h4><ul><li><a href="electrochemistry/part-1.html">Part 1<small>Redox: oxidation numbers, half-equations and building redox equations</small></a></li><li><a href="electrochemistry/part-2.html">Part 2<small>Electrode potentials, the hydrogen electrode, cells, concentration, batteries and fuel cells</small></a></li><li><a href="electrochemistry/part-3.html">Part 3<small>Electrolysis: what forms where, Faraday calculations, anodising and copper purification</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="electrochemistry/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li><li><a href="electrochemistry/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li><li><a href="electrochemistry/tutorial-3.html">Tutorial 3<small>11 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 12 Electrochemistry)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="electrochemistry/">Electrochemistry Lab<small>Redox equation builder, cell builder, E and concentration, electrolysis bench, practice, quiz</small></a></li></ul></div>
+  </div>
+</article></div>
+</section>
+<section class="group" data-strand="inorg">
+  <div class="group-head"><span class="sw" aria-hidden="true"></span><h2>Inorganic chemistry</h2><span class="count">2 topics</span></div>
+  <div class="list"><article class="row" data-strand="inorg" id="t-periodic-table">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true"><rect class="f" x="1.8" y="11.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="66.4" y="11.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="1.8" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="5.6" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="47.4" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="51.2" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="55.0" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="58.8" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="62.6" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="66.4" y="16.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="1.8" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="5.6" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="47.4" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="51.2" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="55.0" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="58.8" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="62.6" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="66.4" y="21.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="1.8" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="5.6" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="9.4" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="13.2" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="17.0" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="20.8" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="24.6" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="28.4" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="32.2" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="36.0" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="39.8" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="43.6" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="47.4" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="51.2" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="55.0" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="58.8" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="62.6" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="66.4" y="26.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="1.8" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="5.6" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="9.4" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="13.2" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="17.0" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="20.8" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="24.6" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="28.4" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="32.2" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="36.0" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="39.8" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="43.6" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="47.4" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="51.2" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="55.0" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="58.8" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="62.6" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="66.4" y="31.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="1.8" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="5.6" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="9.4" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="13.2" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="17.0" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="20.8" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="24.6" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="28.4" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="32.2" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="36.0" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="39.8" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="43.6" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="47.4" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="51.2" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="55.0" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="58.8" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="62.6" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="66.4" y="36.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="1.8" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="5.6" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.95"/><rect class="f" x="9.4" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="13.2" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="17.0" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="20.8" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="24.6" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="28.4" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="32.2" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="36.0" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="39.8" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="43.6" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.4"/><rect class="f" x="47.4" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="51.2" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="55.0" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="58.8" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="62.6" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/><rect class="f" x="66.4" y="41.0" width="3.2" height="4.4" rx="0.5" opacity="0.7"/></svg></div>
+  <div class="main"><p class="stamp">Topic 5</p><h3>The Periodic Table</h3><p class="what">Trends across Period 3 and down Groups 2 and 17: radii, ionisation energy, electronegativity, melting points, oxides and chlorides, E⦵ values and thermal stability.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="periodic-table/part-1.html" title="Part 1: Configurations, radii, ionisation energy, electronegativity, melting point and conductivity, halogen volatility">1</a><a class="chip" href="periodic-table/part-2.html" title="Part 2: Period 3 oxides and chlorides: oxidation numbers, bonding, water, acid-base and amphoteric behaviour">2</a><a class="chip" href="periodic-table/part-3.html" title="Part 3: Groups 2 and 17 by E⦵, thermal stability of carbonates and hydrides, unknown elements">3</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="periodic-table/tutorial-1.html" title="Tutorial 1: 9 questions">1</a><a class="chip" href="periodic-table/tutorial-2.html" title="Tutorial 2: 11 questions">2</a><a class="chip" href="periodic-table/tutorial-3.html" title="Tutorial 3: 9 questions">3</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-periodic-table">Details</button><a class="lab-btn" href="periodic-table/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-periodic-table" hidden>
+    <div><h4>Notes</h4><ul><li><a href="periodic-table/part-1.html">Part 1<small>Configurations, radii, ionisation energy, electronegativity, melting point and conductivity, halogen volatility</small></a></li><li><a href="periodic-table/part-2.html">Part 2<small>Period 3 oxides and chlorides: oxidation numbers, bonding, water, acid-base and amphoteric behaviour</small></a></li><li><a href="periodic-table/part-3.html">Part 3<small>Groups 2 and 17 by E⦵, thermal stability of carbonates and hydrides, unknown elements</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="periodic-table/tutorial-1.html">Tutorial 1<small>9 questions</small></a></li><li><a href="periodic-table/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li><li><a href="periodic-table/tutorial-3.html">Tutorial 3<small>9 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 5 The Periodic Table)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="periodic-table/">Periodic Table Lab<small>Trends explorer, oxides and chlorides bench, Groups 2 and 17 bench, unknown element detective, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="inorg" id="t-transition-elements">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <line x1="10" y1="28" x2="62" y2="28" opacity=".35"/><line x1="36" y1="3" x2="36" y2="53" opacity=".35"/>
+    <ellipse cx="45.5" cy="18.5" rx="11" ry="5.6" transform="rotate(-45 45.5 18.5)" class="fl"/>
+    <ellipse cx="26.5" cy="37.5" rx="11" ry="5.6" transform="rotate(-45 26.5 37.5)" class="fl"/>
+    <ellipse cx="26.5" cy="18.5" rx="11" ry="5.6" transform="rotate(45 26.5 18.5)"/>
+    <ellipse cx="45.5" cy="37.5" rx="11" ry="5.6" transform="rotate(45 45.5 37.5)"/></svg></div>
+  <div class="main"><p class="stamp">Topic 13</p><h3>Transition Elements</h3><p class="what">What makes a transition element, variable oxidation states, complexes and ligand exchange, d-orbital splitting and colour, redox systems and catalysis.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="transition-elements/part-1.html" title="Part 1: Definition, configurations, radii and ionisation energies, m.p. and density against calcium, oxidation states">1</a><a class="chip" href="transition-elements/part-2.html" title="Part 2: Ligands and complexes, ligand exchange, haemoglobin, d-orbital splitting and colour">2</a><a class="chip" href="transition-elements/part-3.html" title="Part 3: Fe³⁺/Fe²⁺, MnO₄⁻/Mn²⁺ and Cr₂O₇²⁻/Cr³⁺, predicting with E⦵, catalysis">3</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="transition-elements/tutorial-1.html" title="Tutorial 1: 10 questions">1</a><a class="chip" href="transition-elements/tutorial-2.html" title="Tutorial 2: 10 questions">2</a><a class="chip" href="transition-elements/tutorial-3.html" title="Tutorial 3: 10 questions">3</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-transition-elements">Details</button><a class="lab-btn" href="transition-elements/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-transition-elements" hidden>
+    <div><h4>Notes</h4><ul><li><a href="transition-elements/part-1.html">Part 1<small>Definition, configurations, radii and ionisation energies, m.p. and density against calcium, oxidation states</small></a></li><li><a href="transition-elements/part-2.html">Part 2<small>Ligands and complexes, ligand exchange, haemoglobin, d-orbital splitting and colour</small></a></li><li><a href="transition-elements/part-3.html">Part 3<small>Fe³⁺/Fe²⁺, MnO₄⁻/Mn²⁺ and Cr₂O₇²⁻/Cr³⁺, predicting with E<sup>⦵</sup>, catalysis</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="transition-elements/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li><li><a href="transition-elements/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li><li><a href="transition-elements/tutorial-3.html">Tutorial 3<small>10 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 13 Transition Elements)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="transition-elements/">Transition Elements Lab<small>d block against calcium, configurations, splitting and colour, ligand exchange, redox, catalysis, practice, quiz</small></a></li></ul></div>
+  </div>
+</article></div>
+</section>
+<section class="group" data-strand="org">
+  <div class="group-head"><span class="sw" aria-hidden="true"></span><h2>Organic chemistry</h2><span class="count">8 topics</span></div>
+  <div class="list"><article class="row" data-strand="org" id="t-organic-intro">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <path d="M8 42 L20 34 L32 42 L44 34 L56 42 L64 37"/>
+    <path d="M14 35 C17 14 40 9 44 27"/><polygon class="f" points="44.3,29.5 40.5,24.5 46.5,23.6"/></svg></div>
+  <div class="main"><p class="stamp">Topic 11.1–11.3</p><h3>Introduction to Organic Chemistry</h3><p class="what">Formulae, names and shapes; isomerism and chirality; reaction terminology and the five core mechanisms.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="organic-intro/part-1.html" title="Part 1: Formulae, functional groups, naming, hybridisation, shapes">1</a><a class="chip" href="organic-intro/part-2.html" title="Part 2: Constitutional, cis-trans and optical isomerism">2</a><a class="chip" href="organic-intro/part-3.html" title="Part 3: Terminology, reactivity, the five mechanisms">3</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="organic-intro/tutorial-1.html" title="Tutorial 1: 8 questions">1</a><a class="chip" href="organic-intro/tutorial-2.html" title="Tutorial 2: 12 questions">2</a><a class="chip" href="organic-intro/tutorial-3.html" title="Tutorial 3: 10 questions">3</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-organic-intro">Details</button><a class="lab-btn" href="organic-intro/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-organic-intro" hidden>
+    <div><h4>Notes</h4><ul><li><a href="organic-intro/part-1.html">Part 1<small>Formulae, functional groups, naming, hybridisation, shapes</small></a></li><li><a href="organic-intro/part-2.html">Part 2<small>Constitutional, cis-trans and optical isomerism</small></a></li><li><a href="organic-intro/part-3.html">Part 3<small>Terminology, reactivity, the five mechanisms</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="organic-intro/tutorial-1.html">Tutorial 1<small>8 questions</small></a></li><li><a href="organic-intro/tutorial-2.html">Tutorial 2<small>12 questions</small></a></li><li><a href="organic-intro/tutorial-3.html">Tutorial 3<small>10 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.1–11.3 Introduction to Organic Chemistry)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="organic-intro/">Introduction to Organic Chemistry Lab<small>Hybrid orbitals in 3D, chirality mirror, curly-arrow mechanisms, spot it, naming drill, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="org" id="t-hydrocarbons">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true"><polygon points="36.0,10.0 51.6,19.0 51.6,37.0 36.0,46.0 20.4,37.0 20.4,19.0"/><circle cx="36" cy="28" r="10"/></svg></div>
+  <div class="main"><p class="stamp">Topic 11.4</p><h3>Hydrocarbons</h3><p class="what">Alkanes, alkenes and arenes: free radicals, electrophilic addition and substitution, oxidation, fuels and the environment.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="hydrocarbons/part-1.html" title="Part 1: Alkanes, alkenes, Markovnikov's rule, manganate(VII), fuels and the environment">1</a><a class="chip" href="hydrocarbons/part-2.html" title="Part 2: Arenes: electrophilic substitution, positions, side chain or ring">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="hydrocarbons/tutorial-1.html" title="Tutorial 1: 12 questions">1</a><a class="chip" href="hydrocarbons/tutorial-2.html" title="Tutorial 2: 11 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-hydrocarbons">Details</button><a class="lab-btn" href="hydrocarbons/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-hydrocarbons" hidden>
+    <div><h4>Notes</h4><ul><li><a href="hydrocarbons/part-1.html">Part 1<small>Alkanes, alkenes, Markovnikov's rule, manganate(VII), fuels and the environment</small></a></li><li><a href="hydrocarbons/part-2.html">Part 2<small>Arenes: electrophilic substitution, positions, side chain or ring</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="hydrocarbons/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li><li><a href="hydrocarbons/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.4 Hydrocarbons)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="hydrocarbons/">Hydrocarbons Lab<small>Markovnikov explorer, ring positions, side chain or ring, KMnO₄ detective, practice, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="org" id="t-halogen-derivatives">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <text class="t" x="4" y="38" font-size="11">Nu</text>
+    <text class="t" x="35" y="38" font-size="12" text-anchor="middle">C</text>
+    <line x1="41" y1="34" x2="51" y2="34"/>
+    <text class="t" x="52" y="38" font-size="12">Br</text>
+    <path d="M14 27 C17 15 29 15 32 24"/><polygon class="f" points="32.5,26.5 28.2,22.8 33.1,20.9"/>
+    <path d="M46 31 C47 20 56 19 59 26"/><polygon class="f" points="59.5,28 55.4,24.1 60.3,22.4"/></svg></div>
+  <div class="main"><p class="stamp">Topic 11.5</p><h3>Halogen Derivatives</h3><p class="what">Halogenoalkanes: nucleophilic substitution and elimination, stereochemistry, tests with silver nitrate, fluoroalkanes and CFCs.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="halogen-derivatives/part-1.html" title="Part 1: Substitution, elimination, inversion and racemisation, tests, CFCs">1</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="halogen-derivatives/tutorial-1.html" title="Tutorial 1: 12 questions">1</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-halogen-derivatives">Details</button><a class="lab-btn" href="halogen-derivatives/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-halogen-derivatives" hidden>
+    <div><h4>Notes</h4><ul><li><a href="halogen-derivatives/part-1.html">Part 1<small>Substitution, elimination, inversion and racemisation, tests, CFCs</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="halogen-derivatives/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.5 Halogen Derivatives)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="halogen-derivatives/">Halogen Derivatives Lab<small>S<sub>N</sub>1 and S<sub>N</sub>2 in 3D, silver nitrate bench, substitution or elimination, ozone and climate, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="org" id="t-hydroxy-compounds">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true"><polygon points="28.0,17.0 41.0,24.5 41.0,39.5 28.0,47.0 15.0,39.5 15.0,24.5"/><circle cx="28" cy="32" r="8"/>
+    <line x1="41" y1="24.5" x2="50" y2="19"/>
+    <text class="t" x="50" y="21" font-size="12">OH</text></svg></div>
+  <div class="main"><p class="stamp">Topic 11.6</p><h3>Hydroxy Compounds</h3><p class="what">Alcohols and phenol: oxidation, dehydration, the tri-iodomethane test, acidity and ring reactions.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="hydroxy-compounds/part-1.html" title="Part 1: Alcohols: reactions, oxidation, 1°/2°/3° tests, tri-iodomethane">1</a><a class="chip" href="hydroxy-compounds/part-2.html" title="Part 2: Phenol: acidity, bromination, nitration, relative acidity">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="hydroxy-compounds/tutorial-1.html" title="Tutorial 1: 12 questions">1</a><a class="chip" href="hydroxy-compounds/tutorial-2.html" title="Tutorial 2: 11 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-hydroxy-compounds">Details</button><a class="lab-btn" href="hydroxy-compounds/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-hydroxy-compounds" hidden>
+    <div><h4>Notes</h4><ul><li><a href="hydroxy-compounds/part-1.html">Part 1<small>Alcohols: reactions, oxidation, 1°/2°/3° tests, tri-iodomethane</small></a></li><li><a href="hydroxy-compounds/part-2.html">Part 2<small>Phenol: acidity, bromination, nitration, relative acidity</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="hydroxy-compounds/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li><li><a href="hydroxy-compounds/tutorial-2.html">Tutorial 2<small>11 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.6 Hydroxy Compounds)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="hydroxy-compounds/">Hydroxy Compounds Lab<small>Oxidation bench, tri-iodomethane tester, acidity ladder, phenol against benzene, practice, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="org" id="t-carbonyl-compounds">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <line x1="34.5" y1="31" x2="34.5" y2="15"/><line x1="38.5" y1="31" x2="38.5" y2="15"/>
+    <text class="t" x="36.5" y="12" font-size="12" text-anchor="middle">O</text>
+    <line x1="36.5" y1="31" x2="18" y2="43"/><line x1="36.5" y1="31" x2="55" y2="43"/></svg></div>
+  <div class="main"><p class="stamp">Topic 11.7</p><h3>Carbonyl Compounds</h3><p class="what">Aldehydes and ketones: formation and reduction, HCN addition, and the carbonyl tests.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="carbonyl-compounds/part-1.html" title="Part 1: Formation, reduction, HCN addition, 2,4-DNPH, Tollens', Fehling's, tri-iodomethane">1</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="carbonyl-compounds/tutorial-1.html" title="Tutorial 1: 12 questions">1</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-carbonyl-compounds">Details</button><a class="lab-btn" href="carbonyl-compounds/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-carbonyl-compounds" hidden>
+    <div><h4>Notes</h4><ul><li><a href="carbonyl-compounds/part-1.html">Part 1<small>Formation, reduction, HCN addition, 2,4-DNPH, Tollens', Fehling's, tri-iodomethane</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="carbonyl-compounds/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.7 Carbonyl Compounds)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="carbonyl-compounds/">Carbonyl Compounds Lab<small>Test bench with unknowns, HCN addition in 3D, redox ladder, deduce the unknown, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="org" id="t-carboxylic-acids">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <line x1="28.5" y1="31" x2="28.5" y2="15"/><line x1="32.5" y1="31" x2="32.5" y2="15"/>
+    <text class="t" x="30.5" y="12" font-size="12" text-anchor="middle">O</text>
+    <line x1="30.5" y1="31" x2="12" y2="43"/><line x1="30.5" y1="31" x2="46" y2="41"/>
+    <text class="t" x="46" y="47" font-size="12">OH</text></svg></div>
+  <div class="main"><p class="stamp">Topic 11.8</p><h3>Carboxylic Acids and Derivatives</h3><p class="what">Carboxylic acids, acyl chlorides and esters: formation, acidity, condensation and hydrolysis.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="carboxylic-acids/part-1.html" title="Part 1: Making carboxylic acids, their reactions, acidity and the chloroethanoic acids">1</a><a class="chip" href="carboxylic-acids/part-2.html" title="Part 2: Acyl chlorides, ease of hydrolysis, making and hydrolysing esters">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="carboxylic-acids/tutorial-1.html" title="Tutorial 1: 10 questions">1</a><a class="chip" href="carboxylic-acids/tutorial-2.html" title="Tutorial 2: 10 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-carboxylic-acids">Details</button><a class="lab-btn" href="carboxylic-acids/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-carboxylic-acids" hidden>
+    <div><h4>Notes</h4><ul><li><a href="carboxylic-acids/part-1.html">Part 1<small>Making carboxylic acids, their reactions, acidity and the chloroethanoic acids</small></a></li><li><a href="carboxylic-acids/part-2.html">Part 2<small>Acyl chlorides, ease of hydrolysis, making and hydrolysing esters</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="carboxylic-acids/tutorial-1.html">Tutorial 1<small>10 questions</small></a></li><li><a href="carboxylic-acids/tutorial-2.html">Tutorial 2<small>10 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.8 Carboxylic Acids and Derivatives)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="carboxylic-acids/">Carboxylic Acids and Derivatives Lab<small>Acidity explorer, hydrolysis bench, ester bench, acyl chloride hub, practice, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="org" id="t-nitrogen-compounds">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <text class="t" x="36" y="34" font-size="13" text-anchor="middle">N</text>
+    <line x1="30" y1="35" x2="14" y2="45"/><line x1="42" y1="35" x2="58" y2="45"/><line x1="36" y1="38" x2="36" y2="52"/>
+    <circle class="f" cx="32.5" cy="17" r="1.8"/><circle class="f" cx="39.5" cy="17" r="1.8"/></svg></div>
+  <div class="main"><p class="stamp">Topic 11.9</p><h3>Nitrogen Compounds</h3><p class="what">Amines, amides and amino acids: formation, basicity, neutrality of amides and acid-base behaviour.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="nitrogen-compounds/part-1.html" title="Part 1: Amines: making them, salts, basicity, phenylamine with bromine">1</a><a class="chip" href="nitrogen-compounds/part-2.html" title="Part 2: Amides and amino acids">2</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="nitrogen-compounds/tutorial-1.html" title="Tutorial 1: 11 questions">1</a><a class="chip" href="nitrogen-compounds/tutorial-2.html" title="Tutorial 2: 12 questions">2</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-nitrogen-compounds">Details</button><a class="lab-btn" href="nitrogen-compounds/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-nitrogen-compounds" hidden>
+    <div><h4>Notes</h4><ul><li><a href="nitrogen-compounds/part-1.html">Part 1<small>Amines: making them, salts, basicity, phenylamine with bromine</small></a></li><li><a href="nitrogen-compounds/part-2.html">Part 2<small>Amides and amino acids</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="nitrogen-compounds/tutorial-1.html">Tutorial 1<small>11 questions</small></a></li><li><a href="nitrogen-compounds/tutorial-2.html">Tutorial 2<small>12 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.9 Nitrogen Compounds)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="nitrogen-compounds/">Nitrogen Compounds Lab<small>Basicity ladder, nitrobenzene to phenylamine, amide viewer, glycine speciation, practice, quiz</small></a></li></ul></div>
+  </div>
+</article>
+<article class="row" data-strand="org" id="t-polymers">
+  <div class="ico-tile"><svg class="ico" viewBox="0 0 72 56" aria-hidden="true">
+    <path d="M4 32 L14 26 L24 32 L34 26 L44 32 L54 26 L64 32 L68 30"/>
+    <path d="M21 14 H17 V44 H21"/><path d="M51 14 H55 V44 H51"/>
+    <text class="t" x="57" y="50" font-size="10">n</text></svg></div>
+  <div class="main"><p class="stamp">Topic 11.10</p><h3>Polymers</h3><p class="what">Addition and condensation polymers, proteins, biodegradability and recycling, and the organic reaction map for 11.4 to 11.10.</p></div>
+  <div class="links">
+    <div class="lrow"><span class="lbl">Notes</span><a class="chip" href="polymers/part-1.html" title="Part 1: Polymers, proteins, biodegradability, recycling and the reaction map">1</a></div>
+    <div class="lrow"><span class="lbl">Tutorials</span><a class="chip" href="polymers/tutorial-1.html" title="Tutorial 1: 12 questions">1</a></div>
+    <div class="lrow last"><button type="button" class="more" aria-expanded="false" aria-controls="d-polymers">Details</button><a class="lab-btn" href="polymers/">Lab <span aria-hidden="true">→</span></a></div>
+  </div>
+  <div class="details" id="d-polymers" hidden>
+    <div><h4>Notes</h4><ul><li><a href="polymers/part-1.html">Part 1<small>Polymers, proteins, biodegradability, recycling and the reaction map</small></a></li></ul></div>
+    <div><h4>Practice</h4><ul><li><a href="polymers/tutorial-1.html">Tutorial 1<small>12 questions</small></a></li><li><a href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Topic 11.10 Polymers)">Worked solutions<small>On request: email Gary</small></a></li></ul></div>
+    <div><h4>Interactive</h4><ul><li><a class="lab-link" href="polymers/">Polymers Lab<small>Polymer builder, protein hydrolysis, biodegradability sorter, route planner, practice, quiz</small></a></li></ul></div>
+  </div>
+</article></div>
+</section>
+</div>
+<div class="panel" id="h3" role="tabpanel" aria-labelledby="tab-h3" hidden>
+<div class="panel-intro"><p>SEAB H3 Chemistry 9813. H3 assumes all of H2 and adds three sections in six chapters. Spectroscopy comes first.</p></div>
+<section class="group" data-strand="phys">
+  <div class="group-head"><span class="sw" aria-hidden="true"></span><h2>Section 1 · Spectroscopic techniques</h2><span class="count">4 chapters</span></div>
+  <div class="list planned"><article class="row" data-strand="phys">
+    <div class="main"><p class="stamp">Chapter H3.1</p><h3>Molecular Orbitals and Light</h3><p class="what">Atomic and molecular orbitals, bond order, H<sub>2</sub>, O<sub>2</sub> and F<sub>2</sub>, π MOs of conjugated systems, photons and energy levels.</p><p class="builds">Builds on Topic 1 Part 2, 11.1, Topic 2</p></div>
+    <div class="links"><span class="state">Planned</span></div></article>
+<article class="row" data-strand="phys">
+    <div class="main"><p class="stamp">Chapter H3.2</p><h3>UV/vis and IR</h3><p class="what">Electronic transitions, chromophores and conjugation, Beer–Lambert, IR-active vibrations and reading IR spectra.</p><p class="builds">Builds on H3.1, Topic 13, 11.7</p></div>
+    <div class="links"><span class="state">Planned</span></div></article>
+<article class="row" data-strand="phys">
+    <div class="main"><p class="stamp">Chapter H3.3</p><h3><sup>1</sup>H NMR Spectroscopy</h3><p class="what">Chemical shift, shielding, equivalent protons, integration, n+1 splitting and D<sub>2</sub>O exchange.</p><p class="builds">Builds on Topic 1 Part 1, Topic 5</p></div>
+    <div class="links"><span class="state">Planned</span></div></article>
+<article class="row" data-strand="phys">
+    <div class="main"><p class="stamp">Chapter H3.4</p><h3>Mass Spectrometry and Structure Solving</h3><p class="what">M<sup>+</sup>, M+1 and M+2 patterns, fragment ions, then combined IR, NMR and MS problems.</p><p class="builds">Builds on Topic 1 Part 1, Topic 6</p></div>
+    <div class="links"><span class="state">Planned</span></div></article></div>
+</section>
+<section class="group" data-strand="inorg">
+  <div class="group-head"><span class="sw" aria-hidden="true"></span><h2>Section 2 · Molecular stereochemistry</h2><span class="count">1 chapter</span></div>
+  <div class="list planned"><article class="row" data-strand="inorg">
+    <div class="main"><p class="stamp">Chapter H3.5</p><h3>Molecular Stereochemistry</h3><p class="what">Stereoisomerism in depth, in organic molecules and in complexes.</p><p class="builds">Builds on 11.1 Part 2, Topic 13</p></div>
+    <div class="links"><span class="state">Planned</span></div></article></div>
+</section>
+<section class="group" data-strand="org">
+  <div class="group-head"><span class="sw" aria-hidden="true"></span><h2>Section 3 · Further organic mechanisms</h2><span class="count">1 chapter</span></div>
+  <div class="list planned"><article class="row" data-strand="org">
+    <div class="main"><p class="stamp">Chapter H3.6</p><h3>Further Organic Mechanisms</h3><p class="what">Organic mechanisms beyond H2, built as a pair with H3.5.</p><p class="builds">Builds on 11.1 Part 3, 11.5</p></div>
+    <div class="links"><span class="state">Planned</span></div></article></div>
+</section>
+</div>
+<div class="panel" id="uni" role="tabpanel" aria-labelledby="tab-uni" hidden>
+<p class="empty">First-year university: planned. Scoping has not started yet.</p>
+</div>
+<div class="panel" id="industrial" role="tabpanel" aria-labelledby="tab-industrial" hidden>
+<p class="empty">Industrial and process: planned. Scoping has not started yet.</p>
+</div>
+<div class="panel" id="analytical" role="tabpanel" aria-labelledby="tab-analytical" hidden>
+<p class="empty">Analytical: planned. Scoping has not started yet.</p>
+</div>
+  <footer>© Gary Chan · Last updated 17/10/26</footer>
 </div>
 <script>
-document.addEventListener("click", function (e) {
-  var a = e.target.closest("a[data-mail]"); if (!a) return;
-  e.preventDefault();
-  var p = a.getAttribute("data-mail").split("|");
-  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
-});
+(function () {
+  var root = document.documentElement, bs = document.querySelectorAll("[data-theme-v]");
+  function show() { var t = root.getAttribute("data-theme") || "auto"; bs.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-v") === t)); }); }
+  bs.forEach(function (b) { b.addEventListener("click", function () {
+    var v = b.getAttribute("data-theme-v");
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    try { if (v === "auto") localStorage.removeItem("chemlab-theme"); else localStorage.setItem("chemlab-theme", v); } catch (e) {}
+    show();
+  }); });
+  show();
+  // level tabs; a bare #h3 (etc.) in the address opens that tab
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.levels [role="tab"]'));
+  function open(id, focus) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("aria-controls") === id;
+      t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      if (on && focus) t.focus();
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { open(t.getAttribute("aria-controls")); history.replaceState(null, "", "#" + t.getAttribute("aria-controls")); });
+    t.addEventListener("keydown", function (e) {
+      var k = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (!k) return;
+      e.preventDefault(); var n = tabs[(i + k + tabs.length) % tabs.length]; open(n.getAttribute("aria-controls"), true);
+    });
+  });
+  var h = location.hash.slice(1);
+  if (h && tabs.some(function (t) { return t.getAttribute("aria-controls") === h; })) open(h);
+  // details
+  document.addEventListener("click", function (e) {
+    var m = e.target.closest(".more");
+    if (m) { var d = document.getElementById(m.getAttribute("aria-controls")); var o = d.hidden; d.hidden = !o; m.setAttribute("aria-expanded", String(o)); m.textContent = o ? "Hide details" : "Details"; return; }
+    var a = e.target.closest("a[data-mail]"); if (!a) return;
+    e.preventDefault();
+    var p = a.getAttribute("data-mail").split("|");
+    location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+  });
+})();
 </script>
