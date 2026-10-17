@@ -660,7 +660,7 @@ table.ice tr.pend td{color:var(--muted)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 9 Chemical Equilibria</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>R</i> and bond energies from the Data Booklet · Δ<i>H</i>, Δ<i>S</i> and <i>K</i><sub>p</sub>(<i>T</i>) for N<sub>2</sub>O<sub>4</sub> and NH<sub>3</sub> are literature values · worked-example and generator data are illustrative</span>
-  <span class="ls-updated">Last updated 13/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1691,9 +1691,11 @@ function kOf(S, vals){ return S.sp.reduce((a, s, i) => a * Math.pow(vals[i], s[1
 /* (1) Kc from equilibrium amounts and volume */
 function genKc1(){
   const id = pick(["hi", "so3", "nh3", "pcl5", "n2o4", "meoh"]), S = GS[id];
-  const V = pick([0.500, 1.00, 2.00, 5.00, 10.0]);
+  // When the moles do not cancel (Δn ≠ 0), a 1.00 dm³ vessel makes the amounts route give the right number,
+  // so the question would not test the volume step and the amounts hint could never fire: leave it out.
+  const d = dnOf(S), V = pick(d !== 0 ? [0.500, 2.00, 5.00, 10.0] : [0.500, 1.00, 2.00, 5.00, 10.0]);
   const n = S.sp.map(() => r3(rnd(0.100, 2.00)));
-  const c = n.map(x => x / V), K = kOf(S, c), d = dnOf(S), u = unitC(d);
+  const c = n.map(x => x / V), K = kOf(S, c), u = unitC(d);
   const ans = ansN(K, 3, u);
   const amtTxt = listAnd(S.sp.map((s, i) => `${amt(n[i])} mol of ${s[0]}`));
   const alts = d !== 0 ? [{ v: kOf(S, n), msg: "Did you use amounts instead of concentrations? Divide each amount by the volume first." }] : [];
@@ -1710,7 +1712,7 @@ function genKc1(){
 /* (2) Kc from initial amounts and one equilibrium amount (ICE) */
 function genKc2(){
   const id = pick(["hi", "so3", "nh3", "pcl5", "n2o4", "meoh"]), S = GS[id];
-  const V = pick([1.00, 2.00, 5.00]);
+  const d = dnOf(S), V = pick(d !== 0 ? [0.500, 2.00, 5.00] : [1.00, 2.00, 5.00]);   // no 1.00 dm³ when Δn ≠ 0 (see genKc1)
   // integers in units of 0.001 mol
   const a = S.sp.map(s => s[1] < 0 ? 5 * ri(30, 200) * (id === "nh3" && s[0] === "H₂" ? 3 : 1) : 0);
   const xmax = Math.min(...S.sp.map((s, i) => s[1] < 0 ? a[i] / -s[1] : Infinity));
@@ -1718,7 +1720,7 @@ function genKc2(){
   const e = a.map((v, i) => v + S.sp[i][1] * xi);
   const gi = S.sp.findIndex(s => s[1] > 0);
   const n0 = a.map(v => v / 1000), ne = e.map(v => v / 1000);
-  const c = ne.map(x => x / V), K = kOf(S, c), d = dnOf(S), u = unitC(d);
+  const c = ne.map(x => x / V), K = kOf(S, c), u = unitC(d);
   const ans = ansN(K, 3, u);
   const f3 = v => v.toFixed(3);
   const init = listAnd(S.sp.map((s, i) => [s, i]).filter(([s]) => s[1] < 0).map(([s, i]) => `${f3(n0[i])} mol of ${s[0]}`));
@@ -1851,6 +1853,19 @@ function genMan(){
       `Units: the old units raised to the same power: (${uBase === "no units" ? "none" : uBase})${op === "rev" ? "⁻¹" : op === "dbl" ? "²" : op === "half" ? "^½" : "^−½"} → ${u}.`] };
 }
 const GENS = { kc1: genKc1, kc2: genKc2, sqrt: genSqrt, kp1: genKp1, kp2: genKp2, kp3: genKp3, man: genMan };
+/* Every hint must be reachable. An alternative (wrong-route) value that falls within the marking tolerance of the
+   right answer is marked correct, and one within the tolerance of an earlier alternative is shadowed by it.
+   Either way its hint can never show, so draw the question again (18/10/26). */
+const altTol = v => Math.max(lastUnit(v, 3), 0.01 * Math.abs(v));
+function hintsDistinct(q){
+  const a = q.ans.v, ta = q.ans.tol * 1.0001, al = q.alts || [];
+  return al.every((x, i) => Math.abs(x.v - a) > ta + altTol(x.v) && al.slice(0, i).every(y => Math.abs(x.v - y.v) > altTol(x.v) + altTol(y.v)));
+}
+LAB.hintsDistinct = hintsDistinct;
+for (const k of Object.keys(GENS)){
+  const raw = GENS[k];
+  GENS[k] = () => { let q; for (let i = 0; i < 200; i++){ q = raw(); if (hintsDistinct(q)) return q; } return q; };
+}
 LAB.GENS = GENS;
 const GN = { type: "kc1", q: null, right: 0, tried: 0 };
 LAB.GN = GN;
@@ -1862,7 +1877,7 @@ function gnGrade(q, s, unit){
   const numOk = Math.abs(v - a) <= tol;
   if (numOk && q.units && unit !== q.ans.unit) return { ok: false, msg: unit === "no units" ? "The number is right, but this K has units: work them out from the expression." : q.ans.unit === "no units" ? "The number is right, but this K has no units: they cancel." : "The number is right; check the units: (unit) raised to the power (top minus bottom)." };
   if (numOk) return { ok: true };
-  for (const al of q.alts || []) if (Math.abs(v - al.v) <= Math.max(lastUnit(al.v, 3), 0.01 * Math.abs(al.v))) return { ok: false, msg: al.msg };
+  for (const al of q.alts || []) if (Math.abs(v - al.v) <= altTol(al.v)) return { ok: false, msg: al.msg };
   if (a !== 0 && Math.abs(v / a - 1) < 0.05) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }

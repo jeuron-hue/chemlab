@@ -668,7 +668,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.6 Hydroxy Compounds</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub>, bond energies and the molar gas volume from the Data Booklet · p<i>K</i><sub>a</sub>, <i>K</i><sub>a</sub> of phenol, boiling and melting points and Δ<i>H</i><sub>c</sub><sup>⦵</sup> are literature values · glassware drawings are schematic</span>
-  <span class="ls-updated">Last updated 14/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -2026,7 +2026,10 @@ function gnCheckOne(f, raw){
   const v = parseFloat(String(raw).replace(/[−–]/g, "-").replace(/,/g, "").trim());
   if (!isFinite(v)) return null;
   if (f.tol == null) return Math.abs(v - +f.shown) <= 0.011;      // pH to 2 d.p.
-  return Math.abs(v - f.ans) <= f.tol * Math.abs(f.ans) + 1e-12;
+  // The shown answer is always accepted: at 2 s.f. it can sit up to 4.8 % from the exact value (exact 1.149 shows as 1.1),
+  // more than the 3 % tolerance, so the window widens to reach it (18/10/26).
+  const win = Math.max(f.tol * Math.abs(f.ans), Math.abs(+f.shown - f.ans));
+  return Math.abs(v - f.ans) <= win * (1 + 1e-9) + 1e-12;
 }
 LAB.gnCheckOne = gnCheckOne;
 function gnRender(){
