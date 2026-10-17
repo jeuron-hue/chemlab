@@ -227,6 +227,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
+.themesw button:focus-visible{outline-offset:-2px}
 @media (max-width:640px){
   .top .title-block.ls-has-ico{grid-template-columns:56px minmax(0,1fr); column-gap:12px}
   .ls-ico{width:56px; height:44px; padding:1px}
@@ -244,8 +245,10 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 .ls-map > summary::before{content:"+"; font-family:var(--mono); color:var(--ink-2); width:12px}
 .ls-map[open] > summary::before{content:"−"}
 .ls-map > summary .ls-count{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:400; color:var(--ink-2)}
+.ls-mapfoot{padding:0 18px 16px; margin-top:-6px}
+.ls-mapfoot .ls-all2{font:inherit; font-size:.85rem; color:var(--accent); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px}
 .ls-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap:10px; padding:0 18px 18px}
-.ls-card{display:grid; grid-template-columns:auto minmax(0,1fr); gap:2px 12px; text-decoration:none; color:var(--ink); background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:12px 14px}
+.ls-card{display:grid; align-content:start; grid-template-columns:auto minmax(0,1fr); gap:2px 12px; text-decoration:none; color:var(--ink); background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:12px 14px}
 .ls-card:hover{border-color:var(--accent)}
 .ls-card[aria-current="true"]{border-color:var(--accent); background:var(--accent-soft)}
 .ls-card .ls-num{grid-row:1 / span 3; font-family:var(--mono); font-variant-ligatures:none; font-size:20px; line-height:24px; font-weight:500; color:var(--ls-s)}
@@ -1679,13 +1682,17 @@ redrawAll();
     return '<a class="ls-card" href="#' + s.id + '"><span class="ls-num">' + (i + 1) + '</span><span class="ls-eb">' + (eb ? eb.innerHTML : "") +
       '</span><span class="ls-t">' + title(s) + '</span><span class="ls-l">' + firstSentence(s) + "</span></a>";
   }).join("");
-  secs[0].insertAdjacentHTML("beforebegin", '<details class="ls-map"' + (window.innerWidth > 760 ? " open" : "") +
-    '><summary>In this lab <span class="ls-count">' + n + " sections</span></summary><div class=\"ls-grid\">" + cards + "</div></details>");
+  // open on a first visit at desktop width; closed on phones and when the address already names a section
+  var openMap = window.innerWidth > 760 && ids.indexOf(location.hash.slice(1)) < 0;
+  secs[0].insertAdjacentHTML("beforebegin", '<details class="ls-map"' + (openMap ? " open" : "") +
+    '><summary>In this lab <span class="ls-count">' + n + " sections</span></summary><div class=\"ls-grid\">" + cards +
+    '</div><p class="ls-mapfoot"><button type="button" class="ls-all2"></button></p></details>');
 
   // Show all / one at a time
   var allBtn = document.createElement("button");
   allBtn.type = "button"; allBtn.className = "ls-all";
   if (strip) strip.appendChild(allBtn);
+  var allBtn2 = document.querySelector(".ls-all2");
 
   var q = location.search, stations = /[?&]all\b/.test(q) ? false : /[?&]stations\b/.test(q) ? true : !navigator.webdriver;
   var current = 0;
@@ -1705,7 +1712,7 @@ redrawAll();
   function render() {
     root.classList.toggle("ls-stations", stations);
     allBtn.textContent = stations ? "Show all" : "One at a time";
-    allBtn.setAttribute("aria-pressed", String(!stations));
+    if (allBtn2) allBtn2.textContent = stations ? "Show every section on one page" : "Show one section at a time";
     secs.forEach(function (s, k) { var off = stations && k !== current; s.classList.toggle("ls-off", off); if (off) s.setAttribute("aria-hidden", "true"); else s.removeAttribute("aria-hidden"); });
     if (stations) mark(current);
     window.dispatchEvent(new Event("resize"));
@@ -1722,10 +1729,18 @@ redrawAll();
     if (scroll) scrollToSection(current);
   }
 
-  allBtn.addEventListener("click", function () {
+  function toggleAll() {
+    if (!stations) {
+      // come back to the section the reader was on: the marked tab, else the address
+      var on = document.querySelector(".secnav a.on"), i = on ? ids.indexOf(on.getAttribute("href").slice(1)) : -1;
+      if (i < 0) i = ids.indexOf(location.hash.slice(1));
+      if (i >= 0) current = i;
+    }
     stations = !stations; render();
-    if (stations) scrollToSection(current);
-  });
+    if (stations) { try { history.replaceState(null, "", "#" + ids[current]); } catch (e) {} scrollToSection(current); }
+  }
+  allBtn.addEventListener("click", toggleAll);
+  if (allBtn2) allBtn2.addEventListener("click", toggleAll);
   document.addEventListener("click", function (e) {
     if (!stations) return;
     var a = e.target.closest('a[href^="#"]'); if (!a) return;
