@@ -712,7 +712,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.1–11.3 Introduction to Organic Chemistry</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · 3D models and answers computed live in the page</span>
-  <span class="ls-updated">Last updated 04/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -2881,8 +2881,12 @@ function layoutSpec(sp, sty){
       }
     }
     // substituents
+    // a branch on the neighbouring carbon goes on the other side, so their H atoms do not overlap (18/10/26)
+    const vside = {};
     sp.subs.forEach(([p, t]) => {
-      const s = take(p); if (!s) return;
+      const nb = vside[p - 1] != null ? vside[p - 1] : vside[p + 1];
+      const s = take(p, nb != null ? [0, -nb] : null); if (!s) return;
+      if (s[0] === 0 && (t === "Me" || t === "Et" || t === "NH2" || t === "OH")) vside[p] = s[1];
       const X = p * dx, sx = s[0], sy = s[1];
       if (t === "Me" || t === "Et"){
         const c1 = node(X + sx * 1.1, sy * 1.1, "C"); bond(ch[p], c1);
@@ -3021,7 +3025,7 @@ function slips(sp, right, addD, P){
   const dm = right.match(/(?:\d+(?:,\d+)*-)?di(fluoro|chloro|bromo|iodo|methyl)/);
   if (dm) addD(right.replace(dm[0], dm[1]), "there are two of these groups, so di- is needed (and a locant for each).");
   if (/methyl/.test(right) && !/^methyl /.test(right)) addD(right.replace(/methyl/, "ethyl"), "the side chain has one carbon: methyl.");
-  else if (/ethyl/.test(right) && !/^ethyl /.test(right)) addD(right.replace(/ethyl/, "methyl"), "the side chain has two carbons: ethyl.");
+  else if (/\bethyl/.test(right) && !/^ethyl /.test(right)) addD(right.replace(/\bethyl/, "methyl"), "the side chain has two carbons: ethyl.");
   if (sp.kind !== "arene"){
     if (sp.ene >= 0 && !P) addD(right.replace(/-\d+-ene$/, "ane").replace(/ene$/, "ane"), "the C=C double bond must be shown by -ene.");
     const em = right.match(/-(\d+)-en/);

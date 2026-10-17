@@ -750,7 +750,7 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.7 Carbonyl Compounds</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub> from the Data Booklet · boiling points, melting points, bond lengths and <i>K</i><sub>a</sub>(HCN) are literature values · 3D models and answers computed live in the page</span>
-  <span class="ls-updated">Last updated 14/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -2360,7 +2360,9 @@ function ldApply(rid){
   if (!LD.pred){ ldShow(R, out, null); return; }
   LD.pending = { R, out };
   $("ld-pq").innerHTML = H(`What do you get when ${LD.s.rungs[LD.at][0]} is treated with ${R.n}?`);
-  const opts = LD.s.rungs.map((r, i) => [i, r[0]]).filter(([i]) => i !== LD.at).concat([[-1, "no reaction"]]);
+  // the tertiary series has no other rung, so offer the products a student might expect (never right) (18/10/26)
+  const opts = LD.s.kind === "t" ? [[-2, "2-methylpropanal"], [-3, "2-methylpropanoic acid"], [-1, "no reaction"]]
+    : LD.s.rungs.map((r, i) => [i, r[0]]).filter(([i]) => i !== LD.at).concat([[-1, "no reaction"]]);
   $("ld-popts").innerHTML = opts.map(([v, t], j) => `<button class="opt" data-v="${v}"><b>${"ABCD"[j]}</b><span>${H(nmU(t))}</span></button>`).join("");
   $("ld-predbox").hidden = false; $("ld-fb").hidden = true; $("ld-eqbox").hidden = true;
   $("ld-popts").querySelectorAll(".opt").forEach(b => b.onclick = () => ldPredict(+b.dataset.v));
@@ -2706,7 +2708,7 @@ const QZ = [
         ["phenylethanone, C₆H₅COCH₃", "A ketone: it would give no silver mirror."],
         ["phenylethanal, C₆H₅CH₂CHO", "Its –CHO is on a CH₂ group, not on the ring, so it behaves as an aliphatic aldehyde and reduces Fehling's solution."]] },
   { k: "11.7(d)", q: "Why can acidified K₂Cr₂O₇ alone not show that an unknown liquid is an aldehyde rather than an alcohol?",
-    o: [["Primary and secondary alcohols also turn it from orange to green.", "So do the 2,4-DNPH test first: only aldehydes and ketones give the orange precipitate."],
+    o: [["Primary and secondary alcohols also turn it from orange to green.", "So use the 2,4-DNPH test first: only aldehydes and ketones give the orange precipitate."],
         ["Aldehydes do not react with acidified K₂Cr₂O₇.", "Aldehydes are easily oxidised: they turn it green."],
         ["Alcohols turn it purple, which is hard to tell from green.", "Dichromate(VI) is orange and turns green (Cr³⁺) with anything it oxidises; purple is manganate(VII)."],
         ["Acidified K₂Cr₂O₇ only reacts with ketones.", "Ketones are the compounds it does not oxidise: it stays orange."]] }

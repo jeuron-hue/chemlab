@@ -745,7 +745,7 @@ svg .bl{font-size:13px; fill:var(--ink)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.10 Polymers</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub> and bond energies from the Data Booklet · uses, states, resin codes and breakdown times are literature values · average <i>M</i><sub>r</sub> values in the practice questions are illustrative</span>
-  <span class="ls-updated">Last updated 14/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -799,7 +799,9 @@ const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 const EQS = new Set();
 LAB.EQS = EQS;
 const TX = t => String(t).split(/\{\{|\}\}/).map((p, i) => i % 2 ? EQ(p) : H(p)).join("");
-function EQ(s, cls){ EQS.add(s); return `<span class="eqn${cls ? " " + cls : ""}" data-eq="${esc(s)}">${String(s).split(" ").map(t => `<span class="nw">${H(t)}</span>`).join(" ")}</span>`; }
+// A long formula may break after a peptide or ester link "–" (a tripeptide is wider than a 320 px phone; 18/10/26).
+const nwTerm = t => t.length > 24 && t.includes("–") ? t.split(/(?<=–)/).map(u => `<span class="nw">${H(u)}</span>`).join("<wbr>") : `<span class="nw">${H(t)}</span>`;
+function EQ(s, cls){ EQS.add(s); return `<span class="eqn${cls ? " " + cls : ""}" data-eq="${esc(s)}">${String(s).split(" ").map(nwTerm).join(" ")}</span>`; }
 
 // SVG text with sub/superscripts as tspans; {x} is a subscript, ⦵ a superscript
 function svgChem(s, fs){
@@ -3227,7 +3229,7 @@ const MAP = {
 "plus": false,
 "chg": true,
 "flag": "−C",
-"note": "needs propene or a larger alkene: ethene is oxidised all the way to CO₂ and H₂O"
+"note": "needs a C=C carbon carrying two alkyl groups, as in 2-methylpropene: propene gives an acid and CO₂, and ethene is oxidised all the way to CO₂ and H₂O"
 },
 {
 "a": "alkene",
@@ -4047,11 +4049,13 @@ LAB.MP = MP;
 // and the routes to secondary or tertiary alcohols (R2, which need propene or a larger alkene) are removed from the whole route.
 function routes(a, b, mode, tests, eth){
   const E = MAP.edges.filter(e => (tests || !e.test) && !(eth && a === "alkene" && (e.r === "R7" || (e.r === "R2" && e.b !== "alc1"))));
-  const key = (n, p, c) => n + "|" + p + "|" + (c ? 1 : 0);
-  const out_ = st => E.filter(e => e.a === st[0]);
-  const nxt = (st, e) => [e.b, Math.min(st[1] + (e.plus ? 1 : 0), 2), st[2] || e.chg];
+  // State also records whether the alkene came from a secondary or tertiary alcohol: that alkene is never ethene,
+  // so the "ethene only" steam step (R2 to a primary alcohol) cannot follow it (18/10/26).
+  const key = (n, p, c, s) => n + "|" + p + "|" + (c ? 1 : 0) + "|" + (s ? 1 : 0);
+  const out_ = st => E.filter(e => e.a === st[0] && !(st[3] && e.r === "R2" && e.b === "alc1"));
+  const nxt = (st, e) => [e.b, Math.min(st[1] + (e.plus ? 1 : 0), 2), st[2] || e.chg, e.b === "alkene" && (e.a === "alc2" || e.a === "alc3")];
   const isOk = st => st[0] === b && (mode === "any" || (mode === "same" && st[1] === 0 && !st[2]) || (mode === "plus" && st[1] === 1 && !st[2]));
-  const s0 = [a, 0, false], dist = new Map([[key(...s0), 0]]);
+  const s0 = [a, 0, false, false], dist = new Map([[key(...s0), 0]]);
   let layer = [s0], L = null;
   for (let d = 1; layer.length && L === null; d++){
     const next = [];
@@ -4322,7 +4326,7 @@ function gnCheck(){
   $("gn-ans").setAttribute("aria-invalid", !right); $("gn-ans").classList.toggle("ok", right);
   fb.className = "fb " + (right ? "ok" : "no");
   fb.innerHTML = right ? H(`Correct: ${q.type === "n" ? "n = " + sfS(q.ans, 3) : "M{r} = " + m1(q.ans)}.`) :
-    H(`Not quite. ${q.type === "n" && Math.abs(v - q.ans * 2) < 0.01 * q.ans ? "That is the number of monomer residues (2n), not the number of repeat units. " : q.type === "ru" && PB[q.id].kind === "cond" && PB[q.id].mon.length === 1 && Math.abs(v - (q.ans + SMALL[PB[q.id].small].Mr)) < 0.2 ? `That is the M{r} of the monomer: subtract ${SMALL[PB[q.id].small].F} for the one link. ` : q.type === "ru" && PB[q.id].kind === "cond" && PB[q.id].mon.length === 2 && Math.abs(v - (q.ans + 2 * SMALL[PB[q.id].small].Mr)) < 0.2 ? `That is the sum of the monomers: subtract 2 × ${SMALL[PB[q.id].small].F} for the two links. ` : ""}Press Show working.`);
+    H(`Not quite. ${q.type === "n" && PB[q.id].mon.length === 2 && Math.abs(v - q.ans * 2) < 0.01 * q.ans ? "That is the number of monomer residues (2n), not the number of repeat units. " : q.type === "ru" && PB[q.id].kind === "cond" && PB[q.id].mon.length === 1 && Math.abs(v - (q.ans + SMALL[PB[q.id].small].Mr)) < 0.2 ? `That is the M{r} of the monomer: subtract ${SMALL[PB[q.id].small].F} for the one link. ` : q.type === "ru" && PB[q.id].kind === "cond" && PB[q.id].mon.length === 2 && Math.abs(v - (q.ans + 2 * SMALL[PB[q.id].small].Mr)) < 0.2 ? `That is the sum of the monomers: subtract 2 × ${SMALL[PB[q.id].small].F} for the two links. ` : ""}Press Show working.`);
   fb.hidden = false; gnScore(right);
   return right;
 }
