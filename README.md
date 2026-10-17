@@ -1,6 +1,6 @@
 # ChemLab
 
-H2 Chemistry notes, tutorials and interactive labs by Gary Chan (SEAB H2 Chemistry 9476).
+H2 and H3 Chemistry notes, tutorials and interactive labs by Gary Chan (SEAB H2 Chemistry 9476 and H3 Chemistry 9813).
 
 Live site: https://jeuron-hue.github.io/chemlab/
 
@@ -26,6 +26,12 @@ Live site: https://jeuron-hue.github.io/chemlab/
 | 11.10 Polymers | [Part 1](https://jeuron-hue.github.io/chemlab/polymers/part-1.html) | [Tutorial 1](https://jeuron-hue.github.io/chemlab/polymers/tutorial-1.html); worked solutions on request | [Polymers Lab](https://jeuron-hue.github.io/chemlab/polymers/) |
 | 12 Electrochemistry | [Part 1](https://jeuron-hue.github.io/chemlab/electrochemistry/part-1.html), [Part 2](https://jeuron-hue.github.io/chemlab/electrochemistry/part-2.html), [Part 3](https://jeuron-hue.github.io/chemlab/electrochemistry/part-3.html) | [Tutorial 1](https://jeuron-hue.github.io/chemlab/electrochemistry/tutorial-1.html), [Tutorial 2](https://jeuron-hue.github.io/chemlab/electrochemistry/tutorial-2.html), [Tutorial 3](https://jeuron-hue.github.io/chemlab/electrochemistry/tutorial-3.html); worked solutions on request | [Electrochemistry Lab](https://jeuron-hue.github.io/chemlab/electrochemistry/) |
 | 13 Transition Elements | [Part 1](https://jeuron-hue.github.io/chemlab/transition-elements/part-1.html), [Part 2](https://jeuron-hue.github.io/chemlab/transition-elements/part-2.html), [Part 3](https://jeuron-hue.github.io/chemlab/transition-elements/part-3.html) | [Tutorial 1](https://jeuron-hue.github.io/chemlab/transition-elements/tutorial-1.html), [Tutorial 2](https://jeuron-hue.github.io/chemlab/transition-elements/tutorial-2.html), [Tutorial 3](https://jeuron-hue.github.io/chemlab/transition-elements/tutorial-3.html); worked solutions on request | [Transition Elements Lab](https://jeuron-hue.github.io/chemlab/transition-elements/) |
+
+H3 Chemistry (SEAB 9813):
+
+| Chapter | Notes | Practice | Interactive |
+|---|---|---|---|
+| H3.1 Molecular Orbitals and Light | [Part 1](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/part-1.html), [Part 2](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/part-2.html) | [Tutorial 1](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/tutorial-1.html), [Tutorial 2](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/tutorial-2.html); worked solutions on request | [Molecular Orbitals and Light Lab](https://jeuron-hue.github.io/chemlab/h3-molecular-orbitals/) |
 
 The notes pages are generated from the same source as the Word editions kept for print, so the two always match. Each page is plain HTML with SVG figures; the labs are single self-contained files with no build step. Pages print cleanly from the browser.
 
