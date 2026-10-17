@@ -658,7 +658,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 5 The Periodic Table</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · radii, ionisation energies, bond energies and most <i>E</i><sup>⦵</sup> values from the Data Booklet · electronegativities, melting and boiling points, conductivities, decomposition temperatures and <i>E</i><sup>⦵</sup>(Sr<sup>2+</sup>/Sr) are literature values</span>
-  <span class="ls-updated">Last updated 07/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1137,7 +1137,7 @@ function trReasons(set, p, w, l){
       const sw = E[w].st, sl = E[l].st;
       if (sw === "met" && sl === "met") return [`${w} has more delocalised electrons per atom (${E[w].deloc} against ${E[l].deloc}).`, [`${w} has a larger atomic radius, so its electrons move further.`, `${w} has more ions free to move in the solid.`]];
       if (sw === "met") return [`${w} has a sea of delocalised electrons; ${l === "Si" ? "Si is a semiconductor with very few mobile electrons" : l + " has no mobile charge carriers"}.`, [`${w} has mobile ions in the solid.`, `${l} is ionic, and ionic solids do not conduct.`]];
-      return [`Si is a semiconductor with a few mobile electrons; ${l} is simple molecular with no mobile charge carriers.`, ["Si has delocalised electrons like a metal.", `${l} is ionic, and ionic solids do not conduct.`]];
+      return [`Si is a semiconductor with a few mobile electrons; ${l === "Ar" ? "Ar exists as single atoms, with no mobile charge carriers" : l + " is simple molecular with no mobile charge carriers"}.`, ["Si has delocalised electrons like a metal.", `${l} is ionic, and ionic solids do not conduct.`]];
     }
   }
   const down = set === "G2" ? "Group 2" : "Group 17";
@@ -1505,7 +1505,7 @@ function ldDraw(){
 const fx2 = v => sgn(v, 2);
 
 const WATER = {
-  Mg: { rate: 0.4, eq: "Mg(s) + H₂O(g) → MgO(s) + H₂(g)", obs: "Mg: only a very slow reaction with cold water (a few bubbles). With steam it reacts fast and burns with a white flame." },
+  Mg: { rate: 0.4, eq: "Mg(s) + H₂O(g) → MgO(s) + H₂(g)", steam: true, obs: "Mg: only a very slow reaction with cold water (a few bubbles). With steam it reacts fast and burns with a white flame." },
   Ca: { rate: 3, eq: "Ca(s) + 2H₂O(l) → Ca(OH)₂(aq) + H₂(g)", obs: "Ca: steady fizzing; the mixture turns cloudy because some calcium hydroxide, being only slightly soluble, comes out as a white solid.", cloudy: true },
   Sr: { rate: 5, eq: "Sr(s) + 2H₂O(l) → Sr(OH)₂(aq) + H₂(g)", obs: "Sr: faster fizzing than Ca." },
   Ba: { rate: 8, eq: "Ba(s) + 2H₂O(l) → Ba(OH)₂(aq) + H₂(g)", obs: "Ba: vigorous fizzing." }
@@ -1536,7 +1536,7 @@ function ldWater(run){
   };
   frame(t0);
   if (run) LD.anim = requestAnimationFrame(frame);
-  $("ld-water-obs").innerHTML = run ? `${FEX}${H(w.obs)} ${EQ(w.eq)}` : H("Reactivity with water increases down the group, matching the more negative E⦵ values.");
+  $("ld-water-obs").innerHTML = run ? `${FEX}${H(w.obs)} ${w.steam ? `<span class="hint">With steam:</span> ` : ""}${EQ(w.eq)}` : H("Reactivity with water increases down the group, matching the more negative E⦵ values.");
 }
 
 /* ---- (b) displacement ---- */

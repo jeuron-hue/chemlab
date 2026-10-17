@@ -736,7 +736,7 @@ details.enr > summary{cursor:pointer; font-weight:600; font-size:.92rem; color:v
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 12 Electrochemistry</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>E</i><sup>⦵</sup> values, F, L, e, molar gas volume and <i>A</i><sub>r</sub> from the Data Booklet · battery voltages and specific energies, anodised layer thickness and copper purity are literature values · generator data are illustrative</span>
-  <span class="ls-updated">Last updated 16/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1784,7 +1784,8 @@ const EC = { t: "one", one: "cu", c: -200, cu: 0, zn: 0, fe: 0, h: 0, cx: "cu", 
 LAB.EC = EC;
 const cOf = v => Math.pow(10, v / 100);
 const c3 = c => c >= 0.01 ? sf(c, 3) : sci(c, 3);
-const dirWord = (E, E0) => Math.abs(E - E0) < 0.0005 ? "equal to" : E > E0 ? "more positive than" : "more negative (less positive) than";
+// "equal to" only at the standard point itself (E = E⦵ exactly); otherwise the direction follows the shift, and a change under 0.5 mV is "very slightly"
+const dirWord = (E, E0) => { const d = E - E0; return d === 0 ? "equal to" : (Math.abs(d) < 0.0005 ? "very slightly " : "") + (d > 0 ? "more positive than" : "more negative (less positive) than"); };
 function ecControls(){
   const t = EC.t;
   const slider = (id, lab, min, max, val, out) => `<div class="ctl"><label for="${id}"><span>${lab}</span> <output id="${id}o">${out}</output></label><input type="range" id="${id}" min="${min}" max="${max}" step="1" value="${val}"></div>`;
@@ -2513,7 +2514,7 @@ function genComb(){
   const work = [ASIDE("To combine half-equations, add the ΔG⦵ values, that is nE⦵, never the E⦵ values"),
     `ΔG⦵₁ = −${n1}F(${vS(E1)}) = ${fF(-n1 * E1)}; ΔG⦵₂ = −${n2}F(${vS(E2)}) = ${fF(-n2 * E2)}`, `ΔG⦵ = ${fF(G)} for ${EQ(eqS(h.E, "⇌"))} (n = ${h.ne})`, `E⦵ = −ΔG⦵ / (nF) = −(${fF(G)}) / (${h.ne}F) = ${minus(sf(E, 3))} → <b>${vS(vRound(E))} V</b>`];
   return { type: "comb", text: `Use the two Data Booklet half-equations to calculate E⦵ for ${eqS(h.E, "⇌")}.`, given: [`${halfDisp(g.s[0])}   E⦵ = ${vS(E1)} V`, `${halfDisp(g.s[1])}   E⦵ = ${vS(E2)} V`],
-    label: "E⦵ / V", ans: ansE(E), p: { i: GN_COMB.indexOf(g) }, work, fmt: "2 decimal places with a sign", alts: n1 !== n2 ? [{ v: (E1 + E2) / 2, msg: "Averaging the E⦵ values is wrong: the steps transfer different numbers of electrons. Add nE⦵ (that is, ΔG⦵) instead." }, { v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] : [{ v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] };
+    label: "E⦵ / V", ans: ansE(E), p: { i: GN_COMB.indexOf(g) }, work, fmt: "2 decimal places with a sign", signMsg: "Check the sign: keep the sign of each E⦵ as given, add nE⦵ (that is, ΔG⦵ = −nFE⦵) for the two steps and divide by the total n. A positive E⦵ means the reduction is favoured against the hydrogen electrode.", alts: n1 !== n2 ? [{ v: (E1 + E2) / 2, msg: "Averaging the E⦵ values is wrong: the steps transfer different numbers of electrons. Add nE⦵ (that is, ΔG⦵) instead." }, { v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] : [{ v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] };
 }
 // (7) electrolysis products: the notes set
 function genProd(){
@@ -2570,7 +2571,7 @@ function gnGrade(q, s, sel, sel2){
   const a = q.ans.v, numOk = Math.abs(v - a) <= q.ans.tol * 1.0001;
   if (numOk && q.sel && sel !== q.sel.ans) return { ok: false, msg: q.type === "ecell" ? "The value is right; check the negative electrode: it is the couple with the more negative E⦵." : "The value is right; check the verdict: a positive E⦵{cell} means it reacts." };
   if (numOk) return { ok: true };
-  if (q.ans.e && Math.abs(Math.abs(v) - Math.abs(a)) <= q.ans.tol && Math.sign(v) !== Math.sign(a) && a !== 0) return { ok: false, msg: (q.alts && q.alts[0] && q.alts[0].msg) || "Check the sign." };
+  if (q.ans.e && Math.abs(Math.abs(v) - Math.abs(a)) <= q.ans.tol && Math.sign(v) !== Math.sign(a) && a !== 0) return { ok: false, msg: q.signMsg || (q.alts && q.alts[0] && /sign|positive|negative/i.test(q.alts[0].msg) ? q.alts[0].msg : "Check the sign: E⦵{cell} = E⦵(reduction) − E⦵(oxidation), and the couple that is reduced is the oxidising agent's.") };
   for (const al of q.alts || []){
     const t = q.ans.e ? 0.0051 : Math.max(lastUnit(Math.abs(al.v) || 1, 2), 0.01 * Math.abs(al.v));
     if (Math.abs(al.v - a) > q.ans.tol && Math.abs(v - al.v) <= t) return { ok: false, msg: al.msg };

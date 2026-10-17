@@ -697,7 +697,7 @@ svg .on{stroke:var(--s2)}
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.1 Molecular Orbitals and Light</span>
     <span>Written for SEAB H3 Chemistry 9813 · h, c, L and bond energies from the Data Booklet · bond lengths, boiling points, λ<sub>max</sub> values and region boundaries are literature values · π MO ladders: spacing from the simple Hückel model · generator wavelengths and energies are illustrative</span>
-  <span class="ls-updated">Last updated 17/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1006,7 +1006,14 @@ const REG = [
   { id: "radio", n: "radio waves", lo: 0.3, hi: 1e4, rng: "longer than about 0.3 m (below about 1 GHz)" }
 ];
 LAB.REG = REG;
-const regOf = lm => REG.find(r => lm >= r.lo && lm < r.hi) || (lm < REG[0].lo ? REG[0] : REG[REG.length - 1]);
+// region tests use the wavelength in nm rounded to 6 d.p., so 400 nm typed in is not 400.00000000000006; visible is 400–700 nm inclusive
+const nmOf = lm => +(lm * 1e9).toFixed(6);
+LAB.nmOf = nmOf;
+const regOf = lm => {
+  const nm = nmOf(lm);
+  if (nm >= 400 && nm <= 700) return REG.find(r => r.id === "vis");
+  return REG.find(r => nm >= nmOf(r.lo) && nm < nmOf(r.hi)) || (nm < nmOf(REG[0].lo) ? REG[0] : REG[REG.length - 1]);
+};
 LAB.regOf = regOf;
 // the kind of level each region's photons match (DATA.md quantisation section)
 const LEVEL_OF = { gamma: "none", xray: "none", uv: "elec", vis: "elec", ir: "vib", mw: "rot", radio: "nuc" };
@@ -1024,7 +1031,8 @@ const VIS = [
   { n: "yellow", lo: 560, hi: 590 }, { n: "orange", lo: 590, hi: 630 }, { n: "red", lo: 630, hi: 700 }
 ];
 LAB.VIS = VIS;
-const visOf = nm => VIS.find(v => nm >= v.lo && nm < v.hi) || (nm >= 700 ? VIS[5] : VIS[0]);
+const visOf = nm => { nm = +(+nm).toFixed(6); return VIS.find(v => nm >= v.lo && nm < v.hi) || (nm >= 700 ? VIS[5] : VIS[0]); };
+LAB.visOf = visOf;
 // physical colour of monochromatic light (realistic; drawn the same in both themes)
 function wlRGB(nm){
   let r = 0, g = 0, b = 0;
@@ -1375,12 +1383,12 @@ function bindMG(){
 /* ---------- predict mode (the notes' species only) ---------- */
 const PR_SET = ["H2", "He2", "O2", "O2p", "O2m", "F2"];
 LAB.PR_SET = PR_SET;
-const PR = { id: null, bo: null, un: null, mag: null, right: 0, tried: 0 };
+const PR = { id: null, bo: null, un: null, mag: null, right: 0, tried: 0, graded: false };
 LAB.PR = PR;
 const BO_OPTS = [0, 0.5, 1, 1.5, 2, 2.5, 3];
 function prNew(id){
   if (!id){ const pool = PR_SET.filter(x => x !== PR.id); id = pick(pool); }
-  PR.id = id; PR.bo = PR.un = PR.mag = null;
+  PR.id = id; PR.bo = PR.un = PR.mag = null; PR.graded = false;
   const sp = diaById(id);
   $("pr-q").innerHTML = `${tagHTML(sp.tag)}Predict for ${H(sp.f)} (${sp.ve} ${sp.mo === "1s" ? "" : "valence "}electrons): the bond order, the number of unpaired electrons and the magnetic behaviour.`;
   const chips = (el, opts, key) => { $(el).innerHTML = opts.map(o => `<button type="button" data-v="${o}" aria-pressed="false">${o}</button>`).join(""); $(el).querySelectorAll("button").forEach(b => b.onclick = () => { PR[key] = b.dataset.v; $(el).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); }); };
@@ -1401,7 +1409,7 @@ function prCheck(){
   const fb = $("pr-fb");
   if (PR.bo == null || PR.un == null || PR.mag == null){ fb.className = "fb warn"; fb.innerHTML = "Choose all three first."; fb.hidden = false; return; }
   const G = prGrade(PR.id, PR.bo, PR.un, PR.mag), sp = diaById(PR.id), R = G.R;
-  PR.tried++; if (G.ok) PR.right++;
+  if (!PR.graded){ PR.graded = true; PR.tried++; if (G.ok) PR.right++; }   // one graded attempt per question: repeat presses do not add to the score
   fb.className = "fb " + (G.ok ? "ok" : "no");
   fb.innerHTML = (G.ok ? `<p>Right: ${H(R.conf)}; bond order ½(${R.nb} − ${R.na}) = ${R.bo}; ${R.unp} unpaired; ${R.para ? "paramagnetic" : "diamagnetic"}.</p>` : `<p>Not quite. ${H(sp.f)}: ${H(R.conf)}.</p><ul>${G.errs.map(e => `<li>${H(e)}</li>`).join("")}</ul>`) + `<p class="ink">The diagram above now shows ${H(sp.f)}.</p>`;
   fb.hidden = false;
@@ -2081,7 +2089,7 @@ function phWork(q, u, v){
   }
   if (q !== "Em") w.push(`Per mole of photons: E{} × L{} = ${s4(R.E)} × 6.02 × 10²³ = ${R.Em >= 1000 ? `${s4(R.Em)} J mol⁻¹ = <b>${s3(R.Em / 1000)} kJ mol⁻¹</b>` : `<b>${s3(R.Em)} J mol⁻¹</b> (${s3(R.Em / 1000)} kJ mol⁻¹)`}`);
   if (q !== "wn") w.push(`Wavenumber: ν̃ = 1/λ = 1 / (${s4(lm)} m) = ${s4(1 / lm)} m⁻¹ = <b>${s3(R.wn)} cm⁻¹</b> (÷ 100)`);
-  const reg = regOf(lm), nir = lm >= 7e-7 && lm <= 8e-7, lvK = nir ? "elec" : LEVEL_OF[reg.id];
+  const reg = regOf(lm), nir = nmOf(lm) > 700 && nmOf(lm) <= 800, lvK = nir ? "elec" : LEVEL_OF[reg.id];
   w.push(`${lamStr(lm)} lies in the <b>${reg.n}</b> region (${reg.rng}, approximate)${reg.id === "vis" ? `: ${visOf(lm * 1e9).n} light` : nir ? ": near infrared, still inside the UV/vis spectroscopy range (about 200–800 nm)" : ""}. ${lvK === "none" ? LEVELS.none.t.replace(/^./, c => c.toUpperCase()) + "." : `Photons of this energy match the gaps between <b>${LEVELS[lvK].n}</b> levels.`}`);
   return { w, R, lm, reg, lvK, nir };
 }

@@ -760,7 +760,7 @@ table.bhkey td.up, table.bhkey td.dn{white-space:nowrap}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 7 Chemical Energetics</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · bond energies, ionisation energies, ionic radii and <i>c</i> of water from the Data Booklet · enthalpies of formation, combustion, atomisation (metals, Br, I), solution and hydration, electron affinities, lattice energies for comparison and entropy changes are literature values</span>
-  <span class="ls-updated">Last updated 07/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1723,7 +1723,8 @@ function bhWhyNot(c, id){
   if (id === "ie1") return `Ionisation energy is defined for gaseous atoms: atomise the ${c.M} first.`;
   if (id === "ie2") return "Remove the first electron before the second.";
   if (id === "ea1" && miss.includes("atX")) return `Electron affinity is defined for gaseous atoms: atomise the ${c.X === "O" ? "oxygen" : c.X} first.`;
-  if (id === "ea1") return `The electrons gained by the ${c.X} atoms are the ones the metal lost: ionise the ${c.M} first.`;
+  if (id === "ea1" && !miss.includes("ie1")) return c.nx === 2 ? `Two ${c.X} atoms gain two electrons, so both must come from the ${c.M} first: add the 2nd IE(${c.M}) before the electron affinities.` : `In this cycle both ionisation energies of ${c.M} come before the electron affinities of the ${c.X === "O" ? "oxygen" : c.X} atoms.`;
+  if (id === "ea1") return `The electrons gained by the ${c.X === "O" ? "oxygen" : c.X} atoms are the ones the metal lost: ionise the ${c.M} first.`;
   if (id === "ea2") return "Add the first electron before the second.";
   if (id === "le") return `Lattice energy starts from the gaseous ions: you need ${bhLevel(c, c.steps.filter(s => s.id !== "le").map(s => s.id))} first.`;
   return "Not yet.";
@@ -2056,7 +2057,7 @@ function gbWork(H, S, Tk, sfH){
   const lines = [
     `ΔS⦵ = ${fH(S)} J K⁻¹ mol⁻¹ = ${fH(+skJ.toFixed(5))} kJ K⁻¹ mol⁻¹ <span class="hint">(divide by 1000 so the units match ΔH⦵)</span>`,
     `ΔG⦵ = ΔH⦵ − TΔS⦵ = ${br(H)} − (${Tk} × ${br(+skJ.toFixed(5))}) = ${minus(String(H))} ${tds < 0 ? "+" : "−"} ${Math.abs(+tdsS)} = <b>${fmtG(g)} kJ mol⁻¹</b>${sfH ? `, about ${sfSg(g, sfH)} kJ mol⁻¹ <span class="hint">(ΔH⦵ is given to ${sfH} s.f.)</span>` : ""}`,
-    g < 0 ? "ΔG⦵ is negative, so the reaction is spontaneous (feasible) at this temperature." : g > 0 ? "ΔG⦵ is positive, so the reaction is not spontaneous at this temperature (the reverse reaction is)." : "ΔG⦵ = 0: the system is at the crossover."
+    Math.abs(g) < 0.005 ? "ΔG⦵ = 0: the system is at the crossover." : g < 0 ? "ΔG⦵ is negative, so the reaction is spontaneous (feasible) at this temperature." : g > 0 ? "ΔG⦵ is positive, so the reaction is not spontaneous at this temperature (the reverse reaction is)." : "ΔG⦵ = 0: the system is at the crossover."
   ];
   return lines;
 }
@@ -2193,7 +2194,9 @@ const ELEM = ["O₂(g)", "H₂(g)", "N₂(g)", "Al(s)", "Fe(s)", "C(graphite)"];
 const hfOf = sp => ELEM.includes(sp) ? 0 : HF[sp];
 const side = L => L.map(([k, sp]) => (k === 1 ? "" : k) + sp).join(" + ");
 const eqOf = R => `${side(R.r)} → ${side(R.p)}`;
-const sumStr = (L, tab) => L.map(([k, sp]) => (k === 1 ? "" : k) + br(tab(sp))).join(" + ");
+// a coefficient always keeps its value in brackets (7(0), 2(−84)), so a zero never reads as "70"
+const kv = (k, v) => k === 1 ? br(v) : `${k}(${minus(v)})`;
+const sumStr = (L, tab) => L.map(([k, sp]) => kv(k, tab(sp))).join(" + ");
 EN.HFRX = HFRX;
 function genHf(){
   const R = pick(HFRX), sp = L => L.reduce((a, [k, s]) => a + k * hfOf(s), 0);
@@ -2214,7 +2217,7 @@ function genHf(){
   const ans = ansDP(val, 0);
   return { type: "hf", text: `${R.fex ? FEX : ""}For {{${eqOf(R)}}}, ΔH⦵ = ${sgn(dH)} kJ mol⁻¹. Use these ΔH⦵{f} values (kJ mol⁻¹) to calculate ΔH⦵{f} of ${unk}: ${given}.`, label: `ΔH⦵{f}(${unk}) / kJ mol⁻¹`, unit: "kJ mol⁻¹", ans, p: { R, unk, dH }, fmt: "the nearest whole number",
     work: [ASIDE(`To find ΔH⦵{f}(${unk}), write the Hess equation and rearrange it.`), "ΔH⦵ = ΣΔH⦵{f}(products) − ΣΔH⦵{f}(reactants)",
-      `${minus(dH)} = [${R.p.map(([kk, s]) => (kk === 1 ? "" : kk) + (s === unk ? "x" : br(hfOf(s)))).join(" + ")}] − [${R.r.map(([kk, s]) => (kk === 1 ? "" : kk) + (s === unk ? "x" : br(hfOf(s)))).join(" + ")}]`,
+      `${minus(dH)} = [${R.p.map(([kk, s]) => (s === unk ? (kk === 1 ? "" : kk) + "x" : kv(kk, hfOf(s)))).join(" + ")}] − [${R.r.map(([kk, s]) => (s === unk ? (kk === 1 ? "" : kk) + "x" : kv(kk, hfOf(s)))).join(" + ")}]`,
       `${k === 1 ? "" : k}x = ${onP ? `${minus(dH)} − ${br(rest)}` : `${br(rest)} − ${br(dH)}`} = ${minus(k * val)}${k === 1 ? "" : `, so x = ${minus(k * val)} / ${k}`}`,
       `ΔH⦵{f}(${unk}) = <b>${ans.str} kJ mol⁻¹</b>`] };
 }
@@ -2237,7 +2240,7 @@ function genHc(){
   const used = R.r.concat(R.p).map(([, s]) => s).filter(s => hcOf(s) !== 0);
   const zero = R.r.concat(R.p).map(([, s]) => s).filter(s => hcOf(s) === 0);
   const sideC = L => L.map(([k, s]) => (k === 1 ? "" : k) + s).join(" + ");
-  const sumC = L => L.filter(([, s]) => hcOf(s) !== 0).map(([k, s]) => (k === 1 ? "" : k) + br(hcOf(s))).join(" + ");
+  const sumC = L => L.filter(([, s]) => hcOf(s) !== 0).map(([k, s]) => kv(k, hcOf(s))).join(" + ");
   const isF = R.p.length === 1 && R.r.every(([, s]) => ["C(graphite)", "H₂(g)", "O₂(g)"].includes(s));
   return { type: "hc", text: `Use the standard enthalpy changes of combustion (kJ mol⁻¹) to calculate ΔH⦵ for {{${sideC(R.r)} → ${sideC(R.p)}}}${isF ? `, the standard enthalpy change of formation of ${R.p[0][1]}` : ""}. ΔH⦵{c}: ${[...new Set(used)].map(s => `${s} ${minus(HC[s])}`).join("; ")}.`,
     label: "ΔH⦵ / kJ mol⁻¹", unit: "kJ mol⁻¹", ans, p: { R }, fmt: "the nearest whole number",
