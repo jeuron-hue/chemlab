@@ -555,7 +555,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 3 The Gaseous State</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · All values computed live in the page</span>
-  <span class="ls-updated">Last updated 30/09/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 
 <script>
@@ -701,10 +701,12 @@ function onResize(el, fn){ let w = 0; new ResizeObserver(() => { const nw = el.c
 function parseNum(s){
   if (s == null) return NaN;
   let t = String(s).trim().replace(/\s+/g, "").replace(/[\u2212\u2013]/g, "-").replace(/,/g, "");
-  t = t.replace(/[x×*]10\^?\(?(-?\d+)\)?/i, "e$1");
+  t = t.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+$/, m => "^" + [...m].map(c => c === "⁻" ? "-" : "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join(""));   // 6.02 × 10²³ and 1.5 × 10⁻³
+  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?/i, "e$1");
   t = t.replace(/⁻/g, "-");
   if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+  const v = parseFloat(t);
+  return isFinite(v) ? v : NaN;
 }
 G.parseNum = parseNum;
 function ri(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -1484,7 +1486,7 @@ function genDens(){
     `Identity: ${g.name}, ${g.f}, has <i>M</i><sub>r</sub> = ${mrSum(g.el)} = ${M.toFixed(1)}, the only option that matches.` +
       (c === "stp" ? ` (At s.t.p. the Data Booklet molar volume gives the same answer: <i>M</i><sub>r</sub> = ${gv(rho)} × 22.7 = ${fmtMr(rho * 22.7)}.)` : c === "rtp" ? ` (At r.t.p. the Data Booklet molar volume gives the same answer: <i>M</i><sub>r</sub> = ${gv(rho)} × 24 = ${fmtMr(rho * 24)}.)` : "")
   ];
-  return { type: "dens", text, label: "<i>M</i><sub>r</sub>", unit: "", answer: ans, tol: { abs: 0.5 }, work,
+  return { type: "dens", text, label: "<i>M</i><sub>r</sub>", unit: "", answer: ans, tol: { rel: 0.02, min: 10 ** (Math.floor(Math.log10(ans)) - 2), mr: true }, work,
     given: { rho, TK: Tt.K, pPa: P.pa }, identity: { name: g.name, el: g.el, M }, options: options.map(o => ({ name: o.name, f: o.f, el: o.el })), correct, shown: [gv(rho)] };
 }
 function genPV(sub){
@@ -1621,7 +1623,7 @@ function genQ(type){
 }
 G.gen = genQ;
 const MR = { type: "syr", q: null };
-G.MR = MR;
+G.MR = MR; G.checkMr = () => checkMr();   // checkMr is exposed for lab-test.js
 function renderMr(){
   const q = MR.q;
   document.querySelectorAll("#mr-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.type === MR.type)));
@@ -1637,11 +1639,11 @@ function checkMr(){
   let ok = true;
   if (isNaN(v)){ ok = false; msgs.push("Enter a number, for example 58.1 or 2.48e5 or 2.48 x 10^5."); }
   else {
-    const good = q.tol.abs ? Math.abs(v - q.answer) <= q.tol.abs : Math.abs(v - q.answer) <= q.tol.rel * Math.abs(q.answer);
+    const good = q.tol.abs ? Math.abs(v - q.answer) <= q.tol.abs : Math.abs(v - q.answer) <= Math.max(q.tol.rel * Math.abs(q.answer), q.tol.min || 0);   // dens: 2 %, never tighter than one unit of the last shown figure
     if (!good){
       ok = false;
       const ratio = v / q.answer, off = [1e3, 1e-3, 1e6, 1e-6].find(f => Math.abs(ratio / f - 1) < 0.02);
-      msgs.push(q.tol.abs ? "Not within 0.5 of the answer." : "Not within 1 % of the answer.");
+      msgs.push(q.tol.abs ? "Not within 0.5 of the answer." : `Not within ${+(q.tol.rel * 100).toFixed(1)} % of the answer.`);
       msgs.push(off ? "You are out by a power of ten: check the unit conversions (cm<sup>3</sup> → m<sup>3</sup> × 10<sup>−6</sup>, dm<sup>3</sup> → m<sup>3</sup> × 10<sup>−3</sup>, kPa → Pa × 10<sup>3</sup>)." :
         "Check the unit conversions (cm<sup>3</sup> → m<sup>3</sup> × 10<sup>−6</sup>, dm<sup>3</sup> → m<sup>3</sup> × 10<sup>−3</sup>, kPa → Pa × 10<sup>3</sup>, °C → K + 273).");
     }
@@ -1654,7 +1656,7 @@ function checkMr(){
   $("mr-ans").setAttribute("aria-invalid", String(isNaN(v)));
   const fb = $("mr-fb");
   fb.className = "fb " + (ok ? "ok" : "no");
-  fb.innerHTML = ok ? `Correct: ${q.tol.abs ? fmtMr(q.answer) : num(q.answer, 3)}${q.unit ? " " + q.unit : ""}${q.identity ? `. The gas is ${q.identity.name}.` : "."}` : msgs.join("<br>");
+  fb.innerHTML = ok ? `Correct: ${q.tol.abs || q.tol.mr ? fmtMr(q.answer) : num(q.answer, 3)}${q.unit ? " " + q.unit : ""}${q.identity ? `. The gas is ${q.identity.name}.` : "."}` : msgs.join("<br>");
   fb.hidden = false;
 }
 function bindMr(){

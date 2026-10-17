@@ -730,7 +730,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 1 Atomic Structure</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · Ionisation energies from the Data Booklet unless marked · configurations and 3D shapes computed live in the page</span>
-  <span class="ls-updated">Last updated 04/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1046,14 +1046,21 @@ const CP_POOL = [[37, 17, 0], [19, 9, -1], [24, 12, 2], [16, 8, -2], [39, 19, 1]
 AS.CP_POOL = CP_POOL;
 const CP = { mode: "count", k: 0, sp: null, done: false, right: 0, tried: 0, opts: null };
 AS.CP = CP;
+const plN = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 function cpDistractors(A, Z, q){
   const c = counts(A, Z, q), out = [], seen = new Set([`${A}|${Z}|${q}`]);
   const add = (a, z, qq, why) => { if (z < 1 || z > 36 || a < z) return; const k = `${a}|${z}|${qq}`; if (seen.has(k)) return; seen.add(k); out.push({ A: a, Z: z, q: qq, why }); };
-  if (q !== 0) add(A, Z, -q, `the charge has the wrong sign: ${c.e} electrons and ${c.p} protons give a charge of ${chargeTxt(q)}${q > 0 ? " (fewer electrons than protons)" : " (more electrons than protons)"}.`);
-  add(c.n, Z, q, `the nucleon number (top left) counts protons and neutrons: ${c.p} + ${c.n} = ${A}, not the ${c.n} neutrons alone.`);
+  if (q !== 0) add(A, Z, -q, `the charge has the wrong sign: ${plN(c.e, "electron")} and ${plN(c.p, "proton")} give a charge of ${chargeTxt(q)}${q > 0 ? " (fewer electrons than protons)" : " (more electrons than protons)"}.`);
+  add(c.n, Z, q, `the nucleon number (top left) counts protons and neutrons: ${c.p} + ${c.n} = ${A}, not the ${plN(c.n, "neutron")} alone.`);
   if (c.e !== c.p && c.e >= 1 && c.e <= 36) add(A, c.e, 0, `the element is fixed by the number of protons (${c.p}), not by the number of electrons.`);
   if (c.n !== c.p && c.n >= 1 && c.n <= 36) add(A, c.n, q, `the element is fixed by the number of protons (${c.p}), not by the number of neutrons.`);
   add(A + c.e, Z, q, `electrons are not counted in the nucleon number: A = protons + neutrons = ${A}.`);
+  if (out.length < 3){
+    // species with few electrons or neutrons (H+, 2H): A or the charge one out
+    add(A + 1, Z, q, `the nucleon number is protons + neutrons = ${c.p} + ${c.n} = ${A}, not ${A + 1}.`);
+    add(A - 1, Z, q, `the nucleon number is protons + neutrons = ${c.p} + ${c.n} = ${A}, not ${A - 1}.`);
+    for (const q2 of [q + 1, q - 1]) if (Z - q2 >= 0) add(A, Z, q2, `the charge is protons − electrons = ${c.p} − ${c.e} = ${sgnp(q)}, not ${sgnp(q2)}.`);
+  }
   return shuffle(out).slice(0, 3);
 }
 AS.cpDistractors = cpDistractors;
@@ -1088,7 +1095,7 @@ function cpRender(){
     };
     $("cp-work").onclick = () => { fb.className = "fb info"; fb.innerHTML = work; fb.hidden = false; if (!CP.done){ CP.done = true; CP.tried++; cpScore(); } };
   } else {
-    box.innerHTML = `<p class="qtext" style="margin:0">A species has <b>${c.p}</b> protons, <b>${c.n}</b> neutrons and <b>${c.e}</b> electrons. Which is it?</p>
+    box.innerHTML = `<p class="qtext" style="margin:0">A species has <b>${c.p}</b> proton${c.p === 1 ? "" : "s"}, <b>${c.n}</b> neutron${c.n === 1 ? "" : "s"} and <b>${c.e}</b> electron${c.e === 1 ? "" : "s"}. Which is it?</p>
       <div class="opts" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr))">${CP.opts.map((o, i) => `<button class="opt" data-i="${i}" style="justify-content:center;font-size:1.5rem"><span class="nuc">${nucHTML(o.A, o.Z, o.q)}</span></button>`).join("")}</div>
       <div id="cp-fb" hidden></div>`;
     box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
@@ -1099,7 +1106,7 @@ function cpRender(){
       if (!o.ok) b.classList.add("wrong");
       const fb = $("cp-fb");
       fb.className = "fb " + (o.ok ? "ok" : "no");
-      fb.innerHTML = `<p>${o.ok ? "Correct." : `Not quite: ${H(o.why)}`}</p><p>${c.p} protons make it ${NAME(Z)} (Z = ${Z}); A = ${c.p} + ${c.n} = ${A}; charge = ${c.p} − ${c.e} = ${sgnp(q)}, so ${H(nucTxt(A, Z, q))}.</p>` +
+      fb.innerHTML = `<p>${o.ok ? "Correct." : `Not quite: ${H(o.why)}`}</p><p>${plN(c.p, "proton")} ${c.p === 1 ? "makes" : "make"} it ${NAME(Z)} (Z = ${Z}); A = ${c.p} + ${c.n} = ${A}; charge = ${c.p} − ${c.e} = ${sgnp(q)}, so ${H(nucTxt(A, Z, q))}.</p>` +
         `<ul>${CP.opts.filter(x => !x.ok && x !== o).map(x => `<li>${H(nucTxt(x.A, x.Z, x.q))} is wrong: ${H(x.why)}</li>`).join("")}</ul>`;
       fb.hidden = false;
     });
@@ -1675,7 +1682,7 @@ function cfNote(){
   if (EXC[z] && q === 0) out.push(z === 24 ? `Chromium is an exception: [Ar] 3d⁵ 4s¹, not [Ar] 3d⁴ 4s².` : `Copper is an exception: [Ar] 3d¹⁰ 4s¹, not [Ar] 3d⁹ 4s².`);
   if (q > 0 && z >= 21 && z <= 30){
     const n0 = neutralCfg(z), from4s = Math.min(q, n0["4s"]), from3d = q - from4s;
-    out.push(`${H(SYM(z))} → ${sp}: ${from4s ? `remove ${from4s === 2 ? "both" : "the"} 4s electron${from4s === 2 ? "s" : ""}` : ""}${from3d ? `, then ${from3d} 3d electron${from3d > 1 ? "s" : ""}` : ""}. The 4s electrons go first, which is why ${H(cfgShort(c, z))} has no 4s electrons.`);
+    out.push(`${H(SYM(z))} → ${sp}: ${from4s ? `remove ${from4s === 2 ? "both 4s electrons" : n0["4s"] === 2 ? "one 4s electron" : "the 4s electron"}` : ""}${from3d ? `, then ${from3d} 3d electron${from3d > 1 ? "s" : ""}` : ""}. The 4s electrons go first${c["4s"] === 0 ? `, which is why ${H(cfgShort(c, z))} has no 4s electrons` : `, but only ${from4s === 1 ? "one is" : "some are"} removed here, so ${H(cfgShort(c, z))} still has ${c["4s"] === 1 ? "one 4s electron" : c["4s"] + " 4s electrons"}`}.`);
   }
   if (q < 0){ const ng = NOBLE.find(g => g === z - q); out.push(`The extra electron${q < -1 ? "s go" : " goes"} into the next orbital${q < -1 ? "s" : ""} by aufbau${ng ? `, giving the same configuration as ${NAME(ng)}` : ""}.`); }
   if (q > 0 && z < 21){ const ng = NOBLE.find(g => g === z - q); if (ng) out.push(`Removing the outer electron${q > 1 ? "s" : ""} leaves the same configuration as ${NAME(ng)}.`); }
@@ -1737,8 +1744,12 @@ function cxDistractors(z, q){
   if (q > 0 && z >= 21 && z <= 30){
     const c = neutralCfg(z); for (let i = 0; i < q; i++){ if (c["3d"] > 0) c["3d"]--; else c["4s"]--; }
     add(c, `electrons were removed from 3d before 4s. The 4s electrons are removed first.`);
-    const c2 = neutralCfg(z); let left = q; const t = Math.min(1, c2["4s"]); c2["4s"] -= t; left -= t; c2["3d"] -= Math.min(left, c2["3d"]);
-    add(c2, `only one 4s electron was removed before taking 3d electrons; both 4s electrons go first.`);
+    // take one 4s electron, then 3d electrons, then (only if 3d runs out) the other 4s electron, until the electron count is right
+    const c2 = neutralCfg(z); let left = q; const t = Math.min(1, c2["4s"]); c2["4s"] -= t; left -= t;
+    const t3 = Math.min(left, c2["3d"]); c2["3d"] -= t3; left -= t3;
+    const t4 = Math.min(left, c2["4s"]); c2["4s"] -= t4; left -= t4;
+    // when the other 4s electron had to go too, this is the right answer (e.g. Sc3+), and add() drops it as a duplicate
+    if (left === 0 && t4 === 0) add(c2, `only one 4s electron was removed before taking 3d electrons; both 4s electrons go first.`);
   }
   if (EXC[z]){
     const c = aufbauAdd(emptyCfg(), z); for (let i = 0; i < q; i++) removeOne(c);
@@ -1753,7 +1764,7 @@ function cxDistractors(z, q){
   {
     // one electron moved out of the outermost s subshell into the next subshell: the s subshell fills first
     const c = cloneC(right), sk = ["4s", "3s", "2s", "1s"].find(k => c[k] > 0);
-    if (sk){ const nx = SUBS.slice(SUB[sk].i + 1).find(s => c[s.k] < s.cap); if (nx){ c[sk]--; c[nx.k]++; add(c, `${sk} is lower in energy than ${nx.k}, so ${sk} takes its two electrons before any go into ${nx.k}.`); } }
+    if (sk && c[sk] >= 2){ const nx = SUBS.slice(SUB[sk].i + 1).find(s => c[s.k] < s.cap); if (nx){ c[sk]--; c[nx.k]++; add(c, `${sk} is lower in energy than ${nx.k}, so ${sk} takes its two electrons before any go into ${nx.k}.`); } }
   }
   if (z > 30 && right["3d"] === 10){ const c = cloneC(right); c["3d"] = 0; add(c, `the ten 3d electrons are missing. From gallium onwards the 3d subshell is full: [Ar] 3d¹⁰ 4s² …`); }
   if (z - q - 2 >= 1) add(co(z, q + 2), `this has ${z - q - 2} electrons; ${sp} has ${z - q}.`);

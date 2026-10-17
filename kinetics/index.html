@@ -571,7 +571,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 8 Reaction Kinetics</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · All values computed live in the page</span>
-  <span class="ls-updated">Last updated 29/09/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 
 <script>
@@ -1144,10 +1144,12 @@ function renderIR(){
 function parseNum(s){
   if (!s) return NaN;
   let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/[x×*]10\^?\(?(-?\d+)\)?/i, "e$1");
+  t = t.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+$/, m => "^" + [...m].map(c => c === "⁻" ? "-" : "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join(""));   // 6.02 × 10²³ and 1.5 × 10⁻³
+  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?/i, "e$1");
   t = t.replace(/⁻/g, "-");
   if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+  const v = parseFloat(t);
+  return isFinite(v) ? v : NaN;
 }
 window.__kin.parseNum = parseNum;
 function checkIR(){
@@ -1281,6 +1283,7 @@ function bindHL(){
   const handle = (id) => (e) => {
     const v = parseNum(e.target.value);
     if (isNaN(v) || v < 0 || ((id === "h-k" || id === "h-th") && v === 0)){ err.textContent = "Enter a positive number (k and t½ cannot be zero)."; err.hidden = false; return; }
+    if (v > 1e6 || (v !== 0 && v < 1e-6)){ err.textContent = "That value is outside the range of this plot: use a number from 10⁻⁶ to 10⁶."; err.hidden = false; return; }
     err.hidden = true;
     if (id === "h-k"){ HL.k = v; HL.th = Math.LN2 / v; HL.n = HL.t / HL.th; }
     if (id === "h-th"){ HL.th = v; HL.k = Math.LN2 / v; HL.n = HL.t / HL.th; }

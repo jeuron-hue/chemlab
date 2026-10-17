@@ -642,7 +642,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 4 Theories of Acids and Bases</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · 3D models drawn live in the page</span>
-  <span class="ls-updated">Last updated 01/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 
 <script>
@@ -945,7 +945,8 @@ function answerDrill(b){
   $("dr-opts").querySelectorAll(".opt").forEach(x => { x.disabled = true; if (x.dataset.a === q.a) x.classList.add("right"); });
   if (!ok) b.classList.add("wrong");
   const how = q.dir === "base" ? `Removing one H<sup>+</sup> from ${H(q.f)} gives ${H(q.a)}: one fewer H, and the charge falls by 1.` : `Adding one H<sup>+</sup> to ${H(q.f)} gives ${H(q.a)}: one more H, and the charge rises by 1.`;
-  const wr = ok ? "" : `${H(pick)}: ${H(q.d.find(d => d[0] === pick)[1])}. `;
+  const why = (q.d.find(d => d[0] === pick) || [, ""])[1];   // a pick with no listed reason must not throw
+  const wr = ok ? "" : why ? `${H(pick)}: ${H(why)}. ` : "";
   const fb = $("dr-fb");
   fb.className = "fb " + (ok ? "ok" : "no");
   fb.innerHTML = `${ok ? "Correct." : "Not quite."} ${wr}${how} A conjugate pair differs by exactly one H<sup>+</sup>.`;

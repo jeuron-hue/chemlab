@@ -739,7 +739,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 6 The Mole Concept and Stoichiometry</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub>, <i>L</i>, <i>R</i> and molar volumes from the Data Booklet · isotopic abundances are literature values · all answers computed live in the page</span>
-  <span class="ls-updated">Last updated 04/10/26</span></div>
+  <span class="ls-updated">Last updated 18/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -790,28 +790,31 @@ MC.H = H;
 /* ---------- numbers ---------- */
 // plain decimal with sf significant figures (keeps trailing zeros)
 function fx(x, sf){
-  if (!isFinite(x)) return "?";
+  if (!isFinite(x) || Math.abs(x) > 1e100 || (x !== 0 && Math.abs(x) < 1e-100)) return "?";
+  sf = Math.max(1, Math.min(100, sf));
   if (x === 0) return sf > 1 ? "0." + "0".repeat(sf - 1) : "0";
   const neg = x < 0; x = Math.abs(x);
   let e = Math.floor(Math.log10(x));
   let dp = sf - 1 - e, s;
   if (dp >= 0){
-    s = x.toFixed(dp);
-    if (Math.floor(Math.log10(+s)) > e && dp > 0) s = x.toFixed(dp - 1);
+    s = x.toFixed(Math.min(100, dp));
+    if (Math.floor(Math.log10(+s)) > e && dp > 0) s = x.toFixed(Math.min(100, dp - 1));
   } else {
     const p = Math.pow(10, -dp); s = String(Math.round(x / p) * p);
   }
   return (neg ? MINUS : "") + s;
 }
 function sciParts(x, sf){
+  const dg = Math.max(0, Math.min(100, sf - 1));
   let e = Math.floor(Math.log10(Math.abs(x)));
-  let ms = (x / Math.pow(10, e)).toFixed(sf - 1);
-  if (Math.abs(parseFloat(ms)) >= 10){ e += 1; ms = (x / Math.pow(10, e)).toFixed(sf - 1); }
+  let ms = (x / Math.pow(10, e)).toFixed(dg);
+  if (Math.abs(parseFloat(ms)) >= 10){ e += 1; ms = (x / Math.pow(10, e)).toFixed(dg); }
   return { m: ms.replace("-", MINUS), e };
 }
 // scientific notation with Unicode superscripts (pass through H() for HTML)
 function sci(x, sf = 3){
   if (x === 0) return "0";
+  if (!isFinite(x) || Math.abs(x) > 1e100 || Math.abs(x) < 1e-100) return "?";
   const p = sciParts(x, sf);
   return p.e === 0 ? p.m : `${p.m} × 10${toSup(p.e)}`;
 }
@@ -832,7 +835,9 @@ function parseNum(s){
   t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
   t = t.replace(/%$/, "");
   if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+  const v = parseFloat(t);
+  // reject non-finite and absurd magnitudes, so no NaN or Infinity can reach the drawings or the working
+  return isFinite(v) && Math.abs(v) <= 1e100 && (v === 0 || Math.abs(v) >= 1e-100) ? v : NaN;
 }
 // significant figures written in a typed number string (for the mole map)
 function sfOf(s){
@@ -1764,7 +1769,7 @@ function burn(x, y, V, O){
 }
 MC.burn = burn;
 const fmtV = v => (Math.abs(v - Math.round(v)) < 1e-9 ? String(Math.round(v)) : (Math.round(v * 10) / 10).toString());
-function gbCur(){ return GB.mys ? GB.q : { f: GB.hc, V: GB.V, O: GB.O }; }
+function gbCur(){ return GB.mys && GB.q ? GB.q : { f: GB.hc, V: GB.V, O: GB.O }; }
 function gbDraw(){
   const svg = $("gb-svg"), Wd = Math.max(300, $("gb-wrap").clientWidth || 600);
   const c = gbCur(), { x, y } = xyOf(c.f), b = burn(x, y, c.V, c.O);
@@ -1874,7 +1879,9 @@ function gbMysNew(preset){
   gbRender();
 }
 MC.gbMysNew = gbMysNew;
+const GB_NONE = "There is no mystery yet. Press New mystery to get one.";
 function gbWork(){
+  if (!GB.q){ $("gb-work").innerHTML = `<li>${H(GB_NONE)}</li>`; $("gb-work").hidden = false; return; }
   const q = GB.q, { x, y } = xyOf(q.f), b = burn(x, y, q.V, q.O);
   const W = [
     `NaOH(aq) absorbs CO₂, so the ${fmtV(b.after2)} cm³ left at the end is the unreacted (excess) O₂.`,
@@ -1887,6 +1894,7 @@ function gbWork(){
   GB.solved = true; gbRender();
 }
 function gbCheck(){
+  if (!GB.q){ const f = $("gb-fb"); f.className = "fb info"; f.innerHTML = H(GB_NONE); f.hidden = false; return; }
   const q = GB.q, { x, y } = xyOf(q.f), ux = parseNum($("gb-x").value), uy = parseNum($("gb-y").value);
   const okx = ux === x, oky = uy === y;
   $("gb-x").setAttribute("aria-invalid", String(!okx)); $("gb-y").setAttribute("aria-invalid", String(!oky));
@@ -2125,9 +2133,10 @@ function tiMsg(after){
   }
 }
 function concordant(runs){
+  const dr = x => Math.round(x * 100) / 100;   // compare differences at the 2 d.p. the burette is read to, so 0.10 never fails on floating-point noise
   const acc = runs.filter(r => !r.rough).map(r => r.t).sort((a, b) => a - b);
   let best = [];
-  for (let i = 0; i < acc.length; i++){ const w = []; for (let j = i; j < acc.length; j++){ if (acc[j] - acc[i] <= 0.10 + 1e-9) w.push(acc[j]); } if (w.length > best.length || (w.length === best.length && w.length && (w[w.length - 1] - w[0]) < (best[best.length - 1] - best[0]))) best = w; }
+  for (let i = 0; i < acc.length; i++){ const w = []; for (let j = i; j < acc.length; j++){ if (dr(acc[j] - acc[i]) <= 0.10) w.push(acc[j]); } if (w.length > best.length || (w.length === best.length && w.length && dr(w[w.length - 1] - w[0]) < dr(best[best.length - 1] - best[0]))) best = w; }
   if (best.length < 2) return null;
   const mean = best.reduce((a, b) => a + b, 0) / best.length;
   return { set: best, mean: Math.round(mean * 100) / 100 };
@@ -2323,7 +2332,11 @@ function bindTI(){
   $("ti-clear").onclick = () => { TI.runs = []; newRun(); tiTable(); tiDraw(); tiMsg(); };
   $("ti-check").onclick = tiCheck;
   $("ti-ans").onkeydown = e => { if (e.key === "Enter") tiCheck(); };
-  $("ti-show").onclick = () => { $("ti-work").innerHTML = tiWorking().map(w => `<li>${H(w)}</li>`).join(""); $("ti-work").hidden = false; };
+  $("ti-show").onclick = () => {
+    // the working is built from the mean of the concordant titres, so there is nothing to show before there is one
+    $("ti-work").innerHTML = TI.mean == null ? `<li>${H("There is no mean titre yet. Add accurate runs until two titres agree to within 0.10 cm³; the working uses their mean.")}</li>` : tiWorking().map(w => `<li>${H(w)}</li>`).join("");
+    $("ti-work").hidden = false;
+  };
   tiSetMode("direct", "notes");
 }
 // refilling without recording just discards the run
@@ -2339,6 +2352,8 @@ const IONIC = [["NaCl", "sodium chloride", [["Na^+", 1], ["Cl^-", 1]]], ["MgCl2"
 const GASES = [["CO2", "carbon dioxide"], ["O2", "oxygen"], ["CH4", "methane"], ["NH3", "ammonia"], ["H2", "hydrogen"], ["Cl2", "chlorine"], ["SO2", "sulfur dioxide"], ["C3H8", "propane"], ["N2", "nitrogen"]];
 // solids suitable for weighing out as a standard solution
 const STD_OK = ["NaCl", "Na2CO3", "AgNO3", "H2C2O4.2H2O", "KIO3"];
+// highest concentration (mol per dm³) the question may use where the solid is only moderately soluble at room temperature
+const SOLCAP = { KMnO4: 0.25, KIO3: 0.25, "H2C2O4.2H2O": 0.5, "CuSO4.5H2O": 1.0, Na2CO3: 1.0 };
 const SOLUTES = [["NaOH", "sodium hydroxide"], ["NaCl", "sodium chloride"], ["KMnO4", "potassium manganate(VII)"], ["Na2CO3", "sodium carbonate"], ["C6H12O6", "glucose"], ["KOH", "potassium hydroxide"], ["AgNO3", "silver nitrate"], ["CuSO4.5H2O", "hydrated copper(II) sulfate"], ["H2C2O4.2H2O", "hydrated ethanedioic acid"], ["KIO3", "potassium iodate"]];
 const ISOG = [
   { el: "Cl", iso: [[35.0, 75.8], [37.0, 24.2]] }, { el: "Br", iso: [[78.9, 50.7], [80.9, 49.3]] }, { el: "Mg", iso: [[24.0, 79.0], [25.0, 10.0], [26.0, 11.0]] },
@@ -2349,7 +2364,7 @@ const ISOG = [
 const SUPN = { Cl: 17, Br: 35, Mg: 12, Cu: 29, B: 5, Li: 3, K: 19, Si: 14, Ga: 31, Rb: 37, Ne: 10 };
 const isoLab = (el, m) => toSup(Math.round(m)) + el;
 const g3 = x => fx(x, 3);
-const mrLine = f => `<i>M</i><sub>r</sub>(${fU(f)}) = ${mrSum(f)} = ${mrOf(f).toFixed(1)}`;
+const mrLine = f => { const s = mrSum(f), r = mrOf(f).toFixed(1); return `<i>M</i><sub>r</sub>(${fU(f)}) = ${s === r ? r : s + " = " + r}`; };
 const ASIDE_N = "(To find the mass, you first need the amount in moles.)";
 const ASIDE_KEEP = "(Keep the unrounded value in your calculator and round only the final answer.)";
 const EQ = id => EQS.find(e => e.id === id);
@@ -2481,13 +2496,13 @@ function genLim(sub){
     if (sub === "product") q = { answer: mP, label: `mass of ${fU(P)} / g`, unit: "g", ask: `Calculate the maximum mass of ${fU(P)} that can form.`, hints: [[(lim ? nA : nB) * eq.c[eq.r.length + pj] / eq.c[1 - lim] * MP, "You used the reagent in excess. The product is limited by the reactant that runs out first."]] };
     else if (sub === "excess"){
       W.push(`${fU(spOf(eq, ex))} reacted = ${num(nl, 3)} × ${eq.c[ex]}/${eq.c[li]} = ${num(-res.change[ex], 4)} mol; left = ${num(res.before[ex], 3)} − ${num(-res.change[ex], 4)} = ${num(nEx, 3)} mol = ${num(nEx, 3)} × ${mrOf(spOf(eq, ex)).toFixed(1)} = <b>${num(mEx, 3)} g</b>`);
-      q = { answer: mEx, label: `mass of ${fU(spOf(eq, ex))} left / g`, unit: "g", ask: `Which reactant is in excess, and what mass of it is left over?`, hints: [[-res.change[ex] * mrOf(spOf(eq, ex)), "That is the mass that reacted. The excess left over = (mass at the start) − (mass reacted)."]] };
+      q = { answer: mEx, label: "mass of the excess reactant left / g", unit: "g", ask: `Which reactant is in excess, and what mass of it is left over?`, hints: [[-res.change[ex] * mrOf(spOf(eq, ex)), "That is the mass that reacted. The excess left over = (mass at the start) − (mass reacted)."]] };
     } else {
       const act = r3(mP * rnd(0.6, 0.95)), pc = act / mP * 100;
       W.push(`Percentage yield = (actual / theoretical) × 100 = (${g3(act)} / ${num(mP, 3)}) × 100 = <b>${num(pc, 3)} %</b>`);
       q = { answer: pc, label: "percentage yield / %", unit: "%", ask: `The actual yield of ${fU(P)} is ${g3(act)} g. Calculate the percentage yield.`, hints: [[mP / act * 100, "Upside down: percentage yield = (actual yield / theoretical yield) × 100."]], act };
     }
-    if (sub !== "excess") W.splice(3);
+    if (sub === "excess") W.splice(2, 1); else W.splice(3);   // the excess working does not need the product line
     if (sub === "yield") W.push(`Percentage yield = (actual / theoretical) × 100 = (${g3(q.act)} / ${num(mP, 3)}) × 100 = <b>${num(q.answer, 3)} %</b>`);
     if (sub === "product") W[2] = W[2].replace(`${num(mP, 3)} g`, `<b>${num(mP, 3)} g</b>`);
     return Q_({ type: "lim", sub, text: text + q.ask, label: q.label, unit: q.unit, answer: q.answer, hints: q.hints, given: { id, mA, mB, pj, act: q.act || null }, work: W });
@@ -2541,13 +2556,14 @@ function genConc(sub){
   const [f, name] = pick(SOLUTES), M = mrOf(f), V = pick([100.0, 250.0, 500.0, 200.0, 50.0]);
   const hyd = f.includes(".");
   if (sub === "c"){
-    const m = r3(rnd(0.2, 15)), n = m / M, c = n / (V / 1000);
+    const mTop = Math.min(15, (SOLCAP[f] || Infinity) * (V / 1000) * M * 0.99);
+    const m = r3(rnd(0.2, mTop)), n = m / M, c = n / (V / 1000);
     return Q_({ type: "conc", sub, text: `${g3(m)} g of ${name}, ${fU(f)}, is dissolved in deionised water and made up to ${fx(V, 4)} cm³. Calculate the concentration of the solution in mol dm⁻³.`, label: "<i>c</i> / mol dm⁻³", unit: "mol dm⁻³", answer: c, given: { f, m, Vcm3: V },
       hints: [[n / V, "Convert the volume to dm³ first: cm³ ÷ 1000."], [m / (V / 1000), "That is the concentration in g dm⁻³. Convert the mass to moles first."]],
       work: [`${mrLine(f)}${hyd ? " (include the water of crystallisation)" : ""}; <i>n</i> = ${g3(m)} / ${M.toFixed(1)} = ${num(n, 3)} mol`, `<i>c</i> = <i>n</i> / <i>V</i> = (${num(n, 3)}) / (${fx(V, 4)} / 1000) = <b>${num(c, 3)} mol dm⁻³</b>`] });
   }
   if (sub === "g"){
-    const c = r3(rnd(0.01, 2)), g = c * M;
+    const c = r3(rnd(0.01, Math.min(2, (SOLCAP[f] || Infinity) * 0.99))), g = c * M;
     return Q_({ type: "conc", sub, text: `A solution of ${name}, ${fU(f)}, has a concentration of ${num(c, 3)} mol dm⁻³. What is its concentration in g dm⁻³?`, label: "concentration / g dm⁻³", unit: "g dm⁻³", answer: g, given: { f, c },
       hints: [[c / M, "Multiply by M to go from mol dm⁻³ to g dm⁻³."]],
       work: [`${mrLine(f)}`, `Concentration in g dm⁻³ = <i>c</i> × <i>M</i> = ${num(c, 3)} × ${M.toFixed(1)} = <b>${num(g, 3)} g dm⁻³</b>`] });
@@ -2606,9 +2622,26 @@ function genBack(){
   }
 }
 const GEN = { mol: genMol, part: genPart, ar: genAr, emp: genEmp, rm: genRM, lim: genLim, gas: genGas, conc: genConc, tit: genTit, back: genBack };
+// Hint hygiene, applied to every generated question. A hint is kept only when it can be reached and is worth showing:
+// not within the marking tolerance of the answer or within 3 % of it (that is a rounding slip, handled by "Close"),
+// and not within 2.5 % of a hint already kept (the first match would hide it).
+function cleanHints(q){
+  if (!q || !Array.isArray(q.hints) || q.fmt === "formula" || typeof q.answer !== "number" || !isFinite(q.answer) || q.answer === 0) return q;
+  const keep = [];
+  for (const h of q.hints){
+    const w = h[0];
+    if (typeof w !== "number" || !isFinite(w) || w === 0) continue;
+    if (within(w, q.answer, q.sf) || Math.abs(w / q.answer - 1) < 0.03) continue;
+    if (keep.some(k => Math.abs(w / k[0] - 1) < 0.025)) continue;
+    keep.push(h);
+  }
+  q.hints = keep;
+  return q;
+}
+MC.cleanHints = cleanHints;
 function genQ(type, sub){
   if (type === "mix") type = pick(Object.keys(GEN));
-  return GEN[type](sub);
+  return cleanHints(GEN[type](sub));
 }
 MC.genQ = genQ;
 const GN = { type: "mol", q: null, right: 0, tried: 0 };
@@ -2637,9 +2670,9 @@ function gnGrade(q, s){
   const v = parseNum(s);
   if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 0.180, 2.40 or 6.02e23 (or 6.02 x 10^23)." };
   if (within(v, q.answer, q.sf)) return { ok: true };
-  const near = x => x !== 0 && isFinite(x) && Math.abs(v / x - 1) < 0.012;
+  const near = (x, tol = 0.012) => x !== 0 && isFinite(x) && Math.abs(v / x - 1) < tol;
+  if (near(q.answer, 0.02)) return { ok: false, msg: `Close: round to ${q.sf} significant figures, as the data are given to ${q.sf} s.f.` };
   for (const [w, m] of q.hints) if (near(w)) return { ok: false, msg: m };
-  if (near(q.answer)) return { ok: false, msg: `Close: round to ${q.sf} significant figures, as the data are given to ${q.sf} s.f.` };
   if ([1e3, 1e-3, 1e6, 1e-6].some(k => near(q.answer * k))) return { ok: false, msg: "Out by a power of ten: check the units (cm³ ↔ dm³ is a factor of 1000, g ↔ kg is 1000, kPa ↔ Pa is 1000)." };
   if ([2, 0.5, 3, 1 / 3, 4, 0.25, 5, 0.2, 6, 1 / 6].some(k => near(q.answer * k))) return { ok: false, msg: "Out by a simple factor: check the mole ratio from the equation (or the number of atoms or ions in the formula)." };
   return { ok: false, msg: "Not within one unit of the last significant figure. Press Show working to compare." };
