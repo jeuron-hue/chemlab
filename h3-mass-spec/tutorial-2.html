@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("chemlab-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Mass Spectrometry and Structure Solving 2 Tutorial: Degree of unsaturation, molecular formulae, and unknowns solved from IR, ¹H NMR, mass spectra and UV/vis.. H3 Chemistry notes by Gary Chan (SEAB 9813, Chapter H3.4).">
+<title>Mass Spectrometry and Structure Solving 2 Tutorial · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.top-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px}
+.themesw{display:inline-flex; border:1px solid var(--line-strong); border-radius:4px; overflow:hidden; background:var(--surface); font-family:var(--sans)}
+.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button:first-child{border-left:0}
+.themesw button:hover{color:var(--ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent); color:var(--on-accent)}
+.themesw button:focus-visible{outline-offset:-2px}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame top-row">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Chapter H3.4 · Mass Spectrometry and Structure Solving</p>
+    <div class="themesw" role="group" aria-label="Colour theme"><button type="button" data-theme-v="auto">Auto</button><button type="button" data-theme-v="light">Light</button><button type="button" data-theme-v="dark">Dark</button></div>
+  </div>
+</header>
+<nav class="secnav" aria-label="Chapter H3.4 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html" aria-current="page" class="on">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li><li><a href="#question-9">Question 9</a></li><li><a href="#question-10">Question 10</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">H3.4.T2</p><h1>Mass Spectrometry and Structure Solving 2 Tutorial</h1><p class="eyebrow">Chapter H3.4 · Mass Spectrometry and Structure Solving Tutorial 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5">Question 5</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li><li><a href="#question-9">Question 9</a></li><li><a href="#question-10">Question 10</a></li></ol></details><p>Use the Data Booklet tables of characteristic infra-red absorptions and of typical proton (<sup>1</sup>H) chemical shift values, and the Periodic Table. Isotope abundances are as in Tutorial 1 (literature values). Mass spectra are simulated (simple-cleavage ions only; heights illustrative); NMR data are in CDCl<sub>3</sub> at 400 MHz (literature values). Marks are shown in square brackets.</p><p class="stamp" aria-hidden="true">H3.4.T2 §1</p><h2 id="question-1">Question 1</h2><p>Calculate the degree of unsaturation for each formula, and give one structural feature that a molecule with that formula could have.</p><ol class="alpha"><li>C<sub>6</sub>H<sub>6</sub> [1]</li><li>C<sub>4</sub>H<sub>6</sub> [1]</li><li>C<sub>3</sub>H<sub>5</sub>Cl [1]</li><li>C<sub>5</sub>H<sub>5</sub>N [1]</li><li>C<sub>7</sub>H<sub>6</sub>O<sub>2</sub> [1]</li><li>Which of these formulae could belong to a compound containing a benzene ring? Explain. [1]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §2</p><h2 id="question-2">Question 2</h2><p>Compound Q contains C 58.8 %, H 9.8 % and O 31.4 % by mass. Its mass spectrum has a molecular ion peak at <em>m/z</em> 102 (height 10.0) and an M+1 peak at <em>m/z</em> 103 (height 0.56).</p><ol class="alpha"><li>Calculate the empirical formula of Q. [2]</li><li>Find the molecular formula of Q, and show that the M+1 peak agrees with it. [2]</li><li>Calculate the degree of unsaturation of Q, and state what it tells you about the structure. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §3</p><h2 id="question-3">Question 3</h2><p>Compound E, C<sub>4</sub>H<sub>9</sub>Cl, gives the simulated mass spectrum in Fig 1. Its <sup>1</sup>H NMR spectrum has a single signal, at δ 1.62 (singlet, 9H).</p><figure><img src="fig/t2_q3.svg" alt="Fig 1. Simulated mass spectrum of compound E." loading="lazy"><figcaption>Fig 1. Simulated mass spectrum of compound E.</figcaption></figure><ol class="alpha"><li>Deduce the structure of E and draw it. Explain how the NMR signal and the ions at <em>m/z</em> 77, 79 and 57 support your answer. [5]</li><li>In its simulated mass spectrum, the isomer 1-chlorobutane, CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>CH<sub>2</sub>Cl, gives a base peak at <em>m/z</em> 43 and peaks at <em>m/z</em> 49 and 51. Identify these ions, and describe how its <sup>1</sup>H NMR spectrum would differ from that of E. [3]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §4</p><h2 id="question-4">Question 4</h2><p>Compound Q of Question 2 gives these data. IR: strong absorptions at 1740 and 1200 cm<sup>−1</sup>; no absorption between 2500 and 3600 cm<sup>−1</sup> apart from C–H. <sup>1</sup>H NMR: δ 3.67 (singlet, 3H), 2.56 (septet, 1H), 1.17 (doublet, 6H). Mass spectrum: <em>m/z</em> 102, 71, 59 and 43 (base peak).</p><ol class="alpha"><li>Deduce the structure of Q, explaining how each piece of IR and NMR data supports it. [4]</li><li>Identify the ions at <em>m/z</em> 71, 59 and 43. [3]</li><li>Ethyl propanoate, CH<sub>3</sub>CH<sub>2</sub>COOCH<sub>2</sub>CH<sub>3</sub>, is an isomer of Q. Predict the number of signals in its <sup>1</sup>H NMR spectrum and the <em>m/z</em> of the base peak of its mass spectrum. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §5</p><h2 id="question-5">Question 5</h2><p>Two isomers of C<sub>7</sub>H<sub>7</sub>Br, (bromomethyl)benzene and 1-bromo-4-methylbenzene, both give peaks at <em>m/z</em> 170 and 172 (1 : 1) and a base peak at <em>m/z</em> 91 in their simulated mass spectra.</p><ol class="alpha"><li>Explain why these features of the mass spectra cannot distinguish the two isomers. [2]</li><li>Calculate the degree of unsaturation of C<sub>7</sub>H<sub>7</sub>Br and explain what it shows. [1]</li><li>Draw both isomers. One isomer gives <sup>1</sup>H NMR signals at δ 7.33 (multiplet, 5H) and 4.50 (singlet, 2H); the other at δ 7.37 (doublet, 2H), 7.04 (doublet, 2H) and 2.30 (singlet, 3H). Assign each set of data to an isomer, explaining each signal. [4]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §6</p><h2 id="question-6">Question 6</h2><p>Compound G, C<sub>4</sub>H<sub>10</sub>O, gives these data. IR: no broad absorption between 3200 and 3600 cm<sup>−1</sup>; strong absorption at 1120 cm<sup>−1</sup>. <sup>1</sup>H NMR: δ 3.48 (quartet, 4H) and 1.21 (triplet, 6H); the spectrum does not change when the sample is shaken with D<sub>2</sub>O. Mass spectrum: <em>m/z</em> 74, 59 and 29 (base peak).</p><ol class="alpha"><li>Deduce the structure of G. [3]</li><li>Identify the ions at <em>m/z</em> 59 and 29, and the radical lost in forming each. [2]</li><li>Describe how the IR spectrum, the D<sub>2</sub>O test and the base peak of the isomer butan-1-ol would differ from those of G. [3]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §7</p><h2 id="question-7">Question 7</h2><p>Compound J, C<sub>3</sub>H<sub>5</sub>N, gives these data. IR: a weak absorption at 2250 cm<sup>−1</sup>. <sup>1</sup>H NMR: δ 2.36 (quartet, 2H), 1.30 (triplet, 3H). Mass spectrum: <em>m/z</em> 55, 54 (base peak) and 29.</p><ol class="alpha"><li>Calculate the degree of unsaturation of J. [1]</li><li>Deduce the structure of J, explaining the IR and NMR data. [3]</li><li>Identify the ions at <em>m/z</em> 54 and 29. [2]</li><li>Further example: explain why a compound with one nitrogen atom, such as J, has an odd M<sub>r</sub>. [1]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §8</p><h2 id="question-8">Question 8</h2><p>An unknown ketone of formula C<sub>9</sub>H<sub>10</sub>O is either 1-phenylpropan-1-one, C<sub>6</sub>H<sub>5</sub>COCH<sub>2</sub>CH<sub>3</sub>, or 1-phenylpropan-2-one, C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>COCH<sub>3</sub>. Its data are: UV/vis, a strong absorption near 242 nm; mass spectrum, <em>m/z</em> 134, 105 (base peak), 77 and 29; <sup>1</sup>H NMR, δ 7.4–8.0 (multiplet, 5H), 2.99 (quartet, 2H) and 1.23 (triplet, 3H); IR, a strong absorption at 1685 cm<sup>−1</sup>.</p><ol class="alpha"><li>Draw both candidates. Identify the unknown, and explain how the UV/vis, mass spectrum and NMR data each support your answer. [5]</li><li>Predict, for the other candidate, the <em>m/z</em> of the base peak, the <sup>1</sup>H NMR signals (δ ranges, areas and multiplicities) and the appearance of its UV/vis spectrum. [4]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §9</p><h2 id="question-9">Question 9</h2><p>Read the passage and answer the questions that follow.</p><aside class="box"><p>Methyl benzoate, C<sub>6</sub>H<sub>5</sub>COOCH<sub>3</sub>, is made by heating benzoic acid with methanol and an acid catalyst. HPLC with a UV detector shows that a batch contains an impurity at 0.12 % of the main peak. The specification says that any impurity above 0.10 % must be identified. LC-MS of the impurity gives <em>m/z</em> 122, 105 (base peak) and 77; methyl benzoate itself gives <em>m/z</em> 136, 105 and 77.</p></aside><ol class="alpha"><li>Explain why the impurity must be identified. [1]</li><li>Use the mass spectra to suggest the molecular formula and identity of the impurity, and give one way in which it could be present in the product. [3]</li><li>Describe the IR and <sup>1</sup>H NMR evidence that would confirm your answer to (b). [2]</li><li>Describe how the identity of the impurity would finally be confirmed. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T2 §10</p><h2 id="question-10">Question 10</h2><p>Compound K, C<sub>4</sub>H<sub>7</sub>ClO<sub>2</sub>, gives the simulated mass spectrum in Fig 2 and these data. IR: strong absorptions at 1750 and 1200 cm<sup>−1</sup> and at 780 cm<sup>−1</sup>; no O–H absorption. <sup>1</sup>H NMR: δ 4.24 (quartet, 2H), 4.06 (singlet, 2H), 1.31 (triplet, 3H).</p><figure><img src="fig/t2_q10.svg" alt="Fig 2. Simulated mass spectrum of compound K." loading="lazy"><figcaption>Fig 2. Simulated mass spectrum of compound K.</figcaption></figure><ol class="alpha"><li>Deduce the structure of K and draw it, using the formula, the IR and NMR data and the peaks at <em>m/z</em> 122 and 124. [4]</li><li>Identify the ions at <em>m/z</em> 77, 79 and at <em>m/z</em> 49, 51. [2]</li><li>Explain why the signal at δ 4.06 is a singlet, and why its δ is so high. [2]</li><li>Its isomer methyl 3-chloropropanoate, ClCH<sub>2</sub>CH<sub>2</sub>COOCH<sub>3</sub>, gives NMR signals at δ 3.76 (triplet, 2H), 3.72 (singlet, 3H) and 2.80 (triplet, 2H), and a base peak at <em>m/z</em> 91 and 93 (3 : 1). Explain how the data rule it out for K, and why its peak at <em>m/z</em> 91 cannot be a benzyl ion. [2]</li></ol><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Chapter H3.4 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Chapter H3.4 Mass Spectrometry and Structure Solving)">Email Gary for the solutions</a></p></aside>
+
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="tutorial-1.html">← Tutorial 1</a><a href="./">Interactive lab →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H3 Chemistry © Gary Chan · Written for SEAB H3 Chemistry 9813 · Last updated 18/10/26</p></footer>
+<script>
+(function () {
+  var root = document.documentElement, bs = document.querySelectorAll("[data-theme-v]");
+  function show() { var t = root.getAttribute("data-theme") || "auto"; bs.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-v") === t)); }); }
+  bs.forEach(function (b) { b.addEventListener("click", function () {
+    var v = b.getAttribute("data-theme-v");
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    try { if (v === "auto") localStorage.removeItem("chemlab-theme"); else localStorage.setItem("chemlab-theme", v); } catch (e) {}
+    show(); window.dispatchEvent(new Event("resize"));
+  }); });
+  show();
+})();
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>

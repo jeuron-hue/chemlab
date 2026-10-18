@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("chemlab-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Mass Spectrometry and Structure Solving 1 Tutorial: Molecular ions, carbon counts, halogen isotope clusters, fragment ions and equations, internal standards and GC-MS.. H3 Chemistry notes by Gary Chan (SEAB 9813, Chapter H3.4).">
+<title>Mass Spectrometry and Structure Solving 1 Tutorial · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.top-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px}
+.themesw{display:inline-flex; border:1px solid var(--line-strong); border-radius:4px; overflow:hidden; background:var(--surface); font-family:var(--sans)}
+.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button:first-child{border-left:0}
+.themesw button:hover{color:var(--ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent); color:var(--on-accent)}
+.themesw button:focus-visible{outline-offset:-2px}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame top-row">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Chapter H3.4 · Mass Spectrometry and Structure Solving</p>
+    <div class="themesw" role="group" aria-label="Colour theme"><button type="button" data-theme-v="auto">Auto</button><button type="button" data-theme-v="light">Light</button><button type="button" data-theme-v="dark">Dark</button></div>
+  </div>
+</header>
+<nav class="secnav" aria-label="Chapter H3.4 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html">Part 2</a><a href="tutorial-1.html" aria-current="page" class="on">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5-further-example">Question 5 (Further example)</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li><li><a href="#question-9-further-example">Question 9 (Further example)</a></li><li><a href="#question-10-further-example">Question 10 (Further example)</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">H3.4.T1</p><h1>Mass Spectrometry and Structure Solving 1 Tutorial</h1><p class="eyebrow">Chapter H3.4 · Mass Spectrometry and Structure Solving Tutorial 1</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#question-1">Question 1</a></li><li><a href="#question-2">Question 2</a></li><li><a href="#question-3">Question 3</a></li><li><a href="#question-4">Question 4</a></li><li><a href="#question-5-further-example">Question 5 (Further example)</a></li><li><a href="#question-6">Question 6</a></li><li><a href="#question-7">Question 7</a></li><li><a href="#question-8">Question 8</a></li><li><a href="#question-9-further-example">Question 9 (Further example)</a></li><li><a href="#question-10-further-example">Question 10 (Further example)</a></li></ol></details><p>Use relative atomic masses H 1, C 12, N 14, O 16, <sup>35</sup>Cl and <sup>37</sup>Cl, <sup>79</sup>Br and <sup>81</sup>Br for the <em>m/z</em> of ions, and the isotope abundances <sup>13</sup>C 1.1 %, <sup>35</sup>Cl : <sup>37</sup>Cl about 3 : 1, <sup>79</sup>Br : <sup>81</sup>Br about 1 : 1 (literature values). Mass spectra are simulated: they show only ions formed by simple cleavage and the <sup>13</sup>C peak of the molecular ion, and peak heights are illustrative. Marks are shown in square brackets.</p><p class="stamp" aria-hidden="true">H3.4.T1 §1</p><h2 id="question-1">Question 1</h2><p>This question is about the mass spectrum of methanol, CH<sub>3</sub>OH.</p><ol class="alpha"><li>Write an equation, with state symbols, for the formation of the molecular ion of methanol in a mass spectrometer. [1]</li><li>State the <em>m/z</em> of the molecular ion, and explain why it is equal to the M<sub>r</sub> of methanol. [2]</li><li>The base peak of the spectrum is at <em>m/z</em> 31. Identify the ion responsible, and write an equation for its formation from the molecular ion. [2]</li><li>Explain why the other product of the reaction in (c) gives no peak in the spectrum. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §2</p><h2 id="question-2">Question 2</h2><p>A compound Y is either a hydrocarbon or a ketone. Its mass spectrum has a molecular ion peak at <em>m/z</em> 86 with a height of 15.0, and a peak at <em>m/z</em> 87 with a height of 1.00.</p><ol class="alpha"><li>Explain why there is a peak at <em>m/z</em> 87. [2]</li><li>Calculate the number of carbon atoms in a molecule of Y. Show your working. [2]</li><li>Hence decide whether Y is C<sub>6</sub>H<sub>14</sub> or C<sub>5</sub>H<sub>10</sub>O (both have M<sub>r</sub> 86). Explain your answer. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §3</p><h2 id="question-3">Question 3</h2><p>Three compounds X, Y and Z all give a molecular ion peak at <em>m/z</em> 72. They are pentane, C<sub>5</sub>H<sub>12</sub>; butanone, C<sub>4</sub>H<sub>8</sub>O; and propenoic acid, C<sub>3</sub>H<sub>4</sub>O<sub>2</sub>, in some order. The heights of their M and M+1 peaks are:</p><div class="tablewrap"><table><thead><tr><th>Compound</th><th>height at <em>m/z</em> 72</th><th>height at <em>m/z</em> 73</th></tr></thead><tbody><tr><td>X</td><td>10.0</td><td>0.56</td></tr><tr><td>Y</td><td>30.0</td><td>1.34</td></tr><tr><td>Z</td><td>40.0</td><td>1.33</td></tr></tbody></table></div><ol class="alpha"><li>Calculate the number of carbon atoms in each compound. [3]</li><li>Hence identify X, Y and Z. [3]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §4</p><h2 id="question-4">Question 4</h2><p>The table gives the main peaks in the simulated mass spectra of four halogen compounds. The ratios are the relative heights of the peaks in each cluster.</p><div class="tablewrap"><table><thead><tr><th>Compound</th><th>Peaks (<em>m/z</em>, with ratio)</th></tr></thead><tbody><tr><td>bromomethane, CH<sub>3</sub>Br</td><td>94, 96 (1 : 1); 15</td></tr><tr><td>1,2-dichloroethane, ClCH<sub>2</sub>CH<sub>2</sub>Cl</td><td>98, 100, 102 (9 : 6 : 1); 63, 65 (3 : 1); 49, 51 (3 : 1)</td></tr><tr><td>dibromomethane, CH<sub>2</sub>Br<sub>2</sub></td><td>172, 174, 176 (1 : 2 : 1); 93, 95 (1 : 1)</td></tr><tr><td>chlorobenzene, C<sub>6</sub>H<sub>5</sub>Cl</td><td>112, 114 (3 : 1); 77</td></tr></tbody></table></div><ol class="alpha"><li>For the molecular ion of each compound, state how the pattern of peaks shows the number and type of halogen atoms present. [4]</li><li>Identify the ions at <em>m/z</em> 63 and 65 from 1,2-dichloroethane and at <em>m/z</em> 93 and 95 from dibromomethane, and the radical lost in each case. [2]</li><li>Explain why the peak at <em>m/z</em> 77 from chlorobenzene is a single peak, not a pair. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §5</p><h2 id="question-5-further-example">Question 5 (Further example)</h2><p>Bromodichloromethane, CHBrCl<sub>2</sub>, is one of the by-products formed when drinking water is treated with chlorine.</p><ol class="alpha"><li>Its molecular ion gives four peaks, at <em>m/z</em> 162, 164, 166 and 168. Show that the heights of these peaks are close to the ratio 9 : 15 : 7 : 1. [4]</li><li>Predict the <em>m/z</em> values, and the approximate ratio of heights, of the clusters given by the fragment ions CHCl<sub>2</sub><sup>+</sup> and CHBrCl<sup>+</sup>. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §6</p><h2 id="question-6">Question 6</h2><p>The simulated mass spectrum of 2-methylpropane, (CH<sub>3</sub>)<sub>3</sub>CH, shows a small peak at <em>m/z</em> 58, the base peak at <em>m/z</em> 43 and a small peak at <em>m/z</em> 15.</p><ol class="alpha"><li>Identify the ions at <em>m/z</em> 58, 43 and 15. [2]</li><li>Write an equation for the formation of the ion at <em>m/z</em> 43 from the molecular ion. [2]</li><li>Explain why the peak at <em>m/z</em> 43 is so much taller than the peak at <em>m/z</em> 15. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §7</p><h2 id="question-7">Question 7</h2><p>Fig 1 shows the simulated mass spectra of the two isomers of C<sub>5</sub>H<sub>12</sub> named pentane, CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>CH<sub>2</sub>CH<sub>3</sub>, and 2,2-dimethylpropane, C(CH<sub>3</sub>)<sub>4</sub>.</p><figure><img src="fig/t1_q7.svg" alt="Fig 1. Simulated mass spectra of the two isomers, A and B." loading="lazy"><figcaption>Fig 1. Simulated mass spectra of the two isomers, A and B.</figcaption></figure><ol class="alpha"><li>Decide which spectrum belongs to which isomer. Give your reasons, identifying the ions at <em>m/z</em> 57, 43 and 29. [4]</li><li>Write an equation for the formation of the ion at <em>m/z</em> 57 from 2,2-dimethylpropane, and explain why this ion is so stable. [2]</li><li>Suggest why there is no molecular ion peak in one of the spectra. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §8</p><h2 id="question-8">Question 8</h2><p>Fig 2 shows the simulated mass spectrum of butan-2-ol, CH<sub>3</sub>CH(OH)CH<sub>2</sub>CH<sub>3</sub>.</p><figure><img src="fig/t1_q8.svg" alt="Fig 2. Simulated mass spectrum of butan-2-ol." loading="lazy"><figcaption>Fig 2. Simulated mass spectrum of butan-2-ol.</figcaption></figure><ol class="alpha"><li>Identify the ions at <em>m/z</em> 59 and 45, and the radical lost in forming each from the molecular ion. [3]</li><li>Write equations for the formation of these two ions. [2]</li><li>Explain why the peak at <em>m/z</em> 45 is taller than the peak at <em>m/z</em> 59. [2]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §9</p><h2 id="question-9-further-example">Question 9 (Further example)</h2><p>Read the passage and answer the questions that follow.</p><aside class="box"><p>Caffeine, C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>, gives a molecular ion at <em>m/z</em> 194. Its concentration in a drink can be measured by LC-MS with an internal standard: caffeine in which three <sup>12</sup>C atoms have been replaced by <sup>13</sup>C ("<sup>13</sup>C<sub>3</sub>-caffeine", <em>m/z</em> 197). 5.00 µg of the standard is added to 1.00 cm<sup>3</sup> of the drink. In the LC-MS run, the peak area at <em>m/z</em> 194 is 4.20 × 10<sup>5</sup> and the peak area at <em>m/z</em> 197 is 5.00 × 10<sup>5</sup> (illustrative data). Assume that equal masses of caffeine and of the standard give equal peak areas.</p></aside><ol class="alpha"><li>Explain why the labelled caffeine behaves in the same way as caffeine in the instrument, yet can be measured separately. [2]</li><li>Explain why a standard three units heavier is used, rather than one containing a single <sup>13</sup>C atom. [2]</li><li>Calculate the mass of caffeine in 1.00 cm<sup>3</sup> of the drink, and its concentration in mg dm<sup>−3</sup>. [3]</li></ol><p class="stamp" aria-hidden="true">H3.4.T1 §10</p><h2 id="question-10-further-example">Question 10 (Further example)</h2><p>Read the passage and answer the questions that follow.</p><aside class="box"><p>A GC-MS run on a degreasing solvent shows an unexpected peak. Its mass spectrum (Fig 3) has a weak cluster at <em>m/z</em> 132, 134, 136 and 138, with relative heights 100 : 96 : 31 : 3, and stronger clusters at <em>m/z</em> 117, 119, 121 (with a tiny 123) and at <em>m/z</em> 97, 99, 101. A library search suggests 1,1,1-trichloroethane, CH<sub>3</sub>CCl<sub>3</sub>.</p></aside><figure><img src="fig/t1_q10.svg" alt="Fig 3. Simulated mass spectrum of the unknown peak." loading="lazy"><figcaption>Fig 3. Simulated mass spectrum of the unknown peak.</figcaption></figure><ol class="alpha"><li>Show that a molecular ion containing three Cl atoms gives four peaks in a ratio close to 27 : 27 : 9 : 1, and that this agrees with the data. [3]</li><li>Identify the ions at <em>m/z</em> 117 and 97, and the radical lost in forming each. [2]</li><li>Draw the structures of 1,1,1-trichloroethane and its isomer 1,1,2-trichloroethane. Explain why the isomer would give a cluster at <em>m/z</em> 83, 85 and 87 but no peak at 117. [2]</li><li>Explain why the analyst still injects an authentic sample of 1,1,1-trichloroethane, and state how the <sup>1</sup>H NMR spectra of the two isomers would differ. [2]</li></ol><aside class="box industry request"><p class="boxhead"><strong>Worked solutions</strong></p><p>Worked solutions for the Chapter H3.4 tutorials are available on request. Email Gary and say which tutorial you are working on.</p><p><a class="btn" href="#" data-mail="jeuron|gmail.com" data-subject="ChemLab: worked solutions request (Chapter H3.4 Mass Spectrometry and Structure Solving)">Email Gary for the solutions</a></p></aside>
+
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-2.html">← Part 2</a><a href="tutorial-2.html">Tutorial 2 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H3 Chemistry © Gary Chan · Written for SEAB H3 Chemistry 9813 · Last updated 18/10/26</p></footer>
+<script>
+(function () {
+  var root = document.documentElement, bs = document.querySelectorAll("[data-theme-v]");
+  function show() { var t = root.getAttribute("data-theme") || "auto"; bs.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-v") === t)); }); }
+  bs.forEach(function (b) { b.addEventListener("click", function () {
+    var v = b.getAttribute("data-theme-v");
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    try { if (v === "auto") localStorage.removeItem("chemlab-theme"); else localStorage.setItem("chemlab-theme", v); } catch (e) {}
+    show(); window.dispatchEvent(new Event("resize"));
+  }); });
+  show();
+})();
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>

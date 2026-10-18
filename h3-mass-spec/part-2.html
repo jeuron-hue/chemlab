@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("chemlab-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#182026" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Mass Spectrometry and Structure Solving 2: The molecular formula, the degree of unsaturation, and a step-by-step method that combines IR, ¹H NMR, mass spectra and UV/vis to solve unknown structures.. H3 Chemistry notes by Gary Chan (SEAB 9813, Chapter H3.4).">
+<title>Mass Spectrometry and Structure Solving 2 · ChemLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+:root{
+  /* Lab Book tokens (light), airy density for pages a reader meets cold */
+  --bg:#F7F8F6; --surface:#FFFFFF; --surface-2:#F7F8F6; --ink:#1E2A33; --ink-2:#5B6B75; --muted:#5B6B75;
+  --line:#DDE3E6; --line-strong:#7A8A94; --accent:#1F6F8B; --accent-soft:#E3EEF2; --on-accent:#FFFFFF;
+  --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --enrich:#F1E9F5; --box-line:#7A8A94;
+  --sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+    --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+    --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#182026; --surface:#222C33; --surface-2:#182026; --ink:#E8EDF0; --ink-2:#9BAAB3; --muted:#9BAAB3;
+  --line:#34414A; --line-strong:#6E7D87; --accent:#66BAD6; --accent-soft:#1E3A45; --on-accent:#0E1B1F;
+  --accent-2:#C49AD8; --accent-2-soft:#36283F; --enrich:#36283F; --box-line:#6E7D87;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:26px}
+.frame{max-width:1440px; margin:0 auto; padding-inline:max(16px, env(safe-area-inset-left))}
+.layout{display:block}
+.layout main{max-width:820px; margin:0 auto}
+.toc, .rail{display:none}
+.toc-m{margin:0 0 16px; border:1px solid var(--line); border-radius:4px; background:var(--surface-2); font-size:15px; line-height:22px}
+.toc-m summary{cursor:pointer; padding:10px 14px; font-weight:600; list-style-position:inside}
+.toc-m ol{margin:0; padding:0 14px 12px 34px}
+.toc-m a{text-decoration:none}
+@media (min-width:1024px){
+  .layout{display:grid; grid-template-columns:220px minmax(0,840px); gap:0 36px; justify-content:center; align-items:start}
+  .layout main{max-width:none; margin:0}
+  .toc{display:block; position:sticky; top:64px; margin-top:16px; max-height:calc(100vh - 84px); overflow:auto; font-size:14px; line-height:20px; padding-right:6px}
+  .toc-title{font-size:13px; line-height:18px; color:var(--muted); font-weight:600; margin:6px 0 8px}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line)}
+  .toc li{margin:0}
+  .toc a{display:block; padding:5px 0 5px 12px; margin-left:-1px; border-left:2px solid transparent; color:var(--ink-2); text-decoration:none}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{color:var(--accent); border-left-color:var(--accent); font-weight:600}
+  .toc-m{display:none}
+}
+@media (min-width:1280px){
+  .layout{grid-template-columns:220px minmax(0,840px) 260px}
+  .rail{display:block; position:relative; margin-top:16px; align-self:stretch}
+  .sidenote{position:absolute; left:0; right:0; font-size:13px; line-height:19px; color:var(--ink-2)}
+  .sn-num{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; font-weight:500; color:var(--accent-2); margin-right:2px}
+  html.sidenotes .notes{display:none}
+}
+@media (min-width:1600px){
+  .frame{max-width:1640px}
+  .layout{grid-template-columns:250px minmax(0,960px) 300px; gap:0 44px}
+  body{font-size:17px; line-height:28px}
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+sub,sup{font-size:.72em; line-height:0}
+
+.top{padding-block:16px 8px; font-family:var(--sans)}
+.crumbs{margin:0; font-size:14px; line-height:20px; color:var(--ink-2)}
+.crumbs a{text-decoration:none; font-weight:600}
+.top-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px}
+.themesw{display:inline-flex; border:1px solid var(--line-strong); border-radius:4px; overflow:hidden; background:var(--surface); font-family:var(--sans)}
+.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button:first-child{border-left:0}
+.themesw button:hover{color:var(--ink)}
+.themesw button[aria-pressed="true"]{background:var(--accent); color:var(--on-accent)}
+.themesw button:focus-visible{outline-offset:-2px}
+.secnav{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); font-family:var(--sans)}
+.secnav .frame{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.secnav .frame::-webkit-scrollbar{display:none}
+.secnav a{flex:none; text-decoration:none; color:var(--ink-2); font-size:15px; font-weight:400; padding:13px 10px 12px;
+  border-bottom:2px solid transparent; white-space:nowrap}
+.secnav a:hover{color:var(--ink)}
+.secnav a.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+
+main{padding-block:8px 24px}
+.notes-body{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:24px clamp(16px,4vw,40px) 32px; margin-top:16px}
+.title-block{border:1px solid var(--line); border-radius:4px; padding:12px 16px 14px; margin:0 0 20px;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:12px 12px; background-position:-1px -1px}
+.title-block h1{margin:2px 0 2px}
+.title-block .eyebrow{margin:0}
+.stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0}
+.notes-body > .stamp{margin-top:40px}
+.notes-body > .stamp + h2{margin-top:2px}
+.eyebrow{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); font-weight:400; margin:0 0 6px}
+h1,h2,h3{font-family:var(--sans); color:var(--ink)}
+math, math *{font-family:var(--sans)}
+math mi{font-style:italic}
+h1{font-size:22px; line-height:28px; margin:0 0 16px; font-weight:600}
+h2{font-size:18px; line-height:24px; margin:40px 0 10px; font-weight:600}
+h3{font-size:16px; line-height:24px; margin:24px 0 8px; font-weight:600; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+p{margin:0 0 12px}
+.key{font-weight:600; font-style:italic; text-decoration:underline; text-underline-offset:2px}
+.eq{text-align:center; margin:10px 0 14px; overflow-x:auto}
+.eq math{font-size:1.1em}
+.ans{padding-left:2.2em; text-indent:-2.2em}
+.note{color:var(--ink-2)}
+ul,ol{margin:0 0 14px; padding-left:1.6em}
+li{margin:4px 0}
+ol.alpha{list-style:none; counter-reset:a; padding-left:2.4em}
+ol.alpha>li{counter-increment:a; position:relative}
+ol.alpha>li::before{content:"(" counter(a, lower-alpha) ")"; position:absolute; left:-2.4em}
+
+.box{border:1px solid var(--box-line); border-radius:4px; padding:12px 16px; margin:16px 0 20px}
+.box p:last-child{margin-bottom:0}
+.box.enrich{background:var(--enrich); border-color:var(--accent-2)}
+.box.enrich .boxhead strong{color:var(--accent-2)}
+.box.industry{background:var(--accent-soft); border-color:transparent}
+.boxhead{margin-bottom:6px}
+.btn{display:inline-block; background:var(--accent); color:var(--on-accent); text-decoration:none; font-weight:600; padding:8px 14px; border-radius:4px}
+.btn:hover{filter:brightness(1.08)}
+
+figure{margin:20px 0 24px; text-align:center}
+figure img{max-width:100%; height:auto; background:#fff; border-radius:4px; border:1px solid var(--line); padding:8px}
+figcaption{font-size:14px; line-height:20px; font-style:italic; color:var(--ink-2); margin-top:6px}
+
+.tablewrap{overflow-x:auto; margin:12px 0 18px}
+table{border-collapse:collapse; width:100%; font-size:15px; line-height:22px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top}
+th{font-weight:600; border-bottom:1px solid var(--line-strong)}
+td{border-top:1px solid var(--line)}
+tbody tr:first-child td{border-top:0}
+
+.notes{margin-top:40px; border-top:1px solid var(--line); padding-top:6px; font-size:15px; line-height:22px; color:var(--ink-2)}
+.notes h2{font-size:16px; line-height:24px}
+.notes .back{text-decoration:none; margin-left:4px}
+.fnref a{text-decoration:none; font-family:var(--sans); font-weight:600; padding:0 1px}
+
+.pager{display:flex; justify-content:space-between; gap:12px; margin:22px 0 0; font-family:var(--sans); font-size:15px}
+.pager a{text-decoration:none; font-weight:600}
+.foot{font-family:var(--sans); font-size:13px; line-height:18px; color:var(--muted); padding-block:10px 32px}
+
+@media (max-width:640px){
+  .notes-body{border-left:0; border-right:0; border-radius:0; margin:0 -16px; padding:20px 16px 26px}
+  .notes-body > .stamp{margin-top:32px}
+  .secnav .frame{mask-image:linear-gradient(90deg,#000 85%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .eq{font-size:.95em}
+  table{font-size:14px; line-height:20px}
+  th,td{padding:8px 10px}
+  figure{margin-inline:-6px}
+  figure img{padding:4px}
+  .box{padding:12px 14px}
+  .pager a{padding:10px 0}
+}
+@media print{
+  :root{--bg:#fff; --surface:#fff; --ink:#000; --ink-2:#222; --accent:#000; --accent-2:#000; --line:#999; --line-strong:#666; --enrich:#f2f2f2; --accent-soft:#eef3f5}
+  body{font-size:11pt; line-height:1.5}
+  .request{display:none}
+  .top,.secnav,.pager,.foot,.notes .back,.toc,.toc-m,.rail,.stamp{display:none!important}
+  .title-block{background:none; border:0; padding:0}
+  .layout{display:block!important}
+  html.sidenotes .notes{display:block!important}
+  .notes-body{border:0; padding:0; margin:0}
+  figure,.box,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{text-decoration:none}
+}
+</style>
+<header class="top">
+  <div class="frame top-row">
+    <p class="crumbs"><a href="../">ChemLab</a> <span aria-hidden="true">/</span> Chapter H3.4 · Mass Spectrometry and Structure Solving</p>
+    <div class="themesw" role="group" aria-label="Colour theme"><button type="button" data-theme-v="auto">Auto</button><button type="button" data-theme-v="light">Light</button><button type="button" data-theme-v="dark">Dark</button></div>
+  </div>
+</header>
+<nav class="secnav" aria-label="Chapter H3.4 pages"><div class="frame"><a href="part-1.html">Part 1</a><a href="part-2.html" aria-current="page" class="on">Part 2</a><a href="tutorial-1.html">Tutorial 1</a><a href="tutorial-2.html">Tutorial 2</a><a href="./">Interactive lab</a></div></nav>
+<div class="frame layout">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ol><li><a href="#introduction">Introduction</a></li><li><a href="#key-terms">Key terms</a></li><li><a href="#degree-of-unsaturation">Degree of unsaturation</a></li><li><a href="#a-method-for-unknowns">A method for unknowns</a></li><li><a href="#finding-the-molecular-formula">Finding the molecular formula</a></li><li><a href="#worked-problems">Worked problems</a></li><li><a href="#summary">Summary</a></li></ol></nav>
+<main>
+<article class="notes-body">
+<header class="title-block"><p class="stamp" aria-hidden="true">H3.4.2</p><h1>Mass Spectrometry and Structure Solving 2</h1><p class="eyebrow">Chapter H3.4 · Mass Spectrometry and Structure Solving Part 2</p></header><details class="toc-m"><summary>On this page</summary><ol><li><a href="#introduction">Introduction</a></li><li><a href="#key-terms">Key terms</a></li><li><a href="#degree-of-unsaturation">Degree of unsaturation</a></li><li><a href="#a-method-for-unknowns">A method for unknowns</a></li><li><a href="#finding-the-molecular-formula">Finding the molecular formula</a></li><li><a href="#worked-problems">Worked problems</a></li><li><a href="#summary">Summary</a></li></ol></details><aside class="box industry lablink"><p class="boxhead"><strong>Interactive companion:</strong> <a href="./">Mass Spectrometry Lab</a></p><p>Use the <em>Unknown solver</em> (collect the mass spectrum, IR, <sup>1</sup>H NMR and, where it helps, UV/vis data of an unknown, step by step, and rule out candidate structures) and the <em>Spectrum reader</em> (check each candidate's molecular ion and fragment ions) alongside this Part. <em>Isotope patterns</em> helps with step 1 of the method. <em>Practice</em> mixes carbon-count, halogen-pattern, fragment-ion, degree-of-unsaturation and loss-from-M questions, and the <em>Fact cards</em> and <em>Quiz</em> cover both Parts.</p></aside><p class="stamp" aria-hidden="true">H3.4.2 §1</p><h2 id="introduction">Introduction</h2><p>You now have four techniques, and each one answers a different question about an unknown compound. On its own, each one usually leaves several possible structures; together they nearly always leave one. This Part puts them together.</p><div class="tablewrap"><table><thead><tr><th>Technique</th><th>The question it answers</th><th>Where</th></tr></thead><tbody><tr><td>Mass spectrometry</td><td>How heavy is the molecule (M<sub>r</sub>)? Does it contain Cl or Br? About how many C atoms? Which pieces does it break into?</td><td>Part 1</td></tr><tr><td>Infra-red spectroscopy</td><td>Which functional groups (bonds) are present: O–H, C=O, C–O, C≡N, arene C=C?</td><td>H3.2 Part 2</td></tr><tr><td><sup>1</sup>H NMR spectroscopy</td><td>How many kinds of H, how many of each, what each is next to, how many H are on the neighbouring carbons?</td><td>H3.3</td></tr><tr><td>UV/vis spectroscopy</td><td>Is there a conjugated system (a strong band above 200 nm)?</td><td>H3.2 Part 1</td></tr></tbody></table></div><p>Two tools glue the techniques together: the <span class="key">molecular formula</span>, which every answer must fit, and the <span class="key">degree of unsaturation</span>, which the formula gives at once. We start with them.</p><p class="stamp" aria-hidden="true">H3.4.2 §2</p><h2 id="key-terms">Key terms</h2><p>You will use these terms in this Part.</p><div class="tablewrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>Empirical formula</td><td>The simplest whole-number ratio of the atoms of each element in a compound (Topic 6 Part 1).</td></tr><tr><td>Molecular formula</td><td>The actual number of atoms of each element in one molecule: a whole-number multiple of the empirical formula.</td></tr><tr><td>Degree of unsaturation (double-bond equivalents)</td><td>The number of rings plus the number of π bonds in a molecule, worked out from its molecular formula.</td></tr><tr><td>Isomers (constitutional)</td><td>Compounds with the same molecular formula but different structures (11.1 Part 2).</td></tr><tr><td>Candidate structure</td><td>A structure that fits the formula and some of the data; it is accepted only when it fits every piece of data.</td></tr></tbody></table></div><p class="stamp" aria-hidden="true">H3.4.2 §3</p><h2 id="degree-of-unsaturation">Degree of unsaturation</h2><p>A saturated, open-chain compound C<sub>a</sub>H<sub>b</sub> has the most hydrogen atoms possible: b = 2a + 2 (as in the alkanes). Every ring or π bond in the molecule removes two hydrogen atoms. So counting how many "pairs of H are missing" tells you the number of <span class="key">rings plus π bonds</span>. This number is the <span class="key">degree of unsaturation</span>, also called the number of double-bond equivalents. 9813 does not name it, but it is the quickest first step in any structure problem, and these notes use it throughout this Part.</p><aside class="box"><p><strong>Degree of unsaturation</strong> for a compound C<sub>a</sub>H<sub>b</sub>N<sub>c</sub>O<sub>d</sub>X<sub>e</sub> (X = F, Cl, Br, I):</p><p><span class="key">degree of unsaturation = a − (b + e)/2 + c/2 + 1</span></p><p>Halogen atoms count like H; O (and S) atoms are ignored; each N adds ½.<sup class="fnref"><a href="#fn1" id="fnref1" aria-label="Note 1">1</a></sup> The answer must be a <span class="key">whole number, 0 or more</span>: if it is not, the formula is wrong.</p></aside><p>Then count what the structure could contain:</p><ul><li><span class="key">one</span> C=C, C=O or ring: 1 each;</li><li><span class="key">one</span> C≡C or C≡N: 2 (two π bonds);</li><li><span class="key">a benzene ring</span>: 4 (three C=C and one ring). So a degree of unsaturation of 4 or more suggests a benzene ring. Fig 9 shows the counting for four molecules.</li></ul><h3>Worked example 1: what the formula allows</h3><p>Calculate the degree of unsaturation of each formula and say what it allows: (a) C<sub>4</sub>H<sub>8</sub>O<sub>2</sub>; (b) C<sub>5</sub>H<sub>10</sub>O; (c) C<sub>3</sub>H<sub>7</sub>Br; (d) C<sub>8</sub>H<sub>8</sub>O; (e) C<sub>7</sub>H<sub>7</sub>Cl; (f) C<sub>8</sub>H<sub>10</sub>.</p><p>(To answer this, you have to put a, b, c and e into the formula, ignoring O, then turn the number into rings and π bonds.)</p><div class="tablewrap"><table><thead><tr><th>Formula</th><th>Working</th><th>Degree</th><th>What it allows</th></tr></thead><tbody><tr><td>(a) C<sub>4</sub>H<sub>8</sub>O<sub>2</sub></td><td>4 − (8)/2 + 1</td><td>1</td><td>one C=O (an ester or a carboxylic acid), or one C=C or ring</td></tr><tr><td>(b) C<sub>5</sub>H<sub>10</sub>O</td><td>5 − (10)/2 + 1</td><td>1</td><td>one C=O (aldehyde or ketone), or one C=C or ring</td></tr><tr><td>(c) C<sub>3</sub>H<sub>7</sub>Br</td><td>3 − (7 + 1)/2 + 1</td><td>0</td><td>no rings, no π bonds: a saturated chain</td></tr><tr><td>(d) C<sub>8</sub>H<sub>8</sub>O</td><td>8 − (8)/2 + 1</td><td>5</td><td>a benzene ring (4) plus one C=O or C=C</td></tr><tr><td>(e) C<sub>7</sub>H<sub>7</sub>Cl</td><td>7 − (7 + 1)/2 + 1</td><td>4</td><td>a benzene ring, nothing else unsaturated</td></tr><tr><td>(f) C<sub>8</sub>H<sub>10</sub></td><td>8 − (10)/2 + 1</td><td>4</td><td>a benzene ring (H3.3: ethylbenzene or a dimethylbenzene)</td></tr></tbody></table></div><figure><img src="fig/p2_fig1_dbe.svg" alt="Fig 9. Counting the degree of unsaturation from a structure: each C=O, C=C or ring counts 1; a benzene ring counts 4." loading="lazy"><figcaption>Fig 9. Counting the degree of unsaturation from a structure: each C=O, C=C or ring counts 1; a benzene ring counts 4.</figcaption></figure><p class="stamp" aria-hidden="true">H3.4.2 §4</p><h2 id="a-method-for-unknowns">A method for unknowns</h2><p>This is H3.3's "Putting it together" method with mass spectrometry and the formula added. Work through it in order, and write down what each step tells you.</p><aside class="box"><p><strong>Solving a structure</strong></p><p>1. <span class="key">Molecular formula</span>: M<sub>r</sub> from the molecular ion; Cl or Br from the M+2 and M+4 peaks; the number of C from the M+1 peak; or the empirical formula from the composition by mass, scaled up to M<sub>r</sub>.</p><p>2. <span class="key">Degree of unsaturation</span>: rings plus π bonds; 4 or more suggests a benzene ring.</p><p>3. <span class="key">IR</span>: which groups are present (Data Booklet table). Use the strong bands above 1500 cm<sup>−1</sup>; a band below 1500 cm<sup>−1</sup> inside a booklet range is only a fingerprint band, never proof.</p><p>4. <span class="key"><sup>1</sup>H NMR</span>: number of signals, δ (booklet table), integration (number of H), splitting (neighbouring H), D<sub>2</sub>O (O–H or N–H) (H3.3).</p><p>5. <span class="key">Mass spectrum fragments</span>: which pieces the molecule breaks into (43 CH<sub>3</sub>CO<sup>+</sup> against 57 C<sub>2</sub>H<sub>5</sub>CO<sup>+</sup>; 91 benzyl; 105 benzoyl; 31 CH<sub>2</sub>OH<sup>+</sup>), to join the parts together.</p><p>6. <span class="key">UV/vis</span>, where useful: a strong band above 200 nm means a conjugated system (H3.2).</p><p>7. <span class="key">Assemble</span> the candidate structures, then <span class="key">check each one against every piece of data and the formula</span>. Say which piece of data rules out each wrong candidate.</p></aside><p>The last step is the one that earns the marks. A structure is accepted only when <span class="key">every</span> piece of data fits it; one datum that does not fit rules it out, however well the rest agrees.</p><p class="stamp" aria-hidden="true">H3.4.2 §5</p><h2 id="finding-the-molecular-formula">Finding the molecular formula</h2><p>There are two routes to the molecular formula, and in a problem you often use both, one to check the other.</p><ul><li><span class="key">From the mass spectrum</span>: M<sub>r</sub> from the molecular ion; Cl and Br from the M+2 and M+4 pattern; the number of C atoms from the M+1 peak (Part 1). Then fill in the rest of the mass with H and O (or N).</li><li><span class="key">From the composition by mass</span> (Topic 6 Part 1): the empirical formula, then the M<sub>r</sub> from the mass spectrum gives the multiple.</li></ul><h3>Worked example 2: from composition and the mass spectrum</h3><p>A neutral compound X contains C 69.8 %, H 11.6 % and O 18.6 % by mass. Its mass spectrum has a molecular ion peak at <em>m/z</em> 86 (height 25.0) and an M+1 peak at <em>m/z</em> 87 (height 1.39). (a) Find the empirical formula. (b) Find the molecular formula, and check it with the M+1 peak. (c) Calculate its degree of unsaturation.</p><p>(To answer part (a), you have to divide each percentage by A<sub>r</sub>, then by the smallest answer.)</p><div class="tablewrap"><table><thead><tr><th></th><th>C</th><th>H</th><th>O</th></tr></thead><tbody><tr><td>mass in 100 g / g</td><td>69.8</td><td>11.6</td><td>18.6</td></tr><tr><td>amount / mol</td><td>69.8 / 12.0 = 5.82</td><td>11.6 / 1.0 = 11.6</td><td>18.6 / 16.0 = 1.16</td></tr><tr><td>divide by 1.16</td><td>5.02</td><td>10.0</td><td>1</td></tr><tr><td>ratio</td><td>5</td><td>10</td><td>1</td></tr></tbody></table></div><p>Empirical formula <span class="key">C<sub>5</sub>H<sub>10</sub>O</span>.</p><p>(To answer part (b), you have to compare the empirical formula mass with M<sub>r</sub>.) C<sub>5</sub>H<sub>10</sub>O: 5 × 12.0 + 10 × 1.0 + 16.0 = 86.0, the same as the molecular ion (86), so the molecular formula is also <span class="key">C<sub>5</sub>H<sub>10</sub>O</span>. Check with the M+1 peak:</p><p class="eq">n = (1.39 / 25.0) × 100 / 1.1 = 5.56 / 1.1 = 5.05, so 5 carbon atoms, which agrees</p><p>There is no M+2 peak, so no Cl or Br. (To answer part (c), you have to ignore the O.) Degree of unsaturation = 5 − (10)/2 + 1 = <span class="key">1</span>: one C=O, C=C or ring. Worked example 3 finds which.</p><p class="stamp" aria-hidden="true">H3.4.2 §6</p><h2 id="worked-problems">Worked problems</h2><h3>Worked example 3: two ketones of formula C<sub>5</sub>H<sub>10</sub>O</h3><p>Compound X of worked example 2 is one of two ketones, P and Q, both C<sub>5</sub>H<sub>10</sub>O. Both show a strong IR absorption at 1715 cm<sup>−1</sup>. Their simulated mass spectra are in Fig 10 and their <sup>1</sup>H NMR spectra in Fig 11. (a) What does the IR band show? (b) Deduce the structures of P and Q from their NMR spectra. (c) Show that the mass spectra agree. (d) The <sup>1</sup>H NMR spectrum of X has two signals, δ 2.44 (quartet, 4H) and 1.06 (triplet, 6H), and the base peak of its mass spectrum is at <em>m/z</em> 57. Identify X.</p><figure><img src="fig/p2_fig2_ketone_ms.svg" alt="Fig 10. Simulated mass spectra of the two C₅H₁₀O ketones P and Q." loading="lazy"><figcaption>Fig 10. Simulated mass spectra of the two C<sub>5</sub>H<sub>10</sub>O ketones P and Q.</figcaption></figure><figure><img src="fig/p2_fig3_ketone_nmr.svg" alt="Fig 11. Simulated ¹H NMR spectra of ketones P and Q (400 MHz, literature shifts), with the multiplets expanded above them." loading="lazy"><figcaption>Fig 11. Simulated <sup>1</sup>H NMR spectra of ketones P and Q (400 MHz, literature shifts), with the multiplets expanded above them.</figcaption></figure><p>(To answer part (a), you have to use the booklet IR table.) 1715 cm<sup>−1</sup> lies in the C=O range for aldehydes and ketones (1670–1740 cm<sup>−1</sup>): a <span class="key">C=O group</span>, which uses up the degree of unsaturation of 1. So there is no ring and no C=C.</p><p>(To answer part (b), you have to count the H in each signal and use the splitting, H3.3.)</p><ul><li><span class="key">P</span>: three signals, 1 : 3 : 6 (10 H). The singlet at δ 2.13 (3H) is a CH<sub>3</sub> next to the C=O with no neighbouring H: CH<sub>3</sub>CO–. A doublet of 6H at 1.10 and a septet of 1H at 2.58 are the isopropyl pattern, (CH<sub>3</sub>)<sub>2</sub>CH–, the CH next to the C=O. P is <span class="key">CH<sub>3</sub>COCH(CH<sub>3</sub>)<sub>2</sub>, 3-methylbutan-2-one</span>.</li><li><span class="key">Q</span>: two signals, 4 : 6. A quartet (4H) at 2.44 and a triplet (6H) at 1.06 are the ethyl pattern, twice: two identical CH<sub>3</sub>CH<sub>2</sub>– groups, each CH<sub>2</sub> next to the C=O (CH<sub>3</sub>–C=O range 2.2–3.0). Q is <span class="key">CH<sub>3</sub>CH<sub>2</sub>COCH<sub>2</sub>CH<sub>3</sub>, pentan-3-one</span>.</li></ul><p>(To answer part (c), you have to break the bonds next to the C=O.)</p><ul><li><span class="key">P</span>: losing the larger radical, C<sub>3</sub>H<sub>7</sub>• (43), gives CH<sub>3</sub>CO<sup>+</sup> at <span class="key">43</span> (86 − 43), the base peak; losing CH<sub>3</sub>• gives (CH<sub>3</sub>)<sub>2</sub>CHCO<sup>+</sup> at <span class="key">71</span> (86 − 15), small. (The same break with the charge on the other side gives C<sub>3</sub>H<sub>7</sub><sup>+</sup>, also at 43, adding to the base peak.)</li><li><span class="key">Q</span>: both sides are ethyl, so losing C<sub>2</sub>H<sub>5</sub>• gives C<sub>2</sub>H<sub>5</sub>CO<sup>+</sup> at <span class="key">57</span> (86 − 29), the base peak, and C<sub>2</sub>H<sub>5</sub><sup>+</sup> at <span class="key">29</span> (86 − 57). There is no peak at 71 or 43: Q has no CH<sub>3</sub> next to the C=O.</li></ul><p>(To answer part (d), you have to match X's data with P and Q.) Two signals, quartet 4H and triplet 6H, and a base peak at 57 are the data of Q, not P (three signals, base peak 43): <span class="key">X is pentan-3-one</span>. Note what rules out the other C<sub>5</sub>H<sub>10</sub>O compounds: the aldehydes (such as pentanal) would show an NMR signal at δ 9.3–10.5, which X does not have; pentan-2-one, CH<sub>3</sub>COCH<sub>2</sub>CH<sub>2</sub>CH<sub>3</sub>, would show four NMR signals and a base peak at 43.</p><h3>Worked example 4: when the mass spectrum cannot decide</h3><p>Compound R gives the simulated mass spectrum in Fig 12. (a) Show that R is C<sub>3</sub>H<sub>7</sub>Br and calculate its degree of unsaturation. (b) Give the two possible structures and explain why the mass spectrum cannot easily tell them apart. (c) R's <sup>1</sup>H NMR spectrum has two signals: δ 4.21 (septet, 1H) and 1.71 (doublet, 6H). Identify R, using Fig 13.</p><figure><img src="fig/p2_fig4_bromopropane_ms.svg" alt="Fig 12. Simulated mass spectrum of compound R." loading="lazy"><figcaption>Fig 12. Simulated mass spectrum of compound R.</figcaption></figure><p>(To answer part (a), you have to read the cluster pattern, then subtract.) The peaks at <span class="key">122 and 124 (1 : 1)</span> are a molecular ion with <span class="key">one Br</span>. 122 − 79 = 43 is left for the rest, which is C<sub>3</sub>H<sub>7</sub> (3 × 12 + 7 = 43): R is <span class="key">C<sub>3</sub>H<sub>7</sub>Br</span>. Degree of unsaturation = 3 − (7 + 1)/2 + 1 = <span class="key">0</span>: a saturated chain. The base peak at 43 (a single peak, no Br) is C<sub>3</sub>H<sub>7</sub><sup>+</sup>, formed by losing Br• (122 − 79 = 43).</p><p>(To answer part (b), you have to see that both isomers lose Br• to give a C<sub>3</sub>H<sub>7</sub><sup>+</sup> ion.) The isomers are <span class="key">1-bromopropane, CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>Br</span>, and <span class="key">2-bromopropane, CH<sub>3</sub>CHBrCH<sub>3</sub></span>. Both have the same M (122, 124, 1 : 1), and both lose Br• to give C<sub>3</sub>H<sub>7</sub><sup>+</sup> at 43, the base peak. Both also lose CH<sub>3</sub>• to give a small pair at 107 and 109 (C<sub>2</sub>H<sub>4</sub>Br<sup>+</sup>: CH<sub>3</sub>CHBr<sup>+</sup> from 2-bromopropane, CH<sub>2</sub>CH<sub>2</sub>Br<sup>+</sup> from 1-bromopropane); 1-bromopropane also shows a small C<sub>2</sub>H<sub>5</sub><sup>+</sup> peak at 29. The two mass spectra are almost the same, and small differences in minor peaks are not a safe basis for a decision.</p><figure><img src="fig/p2_fig5_bromopropane_nmr.svg" alt="Fig 13. Simulated ¹H NMR spectra of the two isomers of C₃H₇Br (400 MHz, literature shifts)." loading="lazy"><figcaption>Fig 13. Simulated <sup>1</sup>H NMR spectra of the two isomers of C<sub>3</sub>H<sub>7</sub>Br (400 MHz, literature shifts).</figcaption></figure><p>(To answer part (c), you have to count the signals and use the splitting.) 1-Bromopropane has three sets of H, so three signals (Fig 13(a)): CH<sub>2</sub>Br, a triplet at 3.39; the middle CH<sub>2</sub>, a sextet at 1.89 (five neighbours); CH<sub>3</sub>, a triplet at 1.03. 2-Bromopropane has two sets (Fig 13(b)): the CH next to Br, split by six neighbours into a septet (4.21, 1H), and two equivalent CH<sub>3</sub> groups split by one neighbour into a doublet (1.71, 6H). R is <span class="key">2-bromopropane</span>. This is the lesson of the example: <span class="key">when isomers give the same fragments, NMR decides</span>.</p><h3>Worked example 5: two esters of formula C<sub>4</sub>H<sub>8</sub>O<sub>2</sub></h3><p>H3.3 Part 2, worked example 6, used <sup>1</sup>H NMR to tell ethyl ethanoate, CH<sub>3</sub>COOCH<sub>2</sub>CH<sub>3</sub>, from methyl propanoate, CH<sub>3</sub>CH<sub>2</sub>COOCH<sub>3</sub> (H3.3 Fig 19). Their IR spectra are almost the same: both show C=O near 1740 cm<sup>−1</sup> and C–O bands (booklet ranges 1710–1750 and 1050–1330). Show that their simulated mass spectra (Fig 14) tell them apart as well, and explain how.</p><figure><img src="fig/p2_fig6_ester_ms.svg" alt="Fig 14. Simulated mass spectra of the two C₄H₈O₂ esters." loading="lazy"><figcaption>Fig 14. Simulated mass spectra of the two C<sub>4</sub>H<sub>8</sub>O<sub>2</sub> esters.</figcaption></figure><p>(To answer this, you have to break the bonds on either side of the C=O and see which acyl group each ester has.) Both show M<sup>+</sup> at 88. The key is the <span class="key">acylium ion</span>, which carries the C=O and whatever is on the carbon side of it:</p><div class="tablewrap"><table><thead><tr><th></th><th>Ethyl ethanoate, CH<sub>3</sub>CO–OCH<sub>2</sub>CH<sub>3</sub></th><th>Methyl propanoate, CH<sub>3</sub>CH<sub>2</sub>CO–OCH<sub>3</sub></th></tr></thead><tbody><tr><td>acylium ion (base peak)</td><td>CH<sub>3</sub>CO<sup>+</sup>, 43 (88 − 45: OC<sub>2</sub>H<sub>5</sub>• lost)</td><td>C<sub>2</sub>H<sub>5</sub>CO<sup>+</sup>, 57 (88 − 31: OCH<sub>3</sub>• lost)</td></tr><tr><td>other ions</td><td>73 (88 − 15: CH<sub>3</sub>• lost from the ethyl group); C<sub>2</sub>H<sub>5</sub><sup>+</sup>, 29 (88 − 59: CH<sub>3</sub>COO• lost)</td><td>COOCH<sub>3</sub><sup>+</sup>, 59 (88 − 29: C<sub>2</sub>H<sub>5</sub>• lost); C<sub>2</sub>H<sub>5</sub><sup>+</sup>, 29 (88 − 59: COOCH<sub>3</sub>• lost)</td></tr></tbody></table></div><p>A base peak at 43 says CH<sub>3</sub>CO– is on the carbon side of the C=O; at 57, C<sub>2</sub>H<sub>5</sub>CO–. The mass spectrum shows <span class="key">which side of the ester oxygen each piece is on</span>, the same conclusion the NMR reached from the δ of the O–CH<sub>2</sub> and O–CH<sub>3</sub> signals. (Neither spectrum shows the alkoxy piece as an ion, CH<sub>3</sub>CH<sub>2</sub>O<sup>+</sup> or CH<sub>3</sub>O<sup>+</sup>: these are not stable ions.) Part 1 predicted the ethyl ethanoate peaks (88, 43, 29): the prediction fits.</p><h3>Worked example 6: two isomers of formula C<sub>8</sub>H<sub>8</sub>O</h3><p>Compounds U and V are phenylethanone, C<sub>6</sub>H<sub>5</sub>COCH<sub>3</sub>, and phenylethanal, C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>CHO, but the labels have been lost. Use their mass spectra (Fig 15), <sup>1</sup>H NMR spectra (Fig 16), IR spectra (Fig 17) and the UV data in the table to decide which is which. Explain how each technique supports your answer.</p><figure><img src="fig/p2_fig7_c8h8o_ms.svg" alt="Fig 15. Simulated mass spectra of compounds U and V, both C₈H₈O." loading="lazy"><figcaption>Fig 15. Simulated mass spectra of compounds U and V, both C<sub>8</sub>H<sub>8</sub>O.</figcaption></figure><figure><img src="fig/p2_fig8_c8h8o_nmr.svg" alt="Fig 16. Simulated ¹H NMR spectra of compounds U and V (400 MHz, literature shifts). Each ring is drawn as one 5H multiplet." loading="lazy"><figcaption>Fig 16. Simulated <sup>1</sup>H NMR spectra of compounds U and V (400 MHz, literature shifts). Each ring is drawn as one 5H multiplet.</figcaption></figure><figure><img src="fig/p2_fig9_c8h8o_ir.svg" alt="Fig 17. Simulated IR spectra of compounds U and V (bands placed inside the Data Booklet ranges)." loading="lazy"><figcaption>Fig 17. Simulated IR spectra of compounds U and V (bands placed inside the Data Booklet ranges).</figcaption></figure><div class="tablewrap"><table><thead><tr><th></th><th>λ<sub>max</sub> / nm</th><th>ε<sub>max</sub> / dm<sup>3</sup> mol<sup>−1</sup> cm<sup>−1</sup></th></tr></thead><tbody><tr><td>U</td><td>about 258</td><td>about 250 (weak)</td></tr><tr><td>V</td><td>about 241</td><td>about 1.3 × 10<sup>4</sup> (strong)</td></tr></tbody></table></div><p>UV data in ethanol (literature values).</p><p>(To answer this, you have to start with the formula, then let each technique say what it sees.) Both are C<sub>8</sub>H<sub>8</sub>O: degree of unsaturation 8 − (8)/2 + 1 = 5, a benzene ring and one C=O.</p><ul><li><span class="key">Mass spectra</span>: U has its base peak at <span class="key">91</span>, the benzyl cation C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub><sup>+</sup> (120 − 29, CHO• lost), and a peak at 29 (CHO<sup>+</sup>): a C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>– group next to CHO. V has its base peak at <span class="key">105</span>, the benzoyl ion C<sub>6</sub>H<sub>5</sub>CO<sup>+</sup> (120 − 15, CH<sub>3</sub>• lost), with 77 (C<sub>6</sub>H<sub>5</sub><sup>+</sup>, 120 − 43) and 43 (CH<sub>3</sub>CO<sup>+</sup>): a C<sub>6</sub>H<sub>5</sub>–C=O group.</li><li><span class="key"><sup>1</sup>H NMR</span>: U shows an aldehyde H at <span class="key">δ 9.74</span> (booklet 9.3–10.5), a triplet split by the CH<sub>2</sub>; a doublet of 2H at 3.68 (the CH<sub>2</sub>, split by the CHO hydrogen; between the ring and the C=O, so pushed above both of their ranges, as H3.3 explained for two influences); and the ring, 5H. V shows a singlet of 3H at <span class="key">δ 2.61</span> (CH<sub>3</sub>–C=O, 2.2–3.0: no neighbouring H) and the ring, 5H, spread from 7.4 to 8.0.<sup class="fnref"><a href="#fn2" id="fnref2" aria-label="Note 2">2</a></sup></li><li><span class="key">IR</span>: both have C=O (1670–1740), arene =C–H (3000–3100) and ring C=C (1475–1625). V's C=O is at <span class="key">1685 cm<sup>−1</sup></span>, lower than U's <span class="key">1725 cm<sup>−1</sup></span>: in V the C=O is conjugated with the ring, which weakens it slightly (H3.2). Both are inside the booklet range, so IR alone is only a hint.</li><li><span class="key">UV/vis</span>: V has a <span class="key">strong</span> band at 241 nm: the C=O is conjugated with the ring, a larger chromophore (H3.2 Part 1). U has only the <span class="key">weak</span> ring band near 258 nm, like benzene's band at 255 nm: its C=O is cut off from the ring by the CH<sub>2</sub> group.</li></ul><p>So <span class="key">U is phenylethanal and V is phenylethanone</span>. Every technique agrees. (A third isomer, 4-methylbenzaldehyde, H3.3 Part 2, is ruled out for both: it would show a CHO singlet near δ 10 and two ring doublets.)</p><h3>Worked example 7: predicting all the data for a structure</h3><p>9813 also asks you to work the other way. Predict the main features of the mass, <sup>1</sup>H NMR, IR and UV/vis spectra of (chloromethyl)benzene, C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>Cl.</p><p>(To answer this, you have to start from the formula, then go through the techniques one by one, giving a reason for each prediction.) Formula C<sub>7</sub>H<sub>7</sub>Cl: M = 7 × 12 + 7 × 1 + 35 = 126; degree of unsaturation = 7 − (7 + 1)/2 + 1 = 4, the benzene ring.</p><div class="tablewrap"><table><thead><tr><th>Technique</th><th>Prediction</th><th>Reason</th></tr></thead><tbody><tr><td>Mass spectrum</td><td>M<sup>+</sup> at 126 and 128, 3 : 1; base peak at 91, a single peak</td><td>one Cl; losing Cl• (126 − 35 = 91) gives the benzyl cation, which has no Cl left</td></tr><tr><td><sup>1</sup>H NMR</td><td>two signals: 7.3–7.4 (multiplet, 5H) and 4.57 (singlet, 2H)</td><td>C<sub>6</sub>H<sub>5</sub>– ring; the CH<sub>2</sub> has no neighbouring H, and it is next to both Cl and the ring, so it lies above both booklet ranges (3.2–4.0 and 2.3–3.0) (literature values)</td></tr><tr><td>IR</td><td>=C–H 3000–3100; ring C=C 1475–1625; no C=O, no O–H</td><td>arene; a band near 700 cm<sup>−1</sup> lies in the C–Cl range (700–800) but is in the fingerprint region, so it is not proof of C–Cl</td></tr><tr><td>UV/vis</td><td>only weak bands near 260 nm</td><td>the ring is the only chromophore (as in benzene); no conjugated C=O</td></tr></tbody></table></div><aside class="box industry"><p class="boxhead"><strong>In industry</strong></p><p><strong>Identifying an unknown impurity or degradation product.</strong> Every batch of a drug substance is analysed by liquid chromatography with a UV detector (LC-UV), which separates and measures each impurity. Under the ICH Q3A guideline, an impurity above the <span class="key">identification threshold</span>, 0.10 % for a drug taken at up to 2 g per day (or 1.0 mg per day if that is lower) (literature values), must be identified. The structure-solving method of this Part is exactly what is used:</p><p>1. <span class="key">LC-MS</span> gives the molecular ion of the impurity and any Cl or Br pattern (Topic 1 box), and its fragments show which pieces it shares with the drug.</p><p>2. <span class="key">Accurate mass</span> (Part 1, box on high-resolution MS) gives its molecular formula.</p><p>3. Candidate structures come from the <span class="key">chemistry of the process</span>: unreacted starting materials, by-products, or products of hydrolysis or oxidation. Which candidates are likely depends on the particular process and is decided case by case.</p><p>4. The impurity is isolated, or the candidate is made, and its <span class="key">IR and NMR</span> spectra are recorded.</p><p>5. Identity is confirmed by matching an <span class="key">authentic sample</span>: the same retention time and the same spectra. (General practice.)</p></aside><p class="stamp" aria-hidden="true">H3.4.2 §7</p><h2 id="summary">Summary</h2><p>The method in short:</p><aside class="box"><p><span class="key">Formula</span> (M<sup>+</sup>, M+1, M+2 and M+4; composition by mass) → <span class="key">degree of unsaturation</span> → <span class="key">IR</span> (groups) → <span class="key"><sup>1</sup>H NMR</span> (H environments, counts, neighbours) → <span class="key">MS fragments</span> (pieces) → <span class="key">UV/vis</span> (conjugation) → <span class="key">assemble, then check every candidate against every piece of data</span>.</p></aside><p>Some clues come up again and again:</p><div class="tablewrap"><table><thead><tr><th>Clue</th><th>Usually means</th></tr></thead><tbody><tr><td>Degree of unsaturation 4 or more</td><td>a benzene ring</td></tr><tr><td>Peaks two units apart, 3 : 1 or 1 : 1</td><td>Cl or Br (Part 1 table for two atoms)</td></tr><tr><td>Base peak 43 / 57 in a ketone or ester</td><td>CH<sub>3</sub>CO– / C<sub>2</sub>H<sub>5</sub>CO– next to the C=O</td></tr><tr><td>Peak at 91 / 105 and 77</td><td>C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>– / C<sub>6</sub>H<sub>5</sub>CO– and C<sub>6</sub>H<sub>5</sub>–</td></tr><tr><td>Isomers with the same fragments</td><td>NMR decides (splitting and integration)</td></tr><tr><td>Strong UV band above 200 nm</td><td>a conjugated system, such as C=O on a ring</td></tr></tbody></table></div><p>LC-MS in full, <sup>13</sup>C NMR and two-dimensional NMR, which take structure solving further, belong to the analytical tier.</p>
+<section class="notes" aria-labelledby="addinfo"><h2 id="addinfo">Additional information</h2><ol><li id="fn1">Further example: because each N adds ½, a compound with one N (or any odd number of N atoms) has an odd number of H plus halogen atoms, and an odd M<sub>r</sub>; methylamine, CH<sub>3</sub>NH<sub>2</sub>, has M<sub>r</sub> 31. A molecular ion at an odd <em>m/z</em> is a hint that the compound contains nitrogen. <a href="#fnref1" class="back" aria-label="Back to text">↩</a></li><li id="fn2">In phenylethanone (and in other compounds with a C=O group on the ring) the C=O group spreads the ring signals over about δ 7.4 to 8.0: the two H next to the C=O are at the left. In this chapter the ring is still read as one 5H multiplet. <a href="#fnref2" class="back" aria-label="Back to text">↩</a></li></ol></section>
+</article>
+<nav class="pager" aria-label="Previous and next"><a href="part-1.html">← Part 1</a><a href="tutorial-1.html">Tutorial 1 →</a></nav>
+</main>
+<aside class="rail" aria-hidden="true"></aside>
+</div>
+<footer class="frame foot"><p>H3 Chemistry © Gary Chan · Written for SEAB H3 Chemistry 9813 · Last updated 18/10/26</p></footer>
+<script>
+(function () {
+  var root = document.documentElement, bs = document.querySelectorAll("[data-theme-v]");
+  function show() { var t = root.getAttribute("data-theme") || "auto"; bs.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-v") === t)); }); }
+  bs.forEach(function (b) { b.addEventListener("click", function () {
+    var v = b.getAttribute("data-theme-v");
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    try { if (v === "auto") localStorage.removeItem("chemlab-theme"); else localStorage.setItem("chemlab-theme", v); } catch (e) {}
+    show(); window.dispatchEvent(new Event("resize"));
+  }); });
+  show();
+})();
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-mail]"); if (!a) return;
+  e.preventDefault();
+  var p = a.getAttribute("data-mail").split("|");
+  location.href = "mailto:" + p[0] + "@" + p[1] + "?subject=" + encodeURIComponent(a.getAttribute("data-subject"));
+});
+(function () {
+  // wide screens: footnotes become side notes next to their markers
+  var rail = document.querySelector(".rail"), refs = document.querySelectorAll(".fnref a");
+  var wide = window.matchMedia("(min-width: 1280px)");
+  function place() {
+    rail.innerHTML = "";
+    document.documentElement.classList.toggle("sidenotes", wide.matches && refs.length > 0);
+    if (!wide.matches || !refs.length) return;
+    var top0 = rail.getBoundingClientRect().top + window.scrollY, last = 0;
+    refs.forEach(function (a) {
+      var li = document.getElementById(a.getAttribute("href").slice(1)); if (!li) return;
+      var n = document.createElement("div"); n.className = "sidenote";
+      n.innerHTML = "<span class='sn-num'>" + a.textContent + "</span> " + li.innerHTML.replace(/<a[^>]*class="back"[^>]*>.*?<\/a>/, "");
+      rail.appendChild(n);
+      var y = Math.max(a.getBoundingClientRect().top + window.scrollY - top0 - 4, last);
+      n.style.top = y + "px"; last = y + n.offsetHeight + 12;
+    });
+  }
+  window.addEventListener("load", place);
+  wide.addEventListener("change", place);
+  var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(place, 150); });
+  // highlight the section being read in the side contents
+  var links = document.querySelectorAll(".toc a"); if (!links.length) return;
+  var hs = Array.prototype.map.call(links, function (l) { return document.getElementById(l.getAttribute("href").slice(1)); });
+  function mark() {
+    var cut = window.innerHeight * 0.3, cur = 0;
+    hs.forEach(function (h, i) { if (h && h.getBoundingClientRect().top < cut) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle("on", i === cur); });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); } }, { passive: true });
+  mark();
+})();
+</script>
