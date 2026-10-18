@@ -720,6 +720,8 @@ const pick = a => a[Math.floor(Math.random() * a.length)];
 const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 const st = (l, v, cls) => `<div class="stat${cls ? " " + cls : ""}"><div class="l">${l}</div><div class="v">${v}</div></div>`;
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
+// SVG elements have no .hidden property: always toggle the attribute
+const show = (el, on) => { if (on) el.removeAttribute("hidden"); else el.setAttribute("hidden", ""); };
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
@@ -751,7 +753,12 @@ function niceTicks(lo, hi, n){
 }
 function parseNum(s){
   if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "").replace(/(%|°|kJmol\^?-1|kJmol-1|kJ\/mol|kJ)$/i, "");
+  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-");
+  // a comma is a thousands separator only in groups of three (1,000 or 12,345.6); otherwise a decimal comma (1,00 → 1.00)
+  if (/^[-+]?\d{1,3}(,\d{3})+(\.\d+)?/.test(t)) t = t.replace(/,/g, "");
+  else if ((t.match(/,/g) || []).length === 1 && !t.includes(".")) t = t.replace(",", ".");
+  else if (t.includes(",")) return NaN;
+  t = t.replace(/(%|°|kJmol\^?-1|kJmol-1|kJ\/mol|kJ)$/i, "");
   if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(t)) return NaN;
   return parseFloat(t);
 }
@@ -1081,6 +1088,18 @@ function Viewer(svg, wrap, hOf){
     gS.innerHTML = sceneItems(sc, v.proj, v.S, grad, v.picks).map(i => i.s).join("");
     gO.innerHTML = sc.over ? sc.over(v) : "";
   };
+  // zoom so that the model, seen through matrix M, fills the panel (used once when a default view is chosen)
+  v.fitZoom = (sc, M, frac) => {
+    // centre the view on the middle of the model's outline, then scale the outline to the panel
+    const c0 = sc.ctr || [0, 0, 0], Q0 = sc.atoms.map(a => ap(M, sub(a.p, c0)));
+    const xs = Q0.map(q => q[0]), ys = Q0.map(q => q[1]), mx = (Math.max(...xs) + Math.min(...xs)) / 2, my = (Math.max(...ys) + Math.min(...ys)) / 2;
+    sc.ctr = add(c0, ap(tr(M), [mx, my, 0]));
+    const pad = 0.45, hx = (Math.max(...xs) - Math.min(...xs)) / 2 + pad, hy = (Math.max(...ys) - Math.min(...ys)) / 2 + pad;
+    const W = Math.max(240, Math.floor(wrap.clientWidth)), Hh = hOf(W), R = sc.R, D = R * 6;
+    const zmax = Math.max(...Q0.map(q => q[2])), base = (Math.min(W - 16, Hh - (v.pad || 24)) / 2) / (R * D / (D - R)), k = D / (D - Math.max(0, zmax));
+    const want = Math.min((W / 2) * (frac || 0.86) / (hx * k), (Hh / 2 - 10) * (frac || 0.86) / (hy * k));
+    return Math.max(1, want / base);
+  };
   v.stop = () => { if (v.anim){ cancelAnimationFrame(v.anim); v.anim = 0; } };
   // turn smoothly to matrix Mt
   v.turnTo = (Mt, ms, done) => {
@@ -1239,7 +1258,7 @@ LAB.MOLS = MOLS;
 const NM = {
   butan2ol_R: "(<i>R</i>)-butan-2-ol", butan2ol_S: "(<i>S</i>)-butan-2-ol",
   bromobutane_R: "(<i>R</i>)-2-bromobutane", bromobutane_S: "(<i>S</i>)-2-bromobutane",
-  alanine_S: "(<i>S</i>)-alanine (L-alanine)", alanine_R: "(<i>R</i>)-alanine",
+  alanine_S: "(<i>S</i>)-alanine", alanine_R: "(<i>R</i>)-alanine",
   carvone_R: "(<i>R</i>)-carvone (spearmint)", carvone_S: "(<i>S</i>)-carvone (caraway)",
   bcb_RR: "(2<i>R</i>,3<i>R</i>)-2-bromo-3-chlorobutane", bcb_SS: "(2<i>S</i>,3<i>S</i>)-2-bromo-3-chlorobutane",
   bcb_RS: "(2<i>R</i>,3<i>S</i>)-2-bromo-3-chlorobutane", bcb_SR: "(2<i>S</i>,3<i>R</i>)-2-bromo-3-chlorobutane",
@@ -1286,9 +1305,9 @@ const EZG = {
   but2ene: { 1: { 0: "–CH₃" }, 2: { 3: "–CH₃" }, ct: [0, 3, "the two CH₃ groups"] },
   brbutene: { 1: { 0: "–CH₃", 2: "–Br" }, 3: { 4: "–CH₃" }, ct: [0, 4, "the two CH₃ groups"] },
   brclpropene: { 2: { 3: "–Br", 4: "–Cl" }, 1: { 0: "–CH₃" }, ct: null },
-  clpropene: { 2: { 3: "–Cl" }, 1: { 0: "–CH₃" }, ct: "HH" },
+  clpropene: { 2: { 3: "–Cl" }, 1: { 0: "–CH₃" }, ct: [0, 3, "the CH₃ group and the Cl atom (the groups other than H)"] },
   clbutene: { 1: { 0: "–CH₃", 2: "–Cl" }, 3: { 4: "–CH₃" }, ct: [0, 4, "the two CH₃ groups"] },
-  butenal: { 2: { 3: "–CHO" }, 1: { 0: "–CH₃" }, ct: "HH" }
+  butenal: { 2: { 3: "–CHO" }, 1: { 0: "–CH₃" }, ct: [0, 3, "the CH₃ and CHO groups (the groups other than H)"] }
 };
 const base = id => id.replace(/_(R|S|RR|SS|RS|SR|meso|E|Z|anti|gauche)$/, "");
 // a model object from the JSON entry
@@ -1404,12 +1423,12 @@ LAB.RING = RING; LAB.buildRing = buildRing; LAB.RINGS = RINGS; LAB.ringPos = rin
 // mirror-image ring spec (swap up and down: the enantiomer of a chiral ring compound, or the same compound if achiral)
 const mirrorSpec = subs => { const o = {}; Object.keys(subs).forEach(k => { o[k.replace(/up$/, "U").replace(/down$/, "up").replace(/U$/, "down")] = subs[k]; }); return o; };
 // a chair view: ring axis upright on screen, looking from slightly above the ring plane, no atom hidden if possible
-function chairView(m, az0){
+function chairView(m, az0, m2){
   let best = -Infinity, bm = null;
   for (let el = 12; el <= 34; el += 2) for (let az = 0; az < 360; az += 5){
     const a = (az + (az0 || 0)) * D2R, e = el * D2R, vd = [Math.cos(e) * Math.cos(a), Math.cos(e) * Math.sin(a), Math.sin(e)];
     const M = viewUp(vd, [0, 0, 1]);
-    const g = viewGap(m, M) - Math.abs(el - 22) * 0.002;
+    const g = Math.min(viewGap(m, M), m2 ? viewGap(m2, M) : Infinity) - Math.abs(el - 22) * 0.002;
     if (g > best){ best = g; bm = M; }
   }
   return bm;
@@ -1534,7 +1553,13 @@ function nrDrawPlot(){
     series: [{ pts: curve, col: cssVar("--s1"), w: 2.2 }],
     over: (X, Y) => {
       let s = "";
-      pts.forEach(([x, e]) => { s += `<circle cx="${f1(X(x))}" cy="${f1(Y(e))}" r="3.4" class="pdot"/>`; if (x < 360) s += T(X(x) + (x === 0 ? 6 : 0), Y(e) - 8, String(e).replace(/^(\d+)$/, "$1"), "val", `text-anchor="${x === 0 ? "start" : "middle"}"`, 11); });
+      pts.forEach(([x, e], i) => {
+        s += `<circle cx="${f1(X(x))}" cy="${f1(Y(e))}" r="3.4" class="pdot"/>`;
+        if (x === 360) return;
+        // maxima labelled above the point; minima beside it, clear of the curve
+        const isMin = (i === 0 ? e < pts[1][1] : e < pts[i - 1][1] && e < pts[i + 1][1]);
+        s += isMin ? T(X(x) + 8, Y(e) - 6, String(e), "val halo", 'text-anchor="start"', 11) : T(X(x) + (x === 0 ? 6 : 0), Y(e) - 8, String(e), "val halo", `text-anchor="${x === 0 ? "start" : "middle"}"`, 11);
+      });
       s += `<line x1="${f1(X(th))}" y1="${f1(Y(0))}" x2="${f1(X(th))}" y2="${f1(Y(20))}" class="cursor"/><circle cx="${f1(X(th))}" cy="${f1(Y(nrE(NR.mol, th)))}" r="5.5" class="cdot"/>`;
       return s;
     } });
@@ -1543,7 +1568,7 @@ function nrRead(){
   const th = ((NR.th % 360) + 360) % 360, nm = nrName(NR.mol, th), e = nrE(NR.mol, th);
   let br;
   if (nm.stat){
-    const inc = nrIncrements(NR.mol, Math.round(th)), sum = inc.reduce((a, x) => a + x.e, 0);
+    const inc = nrIncrements(NR.mol, (Math.round(th / 60) * 60) % 360), sum = inc.reduce((a, x) => a + x.e, 0);
     const lab = { "H/H": "H/H eclipsed 4.0", "CH3/H": "CH₃/H eclipsed 6.0", "CH3/CH3": "CH₃/CH₃ eclipsed 11", gauche: "CH₃/CH₃ gauche 3.8" };
     const groups = {}; inc.forEach(x => { groups[x.k] = (groups[x.k] || 0) + 1; });
     const ks = ["CH3/CH3", "CH3/H", "H/H", "gauche"].filter(k => groups[k]);
@@ -1567,15 +1592,18 @@ function nrCosts(){
 function nrDraw3D(){
   const m = nrModel(NR.mol, NR.th);
   const sc = sceneOf(m, { ring: i => (i === m.marks.front || i === m.marks.back) ? "selr" : null });
-  sc.R = modelR(m.P, [0, 0, 0]) + 0.1; sc.ctr = [0, 0, 0];
-  if (!nrV.scene || nrV.scene.R !== sc.R) nrV.set(sc); else { nrV.scene = sc; nrV.draw(); }
+  sc.R = modelR(m.P, [0, 0, 0]) + 0.1; sc.ctr = NR.ctr || [0, 0, 0]; sc.zoom = NR.zoom || 1.4;
+  if (NR.fit){ NR.fit = false; nrV.M0 = bestView(m, { n: 500, cost: vd => 0.25 * Math.abs(vd[2]) }); nrV.M = nrV.M0.slice(); sc.ctr = [0, 0, 0]; NR.zoom = sc.zoom = nrV.fitZoom(sc, nrV.M0); NR.ctr = sc.ctr; nrV.set(sc); }
+  else if (!nrV.scene || nrV.scene.R !== sc.R) nrV.set(sc); else { nrV.scene = sc; nrV.draw(); }
 }
+LAB.nrView = () => nrV;
 function nrRender(){
-  if (NR.view === "newman"){ $("nr-svg").hidden = false; $("nr-3d").hidden = true; nrDrawNewman(); }
-  else { $("nr-svg").hidden = true; $("nr-3d").hidden = false; nrV.size(); nrDraw3D(); }
+  show($("nr-svg"), NR.view === "newman"); show($("nr-3d"), NR.view !== "newman");
+  if (NR.view === "newman") nrDrawNewman();
+  else { nrV.size(); nrDraw3D(); }
   nrDrawPlot(); nrRead();
 }
-LAB.nrSet = (mol, th, view) => { if (mol) { NR.mol = mol; document.querySelector(`input[name="nr-mol"][value="${mol}"]`).checked = true; nrStops(); nrCosts(); } if (th != null){ NR.th = th; $("nr-th").value = th; } if (view){ NR.view = view; document.querySelector(`input[name="nr-view"][value="${view}"]`).checked = true; } nrRender(); };
+LAB.nrSet = (mol, th, view) => { NR.fit = true; if (mol) { NR.mol = mol; document.querySelector(`input[name="nr-mol"][value="${mol}"]`).checked = true; nrStops(); nrCosts(); } if (th != null){ NR.th = th; $("nr-th").value = th; } if (view){ NR.view = view; document.querySelector(`input[name="nr-view"][value="${view}"]`).checked = true; } nrRender(); };
 function nrStops(){
   const names = NR.mol === "ethane" ? ["eclipsed", "staggered", "eclipsed", "staggered", "eclipsed", "staggered"] : ["fully eclipsed", "gauche", "eclipsed", "anti", "eclipsed", "gauche"];
   $("nr-stops").innerHTML = [0, 60, 120, 180, 240, 300].map((t, i) => `<button type="button" data-th="${t}">${t}° ${names[i]}</button>`).join("");
@@ -1585,10 +1613,10 @@ function bindNR(){
   nrV = Viewer($("nr-3d"), $("nr-wrap"), W => W < 420 ? 270 : 300);
   nrV.M0 = mm(rx(-0.45), ry(1.05)); nrV.M = nrV.M0.slice();
   nrStops(); nrCosts();
-  $("nr-mol").addEventListener("change", e => { nrStop(); NR.mol = e.target.value; nrStops(); nrCosts(); nrRender(); });
-  $("nr-view").addEventListener("change", e => { NR.view = e.target.value; nrRender(); });
+  $("nr-mol").addEventListener("change", e => { nrStop(); NR.fit = true; NR.mol = e.target.value; nrStops(); nrCosts(); nrRender(); });
+  $("nr-view").addEventListener("change", e => { NR.view = e.target.value; NR.fit = true; nrRender(); });
   $("nr-th").addEventListener("input", e => { nrStop(); NR.th = +e.target.value; nrRender(); });
-  $("nr-stops").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; nrStop(); NR.th = +b.dataset.th; $("nr-th").value = NR.th; nrRender(); });
+  $("nr-stops").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; nrStop(); NR.fit = true; NR.th = +b.dataset.th; $("nr-th").value = NR.th; nrRender(); });
   $("nr-play").addEventListener("click", () => {
     if (NR.play){ nrStop(); return; }
     if (NOANIM()){ NR.th = (Math.round(NR.th) + 60) % 360; $("nr-th").value = NR.th; nrRender(); return; }
@@ -1657,7 +1685,7 @@ function cyDraw(){
   sc.over = v => {
     let s = "";
     if (subd) m.ring.forEach(j => { const p = v.proj(add(m.P[j], mul(unit([m.P[j][0], m.P[j][1], 0]), 0.62))); s += T(p[0], p[1] + 4, String(j + 1), "udl halo", 'text-anchor="middle"', 11); });
-    if (CY.ud) m.slots.forEach(sl => { if (!keep[sl.atom] || (CY.h === false && sl.kind === "H")) return; if (sl.kind === "H" && subd && !m.dx.some(d => d[1] === sl.atom)) return; const p = v.proj(add(m.P[sl.atom], mul(unit(sub(m.P[sl.atom], m.P[sl.c])), 0.5))); s += T(p[0], p[1] + 4, sl.face, "udl halo", 'text-anchor="middle"', 10.5); });
+    if (CY.ud) m.slots.forEach(sl => { if (!keep[sl.atom] || (CY.h === false && sl.kind === "H")) return; if (sl.kind === "H" && subd && !m.dx.some(d => d[1] === sl.atom)) return; const p = v.proj(mul(add(m.P[sl.atom], m.P[sl.c]), 0.5)), q = v.proj(m.P[sl.c]); const dx = p[0] - q[0], dy = p[1] - q[1], L = Math.hypot(dx, dy) || 1; s += T(p[0] - dy / L * 11, p[1] + dx / L * 11 + 4, sl.face, "udl halo", 'text-anchor="middle"', 10.5); });
     return s;
   };
   if (!cyV.scene || Math.abs(cyV.scene.R - sc.R) > 0.3) cyV.set(sc); else { cyV.scene = sc; cyV.draw(); }
@@ -1686,9 +1714,9 @@ function cyRead(){
   $("cy-sv").textContent = stn.n;
   $("cy-head").innerHTML = `${spec.name}: ${stn.n}`;
   let note = "Drag to turn. ";
-  if (flags.length) note += `Ringed: the two flagpole ${flags.every(f => f.kind === "H") ? "H atoms" : "positions"} on C${flags[0].c + 1} and C${flags[1].c + 1}, which point towards each other (steric strain); the C–H bonds along the two sides of the boat are eclipsed (torsional strain).`;
+  const fname = sl => sl.kind === "H" ? "H atom" : sl.kind === "CH3" ? "CH₃ group" : "C(CH₃)₃ group";
+  if (flags.length) note += `Ringed: the flagpole positions, the ${fname(flags[0])} on C${flags[0].c + 1} and the ${fname(flags[1])} on C${flags[1].c + 1}.`;
   else if (m.dx.length && CY.dx) note += "Ringed (dashed): each axial group and the axial atoms on the same face two carbons along, which it meets in 1,3-diaxial interactions.";
-  else note += "Every C–C–C angle is about 111° in the chair, and every C–H bond is staggered.";
   $("cy-note").innerHTML = H(note);
   let rd = st("Shape", stn.n) + st("Energy of cyclohexane at this point", `${stn.k != null ? FLIP_PTS[stn.k][1] : e.toFixed(0)} ${KJ}<small>${stn.k != null ? "literature value" : "schematic model"}</small>`);
   if (groups.length && m.isChair) rd += st("Axial groups", `${axn} of ${groups.length}`) + st("1,3-diaxial interactions", `${m.dx.length}`);
@@ -1719,7 +1747,9 @@ function cyVerdict(spec, m){
 }
 LAB.cyVerdict = (id, s) => { const o = { id: CY.id, s: CY.s }; CY.id = id; CY.s = s; const m = buildRing(cySpec(), s); const t = cyVerdict(cySpec(), m); CY.id = o.id; CY.s = o.s; return t; };
 function cyRender(){ cyDraw(); cyPlot(); cyRead(); $("cy-stops").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", Math.abs(+b.dataset.s - CY.s) < 0.02)); $("cy-mols").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === CY.id)); }
-function cyReset(){ cyV.stop(); const m0 = buildRing(cySpec(), 0); cyV.M0 = chairView(m0); cyV.M = cyV.M0.slice(); }
+// one view for both chairs, so that neither hides an atom and the view does not jump during a flip
+function cyReset(){ cyV.stop(); const m0 = buildRing(cySpec(), 0), m6 = buildRing(cySpec(), 6); cyV.M0 = chairView(m0, 0, m6); cyV.M = cyV.M0.slice(); }
+LAB.cyView = () => cyV;
 function cyStop(){ if (CY.play){ cancelAnimationFrame(CY.play); CY.play = 0; $("cy-play").textContent = "Flip the ring"; } }
 LAB.cySet = (id, s, opts) => { cyStop(); if (id && id !== CY.id){ CY.id = id; cyReset(); } if (s != null){ CY.s = s; $("cy-s").value = s; } if (opts) Object.keys(opts).forEach(k => { CY[k] = opts[k]; const el = $("cy-" + k); if (el) el.checked = !!opts[k]; }); cyRender(); };
 function bindCY(){
@@ -1900,7 +1930,7 @@ function trOverlay(v){
     if (TR.pri) inf.nb.forEach((j, k) => { s += badge(j, k + 1, TR.c); });
     // the 1 → 2 → 3 arc when group 4 points away from the viewer
     const u4 = unit(ap(v.M, sub(m.P[inf.nb[3]], m.P[TR.c])));
-    if (TR.away && TR.pri && u4[2] < -0.85){
+    if (TR.away && TR.pri && u4[2] < -0.85 && (TR.mode === "show" || TR.answered)){
       const ang = j => { const p = v.proj(m.P[j]); return Math.atan2(-(p[1] - ctrS[1]), p[0] - ctrS[0]); };
       const a = inf.nb.slice(0, 3).map(ang), cw = inf.label === "R";
       const r = 0.95 * v.S, pts = [];
@@ -1992,6 +2022,8 @@ function trAway(){
     let Mt = mm(rotTo(u, [0, 0, -1]), trV.M);
     const g1 = ap(Mt, sub(m.P[inf.nb[0]], m.P[TR.c]));
     Mt = mm(rz(Math.PI / 2 - Math.atan2(g1[1], g1[0])), Mt);
+    // a small tilt (group 4 still points away, within 22°) when atoms would stack behind each other
+    Mt = tiltClear(m, Mt, 22);
     // centre the chiral centre on screen: shift the view centre
     trV.ctr = m.P[TR.c];
     TR.pri = true; TR.away = true;
@@ -2000,12 +2032,22 @@ function trAway(){
   } else {
     const inf = trInfo(), a = inf.db.a, b = inf.db.b, g = graphOf(m);
     const ax = unit(sub(m.P[b], m.P[a])), o = g.nb[a].find(j => j !== b), n = unit(cross(ax, sub(m.P[o], m.P[a])));
-    const Mt = [...ax, ...cross(n, ax), ...n];
+    const Mt = tiltClear(m, [...ax, ...cross(n, ax), ...n], 25);
     TR.pri = true;
     trV.turnTo(Mt, 900, () => trRender());
     trRender();
   }
 }
+function tiltClear(m, M, maxDeg){
+  let best = M, bg = viewGap(m, M);
+  if (bg > 0.12) return M;
+  for (let a = 6; a <= maxDeg; a += 4) for (const [ax, sg] of [[0, 1], [0, -1], [1, 1], [1, -1]]){
+    const R = ax ? ry(sg * a * D2R) : rx(sg * a * D2R), M2 = mm(R, M), g = viewGap(m, M2);
+    if (g > bg + 0.02){ bg = g; best = M2; }
+  }
+  return best;
+}
+LAB.tiltClear = tiltClear;
 function trNewTest(){
   const sets = trSets(), set = pick(sets), k = ri(0, set.forms.length - 1);
   TR.set = set; TR.form = k; TR.m = formModel(set.forms[k]);
@@ -2100,7 +2142,8 @@ function relate(A, B){
     let best = Infinity;
     isos.forEach(mp => { const QB = mp.map(j => B.P[b.hg.idx[j]]), cb = centroid(QB), Qb = QB.map(q => sub(q, cb)); const R = bestRotation(Pa, Qb); best = Math.min(best, rmsdOf(Qb.map(q => ap(R, q)), Pa)); });
     const meso = mirror && Object.keys(a.d.cc).length > 0;
-    return { k: best < 0.05 ? (meso ? "meso" : "identical") : "conformers", rmsd: best, meso };
+    // a meso compound drawn twice is identical (DATA.md); "meso" is the better name for the compound, not for the pair
+    return { k: best < 0.05 ? "identical" : "conformers", rmsd: best, meso };
   }
   return { k: mirror ? "enantiomers" : "diastereomers" };
 }
@@ -2129,6 +2172,7 @@ function soShow(i, opts){
   setV(soA, SO.A, SO.A.M0);
   setV(soB, SO.B, ia === ib ? (opts.MB || randView(SO.B)) : SO.B.M0);
   $("so-newman").hidden = !NEWMAN_AX[base(ia)] || !NEWMAN_AX[base(ib)];
+  $("so-newman").textContent = base(ia) === "but2ene" ? "Look along the C=C (C2=C3)" : "Look along C2–C3";
   $("so-opts").innerHTML = CATS.map((c, k) => `<button type="button" class="opt" data-k="${c.k}"><b>${String.fromCharCode(65 + k)}</b><span>${c.t}</span></button>`).join("");
   $("so-fb").hidden = true;
   soHeads();
@@ -2152,12 +2196,13 @@ LAB.formulaOf = formulaOf;
 function soExplain(){
   const r = SO.rel, sa = stereoLabels(SO.A), sb = stereoLabels(SO.B);
   const lab = s => s.cc.length ? s.cc.map(x => `${x.loc} <i>${x.lab}</i>`).join(", ") : s.db.length ? s.db.map(x => `<i>${x.lab}</i>`).join(", ") : "none";
-  const L = `A: ${lab(sa)}; B: ${lab(sb)}`;
+  const L = `A: ${lab(sa)}; B: ${lab(sb)}`, none = !sa.cc.length && !sa.db.length;
   switch (r.k){
     case "constitutional": return `Same molecular formula (${formulaOf(SO.A)}) but the atoms are joined in a different order: constitutional isomers.`;
-    case "identical": return `Same connectivity and the same label at every centre (${L}), and one model can be turned to lie exactly on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm). They are the same compound in the same conformation, just drawn turned round.`;
+    case "identical": if (r.meso) return `Same connectivity and the same labels (${L}), and one model can be turned to lie exactly on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm): identical, the same compound drawn turned round. This compound is meso: it has chiral centres but is superimposable on its mirror image (a plane of symmetry in a reachable conformation). Numbered from the other end, (2<i>R</i>,3<i>S</i>) reads (2<i>S</i>,3<i>R</i>): the same compound.`;
+      return `Same connectivity and the same label at every centre (${L}), and one model can be turned to lie exactly on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm). They are the same compound in the same conformation, just drawn turned round.`;
     case "meso": return `Same connectivity and the same labels (${L}); the molecule has chiral centres but it is superimposable on its mirror image (it has a plane of symmetry in a reachable conformation), so A and B are one achiral meso compound, drawn two ways. Numbered from the other end, (2<i>R</i>,3<i>S</i>) reads (2<i>S</i>,3<i>R</i>): the same compound.`;
-    case "conformers": return `Same connectivity and the same configuration (${L}), but no rotation of the whole model lays one on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm): they differ only by rotation about single bonds${SO.A.ringc ? " or a ring flip" : ""}. Conformers interconvert rapidly at room temperature: one compound.`;
+    case "conformers": return `Same connectivity and ${none ? "no chiral centre or stereogenic C=C to label" : `the same configuration (${L})`}, but no rotation of the whole model lays one on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm): they differ only by rotation about single bonds${SO.A.ringc ? " or a ring flip" : ""}. Conformers interconvert rapidly at room temperature: one compound.`;
     case "enantiomers": return `Same connectivity; every chiral centre has the opposite label (${L}). Non-superimposable mirror images: enantiomers.`;
     case "diastereomers": return `Same connectivity, but not mirror images: ${sa.cc.length ? `some centres have the same label and some the opposite (${L})` : sa.db.length ? `the C=C is <i>${sa.db[0].lab}</i> in A and <i>${sb.db[0].lab}</i> in B (cis-trans isomers are diastereomers)` : `the CH₃ groups are on the same face in one and on opposite faces in the other (cis and trans)`}. Stereoisomers that are not mirror images are diastereomers.`;
   }
@@ -2167,11 +2212,11 @@ function soAnswer(k){
   if (SO.answered) return;
   SO.answered = true; SO.score[1]++;
   const right = SO.rel.k, ok = k === right;
-  const half = !ok && k === "identical" && (right === "meso" || right === "conformers");
+  const half = !ok && ((k === "identical" && right === "conformers") || (k === "meso" && right === "identical" && SO.rel.meso));
   if (ok) SO.score[0]++;
   $("so-opts").querySelectorAll("button").forEach(b => { b.disabled = true; if (b.dataset.k === right) b.classList.add("right"); else if (b.dataset.k === k) b.classList.add(half ? "half" : "wrong"); });
   const fb = $("so-fb"); fb.hidden = false; fb.className = "fb " + (ok ? "ok" : half ? "warn" : "no");
-  const head = ok ? "Right." : half ? (right === "meso" ? "Nearly: they are the same compound, but name it more precisely." : "Nearly: one compound, yes, but not the same conformation.") : `Not this time: ${CATS.find(c => c.k === right).t}.`;
+  const head = ok ? "Right." : half ? (right === "identical" ? "Nearly: the compound is meso, but A and B are simply the same compound drawn turned round: identical." : "Nearly: one compound, yes, but not the same conformation.") : `Not this time: ${CATS.find(c => c.k === right).t}.`;
   fb.innerHTML = `<p><b>${head}</b> ${H(soExplain())}</p>`;
   SO.labels = true; soA.draw(); soB.draw(); soHeads();
 }
@@ -2243,7 +2288,7 @@ function opRender(){
   const sgnP = o.p > 0;
   if (OP.kind === "mix"){
     const thisN = sgnP ? names.plus : names.minus, other = sgnP ? names.minus : names.plus;
-    $("op-read").innerHTML = st("Enantiomeric excess, ee", `${dp(Math.abs(r.ee), 1)} %`) + st("Excess of", r.ee >= 0 ? thisN : r.ee < 0 ? other : "neither") + st("Expected [<i>α</i>]", `${sgn(r.alphaSpec, 2)}°`);
+    $("op-read").innerHTML = st("Enantiomeric excess, ee", `${dp(Math.abs(r.ee), 1)} %`) + st("Excess of", Math.abs(r.ee) < 0.05 ? "neither: a racemic mixture" : r.ee > 0 ? thisN : other) + st("Expected [<i>α</i>]", `${sgn(r.alphaSpec, 2)}°`);
     $("op-work").innerHTML = [
       `ee = % major − % minor = ${dp(Math.max(o.maj, 100 - o.maj), 1)} − ${dp(Math.min(o.maj, 100 - o.maj), 1)} = ${dp(Math.abs(r.ee), 1)} %`,
       `Optical purity is taken as equal to ee, so [α] = [α]{pure} × ee/100 = ${sgn(o.p, 1)} × ${dp(r.ee, 1)}/100 = ${sgn(r.alphaSpec, 2)}°`
@@ -2261,6 +2306,10 @@ function opRender(){
       `ee = ${dp(r.major, 1)} − ${dp(r.minor, 1)} = ${dp(r.ee, 1)} % (equal to the optical purity)`
     ].map(t => `<li>${H(t)}</li>`).join("");
     opBar(over ? null : r.op);
+    if (over){
+      $("op-read").innerHTML = st("[<i>α</i>]<sub>obs</sub>", `${sgn(r.obs, 2)}°`) + st("Optical purity", `${dp(r.op, 1)} %`) + `<div class="stat wide"><div class="l">Check the values</div><div class="v">${H("An optical purity above 100 % is impossible: [α]{obs} cannot be larger than [α]{pure}. Check α, l, c (or ρ) and [α]{pure}.")}</div></div>`;
+      $("op-work").innerHTML = `<li>${H(`[α]{obs} = ${sgn(o.a, 2)}/(${o.l.toFixed(2)} × ${OP.kind === "neat" ? o.r.toFixed(3) : o.c.toFixed(3)}) = ${(r.obs > 0 ? "+" : "") + sf4(r.obs)}, larger in size than [α]{pure} = ${minus(String(o.p))}: no composition can give this.`)}</li>`;
+    }
   }
   $("op-work").hidden = !OP.work;
   $("op-ex").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === OP.ex));
@@ -2351,6 +2400,7 @@ function cxDelta(m){
   const mA = mul(add(m.P[e1[0]], m.P[e1[1]]), 0.5), mB = mul(add(m.P[e2[0]], m.P[e2[1]]), 0.5);
   // line A is the helix axis, line B a tangent where the common normal (from A to B) meets it: right-handed when (d1 × d2)·n < 0
   const h = dot(cross(d1, d2), sub(mB, mA));
+  if (Math.abs(h) < 1e-6) return null;   // coplanar or parallel chelates: achiral, no Δ/Λ
   return h < 0 ? "Δ" : "Λ";
 }
 LAB.cxDelta = cxDelta;
@@ -2489,11 +2539,11 @@ LAB.GN = GN;
 let gnV = null;
 // stereoisomer counts (DATA.md RDKit table and complex table); test.js rechecks the organic ones with RDKit
 const COUNTS = [
-  { k: "butan2ol", name: "butan-2-ol", n: 2, w: ["One chiral centre (C2: –OH, –CH₂CH₃, –CH₃, –H).", "2¹ = 2 stereoisomers: a pair of enantiomers, (R) and (S)."] },
-  { k: "bcb", name: "2-bromo-3-chlorobutane", n: 4, w: ["Two chiral centres (C2 and C3).", "The molecule is not symmetrical (Br on one centre, Cl on the other), so no meso form.", "2² = 4 stereoisomers: (2R,3R)/(2S,3S) and (2R,3S)/(2S,3R), two pairs of enantiomers."] },
-  { k: "dbb", name: "2,3-dibromobutane", n: 3, w: ["Two chiral centres (C2 and C3), at most 2² = 4.", "The molecule is symmetrical: (2R,3S) and (2S,3R) are the same meso compound (a plane of symmetry).", "4 − 1 = 3 stereoisomers: the pair (2R,3R)/(2S,3S) and the meso compound."] },
-  { k: "tart", name: "tartaric acid (2,3-dihydroxybutanedioic acid)", fex: true, n: 3, w: ["Two chiral centres (C2 and C3), at most 4.", "Symmetrical: (2R,3S) = (2S,3R), the meso form, optically inactive.", "3 stereoisomers: (2R,3R) (natural, +), (2S,3S) (−) and meso."] },
-  { k: "dmch12", name: "1,2-dimethylcyclohexane", n: 3, w: ["Two chiral centres (C1 and C2): each carries –H, –CH₃ and two different ring paths.", "cis (1R,2S) has a plane of symmetry when the ring is drawn flat: it behaves as a meso compound (its two chairs are mirror images and interconvert by fast ring flips).", "trans is chiral: (1R,2R) and (1S,2S).", "Total 3 stereoisomers."] },
+  { k: "butan2ol", name: "butan-2-ol", n: 2, w: ["One chiral centre (C2: –OH, –CH₂CH₃, –CH₃, –H).", "2¹ = 2 stereoisomers: a pair of enantiomers, (<i>R</i>) and (<i>S</i>)."] },
+  { k: "bcb", name: "2-bromo-3-chlorobutane", n: 4, w: ["Two chiral centres (C2 and C3).", "The molecule is not symmetrical (Br on one centre, Cl on the other), so no meso form.", "2² = 4 stereoisomers: (2<i>R</i>,3<i>R</i>)/(2<i>S</i>,3<i>S</i>) and (2<i>R</i>,3<i>S</i>)/(2<i>S</i>,3<i>R</i>), two pairs of enantiomers."] },
+  { k: "dbb", name: "2,3-dibromobutane", n: 3, w: ["Two chiral centres (C2 and C3), at most 2² = 4.", "The molecule is symmetrical: (2<i>R</i>,3<i>S</i>) and (2<i>S</i>,3<i>R</i>) are the same meso compound (a plane of symmetry).", "4 − 1 = 3 stereoisomers: the pair (2<i>R</i>,3<i>R</i>)/(2<i>S</i>,3<i>S</i>) and the meso compound."] },
+  { k: "tart", name: "tartaric acid (2,3-dihydroxybutanedioic acid)", fex: true, n: 3, w: ["Two chiral centres (C2 and C3), at most 4.", "Symmetrical: (2<i>R</i>,3<i>S</i>) = (2<i>S</i>,3<i>R</i>), the meso form, optically inactive.", "3 stereoisomers: (2<i>R</i>,3<i>R</i>) (natural, +), (2<i>S</i>,3<i>S</i>) (−) and meso."] },
+  { k: "dmch12", name: "1,2-dimethylcyclohexane", n: 3, w: ["Two chiral centres (C1 and C2): each carries –H, –CH₃ and two different ring paths.", "cis (1<i>R</i>,2<i>S</i>) has a plane of symmetry when the ring is drawn flat: it behaves as a meso compound (its two chairs are mirror images and interconvert by fast ring flips).", "trans is chiral: (1<i>R</i>,2<i>R</i>) and (1<i>S</i>,2<i>S</i>).", "Total 3 stereoisomers."] },
   { k: "dmch14", name: "1,4-dimethylcyclohexane", n: 2, w: ["No chiral centres: at C1 both ring paths are –CH₂CH₂CH(CH₃)–, the same group.", "But the ring stops rotation, so the CH₃ groups can be on the same face (cis) or opposite faces (trans).", "Both are achiral (a plane of symmetry through C1 and C4): 2 stereoisomers, cis and trans, which are diastereomers."] },
   { k: "bromobutene", name: "3-bromobut-1-ene", extra: true, n: 2, w: ["One chiral centre (C3: –Br, –CH=CH₂, –CH₃, –H).", "The C=C has no cis-trans isomers: C1 carries two H atoms.", "2¹ = 2 stereoisomers."] },
   { k: "aminopropanol", name: "2-aminopropan-1-ol", extra: true, n: 2, w: ["One chiral centre (C2: –NH₂, –CH₂OH, –CH₃, –H).", "2¹ = 2 stereoisomers."] },
@@ -2529,7 +2579,8 @@ function genOP(){
       (() => { let p; do { p = ri(150, 1300) / 10 * (Math.random() < 0.5 ? -1 : 1); } while (!okAlphaPure(p) || hitsRes(Math.abs(p).toFixed(1))); return { n: "compound X", p, major: `the ${p > 0 ? "(+)" : "(−)"} enantiomer`, minor: `the ${p > 0 ? "(−)" : "(+)"} enantiomer`, solv: "ethanol", src: "illustrative value" }; })()]);
     const l = pick([0.500, 1.00, 2.00]), target = ri(150, 990) / 10;
     let c = null, mass = null, vol = null;
-    if (!comp.neat){ vol = pick([10.0, 25.0, 50.0]); mass = ri(Math.ceil(0.02 * vol * 100), Math.floor(0.15 * vol * 100)) / 100; c = mass / vol; }
+    // c is printed to 3 s.f. and every later step uses the printed value
+    if (!comp.neat){ vol = pick([10.0, 25.0, 50.0]); mass = ri(Math.ceil(0.02 * vol * 100), Math.floor(0.15 * vol * 100)) / 100; c = +sf(mass / vol, 3); }
     const dens = comp.neat ? comp.rho : c;
     const alpha = +(target / 100 * comp.p * l * dens).toFixed(2);
     if (Math.abs(alpha) < 0.3) continue;
@@ -2594,7 +2645,7 @@ function gnRender(){
   $("gn-q").innerHTML = H(q.ask);
   const view = q.m || q.type === "nm";
   $("gn-vw").hidden = !view;
-  $("gn-svg").hidden = q.type === "nm"; $("gn-nm").hidden = q.type !== "nm";
+  show($("gn-svg"), q.type !== "nm"); show($("gn-nm"), q.type === "nm");
   if (q.type === "nm"){
     gnDrawNM();
     $("gn-vnote").innerHTML = H(q.mol === "butane" ? "Front carbon C2 (where three bonds meet), back carbon C3 (the circle)." : "Front carbon C1, back carbon C2 (the circle).");
@@ -2655,15 +2706,15 @@ const FC = [
     list: ["The barrier is small next to the energy available at room temperature: rotation is rapid and the conformations cannot be separated.", "The staggered conformations (θ = 60°, 180°, 300°) are the conformers."] },
   { cat: "conf", h: "Butane, about C2–C3", k: "2.1(b)(i)", d: "Relative to anti (θ = 180°) = 0 (literature values, kJ mol⁻¹): gauche (60°, 300°) about 3.8; eclipsed CH₃/H (120°, 240°) about 16; fully eclipsed CH₃/CH₃ (0°) about 19.",
     list: ["From the costs: 0° = 11 + 2 × 4.0 = 19; 120° = 2 × 6.0 + 4.0 = 16; gauche 3.8 is steric strain between the CH₃ groups.", "Barriers: anti → gauche about 16, gauche → anti about 16 − 3.8 ≈ 12.", "At room temperature butane is mostly anti, but rotation is still rapid."] },
-  { cat: "conf", h: "Cyclohexane: chair, boat and ring flip", k: "2.1(b)(i)", d: "Chair: C–C–C about 111° (close to 109.5°) and every C–H staggered, so no angle strain and no torsional strain.",
-    list: ["Boat: about 30 kJ mol⁻¹ above the chair (flagpole H atoms on C1 and C4, eclipsed C–H bonds).", "Ring flip through the half-chair: barrier about 45 kJ mol⁻¹; about 10⁵ flips a second at room temperature (literature values).", "A ring flip turns every axial bond equatorial and vice versa; up stays up.", "Beyond the syllabus: the twist-boat, about 23 kJ mol⁻¹, relieves some of the boat's strain."] },
+  { cat: "conf", h: "Cyclohexane: chair, boat and ring flip", k: "2.1(b)(i)", d: "The chair is the most stable shape of the ring, free of angle strain and torsional strain.",
+    list: ["Boat: about 30 kJ mol⁻¹ above the chair (literature value).", "Ring flip through the half-chair: barrier about 45 kJ mol⁻¹; about 10⁵ flips a second at room temperature (literature values).", "A ring flip turns every axial bond equatorial and vice versa; up stays up.", "Beyond the syllabus: the twist-boat, about 23 kJ mol⁻¹, relieves some of the boat's strain."] },
   { cat: "conf", h: "Methylcyclohexane", k: "2.1(b)(i)", d: "Equatorial CH₃ is preferred by about 7.3 kJ mol⁻¹ (literature value); about 95 % of the molecules have CH₃ equatorial at 298 K (literature value).",
     list: ["An axial CH₃ meets the axial H atoms on C3 and C5: two 1,3-diaxial interactions.", "In a Newman projection along C1–C2 an axial CH₃ is gauche to C3: two gauche interactions ≈ 2 × 3.8 = 7.6, close to the measured 7.3.", "Large groups prefer equatorial positions; the larger the group, the stronger the preference."] },
   { cat: "conf", h: "<i>tert</i>-Butylcyclohexane", k: "2.1(b)(i)", d: "Equatorial preferred by about 21 kJ mol⁻¹ (literature value): effectively 100 % equatorial.",
     list: ["An axial tert-butyl group would push one of its CH₃ groups into the axial H atoms on C3 and C5.", "The tert-butyl group “locks” the ring in one chair.", "Beyond the syllabus: these equatorial preferences are called A-values."] },
   { cat: "config", h: "Butan-2-ol", k: "2.1(b)(iii)", d: "One chiral centre, C2: –OH > –CH₂CH₃ > –CH₃ > –H (ethyl beats methyl at the second atom: (C,H,H) against (H,H,H)).",
     list: ["(R)-butan-2-ol [α] −13.5 and (S)-butan-2-ol +13.5 (neat; literature values).", "A 70.0 : 30.0 mixture of (S) and (R): ee 40.0 %, expected [α] = +13.5 × 0.400 = +5.40 (notes WE10)."] },
-  { cat: "config", h: "Alanine", k: "2.1(b)(iii)", d: "(S)-alanine is L-alanine, the form in proteins. –NH₂ > –COOH > –CH₃ > –H: N beats C at the first atom; COOH is C(O,O,O) by rule 3.",
+  { cat: "config", h: "Alanine", k: "2.1(b)(iii)", d: "(S)-alanine is the form found in proteins. –NH₂ > –COOH > –CH₃ > –H: N beats C at the first atom; COOH is C(O,O,O) by rule 3.",
     list: ["[α] about +14.5 (c = 0.10 g cm⁻³, in hydrochloric acid; literature value); much smaller in water, so [α] is always quoted with its solvent.", "Notes WE8 (illustrative reading): α = +2.61°, l = 2.00 dm, c = 0.100 g cm⁻³ → [α]{obs} = +13.05 → optical purity 90.0 % → (S) 95.0 %, (R) 5.0 %."] },
   { cat: "config", h: "Carvone", k: "2.1(b)(iii)", d: "(R)-carvone smells of spearmint, [α] −61; (S)-carvone smells of caraway, +61 (neat; literature values; density 0.960 g cm⁻³).",
     list: ["At C5: –C(CH₃)=CH₂ (C,C,C) > ring CH₂ towards the C=O > ring CH₂ towards the C=C > –H. The two ring CH₂ tie at (C,H,H); one atom further, (O,O,C) beats (C,C,H).", "The sign of rotation has no fixed link to R or S: (R)-carvone is (−), (S)-alanine is (+), (R)-butan-2-ol is (−). It must be measured."] },
@@ -2682,7 +2733,7 @@ const FC = [
     list: ["The two N atoms are close together, so en spans two cis (adjacent, 90°) positions, never trans positions.", "Beyond the syllabus: real en rings are slightly puckered."] },
   { cat: "cx", h: "Cisplatin and carboplatin", k: "2.1(c)(i)", d: "Cisplatin, cis-[Pt(NH₃)₂Cl₂], is a widely used anticancer drug; only the cis isomer works well.",
     list: ["Inside cells, where [Cl⁻] is much lower than in blood, water replaces the Cl⁻ ligands; the platinum then bonds to N atoms of two neighbouring guanine bases on the same DNA strand, which needs two bonds at 90°.", "Carboplatin has one bidentate dicarboxylate ligand in place of the two Cl⁻ (it can only take two cis positions) and releases platinum more slowly, with fewer side effects."] },
-  { cat: "f", h: "Specific rotation", k: "2.1(b)(iii)", d: "[α] = α / (l × c), with l in dm and c in g cm⁻³. For a pure liquid (neat), c is replaced by its density ρ in g cm⁻³.",
+  { cat: "f", h: "Specific rotation", k: "2.1(b)(iii)", d: "[α] = α / (l × c): the tube length l is measured in decimetres and the concentration c in g cm⁻³. For a pure liquid (neat), use its density ρ (g cm⁻³) in place of c.",
     list: ["Quoted as [α]{D}{20} in degrees: sodium D line (589 nm), 20 °C, with the solvent and concentration.", "α also depends on the wavelength, the temperature and the solvent."] },
   { cat: "f", h: "Optical purity", k: "2.1(b)(iii)", d: "optical purity = [α]{obs} / [α]{pure} × 100 % (use the magnitudes).",
     list: ["A racemic mixture has optical purity 0 %; a pure enantiomer 100 %.", "Meso and other achiral compounds have no rotation at all."] },
@@ -2753,7 +2804,7 @@ const QZ = [
         ["It is chiral, because it has two chiral centres", "Chiral centres do not guarantee chirality: a plane of symmetry makes it achiral."]] },
   { k: "2.1(b)(iii)", q: "A sample of (S)-alanine has an optical purity of 90.0 %. What is its composition?",
     o: [["95.0 % (S) and 5.0 % (R)", "% major = (100 + 90.0)/2 = 95.0 %: 90 % pure enantiomer plus 10 % racemic mixture."],
-        ["90.0 % (S) and 10.0 % (R)", "That reads the optical purity as the percentage of (S); the excess of (S) over (R) would then be 90.0 − 10.0, not 90.0."],
+        ["85.0 % (S) and 15.0 % (R)", "That would be an excess of 85.0 − 15.0 = 70.0 %, not 90.0 %."],
         ["100 % (S)", "A pure enantiomer has optical purity 100 %."],
         ["45.0 % (S) and 55.0 % (R)", "Then (R) would be in excess and the rotation would have the opposite sign."]] },
   { k: "2.1(c)(ii)", q: "Which of these complexes is chiral?",
