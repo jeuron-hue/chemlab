@@ -503,7 +503,7 @@ svg .arrowh{fill:var(--s2)}
       <div class="ctl"><label for="rl-rbr"><span id="rl-rbrl">[RBr] / mol dm<sup>−3</sup></span> <output id="rl-rbrv"></output></label><input type="range" id="rl-rbr" min="0.010" max="0.100" step="0.005" value="0.050"></div>
       <div class="ctl"><label for="rl-oh"><span>[OH<sup>−</sup>] / mol dm<sup>−3</sup></span> <output id="rl-ohv"></output></label><input type="range" id="rl-oh" min="0.010" max="0.200" step="0.005" value="0.100"></div>
       <div class="btnrow"><button class="btn" id="rl-x2r">Double [RBr]</button><button class="btn" id="rl-x2o">Double [OH<sup>−</sup>]</button></div>
-      <p class="hint" style="margin:0">Rate constants from the notes' Part 1 WE2 (illustrative data, in a water–ethanol or water–propanone mixture).</p>
+      <p class="hint" style="margin:0">Rate constants from the notes' Part 1, worked example 2 (illustrative data, in a water–ethanol or water–propanone mixture).</p>
     </div>
     <div class="stack">
       <div class="readout" id="rl-read"></div>
@@ -1231,8 +1231,8 @@ const BIND = [];
    ===================================================== */
 const MOLS = {"pr2br":{"el":["C","C","C","Br","H","H","H","H","H","H","H"],"P":[[-1.2908,-0.0067,0.0689],[0.0939,0.3661,-0.4312],[1.1829,-0.4785,0.2069],[0.43,2.249,-0.0188],[-1.3761,0.1161,1.1545],[-2.061,0.6178,-0.397],[-1.519,-1.0508,-0.1704],[0.1399,0.2883,-1.5219],[1.0363,-1.5381,-0.0279],[1.1902,-0.3734,1.2977],[2.1737,-0.1898,-0.1607]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1]],"ca":1,"br":3,"betas":{"0":"C1","2":"C3"},"loc":{"0":"C1","1":"C2","2":"C3"}},"bb_R":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.574,-0.4426,0.0414],[0.5683,0.6138,0.4726],[1.4031,2.3788,0.245],[-0.735,0.5956,-0.3271],[-1.5403,-0.6796,-0.123],[1.1958,-1.4507,0.2369],[1.8024,-0.3679,-1.0277],[2.5172,-0.3383,0.5894],[0.3663,0.5312,1.5456],[-0.5303,0.7218,-1.3977],[-1.3619,1.4458,-0.0294],[-2.5005,-0.6044,-0.6435],[-1.016,-1.5532,-0.5213],[-1.7432,-0.8503,0.9389]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"C4"}},"bmp_RS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.2782,0.1808,0.823],[-0.8985,-0.4638,0.7147],[-1.171,-2.4079,0.9077],[-0.1632,-0.1663,-0.613],[-0.1153,1.3405,-0.9086],[1.2664,-0.7582,-0.6925],[2.2315,-0.2854,0.3865],[-2.2028,1.2715,0.8716],[-2.7984,-0.1422,1.7321],[-2.9113,-0.0805,-0.0322],[-0.2991,-0.1704,1.5815],[-0.7326,-0.6267,-1.4331],[0.2921,1.904,-0.0631],[-1.115,1.7309,-1.1247],[0.5029,1.5495,-1.7883],[1.2233,-1.8527,-0.6672],[1.6962,-0.5077,-1.6711],[2.3396,0.8028,0.3838],[3.223,-0.7161,0.2106],[1.9105,-0.6022,1.3825]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9299,-1.0455,1.063],[-1.5015,0.2494,0.3835],[-2.4337,0.3717,-1.3375],[0.0302,0.4043,0.2349],[0.4015,1.8084,-0.2648],[0.699,-0.702,-0.6105],[2.222,-0.642,-0.5943],[-1.722,-1.9282,0.4497],[-1.4185,-1.1669,2.0235],[-3.0078,-1.0404,1.2622],[-1.8953,1.0908,0.9655],[0.443,0.3244,1.2509],[-0.1506,2.5788,0.2842],[0.1913,1.9307,-1.3319],[1.4664,2.0101,-0.1105],[0.4066,-1.6864,-0.2297],[0.3629,-0.6503,-1.6519],[2.5948,0.2525,-1.1015],[2.636,-1.5114,-1.1155],[2.6056,-0.6481,0.4307]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_RR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.5037,-0.2985,0.5836],[-1.2422,-0.8247,-0.0905],[-1.6154,-1.0264,-2.005],[0.0153,0.0354,0.1766],[-0.0918,1.4753,-0.3427],[1.2953,-0.6633,-0.3368],[2.5825,-0.0234,0.1682],[-2.8385,0.6535,0.1593],[-2.3392,-0.1562,1.6568],[-3.3301,-1.0094,0.4688],[-1.064,-1.8473,0.2619],[0.1104,0.1045,1.2698],[0.7393,2.0855,0.0253],[-1.0087,1.9617,0.0021],[-0.0713,1.5176,-1.436],[1.29,-1.7104,-0.0097],[1.319,-0.6719,-1.4323],[2.72,0.9817,-0.2404],[3.4445,-0.6242,-0.1398],[2.5886,0.0404,1.2608]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9909,-0.8005,0.7549],[-1.5594,0.2005,-0.3072],[-2.1626,-0.4589,-2.0609],[-0.0477,0.5194,-0.3588],[0.3243,1.4453,0.8087],[0.8459,-0.741,-0.3676],[2.31,-0.4408,-0.6652],[-1.5669,-1.7954,0.5827],[-1.6919,-0.4693,1.754],[-3.0812,-0.9133,0.7612],[-2.1279,1.129,-0.1799],[0.1495,1.0818,-1.2819],[0.2638,0.9257,1.7704],[-0.3446,2.3118,0.8478],[1.3419,1.8326,0.6985],[0.7856,-1.2579,0.5975],[0.4917,-1.4465,-1.1271],[2.4156,0.107,-1.6068],[2.8728,-1.3759,-0.7535],[2.7722,0.1464,0.1333]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}}};
 LAB.MOLS = MOLS;
-// hashes of the tutorial numbers the generators must never print (reserved.json, build time); the numbers are not shipped
-const RESH = new Set(["19xf6rw", "1e50b3n", "1g24gso", "1kbkfn4", "1kvjn12", "1menox4", "1nnfnys", "1nunrre", "1viudrp", "67o6v4", "71mzy1", "bcaoo0", "e7ofjh", "k6t4fp", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
+// hashes of the numbers the generators must never print (reserved.json, build time); the numbers themselves are not shipped
+const RESH = new Set(["19xf6rw", "1e50b3n", "1g24gso", "1kbkfn4", "1kcz6xi", "1kvjn12", "1lgrapg", "1lqqwef", "1menox4", "1n4s2d9", "1n5gcgu", "1nffy5t", "1nnfnys", "1nouf96", "1nunrre", "1nyx6g4", "1viudrp", "67o6v4", "71mzy1", "bcaoo0", "e7ofjh", "i28kpf", "imswoz", "jqrbgv", "k0nrnv", "k6t4fp", "ncpazh", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
 function fnv(k){
   let h = 0x811c9dc5;
   for (const ch of k) h = Math.imul(h ^ ch.charCodeAt(0), 0x01000193) >>> 0;
@@ -1261,7 +1261,7 @@ const EQ = {
   sn_bbOH: ["CH₃CH₂CH(Br)CH₃ + OH⁻ → [HO···CH(CH₃)(C₂H₅)···Br]⁻‡ → CH₃CH₂CH(OH)CH₃ + Br⁻"],
   sn_bbCN: ["CH₃CH₂CH(Br)CH₃ + CN⁻ → [NC···CH(CH₃)(C₂H₅)···Br]⁻‡ → CH₃CH₂CH(CN)CH₃ + Br⁻"],
   sn_tb: ["(CH₃)₃CBr → (CH₃)₃C⁺ + Br⁻", "(CH₃)₃C⁺ + OH⁻ → (CH₃)₃COH"],
-  sn_hx: ["CH₃CH₂CH₂C(CH₃)(Br)CH₂CH₃ → CH₃CH₂CH₂C⁺(CH₃)CH₂CH₃ + Br⁻", "CH₃CH₂CH₂C⁺(CH₃)CH₂CH₃ + OH⁻ → CH₃CH₂CH₂C(CH₃)(OH)CH₂CH₃"],
+  sn_hx: ["CH₃CH₂CH₂C(CH₃)(Br)CH₂CH₃ → CH₃CH₂CH₂C⁺(CH₃)CH₂CH₃ + Br⁻", "CH₃CH₂CH₂C⁺(CH₃)CH₂CH₃ + H₂O → CH₃CH₂CH₂C(CH₃)(OH₂⁺)CH₂CH₃", "CH₃CH₂CH₂C(CH₃)(OH₂⁺)CH₂CH₃ + H₂O → CH₃CH₂CH₂C(CH₃)(OH)CH₂CH₃ + H₃O⁺"],
   e2_pr2br: ["CH₃CHBrCH₃ + C₂H₅O⁻ → CH₂=CHCH₃ + C₂H₅OH + Br⁻"],
   e2_bb_C3: ["CH₃CHBrCH₂CH₃ + C₂H₅O⁻ → CH₃CH=CHCH₃ + C₂H₅OH + Br⁻"],
   e2_bb_C1: ["CH₃CHBrCH₂CH₃ + C₂H₅O⁻ → CH₂=CHCH₂CH₃ + C₂H₅OH + Br⁻"],
@@ -1278,8 +1278,10 @@ const EQ = {
   zh_mb3_bulky: ["CH₃CHBrCH(CH₃)₂ + (CH₃)₃CO⁻ → CH₂=CHCH(CH₃)₂ + (CH₃)₃COH + Br⁻", "CH₃CHBrCH(CH₃)₂ + (CH₃)₃CO⁻ → CH₃CH=C(CH₃)₂ + (CH₃)₃COH + Br⁻"]
 };
 LAB.EQ = EQ;
+// italic descriptors inside SVG lettering (after svgChem): (R), (S), (E), (Z) and "(E and Z)"
+const itSvg = m => m.replace(/\((E|Z) and (E|Z)\)/g, '(<tspan font-style="italic">$1</tspan> and <tspan font-style="italic">$2</tspan>)').replace(/\((R|S|E|Z)\)/g, '(<tspan font-style="italic">$1</tspan>)');
 const eqHtml = (s, lab) => `<div>${lab ? `<span class="lab">${lab}</span>` : ""}<span class="eqn">${H(s)}</span></div>`;
-const RSI = s => String(s).replace(/\((R|S|E|Z)\)/g, "(<i>$1</i>)").replace(/\((\d)(R|S),(\d)(R|S)\)/g, "($1<i>$2</i>,$3<i>$4</i>)");
+const RSI = s => String(s).replace(/\((E|Z) and (E|Z)\)/g, "(<i>$1</i> and <i>$2</i>)").replace(/\((R|S|E|Z)\)/g, "(<i>$1</i>)").replace(/\((\d)(R|S),(\d)(R|S)\)/g, "($1<i>$2</i>,$3<i>$4</i>)");
 const HS = t => H(RSI(String(t))).replace(/S_N([12])/g, "S<sub>N</sub>$1");
 /* =====================================================
    A. HAMMOND EXPLORER (9813 3.1(a)). Intersecting-parabola model, DATA.md "Energy profiles":
@@ -1312,7 +1314,8 @@ const HM_PRE = [
 LAB.HM_PRE = HM_PRE;
 const HM = { dH: -80, pre: "exo" };
 LAB.HM = HM;
-const hmWord = x => x < 0.45 ? "early: resembles the reactants" : x <= 0.55 ? "about midway" : "late: resembles the products";
+// decided from the value shown (2 d.p.), so the 0.45 to 0.55 band reads "about midway" at both ends
+const hmWord = x0 => { const x = +x0.toFixed(2); return x < 0.45 ? "early: resembles the reactants" : x <= 0.55 ? "about midway" : "late: resembles the products"; };
 LAB.hmWord = hmWord;
 function hmDraw(){
   const dH = HM.dH, { Ea, x, rev } = hmModel(dH), pre = HM_PRE.find(p => p.id === HM.pre);
@@ -1337,7 +1340,7 @@ function hmDraw(){
       // transition state and the x‡ guide
       s += `<line class="cursor" x1="${X(x)}" y1="${Y(Ea)}" x2="${X(x)}" y2="${Hh - m.b}"/>`;
       s += `<circle cx="${X(x).toFixed(1)}" cy="${Y(Ea).toFixed(1)}" r="5" class="tsdot"/>`;
-      s += T(X(x), Y(Ea) - 10, "‡", "lblb", 'text-anchor="middle"', 14);
+      s += T(X(x), Y(Ea) - 10, "‡", "lblb halo", 'text-anchor="middle"', 14);
       s += T(X(x) + 6, Hh - m.b - 6, `x‡ = ${x.toFixed(2)}`, "val halo", 'text-anchor="start"');
       return s;
     }
@@ -1384,7 +1387,7 @@ function hmStrip(kind, x){
   setSvg(svg, W, Hh, s);
   $("hm-striph").innerHTML = kind === "ion" ? "Step 1 of S<sub>N</sub>1 for 2-bromo-2-methylpropane <span class=\"hint\">schematic</span>" : "Step 2 of S<sub>N</sub>1 for 2-bromo-2-methylpropane <span class=\"hint\">schematic</span>";
   $("hm-stripn").innerHTML = kind === "ion"
-    ? H("Strongly endothermic (+85 kJ mol⁻¹ in the illustrative profile), so the transition state is late: the C–Br bond is mostly broken, the carbon nearly planar and the positive charge mostly developed. Anything that stabilises the carbocation lowers this transition state too (Part 1 WE1).")
+    ? H("Strongly endothermic (+85 kJ mol⁻¹ in the illustrative profile), so the transition state is late: the C–Br bond is mostly broken, the carbon nearly planar and the positive charge mostly developed. Anything that stabilises the carbocation lowers this transition state too (Part 1, worked example 1).")
     : H("Strongly exothermic, so the transition state is early: the O···C bond has barely started to form and the carbon is still nearly planar, like the carbocation. Model E<sub>a</sub> about 9 kJ mol⁻¹, as the notes' S_N1 profile (step 2).").replace(/S_N1/g, "S<sub>N</sub>1");
 }
 function hmSet(dH, pre){
@@ -1441,8 +1444,8 @@ const SN_R = {
         cond: "KCN in ethanol, heat. CN⁻ is a good nucleophile and a weak base, so substitution wins.", rate: "rate = k[CH₃CH₂CHBrCH₃][CN⁻]" },
   tb: { n: "2-bromo-2-methylpropane + OH⁻", mech: "sn1", nu: "oh", g: ["CH3", "CH3", "CH3"], lab: ["CH₃", "CH₃", "CH₃"], sub: "2-bromo-2-methylpropane", prod: "2-methylpropan-2-ol", eq: "sn_tb",
         cond: "OH⁻ in a water–propanone mixture. Tertiary: three CH₃ groups block the back, and the tertiary carbocation is stabilised (inductive effect, 9 C–H bonds for hyperconjugation).", rate: "rate = k[(CH₃)₃CBr]" },
-  hx: { n: "(S)-3-bromo-3-methylhexane + OH⁻", mech: "sn1", nu: "oh", g: ["CH3", "C3H7", "C2H5"], lab: ["CH₃", "C₃H₇", "C₂H₅"], want: "S", sub: "(S)-3-bromo-3-methylhexane", prod: "3-methylhexan-3-ol", eq: "sn_hx",
-        cond: "H₂O, warm, or NaOH(aq), heat. Tertiary: the reaction goes through a planar carbocation.", rate: "rate = k[CH₃CH₂CH₂C(CH₃)BrCH₂CH₃]" }
+  hx: { n: "(S)-3-bromo-3-methylhexane + H₂O", mech: "sn1", nu: "h2o", g: ["CH3", "C3H7", "C2H5"], lab: ["CH₃", "C₃H₇", "C₂H₅"], want: "S", sub: "(S)-3-bromo-3-methylhexane", prod: "3-methylhexan-3-ol", eq: "sn_hx",
+        cond: "H₂O, warm (Part 1, worked example 4). Tertiary: the reaction goes through a planar carbocation; water attacks it, then loses H⁺.", rate: "rate = k[CH₃CH₂CH₂C(CH₃)BrCH₂CH₃]" }
 };
 LAB.SN_R = SN_R;
 const SN = { r: "bbOH", t: 0, face: "back", ip: 20, raf: 0 };
@@ -1463,13 +1466,15 @@ function snModel(key){
   }
   M.bonds = M.bonds.filter(b => b[1] !== M.br && b[0] !== M.br);
   M.nu = M.el.length;
-  if (R.nu === "cn"){ M.el.push("C", "N"); M.P.push([-4.6, 0, 0], [-4.6 - BL.CtN, 0, 0]); M.nuIds = [M.nu, M.nu + 1]; M.nuBond = [M.nu, M.nu + 1, 3]; }
-  else { M.el.push("O", "H"); M.P.push([-4.6, 0, 0], [-5.2, 0.7, 0]); M.nuIds = [M.nu, M.nu + 1]; M.nuBond = [M.nu, M.nu + 1, 1]; }
+  if (R.nu === "cn"){ M.el.push("C", "N"); M.P.push([-SN_D, 0, 0], [-SN_D - BL.CtN, 0, 0]); M.nuIds = [M.nu, M.nu + 1]; M.nuBonds = [[M.nu, M.nu + 1, 3]]; }
+  else if (R.nu === "h2o"){ M.el.push("O", "H", "H"); M.P.push([-SN_D, 0, 0], [-SN_D, 0.9, 0], [-SN_D, -0.9, 0]); M.nuIds = [M.nu, M.nu + 1, M.nu + 2]; M.nuBonds = [[M.nu, M.nu + 1, 1], [M.nu, M.nu + 2, 1]]; }
+  else { M.el.push("O", "H"); M.P.push([-SN_D, 0, 0], [-SN_D - 0.6, 0.7, 0]); M.nuIds = [M.nu, M.nu + 1]; M.nuBonds = [[M.nu, M.nu + 1, 1]]; }
   M.base = M.P.map(p => p.slice());
   M.key = key;
   return M;
 }
 const lerp = (a, b, s) => a + (b - a) * s;
+const SN_D = 3.9;   // model distance of a free nucleophile or leaving group (units of 0.1 nm; well beyond bonding)
 const seg = (t, a, b) => ease(clamp((t - a) / (b - a), 0, 1));
 // geometry at progress t (0 to 1)
 function snGeom(t){
@@ -1478,8 +1483,8 @@ function snGeom(t){
   let alpha, brPos, dNu, side = -1, op = { br: 1, nu: 1 };
   if (sn2){
     let dBr;
-    if (t <= 0.5){ const s = seg(t, 0, 0.5); alpha = lerp(TET, 90, s); dBr = lerp(BL.CBr, 2.45, s); dNu = lerp(4.6, cn ? 2.2 : 2.1, s); }
-    else { const s = seg(t, 0.5, 1); alpha = lerp(90, 180 - TET, s); dBr = lerp(2.45, 4.6, s); dNu = lerp(cn ? 2.2 : 2.1, cn ? BL.CN : BL.CO, s); }
+    if (t <= 0.5){ const s = seg(t, 0, 0.5); alpha = lerp(TET, 90, s); dBr = lerp(BL.CBr, 2.45, s); dNu = lerp(SN_D, cn ? 2.2 : 2.1, s); }
+    else { const s = seg(t, 0.5, 1); alpha = lerp(90, 180 - TET, s); dBr = lerp(2.45, SN_D, s); dNu = lerp(cn ? 2.2 : 2.1, cn ? BL.CN : BL.CO, s); }
     brPos = [dBr, 0, 0];
   } else {
     side = SN.face === "back" ? -1 : 1;
@@ -1491,7 +1496,7 @@ function snGeom(t){
     else if (side < 0) brPos = [lerp(3.4, 3.9, s2), 0, 0];
     else brPos = add(mul([3.4, 0, 0], 1 - s2), mul([2.4, 3.3, 1.4], s2));
     op.br = t <= 0.4 ? 1 : lerp(1, 0.6, s2);
-    dNu = t < 0.6 ? 4.6 : lerp(4.6, BL.CO, s3);
+    dNu = t < 0.6 ? SN_D : lerp(SN_D, BL.CO, s3);
     op.nu = t < 0.4 ? 0 : t < 0.6 ? s2 : 1;
   }
   M.groups.forEach(g => { const k = unit(cross(g.u0, XA)), b = (TET - alpha) * D2R; g.ids.forEach(i => { P[i] = rod(M.base[i], k, b); }); });
@@ -1499,13 +1504,19 @@ function snGeom(t){
   const nd = [side, 0, 0];
   P[M.nu] = mul(nd, dNu);
   if (cn) P[M.nu + 1] = mul(nd, dNu + BL.CtN);
+  else if (R.nu === "h2o"){
+    const hd = ph => { const d = dirAt(126, ph); return [side * Math.abs(d[0]), d[1], d[2]]; }, s4 = seg(t, 0.84, 1);
+    P[M.nu + 1] = add(P[M.nu], mul(hd(90), BL.OH));
+    P[M.nu + 2] = add(P[M.nu], mul(hd(270), BL.OH + 2.6 * s4));   // step 3: H⁺ leaves to a water molecule
+    op.h2 = 1 - 0.5 * s4; op.lost = s4 > 0.5;
+  }
   else { const d = dirAt(109, 90), hd = [side * Math.abs(d[0]), d[1], d[2]]; P[M.nu + 1] = add(P[M.nu], mul(hd, BL.OH)); }
   return { P, alpha, dBr: len(P[M.br]), dNu, op, side };
 }
 // bonds at a geometry: full below 2.0, partial (dashed) up to 2.7 (units of 0.1 nm)
 function snBonds(G){
   const M = snM, b = M.bonds.map(([i, j, o]) => ({ i, j, o }));
-  b.push({ i: M.nuBond[0], j: M.nuBond[1], o: M.nuBond[2] });
+  M.nuBonds.forEach(([i, j, o], k) => { if (!(k === 1 && G.op.lost)) b.push({ i, j, o, cls: k === 1 && G.op.h2 < 0.97 ? "bpart" : null, part: k === 1 && G.op.h2 < 0.97 }); });
   [[G.dBr, M.br], [G.dNu, M.nu]].forEach(([d, i]) => { if (d < 2.0) b.push({ i: 0, j: i, o: 1 }); else if (d < 2.7) b.push({ i: 0, j: i, o: 1, part: true, cls: "bpart" }); });
   return b;
 }
@@ -1522,16 +1533,16 @@ function snHand(G, bonds){
   const slot = nb.includes(snM.br) ? snM.br : snM.nu, a = snM.groups[0].ids[0], c = snM.groups[1].ids[0];
   return Math.sign(dot(unit(G.P[slot]), cross(unit(G.P[a]), unit(G.P[c]))));
 }
-const nuTxt = () => SN_R[SN.r].nu === "cn" ? "CN⁻" : "OH⁻";
+const nuTxt = () => ({ cn: "CN⁻", h2o: "H₂O", oh: "OH⁻" })[SN_R[SN.r].nu];
 function snStage(t){
   if (SN_R[SN.r].mech === "sn2") return t < 0.04 ? "reactants" : Math.abs(t - 0.5) < 0.04 ? "transition state (‡)" : t > 0.96 ? "products" : t < 0.5 ? `${nuTxt()} approaching from the back; C–Br stretching` : "Br⁻ leaving; the other three groups turning over";
-  return t < 0.04 ? "reactant" : t < 0.36 ? "step 1 (slow): the C–Br bond breaking" : t <= 0.62 ? "carbocation intermediate (planar)" : t > 0.96 ? "product" : "step 2 (fast): OH⁻ attacking the carbocation";
+  return t < 0.04 ? "reactant" : t < 0.36 ? "step 1 (slow): the C–Br bond breaking" : t <= 0.62 ? "carbocation intermediate (planar)" : t > 0.96 ? "product" : t > 0.84 && SN_R[SN.r].nu === "h2o" ? "step 3 (fast): H⁺ leaving to a water molecule" : `step 2 (fast): ${nuTxt()} attacking the carbocation`;
 }
 LAB.snStage = snStage;
 const SN_STOPS = { sn2: [[0, "reactants"], [0.5, "transition state"], [1, "products"]], sn1: [[0, "reactant"], [0.5, "carbocation"], [1, "product"]] };
 function snScene(){
   const G = snGeom(SN.t), bonds = snBonds(G), M = snM, R = SN_R[SN.r];
-  const atoms = M.el.map((e, i) => ({ p: G.P[i], r: RAD[e] * 0.9, c: COLR[e], l: e === "H" ? "" : e, op: i === M.br ? G.op.br : M.nuIds.includes(i) ? G.op.nu : 1 }));
+  const atoms = M.el.map((e, i) => ({ p: G.P[i], r: RAD[e] * 0.9, c: COLR[e], l: e === "H" ? "" : e, op: i === M.br ? G.op.br : (M.nuIds[2] === i && G.op.h2 != null) ? Math.min(G.op.nu, G.op.h2) : M.nuIds.includes(i) ? G.op.nu : 1 }));
   const sc = { atoms, bonds: bonds.map(b => ({ i: b.i, j: b.j, o: b.o, cls: b.cls })), R: 6.0, ctr: SN.ctr || [0, 0, 0], zoom: SN.zoom || 1, planes: [], bw: 0.11 };
   if (Math.abs(G.alpha - 90) < 2.5){ const s = 1.9; sc.planes.push({ pts: [[0, s, s], [0, -s, s], [0, -s, -s], [0, s, -s]], cls: "plane", dz: -0.4 }); }
   const rs = snRS(G, bonds);
@@ -1542,7 +1553,12 @@ function snScene(){
     if (G.dBr > 2.7) o += at(G.P[M.br], 0, -24, "Br⁻", "lblb halo");
     if (R.mech === "sn1" && SN.t > 0.38 && SN.t < 0.62) o += at([0, 0, 0], 16, -14, "+", "lblb halo", 16);
     if (R.want) o += `<text x="12" y="${f1(v.H - 12)}" class="rs">${rs ? `reacting carbon: (<tspan font-style="italic">${rs}</tspan>)` : "reacting carbon: no chiral centre now"}</text>`;
-    M.groups.forEach((g, k) => { if (g.kind !== "H"){ const q = v.proj(G.P[g.ids[0]]), c0 = v.proj([0, 0, 0]); let dx = q[0] - c0[0], dy = q[1] - c0[1]; const L = Math.hypot(dx, dy) || 1; o += `<text x="${f1(q[0] + dx / L * 26)}" y="${f1(q[1] + dy / L * 26 + 4)}" text-anchor="middle" class="hlab halo">${svgChem(R.lab[k], 12)}</text>`; } });
+    const c0 = v.proj([0, 0, 0]);
+    M.groups.forEach((g, k) => { if (g.kind !== "H"){
+      const far = g.ids.map(i => [i, v.proj(G.P[i])]).reduce((a, b) => Math.hypot(b[1][0] - c0[0], b[1][1] - c0[1]) > Math.hypot(a[1][0] - c0[0], a[1][1] - c0[1]) ? b : a)[1];
+      let dx = far[0] - c0[0], dy = far[1] - c0[1]; const L = Math.hypot(dx, dy) || 1;
+      o += `<text x="${f1(far[0] + dx / L * 18)}" y="${f1(far[1] + dy / L * 18 + 4)}" text-anchor="middle" class="hlab halo">${svgChem(R.lab[k], 12)}</text>`; } });
+    if (G.op.lost) o += at(G.P[M.nuIds[2]], 0, -14, "H⁺", "lblb halo");
     if (R.mech === "sn2" && Math.abs(SN.t - 0.5) < 0.04) o += `<text x="${f1(v.W / 2)}" y="20" text-anchor="middle" class="lblb">transition state ‡</text>`;
     return o;
   };
@@ -1557,15 +1573,14 @@ function snRead(G, bonds, rs){
   const bondW = d => d < 2.0 ? "bonded" : d < 2.7 ? "partly bonded (dashed)" : "not bonded";
   let conf;
   if (!chiral) conf = R.mech === "sn1" ? "no chiral centre: three identical CH₃ groups" : "no chiral centre (two or three H atoms on the carbon)";
-  else if (!hand) conf = sn2 ? "no chiral centre at this point: five groups round the carbon" : "no chiral centre: the carbocation is planar";
   else if (SN.t < 0.04) conf = `(${rs}): the starting enantiomer`;
-  else if (hand === h0) conf = `(${rs}): same configuration as the start (retention)`;
-  else conf = `(${rs}): configuration inverted`;
+  else if (sn2) conf = Math.abs(SN.t - 0.5) < 0.04 ? "transition state: five groups round the carbon, no configuration" : SN.t < 0.5 ? "unchanged so far: Br is still partly bonded" : SN.t < 0.96 ? "turning over: the three groups are passing through the plane" : `(${rs}): configuration inverted`;
+  else conf = SN.t < 0.36 ? "unchanged so far: the C–Br bond is still breaking" : SN.t <= 0.62 ? "no chiral centre: the carbocation is planar" : SN.t < 0.96 ? "forming: the nucleophile is bonding to one face" : hand === h0 ? `(${rs}): same configuration as the start (retention)` : `(${rs}): configuration inverted`;
   const cells = [
     st("Stage", H(snStage(SN.t)), "wide"),
     st("C–Br", bondW(G.dBr)),
-    st(`C–${R.nu === "cn" ? "C" : "O"} (nucleophile)`, G.op.nu > 0.05 ? bondW(G.dNu) : "not yet present"),
-    st(`Angle ${R.nu === "cn" ? "C" : "O"}–C–Br`, G.op.nu > 0.05 ? fx(nuBr, 1) + "°" : "not yet present"),
+    st(`C–${R.nu === "cn" ? "C(N)" : "O"} (nucleophile)`, G.op.nu > 0.05 ? bondW(G.dNu) : "not yet present"),
+    st(`Angle ${R.nu === "cn" ? "C(N)" : "O"}–C–Br`, G.op.nu > 0.05 ? fx(nuBr, 1) + "°" : "not yet present"),
     st("Sum of the three angles between the other groups", fx(sum, 1) + "°" + (Math.abs(sum - 360) < 0.6 ? " <small>planar</small>" : "")),
     st("Configuration at the carbon", HS(conf), "wide")
   ];
@@ -1573,8 +1588,8 @@ function snRead(G, bonds, rs){
   LAB.snLast = { sum, nuBr, hand, rs, conf, stage: snStage(SN.t), dBr: G.dBr, dNu: G.dNu };
   // notes under the viewer
   const N = sn2
-    ? `One step, bimolecular: ${R.rate}. The nucleophile attacks the δ+ carbon from the side opposite Br while the C–Br bond breaks. In the transition state the carbon has five groups: ${R.nu === "cn" ? "C" : "O"}, C and Br in a straight line (180°) and the other three in one plane.` + (chiral ? ` The three groups turn over like an umbrella: inversion of configuration, so ${R.sub} gives ${R.prod}.` : "")
-    : `Two steps, unimolecular: ${R.rate}. Step 1 (slow) gives a planar carbocation with an empty p orbital; step 2 (fast) the nucleophile attacks either face.` + (chiral ? " A free carbocation gives a racemic mixture; while Br⁻ is still close (an ion pair) it shields the face it left, so a little more inverted product forms." : " Here both faces give the same product, because the three groups are identical.");
+    ? `One step, bimolecular: ${R.rate}. The nucleophile attacks the δ+ carbon from the side opposite Br while the C–Br bond breaks. At the halfway point the nucleophile and Br are both partly bonded, on opposite sides of the carbon, and the other three groups are flattened as they pass through.` + (chiral ? ` The three groups turn over like an umbrella: inversion of configuration, so ${R.sub} gives ${R.prod}.` : "")
+    : `Two steps, unimolecular: ${R.rate}. Step 1 (slow) gives a planar carbocation with an empty p orbital; step 2 (fast) the nucleophile attacks either face.${R.nu === "h2o" ? " Water bonds through O, then loses H⁺ (step 3) to give the alcohol." : ""}` + (chiral ? " A free carbocation gives a racemic mixture; while Br⁻ is still close (an ion pair) it shields the face it left, so a little more inverted product forms." : " Here both faces give the same product, because the three groups are identical.");
   $("sn-note").innerHTML = HS(N);
   $("sn-tv").textContent = Math.round(SN.t * 100) + " %";
 }
@@ -1591,8 +1606,8 @@ function snIonPair(){
   s += T(l, 13, "inverted: (R)-alcohol", "lbl", "", 11.5) + T(W - r, 13, "retained: (S)-alcohol", "lbl", 'text-anchor="end"', 11.5);
   s += T(X(inv / 2), 38, fx(inv, 1) + " %", "val", 'text-anchor="middle" style="fill:var(--accent-ink)"') + T(X(inv + ret / 2), 38, fx(ret, 1) + " %", "val", 'text-anchor="middle"');
   s += T(X(50), 70, "50 : 50 (racemic)", "cap", 'text-anchor="middle"', 11);
-  setSvg(svg, W, Hh, s.replace(/\((R|S)\)/g, "($1)"));
-  $("sn-ipnote").innerHTML = HS(`Inverted (R) : retained (S) = ${fx(inv, 1)} : ${fx(ret, 1)}. Enantiomeric excess = (${fx(inv, 1)} − ${fx(ret, 1)}) / (${fx(inv, 1)} + ${fx(ret, 1)}) × 100 = ${fx(ee, 0)} % in favour of (R)` + (e === 0 ? ": a racemic mixture, optically inactive." : `; optical purity ${fx(ee, 0)} %.`));
+  setSvg(svg, W, Hh, itSvg(s));
+  $("sn-ipnote").innerHTML = HS(`Inverted (R) : retained (S) = ${fx(inv, 1)} : ${fx(ret, 1)}. Enantiomeric excess = (${fx(inv, 1)} − ${fx(ret, 1)}) / (${fx(inv, 1)} + ${fx(ret, 1)}) × 100` + (e === 0 ? " = 0 %: ee 0 %, a racemic mixture, optically inactive." : ` = ${fx(ee, 0)} % in favour of (R); optical purity ${fx(ee, 0)} %.`));
   LAB.snIP = { inv, ret, ee };
 }
 function snDraw(){
@@ -1612,7 +1627,7 @@ function snSetup(key, opts){
   document.querySelector(`input[name="sn-face"][value="${SN.face}"]`).checked = true;
   $("sn-stops").innerHTML = SN_STOPS[R.mech].map(([t, n]) => `<button type="button" data-t="${t}">${n}</button>`).join("");
   $("sn-cond").innerHTML = `<p>${HS(R.cond)}</p>`;
-  $("sn-eq").innerHTML = EQ[R.eq].map((e, i) => eqHtml(e, R.mech === "sn1" ? (i ? "step 2 (fast)" : "step 1 (slow)") : "one step")).join("") + eqHtml(R.rate, "rate equation");
+  $("sn-eq").innerHTML = EQ[R.eq].map((e, i) => eqHtml(e, R.mech === "sn1" ? ["step 1 (slow)", "step 2 (fast)", "step 3 (fast)"][i] : "one step")).join("") + eqHtml(R.rate, "rate equation");
   $("sn-head").innerHTML = HS(`${R.mech === "sn2" ? "S_N2" : "S_N1"} · ${R.n}`);
   const M0 = snDefaultView();
   snFit(M0);
@@ -1627,7 +1642,7 @@ function snDefaultView(){
   for (let a = -90; a <= 90; a += 6) for (let e = -50; e <= 60; e += 5){
     const M = mm(rx(e * D2R), ry(a * D2R));
     let g = Infinity;
-    [0, 0.5, 1].forEach(t => { const G = snGeom(t), vis = snM.el.map((_, i) => i).filter(i => (i === snM.br ? 1 : 1) && !(snM.nuIds.includes(i) && G.op.nu < 0.3)); const m = { el: vis.map(i => snM.el[i]), P: vis.map(i => G.P[i]) }; g = Math.min(g, viewGap(m, M)); });
+    [0, 0.5, 0.75, 1].forEach(t => { const G = snGeom(t), vis = snM.el.map((_, i) => i).filter(i => (i === snM.br ? 1 : 1) && !(snM.nuIds.includes(i) && G.op.nu < 0.3)); const m = { el: vis.map(i => snM.el[i]), P: vis.map(i => G.P[i]) }; g = Math.min(g, viewGap(m, M)); });
     if (g > bg){ bg = g; best = M; }
   }
   return best;
@@ -1639,7 +1654,7 @@ function snFit(M0){
   const atoms = [];
   [0, 0.5, 1].forEach(t => { const G = snGeom(t); snM.el.forEach((e, i) => { if (!(snM.nuIds.includes(i) && G.op.nu < 0.3)) atoms.push({ p: G.P[i] }); }); });
   const u = { atoms, R: 6.0, ctr: [0, 0, 0] };
-  const z = snV.fitZoom(u, M0, 0.8);
+  const z = snV.fitZoom(u, M0, 0.88);
   SN.zoom = z; SN.ctr = u.ctr;
 }
 LAB.snRefit = () => { snFit(snV.M0); snDraw(); };
@@ -1656,13 +1671,15 @@ function snPlay(){
 // export the coordinates and full bonds at progress t (for the offline RDKit check); the free leaving group is left out
 LAB.snExport = t => {
   const G = snGeom(t), b = snBonds(G).filter(x => !x.part);
-  const keep = snM.el.map((_, i) => i).filter(i => !(i === snM.br && G.dBr >= 2.0) && !(snM.nuIds.includes(i) && G.dNu >= 2.0));
+  const seen = new Set([0]), q = [0];
+  while (q.length){ const a = q.shift(); b.forEach(x => { const o = x.i === a ? x.j : x.j === a ? x.i : -1; if (o >= 0 && !seen.has(o)){ seen.add(o); q.push(o); } }); }
+  const keep = snM.el.map((_, i) => i).filter(i => seen.has(i));
   const idx = {}; keep.forEach((i, k) => { idx[i] = k; });
   return { el: keep.map(i => snM.el[i]), P: keep.map(i => G.P[i]), bonds: b.filter(x => idx[x.i] != null && idx[x.j] != null).map(x => [idx[x.i], idx[x.j], x.o]) };
 };
 LAB.snGeomNow = t => { const G = snGeom(t); return { P: G.P, el: snM.el, br: snM.br, nu: snM.nu, nuIds: snM.nuIds, groups: snM.groups.map(g => g.ids[0]), bonds: snBonds(G) }; };
 
-/* ---------- rate equations panel (Part 1 WE2 constants, illustrative) ---------- */
+/* ---------- rate equations panel (Part 1, worked example 2: constants, illustrative) ---------- */
 const RL_K = { sn2: 1.7e-3, sn1: 3.0e-4 };
 LAB.RL_K = RL_K;
 const RL = { mech: "sn2", rbr: 0.050, oh: 0.100 };
@@ -1698,7 +1715,7 @@ function rlDouble(which){
 LAB.rlDouble = rlDouble;
 function bindSN(){
   const host = $("sn-svg").parentElement;
-  snV = Viewer($("sn-svg"), host, W => W < 500 ? 300 : 340);
+  snV = Viewer($("sn-svg"), host, W => W < 500 ? 340 : 360);
   LAB.snView = () => snV;
   $("sn-mols").innerHTML = Object.entries(SN_R).map(([k, r]) => `<button type="button" data-id="${k}">${HS(r.n)} <span class="hint">${r.mech === "sn2" ? "S<sub>N</sub>2" : "S<sub>N</sub>1"}</span></button>`).join("");
   $("sn-mols").addEventListener("click", e => { const b = e.target.closest("button"); if (b){ snStop(); snSetup(b.dataset.id); } });
@@ -1845,7 +1862,7 @@ function e2Scene(){
     const lab = (p, t, cls, dx, dy) => { const q = v.proj(p); return `<text x="${f1(q[0] + (dx || 0))}" y="${f1(q[1] + (dy || 0))}" text-anchor="middle" class="${cls}">${svgChem(t, 12)}</text>`; };
     if (!done || s < 0.5) E2.hs.forEach((h, k) => {
       const q = v.proj(P[h]), c = v.proj(P[E2.beta]); let dx = q[0] - c[0], dy = q[1] - c[1]; const L = Math.hypot(dx, dy) || 1;
-      o += `<text x="${f1(q[0] + dx / L * 15)}" y="${f1(q[1] + dy / L * 15 + 4)}" text-anchor="middle" class="hlab halo">${svgChem("H{" + hTag(k) + "}", 12)}</text>`;
+      o += `<text x="${f1(q[0] + dx / L * 17)}" y="${f1(q[1] + dy / L * 17 + 4)}" text-anchor="middle" class="hlab halo">${svgChem("H{" + hTag(k) + "}", 12)}</text>`;
     });
     const pe = !done && e2Peri();
     if (pe){ const q = v.proj(P[pe.h]), r = RAD.H * 0.9 * v.S * q[3] + 5, b = v.proj(P[d.br]), rb = RAD.Br * 0.9 * v.S * b[3] + 5; o += `<circle cx="${f1(q[0])}" cy="${f1(q[1])}" r="${f1(r)}" class="${pe.mode === "anti" ? "anti" : "synr"}"/><circle cx="${f1(b[0])}" cy="${f1(b[1])}" r="${f1(rb)}" class="${pe.mode === "anti" ? "anti" : "synr"}"/>`; }
@@ -1892,21 +1909,23 @@ function e2Fb(){
     const g = graphOf(e2ProdGraph(h)), ra = ranked(g, d.ca, E2.beta), rb = ranked(g, E2.beta, d.ca), GN = E2_GN[base];
     const nmOf = x => GN[x] || "H";
     const t = dihedral(E2.P[ra[0]], E2.P[d.ca], E2.P[E2.beta], E2.P[rb[0]]);
-    const rel = Math.abs(t) < 90 ? (mode === "anti" ? "gauche" : "eclipsed") : "anti";
-    why = ` On ${d.loc[d.ca]}, ${nmOf(ra[0])} outranks ${nmOf(ra[1])}; on ${d.loc[E2.beta]}, ${nmOf(rb[0])} outranks ${nmOf(rb[1])}. These two were ${rel} (${fx(t, 0)}°), so they end up ${ez === "Z" ? "on the same side: (Z)" : "on opposite sides: (E)"}.`;
+    const rel = mode === "anti" ? (Math.abs(t) < 90 ? `gauche (${fx(t, 0)}°)` : `anti (${fx(t, 0)}°)`) : (Math.abs(t) < 60 ? `eclipsed (${fx(t, 0)}°)` : `120° apart (${fx(t, 0)}°)`);
+    why = ` On ${d.loc[d.ca]}, ${nmOf(ra[0])} outranks ${nmOf(ra[1])}; on ${d.loc[E2.beta]}, ${nmOf(rb[0])} outranks ${nmOf(rb[1])}. These two were ${rel}, so they end up ${ez === "Z" ? "on the same side: (Z)" : "on opposite sides: (E)"}.`;
   } else if (base !== "pr" && betaLoc === "C1") why = " The H came from C1, so the C=C is at the end of the chain and has no E/Z isomers.";
   else if (base === "pr") why = " Propene has two H atoms on C1, so it has no E/Z isomers. All six β-hydrogens give the same alkene.";
-  if (base === "bmp" && betaLoc === "C3") why += " C3 has only one H, so this is the only anti-periplanar conformation for this direction: each stereoisomer gives one alkene (stereospecific).";
-  if (base === "bb" && betaLoc === "C3") why += ez === "E" ? " This conformation has the two CH₃ groups anti, the lower-energy one, so (E)-but-2-ene is the main but-2-ene: stereoselective." : " This conformation has the two CH₃ groups gauche, a little higher in energy, so less (Z)-but-2-ene forms.";
+  if (base === "bmp" && betaLoc === "C3" && mode === "anti") why += " C3 has only one H, so this is the only anti-periplanar conformation for this direction: each stereoisomer gives one alkene (stereospecific).";
+  if (base === "bb" && betaLoc === "C3" && mode === "anti") why += ez === "E" ? " This conformation has the two CH₃ groups anti, the lower-energy one, so (E)-but-2-ene is the main but-2-ene: stereoselective." : " This conformation has the two CH₃ groups gauche, a little higher in energy, so less (Z)-but-2-ene forms.";
   const keep = labs.cc.length ? ` ${labs.cc.map(x => x.loc).join(", ")} is untouched and keeps its configuration (${labs.cc.map(x => x.lab).join(",")}).` : "";
   $("e2-fb").className = "fb " + (mode === "anti" ? "ok" : "warn");
   $("e2-fb").innerHTML = HS(`${mode === "anti" ? "Anti" : "Syn"}-elimination of H${"_" + hTag(k)} from ${betaLoc}: ${name}.${why}${keep}` + (mode === "syn" ? " Real open-chain E2 runs anti, so this is not what is observed." : "")).replace(/H_([abc])/g, "H<sub>$1</sub>");
 }
 function e2Newman(){
   const svg = $("e2-nm"), W = widthOf(svg.parentElement), Hh = Math.min(300, Math.max(240, W * 0.8));
-  const d = e2D(), base = e2Base(), GN = E2_GN[base], g = graphOf(d), ca = d.ca, cb = E2.beta, P = E2.P;
-  const u = unit(sub(P[cb], P[ca])), perp = v => sub(v, mul(u, dot(v, u)));
-  const ey = unit(perp(sub(P[d.br], P[ca]))), ex = cross(ey, mul(u, -1));
+  const d = e2D(), base = e2Base(), GN = E2_GN[base], g = graphOf(d), ca = d.ca, cb = E2.beta, P0 = E2.P;
+  const after = E2.done && E2.s > 0.5, P = P0;   // the reacting conformation; once H and Br have gone they are left out
+  const gone = x => after && (x === E2.done.h || x === d.br);
+  const u = unit(sub(P0[cb], P0[ca])), perp = v => sub(v, mul(u, dot(v, u)));
+  const ey = unit(perp(sub(P0[d.br], P0[ca]))), ex = cross(ey, mul(u, -1));
   const cx = W / 2, cy = Hh / 2 + 4, R = Math.min(W, Hh) * 0.17, Lf = R * 2.05, Lb = R * 2.05;
   const ang = x => { const v = perp(sub(P[x], P[x === ca || g.nb[ca].includes(x) && x !== cb ? ca : cb])); return Math.atan2(dot(v, ey), dot(v, ex)); };
   const pe = !E2.done && e2Peri();
@@ -1919,12 +1938,12 @@ function e2Newman(){
     labs += `<text x="${f1(lx - (anchor === "start" ? 6 : anchor === "end" ? -6 : 0))}" y="${f1(ly)}" text-anchor="${anchor}" class="ngrp${mk ? " mkt" : ""}">${svgChem(t, 13)}</text>`;
   };
   // back bonds from the circle edge
-  g.nb[cb].filter(x => x !== ca).forEach(x => { const a = ang(x), mk = pe && x === pe.h; s += `<line class="nbk${mk ? " mk" : ""}" x1="${f1(cx + Math.cos(a) * R)}" y1="${f1(cy - Math.sin(a) * R)}" x2="${f1(cx + Math.cos(a) * Lb)}" y2="${f1(cy - Math.sin(a) * Lb)}"/>`; label(x, a, Lb); });
+  g.nb[cb].filter(x => x !== ca && !gone(x)).forEach(x => { const a = ang(x), mk = pe && x === pe.h; s += `<line class="nbk${mk ? " mk" : ""}" x1="${f1(cx + Math.cos(a) * R)}" y1="${f1(cy - Math.sin(a) * R)}" x2="${f1(cx + Math.cos(a) * Lb)}" y2="${f1(cy - Math.sin(a) * Lb)}"/>`; label(x, a, Lb); });
   s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(R)}" class="ncirc"/>`;
-  g.nb[ca].filter(x => x !== cb).forEach(x => { const a = ang(x), mk = pe && x === d.br; s += `<line class="nfr${mk ? " mk" : ""}" x1="${f1(cx)}" y1="${f1(cy)}" x2="${f1(cx + Math.cos(a) * Lf * 0.92)}" y2="${f1(cy - Math.sin(a) * Lf * 0.92)}"/>`; label(x, a, Lf * 0.92); });
+  g.nb[ca].filter(x => x !== cb && !gone(x)).forEach(x => { const a = ang(x), mk = pe && x === d.br; s += `<line class="nfr${mk ? " mk" : ""}" x1="${f1(cx)}" y1="${f1(cy)}" x2="${f1(cx + Math.cos(a) * Lf * 0.92)}" y2="${f1(cy - Math.sin(a) * Lf * 0.92)}"/>`; label(x, a, Lf * 0.92); });
   s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="3" class="ndot"/>`;
   setSvg(svg, W, Hh, s + labs);
-  $("e2-nmh").innerHTML = `front ${d.loc[ca]}, back ${d.loc[cb]}` + (pe ? ` · ${pe.mode}-periplanar pair marked` : "");
+  $("e2-nmh").innerHTML = `front ${d.loc[ca]}, back ${d.loc[cb]}` + (after ? " · the reacting conformation, without the H and Br that left" : pe ? ` · ${pe.mode}-periplanar pair marked` : "");
 }
 function e2Draw(){
   const sc = e2Scene();
@@ -1968,21 +1987,40 @@ function e2Set(id, betaLoc, opts){
   $("e2-bond").innerHTML = betas.map(([i, l]) => `<label><input type="radio" name="e2-bond" value="${i}"${+i === +want[0] ? " checked" : ""}>${d.loc[d.ca]}–${l}</label>`).join("");
   e2SetBond(+want[0]);
   [...$("e2-mols").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
-  const M0 = e2DefaultView();
-  e2Fit(M0);
-  e2V.set(e2Scene(), M0);
+  e2View0();
   e2Draw();
 }
 LAB.e2Set = e2Set;
-LAB.e2Bond = loc => { const d = e2D(); const e = Object.entries(d.betas).find(([, l]) => l === loc); document.querySelector(`input[name="e2-bond"][value="${e[0]}"]`).checked = true; e2Undo(); e2SetBond(+e[0]); e2Draw(); };
+LAB.e2Bond = loc => { const d = e2D(); const e = Object.entries(d.betas).find(([, l]) => l === loc); document.querySelector(`input[name="e2-bond"][value="${e[0]}"]`).checked = true; e2Undo(); e2SetBond(+e[0]); e2View0(); e2Draw(); };
 // a side-on view of the turning bond in which no atom hides another
-function e2DefaultView(){
-  const d = e2D(), u = unit(sub(E2.P[E2.beta], E2.P[d.ca]));
-  return bestView({ el: d.el, P: E2.P }, { n: 500, cost: vd => 1.2 * Math.abs(dot(unit(vd), u)) });
+// searched over the starting conformation, every anti-periplanar conformation and the alkene each one gives
+function e2Sets(){
+  const d = e2D(), keep = E2.P.map(p => p.slice()), th0 = E2.th, sets = [{ el: d.el, P: keep.map(p => p.slice()) }];
+  E2.hs.forEach((h, k) => {
+    e2Goto(k, "anti"); sets.push({ el: d.el, P: E2.P.map(p => p.slice()) });
+    const r = e2Product(E2.P, h, 1), idx = d.el.map((_, i) => i).filter(i => i !== h && i !== d.br);
+    sets.push({ el: idx.map(i => d.el[i]), P: idx.map(i => r.P[i]) });
+  });
+  E2.P = keep; E2.th = th0;
+  return sets;
 }
+LAB.e2Sets = e2Sets;
+function e2DefaultView(){
+  const d = e2D(), u = unit(sub(E2.P[E2.beta], E2.P[d.ca])), sets = e2Sets();
+  let best = -Infinity, bm = null;
+  const N = 900, gld = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < N; i++){
+    const yy = 1 - 2 * (i + 0.5) / N, r = Math.sqrt(1 - yy * yy), t = gld * i, vd = [r * Math.cos(t), yy, r * Math.sin(t)];
+    const M = viewFrom(vd, E2.P);
+    const g = Math.min(...sets.map(m => viewGap(m, M))) - 0.25 * Math.abs(dot(vd, u));
+    if (g > best){ best = g; bm = M; }
+  }
+  return bm;
+}
+function e2View0(){ const M0 = e2DefaultView(); e2Fit(M0); e2V.set(e2Scene(), M0); }
 LAB.e2DefaultView = e2DefaultView;
 function e2Fit(M0){
-  const d = e2D(), u = { atoms: d.P.map(p => ({ p })), R: 4.6, ctr: centroid(d.P) };
+  const sets = e2Sets(), u = { atoms: sets.flatMap(m => m.P.map(p => ({ p }))), R: 4.6, ctr: centroid(E2.P) };
   E2.zoom = 1; E2.ctr = null;
   E2.zoom = e2V.fitZoom(u, M0, 0.72); E2.ctr = u.ctr;
 }
@@ -2012,7 +2050,7 @@ function bindE2(){
   LAB.e2View = () => e2V;
   $("e2-mols").innerHTML = E2_SUB.map(s => `<button type="button" data-id="${s.id}">${RSI(s.n)}</button>`).join("");
   $("e2-mols").addEventListener("click", e => { const b = e.target.closest("button"); if (b) e2Set(b.dataset.id); });
-  $("e2-bond").addEventListener("change", () => { e2Undo(); e2SetBond(+document.querySelector('input[name="e2-bond"]:checked').value); e2Draw(); });
+  $("e2-bond").addEventListener("change", () => { e2Undo(); e2SetBond(+document.querySelector('input[name="e2-bond"]:checked').value); e2View0(); e2Draw(); });
   $("e2-th").addEventListener("input", () => { e2Undo(); e2Turn(+$("e2-th").value); e2Draw(); });
   $("e2-stops").addEventListener("click", e => { const b = e.target.closest("button"); if (b){ e2Undo(); e2Goto(+b.dataset.h, b.dataset.m); e2Draw(); } });
   $("e2-go").addEventListener("click", e2Go);
@@ -2038,7 +2076,7 @@ const ZH_SUB = {
     Hf: { n: "but-1-ene", f: "CH₂=CHCH₂CH₃", sub: "monosubstituted", dh: null, bh: 3, from: "the CH₃ (C1)" },
     small: [80, 20, "lit"], bulky: [45, 55, "ill"], eq: "zh_bb" },
   pr: { n: "2-bromopropane", f: "CH₃CHBrCH₃",
-    one: { n: "propene", f: "CH₂=CHCH₃", sub: "monosubstituted", dh: -125, bh: 6, from: "either CH₃ group" },
+    one: { n: "propene", f: "CH₂=CHCH₃", sub: "monosubstituted", dh: -125, bh: 6, from: "the two CH₃ groups", need: "3 H on each CH₃ group (6 in all)" },
     small: [100, 0, "none"], bulky: [100, 0, "none"], eq: "zh_pr" },
   mb3: { n: "2-bromo-3-methylbutane", f: "CH₃CHBrCH(CH₃)₂", extra: true,
     Z: { n: "2-methylbut-2-ene", f: "(CH₃)₂C=CHCH₃", sub: "trisubstituted", dh: -112, bh: 1, from: "the CH (C3)" },
@@ -2061,7 +2099,8 @@ const SRCTAG = k => k === "lit" ? `<span class="src lit">literature</span>` : k 
 function zhPct(){
   const S = ZH_SUB[ZH.s], r = S[ZH.b];
   if (S.one) return [{ p: S.one, v: 100, cls: "barz", tag: "" }];
-  return [{ p: S.Z, v: r[0], cls: "barz", tag: "Zaitsev" }, { p: S.Hf, v: r[1], cls: "barh", tag: "Hofmann" }];
+  const e1 = ZH.b === "e1";
+  return [{ p: S.Z, v: r[0], cls: "barz", tag: e1 ? "more substituted" : "Zaitsev" }, { p: S.Hf, v: r[1], cls: "barh", tag: e1 ? "less substituted" : "Hofmann" }];
 }
 LAB.zhPct = zhPct;
 function zhStruct(){
@@ -2103,7 +2142,7 @@ function zhBars(){
     s += `<rect x="${l}" y="${y + 18}" width="${f1(Math.max(1, bw * o.v / 100))}" height="18" class="${o.cls}"/>`;
     s += T(l + bw * o.v / 100 + 6, y + 32, o.v + " %", "val", "", 12);
   });
-  setSvg(svg, W, Hh, s.replace(/\((E|Z) and (E|Z)\)/g, "($1 and $2)"));
+  setSvg(svg, W, Hh, itSvg(s));
   const r0 = ZH_SUB[ZH.s][ZH.b];
   $("zh-barh").innerHTML = r0[2] === "lit" ? `<span class="src lit">literature</span> values, rounded` : r0[2] === "ill" ? `<span class="src">illustrative</span> ratio` : "one alkene only";
 }
@@ -2111,7 +2150,7 @@ function zhTable(){
   const S = ZH_SUB[ZH.s], rows = zhPct();
   const dh = v => v == null ? "not given" : typeof v === "number" ? minus(String(v)) : v;
   $("zh-tbl").innerHTML = `<thead><tr><th>Alkene</th><th>C=C carbons carry</th><th>β-H it needs</th><th class="num">ΔH<sub>hydrogenation</sub> / kJ mol<sup>−1</sup> ${SRCTAG("lit")}</th><th class="num">%</th></tr></thead><tbody>`
-    + rows.map(o => `<tr><td>${HS(o.p.n)}<br><span class="hint">${H(o.p.f)}</span></td><td>${o.p.sub === "trisubstituted" ? "three alkyl groups" : o.p.sub === "disubstituted" ? "two alkyl groups" : "one alkyl group"} (${o.p.sub})</td><td>${o.p.bh} H on ${HS(o.p.from)}</td><td class="num">${H(dh(o.p.dh))}</td><td class="num">${o.v}</td></tr>`).join("") + "</tbody>";
+    + rows.map(o => `<tr><td>${HS(o.p.n)}<br><span class="hint">${H(o.p.f)}</span></td><td>${o.p.sub === "trisubstituted" ? "three alkyl groups" : o.p.sub === "disubstituted" ? "two alkyl groups" : "one alkyl group"} (${o.p.sub})</td><td>${o.p.need ? HS(o.p.need) : `${o.p.bh} H on ${HS(o.p.from)}`}</td><td class="num">${HS(dh(o.p.dh))}</td><td class="num">${o.v}</td></tr>`).join("") + "</tbody>";
 }
 function zhWhy(){
   const S = ZH_SUB[ZH.s], P = [];
@@ -2274,8 +2313,8 @@ function bindPR(){
 }
 BIND.push(bindPR);
 /* =====================================================
-   PRACTICE GENERATOR (DATA.md allowed list). Rate tables use only the notes' substrates with OH⁻; tutorial
-   numbers are excluded by hash (reserved.json, build time). Answers are recomputed independently in test.js.
+   PRACTICE GENERATOR (DATA.md allowed list). Rate tables use only the notes' substrates with OH⁻; numbers on
+   the reserved list are excluded by hash (reserved.json, build time). Answers are recomputed independently in test.js.
    ===================================================== */
 const GN_TYPES = [
   { id: "rate", n: "Rate equation from data" },
@@ -2292,7 +2331,7 @@ const GN_RSUB = [
   { id: "bb", n: "(R)-2-bromobutane", f: "CH₃CH₂CHBrCH₃", mech: "sn2" },
   { id: "tb", n: "2-bromo-2-methylpropane", f: "(CH₃)₃CBr", mech: "sn1" }
 ];
-// the notes' WE2 tables (Part 1), allowed only as labelled presets
+// the notes' worked example 2 tables (Part 1), allowed only as labelled presets
 const GN_PRE = {
   we2a: { sub: "et", mech: "sn2", k: 1.7e-3, rows: [[0.050, 0.10, 8.5e-6], [0.10, 0.10, 1.7e-5], [0.10, 0.20, 3.4e-5]], t: "55 °C, water–ethanol mixture" },
   we2b: { sub: "tb", mech: "sn1", k: 3.0e-4, rows: [[0.010, 0.050, 3.0e-6], [0.020, 0.050, 6.0e-6], [0.020, 0.100, 6.0e-6]], t: "25 °C, water–propanone mixture" }
@@ -2322,18 +2361,22 @@ function parseSci(s){
 }
 LAB.parseSci = parseSci;
 const rateEq = (S, kind) => ({ one: `rate = k[${S.f}]`, two: `rate = k[${S.f}][OH⁻]`, oh: `rate = k[OH⁻]`, sq: `rate = k[${S.f}]²` })[kind];
-// a random initial-rates table; returns null if any printed number is a tutorial number
+// a random initial-rates table whose printed (rounded) rates keep exact ratios; null if any printed number is on the reserved list
 function genRateTable(){
   const S = pick(GN_RSUB), mech = S.mech;
   const e = pick([-5, -4, -3]), mt = e === -3 ? ri(10, 50) / 10 : ri(10, 99) / 10, k = +(mt * Math.pow(10, e)).toFixed(12);
   const a0 = pick([0.010, 0.015, 0.025, 0.050]), b0 = pick([0.050, 0.10, 0.15, 0.25]), fa = pick([2, 3]), fb = pick([2, 3]);
   const conc = [[a0, b0], [+(a0 * fa).toFixed(3), b0], [+(a0 * fa).toFixed(3), +(b0 * fb).toFixed(3)]];
-  const rows = conc.map(([a, b]) => [a, b, +(mech === "sn2" ? k * a * b : k * a).toPrecision(2)]);
-  const kc = mech === "sn2" ? rows[0][2] / (rows[0][0] * rows[0][1]) : rows[0][2] / rows[0][0];
-  const toks = [tok(k, 2), tok(kc, 2), ...rows.map(r => tok(r[2], 2))];
+  const r1 = +(mech === "sn2" ? k * a0 * b0 : k * a0).toPrecision(2), r2 = r1 * fa, r3 = mech === "sn2" ? r2 * fb : r2;
+  const clean = v => Math.abs(+v.toPrecision(2) - v) <= Math.abs(v) * 1e-9;
+  if (!clean(r2) || !clean(r3)) return null;   // a rounded rate would spoil the ratios
+  const rows = [[conc[0][0], conc[0][1], r1], [conc[1][0], conc[1][1], +r2.toPrecision(2)], [conc[2][0], conc[2][1], +r3.toPrecision(2)]];
+  const kc = mech === "sn2" ? r1 / (a0 * b0) : r1 / a0;
+  if (kc < 1.0e-5 || kc > 5.0e-3) return null;
+  const toks = [tok(kc, 2), ...rows.map(r => tok(r[2], 2))];
   if (toks.some(reserved)) return null;
-  if (Math.abs(k - 1.7e-3) < 1e-12 || Math.abs(k - 3.0e-4) < 1e-12) return null;   // not the notes' WE2 constants either
-  return { sub: S.id, mech, k, rows, t: pick(["25 °C", "30 °C", "40 °C", "50 °C"]) + ", " + (mech === "sn1" ? "water–propanone mixture" : "water–ethanol mixture") };
+  if (Math.abs(+kc.toPrecision(2) - 1.7e-3) < 1e-12 || Math.abs(+kc.toPrecision(2) - 3.0e-4) < 1e-12) return null;   // not the notes' worked example constants either
+  return { sub: S.id, mech, k: kc, rows, t: pick(["25 °C", "30 °C", "40 °C", "50 °C"]) + ", " + (mech === "sn1" ? "water–propanone mixture" : "water–ethanol mixture") };
 }
 LAB.genRateTable = genRateTable;
 function rateWork(D){
@@ -2361,13 +2404,13 @@ function gnMake(type, preset){
     const S = GN_RSUB.find(s => s.id === D.sub), W = rateWork(D);
     q.data = D; q.tbl = tableHtml(D); q.preset = preset || null; q.work = W.w;
     if (type === "rate"){
-      q.text = `${preset ? "Part 1 WE2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). Which rate equation fits the data?`;
+      q.text = `${preset ? "Part 1, worked example 2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). Which rate equation fits the data?`;
       const kinds = ["one", "two", "oh", "sq"];
       q.opts = shuffle(kinds).map(k => ({ k, t: rateEq(S, k) }));
       q.ans = D.mech === "sn2" ? "two" : "one";
       q.why = { one: "The rate changes when [OH⁻] changes, so OH⁻ must appear.", two: "The rate does not change when only [OH⁻] changes, so OH⁻ is zero order.", oh: "The rate changes when only the halogenoalkane changes, so it must appear.", sq: "Doubling (or tripling) the halogenoalkane changes the rate by the same factor: first order, not second." };
     } else {
-      q.text = `${preset ? "Part 1 WE2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). Find the rate equation, then calculate k and give its units.`;
+      q.text = `${preset ? "Part 1, worked example 2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). Find the rate equation, then calculate k and give its units.`;
       q.ans = W.kc; q.unit = W.unit; q.fmt = `Type k as a number in ${W.unit}, e.g. 2.5e-4 or 2.5 × 10^-4.`;
       q.lab = `k / ${W.unit}`;
     }
@@ -2375,7 +2418,7 @@ function gnMake(type, preset){
     const S = pick(PR_SUB.filter(s => !s.fex)), R = pick(PR_REA), c = PR_GRID[S.id][R.id];
     q.text = `What is the main mechanism when ${S.n}, ${S.f}, reacts with ${R.n}?`;
     q.opts = PR_OPT.map(([k, t]) => ({ k, t }));
-    q.ans = c[1]; q.cell = [S.id, R.id];
+    q.ans = c[1]; q.half = c[2]; q.cell = [S.id, R.id];
     q.work = [`${S.n[0].toUpperCase() + S.n.slice(1)} is ${S.cls}${S.beta ? " and has β-hydrogens" : " and has no β-hydrogen"}.`, `The reagent is a ${R.d.split(":")[0]}.`, c[3], `Main mechanism: ${PR_OPT.find(o => o[0] === c[1])[1]} (${c[0]}).`];
   } else if (type === "ez"){
     const it = pick(GN_EZ);
@@ -2401,8 +2444,8 @@ function gnMake(type, preset){
     q.work = [`β-hydrogens: ${S.Z.bh} on ${S.Z.from} (to ${S.Z.n}) and ${S.Hf.bh} on ${S.Hf.from} (to ${S.Hf.n}).`, base === "small" ? "A small, strong base reaches any β-H; the more stable, more substituted alkene has the lower transition state (Zaitsev)." : "A bulky base reaches the outside H atoms more easily, so the less substituted alkene forms faster (Hofmann).", `${q.ans === "Z" ? S.Z.n : S.Hf.n}: about ${Math.max(r[0], r[1])} % (${r[2] === "lit" ? "literature value, rounded" : "illustrative"}).`, "A strong base with a secondary or tertiary substrate gives mainly elimination, not substitution."];
     q.zh = [sid, base];
   } else {
-    let p; do { p = ri(51, 70); } while ([58, 62, 67, 69].includes(p));   // never the tutorial 58 : 42, nor a 38 % or 67 % that tutorials print
-    const qq = 100 - p, ee = (p - qq) / (p + qq) * 100;
+    let p, qq, ee;
+    do { p = ri(51, 70); qq = 100 - p; ee = (p - qq) / (p + qq) * 100; } while ([p, qq, Math.round(ee)].some(v => reserved("pct:" + v)));
     q.text = `(S)-3-Bromo-3-methylhexane is hydrolysed by S_N1. The 3-methylhexan-3-ol formed is ${p} % (R) and ${qq} % (S) (illustrative). Calculate the enantiomeric excess.`;
     q.ans = ee; q.ratio = [p, qq]; q.lab = "ee / %"; q.fmt = "Type the ee as a percentage, e.g. 12.";
     q.work = ["Attack on the open face (opposite the departing Br⁻) inverts the configuration: (S)-bromide gives (R)-alcohol.", "Br⁻ still close to the other face (the ion pair) shields it, so slightly more of the inverted (R) product forms.", `ee = (${p} − ${qq}) / (${p} + ${qq}) × 100 = ${fx(ee, 0)} % in favour of (R).`, `A free carbocation would give 50 : 50, a racemic mixture (ee 0 %).`];
@@ -2432,22 +2475,23 @@ function gnCheck(){
   let right, msg;
   if (q.opts){
     if (!GN.pick){ fb.className = "fb info"; fb.innerHTML = "Pick an answer first."; show(fb, true); return; }
-    right = GN.pick === q.ans;
-    const a = q.opts.find(o => o.k === q.ans).t;
-    msg = right ? `Right: ${a}.` : `Not quite: the answer is ${a}.` + (q.why && q.why[GN.pick] ? " " + q.why[GN.pick] : "");
+    const a = q.opts.find(o => o.k === q.ans).t, half = (q.half || []).includes(GN.pick);
+    right = GN.pick === q.ans || half;
+    msg = GN.pick === q.ans ? `Right: ${a}.` : half ? `Accepted: it happens here, but the main route is ${a}.` : `Not quite: the answer is ${a}.` + (q.why && q.why[GN.pick] ? " " + q.why[GN.pick] : "");
+    GN.half = half && GN.pick !== q.ans;
   } else {
     const v = parseSci($("gn-ans").value);
     if (!isFinite(v)){ $("gn-ans").setAttribute("aria-invalid", "true"); fb.className = "fb info"; fb.innerHTML = H(q.fmt); show(fb, true); return; }
     $("gn-ans").removeAttribute("aria-invalid");
-    const tol = q.type === "ee" ? 0.6 : Math.abs(q.ans) * 0.03;
+    const tol = q.type === "ee" ? 0.6 : Math.abs(q.ans) * 0.06;
     right = Math.abs(v - q.ans) <= tol;
     const shown = q.type === "ee" ? fx(q.ans, 0) + " %" : sci(q.ans, 2) + " " + q.unit;
     if (right) msg = `Right: ${shown}.`;
-    else if (q.type === "k" && Math.abs(v * 1000 - q.ans) <= Math.abs(q.ans) * 0.03) msg = `Check the power of ten: the answer is ${shown}.`;
+    else if (q.type === "k" && Math.abs(v * 1000 - q.ans) <= Math.abs(q.ans) * 0.06) msg = `Check the power of ten: the answer is ${shown}.`;
     else msg = `Not quite: the answer is ${shown}. See the working.`;
   }
   if (!GN.checked){ GN.n++; if (right) GN.score++; GN.checked = true; }
-  fb.className = "fb " + (right ? "ok" : "no"); fb.innerHTML = HS(msg); show(fb, true);
+  fb.className = "fb " + (right ? (q.opts && GN.half ? "warn" : "ok") : "no"); fb.innerHTML = HS(msg); show(fb, true); GN.half = false;
   if (!right) show($("gn-work"), true);
   $("gn-score").textContent = `${GN.score} right out of ${GN.n}`;
   GN.last = { right, msg };
@@ -2456,7 +2500,7 @@ LAB.gnCheck = gnCheck;
 LAB.gnPick = k => { GN.pick = k; [...$("gn-opts").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k)); };
 function bindGN(){
   $("gn-types").innerHTML = GN_TYPES.map(t => `<button type="button" data-id="${t.id}">${t.n}</button>`).join("");
-  $("gn-pres").innerHTML = `<button type="button" data-id="we2a">WE2 (a): bromoethane</button><button type="button" data-id="we2b">WE2 (b): 2-bromo-2-methylpropane</button>`;
+  $("gn-pres").innerHTML = `<button type="button" data-id="we2a">Worked example 2 (a): bromoethane</button><button type="button" data-id="we2b">Worked example 2 (b): 2-bromo-2-methylpropane</button>`;
   $("gn-types").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnNew(b.dataset.id); });
   $("gn-pres").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnNew(GN.type === "k" ? "k" : "rate", b.dataset.id); });
   $("gn-opts").addEventListener("click", e => { const b = e.target.closest("button"); if (b) LAB.gnPick(b.dataset.k); });
@@ -2477,7 +2521,7 @@ const FC = [
     p: "Nothing blocks the back of the carbon, so back-side attack is fastest of all." },
   { g: "sub", t: "Bromoethane", f: "CH₃CH₂Br", kind: "primary halogenoalkane",
     dl: [["NaOH(aq), heat", "ethanol, S_N2"], ["KCN in ethanol, heat", "propanenitrile, S_N2"], ["KOC(CH₃)₃ in (CH₃)₃COH, heat", "mainly ethene, E2"], ["Relative S_N2 rate", "1 " + LIT], ["Boiling point", "38 °C " + LIT]],
-    p: "rate = k[CH₃CH₂Br][OH⁻]: second order overall (Part 1 WE2, k = 1.7 × 10⁻³ mol⁻¹ dm³ s⁻¹ at 55 °C, illustrative)." },
+    p: "rate = k[CH₃CH₂Br][OH⁻]: second order overall (Part 1, worked example 2: k = 1.7 × 10⁻³ mol⁻¹ dm³ s⁻¹ at 55 °C, illustrative)." },
   { g: "sub", t: "2-Bromopropane", f: "(CH₃)₂CHBr", kind: "secondary halogenoalkane",
     dl: [["NaOC₂H₅ in ethanol, heat", "mainly propene (E2), some 2-ethoxypropane (S_N2)"], ["KCN in ethanol, heat", "mainly 2-methylpropanenitrile (S_N2)"], ["Relative rates", "S_N2 0.03, S_N1 12 " + LIT]],
     p: "Secondary substrates go either way: the reagent decides. All six β-H atoms are equivalent, so only one alkene forms." },
@@ -2515,8 +2559,8 @@ const FC = [
     dl: [["Use", "to make an alkene, so that E2 wins over S_N2"]],
     p: "Chosen with temperature and dosing to steer a step towards elimination or away from it." },
   { g: "ind", t: "Methanesulfonyl chloride and mesylates", f: "CH₃SO₂Cl → R–OSO₂CH₃", kind: "In industry: activating an alcohol",
-    dl: [["Condition", "CH₃SO₂Cl, (C₂H₅)₃N, 0 °C"], ["Configuration", "kept: the C–O bond is not broken"], ["Leaving group", "CH₃SO₂O⁻, a very weak base: its charge is spread over three O atoms"]],
-    p: "Alkyl sulfonate esters are alkylating agents, so they are controlled as potential genotoxic impurities (ICH M7)." },
+    dl: [["Condition", "CH₃SO₂Cl, (C₂H₅)₃N, 0 °C"], ["Leaving group", "CH₃SO₂O⁻, a very weak base: its charge is spread over three O atoms"]],
+    p: "Turns OH, a poor leaving group, into one that nucleophiles displace about as easily as iodide." },
   { g: "idea", t: "The Hammond postulate", f: "", kind: "9813 3.1(a)",
     dl: [["Statement", "A transition state resembles the stable species nearest to it in energy."], ["Exothermic step", "early transition state, like the reactants"], ["Endothermic step", "late transition state, like the products"]],
     p: "For an endothermic step, whatever stabilises the product also lowers E<sub>a</sub>." },
@@ -2528,7 +2572,7 @@ const FC = [
     p: "OH⁻ is a poor leaving group (a strong base); after the O is protonated, H₂O leaves easily." },
   { g: "idea", t: "Nucleophile or base", f: "", kind: "the same lone pair, two jobs",
     dl: [["Nucleophile", "donates a lone pair to carbon: a rate (nucleophilicity)"], ["Base", "donates a lone pair to H⁺: an equilibrium (basicity)"], ["Charged beats neutral", "OH⁻ > H₂O; CH₃O⁻ > CH₃OH; NH₂⁻ > NH₃"]],
-    p: "For the same attacking atom, a stronger base is usually a stronger nucleophile: OH⁻ > CH₃COO⁻ > H₂O." }
+    p: "For the same attacking atom, a stronger base is usually a stronger nucleophile: CH₃O⁻ > C₆H₅O⁻ (charge spread into the ring) > CH₃OH." }
 ];
 LAB.FC = FC;
 const FC_G = [["all", "All"], ["sub", "Substrates"], ["rea", "Reagents"], ["ind", "In industry"], ["idea", "Ideas"]];
@@ -2544,7 +2588,7 @@ function bindFC(){
 }
 BIND.push(bindFC);
 /* =====================================================
-   QUIZ (option 0 is correct; each option carries its reason). The notes' examples only; no tutorial item.
+   QUIZ (option 0 is correct; each option carries its reason). The notes' examples only.
    ===================================================== */
 const QZ = [
   { k: "3.1(a)", q: "The first step of the S_N1 hydrolysis of 2-bromo-2-methylpropane, (CH₃)₃CBr → (CH₃)₃C⁺ + Br⁻, is strongly endothermic. What does the Hammond postulate say about its transition state?",
@@ -2557,21 +2601,21 @@ const QZ = [
         ["OH⁻ is a catalyst and is regenerated", "OH⁻ is used up: it ends up in the alcohol."],
         ["OH⁻ is too weak a nucleophile to react", "It does react, with the carbocation, in the fast step."],
         ["The carbocation builds up until it reacts with OH⁻ all at once", "Its concentration stays tiny and almost constant: it never builds up."]] },
-  { k: "3.2(b)(i)", q: "Which describes the transition state of the S_N2 reaction of bromoethane with OH⁻?",
-    o: [["Five groups round the carbon: O, C and Br in a straight line, and the other three groups in one plane", "Back-side attack puts the nucleophile and the leaving group 180° apart, both partly bonded."],
-        ["A planar carbocation with Br⁻ and OH⁻ nearby", "That is the S_N1 intermediate; S_N2 has no intermediate."],
-        ["A tetrahedral carbon with O and Br 109.5° apart", "O and Br are on opposite sides of the carbon, at 180°."],
-        ["O and Br both bonded on the same side of the carbon", "Attack from the same side as Br is front-side attack, which S_N2 does not use."]] },
+  { k: "3.2(b)(i)", q: "Which statement about the energy profile of the S_N2 reaction of bromoethane with OH⁻ is correct?",
+    o: [["It has one hump and no intermediate: both reactants are in the only step, so rate = k[CH₃CH₂Br][OH⁻]", "S_N2 is concerted: bond making and bond breaking happen together."],
+        ["It has two humps with a carbocation in the dip between them", "That is the S_N1 profile; a primary carbocation is far too unstable to form."],
+        ["It has one hump, but only bromoethane is in it, so rate = k[CH₃CH₂Br]", "The nucleophile is in the only step, so its concentration appears in the rate equation."],
+        ["It has two humps, and the second one is the higher", "S_N2 has a single step, so there is only one transition state."]] },
   { k: "3.2(a)(i)", q: "Which statement about the tert-butoxide ion, (CH₃)₃CO⁻, is correct?",
     o: [["It is a strong base but a poor nucleophile, because its bulk stops it reaching a carbon", "It can still reach an H on the outside of a molecule, so it favours elimination."],
         ["It is a weak base and a good nucleophile", "It is the conjugate base of a weak acid, so a strong base; its bulk makes it a poor nucleophile."],
         ["It is a strong nucleophile, because it carries a negative charge", "Charge helps, but the three CH₃ groups round the O block attack on carbon."],
         ["It cannot act as a base because it has no H to give", "A base accepts H⁺; it does not need to give one."]] },
-  { k: "3.2(a)(ii)", q: "With the same nucleophile, which of these reacts fastest by S_N2?",
-    o: [["Iodoethane, CH₃CH₂I", "C–I (240 kJ mol⁻¹, Data Booklet) is the weakest C–X bond, and I⁻ the most stable, weakest-base leaving group."],
-        ["Bromoethane, CH₃CH₂Br", "C–Br (280 kJ mol⁻¹) is stronger than C–I, so bromoethane is slower (relative rates about 3 for I against 1 for Br; literature)."],
-        ["Chloroethane, CH₃CH₂Cl", "C–Cl (340 kJ mol⁻¹) is stronger still: relative rate about 0.02 against 1 for bromoethane (literature)."],
-        ["Fluoroethane, CH₃CH₂F", "C–F (485 kJ mol⁻¹) is so strong, and F⁻ so poor a leaving group, that it hardly reacts."]] },
+  { k: "3.2(a)(ii)", q: "Which statement describes a good leaving group?",
+    o: [["A weak base: it is stable once it has gone, carrying the bonding pair with it", "For example the methanesulfonate ion, CH₃SO₂O⁻, whose charge is spread over three O atoms."],
+        ["A strong base, because it holds on to the electron pair firmly", "A strong base is reactive and unstable on its own, so it is reluctant to leave."],
+        ["A good nucleophile", "Nucleophilicity is about attacking carbon; leaving is about how stable the group is once it has gone."],
+        ["Any group joined to carbon by a strong bond", "The bond to the leaving group breaks in the rate-determining step, so a strong bond makes leaving harder."]] },
   { k: "3.2(a)(iii)", q: "Which order of S_N2 rate (fastest first) is correct?",
     o: [["CH₃Br > CH₃CH₂Br > (CH₃)₂CHBr > (CH₃)₃CBr", "Each extra alkyl group crowds the back of the carbon (relative rates 30, 1, 0.03, about 0; literature)."],
         ["(CH₃)₃CBr > (CH₃)₂CHBr > CH₃CH₂Br > CH₃Br", "That is the S_N1 order, set by carbocation stability."],
