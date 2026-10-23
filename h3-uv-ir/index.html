@@ -1243,7 +1243,7 @@ function blPut(id){
   let A = show3(absOf(fl.mg));
   if (fl.unk){                      // at any wavelength or cell, a reading is never shown if A or %T would be a listed value: the last digit moves, as on a noisy detector
     const bad = x => badA(x) || badAn(x) || resHit(sfS(100 * Math.pow(10, -x), 3)) || resHit(sci(x, 3));
-    if (bad(A)){ const A0 = A; for (const d of [0.004, -0.004, 0.008, -0.008, 0.012, -0.012, 0.016, -0.016]){ const x = show3(A0 * (1 + d)); if (!bad(x)){ A = x; break; } } }
+    if (bad(A)){ const A0 = A; for (let k = 1; k <= 14; k++) for (const sg of [1, -1]){ const x = show3(A0 + sg * k * 0.001); if (x > 0 && !bad(x)){ A = x; k = 99; break; } } }
   }
   BL.reading = { A, mg: fl.mg, unk: !!fl.unk };
   if (fl.unk){ BL.cur.A = A; BL.cur.lam = BL.lam; BL.cur.l = BL.l; }
