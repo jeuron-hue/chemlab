@@ -88,21 +88,21 @@ section.lab:last-of-type{border-bottom:0}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; align-items:center; min-height:24px; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:flex; align-items:center; justify-content:center; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -290,6 +290,12 @@ svg .loben{fill:var(--surface); stroke:var(--s1); stroke-width:1.2}
 #ir-tbl td.nw{white-space:normal}
 @media (min-width:700px){ #ir-tbl td.nw{white-space:nowrap} }
 .card dl dd span{font-weight:600}
+#vv-wrap svg .vdip{font-size:11.5px; fill:#3a434d}
+
+/* ---------- tokens for the Enrichment tag (plum) and for readable feedback text; amber stays for warnings only ---------- */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -329,7 +335,7 @@ svg .loben{fill:var(--surface); stroke:var(--s1); stroke-width:1.2}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -341,7 +347,7 @@ svg .loben{fill:var(--surface); stroke:var(--s1); stroke-width:1.2}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -713,7 +719,7 @@ svg .loben{fill:var(--surface); stroke:var(--s1); stroke-width:1.2}
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.2 UV/vis and IR Spectroscopy</span>
     <span>Written for SEAB H3 Chemistry 9813 · h, c, L, A<sub>r</sub>, bond energies and IR ranges from the Data Booklet · λ<sub>max</sub>, ε, vibration wavenumbers and bond lengths are literature values · spectra simulated in-house · samples, readings and generated values are illustrative</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 23/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -828,15 +834,56 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(mol.*|kJmol\^?-1|kJ\/mol|kJ|J|nm|µm|um|cm-?1|cm⁻¹|m|GHz|MHz|Hz)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+// ---------- typed answers: a number plus an optional unit, checked against the unit the question asks for ----------
+// Canonical unit ids: nm um cm-1 kJmol Jmol mgdm3 moldm3 pct eps | Hz kHz MHz GHz | kJ J
+const UNIT_NAME = { nm: "nm", um: "µm", "cm-1": "cm⁻¹", kJmol: "kJ mol⁻¹", Jmol: "J mol⁻¹", kJ: "kJ", J: "J", mgdm3: "mg dm⁻³", moldm3: "mol dm⁻³", pct: "%", eps: "dm³ mol⁻¹ cm⁻¹", m: "m", cm: "cm", mm: "mm", Hz: "Hz", MHz: "MHz", GHz: "GHz", g: "g", mg: "mg" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){
+  let t = String(u).toLowerCase().replace(/[\s.·⋅*]/g, "").replace(/[−–]/g, "-").replace(/[µμ]/g, "u").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/\(s\)/g, "").replace(/[()]/g, "");
+  if (t === "%" || t === "percent" || t === "pc") return "pct";
+  if (t === "nm" || t === "nanometres" || t === "nanometers") return "nm";
+  if (t === "um" || t === "micron" || t === "microns" || t === "micrometre" || t === "micrometres" || t === "micrometer" || t === "micrometers") return "um";
+  if (/^(\/cm|percm|cm-1|wavenumbers?|cm-1wavenumber)$/.test(t)) return "cm-1";
+  if (/^kj(mol-1|\/mol|permol|\/mole|mole-1)$/.test(t)) return "kJmol";
+  if (/^j(mol-1|\/mol|permol|\/mole|mole-1)$/.test(t)) return "Jmol";
+  if (t === "kj") return "kJ";
+  if (t === "j") return "J";
+  if (/^mg(dm-3|\/dm3|\/l|l-1|perdm3|perl|\/litre|\/liter)$/.test(t)) return "mgdm3";
+  if (/^mol(dm-3|\/dm3|\/l|l-1|perdm3|perl|\/litre|\/liter)$/.test(t)) return "moldm3";
+  if (/^(dm3|l)(mol-1cm-1|\/mol\/cm|\/molcm|\/\(molcm\))$/.test(t) || /^(m-1cm-1|mol-1dm3cm-1|mol-1lcm-1)$/.test(t)) return "eps";
+  if (t === "m") return "m"; if (t === "cm") return "cm"; if (t === "mm") return "mm";
+  if (t === "hz") return "Hz"; if (t === "mhz") return "MHz"; if (t === "ghz") return "GHz";
+  if (t === "g") return "g"; if (t === "mg") return "mg";
+  return null;
 }
+// The question's unit: a list of canonical ids it accepts (e.g. ["nm"]), [] for a plain number, null to accept any recognised unit.
+// Returns { value } or { error }. kind "empty" and "nan" are not answers at all; "unit" and "comma" are entries to fix.
+function parseAnswer(str, allowed, opts){
+  opts = opts || {};
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  let val = NaN, rest = "", m;
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  if ((m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:,\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i")))){
+    let mant = parseFloat(m[2].replace(/,/g, ""));
+    const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+    val = e != null ? mant * Math.pow(10, +e) : mant;
+    if (m[1] === "-") val = -val;
+    rest = m[6];
+  } else return { error: "Type an answer first: a number such as 0.452, 35.5 or 2.15e-5.", kind: "nan" };
+  if (!isFinite(val)) return { error: "Type an answer first: a number such as 0.452, 35.5 or 2.15e-5.", kind: "nan" };
+  rest = rest.trim();
+  if (!rest) return { value: val };
+  const u = unitId(rest);
+  if (!u) return { error: "Type an answer first: a number such as 0.452, 35.5 or 2.15e-5.", kind: "nan" };
+  if (allowed == null || allowed.includes(u)) return { value: val, unit: u };
+  return { unit: u, kind: "unit", error: allowed.length === 0 ? "Check the unit: this answer is a plain number, with no unit." : `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` };
+}
+LAB.parseAnswer = parseAnswer;
+// the old name: a number with any recognised unit tolerated (the unit is not checked); NaN when there is no number
+function parseNum(s){ const r = parseAnswer(s, null); return r.value != null ? r.value : NaN; }
 LAB.parseNum = parseNum;
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
@@ -883,8 +930,8 @@ const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" styl
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* =====================================================
-   DATA (DATA.md, 18/10/26). Data Booklet: h, c, L, A_r, bond energies, the IR table (section 7).
-   Literature: λmax, ε, vibration wavenumbers, bond lengths, GWP. Nothing from the RESERVED list.
+   DATA. Data Booklet: h, c, L, A_r, bond energies, the IR table (section 7).
+   Literature: λmax, ε, vibration wavenumbers, bond lengths, GWP.
    ===================================================== */
 const H_PL = 6.63e-34, C_L = 3.00e8, L_A = 6.02e23;
 const AR = { H: 1.0, C: 12.0, N: 14.0, O: 16.0, S: 32.1, Fe: 55.8, Cl: 35.5, F: 19.0 };
@@ -969,6 +1016,11 @@ const IRC = [
 ];
 LAB.IRC = IRC;
 IRC.forEach(c => { c.opt = c.opt || []; c.grps = [...new Set(c.bands.filter(b => b[4]).map(b => grpOfRow(b[4])).concat(c.opt))]; c.req = c.grps.filter(g => !c.opt.includes(g)); });
+// every group chip whose Data Booklet range holds some band of the compound, labelled or not (what a reader could take from the spectrum)
+IRC.forEach(c => { c.vis = new Set(); c.bands.forEach(b => Object.keys(SUBROW).forEach(k => { if (b[0] >= SUBROW[k].lo && b[0] <= SUBROW[k].hi) c.vis.add(grpOfRow(k)); })); });
+// an option D can be told from the answer T when T shows a required chip D lacks, or D needs a chip nothing in T's spectrum reaches
+const sepFrom = (T, D) => T.req.some(g => !D.grps.includes(g)) || D.req.some(g => !T.vis.has(g));
+LAB.sepFrom = (a, b) => sepFrom(IRC.find(c => c.id === a), IRC.find(c => c.id === b));
 function irAbs(c, wn){ return c.bands.reduce((s, b) => s + (b[3] ? b[1] * Math.exp(-4 * Math.LN2 * Math.pow(wn - b[0], 2) / (b[2] * b[2])) : b[1] / (1 + 4 * Math.pow(wn - b[0], 2) / (b[2] * b[2]))), 0); }
 const irT = (c, wn) => 100 * Math.pow(10, -irAbs(c, wn));
 LAB.irT = irT;
@@ -1053,7 +1105,7 @@ const GH = [
   { id: "N2", f: "N₂", act: false, why: "Its only vibration, the N≡N stretch, does not change the dipole moment (the molecule stays non-polar): no IR absorption.", blocks: [] },
   { id: "O2", f: "O₂", act: false, why: "Its only vibration, the O=O stretch, does not change the dipole moment: no IR absorption.", blocks: [] },
   { id: "Ar", f: "Ar", act: false, why: "A single atom has no bonds and no vibrations: no IR absorption.", blocks: [] },
-  { id: "CO2", f: "CO₂", act: true, col: "--s1", dash: "", why: "The bends (667 cm⁻¹, about 15 µm) and the asymmetric stretch (2349 cm⁻¹) change the dipole moment. The bending band lies near the peak of the Earth's emission, so CO₂ absorbs strongly there.", main: "667 (bending, two of equal energy); 2349 (asymmetric stretch)", blocks: [[590, 750, 1, "bending 667"], [2300, 2390, 0.8, "asymmetric stretch 2349"]] },
+  { id: "CO2", f: "CO₂", act: true, col: "--s1", dash: "", why: "The bends (667 cm⁻¹, about 15 µm) and the asymmetric stretch (2349 cm⁻¹) change the dipole moment. The bending band lies on the long-wavelength side of the Earth's emission peak, where the emission is still strong, so CO₂ absorbs strongly there.", main: "667 (bending, two of equal energy); 2349 (asymmetric stretch)", blocks: [[590, 750, 1, "bending 667"], [2300, 2390, 0.8, "asymmetric stretch 2349"]] },
   { id: "H2O", f: "H₂O", act: true, col: "--s2", dash: "6 4", why: "All three vibrations change the dipole: the bend (1595 cm⁻¹) and the two stretches (3657, 3756 cm⁻¹). Water vapour also absorbs strongly below about 500 cm⁻¹ (beyond about 20 µm) through its rotation (literature).", main: "1595 (bending); 3657, 3756 (stretches); rotation below about 500", blocks: [[1400, 1800, 0.85, "bending 1595"], [3550, 3850, 0.75, "stretches 3657, 3756"], [400, 520, 0.95, "rotation"]] },
   { id: "CH4", f: "CH₄", act: true, fexNote: "9 vibrations, but only 2 IR absorptions.", col: "--s3", dash: "2 3", why: "It absorbs through its C–H stretch (3019 cm⁻¹) and its bend (1306 cm⁻¹), which sits at the edge of the atmospheric window.", main: "1306 (bend); 3019 (C–H stretch)", blocks: [[1260, 1350, 0.6, "bend 1306"], [2980, 3060, 0.55, "C–H stretch 3019"]] },
   { id: "CHF3", f: "CHF₃", act: true, col: "--c5", dash: "8 3 2 3", why: "The polar C–F bonds give strong C–F stretching absorptions at about 1100–1200 cm⁻¹ (8 to 9 µm), inside the atmospheric window, where CO₂ and H₂O absorb little: radiation that would otherwise escape is absorbed.", main: "about 1100–1200 (C–F stretches); 3035 (C–H stretch)", blocks: [[1100, 1200, 0.9, "C–F stretches"], [3010, 3060, 0.35, "C–H 3035"]] }
@@ -1061,12 +1113,41 @@ const GH = [
 LAB.GH = GH;
 const WINDOW = [770, 1250];
 LAB.WINDOW = WINDOW;
-
 /* ---------- shared answer helpers (as H3.1) ---------- */
 const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
 const ansN = (v, n) => ({ v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.005 * Math.abs(v)) });
 const ASIDE = t => `<span class="aside">(${t}.)</span>`;
 const SVGNS = "http://www.w3.org/2000/svg";
+
+/* ---------- numbers kept out of the generated questions and the bench unknowns ----------
+   A few values are kept out so that practice stays fresh. The page holds only opaque hashes of them (made when the page is built);
+   a draw whose displayed values hash into that set is redrawn. */
+const RESH = new Set(["100u7u6", "108bht2", "108ct0d", "10935mo", "10attj5", "10c6gm2", "10d47be", "10h19gs", "10ib3i1", "10j2rbn", "10m62b1", "10mj0p6", "10n3t0d", "10o6wpm", "10od7pk", "10qdwmf", "10t2d0m", "10u6lax", "10u9qsw", "10vb00q", "10wxt2o", "10y6iel", "10yctej", "1131ypl", "1149chv", "118cf3i", "11cv16k", "11d1kek", "11ic0sh", "11mrhdk", "11mumvj", "11n163j", "11q684w", "11rqzxc", "11sbmhg", "11w5ygx", "11x0rsi", "1205ttv", "121qlmb", "122b86f", "1265k5w", "1268pnv", "126qori", "1270dhh", "128awrq", "128e0p1", "12a5fiu", "12avtjj", "12catve", "12g55uv", "12g8bcu", "12gn4yi", "12gqagh", "12gtfyg", "12iaigp", "12k517t", "12mafkd", "12o6sp2", "12q7x1t", "12qmqnh", "12qt1nf", "12uv0xh", "12y6ee1", "1307iqs", "130snce", "130z6ke", "135s5w6", "13a74fr", "13as91d", "13ays9d", "13b84e8", "13fa3hy", "13frrl5", "13kruqc", "13l7q37", "13p9p6x", "13uqakw", "13znth4", "143qoky", "144pw9v", "144r24a", "144racc", "144ua4f", "149nf63", "14eqnt9", "14eqw1b", "14jn0v2", "14o1bo", "14q7c0h", "14qnszk", "14tmmk1", "14to9bq", "14vzhsx", "14y1zak", "1506xpg", "153m890", "1581kzj", "158pp48", "15an0di", "15dltxz", "15evgsg", "15i3inh", "15ipat7", "15isgb6", "15j4gp", "15jhtf5", "15kmm2h", "15m0nui", "15nlfmy", "15ov2hf", "15sowi6", "15sqnxo", "15ss205", "15um7rg", "15xl1bx", "15yuo6e", "1624zjc", "162n44o", "162oi75", "162q9mn", "162rnp4", "163r8cw", "164ltgf", "166rau0", "168u9vd", "16bzzrf", "16cmptn", "16co3w4", "16cr9e3", "16dqu1v", "16gqwiz", "16itvkc", "16lzlge", "16mmbim", "16mqv32", "16qqi7y", "16ro62o", "16rq5es", "16rwv4r", "16sth9b", "16vz75d", "16wlx7l", "16wp2pk", "16wqgs1", "16xq1ft", "16ycpqo", "16yrqr1", "170q3wx", "171830k", "176liwk", "176mwz1", "176ooej", "176q2h0", "178cbfn", "17b7opj", "17bpcsq", "17ezjw", "17gl4lj", "17goa3i", "17gpo5z", "17h25st", "17ibx4m", "17kpbav", "17loyhp", "17pqfmb", "17qkqai", "17qnvsh", "17qp9uy", "17sbitl", "17seobk", "17v6w3h", "180kbzh", "180ovjx", "181pnac", "182b4ik", "182ea0j", "18an36f", "18bp8zb", "18caq7j", "18g6eu4", "18kmove", "18louoa", "18mabwi", "18q60j3", "18tdld", "18umakd", "18vogd9", "18w9xlh", "18wy7p2", "1941a84", "196xte1", "19931rg", "199xbjs", "19i2dqo", "19k4tm0", "19qf1oc", "19s1zfn", "19u4faz", "19y03b1", "19zlo2i", "1a0bhvc", "1a0endb", "1a21l4m", "1a440zy", "1a9l9rh", "1aab3kb", "1ac16tl", "1ac4cbk", "1ae3mox", "1akap9a", "1akvtuw", "1am0sik", "1am3y0j", "1an6l1b", "1ao38dw", "1arfr92", "1at1eeo", "1au75ga", "1auaay9", "1audgg8", "1auvfjv", "1aw0e7j", "1aw3jpi", "1b1fcy1", "1b3103n", "1b46r59", "1b49wn8", "1b4d257", "1b4g7n6", "1b4v18u", "1b5zzwi", "1b635eh", "1b66awg", "1b82fru", "1bd0lsm", "1be9ic7", "1becnu6", "1beftc5", "1beumxt", "1bfzllh", "1bg2r3g", "1bg5wlf", "1bi21gt", "1biu6w0", "1bkwl8c", "1ble892", "1bn07hl", "1bn3czk", "1bo9416", "1boc9j5", "1boff14", "1bou8ms", "1bq2csf", "1bs6bkg", "1bstskz", "1bu8j0n", "1buw6xb", "1bvdty1", "1bwzt6k", "1bx2yoj", "1by8pq5", "1bybv84", "1byf0q3", "1bytubr", "1c01yhe", "1c25x9f", "1c2te9y", "1c6zevj", "1c72kdi", "1c8bgx3", "1c8emf2", "1c8tg0q", "1c9yeoe", "1ca1k6d", "1cc5iye", "1ccszyx", "1ccw5gw", "1cfddew", "1cgz0ki", "1ch262h", "1cib2m2", "1cie841", "1cit1pp", "1cjy0dd", "1ck8u3e", "1cm54nd", "1cm8a5c", "1cmslnw", "1cmvr5v", "1coccm8", "1concz0", "1cpcz3v", "1cqym9h", "1cr1rrg", "1csaob1", "1csdtt0", "1csgqos", "1ct1jeg", "1cw4qcc", "1cw7vub", "1cws7cv", "1cwvcuu", "1cybyb7", "1cymynz", "1cyulp7", "1czcksu", "1d0y7yg", "1d11dgf", "1d2dfhz", "1d2gcdr", "1d46o98", "1d64c1b", "1d6rt1u", "1d6uyjt", "1d6y41s", "1d8bk06", "1d8u7e6", "1d9c6ht", "1d9yza2", "1daxtnf", "1db0z5e", "1dcd16y", "1de34g8", "1de69y7", "1dejbv4", "1dg3xqa", "1dgreqt", "1dguk8s", "1dgxpqr", "1dib5p5", "1ditt35", "1djbs6s", "1dl0kud", "1dl9yw0", "1dllpfz", "1dmcmvx", "1dnyq4g", "1do2q57", "1doixk3", "1dq3jf9", "1dqr0fs", "1dqrtiu", "1dqu5xr", "1dqxbfq", "1dsare4", "1dslrqw", "1dtbdvr", "1dwf5go", "1dxybtf", "1dy2bu6", "1dy52jg", "1dyij92", "1e09g46", "1e0qm4r", "1e0rf7t", "1e0trmq", "1e0wx4p", "1e2ad33", "1e2ldfv", "1e36272", "1e3azkq", "1e5969y", "1e5o6hy", "1e6er5n", "1e7xxie", "1e7ys16", "1e81xj5", "1e85314", "1e8i4y1", "1e8lag0", "1ea91t5", "1eatdbp", "1eawito", "1ec9ys2", "1eckz4u", "1ed5nw1", "1edal9p", "1eezdxa", "1ef8ryx", "1efbxgw", "1eg0uwc", "1egecum", "1ehxj7d", "1ehydq5", "1ei1j84", "1ei49xe", "1ei4oq3", "1eihqn0", "1eikw4z", "1ekw4in", "1em9kh1", "1emcpz0", "1emkktt", "1en59l0", "1enn0n", "1eoyzm9", "1ep8dnw", "1epbj5v", "1eq0glb", "1eqdyjl", "1erx4wc", "1es14x3", "1es3vmd", "1es4af2", "1eshcbz", "1eskhty", "1eu53p4", "1eu8tjk", "1euvq7m", "1ew9660", "1ewcbnz", "1ex4v9z", "1ez7zcv", "1ezb4uu", "1f0dk8k", "1f1wqlb", "1f20qm2", "1f23hbc", "1f23w41", "1f2gy0y", "1f2k3ix", "1f41jw4", "1f44pe3", "1f48f8j", "1f4szho", "1f4vbwl", "1f68ruz", "1f6bxcy", "1f74gyy", "1f97l1u", "1f9aqjt", "1fad5xj", "1fbwcaa", "1fc0cb1", "1fc330b", "1fc3ht0", "1fcgjpx", "1fcjp7w", "1fe15l3", "1fe4b32", "1fe80xi", "1fepfoo", "1fesl6n", "1fgbj1x", "1fgjdwq", "1fiq5o", "1fj76qt", "1fkcrmi", "1flvxz9", "1fm33hz", "1fmg5ew", "1fmjawv", "1fn7l0g", "1fnkp68", "1fo3ws1", "1fo72a0", "1fo7mmh", "1fop1dn", "1fordsk", "1fqa9xs", "1fqizlp", "1ft9xxr", "1fucdbh", "1fw2p6y", "1fwfr3v", "1fwiwlu", "1fx76pf", "1fxkav7", "1fxseps", "1fy3ih0", "1fy6nyz", "1fy9tgy", "1fyon2m", "1fyqzhj", "1g09vmr", "1g36e4r", "1g39jmq", "1g3yh26", "1g41mk5", "1g62avx", "1g6iiat", "1g7jwk6", "1g7ouws", "1g7s0er", "1g8345z", "1g869ny", "1g89f5x", "1g89zie", "1g8o8rl", "1g8re9k", "1ga9hbq", "1gaac4u", "1gd95bp", "1gdy2r5", "1ge1894", "1ghji95", "1ghoglr", "1ghrm3q", "1gi2puy", "1gi5vcx", "1gi6fpe", "1gi90uw", "1ginugk", "1giqzyj", "1gk930p", "1gk9xtt", "1gkc8io", "1glxf40", "1go0ty3", "1gro2aq", "1grr4dy", "1grr7sp", "1gs2bjx", "1gs5h1w", "1gs61ed", "1gs8mjv", "1gsng5j", "1gsqlni", "1gu8opo", "1gubu7n", "1gvx0sz", "1gx04i8", "1gy0fn2", "1gztyg4", "1gzv682", "1h0hbdq", "1h18qza", "1h1qq2x", "1h1qtho", "1h252qv", "1h2888u", "1h2n1ui", "1h2q7ch", "1h2sjre", "1h48aen", "1h5wmhy", "1h6zq77", "1h801c1", "1h9tk53", "1h9urx1", "1hagx2p", "1hb8co9", "1hbqf6n", "1hc4ofu", "1hc7txt", "1hcmnjh", "1hcpt1g", "1hcs5gd", "1he7w3m", "1hel8v", "1hfw86x", "1hgzbw6", "1hhzn10", "1hjudm0", "1hm4a4t", "1hm7fms", "1hmpeqf", "1ho7hsl", "1hpkwsv", "1hpvtvw", "1hqyxl5", "1hr2334", "1hrz8pz", "1httzaz", "1hv4ek8", "1hvjyws", "1hvmh2m", "1hvpmkl", "1hw71br", "1hwp0fe", "1hzvfkv", "1i0yja4", "1i11os3", "1i1yuey", "1i2ysow", "1i3tkzy", "1i54097", "1i5jklr", "1i5m2rl", "1i5sacs", "1i66n0q", "1i6om4d", "1i9v19u", "1iay4z3", "1ib1ah2", "1ibyg3x", "1icyedv", "1id9yv4", "1idt6ox", "1if3ly6", "1ifoqjs", "1ifrw1r", "1ifvl68", "1ig68pp", "1ijjpvs", "1ijumyt", "1ikxqo2", "1il0w61", "1il41o0", "1imy02u", "1in9kk3", "1inssdw", "1ip37n5", "1ip6d54", "1ipoc8r", "1ipv6v7", "1is922g", "1itjbkr", "1itu8ns", "1iuxcd1", "1iv0hv0", "1iv3ncz", "1iwxlrt", "1ix9692", "1ixse2v", "1iycssz", "1iz2tc4", "1iz5yu3", "1iz94c2", "1izfxhw", "1izidoo", "1iznxxq", "1j060g4", "1j28nrf", "1j3ix9q", "1j3tucr", "1j4wy20", "1j503jz", "1j5391y", "1j58bre", "1j6x7gs", "1j78ry1", "1j8cehy", "1j92f13", "1j95kj2", "1j98q11", "1j9fj6v", "1j9hzdn", "1j9l4vm", "1j9njmp", "1j9qp4o", "1ja5m53", "1jc89ge", "1jdiiyp", "1jewjqz", "1jezp8y", "1jf2uqx", "1jgwt5r", "1jh8dn0", "1jhrlgt", "1jhz2f3", "1jj20q2", "1jj5681", "1jj8bq0", "1jjhl2m", "1jjkqkl", "1jjn5bo", "1jjqatn", "1jm4pne", "1jm7v5d", "1jmr828", "1jni4no", "1jozaxx", "1jp2gfw", "1jqweuq", "1jr7zbz", "1jt1mf1", "1jt4rx0", "1jt7xez", "1jth6rl", "1jtkc9k", "1jtmr0n", "1jtmufe", "1jtpwim", "1jtwr52", "1jw4bcd", "1jw7guc", "1jwqtr7", "1jxhqcn", "1jz224v", "1jz57mu", "1k17l0y", "1k34dlz", "1k37j3y", "1k3jxyj", "1k3mcpm", "1k3mg4d", "1k3pi7l", "1k3wcu1", "1k5qsq4", "1k672jb", "1k6nvxc", "1k6qfg6", "1k7hc1m", "1k7nb", "1k91ntu", "1k94tbt", "1kb76px", "1kd3zay", "1kd74sx", "1kdge5j", "1kdjjni", "1kdlyel", "1kdp3wk", "1kfqef3", "1kg6o8a", "1kgq155", "1kgt6n4", "1khgxql", "1kj19it", "1km70w", "1kn3kzx", "1kn6qhw", "1knfzui", "1knj5ch", "1knoplj", "1knseq0", "1kq69x9", "1kq8m4w", "1kqpmu4", "1kqssc3", "1kx6c6v", "1kxfljh", "1kxir1g", "1kxobai", "1kxs0ez", "1l087tv", "1l0p8j3", "1l0se12", "1l2xbes", "1l75xvu", "1l7icqf", "1l7nwzh", "1l7rm3y", "1la7tiu", "1laou82", "1larzq1", "1lav580", "1lcwx3r", "1lh5jkt", "1lhhyfe", "1lhr7sx", "1lhudaw", "1ljryoy", "1lk7f7t", "1lkakps", "1lkofx1", "1lkrlf0", "1lkuqwz", "1ln2tso", "1lp576s", "1lrhk4d", "1lrqthw", "1lrtyzv", "1ltoevy", "1ltrkdx", "1lu70ws", "1lua6er", "1lur73z", "1lvz8x4", "1lx2fhn", "1lyt8ei", "1lz4svr", "1m1qf6v", "1m1tkou", "1m3o0kx", "1m3r62w", "1m46mlr", "1m49s3q", "1m4qssy", "1m5yum3", "1m7216m", "1m8su3h", "1mbq0vu", "1mbt6dt", "1mdqrrv", "1me68aq", "1me9dsp", "1men8zy", "1meqehx", "1mgyhdm", "1mh1mvl", "1mlpmkt", "1mlss2s", "1mnqdgu", "1mo5tzp", "1mo8zho", "1momuox", "1mqy32l", "1mr18kk", "1mvsdrr", "1mxpz5t", "1my8l6n", "1n10u9j", "1n580pc", "1n5rzgq", "1n7pkus", "1n886vm", "1n8viks", "1naxo6r", "1nb0fyi", "1nbkd3g", "1nf7meb", "1nfrl5p", "1nhp6jr", "1ni4n2m", "1ni7skl", "1niryrs", "1niv49r", "1njy7z0", "1nl01nh", "1np783a", "1nros8q", "1ns48rl", "1nsrkgr", "1ntxtnz", "1nz6ts9", "1o1odxp", "1o2r65q", "1o94ao0", "1ocnmcq", "1ocqrup", "1octxco", "1oj0qv0", "1oj3wcz", "1oj6167", "1omn81p", "1omqdjo", "1omtj1n", "1on8pm", "1onwmqw", "1ot0cjz", "1ot3i1y", "1ot5mv6", "1ow5t1g", "1owpz8n", "1owt4qm", "1oxw8fv", "1oywwh5", "1p333qx", "1p358k5", "1p65eqf", "1p6pkxm", "1p6sqfl", "1p7vu4u", "1p8fq8g", "1p8uw1k", "1paxilv", "1pc6xpl", "1pd2pfw", "1pgp6ml", "1pgsc4k", "1phvftt", "1pibun", "1pifbxf", "1piuhqj", "1pn2b4v", "1pqr7ds", "1pqrxtj", "1prv1is", "1psu3fi", "1px1wtu", "1q0qt2r", "1q0rjii", "1q1un7r", "1q2tp4h", "1q35tkm", "1q71iit", "1qar57h", "1qbu8wq", "1qctatg", "1qgyw2d", "1qh3910", "1qjbj68", "1qltulp", "1qmswif", "1qr2upz", "1qtb4v7", "1qvaqra", "1qwsi7e", "1qztwqo", "1r5acg9", "1r6s3wd", "1r9tifn", "1re6xu", "1rha51f", "1rhs452", "1rr6l8f", "1ryo0xk", "1s0br66", "1s4yqdm", "1s8nmmj", "1s9bwq4", "1sabcv5", "1sbqx7z", "1seyc2l", "1sfsipm", "1shbwj0", "1sin8bi", "1sj8cx4", "1sjbif3", "1skayk4", "1sl28td", "1slqiwy", "1smz1xh", "1sr8cq0", "1srbi7z", "1ssmu0h", "1st7ym3", "1suak93", "1suur2q", "1t17yez", "1t2mfpg", "1t37kb2", "1t4a5y2", "1t4ucrp", "1t6xi2z", "1tb7k3y", "1tcm1ef", "1td7601", "1tdabi0", "1te9rn1", "1tetygo", "1tl75sx", "1tlabaw", "1tmln3e", "1tmosld", "1tn6rp0", "1tn9x6z", "1totk5n", "1tqoo1f", "1tsp2hr", "1tv6rhw", "1tv9wzv", "1tvd2hu", "1twl8sd", "1tx6ddz", "1tx9ivy", "1tyt5um", "1u0o9qe", "1u2oo6q", "1u3tm8", "1u56d6v", "1u59iou", "1u5bl7k", "1u5co6t", "1u75z2y", "1u794kx", "1u80h0w", "1u86t3x", "1uanvfd", "1uco9vp", "1uf5yvu", "1uf94dt", "1ufb6wj", "1ufc9vs", "1uh5krx", "1uh8q9w", "1ui02pv", "1ujqw9q", "1uknh4c", "1uloqrb", "1ulspv", "1umnvko", "1untsch", "1up5kkt", "1up8q2s", "1upasli", "1upbvkr", "1ur8byv", "1urzoeu", "1uun2tb", "1uvocga", "1uwnh9n", "1uz8brr", "1uzaeah", "1uzbh9q", "1v17xnu", "1v1za3t", "1v22fls", "1v3wvh4", "1v5ny59", "1v7mbd7", "1v97xgq", "1v99zzg", "1v9b2yp", "1vb7jct", "1vbdngf", "1vbyvss", "1vc21ar", "1vdwh63", "1vepfp8", "1vgko1y", "1vgtfls", "1vj7j5p", "1vj9lof", "1vjaono", "1vld95e", "1vlyhhr", "1vm1mzq", "1vmagvq", "1vnw2v2", "1vop1e7", "1vos6w6", "1vpdbhs", "1vqk9qx", "1vqt1ar", "1vt97de", "1vtaacn", "1vvy36q", "1vw18op", "1vwa2kp", "1vxvok1", "1vyon36", "1vyrsl5", "1vzcx6r", "1w0jvfw", "1w0ob54", "1w0smzq", "1w2tbwl", "1w38t2d", "1w39w1m", "1w5xovp", "1w60udo", "1w8rea4", "1wajh4v", "1was8op", "1wd8erc", "1wd9hql", "1wf7p9s", "1wg0g2n", "1wiqzz3", "1wkj2tu", "1wkrudo", "1wn80gb", "1wp7ayr", "1wq01rm", "1wruhmy", "1wrvxos", "1wtwuz4", "1wuioit", "1wuq9q0", "1wurg2n", "1wz6wnq", "1wzzngl", "1x1u3bx", "1x1vjdr", "1x2n1v2", "1x2q7d1", "1x3wgo3", "1x4pvez", "1x4r1rm", "1x96icp", "1x99nuo", "1xcmnk1", "1xeph3y", "1xeqngl", "1xj99jn", "1xjmo1s", "1xjvpck", "1xolxay", "1xop2sx", "1xr9kq6", "1xt5pqn", "1xt8v8m", "1xtm9qr", "1xtvb1j", "1xylizx", "1y196f5", "1y38gxl", "1y8oa6v", "1ymuel", "1ysonxg", "1yxwvbe", "1yzdiau", "1zhxjm", "21dsmt", "243fb7", "24leeu", "29hj8l", "29wv00", "2e3106", "2el03t", "2jh4xk", "2jwgoz", "2nsxz6", "2o2mp5", "2ocnh9", "2oklss", "2tgqmj", "2vclpq", "2y28e4", "2yi6ku", "2yk7hr", "37s5d4", "381u33", "38jt6q", "3gks0", "3hrr23", "3i1fs2", "3ijevp", "3rrcr2", "3s11h1", "41qyg1", "422eli", "4bqk50", "4c20ah", "4hdz3b", "4hrorn", "4k1nh4", "4lq5tz", "4m1lzg", "4u1963", "4vpriy", "4w17of", "4whfck", "4x9zj6", "55pd7x", "560tde", "56h11j", "56wj4w", "5e0gk1", "5g0f2d", "5gw4tv", "5r2hm5", "5rnnsg", "5v7q4v", "5z7vlc", "61n9hf", "62tqd", "67z9my", "697hab", "6bmv6e", "6c7zs0", "6hyvbx", "6j72za", "6lmgvd", "6lpmdc", "6m7lgz", "6sf19", "6t6oo9", "6ttg4w", "6vm2kc", "6vp82b", "6w775y", "736ad8", "75lo9b", "75otra", "766sux", "769ycw", "798w3p", "7d5w27", "7etcoo", "7fl9ya", "7fofg9", "7g6ejw", "7g9k1v", "7n5hr6", "7osydn", "7pkvn9", "7po158", "7ptluo", "7q608v", "7q95qu", "7x53g5", "7ysk2m", "7zkhc8", "7znmu7", "7zt7jn", "805lxu", "808rft", "80bwxs", "88s5rl", "89k317", "89n8j6", "89st8m", "8a57mt", "8a8d4s", "8abimr", "8eifcg", "8irrgk", "8jmu85", "8jsexl", "8jvkfk", "8k7ytr", "8oi11f", "8r3wj2", "8srd5j", "8ts0mk", "8tv64j", "8u7kiq", "913i81", "92qyui", "92u4ch", "93rmbj", "93urti", "9440pq", "94767p", "95fadc", "9bpvdn", "9cqkjh", "9dlnb2", "9dr80i", "9dudih", "9e3mep", "9few2b", "9hqu77", "9lph2m", "9nl901", "9nqtph", "9ntz7g", "9pehra", "9pzmcw", "9rqfw6", "9utghs", "9xtkwf", "9ze3g9", "9zz81v", "a1q1l5", "a3un8g", "a43jb", "a4t26r", "a5oogk", "a7t6le", "a88qhk", "a9dp58", "a9ytqu", "aajycg", "abpna4", "ahpmse", "ahssad", "ai56ok", "ai8c6j", "ajdau7", "ajyfft", "ak1kxs", "akjk1f", "alp8z3", "antume", "ap88r", "arp8hd", "as4sdj", "as7xvi", "atcwj6", "aty14s", "au16mr", "auj5qe", "axtgbd", "azczva", "b27jkh", "b3ci85", "b3xmtr", "b40sbq", "b4irfd", "b4lwxc", "b61lls", "b9clk9", "bc759g", "bdc3x4", "bdx8iq", "be0e0p", "beid4c", "belimb", "bfj874", "bg17ar", "bkbds", "bluck8", "bm6qyf", "bnbpm3", "bnwu7p", "bnzzpo", "bohytb", "bol4ba", "bpitw3", "bq0szq", "bqdno4", "bvty97", "bw6cne", "bxzlen", "byhkia", "bykq09", "bzifl2", "c00eop", "c03k6o", "c2qa1k", "c5tjy6", "c65ycd", "c7z73m", "c8h679", "c8kbp8", "c98hdo", "c9i1a1", "ca00do", "ca35vn", "cacv22", "ccpvqj", "cfq056", "cft5n5", "chvnam", "chyssl", "cijxe7", "cj832n", "cjhmz0", "cjzm2n", "ck2rkm", "ckcgr1", "cmfouo", "cmphfi", "cpplu5", "crsnhn", "crv8zl", "csjj36", "ct7orm", "cth8nz", "ctz7rm", "cu2d9l", "cu5irk", "cwfajn", "cwp34h", "cymeds", "czsd13", "d2j4s5", "d3gucy", "d3ytgl", "d41yyk", "d454gj", "d6ew8m", "d6ootg", "d8m02r", "ddgg1x", "ddyf5k", "de1knj", "de4q5i", "dfpvk4", "dg6gz", "dgehxl", "dghnfk", "dgoaif", "dillrq", "djs23c", "dmf6o4", "dny0uj", "do16ci", "do4buh", "dofwjq", "dpph93", "dqh94j", "dqnw7e", "dr90t0", "dsl7gp", "dsocyo", "dvwt9g", "dwesd3", "dx63ji", "dxwtgg", "dy0s1h", "dy3xjg", "dyfi8p", "e0dpbj", "e0nhwd", "e18mhz", "e2kt5o", "e2nynn", "e3r9ha", "e5weyf", "e70wgw", "e75p8h", "e7eg1s", "e7f94u", "e7wf5f", "e83j8f", "eckeun", "edqv69", "eh0i5v", "ehe1qr", "eheutt", "ei34xe", "ejl7zk", "el16t2", "emk0jm", "er03uu", "es2qmd", "etktoj", "ev0si1", "ewjm8l", "ewlir3", "ewoo92", "ezox1e", "f0gcmy", "f0zpjt", "f12v1s", "f2gcty", "f3kfdi", "f45jz4", "f6l4g2", "f6o9y1", "f9oiqd", "fafybx", "fazb8s", "fb2gqr", "fbxzfa", "fbysic", "fcdipk", "fcfyix", "fdk12h", "fdn6kg", "fe55o3", "ffs9gw", "fgkq51", "fjo4fc", "fkywxr", "fl22fq", "fl7ivs", "flxl49", "flye7b", "fmd4ej", "fnjmrg", "fnms9f", "fo4rd2", "foegzc", "fprv5v", "ftnq4b", "fuyimq", "fv1o4p", "fv4tmo", "fv74kr", "fxj8gf", "fxmdye", "fy4d21", "fye2ob", "fzrguu", "g0l6ig", "g3nbta", "g4y4bp", "g519to", "g54fbn", "g56q9q", "g5tn08", "g6cbsh", "g7iu5e", "g7lznd", "g83yr0", "g8doda", "g8ysyw", "g9r2jt", "gaks7f", "gdixhi", "gdmxi9", "gexq0o", "gf0vin", "gf410m", "gfb9lk", "gft8p7", "ggbxhg", "gghiss", "ghifud", "ghllcc", "gi3kfz", "gia4ka", "giatb4", "gida29", "gigfk8", "giyenv", "gjqo8s", "gkkdwe", "gkmaew", "gnfdoi", "gnij6h", "gnmj78", "goxbpn", "gp0h7m", "gp3mpl", "gpavaj", "gpsue6", "gpzyh6", "gqbj6f", "gqdyzs", "gqh4hr", "gri1jc", "grjqts", "grl71b", "gs364y", "gs9q99", "gscvr8", "gsg197", "gsj6r6", "gsy0cu", "gtq9xr", "gugu3e", "gujzld", "gulw3v", "gxezdh", "gxm4w7", "gz02wl", "gz38ek", "gzagzi", "gzsg35", "gzvll4", "gzzk65", "h0b4ve", "h0dkor", "h1hn8b", "h1jcir", "h1ksqa", "h22rtx", "h2chg7", "h2fmy6", "h2isg5", "h2xm1t", "h4gfsd", "h4jlac", "h7lql6", "h8c7vn", "h92u3j", "h9551m", "h9a2oh", "h9s1s4", "h9v7a3", "h9ycs2", "haaqkd", "had6dq", "hadw2c", "hajb0w", "hbiy7q", "hbkef9", "hc5j0v", "hcc356", "hcf8n5", "hcie54", "hcx7qs", "hdphbp", "hej6zb", "hhlca5", "hibtkm", "hj2fsi", "hj4qql", "hj9odg", "hjrnh3", "hjusz2", "hjxyh1", "hkcs2p", "hkfxko", "hkiwpv", "hlijwp", "hmbou5", "hmeuc4", "hmhzu3", "hmwtfr", "hoisoa", "hokp6s", "hrk3gc", "hsbf9l", "ht21hh", "ht9a2f", "htr962", "htueo1", "htxk60", "hucdro", "hufj9n", "huiieu", "hvi5lo", "hw1kwu", "hweg13", "hwhlj2", "hwwf4q", "hxggi8", "hyied9", "hykavr", "i1jp5b", "i2b0yk", "i38vre", "i3quv1", "i3u0d0", "i3x5uz", "i4bzgn", "i4f4ym", "i4i43t", "i5hran", "i5j7i6", "i616lt", "i6e1q2", "i6h781", "i6w0tp", "i7g277", "i8jwkq", "icamnj", "icy3dg", "id4wja", "id8hgd", "idtm1z", "idwrjy", "ie2w74", "iebl5m", "ieeqnl", "iehpss", "ifhczm", "ifit75", "igdnf1", "iggsx0", "ihfnw6", "ihr1lk", "iiji9p", "iixass", "ima8ci", "imxp2f", "in4i89", "int7qy", "inwd8x", "iob6ul", "ioecck", "iohbhr", "iokgzq", "ipgyol", "ipk46k", "iqgelz", "irf9l5", "iswwhr", "ivii88", "iw9u1h", "ixstfx", "ixvyxw", "iy23l2", "iydy1j", "iygx6q", "iyk2op", "izjpvj", "j0g0ay", "j1eva4", "j1q8zi", "j5i3x7", "j69fqg", "j7vkmv", "j81pa1", "j8djqi", "ja44ow", "jbegz3", "jbmp6i", "jbpuoh", "jc2r2o", "jce4s2", "jfek47", "jfhpm6", "jh89ns", "jhv6bu", "jid5fh", "jjfrri", "jjix9h", "jk3qdv", "jle2o2", "jlmavh", "jm2crn", "jmdqh1", "jmvpko", "jot09c", "jphbb5", "jqz9ca", "jr7vcr", "jrus0t", "jtfdgh", "ju3c2u", "juogog", "jvdod1", "jwdc60", "jwvb9n", "jyslyb", "jzgx04", "jzw8i8", "k0yv19", "k12ip4", "k2fbym", "k3p8a", "k42xrt", "k4o2df", "k6cxuz", "k6uwym", "k8s7na", "k9gip3", "k9vu77", "kb24e3", "kba88o", "kcexnl", "kcoe5i", "ke2jgs", "keno2e", "kguinl", "kirtc9", "kjg4e2", "kjvfw6", "kl1q32", "kl9txn", "kmnzuh", "ko255r", "kon9rd", "koqf9c", "kotxq", "kpchfy", "kq3x1i", "ksrf18", "ktfq31", "kv1bs1", "kv9fmm", "ky1quq", "kymvgc", "kyq0yb", "kzc34x", "l03iqh", "l2r0q7", "l2u686", "l3una4", "l4iydd", "l50xh0", "l542yz", "l55ciz", "l591bl", "l81cjp", "l8mh5b", "l8pmna", "latbqi", "lcqmf6", "lctrx5", "ldu8z3", "lf0j5z", "lf8n0k", "li0y8o", "lim2ua", "lip8c9", "ljx2r", "ljzkmg", "lmq845", "lntuo2", "lp04uy", "lp88pj", "lqg3mf", "ls0jxn", "lsloj9", "lsou18", "ltz6bf", "lungf0", "lxtgd1", "lyzqjx", "lz2w1w", "lz7uei", "m0m0bc", "m2ofq7", "m3ys0e", "m4n23z", "m6dv0u", "m92hqv", "m97g3h", "mco1f6", "mdydpd", "me1j7c", "mgdgpt", "mgvc70", "mj23fu", "mmkhm6", "mmnn45", "mnbx7q", "mnxzec", "mo14wb", "mo4aea", "moyadu", "mquxvz", "mrs9fy", "mt1p4t", "mukte9", "mwk3b5", "mxbiwp", "mxxl3b", "my0qla", "my3w39", "mylv6w", "n0re2z", "n1rv4x", "n4kf38", "n7x6sa", "n80ca9", "n83hs8", "n8lgvv", "nek0s7", "nh67wm", "nhwsh9", "nhzxz8", "ni33h7", "nil2ku", "nktqyw", "nojmh6", "nr5tll", "nrzjo7", "ns2p66", "nsko9t", "nun1nx", "nuq75w", "nutcnv", "nyj865", "o0lnl0", "o1z5d6", "o22av5", "o2k9ys", "o4psuv", "o4sycu", "oal99z", "ob1vhk", "ob9jdk", "obh79k", "obyr25", "oc1wk4", "ocjvnr", "oepeju", "oesk1t", "oikin4", "ol1h6j", "ol952j", "olgsyj", "om1i93", "omjhcq", "oop08t", "oos5qs", "osk4c3", "ov12vi", "ov8qri", "ow13y2", "owj31p", "oyrrfr", "p2jq12", "p34umo", "p4drcy", "p4mhf4", "p53u2g", "p58cgh", "p60pn1", "p8rd4q", "pcjbq1", "pcmh80", "pd4gbn", "pedd1x", "pem343", "pf3frf", "pf6l9e", "pf7y5g", "pffm1g", "piqytp", "pjn874", "pmixf0", "pmjs", "pmm2wz", "pn420m", "pnorxc", "pocyqw", "polot2", "pp31ge", "pp66yd", "pp7juf", "ppo620", "ptmtw3", "pwij3z", "pwloly", "px3npl", "px6t7k", "pxodmb", "pyckfv", "pylai1", "pyog00", "pz2n5d", "pz5snc", "pz75je", "pzetfe", "pznrqz", "q0hcjr", "q3mfl2", "q4mjg6", "q6i4sy", "q6laax", "q6ofsw", "q739ek", "q76ewj", "q7nzba", "q844pc", "q8c64u", "q8kw70", "q8o1oz", "q928uc", "q95ecb", "q96r8d", "q9ef4d", "qdm1a1", "qem555", "qghqhx", "qgkvzw", "qgo1hv", "qh2v3j", "qh60li", "qhnl09", "qhqqi8", "qi3qeb", "qibrtt", "qikhvz", "qinndy", "qj1ujb", "qj501a", "qnlmz0", "qqhc6w", "qqkhov", "qqnn6u", "qr2gsi", "qr5mah", "qrn6p8", "qs3c3a", "qsbdis", "qsk3ky", "qsn92x", "qt1g8a", "qt4lq9", "qtmktw", "qxl8nz", "r0gxvv", "r0k3du", "r0n8vt", "r122hh", "r157zg", "r1mse7", "r1pxw6", "r22xs9", "r2az7r", "r2jp9x", "r2murw", "r311x9", "r347f8", "r3m6iv", "r7kucy", "rajp2t", "ramuks", "rb4tof", "rb8flw", "rbme36", "rbpjl5", "rcakwq", "rcmggv", "rd3t47", "rdls7u", "rhkg1x", "rinpf0", "rkmg9r", "rl4fde", "rllzs5", "rm2567", "rma6lp", "rmm25u", "rn3et6", "rnldwt", "rrk1qw", "rs6kcx", "rsk5m0", "rsnb3z", "rum1yq", "rv0vke", "rv412d", "rvsb5y", "rwlnut", "rx30i5", "s1jnfv", "s2jraz", "s4ii5q", "s4lnnp", "s50h9d", "s5rwux", "scjczy", "scs59v", "sei3up", "sfksv2", "sghpqs", "smiyox", "smw3g5", "spkek1", "sqhbfr", "ssk0r0", "swikdw", "t6i62v", "t6lbku", "t6mrmo", "t921j8", "t9th4s", "ta2wu0", "taq1lz", "tcj84y", "tg4e80", "tghrru", "tgmdbn", "tj1n87", "tjpxbs", "tjt2tr", "tmittx", "toszi4", "tq3zwz", "tqhdgt", "tqlz0m", "ttlytw", "ttpj0r", "tu247y", "tuivpm", "twifiw", "tysl73", "u0lkpl", "u12ep2", "u1irdv", "u2ivii", "u3ax9", "u3lkiv", "u3p4pq", "u3ykey", "u41pwx", "u44vew", "u4ihel", "u6i17v", "u6xypy", "ual6ek", "ub20e1", "ucih7h", "udoqep", "udrvwo", "udy63x", "ue4h3v", "ueeug0", "ufe87b", "ugxkex", "uj9roo", "ukks3j", "uknxli", "unoc3o", "unrhln", "uoeg4z", "uofmp", "usrea0", "ut9ddn", "utcivm", "uukdsi", "uunjah", "uxnxsn", "uxr3am", "uye1ty", "v0tmaw", "v2qzyz", "v38z2m", "v3c4kl", "v44n6j", "v4jzhh", "v5cg1s", "v7njhm", "v7qozl", "v8dnix", "v8gt0w", "vat7zv", "vbhi3g", "vcqlny", "vd8krl", "vhn56l", "vhqaok", "vi2vvr", "vid97w", "vigepv", "vjirq", "vkstou", "vlh3sf", "vmq7cx", "vp00uw", "vrpwdj", "vs2hkq", "vscuwv", "vsg0eu", "vusfdt", "vwpt1w", "vx7s5j", "vyzmjv", "w1pi2i", "w2239p", "w2cglu", "w2fm3t", "w2irls", "w3fzi8", "w4s12s", "w6peqv", "w6sk8u", "w77dui", "w8xlu0", "w8z88u", "wbp3rh", "wcc2at", "wcf7ss", "wcidar", "wdfl77", "wffwvc", "wgc0wg", "wgp0fu", "wgs5xt", "wh6zjh", "wh9rls", "wiytxt", "wlm2ow", "wmethr", "wnf6w6", "wqbmlf", "wqom4t", "wqrrms", "wr9dar", "wsch00", "wsyfms", "wvlodv", "ww0dhc", "wwef6q", "wxesl5", "wytzno", "wzf49a", "x0rdbr", "x18yzq", "x2c2oz", "x2wewx", "x2y1br", "x5zz6b", "x6avdq", "x6e0vp", "x8pz16", "x8tlcn", "x9epy9", "xaqz0q", "xb8kop", "xcbody", "xcxn0q", "xfdux", "xfo19s", "xgah2p", "xit71m", "xkqkpp", "xl86do", "xmba2x", "xmx8pp", "xpnmyr", "xsssql", "xv7s2n", "xwavrw", "xzn8nq", "y57drm", "y6ahgv", "y6lx44", "y9mucp", "y9ydy7", "yafl5k", "yf6zgl", "yga35u", "yglit3", "yjmg1o", "yjxzn6", "ykf6uj", "yksp8w", "yq9out", "ytiw8o", "ytm1qn", "ytxlc5", "yuabu8", "yuesji", "yusaxv", "z0kq71", "z21cty", "z3ihxn", "z3lnfm", "z49xj7", "z4b8qi", "z4ee8h", "z4rwmu", "z65tn4", "zdl94l", "zeaufh", "zedzxg", "zeribt", "zkesxo", "zodlmf", "zor40s", "zq5112", "zqum57", "zs7984", "zueemn", "zviwd9", "zyd7be", "zyqppr"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
+const rq = (name, v, d) => rh(name + ":" + Math.round(v * Math.pow(10, d)));     // a quantity rounded to d decimals
+const aKey = A => String(Math.round(A * 1000) / 1000);
+const badNm = nm => rh("nm:" + Math.round(nm));
+const badWn = wn => rh("wn:" + Math.round(wn));
+const badEps = e => rh("eps:" + Math.round(e));
+const badA = A => rh("a:" + aKey(A));
+const badAn = A => rh("an:" + aKey(A));
+const badPct = p => rh("p:" + Math.round(p));
+
+// numbers in a generated question (text, working, answer) that hash into the set: tested token by token, after rounding as displayed
+function resHit(str){
+  const t = String(str).replace(/<[^>]*>/g, " ").replace(/ /g, " ");
+  const re = /(\d+(?:\.\d+)?)(?:\s*× 10([⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+))?(?:\s*(MHz|GHz|µm|m)(?![A-Za-zµ⁻]))?/g;
+  let m;
+  for (const d of t.match(/\d+/g) || []) if (rh("t:" + d)) return true;   // a listed number as a run of digits, even after a decimal point
+  while ((m = re.exec(t))){
+    const v = String(+m[1]);
+    if (rh("t:" + v)) return true;
+    if (m[2]){ const e = [...m[2]].map(c => c === "⁻" ? "-" : SUPD.indexOf(c)).join(""); if (rh("s:" + v) || rh("s:" + v + "e" + e)) return true; }
+    if (m[3] && rh("u:" + v + m[3])) return true;
+  }
+  return false;
+}
 
 /* ---------- one animation loop for every moving picture; each runs only while on screen ---------- */
 const ANIMS = [];
@@ -1093,7 +1174,7 @@ const BT = (x, y, s, cls, extra, fs) => T(x, y, s, cls || "bt", extra, fs);
 
 /* =====================================================
    1. BEER–LAMBERT CALIBRATION BENCH: iron as [Fe(phen)₃]²⁺ (notes WE6 method), strong vs weak bands (WE5),
-   light depth (WE7, Further example). Unknowns exclude the reserved absorbances and dilutions (DATA.md).
+   light depth (WE7, Further example).
    ===================================================== */
 const FE_COL = "#c8461e";            // [Fe(phen)₃]²⁺ orange-red (physical colour, not a palette token)
 // physical colour of visible light (approximate), for the beam
@@ -1108,11 +1189,6 @@ function lamRGB(nm){
 LAB.lamRGB = lamRGB;
 const STDS = [0.50, 1.00, 2.00, 3.00, 4.00];
 const DILV = [10.0, 20.0, 25.0, 50.0];
-// absorbances and data the tutorials use (and the notes' own WE6 reading, so practice is fresh)
-const RES_A = [0.468, 0.612, 0.660, 0.800, 0.200, 0.566, 0.400, 0.283, 0.0660, 0.330, 0.310, 0.686, 0.100, 1.00];
-LAB.RES_A = RES_A;
-const badA = A => RES_A.some(r => Math.abs(A - r) <= Math.max(0.005, 0.01 * r));
-LAB.badA = badA;
 const BL = { lam: 510, l: 1, zeroed: false, sel: null, pts: [], cur: null, n: 0, reading: null };
 LAB.BL = BL;
 const SRCS = ["well water", "river water", "spring water", "pond water", "rinse water from a pipe works", "rainwater from an iron roof"];
@@ -1126,7 +1202,7 @@ function newSample(){
     const V = pick(DILV), cw = +(1.0 + Math.random() * 39).toFixed(2);
     s = { name: pick(SRCS), cw, V, id: ++BL.n };
     n++;
-  } while (n < 200 && (Math.abs(s.cw - 3.12) < 0.06 || Math.abs(s.cw * s.V / 100 - 12.0) < 0.1 || s.cw * s.V / 100 < 0.6 || s.cw * s.V / 100 > 6.5 || DILV.filter(v => v <= s.V).some(v => [0.2, 1, 2].some(l => badA(show3(LAB.blAbs(s.cw * v / 100, 510, l))) || badA(show3(LAB.blAbs(s.cw * v / 100, BL.lam, l)))))));
+  } while (n < 200 && (resHit(sfS(s.cw, 3) + " " + sfS(s.cw * s.V / 100, 4) + " " + sfS(s.cw * s.V / 100, 3)) || rq("cw", s.cw, 2) || rq("cf", s.cw * s.V / 100, 1) || s.cw * s.V / 100 < 0.6 || s.cw * s.V / 100 > 6.5 || DILV.filter(v => v <= s.V).some(v => [0.2, 1, 2].some(l => badA(show3(LAB.blAbs(s.cw * v / 100, 510, l))) || badA(show3(LAB.blAbs(s.cw * v / 100, BL.lam, l)))))));
   s.cf = s.cw * s.V / 100; s.A = null;
   BL.cur = s;
   return s;
@@ -1163,7 +1239,11 @@ function blPut(id){
   BL.sel = id;
   if (id === "blank"){ BL.zeroed = true; BL.reading = { A: 0, mg: 0, blank: true }; fb("bl-fb", "ok", `Zeroed with the reagent blank: A = 0 for the solvent, the cell and the reagents. Now any absorbance is due to the iron complex alone.`); blRender(); return; }
   if (!BL.zeroed){ BL.reading = null; fb("bl-fb", "warn", "Zero the spectrometer with the reagent blank first: it sets A = 0 for everything except the iron (solvent, cell, reagents)."); blRender(); return; }
-  const A = show3(absOf(fl.mg));
+  let A = show3(absOf(fl.mg));
+  if (fl.unk){                      // at any wavelength or cell, a reading is never shown if A or %T would be a listed value: the last digit moves, as on a noisy detector
+    const bad = x => badA(x) || badAn(x) || resHit(sfS(100 * Math.pow(10, -x), 3)) || resHit(sci(x, 3));
+    if (bad(A)){ const A0 = A; for (let k = 1; k <= 14; k++) for (const sg of [1, -1]){ const x = show3(A0 + sg * k * 0.001); if (x > 0 && !bad(x)){ A = x; k = 99; break; } } }
+  }
   BL.reading = { A, mg: fl.mg, unk: !!fl.unk };
   if (fl.unk){ BL.cur.A = A; BL.cur.lam = BL.lam; BL.cur.l = BL.l; }
   else { BL.pts = BL.pts.filter(p => p.mg !== fl.mg).concat([{ mg: fl.mg, A }]).sort((a, b) => a.mg - b.mg); }
@@ -1226,6 +1306,35 @@ function blDraw(){
   setSvg(svg, W, Hh, s);
   $("bl-note").innerHTML = `Simulated spectrometer. The beam's width after the cell shows the fraction transmitted, <i>I</i>/<i>I</i><sub>0</sub> = 10<sup>−<i>A</i></sup>.` + (r && !r.blank ? H(` ${sfS(T * 100, 3)} % gets through.`) : "");
 }
+// Place the "gradient" label in the first free slot: a slot is free when no drawn element (fitted line, points, the unknown's dashed lines, cross and label) passes through its box.
+function gradLabel(X, Y, W, mm, m, xmax, ymax, xe, xx){
+  const txt = `gradient ${sfS(m, 3)} per mg dm⁻³`, w = txt.length * 6.1 + 8, top = -11, bot = 4;
+  const segs = [[X(0), Y(0), X(xx), Y(m * xx)]], dots = BL.pts.map(p => [X(p.mg), Y(p.A), 6.5]);
+  let unk = null;
+  if (BL.cur && BL.cur.A != null){
+    const xu = X(BL.cur.A / m), yu = Y(BL.cur.A);
+    segs.push([X(0), yu, xu, yu], [xu, yu, xu, Y(0)], [xu - 6, yu - 6, xu + 6, yu + 6], [xu + 6, yu - 6, xu - 6, yu + 6]);
+    const left = xu + 64 > W - mm.r;
+    unk = left ? { x: xu - 6 - 52, y: yu + 18, w: 52 } : { x: xu + 6, y: yu - 8, w: 52 };
+  }
+  const pts = [];
+  segs.forEach(([a, b, c, d]) => { const n = Math.max(2, Math.ceil(Math.hypot(c - a, d - b) / 2)); for (let i = 0; i <= n; i++) pts.push([a + (c - a) * i / n, b + (d - b) * i / n]); });
+  dots.forEach(([a, b, r]) => { for (let i = -r; i <= r; i += 2) for (let j = -r; j <= r; j += 2) if (i * i + j * j <= r * r) pts.push([a + i, b + j]); });
+  const hits = (x, y) => {
+    let n = 0;
+    pts.forEach(([a, b]) => { if (a >= x - 3 && a <= x + w + 3 && b >= y + top - 3 && b <= y + bot + 3) n++; });
+    if (unk && !(unk.x > x + w + 4 || unk.x + unk.w < x - 4 || unk.y + 4 < y + top - 2 || unk.y - 11 > y + bot + 2)) n += 50;
+    return n;
+  };
+  const xl = mm.l + 8, xr = W - mm.r - 6 - w, yb = Y(0) - 10, cand = [[xr, yb, 1]];
+  [mm.t + 14, mm.t + 34, mm.t + 54].forEach(y => cand.push([xl, y, 0]));
+  [mm.t + 14, mm.t + 34, mm.t + 54].forEach(y => cand.push([xr, y, 1]));
+  [yb - 22, yb - 44].forEach(y => cand.push([xr, y, 1]));
+  cand.push([xl, yb, 0]);
+  let best = cand[0], bn = Infinity;
+  for (const c of cand){ const n = hits(c[0], c[1]); if (n < bn){ bn = n; best = c; if (n === 0) break; } }
+  return best[2] ? T(best[0] + w, best[1], txt, "lbl halo", 'text-anchor="end"') : T(best[0], best[1], txt, "lbl halo");
+}
 function bcDraw(){
   const svg = $("bc-svg"), m = blGrad();
   const ymax = Math.max(1.0, ...BL.pts.map(p => p.A * 1.1), BL.cur && BL.cur.A != null ? BL.cur.A * 1.1 : 0);
@@ -1239,10 +1348,7 @@ function bcDraw(){
         s += `<line x1="${X(0)}" y1="${Y(0)}" x2="${X(xe)}" y2="${Y(m * xe)}" stroke="var(--s1)" stroke-width="2"/>`;
         const xx = Math.min(xmax, ymax / m);
         s += `<line x1="${X(xe)}" y1="${Y(m * xe)}" x2="${X(xx)}" y2="${Y(m * xx)}" stroke="var(--s1)" stroke-width="1.5" stroke-dasharray="5 4"/>`;
-        const xu = BL.cur && BL.cur.A != null ? X(BL.cur.A / m) : -1e9, yuA = BL.cur && BL.cur.A != null ? Y(BL.cur.A) : -1e9;
-        const lw = 190, bx = W - mm.r - 6, by = Y(0) - 10;           // bottom right, clear of the line and the points
-        const clashB = xu > bx - lw - 6 && xu < bx + 6, clashT = Math.abs(yuA - (mm.t + 14)) < 18 && xu > mm.l + 8;
-        s += !clashB ? T(bx, by, `gradient ${sfS(m, 3)} per mg dm⁻³`, "lbl halo", 'text-anchor="end"') : T(mm.l + 8, clashT ? mm.t + 34 : mm.t + 14, `gradient ${sfS(m, 3)} per mg dm⁻³`, "lbl halo");
+        s += gradLabel(X, Y, W, mm, m, xmax, ymax, xe, xx);
       }
       BL.pts.forEach(p => { s += `<circle cx="${X(p.mg).toFixed(1)}" cy="${Y(p.A).toFixed(1)}" r="4.5" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.8"/>`; });
       if (BL.cur && BL.cur.A != null && m){
@@ -1264,13 +1370,13 @@ function buRender(){
 function buWork(){
   const s = BL.cur, m = blGrad();
   if (s.A == null || !m) return null;
-  const c1 = +sf(s.A / m, 4), f = 100.0 / s.V, c2 = c1 * f;
+  const c1 = s.A / m, f = 100.0 / s.V, c2 = c1 * f;     // the unrounded flask value is carried into the dilution
   return { c1, c2, m, f, w: [ASIDE("To answer, read the concentration in the flask off the calibration line, then undo the dilution"),
     `Calibration line: A = ${sfS(m, 3)} × (mg dm⁻³ Fe), through the origin (gradient εl, here ${s.lam} nm and ${s.l.toFixed(2)} cm).`,
-    `In the flask: c = A / gradient = ${sci(s.A, 3)} / ${sfS(m, 3)} = ${sfS(c1, 4)} mg dm⁻³ (keep the unrounded value).`,
+    `In the flask: c = A / gradient = ${sci(s.A, 3)} / ${sfS(m, 3)} = ${sfS(c1, 4)} mg dm⁻³ (unrounded value kept).`,
     `Dilution: ${s.V.toFixed(1)} cm³ made up to 100.0 cm³, a factor of 100.0 / ${s.V.toFixed(1)} = ${sfS(f, 3)}.`,
     `In the water: ${sfS(c1, 4)} × ${sfS(f, 3)} = <b>${sfS(c2, 3)} mg dm⁻³ Fe</b>.`,
-    `In mol dm⁻³: ${sfS(c2, 3)} / (55.8 × 1000) = ${sci(c2 / 55.8 / 1000, 3)} mol dm⁻³.`] };
+    `In mol dm⁻³: ${sfS(c2, 4)} / (55.8 × 1000) = ${sci(c2 / 55.8 / 1000, 3)} mol dm⁻³.`] };
 }
 LAB.buWork = buWork;
 function buCheck(){
@@ -1280,7 +1386,13 @@ function buCheck(){
   if (s.A == null) return say("warn", "Put the unknown in the cell and measure it first."), false;
   if (s.A > 1.0) return say("warn", `A = ${sci(s.A, 3)} is above about 1: dilute it (take less sample) and measure again before reading off.`), false;
   if (s.A / W.m > Math.max(...BL.pts.map(p => p.mg)) * 1.02) return say("warn", "The reading is above your highest standard: dilute it so it falls inside the calibration range."), false;
-  const a1 = parseNum($("bu-a1").value), a2 = parseNum($("bu-a2").value);
+  const p1 = parseAnswer($("bu-a1").value, ["mgdm3"]), p2 = parseAnswer($("bu-a2").value, ["mgdm3"]);
+  const bad = [[p1, "flask", "bu-a1"], [p2, "water", "bu-a2"]].filter(x => x[0].error);
+  if (bad.length){
+    bad.forEach(x => $(x[2]).setAttribute("aria-invalid", "true"));
+    return say("warn", bad.length === 2 && bad[0][0].error === bad[1][0].error ? bad[0][0].error : bad.map(x => `${x[1] === "flask" ? "Flask" : "Water"} box: ${x[0].error}`).join(" ")), false;
+  }
+  const a1 = p1.value, a2 = p2.value;
   const ok1 = Math.abs(a1 - W.c1) <= 0.015 * W.c1, ok2 = Math.abs(a2 - W.c2) <= 0.015 * W.c2;
   $("bu-a1").setAttribute("aria-invalid", String(!ok1)); $("bu-a2").setAttribute("aria-invalid", String(!ok2));
   if (ok1 && ok2) return say("ok", `Correct: ${sfS(W.c1, 3)} mg dm⁻³ in the flask, ${sfS(W.c2, 3)} mg dm⁻³ in the water.`), true;
@@ -1335,7 +1447,8 @@ function bindBL(){
   blMethod(); newSample();
   $("bl-lam").oninput = e => { BL.lam = +e.target.value; blSens(); blReset("Changing the wavelength changes every reading: zero with the blank again and re-measure the standards (the calibration starts again)."); blRender(); bcDraw(); };
   document.querySelectorAll("#bl-cell input").forEach(i => i.onchange = () => { BL.l = +i.value; blReset("A new cell changes every reading (A ∝ l): zero with the blank again and re-measure the standards."); blRender(); bcDraw(); });
-  $("bu-new").onclick = () => { newSample(); $("bu-fb").hidden = true; $("bu-work").hidden = true; $("bu-a1").value = ""; $("bu-a2").value = ""; if (BL.sel === "u") BL.sel = null; blRender(); bcDraw(); buRender(); };
+  ["bu-a1", "bu-a2"].forEach(id => { $(id).onkeydown = e => { if (e.key === "Enter") buCheck(); }; });
+  $("bu-new").onclick = () => { newSample(); $("bu-fb").hidden = true; $("bu-work").hidden = true; $("bu-a1").value = ""; $("bu-a2").value = ""; $("bu-a1").removeAttribute("aria-invalid"); $("bu-a2").removeAttribute("aria-invalid"); BL.sel = null; BL.reading = null; fb("bl-fb", "info", "New sample ready: put the unknown in the cell and measure it."); blRender(); bcDraw(); buRender(); };
   $("bu-dil").onclick = () => { const s = BL.cur, i = DILV.indexOf(s.V); if (i > 0){ s.V = DILV[i - 1]; s.cf = s.cw * s.V / 100; s.A = null; if (BL.sel === "u") { BL.sel = null; BL.reading = null; } fb("bl-fb", "info", `New flask: ${s.V.toFixed(1)} cm³ of the sample made up to 100.0 cm³. Measure it again.`); $("bu-fb").hidden = true; $("bu-work").hidden = true; blRender(); bcDraw(); buRender(); } };
   $("bu-check").onclick = buCheck;
   $("bu-show").onclick = () => { const W = buWork(); $("bu-work").innerHTML = W ? W.w.map(t => `<li>${H(t)}</li>`).join("") : `<li>${H("Draw the calibration line (at least two standards) and measure the unknown first.")}</li>`; $("bu-work").hidden = false; };
@@ -1345,8 +1458,7 @@ function bindBL(){
 LAB.blSet = (lam, l) => { if (lam != null){ BL.lam = lam; $("bl-lam").value = lam; } if (l != null){ BL.l = l; document.querySelectorAll("#bl-cell input").forEach(i => i.checked = +i.value === l); } blSens(); blReset(); blRender(); bcDraw(); };
 
 /* =====================================================
-   2. CHROMOPHORES AND TRANSITIONS. Molecules from DATA.md's allowed list only; values from its literature list.
-   Ethanal carries no λmax or ε (Tutorial 1 Q4 gives ethanal's data). No reserved molecule appears.
+   2. CHROMOPHORES AND TRANSITIONS. Values from the literature list.
    ===================================================== */
 const TRN = { ss: "σ→σ*", ns: "n→σ*", pp: "π→π*", np: "n→π*", dd: "d–d", ct: "charge transfer" };
 const ZZ = (n, orders) => { const at = [], bd = []; for (let i = 0; i < n; i++) at.push(["", i * 0.87, i % 2 ? 0 : 0.5]); for (let i = 0; i < n - 1; i++) bd.push([i, i + 1, orders[i]]); return { at, bd }; };
@@ -1391,8 +1503,8 @@ const CR = [
     why: "Its C=O gives a weak n→π* band above 200 nm, as in propanone." },
   { id: "phphA", n: "phenolphthalein, acid form", fex: true, orb: "sp", tr: [["pp", "UV only", null]], above: true, phph: "acid", parts: [{ t: "benzene rings", ring: [0, 1, 2], kind: "ring", msg: "Three benzene rings, each its own π system: they absorb only in the UV, so this form is colourless." }, { t: "central carbon (sp³)", cent: true, kind: "cent", msg: "The central carbon is sp³: it breaks the conjugation between the rings, so no long chromophore forms." }],
     why: "Its separate benzene rings absorb only in the UV (below the visible), so this form is colourless." },
-  { id: "phphB", n: "phenolphthalein, alkaline form", fex: true, orb: "sp", tr: [["pp", "about 552", null]], above: true, phph: "alk", parts: [{ t: "conjugated system across the rings", ring: [0, 1, 2], kind: "conj", msg: "In alkali the central carbon becomes sp², so one conjugated system spans the rings: λmax about 552 nm. It absorbs green-yellow light and looks pink." }, { t: "central carbon (sp²)", cent: true, kind: "conj", msg: "The central carbon is now sp²: its p orbital links the rings into one conjugated system." }],
-    why: "One conjugated system across the rings: λmax about 552 nm, in the visible (pink)." },
+  { id: "phphB", n: "phenolphthalein, alkaline form", fex: true, orb: "sp", tr: [["pp", "about 552", null]], above: true, phph: "alk", parts: [{ t: "conjugated system across the rings", ring: [0, 1, 2], kind: "conj", msg: "In alkali the central carbon becomes sp², so one conjugated system spans the rings: λ{max} about 552 nm. It absorbs green light and looks pink." }, { t: "central carbon (sp²)", cent: true, kind: "conj", msg: "The central carbon is now sp²: its p orbital links the rings into one conjugated system." }],
+    why: "One conjugated system across the rings: λ{max} about 552 nm, in the visible (pink)." },
   { id: "fephen", n: "[Fe(phen)₃]²⁺", inorg: "ct", tr: [["ct", "510", "1.11 × 10⁴"]], above: true, parts: [{ t: "the Fe²⁺–phen complex", cent: true, kind: "ct", msg: "Its intense orange-red colour comes from a charge-transfer band (beyond the syllabus) at 510 nm, ε 1.11 × 10⁴: over a hundred times stronger than a d–d band, so mg dm⁻³ of iron can be measured." }],
     why: "An intense charge-transfer band at 510 nm (visible), ε 1.11 × 10⁴." },
   { id: "tiaq", n: "[Ti(H₂O)₆]³⁺", inorg: "dd", tr: [["dd", "about 500", "below about 100", true]], above: true, parts: [{ t: "Ti³⁺ (one d electron)", cent: true, kind: "dd", msg: "One d electron in the lower d orbitals: d–d at about 500 nm (Topic 13). d–d transitions in octahedral complexes are forbidden, so ε is usually below about 100 and the colour is pale." }],
@@ -1585,7 +1697,7 @@ function crAnswer(yes){
 }
 LAB.crAnswer = crAnswer;
 
-/* ---------- conjugation view: simulated spectra from the DATA.md band model ---------- */
+/* ---------- conjugation view: simulated spectra from the band model ---------- */
 const CJ = { set: "poly", log: false };
 LAB.CJ = CJ;
 const CJS = { poly: [{ id: "ethene", n: "ethene, 171 nm", col: "--s1", dash: "" }, { id: "butadiene", n: "buta-1,3-diene, 217 nm", col: "--s2", dash: "6 4" }, { id: "hexatriene", n: "hexa-1,3,5-triene, about 258 nm", col: "--s3", dash: "2 3" }],
@@ -1603,7 +1715,7 @@ function cjDraw(){
     under: (X, Y, W, Hh, m) => `<rect x="${X(x0)}" y="${m.t}" width="${X(200) - X(x0)}" height="${Hh - m.t - m.b}" fill="var(--s3-wash)"/>` + T(X((x0 + 200) / 2), m.t + 14, "below 200 nm", "cap", 'text-anchor="middle"'),
     over: (X, Y) => set.map(sc => UVM[sc.id].filter(b => b[0] >= x0 && b[0] <= x1).map(b => { const v = uvEps(sc.id, b[0]) / norm(sc.id); return `<circle cx="${X(b[0])}" cy="${Y(Math.max(v, yr[0]))}" r="3.5" fill="var(${sc.col})"/>`; }).join("")).join("") });
   $("cj-leg").innerHTML = legendHTML(set.map(sc => ({ col: `var(${sc.col})`, dash: sc.dash, t: sc.n })));
-  $("cj-head").innerHTML = H(poly ? "Simulated UV spectra of the polyenes" : "Simulated UV spectra of propanone and but-3-en-2-one") + ` <span class="hint">simulated; ${poly ? "each scaled to its own maximum (ε of the triene not quoted)" : "ε from literature λmax and ε"}</span>`.replace("λmax", "λ<sub>max</sub>");
+  $("cj-head").innerHTML = H(poly ? "Simulated UV spectra of the polyenes" : "Simulated UV spectra of propanone and but-3-en-2-one") + ` <span class="hint">simulated; ${poly ? "each scaled to its own maximum (ε of the triene not quoted)" : "ε from literature λ<sub>max</sub> and ε"}</span>`;
   $("cj-note").innerHTML = H(poly ? "Each extra conjugated C=C narrows the HOMO–LUMO gap, so π→π* moves to longer wavelength: 171 → 217 → about 258 nm. Ethene's band is below 200 nm, outside the usual range." : (CJ.log ? "On the logarithmic axis the weak n→π* bands show: both move to longer wavelength with conjugation (280 → 324 nm), as the π→π* bands do (188 → 219 nm)." : "On a linear axis the n→π* bands (ε 15 and 24) are too weak to see: switch on the logarithmic axis."));
   $("cj-txt").innerHTML = H(poly ? "Conjugation spreads the π system over more atoms. With more p orbitals the π MOs crowd closer together, so the HOMO–LUMO gap gets smaller and the band shifts to longer wavelength (H3.1 Part 2). Long enough conjugation brings the band into the visible: the compound is coloured, and the colour seen is the complementary colour (Topic 13)." : "Conjugating the C=O with a C=C lowers π* and raises π, so both bands of the C=O chromophore move to longer wavelength.");
   cgDraw();
@@ -1671,7 +1783,7 @@ function ppDraw(){
   if (alk) s += BT(X(552), Y(1) - 6, "λ{max} about 552 nm", "btb", 'text-anchor="middle"');
   else s += BT((x0 + x1) / 2, 70, "no visible band", "btb", 'text-anchor="middle"');
   setSvg(svg, W, Hh, s);
-  $("pp-note").innerHTML = H(alk ? "In alkali the central carbon becomes sp² and one conjugated system spans the rings: the band moves into the visible, about 552 nm (literature). It absorbs green-yellow light, so the solution looks pink (the complementary colour). Indicators: Topic 10." : "In acid the three benzene rings are joined through an sp³ carbon, so they are not conjugated with each other: phenolphthalein absorbs only in the UV and the solution is colourless.");
+  $("pp-note").innerHTML = H(alk ? "In alkali the central carbon becomes sp² and one conjugated system spans the rings: the band moves into the visible, about 552 nm (literature). It absorbs green light, so the solution looks pink (the complementary colour). Indicators: Topic 10." : "In acid the three benzene rings are joined through an sp³ carbon, so they are not conjugated with each other: phenolphthalein absorbs only in the UV and the solution is colourless.");
 }
 
 function bindCR(){
@@ -1736,7 +1848,7 @@ function vvDraw(){
   if (VB.dip){
     if (len > 3){
       const ux = ax / len, uy = ay / len, ac = [W / 2, Hh - 28], x1 = ac[0] - ax / 2, y1 = ac[1] - ay / 2, x2 = ac[0] + ax / 2, y2 = ac[1] + ay / 2;
-      s += BT(Math.min(x1, x2) - 10, ac[1] + 4, "dipole", "bt", 'text-anchor="end"') + arrow([x1, y1], [x2, y2], "#141a20", { sw: 2.4 }) + `<line x1="${(x1 + ux * 6 - uy * 6).toFixed(1)}" y1="${(y1 + uy * 6 + ux * 6).toFixed(1)}" x2="${(x1 + ux * 6 + uy * 6).toFixed(1)}" y2="${(y1 + uy * 6 - ux * 6).toFixed(1)}" stroke="#141a20" stroke-width="2.4"/>`;
+      s += BT(Math.min(x1, x2) - 10, ac[1] + 4, "dipole", "bt vdip", 'text-anchor="end"') + arrow([x1, y1], [x2, y2], "#141a20", { sw: 2.4 }) + `<line x1="${(x1 + ux * 6 - uy * 6).toFixed(1)}" y1="${(y1 + uy * 6 + ux * 6).toFixed(1)}" x2="${(x1 + ux * 6 + uy * 6).toFixed(1)}" y2="${(y1 + uy * 6 - ux * 6).toFixed(1)}" stroke="#141a20" stroke-width="2.4"/>`;
     } else if (Math.hypot(...md.mu0) < 1e-9 && !md.active) s += BT(W / 2, Hh - 12, "dipole moment zero throughout", "btb", 'text-anchor="middle"');
   }
   setSvg(svg, W, Hh, s);
@@ -1783,7 +1895,7 @@ function vInfo(){
   const { m, md } = vCur(), N = m.at.length, nv = nVib(m);
   const shape = { CO2: "linear", SO2: "bent", H2O: "bent", HCl: "linear (diatomic)", N2: "linear (diatomic)", O2: "linear (diatomic)", CH4: "tetrahedral", CHF3: "tetrahedral (distorted)" }[m.id];
   $("vb-info").innerHTML = (m.fex ? FEX : "") + H(`${m.f} is ${shape}: N = ${N}, so ${3}N − ${m.lin ? 5 : 6} = ${3 * N} − ${m.lin ? 5 : 6} = ${nv} vibration${nv === 1 ? "" : "s"}. (3N ways to move, minus 3 for moving the whole molecule, minus ${m.lin ? 2 : 3} for rotating it.) `) +
-    H(m.id === "N2" || m.id === "O2" ? "A homonuclear diatomic has no partial charges, so stretching it never makes a dipole: no IR absorption." : m.id === "HCl" ? "H–Cl is polar: stretching the bond changes the dipole moment, so it absorbs." : m.id === "CO2" ? { ss: "In the symmetric stretch the two bond dipoles stay equal and opposite, so the dipole stays zero.", as: "In the asymmetric stretch one C=O lengthens as the other shortens, so a dipole appears and changes.", b1: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes.", b2: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes." }[md.id] : "");
+    H(m.id === "N2" || m.id === "O2" ? "A homonuclear diatomic has no partial charges, so stretching it never makes a dipole: no IR absorption." : m.id === "HCl" ? "H–Cl is polar: stretching the bond changes the dipole moment, so it absorbs." : m.id === "CO2" ? { ss: "In the symmetric stretch the two bond dipoles still cancel, so the dipole stays zero.", as: "In the asymmetric stretch one C=O lengthens as the other shortens, so a dipole appears and changes.", b1: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes.", b2: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes." }[md.id] : "");
   const kj = md.wn ? kjOfWn(md.wn) : null;
   $("vb-read").innerHTML = [
     ["This vibration", md.kind === "bend" ? "bending: changes a bond angle" : "stretching: changes bond lengths"],
@@ -1873,7 +1985,7 @@ function bindVB(){
 }
 
 /* =====================================================
-   4. IR SPECTRUM READER: simulated spectra (DATA.md model) for the 16 allowed compounds only.
+   4. IR SPECTRUM READER: simulated spectra for 16 compounds.
    Modes: tap the bands, mark the groups, suggest the structure (among these 16 only), predict the bands.
    ===================================================== */
 const IR = { mode: "read", id: "ethanol", band: null, sel: new Set(), opts: null, answered: false, score: { mark: [0, 0], sugg: [0, 0], pred: [0, 0] } };
@@ -1898,9 +2010,9 @@ function isDraw(){
   const hideSpec = IR.mode === "pred" && !IR.answered;
   const named = !(IR.mode === "sugg" && !IR.answered);
   const xs = []; for (let x = 4000; x >= 400; x -= 2) xs.push(x);
-  const C = lineChart(svg, { x: [4000, 400], y: [0, 138], h: W < 520 ? 250 : 290, ml: 44, xticks: [4000, 3500, 3000, 2500, 2000, 1500, 1000, 500], yticks: [50, 100], xlab: "wavenumber / cm⁻¹", ylab: "transmittance / %",
+  const C = lineChart(svg, { x: [4000, 400], y: [0, 158], h: W < 520 ? 250 : 290, ml: 44, xticks: [4000, 3500, 3000, 2500, 2000, 1500, 1000, 500], yticks: [50, 100], xlab: "wavenumber / cm⁻¹", ylab: "transmittance / %",
     series: hideSpec ? [] : [{ col: "var(--s1)", w: 1.8, pts: xs.map(x => [x, irT(c, x)]) }],
-    under: (X, Y, Wd, Hh, m) => `<rect x="${X(1500)}" y="${m.t}" width="${X(400) - X(1500)}" height="${Hh - m.t - m.b}" fill="var(--s3-wash)"/>` + T(X(1500) + 5, Y(133), "fingerprint region", "cap"),
+    under: (X, Y, Wd, Hh, m) => `<rect x="${X(1500)}" y="${m.t}" width="${X(400) - X(1500)}" height="${Hh - m.t - m.b}" fill="var(--s3-wash)"/>` + (W < 520 ? T(X(400) - 4, Y(153), "fingerprint region", "cap", 'text-anchor="end"') + T(X(400) - 4, Y(140), "(below about 1500 cm⁻¹)", "cap", 'text-anchor="end"') : T(X(1500) + 6, Y(153), "fingerprint region (below about 1500 cm⁻¹)", "cap")),
     over: (X, Y) => {
       if (hideSpec) return T((X(4000) + X(500)) / 2, Y(55), "Spectrum hidden: predict first", "lblb", 'text-anchor="middle"');
       let s = "";
@@ -1933,7 +2045,7 @@ function irBand(i){
     const sr = SUBROW[b[4]], r = BOOK[sr.row];
     const named = !(IR.mode === "sugg" && !IR.answered);
     out.className = "fb ok";
-    out.innerHTML = H(`Band at ${b[0]} cm⁻¹${b[3] ? " (broad)" : ""}: ${r.bond}, ${sr.grp}, ${sr.lo}–${sr.hi} cm⁻¹${named ? ` (in ${c.n})` : ""}.`) + `<p class="ink" style="margin-top:6px">${H("Data Booklet row: " + rowQuote(r))}</p>` + (b[4] === "OHhb" ? `<p style="margin-top:6px">${H("Broad because of hydrogen bonding: a range of O–H bond strengths.")}</p>` : b[4] === "OHacid" ? `<p style="margin-top:6px">${H("Very broad: the acid molecules are hydrogen-bonded in pairs (dimers).")}</p>` : "");
+    out.innerHTML = H(`Band at ${b[0]} cm⁻¹${b[3] ? " (broad)" : ""}: ${r.bond}, ${sr.grp}, ${sr.lo}–${sr.hi} cm⁻¹${named ? ` (in ${c.n})` : ""}.`) + `<p class="ink" style="margin-top:6px">${H("Data Booklet row: " + rowQuote(r))}</p>` + (b[4] === "OHhb" ? `<p style="margin-top:6px">${H("Broad because of hydrogen bonding: a range of O–H bond strengths.")}</p>` : b[4] === "OHacid" ? `<p style="margin-top:6px">${H("Very broad: the acid molecules are hydrogen-bonded in pairs (dimers).")}</p>` : b[4] === "NH" ? nhNote(c) : "");
     irTable(sr.row);
   }
   isDraw();
@@ -1954,15 +2066,18 @@ function grpGrade(c, sel){
 LAB.grpGrade = (id, arr) => grpGrade(irC(id), new Set(arr));
 const gName = id => GRP.find(g => g.id === id).t;
 function keyBands(c){
-  return c.bands.filter(b => b[4]).map(b => { const sr = SUBROW[b[4]]; return `${BOOK[sr.row].bond} ${b[0]} (${sr.lo}–${sr.hi})`; }).filter((t, i, a) => a.findIndex(u => u.split(" ")[0] === t.split(" ")[0]) === i).join("; ");
+  // one entry per Data Booklet row (so alkyl C–H and =C–H both show), the first band of each
+  return c.bands.filter((b, i, a) => b[4] && a.findIndex(u => u[4] === b[4]) === i).map(b => { const sr = SUBROW[b[4]]; return `${BOOK[sr.row].bond} ${b[0]} (${sr.lo}–${sr.hi})`; }).join("; ");
 }
 LAB.keyBands = id => keyBands(irC(id));
 function irNew(){
   let id; do { id = pick(IRC).id; } while (id === IR.id);
   IR.id = id; IR.sel = new Set(); IR.answered = false; IR.band = null;
   if (IR.mode === "sugg"){
-    const c = irC(id), used = new Set([c.sig]), opts = [id];
-    shuffle(IRC).forEach(o => { if (opts.length < 4 && !used.has(o.sig)){ used.add(o.sig); opts.push(o.id); } });
+    const c = irC(id), used = new Set([c.sig]), opts = [id], order = shuffle(IRC);
+    // an option is offered only if a required group chip separates it from the answer (see sepFrom)
+    order.forEach(o => { if (opts.length < 4 && !used.has(o.sig) && sepFrom(c, o)){ used.add(o.sig); opts.push(o.id); } });
+    order.forEach(o => { if (opts.length < 4 && !opts.includes(o.id) && !used.has(o.sig)){ used.add(o.sig); opts.push(o.id); } });
     IR.opts = shuffle(opts); IR.pick = null;
   }
   irRender();
@@ -1991,6 +2106,8 @@ function irRender(){
   irTable(IR.band != null && irC(IR.id).bands[IR.band][4] ? SUBROW[irC(IR.id).bands[IR.band][4]].row : null);
   isDraw();
 }
+// N–H bands sit inside the H-bonded O–H range: say so whenever an N–H compound is in the feedback
+const nhNote = (...cs) => cs.some(c => c.grps.includes("NH")) ? `<p style="margin-top:6px">${H("N–H bands (3300–3500 cm⁻¹) also fall inside the O–H range (3200–3600 cm⁻¹).")}</p>` : "";
 function irCheck(){
   const c = irC(IR.id), g = grpGrade(c, IR.sel), out = $("ir-fb"), sc = IR.score[IR.mode];
   if (!IR.answered){ sc[1]++; if (g.ok) sc[0]++; }
@@ -1998,7 +2115,7 @@ function irCheck(){
   out.className = "fb " + (g.ok ? "ok" : "no");
   const fpx = g.extra.map(x => { const w = fpIn(c, x); const many = w.length > 1, ws = many ? w.slice(0, -1).join(", ") + " and " + w[w.length - 1] : String(w[0]);
     return w.length ? `Its ${ws} cm⁻¹ band${many ? "s fall" : " falls"} in the ${gName(x)} range, but ${c.n} has no ${gName(x)} bond: ${many ? "they are fingerprint bands" : "it is a fingerprint band"}.` : ""; }).filter(Boolean).join(" ");
-  out.innerHTML = H(g.ok ? `Correct. ${c.n}: ${keyBands(c)}.` : `${g.missing.length ? "Missing: " + g.missing.map(gName).join("; ") + ". " : ""}${g.extra.length ? "Not present: " + g.extra.map(gName).join("; ") + ". " : ""}${fpx ? fpx + " " : ""}Bands of ${c.n}: ${keyBands(c)}.`) + (c.opt.length ? `<p style="margin-top:6px">${H(`The ${c.opt.map(gName).join(" and ")} band is hidden under the broad O–H, so it may be marked or left out.`)}</p>` : "") + `<p style="margin-top:6px">${H(FPNOTE)}</p>`;
+  out.innerHTML = H(g.ok ? `Correct. ${c.n}: ${keyBands(c)}.` : `${g.missing.length ? "Missing: " + g.missing.map(gName).join("; ") + ". " : ""}${g.extra.length ? "Not present: " + g.extra.map(gName).join("; ") + ". " : ""}${fpx ? fpx + " " : ""}Bands of ${c.n}: ${keyBands(c)}.`) + (c.opt.length ? `<p style="margin-top:6px">${H(`The ${c.opt.map(gName).join(" and ")} band is hidden under the broad O–H, so it may be marked or left out.`)}</p>` : "") + `${nhNote(c)}<p style="margin-top:6px">${H(FPNOTE)}</p>`;
   out.hidden = false;
   irRender();
   return g.ok;
@@ -2012,7 +2129,7 @@ function irSugg(id){
   const p = irC(id), out = $("ir-fb");
   const miss = c.req.filter(g => !p.grps.includes(g)).map(gName), extra = p.req.filter(g => !c.grps.includes(g)).map(gName);
   out.className = "fb " + (ok ? "ok" : "no");
-  out.innerHTML = H(ok ? `Correct: ${c.n}. Key bands: ${keyBands(c)}.` : `Not quite: it is ${c.n} (${keyBands(c)}). ${p.n} would ${extra.length ? "show " + extra.join("; ") : ""}${extra.length && miss.length ? " and would " : ""}${miss.length ? "not show " + miss.join("; ") : ""}.`) + `<p style="margin-top:6px">${H(FPNOTE)}</p>`;
+  out.innerHTML = H(ok ? `Correct: ${c.n}. Key bands: ${keyBands(c)}.` : `Not quite: it is ${c.n} (${keyBands(c)}). ${p.n} would ${extra.length ? "show " + extra.join("; ") : ""}${extra.length && miss.length ? " and would " : ""}${miss.length ? "not show " + miss.join("; ") : ""}.`) + nhNote(c, p) + `<p style="margin-top:6px">${H(FPNOTE)}</p>`;
   out.hidden = false;
   irRender();
   return ok;
@@ -2027,7 +2144,7 @@ LAB.irMode = m => { IR.mode = m; IR.answered = false; IR.band = null; IR.sel = n
 LAB.irSet = id => { IR.id = id; IR.band = null; IR.answered = false; IR.sel = new Set(); irRender(); };
 
 /* =====================================================
-   5. GREENHOUSE GASES: N₂, O₂, Ar, CO₂, H₂O, CH₄, CHF₃ only (no SF₆, no N₂O). Schematic, not a climate model.
+   5. GREENHOUSE GASES: N₂, O₂, Ar, CO₂, H₂O, CH₄, CHF₃. Schematic, not a climate model.
    Emission: Planck per unit wavelength at 288 K, plotted against wavenumber (peaks near 10 µm, about 1000 cm⁻¹).
    ===================================================== */
 const GHS = { on: new Set(["CO2", "H2O"]), win: true };
@@ -2077,10 +2194,10 @@ function ghInfo(){
   const none = on.filter(g => !g.act).map(g => g.f);
   const parts = [];
   if (!on.length) parts.push("No gases switched on: all the surface's infrared would escape to space.");
-  if (none.length) parts.push(`${none.join(", ")}: no IR-active vibrations, so ${none.length > 1 ? "they absorb" : "it absorbs"} nothing (N₂, O₂ and Ar are 99 % of dry air).`);
+  if (none.length) parts.push(`${none.join(", ")}: no IR-active vibrations, so ${none.length > 1 ? "they absorb" : "it absorbs"} nothing (N₂, O₂ and Ar are over 99 % of dry air).`);
   if (inWin.length) parts.push(`Absorbs inside the atmospheric window: ${inWin.join(", ")}. Radiation there would otherwise escape, so each molecule has a large effect.`);
   if (edge.length) parts.push(`At the edge of the window: ${edge.join(", ")}.`);
-  if (on.some(g => g.id === "CO2")) parts.push("CO₂'s bending band (about 15 µm) sits near the peak of the emission.");
+  if (on.some(g => g.id === "CO2")) parts.push("CO₂'s bending band (about 15 µm) lies on the long-wavelength side of the emission peak, where the emission is still strong.");
   const off = [["H2O", "the H₂O stretches (3657, 3756 cm⁻¹)"], ["CH4", "the C–H stretch of CH₄ (3019 cm⁻¹)"], ["CHF3", "the C–H stretch of CHF₃ (3035 cm⁻¹)"]].filter(o => GHS.on.has(o[0])).map(o => o[1]);
   if (off.length) parts.push(`${off.join(", ").replace(/, ([^,]*)$/, " and $1")} lie${off.length > 1 ? "" : "s"} above 2500 cm⁻¹, off this chart: the surface at 288 K emits very little there.`.replace(/^./, ch => ch.toUpperCase()));
   $("gh-info").innerHTML = parts.map(t => `<p>${H(t)}</p>`).join("");
@@ -2102,21 +2219,10 @@ function bindGH(){
 }
 
 /* =====================================================
-   6. PRACTICE GENERATOR. Excludes every number reserved for the tutorials (DATA.md RESERVED list):
-   ε 1.50 × 10⁴, 800, 9.89 × 10³, 1000 and 20; A 0.660, 0.468, 0.612, 0.800, 0.566, 0.400, 0.283, 0.200; %T 21.9;
-   4.40 × 10⁻⁵ and 0.040 mol dm⁻³; gradient 0.0510; 1 : 20 and 1.00 cm³ → 100 cm³ dilutions; 240 and 12.0 mg dm⁻³;
-   the CS₂, OCS, H₂S and SF₆ wavenumbers; 273, 187, 278, 245, 232, 295, 340, 360 and 365 nm; the hydrazone ε 2 × 10⁴; and the notes' own worked values.
+   6. PRACTICE GENERATOR (Data Booklet h, c, L, A_r; generated values illustrative).
+   A few numbers are kept out of the generated questions so practice stays fresh: see the hash set in the shared helpers.
    ===================================================== */
-const RES_EPS = [1.50e4, 800, 9890, 1000, 20, 5000, 2.0e4, 40];
-const badEps = e => RES_EPS.some(r => Math.abs(e - r) <= 0.01 * r);
-const RES_WN = [948, 1535, 397, 658, 2062, 859, 520, 2615, 2626, 1183, 2900, 1700, 2143, 1876, 2559];
-const NOTES_WN = [2349, 667, 1340, 1151, 1362, 518, 3657, 3756, 1595, 2886, 1715, 4000, 400, 1000, 1150, 1306, 3019, 3035, 2330, 1556];
-const badWn = w => RES_WN.some(r => Math.abs(w - r) <= 12) || NOTES_WN.some(r => Math.abs(w - r) <= 5);
-const RES_NM = [273, 187, 278, 245, 340, 360, 365, 290, 223, 178, 210, 315, 260, 254, 450, 486, 232, 295, 405];
-const NOTES_NM = [135, 171, 184, 173, 258, 227, 188, 217, 204, 255, 219, 280, 324, 510, 552, 167];
-const badNm = n => RES_NM.some(r => Math.abs(n - r) <= 2) || NOTES_NM.some(r => Math.abs(n - r) <= 1);
-LAB.badEps = badEps; LAB.badWn = badWn; LAB.badNm = badNm;
-const rA = () => { let A; do { A = ri(150, 950) / 1000; } while (badA(A)); return A; };
+const rA = max => { let A; do { A = ri(150, 950) / 1000; } while (badA(A) || (max != null && A > max)); return A; };
 const BLC = [
   { n: "buta-1,3-diene in hexane", lam: 217, e: 21000 }, { n: "but-3-en-2-one in hexane", lam: 219, e: 3600 }, { n: "benzene in hexane", lam: 204, e: 7900 },
   { n: "[Fe(phen)₃]²⁺", lam: 510, e: 11100 }, { n: "propanone in hexane (the n→π* band)", lam: 280, e: 15 }, { n: "but-3-en-2-one in hexane (the n→π* band)", lam: 324, e: 24 }
@@ -2150,36 +2256,36 @@ function genBL(){
     }
   }
   if (!cp.ill) W0.push(`${cp.n}: λ{max} ${cp.lam} nm, ε ${eS} dm³ mol⁻¹ cm⁻¹ (literature value).`);
-  return { type: "bl", text, label: lab, ans, work: w.concat(W0), fmt: "3 significant figures, e.g. 0.452, 2.15e-5 or 2.15 × 10⁻⁵", alts };
+  return { type: "bl", units: ask === "A" ? [] : ask === "c" ? ["moldm3"] : ["eps"], text, label: lab, ans, work: w.concat(W0), fmt: "3 significant figures, e.g. 0.452, 2.15e-5 or 2.15 × 10⁻⁵", alts };
 }
 function genPT(){
   if (Math.random() < 0.5){
-    let A; do { A = pick([ri(5, 99) / 100, ri(100, 250) / 100]); } while ([0.30, 1.00, 2.00, 0.60, 0.10].some(r => Math.abs(A - r) < 0.005) || badA(A));
+    let A; do { A = pick([ri(5, 99) / 100, ri(100, 200) / 100]); } while (badAn(A) || badA(A) || rh("pt:" + Math.round(100 * Math.pow(10, -A))));
     const t = 100 * Math.pow(10, -A);
-    return { type: "pt", text: `A solution has absorbance ${A.toFixed(2)}. What percentage of the light is transmitted?`, label: "%T", ans: ansN(t, 3), fmt: "3 significant figures, e.g. 35.5",
+    return { type: "pt", units: ["pct"], text: `A solution has absorbance ${A.toFixed(2)}. What percentage of the light is transmitted?`, label: "%T", ans: ansN(t, 3), fmt: "3 significant figures, e.g. 35.5",
       work: [ASIDE("To answer, use A = −lg T, so T = 10 to the power −A"), `T = I/I₀ = 10^(−${A.toFixed(2)}) = ${sfS(t / 100, 4)}`, `%T = <b>${sfS(t, 3)} %</b>`], alts: [{ v: t / 100, msg: "That is the fraction I/I₀: multiply by 100 for a percentage." }, { v: 100 - t, msg: "That is the percentage absorbed, not transmitted." }] };
   }
-  let p; do { p = ri(2, 95); } while ([25, 80, 50, 10, 1, 22, 90, 99, 79, 21].includes(p));
+  let p; do { p = ri(2, 95); } while (badPct(p));
   const A = -Math.log10(p / 100);
-  return { type: "pt", text: `${p} % of the light passes through a solution. Calculate its absorbance.`, label: "A", ans: ansN(A, 3), fmt: "3 significant figures, e.g. 0.523",
+  return { type: "pt", units: [], text: `${p} % of the light passes through a solution. Calculate its absorbance.`, label: "A", ans: ansN(A, 3), fmt: "3 significant figures, e.g. 0.523",
     work: [ASIDE("To answer, change the percentage to a fraction, then A = −lg T = lg(I₀/I)"), `T = ${p} / 100 = ${(p / 100).toFixed(2)}`, `A = −lg ${(p / 100).toFixed(2)} = <b>${sfS(A, 3)}</b>`], alts: [{ v: -Math.log10(1 - p / 100), msg: `${p} % is transmitted: use T = ${(p / 100).toFixed(2)}, not the fraction absorbed.` }, { v: -Math.log(p / 100), msg: "Use lg (log to base 10), not ln." }] };
 }
 function genCal(){
   if (Math.random() < 0.55){
     let V, A, c1, cw;
-    do { V = pick(DILV); A = rA(); c1 = +sf(A / 0.199, 4); cw = c1 * 100 / V; } while (badA(A) || (V === 50 && Math.abs(A - 0.310) < 0.01) || Math.abs(cw - 3.12) < 0.05 || Math.abs(cw - 240) < 3 || Math.abs(cw - 12.0) < 0.2);
+    do { V = pick(DILV); A = rA(0.79); c1 = A / 0.199; cw = c1 * 100 / V; } while ((V === 50 && rq("a50", A, 3)) || rq("cw", cw, 2) || rq("cs", cw, 0) || rq("cf", cw, 1));
     const mol = Math.random() < 0.3;
     const ans = mol ? cw / AR.Fe / 1000 : cw;
-    const w = [ASIDE("To answer, read the concentration in the flask off the calibration line, then undo the dilution"), `In the flask: c = A / gradient = ${A.toFixed(3)} / 0.199 = ${sfS(c1, 4)} mg dm⁻³ (keep the unrounded value)`, `Dilution: ${V.toFixed(1)} cm³ made up to 100.0 cm³, a factor of 100.0 / ${V.toFixed(1)} = ${sfS(100 / V, 3)}`, `In the water: ${sfS(c1, 4)} × ${sfS(100 / V, 3)} = ${mol ? sfS(cw, 4) : `<b>${sfS(cw, 3)} mg dm⁻³</b>`}`];
+    const w = [ASIDE("To answer, read the concentration in the flask off the calibration line, then undo the dilution"), `In the flask: c = A / gradient = ${A.toFixed(3)} / 0.199 = ${sfS(c1, 4)} mg dm⁻³ (unrounded value kept)`, `Dilution: ${V.toFixed(1)} cm³ made up to 100.0 cm³, a factor of 100.0 / ${V.toFixed(1)} = ${sfS(100 / V, 3)}`, `In the water: ${sfS(c1, 4)} × ${sfS(100 / V, 3)} = ${mol ? sfS(cw, 4) : `<b>${sfS(cw, 3)} mg dm⁻³</b>`}`];
     if (mol) w.push(`In mol dm⁻³: ${sfS(cw, 4)} / (55.8 × 1000) = <b>${sci(ans, 3)} mol dm⁻³</b> (A{r} Fe 55.8, Data Booklet)`);
-    return { type: "cal", text: `Iron in ${pick(SRCS)} is measured as [Fe(phen)₃]²⁺. ${V.toFixed(1)} cm³ of the water is treated with NH₂OH·HCl, phen and sodium ethanoate and made up to 100.0 cm³. The solution gives A = ${A.toFixed(3)} at 510 nm in a 1.00 cm cell. The calibration line (standards 0.50 to 4.00 mg dm⁻³ Fe) has gradient 0.199 per mg dm⁻³. Calculate the iron concentration in the water${mol ? ", in mol dm⁻³" : ", in mg dm⁻³"}.`,
+    return { type: "cal", units: [mol ? "moldm3" : "mgdm3"], text: `Iron in ${pick(SRCS)} is measured as [Fe(phen)₃]²⁺. ${V.toFixed(1)} cm³ of the water is treated with NH₂OH·HCl, phen and sodium ethanoate and made up to 100.0 cm³. The solution gives A = ${A.toFixed(3)} at 510 nm in a 1.00 cm cell. The calibration line (standards 0.50 to 4.00 mg dm⁻³ Fe) has gradient 0.199 per mg dm⁻³. Calculate the iron concentration in the water${mol ? ", in mol dm⁻³" : ", in mg dm⁻³"}.`,
       label: mol ? "c / mol dm⁻³" : "c / mg dm⁻³", ans: ansN(ans, 3), work: w, fmt: "3 significant figures", alts: [{ v: (mol ? c1 / AR.Fe / 1000 : c1), msg: "That is the flask: undo the dilution (× 100.0 / V)." }, { v: (mol ? c1 * V / 100 / AR.Fe / 1000 : c1 * V / 100), msg: "The water is more concentrated than the flask: multiply by 100.0 / V." }] };
   }
   let g, V, Vf, A, c1, cs;
-  do { g = ri(300, 900) / 10000; V = pick([2.00, 10.0, 20.0, 25.0, 50.0]); Vf = pick([100.0, 250.0]); A = rA(); c1 = +sf(A / g, 4); cs = c1 * Vf / V; } while (Math.abs(g - 0.0510) < 0.003 || Math.abs(g - 0.0660) < 0.0005 || Math.abs(Vf / V - 20) < 0.01 || badA(A) || Math.abs(cs - 240) < 3 || Math.abs(c1 - 12.0) < 0.3);
-  return { type: "cal", text: `Compound Z is assayed by UV/visible spectroscopy at its λ{max} (illustrative data). Its calibration line through the origin has gradient ${g.toFixed(4)} per mg dm⁻³. ${V.toFixed(V < 10 ? 2 : 1)} cm³ of a sample solution is diluted to ${Vf.toFixed(1)} cm³ and gives A = ${A.toFixed(3)}. Calculate the concentration of Z in the sample solution, in mg dm⁻³.`,
+  do { g = ri(300, 900) / 10000; V = pick([2.00, 10.0, 20.0, 25.0, 50.0]); Vf = pick([100.0, 250.0]); A = rA(); c1 = A / g; cs = c1 * Vf / V; } while (rq("g", g, 4) || rq("dil", Vf / V, 2) || rq("cs", cs, 0) || rq("cf", c1, 1));
+  return { type: "cal", units: ["mgdm3"], text: `Compound Z is assayed by UV/visible spectroscopy at its λ{max} (illustrative data). Its calibration line through the origin has gradient ${g.toFixed(4)} per mg dm⁻³. ${V.toFixed(V < 10 ? 2 : 1)} cm³ of a sample solution is diluted to ${Vf.toFixed(1)} cm³ and gives A = ${A.toFixed(3)}. Calculate the concentration of Z in the sample solution, in mg dm⁻³.`,
     label: "c / mg dm⁻³", ans: ansN(cs, 3), fmt: "3 significant figures",
-    work: [ASIDE("To answer, read off the diluted concentration, then multiply by the dilution factor"), `Diluted solution: c = ${A.toFixed(3)} / ${g.toFixed(4)} = ${sfS(c1, 4)} mg dm⁻³ (keep the unrounded value)`, `Dilution factor: ${Vf.toFixed(1)} / ${V.toFixed(V < 10 ? 2 : 1)} = ${sfS(Vf / V, 3)}`, `Sample: ${sfS(c1, 4)} × ${sfS(Vf / V, 3)} = <b>${sfS(cs, 3)} mg dm⁻³</b>`],
+    work: [ASIDE("To answer, read off the diluted concentration, then multiply by the dilution factor"), `Diluted solution: c = ${A.toFixed(3)} / ${g.toFixed(4)} = ${sfS(c1, 4)} mg dm⁻³ (unrounded value kept)`, `Dilution factor: ${Vf.toFixed(1)} / ${V.toFixed(V < 10 ? 2 : 1)} = ${sfS(Vf / V, 3)}`, `Sample: ${sfS(c1, 4)} × ${sfS(Vf / V, 3)} = <b>${sfS(cs, 3)} mg dm⁻³</b>`],
     alts: [{ v: c1, msg: "That is the diluted solution: multiply by the dilution factor." }, { v: c1 * V / Vf, msg: "The sample is more concentrated than the diluted solution: multiply by the factor, don't divide." }] };
 }
 function genWN(){
@@ -2187,25 +2293,25 @@ function genWN(){
   if (kind === "nm"){
     let nm; do { nm = ri(200, 700); } while (badNm(nm));
     const E = kjOfNm(nm);
-    return { type: "wn", text: `A UV/visible band has λ{max} = ${nm} nm. Calculate the energy gap of the transition per mole of photons, in kJ mol⁻¹. (h = 6.63 × 10⁻³⁴ J s, c = 3.00 × 10⁸ m s⁻¹, L = 6.02 × 10²³ mol⁻¹)`, label: "E / kJ mol⁻¹", ans: ansN(E, 3), fmt: "3 significant figures, e.g. 412",
+    return { type: "wn", units: ["kJmol"], text: `A UV/visible band has λ{max} = ${nm} nm. Calculate the energy gap of the transition per mole of photons, in kJ mol⁻¹. (h = 6.63 × 10⁻³⁴ J s, c = 3.00 × 10⁸ m s⁻¹, L = 6.02 × 10²³ mol⁻¹)`, label: "E / kJ mol⁻¹", ans: ansN(E, 3), fmt: "3 significant figures, e.g. 412",
       work: [ASIDE("To answer, convert nm to m, use E = hc/λ for one photon, then × L and ÷ 1000"), `E per photon = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${nm} × 10⁻⁹) = ${sci(H_PL * C_L / (nm * 1e-9), 4)} J`, `Per mole: × 6.02 × 10²³ = ${sci(E * 1000, 4)} J mol⁻¹ = <b>${sfS(E, 3)} kJ mol⁻¹</b>`],
       alts: [{ v: E * 1000, msg: "That is in J mol⁻¹: divide by 1000." }, { v: E / L_A, msg: "Multiply by L for a mole of photons." }] };
   }
   let wn; do { wn = 10 * ri(50, 380); } while (badWn(wn));
   if (kind === "um"){
     const um = 1e4 / wn;
-    return { type: "wn", text: `An IR absorption is at ${wn} cm⁻¹. Calculate its wavelength in µm.`, label: "λ / µm", ans: ansN(um, 3), fmt: "3 significant figures, e.g. 6.25",
+    return { type: "wn", units: ["um"], text: `An IR absorption is at ${wn} cm⁻¹. Calculate its wavelength in µm.`, label: "λ / µm", ans: ansN(um, 3), fmt: "3 significant figures, e.g. 6.25",
       work: [ASIDE("To answer, λ = 1/ν̃; 1 cm = 10⁴ µm"), `λ = 1 / ${wn} cm = ${sci(1 / wn, 4)} cm`, `= ${sci(1 / wn, 4)} × 10⁴ µm = <b>${sfS(um, 3)} µm</b>`], alts: [{ v: 1e7 / wn, msg: "That is in nm; 1 µm = 1000 nm." }, { v: 1 / wn, msg: "That is in cm: × 10⁴ for µm." }] };
   }
   const E = kjOfWn(wn);
-  return { type: "wn", text: `An IR absorption is at ${wn} cm⁻¹. Calculate the energy per mole of photons, in kJ mol⁻¹. (h = 6.63 × 10⁻³⁴ J s, c = 3.00 × 10⁸ m s⁻¹, L = 6.02 × 10²³ mol⁻¹)`, label: "E / kJ mol⁻¹", ans: ansN(E, 3), fmt: "3 significant figures, e.g. 18.4",
+  return { type: "wn", units: ["kJmol"], text: `An IR absorption is at ${wn} cm⁻¹. Calculate the energy per mole of photons, in kJ mol⁻¹. (h = 6.63 × 10⁻³⁴ J s, c = 3.00 × 10⁸ m s⁻¹, L = 6.02 × 10²³ mol⁻¹)`, label: "E / kJ mol⁻¹", ans: ansN(E, 3), fmt: "3 significant figures, e.g. 18.4",
     work: [ASIDE("To answer, change cm⁻¹ to m⁻¹ (× 100), then E = hcν̃ for one photon, × L and ÷ 1000"), `ν̃ = ${wn} cm⁻¹ = ${sci(wn * 100, 4)} m⁻¹`, `E per photon = 6.63 × 10⁻³⁴ × 3.00 × 10⁸ × ${sci(wn * 100, 4)} = ${sci(H_PL * C_L * wn * 100, 4)} J`, `Per mole: × 6.02 × 10²³ = ${sci(E * 1000, 4)} J mol⁻¹ = <b>${sfS(E, 3)} kJ mol⁻¹</b>: far less than any bond energy, so an IR photon only excites a vibration.`],
     alts: [{ v: E / 100, msg: "Change cm⁻¹ to m⁻¹: multiply by 100." }, { v: E * 1000, msg: "That is in J mol⁻¹: divide by 1000." }] };
 }
 function genCnt(){
   const id = pick(CT_SET), m = vMol(id), A = ctAns(id), ask = id === "CHF3" ? "v" : pick(["v", "a"]);
   const ans = ask === "v" ? A.v : A.a;
-  return { type: "cnt", fex: !!m.fex, text: ask === "v" ? `How many vibrations has a molecule of ${m.f}?` : `How many absorptions does ${m.f} show in its IR spectrum?`, label: ask === "v" ? "Vibrations" : "IR absorptions", ans: { v: ans, str: String(ans), tol: 0.01 }, fmt: "a whole number", work: ctWork(id),
+  return { type: "cnt", units: [], fex: !!m.fex, text: ask === "v" ? `How many vibrations has a molecule of ${m.f}?` : `How many absorptions does ${m.f} show in its IR spectrum?`, label: ask === "v" ? "Vibrations" : "IR absorptions", ans: { v: ans, str: String(ans), tol: 0.01 }, fmt: "a whole number", work: ctWork(id),
     alts: (ask === "v" ? [{ v: 3 * m.at.length, msg: "That is 3N: take away 3 for moving the whole molecule and 3 (2 if linear) for rotating it." }, { v: 3 * m.at.length - (m.lin ? 6 : 5), msg: m.lin ? `${m.f} is linear: 3N − 5.` : `${m.f} is not linear: 3N − 6.` }] : [{ v: A.v, msg: "Not every vibration absorbs: only those that change the dipole, with equal-energy ones counted once." }]).filter(a => a.v !== ans) };
 }
 const TRQ = [];
@@ -2220,24 +2326,37 @@ function genTr(){
 }
 const GENS = { bl: genBL, pt: genPT, cal: genCal, wn: genWN, cnt: genCnt, tr: genTr };
 LAB.GENS = GENS;
-const GN = { type: "bl", q: null, right: 0, tried: 0 };
+const GN = { type: "bl", q: null, right: 0, tried: 0, graded: false, firstOk: null };
 LAB.GN = GN;
-// last guard: regenerate if any string shows a reserved number
-const RESV = /1\.50 × 10⁴|(?<![\d.])0\.0660\b|(?<![\d.])0\.0125 mol|79\.4 %|20\.6 %|(?<![\d.])2143\b|(?<![\d.])1876\b|(?<![\d.])2559\b|(?<![\d.])405 nm|\b0\.660\b|\b0\.468\b|\b0\.612\b|\b21\.9 %|4\.40 × 10⁻⁵|9\.89 × 10³|\b0\.0510\b|\b240 mg|\b1 : 20\b|\b948\b|\b1535\b|\b2062\b|\b2615\b|\b2626\b|\b1183\b|\b273 nm|\b365 nm|caffeine|butanone|SF₆|CS₂|OCS|H₂S|HBr/;
-LAB.RESV = RESV;
-function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; let q, n = 0; do { q = GENS[tt](); n++; } while (n < 60 && RESV.test(q.text + " " + q.work.join(" ") + " " + q.ans.str)); return q; }
+// Wrong-route hints: each at least 3.5 % from the answer (so "Close" never hides one) and at least 2.5 % from every other hint; a hint that cannot meet this is dropped.
+function cleanAlts(q){
+  if (!q.alts) return q;
+  const a = q.ans.v, out = [];
+  q.alts.forEach(al => {
+    if (!isFinite(al.v) || al.v === a) return;
+    if (q.type === "cnt"){ if (!out.some(o => o.v === al.v)) out.push(al); return; }
+    if (a !== 0 && Math.abs(al.v / a - 1) < 0.035) return;
+    if (out.some(o => Math.abs(o.v / al.v - 1) < 0.025)) return;
+    out.push(al);
+  });
+  q.alts = out;
+  return q;
+}
+LAB.cleanAlts = cleanAlts;
+function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; let q, n = 0; do { q = cleanAlts(GENS[tt]()); n++; } while (n < 50 && resHit(q.text + " " + q.work.join(" ") + " " + q.ans.str)); return q; }
 LAB.genQ = genQ;
 function gnGrade(q, s, sel){
-  if (q.noNum) return sel === q.sel.ans ? { ok: true } : { ok: false, msg: !sel ? "Choose a transition." : "Not right: look at which orbitals are involved, and whether the band is strong or weak." };
-  const v = parseNum(String(s).replace(/\s*(%|mol dm.*|mg dm.*|dm.*|µm|um|kJ mol.*|nm)$/i, ""));
-  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 0.452, 35.5 or 2.15e-5." };
+  if (q.noNum) return sel === q.sel.ans ? { ok: true } : !sel ? { ok: false, msg: "Choose a transition.", entry: true, kind: "choose" } : { ok: false, msg: "Not right: look at which orbitals are involved, and whether the band is strong or weak." };
+  const pr = parseAnswer(s, q.units || null);
+  if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };   // not an answer yet: not scored
+  const v = pr.value;
   const a = q.ans.v, numOk = Math.abs(v - a) <= q.ans.tol * 1.0001;
   if (numOk) return { ok: true };
+  if (q.type !== "cnt" && a !== 0 && Math.abs(v / a - 1) < 0.03) return { ok: false, msg: "Close. Keep unrounded values between steps and give 3 significant figures." };
   for (const al of q.alts || []){
     const t = q.type === "cnt" ? 0.01 : Math.max(lastUnit(Math.abs(al.v) || 1, 3), 0.005 * Math.abs(al.v));
     if (Math.abs(al.v - a) > q.ans.tol && Math.abs(v - al.v) <= t) return { ok: false, msg: al.msg };
   }
-  if (q.type !== "cnt" && a !== 0 && Math.abs(v / a - 1) < 0.03) return { ok: false, msg: "Close. Keep unrounded values between steps and give 3 significant figures." };
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }
 LAB.gnGrade = gnGrade;
@@ -2252,14 +2371,20 @@ function gnRender(){
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  GN.graded = false; GN.firstOk = null;   // a new question is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
   const q = GN.q, fbx = $("gn-fb"), r = gnGrade(q, $("gn-ans").value, $("gn-unit").value);
-  GN.tried++; if (r.ok) GN.right++;
+  if (r.entry){   // nothing to grade yet (empty, unreadable, wrong unit, decimal comma, no choice made): say so, do not score
+    $("gn-ans").setAttribute("aria-invalid", r.kind === "choose" ? "false" : "true"); $("gn-ans").classList.remove("ok");
+    fbx.className = "fb warn"; fbx.innerHTML = H(r.msg); fbx.hidden = false;
+    return;
+  }
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fbx.className = "fb " + (r.ok ? "ok" : "no");
-  fbx.innerHTML = r.ok ? H(`Correct: ${q.ans.str}.`) : H(r.msg);
+  fbx.innerHTML = r.ok ? H(`Correct: ${q.ans.str}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
   fbx.hidden = false;
   $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
 }
@@ -2275,12 +2400,12 @@ function bindGN(){
 LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
 
 /* =====================================================
-   7. FACT CARDS (the notes' examples only; nothing from the tutorials; the bond-strength trend without bond energies)
+   7. FACT CARDS (the notes' examples only; the bond-strength trend without bond energies)
    ===================================================== */
 const FC = [
   { cat: "uv", h: "What a UV/visible spectrum shows", k: "1.2(a)", d: "Absorbance (or ε) against wavelength, about 200–800 nm. A photon is absorbed when its energy matches the gap between two electronic levels; HOMO → LUMO is the lowest-energy transition (H3.1).",
     list: ["Molecules in solution give broad bands: each electronic transition can end on many vibrational and rotational sublevels.", "λ{max}: the wavelength of maximum absorbance of a band.", "Light passes through a cell of solution; I₀ (in) and I (out) are compared. Instrument details are not required."] },
-  { cat: "uv", h: "The four kinds of transition", k: "1.2(a)", d: "Relative energies (schematic): σ < π < n < π* < σ*. Gap order for one isolated group: σ→σ* > n→σ* > π→π* > n→π*.",
+  { cat: "uv", h: "The four kinds of transition", k: "1.2(a)", d: "Relative energies (schematic): σ < π < n < π* < σ*. Typical order for small molecules: σ→σ* has the largest gap and n→π* the smallest; n→σ* and π→π* overlap.",
     tbl: { head: ["Transition", "Example", "λ{max} / nm", "ε"], num: [2, 3], rows: () => [["σ→σ*", "ethane", "about 135", "–"], ["n→σ*", "water", "167", "1480"], ["n→σ*", "methanol", "184", "150"], ["n→σ*", "chloromethane", "173", "200"], ["n→σ*", "iodomethane", "258", "365"], ["n→σ*", "trimethylamine", "227", "900"], ["π→π*", "ethene", "171", "about 15 000"], ["π→π*", "propanone", "about 188", "900"], ["n→π*", "propanone", "about 280", "15"]].map(r => r.map(H)) },
     list: ["λ{max} and ε (dm³ mol⁻¹ cm⁻¹) are literature values, hexane or gas."] },
   { cat: "uv", h: "Allowed and forbidden transitions", k: "1.2(a)", list: ["Allowed: high probability, strong bands, ε about 10³ to 10⁵ dm³ mol⁻¹ cm⁻¹.", "n→σ* bands are moderate: ε about 100 to 1000 (literature).", "Forbidden: low (not zero) probability, weak bands, ε below about 100.", "n→π* in C=O: the lone-pair orbital lies in the plane of the molecule and π* is perpendicular to it, so they hardly overlap: forbidden, weak (propanone ε 15).", "Benzene's 255 nm band (ε about 200, a few hundred at most) is a π→π* forbidden by symmetry.", "d–d transitions in octahedral complexes are forbidden too (ε usually below about 100): pale colours (Topic 13)."] },
@@ -2289,7 +2414,7 @@ const FC = [
   { cat: "uv", h: "Conjugation and longer wavelengths", k: "1.2(c)", d: "Increasing conjugation decreases the gap between the π energy levels (HOMO and LUMO), so the absorption shifts towards longer wavelength.",
     tbl: { head: ["Compound", "λ{max} / nm", "ε"], num: [1, 2], rows: () => [["ethene", "171", "about 15 000"], ["buta-1,3-diene", "217", "21 000"], ["hexa-1,3,5-triene", "about 258", "–"], ["propanone", "188; 280", "900; 15"], ["but-3-en-2-one", "219; 324", "3600; 24"]].map(r => r.map(H)) },
     list: ["Long enough conjugation brings the band into the visible: the compound is coloured, and looks the complementary colour of the light it absorbs (Topic 13)."] },
-  { cat: "uv", fex: true, h: "Phenolphthalein", k: "1.2(c)", d: "Acid form: three benzene rings joined through an sp³ carbon, not conjugated with each other: absorbs only in the UV, colourless. In alkali the central carbon becomes sp² and one conjugated system spans the rings: λ{max} about 552 nm; it absorbs green-yellow light and looks pink." },
+  { cat: "uv", fex: true, h: "Phenolphthalein", k: "1.2(c)", d: "Acid form: three benzene rings joined through an sp³ carbon, not conjugated with each other: absorbs only in the UV, colourless. In alkali the central carbon becomes sp² and one conjugated system spans the rings: λ{max} about 552 nm; it absorbs green light and looks pink." },
   { cat: "uv", h: "The Beer–Lambert law", k: "1.2(d)", d: "A = lg(I₀/I) = εcl. A has no units; ε (molar absorptivity) in dm³ mol⁻¹ cm⁻¹, taken as a constant characteristic of the substance; c in mol dm⁻³; l in cm (cells are usually 1.00 cm).",
     list: ["A doubles when c or l doubles.", "Transmittance T = I/I₀; %T = 100 I/I₀; A = −lg T.", "A = 0.30 → 50 % transmitted; A = 1 → 10 %; A = 2 → 1 %; 25 % → A = 0.602.", "WE3: buta-1,3-diene, 2.00 × 10⁻⁵ mol dm⁻³, 1.00 cm, A = 0.420 → ε = 2.10 × 10⁴ dm³ mol⁻¹ cm⁻¹."] },
   { cat: "uv", h: "Quantitative analysis: the method", k: "1.2(e)", list: ["Measure at λ{max}: largest ε, so most sensitive; the top of the band is flattest, so a small wavelength error matters least.", "Zero the instrument with a blank: the solvent, or a reagent blank (everything except the analyte).", "Keep absorbances between about 0.1 and 1: dilute the sample if A is too high.", "Calibration graph of A against c from standard solutions: a straight line through the origin, gradient εl. Read the unknown off the line, then undo any dilution."] },
@@ -2302,10 +2427,10 @@ const FC = [
     list: ["2349 cm⁻¹ → 28.1 kJ mol⁻¹, far less than the C=O bond energy in CO₂ (805 kJ mol⁻¹, Data Booklet): an IR photon only excites a vibration.", "Vibrational energies (5–50 kJ mol⁻¹) are about ten to a hundred times smaller than electronic ones."] },
   { cat: "ir", h: "Stretching and bending", k: "1.3(a)", list: ["Stretching changes a bond length (symmetric or asymmetric); bending changes a bond angle.", "Bends need less energy than stretches, so they absorb at lower wavenumber.", "Stronger (stiffer) bonds absorb at higher wavenumber: C≡C above C=C above C–O in the Data Booklet table.", "Bonds to H (a light atom) absorb at high wavenumber, above about 2500 cm⁻¹; bonds to heavy atoms absorb low (C–Cl is in the fingerprint region)."] },
   { cat: "ir", h: "Which vibrations absorb?", k: "1.3(a), (b)", d: "A vibration absorbs infrared (is IR active) only if it changes the dipole moment of the molecule.",
-    list: ["HCl (2886 cm⁻¹): stretching the polar bond changes the dipole: active.", "N₂ and O₂: homonuclear, no dipole however the bond stretches: no IR absorption.", "CO₂'s symmetric stretch: the two bond dipoles stay equal and opposite: inactive."] },
+    list: ["HCl (2886 cm⁻¹): stretching the polar bond changes the dipole: active.", "N₂ and O₂: homonuclear, no dipole however the bond stretches: no IR absorption.", "CO₂'s symmetric stretch: the two bond dipoles still cancel: inactive."] },
   { cat: "ir", h: "Counting vibrations and absorptions", k: "1.3(b)", d: "A molecule of N atoms has 3N − 5 vibrations if linear, 3N − 6 if not: 3N ways to move, minus 3 for moving the whole molecule, minus 3 (2 if linear) for rotating it.",
     list: ["(1) Count 3N − 5 or 3N − 6. (2) Find each vibration. (3) Keep those that change the dipole. (4) Count vibrations of equal energy (degenerate) once."] },
-  { cat: "ir", h: "Carbon dioxide, CO₂", k: "1.3(b)", d: "Linear: 3 × 3 − 5 = 4 vibrations. Symmetric stretch about 1340 cm⁻¹: inactive. Asymmetric stretch 2349 cm⁻¹: active. Two bends, 667 cm⁻¹, of equal energy: active, one absorption. So 2 absorptions." },
+  { cat: "ir", h: "Carbon dioxide, CO₂", k: "1.3(b)", d: "Linear: 3 × 3 − 5 = 4 vibrations. Symmetric stretch about 1340 cm⁻¹ (from Raman spectra; some tables give 1388): inactive. Asymmetric stretch 2349 cm⁻¹: active. Two bends, 667 cm⁻¹, of equal energy: active, one absorption. So 2 absorptions." },
   { cat: "ir", h: "Sulfur dioxide and water", k: "1.3(b)", d: "Bent: 3 × 3 − 6 = 3 vibrations each, all of which change the dipole: 3 absorptions each. Stretches above bends.",
     tbl: { head: ["Molecule", "Asymmetric", "Symmetric", "Bend"], num: [1, 2, 3], rows: () => [["SO₂", "1362", "1151", "518"], ["H₂O", "3756", "3657", "1595"]].map(r => r.map(H)) }, list: ["Asymmetric and symmetric stretches and the bend: gas-phase wavenumbers / cm⁻¹ (literature)."] },
   { cat: "ir", fex: true, h: "Methane, CH₄", k: "1.3(b)", d: "3 × 5 − 6 = 9 vibrations, but only two IR absorptions: 3019 cm⁻¹ (C–H stretch) and 1306 cm⁻¹ (bend). The symmetry reason is beyond the syllabus." },
@@ -2314,7 +2439,7 @@ const FC = [
   { cat: "ir", h: "Hydrogen bonding and broad O–H bands", k: "1.3(c)", list: ["H-bonded alcohol, phenol: 3200–3600 cm⁻¹, strong and broad (a range of O–H bond strengths).", "Free O–H (gas or dilute solution): 3580–3650 cm⁻¹, sharp.", "Carboxylic acid O–H: 2500–3000 cm⁻¹, very broad: the molecules are hydrogen-bonded in pairs (dimers)."] },
   { cat: "ir", h: "Predicting bands: aspirin", k: "1.3(e)", d: "2-Ethanoyloxybenzoic acid (notes WE7): carboxylic acid O–H 2500–3000 (very broad); C=O of the ester 1710–1750 and of the acid 1680–1730 (may overlap); aromatic C=C 1475–1625; C–O of ester 1050–1330 and of acid 1210–1440; arene =C–H 3000–3100 (w). No alcohol or phenol O–H, no N–H." },
   { cat: "gh", h: "Greenhouse gases and IR", k: "1.3(f)", d: "The Earth's surface (about 288 K) emits infrared, most strongly near 10 µm (about 1000 cm⁻¹). A gas is a greenhouse gas if it has IR-active vibrations in that range: polyatomic molecules such as CO₂, H₂O, CH₄ and CHF₃.",
-    list: ["N₂, O₂ and Ar (99 % of dry air) have no IR-active vibrations.", "Absorbed energy goes into vibration; collisions pass it to other molecules as heat, or the molecule re-emits infrared in a random direction, some back down."] },
+    list: ["N₂, O₂ and Ar (over 99 % of dry air) have no IR-active vibrations.", "Absorbed energy goes into vibration; collisions pass it to other molecules as heat, or the molecule re-emits infrared in a random direction, some back down."] },
   { cat: "gh", h: "The atmospheric window", k: "1.3(f)", d: "About 8 to 13 µm (about 1250 to 770 cm⁻¹, literature), where CO₂ and H₂O absorb little, so the surface's radiation escapes. A gas with strong bands there absorbs radiation that would otherwise escape, so it has a large effect per molecule." },
   { cat: "gh", h: "Trifluoromethane, CHF₃", k: "1.3(f)", d: "HFC-23. 3 × 5 − 6 = 9 vibrations. Strong C–F stretching absorptions at about 1100–1200 cm⁻¹ (8 to 9 µm), inside the atmospheric window. GWP (IPCC AR5, 100-year) 12 400, lifetime 222 years (literature values)." }
 ];
@@ -2337,7 +2462,7 @@ function bindCards(){
 LAB.fcFilter = f => { FCSEL = f; document.querySelector(`#fc-filter button[data-f="${f}"]`).click(); };
 
 /* =====================================================
-   8. QUIZ (option 0 is correct; each option carries its reason). Notes' examples only; no tutorial item.
+   8. QUIZ (option 0 is correct; each option carries its reason). Notes' examples only.
    ===================================================== */
 const QZ = [
   { k: "1.2(a)", q: "Propanone shows a weak band near 280 nm (ε 15 dm³ mol⁻¹ cm⁻¹). Which transition is it?",
@@ -2352,7 +2477,7 @@ const QZ = [
         ["ethene", "Its π→π* is at 171 nm: an isolated C=C absorbs just below 200 nm."]] },
   { k: "1.2(c)", q: "Why does hexa-1,3,5-triene absorb at a longer wavelength (about 258 nm) than ethene (171 nm)?",
     o: [["More conjugation makes the HOMO–LUMO gap smaller, so a lower-energy photon is absorbed", "Lower energy means longer wavelength (E = hc/λ)."],
-        ["Its larger molecule absorbs more light", "How much light is absorbed is ε, not λmax. The wavelength depends on the size of the energy gap."],
+        ["Its larger molecule absorbs more light", "How much light is absorbed is ε, not λ{max}. The wavelength depends on the size of the energy gap."],
         ["It has lone pairs that ethene lacks", "Neither molecule has a lone pair; both bands are π→π*."],
         ["Conjugation makes the HOMO–LUMO gap larger", "A larger gap would need a higher-energy photon, a shorter wavelength."]] },
   { k: "1.2(a)", q: "Benzene's band at 255 nm has ε about 200, while its band at 204 nm has ε 7900. What does the small ε of the 255 nm band tell you?",
@@ -2371,7 +2496,7 @@ const QZ = [
         ["Use a longer cell", "A longer cell makes A larger (A ∝ l): the wrong direction."],
         ["Report the concentration of the highest standard", "The sample is more concentrated than that standard; that would be an underestimate."]] },
   { k: "1.3(a)", q: "Which vibration of CO₂ is IR inactive?",
-    o: [["The symmetric stretch", "The two C=O bond dipoles stay equal and opposite, so the dipole stays zero: no absorption (about 1340 cm⁻¹)."],
+    o: [["The symmetric stretch", "The two C=O bond dipoles still cancel, so the dipole stays zero: no absorption (about 1340 cm⁻¹)."],
         ["The asymmetric stretch", "One C=O lengthens as the other shortens, so a dipole appears and changes: active, 2349 cm⁻¹."],
         ["The bends", "Bending makes the molecule non-linear for a moment, so a dipole appears: active, 667 cm⁻¹."],
         ["None: every vibration of a polar bond absorbs", "Polar bonds are not enough: the vibration must change the dipole moment of the whole molecule."]] },
@@ -2386,8 +2511,8 @@ const QZ = [
         ["ethanoic acid", "A carboxylic acid shows a very broad O–H at 2500–3000 and a strong C=O at 1680–1730."],
         ["hexane", "Hexane has only C–H bands: no O–H and no C–O."]] },
   { k: "1.3(f)", q: "Why does CO₂ absorb strongly in the infrared that the Earth's surface emits?",
-    o: [["Its bending vibrations (667 cm⁻¹, about 15 µm) change the dipole moment, and they lie near the peak of the surface's emission", "The surface at about 288 K emits most strongly near 10 µm; CO₂'s bending band at about 15 µm sits close to that peak."],
-        ["Its symmetric stretch changes the dipole moment", "The symmetric stretch keeps the two bond dipoles equal and opposite: it is IR inactive."],
+    o: [["Its bending vibrations (667 cm⁻¹, about 15 µm) change the dipole moment, and they lie on the long-wavelength side of the surface's emission peak, where the emission is still strong", "The surface at about 288 K emits most strongly near 10 µm; CO₂'s bending band at about 15 µm lies on the long-wavelength side of that peak, where the emission is still strong."],
+        ["Its symmetric stretch changes the dipole moment", "The symmetric stretch keeps the two bond dipoles cancelling: it is IR inactive."],
         ["CO₂ is a polar molecule", "CO₂ is linear and non-polar: it absorbs because some of its vibrations change the dipole moment."],
         ["It absorbs the visible sunlight reflected by the ground", "CO₂ has no electronic absorption in the visible; the greenhouse effect involves infrared emitted by the surface."]] }
 ];
