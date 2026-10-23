@@ -1240,7 +1240,11 @@ function blPut(id){
   BL.sel = id;
   if (id === "blank"){ BL.zeroed = true; BL.reading = { A: 0, mg: 0, blank: true }; fb("bl-fb", "ok", `Zeroed with the reagent blank: A = 0 for the solvent, the cell and the reagents. Now any absorbance is due to the iron complex alone.`); blRender(); return; }
   if (!BL.zeroed){ BL.reading = null; fb("bl-fb", "warn", "Zero the spectrometer with the reagent blank first: it sets A = 0 for everything except the iron (solvent, cell, reagents)."); blRender(); return; }
-  const A = show3(absOf(fl.mg));
+  let A = show3(absOf(fl.mg));
+  if (fl.unk){                      // at any wavelength or cell, a reading is never shown if A or %T would be a listed value: the last digit moves, as on a noisy detector
+    const bad = x => badA(x) || badAn(x) || resHit(sfS(100 * Math.pow(10, -x), 3)) || resHit(sci(x, 3));
+    if (bad(A)){ const A0 = A; for (const d of [0.004, -0.004, 0.008, -0.008, 0.012, -0.012, 0.016, -0.016]){ const x = show3(A0 * (1 + d)); if (!bad(x)){ A = x; break; } } }
+  }
   BL.reading = { A, mg: fl.mg, unk: !!fl.unk };
   if (fl.unk){ BL.cur.A = A; BL.cur.lam = BL.lam; BL.cur.l = BL.l; }
   else { BL.pts = BL.pts.filter(p => p.mg !== fl.mg).concat([{ mg: fl.mg, A }]).sort((a, b) => a.mg - b.mg); }
@@ -1711,7 +1715,7 @@ function cjDraw(){
     under: (X, Y, W, Hh, m) => `<rect x="${X(x0)}" y="${m.t}" width="${X(200) - X(x0)}" height="${Hh - m.t - m.b}" fill="var(--s3-wash)"/>` + T(X((x0 + 200) / 2), m.t + 14, "below 200 nm", "cap", 'text-anchor="middle"'),
     over: (X, Y) => set.map(sc => UVM[sc.id].filter(b => b[0] >= x0 && b[0] <= x1).map(b => { const v = uvEps(sc.id, b[0]) / norm(sc.id); return `<circle cx="${X(b[0])}" cy="${Y(Math.max(v, yr[0]))}" r="3.5" fill="var(${sc.col})"/>`; }).join("")).join("") });
   $("cj-leg").innerHTML = legendHTML(set.map(sc => ({ col: `var(${sc.col})`, dash: sc.dash, t: sc.n })));
-  $("cj-head").innerHTML = H(poly ? "Simulated UV spectra of the polyenes" : "Simulated UV spectra of propanone and but-3-en-2-one") + ` <span class="hint">simulated; ${poly ? "each scaled to its own maximum (ε of the triene not quoted)" : "ε from literature λmax and ε"}</span>`.replace("λmax", "λ<sub>max</sub>");
+  $("cj-head").innerHTML = H(poly ? "Simulated UV spectra of the polyenes" : "Simulated UV spectra of propanone and but-3-en-2-one") + ` <span class="hint">simulated; ${poly ? "each scaled to its own maximum (ε of the triene not quoted)" : "ε from literature λ<sub>max</sub> and ε"}</span>`;
   $("cj-note").innerHTML = H(poly ? "Each extra conjugated C=C narrows the HOMO–LUMO gap, so π→π* moves to longer wavelength: 171 → 217 → about 258 nm. Ethene's band is below 200 nm, outside the usual range." : (CJ.log ? "On the logarithmic axis the weak n→π* bands show: both move to longer wavelength with conjugation (280 → 324 nm), as the π→π* bands do (188 → 219 nm)." : "On a linear axis the n→π* bands (ε 15 and 24) are too weak to see: switch on the logarithmic axis."));
   $("cj-txt").innerHTML = H(poly ? "Conjugation spreads the π system over more atoms. With more p orbitals the π MOs crowd closer together, so the HOMO–LUMO gap gets smaller and the band shifts to longer wavelength (H3.1 Part 2). Long enough conjugation brings the band into the visible: the compound is coloured, and the colour seen is the complementary colour (Topic 13)." : "Conjugating the C=O with a C=C lowers π* and raises π, so both bands of the C=O chromophore move to longer wavelength.");
   cgDraw();
