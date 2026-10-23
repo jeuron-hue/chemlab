@@ -363,7 +363,7 @@ svg .on{stroke:var(--s2)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -820,7 +820,7 @@ function declutter(ys, gap, lo, hi){
 // ---------- typed answers: number plus an optional unit, checked against the unit the question asks for ----------
 // Canonical unit ids: nm um mm cm m km | Hz kHz MHz GHz THz | cm-1 | J kJ | Jmol kJmol | eV | node
 const UNIT_NAME = { nm: "nm", um: "µm", mm: "mm", cm: "cm", m: "m", km: "km", Hz: "Hz", kHz: "kHz", MHz: "MHz", GHz: "GHz", THz: "THz", "cm-1": "cm⁻¹", J: "J", kJ: "kJ", Jmol: "J mol⁻¹", kJmol: "kJ mol⁻¹", eV: "eV", node: "nodes" };
-const UNIT_KEY = { nm: "nm", um: "um", mm: "mm", cm: "cm", m: "m", km: "km", hz: "Hz", khz: "kHz", mhz: "MHz", ghz: "GHz", thz: "THz", "cm-1": "cm-1", j: "J", kj: "kJ", jmol: "Jmol", kjmol: "kJmol", ev: "eV", node: "node" };
+const UNIT_KEY = { nm: "nm", um: "um", mm: "mm", cm: "cm", m: "m", km: "km", hz: "Hz", "s-1": "Hz", khz: "kHz", mhz: "MHz", ghz: "GHz", thz: "THz", "cm-1": "cm-1", j: "J", kj: "kJ", jmol: "Jmol", kjmol: "kJmol", ev: "eV", node: "node" };
 const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
 function unitId(u){
   let t = String(u).toLowerCase().replace(/[\s.·⋅]/g, "").replace(/[−–]/g, "-").replace(/[µμ]/g, "u").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/\(s\)/g, "");
@@ -2038,7 +2038,7 @@ function piRead(){
   }
   $("pi-read").innerHTML = r;
   $("pi-rules").innerHTML = p.ring ? H("Benzene: six p orbitals give six π MOs in a 1-2-2-1 pattern: ψ{1} (no nodal planes), ψ{2} and ψ{3} (degenerate, one each), ψ{4} and ψ{5} (degenerate, two each), ψ{6} (three). Six π electrons occupy the three bonding MOs ψ{1}, ψ{2} and ψ{3}, which is why benzene is unusually stable (delocalisation energy about 150 kJ mol⁻¹, literature).")
-    : H(`A linear polyene with N conjugated carbons: N p orbitals give N π MOs; the node count of ψ{k} is k − 1, and energy rises with the number of nodes; ψ{1} to ψ{N/2} are bonding, the rest antibonding. HOMO = ψ{N/2}, LUMO = ψ{N/2+1}. A bigger N means a smaller HOMO–LUMO gap.`).replace(/\bN\b(?![^<]*>)/g, "<i>N</i>").replace(/\bk\b(?![^<]*>)/g, "<i>k</i>");
+    : H(`A linear polyene with N conjugated carbons: N p orbitals give N π MOs; the node count of ψ{k} is k − 1, and each extra node raises the energy; ψ{1} to ψ{N/2} are bonding, the rest antibonding. HOMO = ψ{N/2}, LUMO = ψ{N/2+1}. A bigger N means a smaller HOMO–LUMO gap.`).replace(/\bN\b(?![^<]*>)/g, "<i>N</i>").replace(/\bk\b(?![^<]*>)/g, "<i>k</i>");
 }
 // comparison of the three polyenes
 function pcDraw(){
@@ -2578,7 +2578,7 @@ const FC = [
     list: ["MOs are formed by combining (adding and subtracting) atomic orbitals: a linear combination of atomic orbitals (LCAO).", "n atomic orbitals combine to give n molecular orbitals.", "Only AOs of similar energy and the right symmetry (they must overlap) combine.", "Phase: an AO's wavefunction has a sign in each lobe. Shaded lobe: positive; open lobe: negative. A 2p orbital has two lobes of opposite phase with a nodal plane through the nucleus."] },
   { cat: "mo", h: "Bonding, antibonding and non-bonding MOs", k: "1.1(a)(ii)", list: ["Lobes of the same sign overlapping (constructive) give a bonding MO: charge piles up in the region between the two nuclei and holds them together, and the MO sits below the AOs it came from.", "Lobes of opposite sign meeting (destructive) give an antibonding MO, marked with a star (σ*, π*). The density is zero on a plane that cuts the bond axis between the nuclei, electrons in it push the nuclei apart, and the MO lies above the AOs.", "Non-bonding MO: an AO that has no partner of the right symmetry and a similar energy remains on its own atom at roughly its original energy. Electrons in it do not strengthen or weaken the bond: this is the MO picture of a lone pair."] },
   { cat: "mo", h: "σ and π symmetry", k: "1.1(a)(iii)", d: "The internuclear axis is z. 2p{z} orbitals overlap head-on (σ); 2p{x} and 2p{y} overlap side-on (π), giving two degenerate π MOs and two degenerate π* MOs.",
-    list: ["σ: the MO looks the same at every angle about the bond axis, and no nodal plane passes through that axis (σ{1s}, σ*{1s}, σ{2s}, σ*{2s}, σ{2p}, σ*{2p}).", "π: exactly one nodal plane passes through the bond axis, so the density sits above and below it in two regions (π{2p}, π*{2p}).", "A σ* or π* MO also has a nodal plane between the nuclei, perpendicular to the axis."] },
+    list: ["σ: the MO looks the same at every angle about the bond axis, and no nodal plane passes through that axis (σ{1s}, σ*{1s}, σ{2s}, σ*{2s}, σ{2p}, σ*{2p}).", "π: exactly one nodal plane passes through the bond axis, so the density sits above and below it in two regions (π{2p}, π*{2p}).", "A σ* or π* MO has one more nodal plane, crossing the bond midway at right angles to the axis."] },
   { cat: "mo", h: "Filling MOs; bond order; magnetism", k: "1.1(b), (d)(i)", d: "Each MO is a definite energy level of the molecule, filled exactly like AOs: aufbau (lowest first), Pauli (at most two electrons, opposite spins), Hund (degenerate MOs singly first, parallel spins).",
     list: ["Bond order = ½ × (bonding electrons − antibonding electrons). The higher the bond order, the stronger and shorter the bond. Bond order 0: no stable molecule.", "Paramagnetic: one or more unpaired electrons; drawn into a magnetic field. Diamagnetic: all electrons paired; very weakly pushed out of a magnetic field.", "A species with an odd number of electrons must have at least one unpaired electron, so it is paramagnetic.", "Order for O₂ and F₂ (no orbital mixing): σ{2s} < σ*{2s} < σ{2p} < π{2p} < π*{2p} < σ*{2p}."] },
   { cat: "mo", h: "Hydrogen, H₂", k: "1.1(c)(i), (d)(i)", d: "Two 1s AOs give σ{1s} and σ*{1s}. Configuration σ{1s}²: bond order ½(2 − 0) = 1. HOMO σ{1s}, LUMO σ*{1s}.",
@@ -2601,7 +2601,7 @@ const FC = [
   { cat: "pi", h: "Hexa-1,3,5-triene", k: "1.1(c)(ii), (d)(ii)", d: "Six p orbitals give six π MOs; the six π electrons occupy ψ{1} to ψ{3}. HOMO ψ{3} (2 nodes), LUMO ψ{4} (3 nodes).", list: ["λ{max} about 258 nm (literature): 464 kJ mol⁻¹. A smaller HOMO–LUMO gap than buta-1,3-diene."] },
   { cat: "pi", h: "Benzene", k: "1.1(c)(ii), (d)(ii)", d: "Six p orbitals give six π MOs in a 1-2-2-1 pattern: ψ{1} (no nodal planes), ψ{2} and ψ{3} (degenerate, one each), ψ{4} and ψ{5} (degenerate, two each), ψ{6} (three).",
     list: ["Six π electrons occupy the three bonding MOs ψ{1}, ψ{2}, ψ{3}: extra stability (delocalisation energy about 150 kJ mol⁻¹, literature).", "HOMO: the degenerate pair ψ{2}/ψ{3}; LUMO: the degenerate pair ψ{4}/ψ{5}.", "Hybridisation (sp² carbons) describes the σ framework; MO theory describes the delocalised π system. Both are models."] },
-  { cat: "pi", h: "Linear polyenes: the rules", k: "1.1(c)(ii), (d)(ii)", d: "With N conjugated carbons: N p orbitals give N π MOs; ψ{k} has k − 1 nodes; energy rises with the number of nodes; ψ{1} to ψ{N/2} are bonding; HOMO ψ{N/2}, LUMO ψ{N/2+1}.",
+  { cat: "pi", h: "Linear polyenes: the rules", k: "1.1(c)(ii), (d)(ii)", d: "With N conjugated carbons: N p orbitals give N π MOs; ψ{k} has k − 1 nodes, and each extra node raises the energy; ψ{1} to ψ{N/2} are bonding; HOMO ψ{N/2}, LUMO ψ{N/2+1}.",
     tbl: { head: ["Polyene", "N", "λ{max} / nm (literature)", "kJ mol⁻¹"], num: [1, 2, 3], rows: () => [["ethene", "2", "about 171", "700"], ["buta-1,3-diene", "4", "217", "552"], ["hexa-1,3,5-triene", "6", "about 258", "464"]].map(r => r.map(H)) },
     list: ["Only p orbitals on adjacent sp² carbons in an unbroken chain form one π system; an sp³ carbon breaks it.", "A larger N means a smaller HOMO–LUMO gap and a first absorption at longer wavelength."] },
   { cat: "pi", enr: true, h: "Hückel energies and delocalisation", k: "beyond 9813", d: "E = α + xβ, with α and β both negative. Linear polyene: E{k} = α + 2β cos(kπ/(N + 1)).",
