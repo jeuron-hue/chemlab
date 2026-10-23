@@ -90,19 +90,19 @@ section.lab:last-of-type{border-bottom:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
 .ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:flex; align-items:center; justify-content:center; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -307,6 +307,11 @@ svg .on{stroke:var(--s2)}
 #pi-read .stat{min-height:3.9em}
 .qtext .fex, .qtext .beyond{vertical-align:2px}
 .card h3 .fex, .card h3 .beyond{vertical-align:2px}
+
+/* ---------- tokens for the Enrichment tag (plum) and for readable feedback text; amber stays for warnings only ---------- */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -346,7 +351,7 @@ svg .on{stroke:var(--s2)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -548,7 +553,7 @@ svg .on{stroke:var(--s2)}
       <div class="viewer" id="pc-wrap">
         <div class="vhead">HOMO–LUMO gap and conjugation <span class="hint">spacing from the simple Hückel model</span></div>
         <svg id="pc-svg" role="img" aria-label="π MO ladders of ethene, buta-1,3-diene and hexa-1,3,5-triene side by side"></svg>
-        <div class="vnote">The longer the conjugated chain, the smaller the HOMO–LUMO gap, so the lowest-energy absorption moves to longer wavelength. The HOMO–LUMO gap is what a UV/vis spectrometer measures (H3.2).</div>
+        <div class="vnote">Each extra pair of conjugated carbons squeezes the HOMO and LUMO closer together, so the first absorption moves to longer wavelength. The simple model uses the HOMO–LUMO gap to estimate the first UV/vis absorption (H3.2).</div>
       </div>
       <div class="tblwrap"><table class="data" id="pc-tbl"></table></div>
     </div>
@@ -697,7 +702,7 @@ svg .on{stroke:var(--s2)}
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.1 Molecular Orbitals and Light</span>
     <span>Written for SEAB H3 Chemistry 9813 · h, c, L and bond energies from the Data Booklet · bond lengths, boiling points, λ<sub>max</sub> values and region boundaries are literature values · π MO ladders: spacing from the simple Hückel model · generator wavelengths and energies are illustrative</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 23/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -812,15 +817,46 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(mol.*|kJmol\^?-1|kJ\/mol|kJ|J|nm|µm|um|cm-?1|cm⁻¹|m|GHz|MHz|Hz)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+// ---------- typed answers: number plus an optional unit, checked against the unit the question asks for ----------
+// Canonical unit ids: nm um mm cm m km | Hz kHz MHz GHz THz | cm-1 | J kJ | Jmol kJmol | eV | node
+const UNIT_NAME = { nm: "nm", um: "µm", mm: "mm", cm: "cm", m: "m", km: "km", Hz: "Hz", kHz: "kHz", MHz: "MHz", GHz: "GHz", THz: "THz", "cm-1": "cm⁻¹", J: "J", kJ: "kJ", Jmol: "J mol⁻¹", kJmol: "kJ mol⁻¹", eV: "eV", node: "nodes" };
+const UNIT_KEY = { nm: "nm", um: "um", mm: "mm", cm: "cm", m: "m", km: "km", hz: "Hz", khz: "kHz", mhz: "MHz", ghz: "GHz", thz: "THz", "cm-1": "cm-1", j: "J", kj: "kJ", jmol: "Jmol", kjmol: "kJmol", ev: "eV", node: "node" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){
+  let t = String(u).toLowerCase().replace(/[\s.·⋅]/g, "").replace(/[−–]/g, "-").replace(/[µμ]/g, "u").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/\(s\)/g, "");
+  t = t.replace(/^(kj|j)(mol-1|\/mol|permol|\/mole)$/, "$1mol").replace(/^(\/cm|percm|cm-1|wavenumbers?)$/, "cm-1").replace(/^(nodes?|nodalplanes?|nodalsurfaces?)$/, "node");
+  return UNIT_KEY[t] || null;
 }
+// The question's unit: a list of canonical ids it accepts (e.g. ["nm"]), [] for a plain number, null to accept any recognised unit.
+// Returns { value } or { error }. kind "empty" and "nan" are not answers at all; "unit", "comma" and "text" are entries to fix.
+function parseAnswer(str, allowed, opts){
+  opts = opts || {};
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  let val = NaN, rest = "", m;
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  if (opts.fractions && (m = t.match(/^([-+]?)\s*(\d+)?\s*(½)\s*(.*)$/))){ val = (m[2] ? +m[2] : 0) + 0.5; if (m[1] === "-") val = -val; rest = m[4]; }
+  else if (opts.fractions && (m = t.match(/^([-+]?)\s*(?:(\d+)\s+)?(\d+)\s*\/\s*(\d+)(?!\d)\s*(.*)$/)) && +m[4] > 0){ val = (m[2] ? +m[2] : 0) + m[3] / m[4]; if (m[1] === "-") val = -val; rest = m[5]; }
+  else if ((m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:,\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i")))){
+    let mant = parseFloat(m[2].replace(/,/g, ""));
+    const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+    val = e != null ? mant * Math.pow(10, +e) : mant;
+    if (m[1] === "-") val = -val;
+    rest = m[6];
+  } else return { error: "Type an answer first: a number such as 2, 1.5, 432 or 4.62e14.", kind: "nan" };
+  if (!isFinite(val)) return { error: "Type an answer first: a number such as 2, 1.5, 432 or 4.62e14.", kind: "nan" };
+  rest = rest.trim();
+  if (!rest) return { value: val };
+  const u = unitId(rest);
+  if (!u) return { error: "Type an answer first: a number such as 2, 1.5, 432 or 4.62e14.", kind: "nan" };
+  if (allowed == null || allowed.includes(u)) return { value: val, unit: u };
+  return { unit: u, kind: "unit", error: allowed.length === 0 ? "Check the unit: this answer is a plain number, with no unit." : allowed[0] === "node" ? "Check the unit: this answer is a number of nodes or nodal planes." : `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` };
+}
+LAB.parseAnswer = parseAnswer;
+// the old name: a number with any recognised unit tolerated (the unit is not checked); NaN when there is no number
+function parseNum(s){ const r = parseAnswer(s, null, { fractions: true }); return r.value != null ? r.value : NaN; }
 LAB.parseNum = parseNum;
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
@@ -867,7 +903,7 @@ const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" styl
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* =====================================================
-   DATA (DATA.md, 17/10/26). Booklet: h, c, L, bond energies. Literature: bond lengths, b.p., λmax, regions.
+   DATA. Booklet: h, c, L, bond energies. Literature: bond lengths, b.p., λmax, regions.
    ===================================================== */
 const CONST = { h: 6.63e-34, c: 3.00e8, L: 6.02e23 };
 LAB.CONST = CONST;
@@ -875,7 +911,7 @@ const H_PL = CONST.h, C_L = CONST.c, L_A = CONST.L;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const f1 = v => (+v).toFixed(1);
 
-/* ---------- diatomic species (ONLY these: DATA.md reserved list) ---------- */
+/* ---------- diatomic species (only these) ---------- */
 // mo: "1s" diagram (H₂, He₂) or "2" valence diagram; ve: valence electrons; ao: electrons on each atom (left, right)
 const DIA = [
   { id: "H2", f: "H₂", mo: "1s", ve: 2, atoms: ["H", "H"], ao: [1, 1], be: 436, beLab: "H–H", bl: 0.074 },
@@ -943,7 +979,7 @@ function speciesResult(id, mix){
 }
 LAB.speciesResult = speciesResult;
 
-/* ---------- π systems (ONLY these four: DATA.md reserved list) ---------- */
+/* ---------- π systems (only these four) ---------- */
 // lam: literature λmax (approximate) for the gap-trend table; kj: photon energy per mole from it
 const PI = [
   { id: "ethene", name: "ethene", N: 2, ring: false, lam: 171, sk: "CH₂=CH₂", sk2: "C₂" },
@@ -963,7 +999,7 @@ function huckel(p){
       mos.push({ k, x, c });
     }
   } else {
-    // real forms from DATA.md, j = 1..6 round the ring, normalised here
+    // real forms, j = 1..6 round the ring, normalised here
     const B = [[1, 1, 1, 1, 1, 1], [2, 1, -1, -2, -1, 1], [0, 1, 1, 0, -1, -1], [2, -1, -1, 2, -1, -1], [0, 1, -1, 0, 1, -1], [1, -1, 1, -1, 1, -1]];
     const X = [2, 1, 1, -1, -1, -2];
     B.forEach((v, i) => { const n = Math.sqrt(v.reduce((a, b) => a + b * b, 0)); mos.push({ k: i + 1, x: X[i], c: v.map(t => t / n) }); });
@@ -1006,16 +1042,24 @@ const REG = [
   { id: "radio", n: "radio waves", lo: 0.3, hi: 1e4, rng: "longer than about 0.3 m (below about 1 GHz)" }
 ];
 LAB.REG = REG;
-// region tests use the wavelength in nm rounded to 6 d.p., so 400 nm typed in is not 400.00000000000006; visible is 400–700 nm inclusive
+// region tests use the wavelength in nm rounded to 6 d.p., so 400 nm typed in is not 400.00000000000006.
+// The bands follow the notes' table exactly: visible 400–700 nm inclusive; infrared above 700 nm and below 1 mm;
+// microwaves 1 mm to 0.3 m inclusive (1 GHz, 0.3 m, is a microwave at the boundary); radio waves longer than 0.3 m;
+// ultraviolet 10 nm up to 400 nm; X-rays 0.01–10 nm; γ-rays below 0.01 nm. 800 nm is the edge of the UV/vis instrument range, not of a region.
 const nmOf = lm => +(lm * 1e9).toFixed(6);
 LAB.nmOf = nmOf;
 const regOf = lm => {
-  const nm = nmOf(lm);
-  if (nm >= 400 && nm <= 700) return REG.find(r => r.id === "vis");
-  return REG.find(r => nm >= nmOf(r.lo) && nm < nmOf(r.hi)) || (nm < nmOf(REG[0].lo) ? REG[0] : REG[REG.length - 1]);
+  const nm = nmOf(lm), g = id => REG.find(r => r.id === id);
+  if (nm >= 400 && nm <= 700) return g("vis");
+  if (nm > 700 && nm < 1e6) return g("ir");
+  if (nm >= 1e6 && nm <= 3e8) return g("mw");
+  if (nm > 3e8) return g("radio");
+  if (nm >= 10) return g("uv");
+  if (nm >= 0.01) return g("xray");
+  return g("gamma");
 };
 LAB.regOf = regOf;
-// the kind of level each region's photons match (DATA.md quantisation section)
+// the kind of level each region's photons match
 const LEVEL_OF = { gamma: "none", xray: "none", uv: "elec", vis: "elec", ir: "vib", mw: "rot", radio: "nuc" };
 const LEVELS = {
   elec: { n: "electronic", t: "electronic levels (an electron moves to a higher MO)", tech: "UV/vis spectroscopy, about 200–800 nm" },
@@ -1100,9 +1144,9 @@ const MO = { id: "O2", mode: "show", mix: true, placed: [], anim: 0, mistakes: 0
 LAB.MO = MO;
 const tagHTML = t => t === "fex" ? FEX : t === "enr" ? ENR : "";
 const SPNOTE = {
-  H2: "Two 1s AOs give σ{1s} (in phase) and σ*{1s} (out of phase). Both electrons go into σ{1s}: bond order ½(2 − 0) = 1, all electrons paired, so H₂ is diamagnetic.",
+  H2: "Two 1s AOs give σ{1s} (in phase) and σ*{1s} (out of phase). Both electrons go into σ{1s}: bond order ½(2 − 0) = 1.",
   He2: "Four electrons fill σ{1s} and σ*{1s}: bond order ½(2 − 2) = 0, so there is no stable molecule. That is why helium is monatomic. Beyond the syllabus: an antibonding MO is raised slightly more than the bonding MO is lowered, so He₂ is not just unbonded but repulsive.",
-  O2: "The Lewis (dot-and-cross) structure O=O has every electron paired and predicts diamagnetic O₂. Experiment shows O₂ is paramagnetic: liquid oxygen (b.p. −183 °C) is held between the poles of a strong magnet, while liquid nitrogen (b.p. −196 °C) pours straight through (literature values; try the magnet below). MO theory predicts two unpaired electrons in the two π*{2p} MOs (Hund) and bond order 2.",
+  O2: "The Lewis (dot-and-cross) structure O=O has every electron paired and predicts diamagnetic O₂. Experiment shows O₂ is paramagnetic: liquid oxygen (b.p. −183 °C) is held between the poles of a strong magnet, while liquid nitrogen (b.p. −196 °C) pours straight through (literature values; try the magnet below). MO theory puts the two highest-energy electrons one apiece into the pair of π*{2p} MOs, spins parallel (Hund): two unpaired electrons, bond order 2.",
   O2p: "One electron fewer than O₂, taken from π*{2p}, an antibonding MO, so the bond gets stronger: bond order 2.5, one unpaired electron, bond length 0.112 nm against 0.121 nm in O₂ (literature). A species with an odd number of electrons must have at least one unpaired electron, so it is paramagnetic.",
   O2m: "Two electrons more than O₂, both into π*{2p}: π*{2p}⁴, bond order 1, all paired (diamagnetic). This is the peroxide ion, with an O–O single bond as in hydrogen peroxide: 150 kJ mol⁻¹ against O=O 496 kJ mol⁻¹ (booklet), 0.149 nm (literature). Bond length O₂⁺ < O₂ < O₂²⁻ follows bond order, 2.5 > 2 > 1.",
   F2: "Bond order 1, like H₂, yet F–F (158 kJ mol⁻¹) is much weaker than H–H (436 kJ mol⁻¹, booklet). The F atoms are larger (bond 0.142 nm against 0.074 nm, literature), so the overlap is poorer, and the lone pairs (the filled π and π* MOs) on the two close F atoms repel.",
@@ -1200,7 +1244,8 @@ function moRead(){
   const box = (l, v, wide) => `<div class="stat${wide ? " wide" : ""}"><div class="l">${l}</div><div class="v">${v}</div></div>`;
   const wait = `<small>place all ${sp.ve} electrons first</small>`;
   let r = box(sp.mo === "1s" ? "Electrons" : "Valence electrons", String(sp.ve)) + box("Placed", `${A.ne} of ${sp.ve}`);
-  if (!done){ $("mo-read").innerHTML = r + box("Configuration", H(A.conf || "none yet"), true) + box("Bond order", wait) + box("Unpaired electrons", wait) + box("Magnetic behaviour", wait); return; }
+  const one = sp.mo === "1s";   // H₂ and He₂: the readout stops at the unpaired electrons
+  if (!done){ $("mo-read").innerHTML = r + box("Configuration", H(A.conf || "none yet"), true) + box("Bond order", wait) + box("Unpaired electrons", wait) + (one ? "" : box("Magnetic behaviour", wait)); return; }
   const homo = A.homo >= 0 ? st.lv[A.homo] : null, lumo = A.lumo >= 0 ? st.lv[A.lumo] : null;
   const homoN = homo ? st.occ[A.homo].reduce((a, b) => a + b, 0) : 0;
   let homoTxt = homo ? H(homo.lab) : "none";
@@ -1213,7 +1258,7 @@ function moRead(){
   r += box("Configuration", H(A.conf), true);
   r += box("Bond order", `${boS} <small>½(${A.nb} − ${A.na}) = ${boS}</small>`);
   r += box("Unpaired electrons", String(A.unp));
-  r += `<div class="stat"><div class="l">Magnetic behaviour</div><div class="v">${A.para ? "paramagnetic" : "diamagnetic"} <small>${A.para ? "drawn into a magnetic field" : "all paired; very weakly pushed out"}</small></div></div>`;
+  if (!one) r += `<div class="stat"><div class="l">Magnetic behaviour</div><div class="v">${A.para ? "paramagnetic" : "diamagnetic"} <small>${A.para ? "drawn into a magnetic field" : "all paired; very weakly pushed out"}</small></div></div>`;
   r += box("HOMO", homoTxt) + box("LUMO", lumoTxt);
   if (sp.be) r += box(`Bond energy ${SRC("db")}`, `${H(sp.beLab)}: ${sp.be} ${KJ}`);
   if (sp.bl) r += box(`Bond length ${SRC("lit")}`, `${sp.bl.toFixed(3)} nm`);
@@ -1264,7 +1309,7 @@ function moTap(i, k){
   const n = MO.placed.length;
   if (n === sp.ve){
     const A = moAnalyse(moState().lv, moState().occ);
-    moFb(H(`Complete${MO.mistakes ? "" : ", with no rule broken"}: ${A.conf}. Bond order ½(${A.nb} − ${A.na}) = ${A.bo}; ${A.unp} unpaired electron${A.unp === 1 ? "" : "s"}, so ${sp.f} is ${A.para ? "paramagnetic" : "diamagnetic"}.`), "ok");
+    moFb(H(`Complete${MO.mistakes ? "" : ", with no rule broken"}: ${A.conf}. Bond order ½(${A.nb} − ${A.na}) = ${A.bo}; ${A.unp} unpaired electron${A.unp === 1 ? "" : "s"}${sp.mo === "1s" ? "" : `, so ${sp.f} is ${A.para ? "paramagnetic" : "diamagnetic"}`}.`), "ok");
   } else moFb(H(`${n} of ${sp.ve} placed: the electron went into ${l.lab}${occ[i][k] === 1 ? ", paired with opposite spin (Pauli)" : l.deg > 1 ? ", spin parallel to any other single electron in the pair (Hund)" : ""}.`), "info");
   moDraw(); moRead();
   return { ok: true };
@@ -1300,7 +1345,7 @@ function bindMO(){
 LAB.moSetMode = m => { MO.mode = m; document.querySelector(`input[name="mo-mode"][value="${m}"]`).checked = true; MO.placed = []; MO.last = null; MO.anim = 0; clearTimeout(MO.tm); moRender(); };
 
 /* ---------- the magnet: liquid O₂ is held, liquid N₂ pours through ---------- */
-const MG = { liq: null, t0: 0, now: 0, on: true, held: 0, drop: 0, puddle: { o2: 0, n2: 0 } };
+const MG = { liq: null, t0: 0, now: 0, on: true, held: 0, drop: 0, fell: false, tmo: 0, puddle: { o2: 0, n2: 0 } };   // fell: the liquid O₂ is already in the dish
 LAB.MG = MG;
 function mgDraw(t){
   if (t != null) MG.now = t;
@@ -1325,7 +1370,7 @@ function mgDraw(t){
   s += `<path d="M${f1(cx - 40)} ${yD - 16} L${f1(cx - 34)} ${yD} H${f1(cx + 34)} L${f1(cx + 40)} ${yD - 16}" fill="none" stroke="${P.glass}" stroke-width="1.5"/>`;
   const col = MG.liq === "o2" ? P.lox : P.ln2, edge = MG.liq === "o2" ? P.loxEdge : P.ln2Edge;
   const xs = cx + 2;  // stream x, through the middle of the gap
-  const holds = MG.liq === "o2" && MG.on;
+  const holds = MG.liq === "o2" && MG.on && !MG.fell;
   // the stream
   if (MG.liq && p < 1){
     const yEnd = holds ? yP + poleH / 2 : yD - 4 - 7 * MG.puddle[MG.liq];
@@ -1362,12 +1407,13 @@ LAB.mgDraw = mgDraw;
 function mgNote(){
   let t;
   if (!MG.liq) t = "Pour each liquid between the poles of a strong magnet (literature b.p.: O₂ −183 °C, N₂ −196 °C).";
-  else if (MG.liq === "o2") t = MG.on ? "Liquid oxygen is caught and held between the poles: O₂ is paramagnetic (two unpaired electrons in π*2p), so it is drawn into the magnetic field." : "With the magnet off, liquid oxygen pours through like any liquid.";
+  else if (MG.liq === "o2") t = MG.fell && MG.on ? "The liquid oxygen has already fallen into the dish and stays there. Pour again to see the magnet catch a fresh stream." : MG.on ? "Liquid oxygen is caught and held between the poles: O₂ is paramagnetic (two unpaired electrons in π*2p), so it is drawn into the magnetic field." : "With the magnet off, liquid oxygen pours through like any liquid.";
   else t = "Liquid nitrogen pours straight through: N₂ has all its electrons paired, so it is diamagnetic (very weakly pushed out of the field, too weakly to see).";
   $("mg-note").innerHTML = H(t.replace("π*2p", "π*{2p}"));
 }
 function mgPour(k){
-  MG.liq = k; MG.t0 = null; MG.held = 0; MG.drop = 0; MG.puddle = { o2: 0, n2: 0 };
+  clearTimeout(MG.tmo);
+  MG.liq = k; MG.t0 = null; MG.held = 0; MG.drop = 0; MG.fell = k === "o2" && !MG.on; MG.puddle = { o2: 0, n2: 0 };
   if (NOANIM()){ MG.t0 = MG.now - 3; if (!(k === "o2" && MG.on)) MG.puddle[k] = 1; else MG.held = 1; }
   mgNote(); mgDraw();
 }
@@ -1375,7 +1421,11 @@ LAB.mgPour = mgPour;
 function bindMG(){
   $("mg-o2").onclick = () => mgPour("o2");
   $("mg-n2").onclick = () => mgPour("n2");
-  $("mg-on").onchange = () => { MG.on = $("mg-on").checked; if (!MG.on && MG.liq === "o2"){ MG.drop = 0; if (NOANIM()){ MG.held = 0; MG.puddle.o2 = 1; } else setTimeout(() => { MG.puddle.o2 = 1; }, 600); } mgNote(); mgDraw(); };
+  $("mg-on").onchange = () => {
+    MG.on = $("mg-on").checked;
+    if (!MG.on && MG.liq === "o2" && !MG.fell){ MG.fell = true; MG.drop = 0; if (NOANIM()){ MG.held = 0; MG.puddle.o2 = 1; } else { clearTimeout(MG.tmo); MG.tmo = setTimeout(() => { MG.puddle.o2 = 1; }, 600); } }
+    mgNote(); mgDraw();
+  };
   mgNote(); mgDraw();
   addAnim($("mg-svg"), t => { if (MG.liq && MG.t0 == null) MG.t0 = t; if (MG.liq && (t - MG.t0 < 3 || MG.drop > 0 && MG.drop < 1)) mgDraw(t); else MG.now = t; });
 }
@@ -1387,10 +1437,11 @@ const PR = { id: null, bo: null, un: null, mag: null, right: 0, tried: 0, graded
 LAB.PR = PR;
 const BO_OPTS = [0, 0.5, 1, 1.5, 2, 2.5, 3];
 function prNew(id){
-  if (!id){ const pool = PR_SET.filter(x => x !== PR.id); id = pick(pool); }
+  if (!id){ const pool = PR_SET.filter(x => x !== PR.id && x !== MO.id); id = pick(pool); }   // never the species the builder is showing
   PR.id = id; PR.bo = PR.un = PR.mag = null; PR.graded = false;
-  const sp = diaById(id);
-  $("pr-q").innerHTML = `${tagHTML(sp.tag)}Predict for ${H(sp.f)} (${sp.ve} ${sp.mo === "1s" ? "" : "valence "}electrons): the bond order, the number of unpaired electrons and the magnetic behaviour.`;
+  const sp = diaById(id), one = sp.mo === "1s";   // H₂ and He₂: bond order and unpaired electrons only
+  $("pr-mag").parentElement.hidden = one;
+  $("pr-q").innerHTML = `${tagHTML(sp.tag)}Predict for ${H(sp.f)} (${sp.ve} ${one ? "" : "valence "}electrons): the bond order, the number of unpaired electrons${one ? "." : " and the magnetic behaviour."}`;
   const chips = (el, opts, key) => { $(el).innerHTML = opts.map(o => `<button type="button" data-v="${o}" aria-pressed="false">${o}</button>`).join(""); $(el).querySelectorAll("button").forEach(b => b.onclick = () => { PR[key] = b.dataset.v; $(el).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); }); };
   chips("pr-bo", BO_OPTS, "bo"); chips("pr-un", [0, 1, 2, 3], "un"); chips("pr-mag", ["paramagnetic", "diamagnetic"], "mag");
   $("pr-fb").hidden = true;
@@ -1401,24 +1452,25 @@ function prGrade(id, bo, un, mag){
   if (+bo !== R.bo) errs.push(`bond order: ½(${R.nb} − ${R.na}) = ${R.bo}, not ${bo}`);
   if (+un !== R.unp) errs.push(`unpaired electrons: ${R.unp}, not ${un}`);
   const m = R.para ? "paramagnetic" : "diamagnetic";
-  if (mag !== m) errs.push(`${R.para ? "with an unpaired electron it is paramagnetic" : "with every electron paired it is diamagnetic"}`);
+  if (R.sp.mo !== "1s" && mag !== m) errs.push(`${R.para ? "with an unpaired electron it is paramagnetic" : "with every electron paired it is diamagnetic"}`);
   return { ok: !errs.length, errs, R };
 }
 LAB.prGrade = prGrade;
 function prCheck(){
   const fb = $("pr-fb");
-  if (PR.bo == null || PR.un == null || PR.mag == null){ fb.className = "fb warn"; fb.innerHTML = "Choose all three first."; fb.hidden = false; return; }
+  const one = diaById(PR.id).mo === "1s";
+  if (PR.bo == null || PR.un == null || (!one && PR.mag == null)){ fb.className = "fb warn"; fb.innerHTML = one ? "Choose both first." : "Choose all three first."; fb.hidden = false; return; }
   const G = prGrade(PR.id, PR.bo, PR.un, PR.mag), sp = diaById(PR.id), R = G.R;
   if (!PR.graded){ PR.graded = true; PR.tried++; if (G.ok) PR.right++; }   // one graded attempt per question: repeat presses do not add to the score
   fb.className = "fb " + (G.ok ? "ok" : "no");
-  fb.innerHTML = (G.ok ? `<p>Right: ${H(R.conf)}; bond order ½(${R.nb} − ${R.na}) = ${R.bo}; ${R.unp} unpaired; ${R.para ? "paramagnetic" : "diamagnetic"}.</p>` : `<p>Not quite. ${H(sp.f)}: ${H(R.conf)}.</p><ul>${G.errs.map(e => `<li>${H(e)}</li>`).join("")}</ul>`) + `<p class="ink">The diagram above now shows ${H(sp.f)}.</p>`;
+  fb.innerHTML = (G.ok ? `<p>Right: ${H(R.conf)}; bond order ½(${R.nb} − ${R.na}) = ${R.bo}; ${R.unp} unpaired${one ? "" : `; ${R.para ? "paramagnetic" : "diamagnetic"}`}.</p>` : `<p>Not quite. ${H(sp.f)}: ${H(R.conf)}.</p><ul>${G.errs.map(e => `<li>${H(e)}</li>`).join("")}</ul>`) + `<p class="ink">The diagram above now shows ${H(sp.f)}.</p>`;
   fb.hidden = false;
   $("pr-score").textContent = `${PR.right} / ${PR.tried} correct`;
   MO.mode = "show"; document.querySelector('input[name="mo-mode"][value="show"]').checked = true; moSetSp(PR.id);
 }
 LAB.prCheck = prCheck;
 LAB.prSel = (bo, un, mag) => { PR.bo = String(bo); PR.un = String(un); PR.mag = mag; };
-function bindPR(){ $("pr-check").onclick = prCheck; $("pr-new").onclick = () => prNew(); prNew("O2"); }
+function bindPR(){ $("pr-check").onclick = prCheck; $("pr-new").onclick = () => prNew(); prNew(); }
 
 /* =====================================================
    2. 3D MO VIEWER. Surfaces computed from real LCAO of hydrogen-like AOs (marching tetrahedra), drawn on a canvas.
@@ -1697,9 +1749,9 @@ function slDraw(){
   V3.slice = { signs: signs.map(s => s[2]), nodePts: nodeSegs.length };
   const kind = mo ? moKind() : null;
   $("sl-note").innerHTML = H(!mo ? "Two separate AOs: their densities simply add, nothing is built up between the nuclei yet." :
-    kind.anti ? `Dashed: nodal ${V3NODES[V3.pair + "|" + V3.ph].length > 1 ? "planes" : "plane"} (ψ = 0). Between the nuclei the density falls to zero on the plane perpendicular to the axis: electrons here pull the nuclei apart.${V3.pair === "pz" ? " The dashed curves behind each nucleus separate the small outer lobes; they are curved surfaces, not planes." : ""}` :
-    V3.pair === "px" ? "Dashed: the nodal plane (ψ = 0) contains the axis. The density lies above and below the axis and is built up between the nuclei on both sides, attracting both nuclei." :
-    "Density is built up between the nuclei, attracting both nuclei: a bonding MO." + (V3.pair === "pz" ? " The dashed curves behind each nucleus separate the small outer lobes; they are curved surfaces, not planes." : ""));
+    kind.anti ? `Dashed: nodal ${V3NODES[V3.pair + "|" + V3.ph].length > 1 ? "planes" : "plane"} (ψ = 0). Between the nuclei the density falls to zero on the plane perpendicular to the axis, so nothing holds the nuclei together there.${V3.pair === "pz" ? " The dashed curves behind each nucleus separate the small outer lobes; they are curved surfaces, not planes." : ""}` :
+    V3.pair === "px" ? "Dashed: the nodal plane (ψ = 0) contains the axis. The density sits above and below the axis, and between the nuclei on both sides it binds them." :
+    "Density piles up in the region between the nuclei and binds them: a bonding MO." + (V3.pair === "pz" ? " The dashed curves behind each nucleus separate the small outer lobes; they are curved surfaces, not planes." : ""));
   return V3.slice;
 }
 LAB.slDraw = slDraw;
@@ -1709,7 +1761,7 @@ function v3Info(){
   const P = V3P[V3.pair], K = moKind(), nodes = V3NODES[V3.pair + "|" + V3.ph];
   const formula = `ψ = φ{A} ${V3.ph === "in" ? "+" : "−"} φ{B}`;
   $("v3-cap").innerHTML = H(V3.show === "mo" && V3.sep == null ? `${K.lab}: ${P.lab}, ${V3.ph === "in" ? "in phase" : "out of phase"}` : `Two ${P.ao} AOs, ${V3.ph === "in" ? "in phase" : "out of phase"}, before they combine`);
-  const sym = K.sigma ? "σ symmetry: the MO is cylindrically symmetrical about the internuclear axis: it has no nodal plane containing the axis." : "π symmetry: the MO has one nodal plane that contains the internuclear axis; the electron density lies above and below the axis.";
+  const sym = K.sigma ? "σ symmetry: turn the MO about the bond axis and it looks the same at every angle; no nodal plane passes through the axis." : "π symmetry: exactly one nodal plane passes through the bond axis, so the electron density sits in two regions, above and below it.";
   const np = nodes.length ? nodes.map(k => k === "ax" ? "one containing the axis (the yz plane)" : "one between the nuclei, perpendicular to the axis").join("; ") : "none";
   if (!(V3.show === "mo" && V3.sep == null)){
     const ao = P.ao, sgn = V3.ph === "in" ? "the lobes that will meet have the same sign" : "the lobes that will meet have opposite signs";
@@ -1721,7 +1773,7 @@ function v3Info(){
     return;
   }
   let t = `<p><b>${H(K.lab)}</b>: ${K.anti ? "antibonding" : "bonding"}. ${H(formula.replace(/φ\{([AB])\}/g, "φ{$1}").replace(/φ\{A\}/, "φ<sub>A</sub>").replace(/φ\{B\}/, "φ<sub>B</sub>"))}${V3.pair === "pz" ? " (the two 2p<sub>z</sub> AOs are drawn so that, in phase, the lobes that meet have the same sign; out of phase, opposite signs)" : ""}.</p>`;
-  t += `<p>${H(K.anti ? "Out of phase (opposite signs overlap, destructive): electron density is zero on a nodal plane between the nuclei; higher in energy than the AOs." : "In phase (same-sign lobes overlap, constructive): electron density is built up between the nuclei, attracting both nuclei; lower in energy than the AOs.")}</p>`;
+  t += `<p>${H(K.anti ? "Out of phase: lobes of opposite sign cancel where they meet, leaving a nodal plane between the nuclei with no electron density on it; the MO lies above the AOs in energy." : "In phase: lobes of the same sign reinforce each other, so electron density accumulates between the nuclei and binds them; the MO lies below the AOs in energy.")}</p>`;
   t += `<p>${H(sym)}</p><p>Nodal planes: ${H(np)}.</p>`;
   if (V3.spun) t += `<p class="ink"><b>After half a turn about z:</b> ${K.sigma ? "it looks exactly the same at every angle (cylindrical symmetry)." : "the shaded and open lobes have swapped places: turning a π MO about the axis changes its sign, because its nodal plane contains the axis."}</p>`;
   $("v3-info").innerHTML = t;
@@ -1985,8 +2037,8 @@ function piRead(){
     if (p.ring) r += `<div class="stat wide"><div class="l">${ENR}Delocalisation energy</div><div class="v">${H("(6α + 8β) − 3 × (2α + 2β) = 2β")} <small>about 150 kJ mol⁻¹ from hydrogenation enthalpies (literature), so |β| is roughly 75 kJ mol⁻¹</small></div></div>`.replace("kJ mol⁻¹ from", "kJ mol<sup>−1</sup> from").replace("75 kJ mol⁻¹", "75 kJ mol<sup>−1</sup>");
   }
   $("pi-read").innerHTML = r;
-  $("pi-rules").innerHTML = p.ring ? H("Benzene: six p orbitals give six π MOs in a 1-2-2-1 pattern: ψ{1} (no nodal planes), ψ{2} and ψ{3} (degenerate, one each), ψ{4} and ψ{5} (degenerate, two each), ψ{6} (three). The six π electrons fill ψ{1}, ψ{2} and ψ{3}, all bonding, which is why benzene is unusually stable (delocalisation energy about 150 kJ mol⁻¹, literature).")
-    : H(`A linear polyene with N conjugated carbons: N p orbitals give N π MOs; ψ{k} has k − 1 nodes; energy rises with the number of nodes; ψ{1} to ψ{N/2} are bonding, the rest antibonding. HOMO = ψ{N/2}, LUMO = ψ{N/2+1}. As N increases the HOMO–LUMO gap gets smaller.`).replace(/\bN\b(?![^<]*>)/g, "<i>N</i>").replace(/\bk\b(?![^<]*>)/g, "<i>k</i>");
+  $("pi-rules").innerHTML = p.ring ? H("Benzene: six p orbitals give six π MOs in a 1-2-2-1 pattern: ψ{1} (no nodal planes), ψ{2} and ψ{3} (degenerate, one each), ψ{4} and ψ{5} (degenerate, two each), ψ{6} (three). Six π electrons occupy the three bonding MOs ψ{1}, ψ{2} and ψ{3}, which is why benzene is unusually stable (delocalisation energy about 150 kJ mol⁻¹, literature).")
+    : H(`A linear polyene with N conjugated carbons: N p orbitals give N π MOs; the node count of ψ{k} is k − 1, and energy rises with the number of nodes; ψ{1} to ψ{N/2} are bonding, the rest antibonding. HOMO = ψ{N/2}, LUMO = ψ{N/2+1}. A bigger N means a smaller HOMO–LUMO gap.`).replace(/\bN\b(?![^<]*>)/g, "<i>N</i>").replace(/\bk\b(?![^<]*>)/g, "<i>k</i>");
 }
 // comparison of the three polyenes
 function pcDraw(){
@@ -1994,7 +2046,7 @@ function pcDraw(){
   let s = "";
   const top = 30, bot = 34, Y = x => top + (XR + x) / (2 * XR) * (Hh - top - bot);
   s += `<line x1="26" y1="${f1(Y(0))}" x2="${W - 6}" y2="${f1(Y(0))}" class="ref"/>`;
-  s += vArrow(14, Hh - bot, top - 4, "var(--axis)", { sw: 1.4 }) + `<g transform="translate(9 ${f1(Hh / 2)}) rotate(-90)">${T(0, 0, "Energy", "axlab", 'text-anchor="middle"')}</g>`;
+  s += vArrow(19, Hh - bot, top - 4, "var(--axis)", { sw: 1.4 }) + `<g transform="translate(12 ${f1(Hh / 2)}) rotate(-90)">${T(0, 0, "Energy", "axlab", 'text-anchor="middle"')}</g>`;
   lin.forEach((p, i) => {
     const L = piLadder(svg, p, { W: colW, H: Hh, top, bot, x0: 26 + i * colW, cx: colW * 0.58, lw: Math.min(34, colW * 0.34), small: true });
     s += L.s;
@@ -2089,24 +2141,34 @@ function phWork(q, u, v){
   }
   if (q !== "Em") w.push(`Per mole of photons: E{} × L{} = ${s4(R.E)} × 6.02 × 10²³ = ${R.Em >= 1000 ? `${s4(R.Em)} J mol⁻¹ = <b>${s3(R.Em / 1000)} kJ mol⁻¹</b>` : `<b>${s3(R.Em)} J mol⁻¹</b> (${s3(R.Em / 1000)} kJ mol⁻¹)`}`);
   if (q !== "wn") w.push(`Wavenumber: ν̃ = 1/λ = 1 / (${s4(lm)} m) = ${s4(1 / lm)} m⁻¹ = <b>${s3(R.wn)} cm⁻¹</b> (÷ 100)`);
-  const reg = regOf(lm), nir = nmOf(lm) > 700 && nmOf(lm) <= 800, lvK = nir ? "elec" : LEVEL_OF[reg.id];
-  w.push(`${lamStr(lm)} lies in the <b>${reg.n}</b> region (${reg.rng}, approximate)${reg.id === "vis" ? `: ${visOf(lm * 1e9).n} light` : nir ? ": near infrared, still inside the UV/vis spectroscopy range (about 200–800 nm)" : ""}. ${lvK === "none" ? LEVELS.none.t.replace(/^./, c => c.toUpperCase()) + "." : `Photons of this energy match the gaps between <b>${LEVELS[lvK].n}</b> levels.`}`);
-  return { w, R, lm, reg, lvK, nir };
+  const reg = regOf(lm), lvK = LEVEL_OF[reg.id];
+  w.push(`${lamStr(lm)} lies in the <b>${reg.n}</b> region (${reg.rng}, approximate)${reg.id === "vis" ? `: ${visOf(lm * 1e9).n} light` : ""}. ${lvK === "none" ? LEVELS.none.t.replace(/^./, c => c.toUpperCase()) + "." : `Photons of this energy match the gaps between <b>${LEVELS[lvK].n}</b> levels.`}`);
+  return { w, R, lm, reg, lvK };
 }
 LAB.phWork = phWork;
+// the menu's unit as the typed-answer helper knows it
+const PH_CAN = { kJ: "kJmol", Jm: "Jmol" };
+// no photon to show: the spectrum marker, the bond panel and the level match are cleared too, so nothing stale is left on screen
+function phClear(){ emDraw(); bbRender(); if (typeof lvDraw === "function"){ lvDraw(); lvRead(); } }
 function phCompute(){
-  const v = parseNum($("ph-v").value);
+  const pa = parseAnswer($("ph-v").value, [PH_CAN[PH.u] || PH.u]);
+  const v = pa.value != null ? pa.value : NaN;
   PH.v = v;
+  if (pa.kind === "unit" || pa.kind === "comma"){
+    PH.res = null; $("ph-v").setAttribute("aria-invalid", "true");
+    $("ph-read").innerHTML = `<div class="stat wide fb warn"><div class="v">${pa.kind === "unit" ? "The unit you typed differs from the one selected: change the menu or remove the unit." : pa.error}</div></div>`; $("ph-work").innerHTML = ""; phClear();
+    return;
+  }
   const lm = toLam(PH.q, PH.u, v);
-  if (!(lm > 0) || !isFinite(lm)){ PH.res = null; $("ph-v").setAttribute("aria-invalid", "true"); $("ph-read").innerHTML = `<div class="stat wide fb warn"><div class="v">Enter a positive number.</div></div>`; $("ph-work").innerHTML = ""; return; }
-  if (lm < 1e-14 || lm > 1e4){ PH.res = null; $("ph-v").setAttribute("aria-invalid", "true"); $("ph-read").innerHTML = `<div class="stat wide fb warn"><div class="v">That is outside the range drawn (wavelengths from 10⁻¹⁴ m to 10 km). Try another value.</div></div>`.replace("10⁻¹⁴", "10<sup>−14</sup>"); $("ph-work").innerHTML = ""; return; }
+  if (!(lm > 0) || !isFinite(lm)){ PH.res = null; $("ph-v").setAttribute("aria-invalid", "true"); $("ph-read").innerHTML = `<div class="stat wide fb warn"><div class="v">Enter a positive number.</div></div>`; $("ph-work").innerHTML = ""; phClear(); return; }
+  if (lm < 1e-14 || lm > 1e4){ PH.res = null; $("ph-v").setAttribute("aria-invalid", "true"); $("ph-read").innerHTML = `<div class="stat wide fb warn"><div class="v">That is outside the range drawn (wavelengths from 10⁻¹⁴ m to 10 km). Try another value.</div></div>`.replace("10⁻¹⁴", "10<sup>−14</sup>"); $("ph-work").innerHTML = ""; phClear(); return; }
   $("ph-v").removeAttribute("aria-invalid");
   const W = phWork(PH.q, PH.u, v), R = W.R;
   PH.res = W;
   const box = (l, val, sm) => `<div class="stat"><div class="l">${l}</div><div class="v">${H(val)}${sm ? ` <small>${H(sm)}</small>` : ""}</div></div>`;
   $("ph-read").innerHTML = box("Wavelength, λ", lamStr(W.lm)) + box("Frequency, <i>f</i>", fStr(R.f)) + box("Wavenumber, ν̃", sci(R.wn, 3) + " cm⁻¹") +
     box("Energy of one photon, <i>E</i>", sci(R.E, 3) + " J") + box("Energy per mole of photons", emStr(R.Em), R.Em < 1000 ? `= ${sci(R.Em / 1000, 3)} kJ mol⁻¹` : "") +
-    box("Region", W.reg.n, W.reg.id === "vis" ? visOf(W.lm * 1e9).n + " light" : W.nir ? "near infrared; still inside the UV/vis spectroscopy range (about 200–800 nm)" : "") + `<div class="stat wide"><div class="l">Matches the gaps between</div><div class="v">${H(W.lvK === "none" ? "none of the four kinds of level" : LEVELS[W.lvK].t)} <small>${H(LEVELS[W.lvK].tech)}</small></div></div>`;
+    box("Region", W.reg.n, W.reg.id === "vis" ? visOf(W.lm * 1e9).n + " light" : "") + `<div class="stat wide"><div class="l">Matches the gaps between</div><div class="v">${H(W.lvK === "none" ? "none of the four kinds of level" : LEVELS[W.lvK].t)} <small>${H(LEVELS[W.lvK].tech)}</small></div></div>`;
   $("ph-work").innerHTML = W.w.map(x => `<li>${H(x)}</li>`).join("");
   $("ph-pre").querySelectorAll("button").forEach(b => { const P = PRESETS.find(p => p.id === b.dataset.p); b.setAttribute("aria-pressed", String(P.q === PH.q && P.u === PH.u && P.v === v)); });
   emDraw(); bbRender(); if (typeof lvDraw === "function"){ lvDraw(); lvRead(); }
@@ -2304,7 +2366,7 @@ function aeDraw(){
   }
   [400, 500, 600, 700].forEach(l => { s += T(XS(l), sy + sh + 15, String(l), "tick", 'text-anchor="middle"'); });
   s += T(sx + sw, sy + sh + 30, "λ / nm", "cap", 'text-anchor="end"');
-  s += T(sx, sy - 8, LV.ae === "abs" ? "absorption spectrum: white light through the sample" : "emission spectrum: light from the excited sample", "cap");
+  s += T(sx, sy - 8, LV.ae === "abs" ? (narrow ? "absorption: white light through the sample" : "absorption spectrum: white light through the sample") : (narrow ? "emission: light from the excited sample" : "emission spectrum: light from the excited sample"), "cap");
   setSvg(svg, W, Hh, s);
   $("ae-txt").innerHTML = H(LV.ae === "abs" ? "Absorption: radiation of all wavelengths passes through the sample. Photons whose energy matches a gap from the lowest level are removed, leaving dark lines; the atom is promoted to a higher level." : "Emission: the excited atom drops back to lower levels, giving out photons of exactly the gap energy: bright lines on a dark background, at the same wavelengths as the dark lines in absorption.") +
     `<p style="margin-top:6px">${H("Line spectra of atoms are evidence that energy levels are quantised. Molecules in solution give broad absorption bands instead, because each electronic transition can end on many vibrational and rotational sublevels (H3.2).")}</p>`;
@@ -2335,19 +2397,47 @@ LAB.aeSet = (mode, n) => { if (mode) LV.ae = mode; if (n) LV.n = n; document.que
 
 /* =====================================================
    6. PRACTICE GENERATOR (Data Booklet h, c, L, bond energies; generated values illustrative).
-   Excludes every number reserved for the tutorials (DATA.md): 254, 450, 486 nm; 2900 cm⁻¹; 2.45 GHz; 60 and 800 MHz;
-   the Br–Br, O=O, C–C and C–H thresholds; and the notes' own worked values (589, 656, 365, 217 nm; Cl–Cl 244 kJ mol⁻¹), so practice is fresh.
+   A few numbers are kept out of the generated questions so practice stays fresh. The page holds only
+   opaque hashes of them (made when the page is built); a draw whose displayed values hash into that set is redrawn.
    ===================================================== */
+const RESH = new Set(["106bjqi", "106ep8h", "108qbeq", "10935mo", "10ib3i1", "10j2rbn", "10t2d0m", "1111mxo", "1131ypl", "11b18mn", "11d1kek", "11e9tvc", "11l0ubm", "11l75bk", "11n163j", "11q684w", "11v0g0l", "11v6r0j", "11x0rsi", "1205ttv", "12501pk", "1256cpi", "1270dhh", "12a5fiu", "12f5yeh", "12gn4yi", "12gtfyg", "12k517t", "12qmqnh", "12qt1nf", "1307iqs", "130z6ke", "13448lr", "13a74fr", "13as91d", "13ays9d", "13fa3hy", "13p9p6x", "13sos6e", "142odvd", "14s509k", "150ayvx", "1524lyj", "15gmec8", "15h1l16", "15m0nui", "15m3tch", "15qm017", "15w09jh", "160llq6", "16al7f5", "16h5q4n", "16kkt44", "16uket3", "171830k", "174k0i2", "17b7opj", "17ebrg3", "17ejm71", "17jop66", "17l7aei", "17v6w3h", "18gjcz", "1b06lgq", "1ba675p", "1bjzef2", "1byfmq", "1c37cme", "1c5k95s", "1cfjuur", "1cjbft6", "1cl702f", "1cpjgjq", "1csgqos", "1czj28p", "1d046ub", "1d2gcdr", "1d9fifp", "1d9ltfn", "1dqe7ls", "1dwf5go", "1e0dtar", "1e45r46", "1e6er5n", "1eadezq", "1ee5ct5", "1egecum", "1ekd0op", "1eqdyjl", "1eucmdo", "1f0dk8k", "1f4c82n", "1fad5xj", "1febtrm", "1fkcrmi", "1fobfgl", "1frf36f", "1fucdbh", "1fyb15k", "1g1kzvc", "1g24gpp", "1g8amuj", "1gbhg2c", "1gbklkb", "1glk79a", "1goll9u", "1gvjsy9", "1gyl6yt", "1gyyid", "1h8ksns", "1hq3qms", "1hvjyws", "1i03cbr", "1i1j3vv", "1i5jklr", "1ik2jpp", "1izidoo", "1j03iaa", "1j9hzdn", "1j9l4vm", "1ja33z9", "1jjhl2m", "1jjkqkl", "1jk2po8", "1jth6rl", "1jtkc9k", "1ju2bd7", "1k0u78", "1k3gsgk", "1k3jxyj", "1k41x26", "1kdge5j", "1kdjjni", "1ke1ir5", "1kjgc2f", "1knfzui", "1knj5ch", "1ko14g4", "1kxfljh", "1kxir1g", "1ky0q53", "1l7icqf", "1l80bu2", "1lhhyfe", "1lhzxj1", "1lrhk4d", "1lu8dn4", "1ly1bp", "1p5osd4", "1pfoe23", "1qjmstz", "1qtmeiy", "1r3m07x", "1sgic50", "1u5bl7k", "1ufb6wj", "1upasli", "1uzaeah", "1v99zzg", "1vj9lof", "1vt97de", "1w38t2d", "1wd8erc", "1wkj2tu", "1wn80gb", "1ww1vgw", "1x61h5v", "1x99nuo", "1xt8v8m", "1y38gxl", "1yd82mk", "1yn4itk", "1yn7obj", "1yx44ij", "1yx7a0i", "25u37o", "2yk7hr", "43c24r", "62tqd", "6868ci", "6i5u1h", "6j72za", "6s5fqg", "7251ff", "7c4n4e", "7m48td", "7oyvc2", "7w3uic", "7wm6p9", "863g7b", "8g31wa", "8q2nl9", "93oyhv", "9nrbds", "9xqx2r", "a7qirq", "ahq4gp", "aht9yo", "ap77os", "arpq5o", "arsvnn", "b1pbun", "b1shcm", "bboxjm", "bbs31l", "bc211a", "bloj8l", "blroqk", "bqhgz1", "bvrafj", "bvufxi", "bwddeo", "c5qw4i", "c5u1mh", "c6cz3n", "cfqhth", "cgcksm", "cqc6hl", "cu8qj", "czmjpg", "d9m5ef", "d9terw", "djs23c", "djt0gv", "dm2cqo", "dtrnsb", "dtsm5u", "e3r9ha", "ednpoa", "edqv69", "ekjk9g", "ennbd9", "enqgv8", "exq2k7", "f7fjbk", "f7po96", "feyicr", "fhf50j", "fhp9y5", "fqqya8", "g0qjz7", "gaq5o6", "gkprd5", "gupd24", "gv7i43", "gxxgq7", "h4oyr3", "hajb0w", "heokg2", "hfccvc", "hoo651", "hpbykb", "huiieu", "hzbk9a", "i4i43t", "i9b5y9", "iiq4px", "ijarn8", "itadc7", "j2m6lw", "j39z16", "jclsav", "jd9kq5", "jv0iun", "jxp53b", "r5mi02", "rl68j8", "tgmdbn", "tq3zwz", "tqlz0m", "u0lkpl", "v32mz4", "vd28o3", "vp8hzg", "vqer4z", "vz83of", "w8ljrc", "wil5gb", "wt6wrc", "x2kcu9", "x2nic8", "x36igb", "xazgiw", "xcn417", "xd645a", "xfo19s", "xkz27v", "xn5pu9", "xnd6vg", "xpnmyr", "xuynwu", "xx5bj8", "xzn8nq", "y4y9lt", "y6lx44", "y74x87", "y7ce9e", "y9mucp", "yexvas", "yglit3", "yh4ix6", "yhbzyd", "yksp8w", "yoxgzr", "yql4i2", "yr44m5", "yusaxv", "yyx2oq", "yz086p", "z0kq71", "z3ihxn", "z3lnfm", "z4rwmu", "z8wodp", "zdl94l", "zeribt", "zor40s", "zyqppr"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
 const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
 const ansN = (v, n) => ({ v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.005 * Math.abs(v)) });
 const ASIDE = t => `<span class="aside">(${t}.)</span>`;
-// reserved λ (nm), with the thresholds of the reserved bonds: Br–Br 620, O=O 241, C–C 342, C–H 292
-const RES_NM = [254, 450, 486, 620, 241, 342, 292];
-const NOTES_NM = [589, 656, 365, 217, 171, 258, 491, 490, 758, 275, 352, 247];
-const RES_KJ = [471, 266, 246, 193, 350, 410, 496];
-const badNm = nm => RES_NM.some(r => Math.abs(nm - r) <= 3) || NOTES_NM.some(r => Math.abs(nm - r) <= 1);
-const badKJ = kj => RES_KJ.some(r => Math.abs(kj - r) <= 2) || badNm(lamOfKJ(kj) * 1e9) || [203, 183, 328, 552, 700, 464, 244, 158, 436, 340, 485].includes(kj);
-LAB.badNm = badNm; LAB.badKJ = badKJ; LAB.RES_NM = RES_NM; LAB.RES_KJ = RES_KJ;
+const badNm = nm => rh("nm:" + Math.round(nm));
+const badKJ = kj => rh("kj:" + Math.round(kj)) || badNm(lamOfKJ(kj) * 1e9);
+LAB.badNm = badNm; LAB.badKJ = badKJ;
+// numbers in a generated question (text, working, answer) that hash into the set: tested token by token, after rounding as displayed
+function resHit(str){
+  const t = String(str).replace(/<[^>]*>/g, " ").replace(/\u00a0/g, " ");
+  const re = /(\d+(?:\.\d+)?)(?:\s*× 10([⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+))?(?:\s*(MHz|GHz|µm|m)(?![A-Za-zµ⁻]))?/g;
+  let m;
+  for (const d of t.match(/\d+/g) || []) if (rh("t:" + d)) return true;   // a listed number as a run of digits, even after a decimal point
+  while ((m = re.exec(t))){
+    const v = String(+m[1]);
+    if (rh("t:" + v)) return true;
+    if (m[2]){ const e = [...m[2]].map(c => c === "⁻" ? "-" : SUPD.indexOf(c)).join(""); if (rh("s:" + v) || rh("s:" + v + "e" + e)) return true; }
+    if (m[3] && rh("u:" + v + m[3])) return true;
+  }
+  return false;
+}
+LAB.resHit = resHit;
+// format hints: an example in the same form as the answer, never the answer itself and well outside the marking window
+const EX_MANT = [1.23, 2.34, 4.56, 5.67, 6.78, 8.91];
+function exNum(v){
+  const e = Math.floor(Math.log10(Math.abs(v)));
+  let m; do { m = pick(EX_MANT); } while (Math.abs(m * Math.pow(10, e) / v - 1) < 0.25);
+  return m * Math.pow(10, e);
+}
+function exStr(v, both){
+  const x = exNum(v), a = Math.abs(v);
+  if (a >= 0.01 && a < 1e4) return sfS(x, 3);
+  const e = Math.floor(Math.log10(x)), m = (x / Math.pow(10, e)).toFixed(2);
+  return both ? `${m}e${e} or ${m} × 10${SUPS(e)}` : `${m} × 10${SUPS(e)}`;
+}
+const exBO = a => pick([0.5, 1.5, 2.5, 3].filter(x => Math.abs(x - a) >= 1));
 function genLam(){
   let nm; do { nm = ri(200, 780); } while (badNm(nm));
   const R = fromLam(nm * 1e-9), ask = pick(["f", "E", "Em"]);
@@ -2359,30 +2449,30 @@ function genLam(){
   const alts = ask === "Em" ? [{ v: R.Em, msg: "That is in J mol⁻¹: divide by 1000." }, { v: R.E, msg: "That is for one photon: multiply by L{} for a mole." }, { v: R.Em / 1000 * 1e-9, msg: "Convert nm to m (× 10⁻⁹) first." }]
     : ask === "E" ? [{ v: R.E * 1e-9, msg: "Convert nm to m (× 10⁻⁹) first." }, { v: R.Em / 1000, msg: "That is per mole, in kJ mol⁻¹; the question asks for one photon, in J." }]
     : [{ v: R.f * 1e-9, msg: "Convert nm to m (× 10⁻⁹) first." }, { v: 1 / R.f, msg: "f{} = c{}/λ, not λ/c." }];
-  return { type: "lam", text: `Light of wavelength ${nm} nm. Calculate ${ask === "f" ? "its frequency, in Hz" : ask === "E" ? "the energy of one photon, in J" : "the energy of one mole of photons, in kJ mol⁻¹"}.`, label: lab, ans, p: { nm, ask }, work: w, fmt: ask === "Em" ? "3 significant figures, e.g. 245" : ask === "E" ? "3 significant figures, e.g. 3.38e-19 or 3.38 × 10⁻¹⁹" : "3 significant figures, e.g. 5.09e14 or 5.09 × 10¹⁴", alts };
+  return { type: "lam", text: `Light of wavelength ${nm} nm. Calculate ${ask === "f" ? "its frequency, in Hz" : ask === "E" ? "the energy of one photon, in J" : "the energy of one mole of photons, in kJ mol⁻¹"}.`, label: lab, ans, units: [{ f: "Hz", E: "J", Em: "kJmol" }[ask]], p: { nm, ask }, work: w, fmt: `3 significant figures, e.g. ${exStr(ans.v, ask !== "Em")}`, alts };
 }
 function genKJ(){
   let kj; do { kj = ri(150, 600); } while (badKJ(kj));
   const E = kj * 1000 / L_A, lm = H_PL * C_L / E, nm = lm * 1e9, reg = regOf(lm);
   const w = [ASIDE("To find λ, change the energy to joules per photon, then use λ = h{}c{}/E{}"), `Per photon: (${kj} × 1000) / (6.02 × 10²³) = ${sci(E, 4)} J`, `λ = h{}c{}/E{} = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${sci(E, 4)}) = ${sci(lm, 4)} m = <b>${sfS(nm, 3)} nm</b>`, `${sfS(nm, 3)} nm is in the ${reg.n} region${reg.id === "vis" ? ` (${visOf(nm).n})` : ""}.`];
-  return { type: "kj", text: `An energy gap of ${kj} kJ mol⁻¹ (per mole of photons). Calculate the wavelength of a photon that matches it, in nm.`, label: "λ / nm", ans: ansN(nm, 3), p: { kj }, work: w, fmt: "3 significant figures, e.g. 432",
+  return { type: "kj", text: `An energy gap of ${kj} kJ mol⁻¹ (per mole of photons). Calculate the wavelength of a photon that matches it, in nm.`, label: "λ / nm", ans: ansN(nm, 3), units: ["nm"], p: { kj }, work: w, fmt: `3 significant figures, e.g. ${exStr(nm)}`,
     alts: [{ v: nm * 1000, msg: "Change kJ to J (× 1000) before dividing." }, { v: nm / L_A, msg: "Divide by L{} to get the energy of one photon, not multiply." }, { v: lm, msg: "That is in metres: × 10⁹ for nm." }] };
 }
 function genWN(){
   const kind = pick(["wn", "wn", "mhz", "ghz"]);
   if (kind === "wn"){
-    let wn; do { wn = 10 * ri(50, 380); } while (Math.abs(wn - 2900) <= 40 || Math.abs(wn - 1700) <= 10 || wn === 4000 || wn === 400);
+    let wn; do { wn = 10 * ri(50, 380); } while (rh("wn:" + wn));
     const lm = 1 / (wn * 100), R = fromLam(lm);
     const w = [ASIDE("To answer, change cm⁻¹ to m⁻¹ (× 100); then λ = 1/ν̃, f{} = c{}/λ, E{} = h{}f{}, × L"), `ν̃ = ${wn} × 100 = ${sci(wn * 100, 4)} m⁻¹, so λ = 1/ν̃ = ${sci(lm, 4)} m (${sci(lm * 1e6, 3)} µm)`, `f{} = c{}/λ = (3.00 × 10⁸) / (${sci(lm, 4)}) = ${sci(R.f, 4)} Hz`, `E{} = h{}f{} = 6.63 × 10⁻³⁴ × ${sci(R.f, 4)} = ${sci(R.E, 4)} J`, `Per mole: × 6.02 × 10²³ = ${sci(R.Em, 4)} J mol⁻¹ = <b>${sfS(R.Em / 1000, 3)} kJ mol⁻¹</b>: an infrared photon (vibrational levels).`];
-    return { type: "wn", text: `An infrared absorption at ${wn} cm⁻¹. Calculate the energy per mole of photons, in kJ mol⁻¹.`, label: "E per mole / kJ mol⁻¹", ans: ansN(R.Em / 1000, 3), p: { wn }, work: w, fmt: "3 significant figures, e.g. 31.1",
+    return { type: "wn", text: `An infrared absorption at ${wn} cm⁻¹. Calculate the energy per mole of photons, in kJ mol⁻¹.`, label: "E per mole / kJ mol⁻¹", ans: ansN(R.Em / 1000, 3), units: ["kJmol"], p: { wn }, work: w, fmt: `3 significant figures, e.g. ${exStr(R.Em / 1000)}`,
       alts: [{ v: R.Em / 1000 / 100, msg: "Change cm⁻¹ to m⁻¹: multiply by 100." }, { v: R.Em, msg: "That is in J mol⁻¹: divide by 1000." }, { v: R.E, msg: "That is one photon: multiply by L{}." }] };
   }
   let f, txt;
-  if (kind === "mhz"){ let v; do { v = 10 * ri(10, 95); } while ([60, 400, 800].some(r => Math.abs(v - r) <= 10)); f = v * 1e6; txt = `${v} MHz`; }
-  else { let v; do { v = ri(3, 290); } while (v === 300); f = v * 1e9; txt = `${v} GHz`; }
+  if (kind === "mhz"){ let v; do { v = 10 * ri(10, 95); } while (rh("mhz:" + v)); f = v * 1e6; txt = `${v} MHz`; }
+  else { let v; do { v = ri(3, 290); } while (rh("ghz:" + v)); f = v * 1e9; txt = `${v} GHz`; }
   const lm = C_L / f, E = H_PL * f, Em = E * L_A;
   const w = [ASIDE(`To answer, change ${kind === "mhz" ? "MHz" : "GHz"} to Hz, then use E{} = h{}f{} and × L{}`), `f{} = ${txt} = ${sci(f, 4)} Hz; λ = c{}/f{} = ${sci(lm, 3)} m`, `E{} = h{}f{} = 6.63 × 10⁻³⁴ × ${sci(f, 4)} = ${sci(E, 4)} J`, `Per mole: × 6.02 × 10²³ = <b>${sci(Em, 3)} J mol⁻¹</b> (${sci(Em / 1000, 3)} kJ mol⁻¹): ${kind === "mhz" ? "radio waves, the size of gap between nuclear spin levels in a field (NMR)" : "microwaves, rotational levels"}.`];
-  return { type: "wn", text: `${kind === "mhz" ? "Radio waves" : "Microwaves"} of frequency ${txt}. Calculate the energy per mole of photons, in J mol⁻¹.`, label: "E per mole / J mol⁻¹", ans: ansN(Em, 3), p: { f }, work: w, fmt: "3 significant figures, e.g. 0.215",
+  return { type: "wn", text: `${kind === "mhz" ? "Radio waves" : "Microwaves"} of frequency ${txt}. Calculate the energy per mole of photons, in J mol⁻¹.`, label: "E per mole / J mol⁻¹", ans: ansN(Em, 3), units: ["Jmol"], p: { f }, work: w, fmt: `3 significant figures, e.g. ${exStr(Em)}`,
     alts: [{ v: Em / 1000, msg: "That is in kJ mol⁻¹; the question asks for J mol⁻¹." }, { v: E, msg: "That is one photon: multiply by L{}." }, { v: Em / (kind === "mhz" ? 1e6 : 1e9), msg: `Change ${kind === "mhz" ? "MHz" : "GHz"} to Hz first.` }] };
 }
 function genBond(){
@@ -2391,21 +2481,23 @@ function genBond(){
   else { let be; do { be = ri(150, 600); } while (badKJ(be) || BONDS.some(x => x.be === be)); b = { n: "a bond", be, ill: true }; }
   const E = b.be * 1000 / L_A, lm = H_PL * C_L / E, nm = lm * 1e9;
   const w = [ASIDE("To find the longest wavelength, the energy of one photon must equal the bond energy per molecule"), `Per bond: (${b.be} × 1000) / (6.02 × 10²³) = ${sci(E, 4)} J`, `λ = h{}c{}/E{} = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${sci(E, 4)}) = ${sci(lm, 4)} m = <b>${sfS(nm, 3)} nm</b>`, `Any photon of ${sfS(nm, 3)} nm or shorter can break the bond; longer wavelengths cannot, however bright the light.`];
-  return { type: "bond", fex: true, text: b.ill ? `A bond has bond energy ${b.be} kJ mol⁻¹ (illustrative value). Calculate the longest wavelength of light, in nm, whose photons can break it.` : `The ${b.n} bond energy is ${b.be} kJ mol⁻¹ (Data Booklet). Calculate the longest wavelength of light, in nm, whose photons can break this bond.`, label: "λ / nm", ans: ansN(nm, 3), p: { be: b.be }, work: w, fmt: "3 significant figures, e.g. 515",
+  return { type: "bond", fex: true, text: b.ill ? `A bond has bond energy ${b.be} kJ mol⁻¹ (illustrative value). Calculate the longest wavelength of light, in nm, whose photons can break it.` : `The ${b.n} bond energy is ${b.be} kJ mol⁻¹ (Data Booklet). Calculate the longest wavelength of light, in nm, whose photons can break this bond.`, label: "λ / nm", ans: ansN(nm, 3), units: ["nm"], p: { be: b.be }, work: w, fmt: `3 significant figures, e.g. ${exStr(nm)}`,
     alts: [{ v: nm * 1000, msg: "Change kJ to J (× 1000) first." }, { v: nm / L_A, msg: "Divide by L{} to get the energy per bond, not multiply." }, { v: lm, msg: "That is in metres: × 10⁹ for nm." }] };
 }
 function genBO(){
-  const id = pick(PR_SET), R = speciesResult(id, true), sp = R.sp;
-  const w = [ASIDE(`To answer, fill the ${sp.ve} ${sp.mo === "1s" ? "" : "valence "}electrons into the MOs from the lowest (aufbau, Pauli, Hund), then count`), `${sp.f}: ${R.conf}`, `Bonding electrons ${R.nb}, antibonding ${R.na}: bond order = ½(${R.nb} − ${R.na}) = <b>${R.bo}</b>`, `Unpaired electrons: ${R.unp}, so <b>${R.para ? "paramagnetic" : "diamagnetic"}</b>.`];
-  return { type: "bo", fex: sp.tag === "fex", text: `Use an MO diagram to find the bond order of ${sp.f}, and state whether it is paramagnetic or diamagnetic.`, label: "Bond order", ans: { v: R.bo, str: String(R.bo), tol: 0.01 },
-    sel: { lab: "Magnetic behaviour", opts: ["paramagnetic", "diamagnetic"], ans: R.para ? "paramagnetic" : "diamagnetic" }, p: { id }, work: w, fmt: "a number, e.g. 1.5",
+  const id = pick(PR_SET), R = speciesResult(id, true), sp = R.sp, one = sp.mo === "1s";   // the two 1s species: bond order only
+  const w = [ASIDE(`To answer, fill the ${sp.ve} ${one ? "" : "valence "}electrons into the MOs from the lowest (aufbau, Pauli, Hund), then count`), `${sp.f}: ${R.conf}`, `Bonding electrons ${R.nb}, antibonding ${R.na}: bond order = ½(${R.nb} − ${R.na}) = <b>${R.bo}</b>`];
+  if (!one) w.push(`Unpaired electrons: ${R.unp}, so <b>${R.para ? "paramagnetic" : "diamagnetic"}</b>.`);
+  const q = { type: "bo", fex: sp.tag === "fex", text: `Use an MO diagram to find the bond order of ${sp.f}${one ? "." : ", and state whether it is paramagnetic or diamagnetic."}`, label: "Bond order", ans: { v: R.bo, str: String(R.bo), tol: 0.01 }, units: [], p: { id }, work: w, fmt: `a number, e.g. ${exBO(R.bo)}`,
     alts: [{ v: R.nb - R.na, msg: "Halve the difference: bond order = ½(bonding − antibonding)." }, { v: R.nb / 2, msg: "Subtract the antibonding electrons too." }] };
+  if (!one) q.sel = { lab: "Magnetic behaviour", opts: ["paramagnetic", "diamagnetic"], ans: R.para ? "paramagnetic" : "diamagnetic" };
+  return q;
 }
 function genPI(){
   const p = pick(PI), Hk = huckel(p), kind = pick(p.ring ? ["homoN", "lumoN", "nmo"] : ["homoN", "lumoN", "homoK", "lumoK", "nmo"]);
   const ho = Hk.mos[Hk.homo], lu = Hk.mos[Hk.lumo];
   let text, ans, w = [], lab;
-  const base = p.ring ? [`Benzene: six p orbitals give six π MOs (1-2-2-1); six π electrons fill ψ₁, ψ₂ and ψ₃.`, `HOMO: the degenerate pair ψ₂/ψ₃ (one nodal plane each); LUMO: ψ₄/ψ₅ (two each).`]
+  const base = p.ring ? [`Benzene: six p orbitals give six π MOs (1-2-2-1); the six π electrons occupy the three lowest, ψ₁, ψ₂ and ψ₃.`, `HOMO: the degenerate pair ψ₂/ψ₃ (one nodal plane each); LUMO: ψ₄/ψ₅ (two each).`]
     : [`${p.name}: ${p.N} conjugated carbons, so ${p.N} p orbitals give ${p.N} π MOs, and ${p.N} π electrons fill the ${p.N / 2} bonding MOs.`, `ψₖ has k − 1 nodes. HOMO = ψ${p.N / 2} (${ho.nodes} node${ho.nodes === 1 ? "" : "s"}); LUMO = ψ${p.N / 2 + 1} (${lu.nodes} node${lu.nodes === 1 ? "" : "s"}).`.replace(/ψ(\d)/g, (m, d) => "ψ" + "₀₁₂₃₄₅₆₇₈₉"[d])];
   w = [ASIDE("To answer, count the p orbitals, fill the π electrons in pairs from the lowest MO, then count nodes")].concat(base);
   if (kind === "homoN"){ text = `How many ${p.ring ? "nodal planes (perpendicular to the ring)" : "nodes"} has the HOMO of ${p.name}?`; ans = ho.nodes; lab = "Nodes"; }
@@ -2414,25 +2506,22 @@ function genPI(){
   else if (kind === "lumoK"){ text = `The π MOs of ${p.name} are ψ₁ (lowest) to ψ${"₀₁₂₃₄₅₆₇₈₉"[p.N]}. Which one is the LUMO? Give k for ψₖ.`; ans = lu.k; lab = "k"; }
   else { text = `How many π MOs does ${p.name} have?`; ans = p.N; lab = "Number of π MOs"; }
   w.push(`Answer: <b>${ans}</b>`);
-  return { type: "pi", text, label: lab, ans: { v: ans, str: String(ans), tol: 0.01 }, p: { id: p.id, kind }, work: w, fmt: "a whole number",
+  return { type: "pi", text, label: lab, ans: { v: ans, str: String(ans), tol: 0.01 }, units: kind === "homoN" || kind === "lumoN" ? ["node"] : [], p: { id: p.id, kind }, work: w, fmt: "a whole number",
     alts: kind === "homoN" ? [{ v: lu.nodes, msg: "That is the LUMO. The HOMO is the highest MO holding electrons." }] : kind === "lumoN" ? [{ v: ho.nodes, msg: "That is the HOMO. The LUMO is the lowest empty MO." }] : kind === "homoK" ? [{ v: lu.k, msg: "That is the LUMO." }] : kind === "lumoK" ? [{ v: ho.k, msg: "That is the HOMO." }] : [{ v: p.N / 2, msg: "That is the number of bonding MOs; N p orbitals give N MOs." }] };
 }
 const GENS = { lam: genLam, kj: genKJ, wn: genWN, bond: genBond, bo: genBO, pi: genPI };
 LAB.GENS = GENS;
-const GN = { type: "lam", q: null, right: 0, tried: 0 };
+const GN = { type: "lam", q: null, right: 0, tried: 0, graded: false, firstOk: null };
 LAB.GN = GN;
-// last guard: regenerate if any string happens to show a number reserved for the tutorials
-const RESV = /\b(254|450|486|471|266|246|193|620|2900)\b|2\.45|\b60 MHz|\b800 MHz|0\.128|34\.7|0\.978|0\.0239|0\.695|4\.42 × 10|7\.83 × 10|1\.18 × 10¹⁵|8\.70 × 10¹³|3\.45 µm|0\.122 m|5\.00 m\b/;
-LAB.RESV = RESV;
-function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; let q, n = 0; do { q = GENS[tt](); n++; } while (n < 50 && RESV.test(q.text + " " + q.work.join(" ") + " " + q.ans.str)); return q; }
+function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; let q, n = 0; do { q = GENS[tt](); n++; } while (n < 50 && resHit(q.text + " " + q.work.join(" ") + " " + q.ans.str)); return q; }
 LAB.genQ = genQ;
-function gnParse(s){ return parseNum(String(s).replace(/\s*(nm|J|kJ mol.*|J mol.*|Hz|nodes?)$/i, "")); }
-LAB.gnParse = gnParse;
+LAB.gnParse = s => parseNum(s);
 function gnGrade(q, s, sel){
-  const v = gnParse(s);
-  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 2, 1.5, 432 or 4.62e14." };
+  const pr = parseAnswer(s, q.units || null, { fractions: q.type === "bo" });
+  if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };   // not an answer yet: not scored
+  const v = pr.value;
   const a = q.ans.v, numOk = Math.abs(v - a) <= q.ans.tol * 1.0001;
-  if (numOk && q.sel && sel !== q.sel.ans) return { ok: false, msg: !sel ? `Choose the ${q.sel.lab.toLowerCase()} too.` : "The bond order is right; check the magnetism: any unpaired electron makes a species paramagnetic." };
+  if (numOk && q.sel && sel !== q.sel.ans) return { ok: false, msg: !sel ? `Choose the ${q.sel.lab.toLowerCase()} too.` : "The bond order is right; check the magnetism: any unpaired electron makes a species paramagnetic.", entry: !sel, kind: !sel ? "choose" : undefined };
   if (numOk) return { ok: true };
   for (const al of q.alts || []){
     const t = q.type === "bo" || q.type === "pi" ? 0.01 : Math.max(lastUnit(Math.abs(al.v) || 1, 3), 0.005 * Math.abs(al.v));
@@ -2452,15 +2541,21 @@ function gnRender(){
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  GN.graded = false; GN.firstOk = null;   // a new question is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
   const q = GN.q, fb = $("gn-fb");
   const r = gnGrade(q, $("gn-ans").value, $("gn-unit").value);
-  GN.tried++; if (r.ok) GN.right++;
+  if (r.entry){   // nothing to grade yet (empty, unreadable, wrong unit, decimal comma, no choice made): say so, do not score
+    $("gn-ans").setAttribute("aria-invalid", r.kind === "choose" ? "false" : "true"); $("gn-ans").classList.remove("ok");
+    fb.className = "fb warn"; fb.innerHTML = H(r.msg); fb.hidden = false;
+    return;
+  }
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fb.className = "fb " + (r.ok ? "ok" : "no");
-  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.sel ? `; ${q.sel.ans}` : ""}.`) : H(r.msg);
+  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.sel ? `; ${q.sel.ans}` : ""}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
   fb.hidden = false;
   $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
 }
@@ -2476,21 +2571,21 @@ function bindGN(){
 LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
 
 /* =====================================================
-   7. FACT CARDS (the notes' examples only; nothing from the tutorials)
+   7. FACT CARDS (the notes' own examples)
    ===================================================== */
 const FC = [
   { cat: "mo", h: "Atomic and molecular orbitals; LCAO", k: "1.1(a)(i), (c)", d: "An orbital is a region of space where there is a high chance of finding an electron. An atomic orbital (AO) belongs to one atom; a molecular orbital (MO) spreads over two or more nuclei.",
     list: ["MOs are formed by combining (adding and subtracting) atomic orbitals: a linear combination of atomic orbitals (LCAO).", "n atomic orbitals combine to give n molecular orbitals.", "Only AOs of similar energy and the right symmetry (they must overlap) combine.", "Phase: an AO's wavefunction has a sign in each lobe. Shaded lobe: positive; open lobe: negative. A 2p orbital has two lobes of opposite phase with a nodal plane through the nucleus."] },
-  { cat: "mo", h: "Bonding, antibonding and non-bonding MOs", k: "1.1(a)(ii)", list: ["In phase (same-sign lobes overlap, constructive): bonding MO. Electron density is built up between the nuclei, attracting both nuclei; lower in energy than the AOs.", "Out of phase (opposite signs, destructive): antibonding MO, written with a star (σ*, π*). A nodal plane between the nuclei, perpendicular to the axis, where the electron density is zero; electrons there pull the nuclei apart; higher in energy than the AOs.", "Non-bonding MO: an AO with no partner of matching symmetry and similar energy stays on its atom at about its original energy. Electrons in it neither help nor hinder bonding: MO language for a lone pair."] },
+  { cat: "mo", h: "Bonding, antibonding and non-bonding MOs", k: "1.1(a)(ii)", list: ["Lobes of the same sign overlapping (constructive) give a bonding MO: charge piles up in the region between the two nuclei and holds them together, and the MO sits below the AOs it came from.", "Lobes of opposite sign meeting (destructive) give an antibonding MO, marked with a star (σ*, π*). The density is zero on a plane that cuts the bond axis between the nuclei, electrons in it push the nuclei apart, and the MO lies above the AOs.", "Non-bonding MO: an AO that has no partner of the right symmetry and a similar energy remains on its own atom at roughly its original energy. Electrons in it do not strengthen or weaken the bond: this is the MO picture of a lone pair."] },
   { cat: "mo", h: "σ and π symmetry", k: "1.1(a)(iii)", d: "The internuclear axis is z. 2p{z} orbitals overlap head-on (σ); 2p{x} and 2p{y} overlap side-on (π), giving two degenerate π MOs and two degenerate π* MOs.",
-    list: ["σ: the MO is cylindrically symmetrical about the internuclear axis: it has no nodal plane containing the axis (σ{1s}, σ*{1s}, σ{2s}, σ*{2s}, σ{2p}, σ*{2p}).", "π: the MO has one nodal plane that contains the internuclear axis; the electron density lies above and below the axis (π{2p}, π*{2p}).", "A σ* or π* MO also has a nodal plane between the nuclei, perpendicular to the axis."] },
+    list: ["σ: the MO looks the same at every angle about the bond axis, and no nodal plane passes through that axis (σ{1s}, σ*{1s}, σ{2s}, σ*{2s}, σ{2p}, σ*{2p}).", "π: exactly one nodal plane passes through the bond axis, so the density sits above and below it in two regions (π{2p}, π*{2p}).", "A σ* or π* MO also has a nodal plane between the nuclei, perpendicular to the axis."] },
   { cat: "mo", h: "Filling MOs; bond order; magnetism", k: "1.1(b), (d)(i)", d: "Each MO is a definite energy level of the molecule, filled exactly like AOs: aufbau (lowest first), Pauli (at most two electrons, opposite spins), Hund (degenerate MOs singly first, parallel spins).",
     list: ["Bond order = ½ × (bonding electrons − antibonding electrons). The higher the bond order, the stronger and shorter the bond. Bond order 0: no stable molecule.", "Paramagnetic: one or more unpaired electrons; drawn into a magnetic field. Diamagnetic: all electrons paired; very weakly pushed out of a magnetic field.", "A species with an odd number of electrons must have at least one unpaired electron, so it is paramagnetic.", "Order for O₂ and F₂ (no orbital mixing): σ{2s} < σ*{2s} < σ{2p} < π{2p} < π*{2p} < σ*{2p}."] },
-  { cat: "mo", h: "Hydrogen, H₂", k: "1.1(c)(i), (d)(i)", d: "Two 1s AOs give σ{1s} and σ*{1s}. Configuration σ{1s}²: bond order ½(2 − 0) = 1, diamagnetic. HOMO σ{1s}, LUMO σ*{1s}.",
+  { cat: "mo", h: "Hydrogen, H₂", k: "1.1(c)(i), (d)(i)", d: "Two 1s AOs give σ{1s} and σ*{1s}. Configuration σ{1s}²: bond order ½(2 − 0) = 1. HOMO σ{1s}, LUMO σ*{1s}.",
     list: ["H–H 436 kJ mol⁻¹ (Data Booklet); bond length 0.074 nm (literature)."] },
   { cat: "mo", h: "Helium, He₂", k: "1.1(d)(i)", d: "Four electrons: σ{1s}² σ*{1s}². Bond order ½(2 − 2) = 0, so there is no stable molecule: helium is monatomic.",
     list: ["Beyond the syllabus: an antibonding MO is raised slightly more than the bonding MO is lowered, so He₂ is repulsive, not just unbonded."] },
-  { cat: "mo", h: "Oxygen, O₂: the paramagnetic molecule", k: "1.1(c)(i), (d)(i)", d: "12 valence electrons: σ{2s}² σ*{2s}² σ{2p}² π{2p}⁴ π*{2p}². Bond order ½(8 − 4) = 2. Two unpaired electrons, one in each π*{2p} MO (Hund): paramagnetic. HOMO π*{2p}; LUMO σ*{2p}, the lowest completely empty MO.",
+  { cat: "mo", h: "Oxygen, O₂: the paramagnetic molecule", k: "1.1(c)(i), (d)(i)", d: "12 valence electrons: σ{2s}² σ*{2s}² σ{2p}² π{2p}⁴ π*{2p}². Bond order ½(8 − 4) = 2. The last two electrons sit one in each π*{2p} MO with parallel spins (Hund), so O₂ has two unpaired electrons: paramagnetic. HOMO π*{2p}; LUMO σ*{2p}, the lowest completely empty MO.",
     list: ["The Lewis structure O=O has every electron paired and predicts diamagnetic O₂: MO theory explains the experiment.", "Liquid oxygen (b.p. −183 °C) is held between the poles of a strong magnet; liquid nitrogen (b.p. −196 °C) pours straight through (literature values).", "O=O 496 kJ mol⁻¹ (Data Booklet); 0.121 nm (literature)."] },
   { cat: "mo", h: "Fluorine, F₂", k: "1.1(c)(i), (d)(i)", d: "14 valence electrons: σ{2s}² σ*{2s}² σ{2p}² π{2p}⁴ π*{2p}⁴. Bond order ½(8 − 6) = 1; all paired: diamagnetic. HOMO π*{2p} (full); LUMO σ*{2p}.",
     tbl: { head: ["Bond", "Bond order", "Bond energy / kJ mol⁻¹", "Length / nm (literature)"], num: [1, 2, 3], rows: () => [["H–H", "1", "436", "0.074"], ["O=O", "2", "496", "0.121"], ["F–F", "1", "158", "0.142"]].map(r => r.map(H)) },
@@ -2503,18 +2598,18 @@ const FC = [
     list: ["The π bond of 11.1 (sideways overlap of two p orbitals) is the in-phase combination.", "λ{max} about 171 nm (vacuum UV, literature): 700 kJ mol⁻¹ per mole of photons."] },
   { cat: "pi", h: "Buta-1,3-diene", k: "1.1(c)(ii), (d)(ii)", d: "Four p orbitals give ψ{1} to ψ{4} with 0, 1, 2 and 3 nodes. ψ{1} and ψ{2} are bonding and hold the four π electrons. HOMO ψ{2} (1 node), LUMO ψ{3} (2 nodes).",
     list: ["ψ{1} spreads over all four carbons, which is why the central C–C bond has some double-bond character.", "λ{max} 217 nm (literature): 552 kJ mol⁻¹."] },
-  { cat: "pi", h: "Hexa-1,3,5-triene", k: "1.1(c)(ii), (d)(ii)", d: "Six p orbitals give six π MOs; six π electrons fill ψ{1} to ψ{3}. HOMO ψ{3} (2 nodes), LUMO ψ{4} (3 nodes).", list: ["λ{max} about 258 nm (literature): 464 kJ mol⁻¹. A smaller HOMO–LUMO gap than buta-1,3-diene."] },
+  { cat: "pi", h: "Hexa-1,3,5-triene", k: "1.1(c)(ii), (d)(ii)", d: "Six p orbitals give six π MOs; the six π electrons occupy ψ{1} to ψ{3}. HOMO ψ{3} (2 nodes), LUMO ψ{4} (3 nodes).", list: ["λ{max} about 258 nm (literature): 464 kJ mol⁻¹. A smaller HOMO–LUMO gap than buta-1,3-diene."] },
   { cat: "pi", h: "Benzene", k: "1.1(c)(ii), (d)(ii)", d: "Six p orbitals give six π MOs in a 1-2-2-1 pattern: ψ{1} (no nodal planes), ψ{2} and ψ{3} (degenerate, one each), ψ{4} and ψ{5} (degenerate, two each), ψ{6} (three).",
-    list: ["Six π electrons fill ψ{1}, ψ{2}, ψ{3}, all bonding: extra stability (delocalisation energy about 150 kJ mol⁻¹, literature).", "HOMO: the degenerate pair ψ{2}/ψ{3}; LUMO: the degenerate pair ψ{4}/ψ{5}.", "Hybridisation (sp² carbons) describes the σ framework; MO theory describes the delocalised π system. Both are models."] },
+    list: ["Six π electrons occupy the three bonding MOs ψ{1}, ψ{2}, ψ{3}: extra stability (delocalisation energy about 150 kJ mol⁻¹, literature).", "HOMO: the degenerate pair ψ{2}/ψ{3}; LUMO: the degenerate pair ψ{4}/ψ{5}.", "Hybridisation (sp² carbons) describes the σ framework; MO theory describes the delocalised π system. Both are models."] },
   { cat: "pi", h: "Linear polyenes: the rules", k: "1.1(c)(ii), (d)(ii)", d: "With N conjugated carbons: N p orbitals give N π MOs; ψ{k} has k − 1 nodes; energy rises with the number of nodes; ψ{1} to ψ{N/2} are bonding; HOMO ψ{N/2}, LUMO ψ{N/2+1}.",
     tbl: { head: ["Polyene", "N", "λ{max} / nm (literature)", "kJ mol⁻¹"], num: [1, 2, 3], rows: () => [["ethene", "2", "about 171", "700"], ["buta-1,3-diene", "4", "217", "552"], ["hexa-1,3,5-triene", "6", "about 258", "464"]].map(r => r.map(H)) },
-    list: ["Only p orbitals on adjacent sp² carbons in an unbroken chain form one π system; an sp³ carbon breaks it.", "As N increases the HOMO–LUMO gap gets smaller, so the absorption moves to longer wavelength."] },
+    list: ["Only p orbitals on adjacent sp² carbons in an unbroken chain form one π system; an sp³ carbon breaks it.", "A larger N means a smaller HOMO–LUMO gap and a first absorption at longer wavelength."] },
   { cat: "pi", enr: true, h: "Hückel energies and delocalisation", k: "beyond 9813", d: "E = α + xβ, with α and β both negative. Linear polyene: E{k} = α + 2β cos(kπ/(N + 1)).",
     list: ["Ethene α ± β (gap 2|β|); buta-1,3-diene α ± 1.618β, α ± 0.618β (gap 1.236|β|); hexa-1,3,5-triene α ± 1.802β, α ± 1.247β, α ± 0.445β (gap 0.890|β|).", "Benzene α + 2β, α + β (×2), α − β (×2), α − 2β. π energy 6α + 8β against three ethene π bonds 6α + 6β: delocalisation energy 2β, about 150 kJ mol⁻¹, so |β| is roughly 75 kJ mol⁻¹.", "The simple model ignores electron repulsion: a guide to order and spacing, not to wavelengths."] },
   { cat: "light", h: "Photons: the equations", k: "1.1(e)(i)", d: "Light travels as waves (wavelength λ, frequency f) and is absorbed or emitted in packets called photons.",
     list: ["c = fλ; E = hf = hc/λ; per mole of photons E × L; wavenumber ν̃ = 1/λ.", "h = 6.63 × 10⁻³⁴ J s, c = 3.00 × 10⁸ m s⁻¹, L = 6.02 × 10²³ mol⁻¹ (Data Booklet).", "Convert nm → m (× 10⁻⁹) and cm⁻¹ → m⁻¹ (× 100) first.", "589 nm (sodium lamp): 5.09 × 10¹⁴ Hz, 3.38 × 10⁻¹⁹ J, 203 kJ mol⁻¹."] },
   { cat: "light", h: "The electromagnetic spectrum", k: "1.1(e)(i)", wide: true, d: "Approximate ranges (literature): boundaries are conventions and sources differ.",
-    tbl: { head: ["Region", "Approximate λ", "What it changes in a molecule", "Technique", "Energy per mole"], num: [], rows: () => [["γ-rays", "below 0.01 nm", "ionises atoms, breaks any bond", "not used for these levels", "–"], ["X-rays", "0.01–10 nm", "ionises atoms, breaks any bond", "not used for these levels", "–"], ["ultraviolet", "10–400 nm", "electronic levels", "UV/vis, about 200–800 nm", "200 nm: 599 kJ mol⁻¹"], ["visible", "400–700 nm", "electronic levels", "UV/vis", "800 nm: 150 kJ mol⁻¹"], ["infrared", "700 nm–1 mm", "vibrational levels", "IR, 4000–400 cm⁻¹ (2.5–25 µm)", "47.9 to 4.79 kJ mol⁻¹"], ["microwaves", "1 mm–0.3 m", "rotational levels", "rotational spectroscopy (gases)", "0.399 to 120 J mol⁻¹"], ["radio waves", "longer than about 0.3 m", "nuclear spin levels in a field", "NMR, e.g. 400 MHz (0.750 m)", "0.160 J mol⁻¹ at 400 MHz"]].map(r => r.map(H)) } },
+    tbl: { head: ["Region", "Approximate λ", "What it changes in a molecule", "Technique", "Energy per mole"], num: [], rows: () => [["γ-rays", "below 0.01 nm", "ionises atoms, breaks any bond", "not used for these levels", "–"], ["X-rays", "0.01–10 nm", "ionises atoms, breaks any bond", "not used for these levels", "–"], ["ultraviolet", "10–400 nm", "electronic levels", "UV/vis, about 200–800 nm", "200 nm: 599 kJ mol⁻¹"], ["visible", "400–700 nm", "electronic levels", "UV/vis", "700 nm: 171 kJ mol⁻¹ to 400 nm: 299 kJ mol⁻¹"], ["infrared", "700 nm–1 mm", "vibrational levels", "IR, 4000–400 cm⁻¹ (2.5–25 µm)", "47.9 to 4.79 kJ mol⁻¹"], ["microwaves", "1 mm–0.3 m", "rotational levels", "rotational spectroscopy (gases)", "0.399 to 120 J mol⁻¹"], ["radio waves", "longer than about 0.3 m", "nuclear spin levels in a field", "NMR, e.g. 400 MHz (0.750 m)", "0.160 J mol⁻¹ at 400 MHz"]].map(r => r.map(H)) } },
   { cat: "light", h: "Four kinds of quantised level", k: "1.1(b), (e)(ii)", d: "Energy levels are discrete. Order of gaps: electronic > vibrational > rotational > nuclear spin (at the fields used).",
     list: ["Electronic: electrons in different MOs; UV/visible photons. The MOs of Part 1 are these levels; HOMO → LUMO is the lowest-energy electronic transition.", "Vibrational: a ladder of levels for each electronic level; infrared photons.", "Rotational: a ladder for each vibrational level; microwave photons.", "Nuclear spin: in an applied magnetic field a ¹H nucleus (spin ½) has two levels, aligned (lower) and opposed (higher); the gap is proportional to the field strength and matches radio photons. With no field the two states have the same energy. A 400 MHz spectrometer has a field of about 9.4 T (literature)."] },
   { cat: "light", h: "Absorption and emission", k: "1.1(e)(iii)", d: "A photon is absorbed only if its energy hf exactly matches the gap ΔE between two levels: ΔE = hf. The molecule is promoted to the higher level; when it drops back, a photon of the same energy is emitted.",
@@ -2576,12 +2671,12 @@ const QZ = [
         ["HOMO π{2p}; LUMO π*{2p}", "π*{2p} holds two electrons in O₂, so it is occupied: it is the HOMO."],
         ["HOMO σ{2p}; LUMO π{2p}", "σ{2p} and π{2p} are both full, and π*{2p} above them is occupied too."]] },
   { k: "1.1(d)(ii)", q: "What is the HOMO of hexa-1,3,5-triene, and how many nodes does it have?",
-    o: [["ψ{3}, with 2 nodes", "Six π electrons fill ψ{1} to ψ{3}; ψ{k} has k − 1 nodes."],
+    o: [["ψ{3}, with 2 nodes", "The six π electrons occupy ψ{1} to ψ{3}, and the node count of ψ{k} is k − 1."],
         ["ψ{4}, with 3 nodes", "That is the LUMO, the lowest empty MO."],
         ["ψ{3}, with 3 nodes", "ψ{3} is right, but ψ{k} has k − 1 nodes: 2."],
         ["ψ{6}, with 5 nodes", "ψ{6} is the highest π MO, and it is empty: only the three bonding MOs are filled."]] },
   { k: "1.1(d)(ii)", q: "Which MOs make up the LUMO of benzene?",
-    o: [["The degenerate pair ψ{4} and ψ{5}, with two nodal planes each", "1-2-2-1 pattern: six π electrons fill ψ{1}, ψ{2}, ψ{3}; the lowest empty level is the pair ψ{4}/ψ{5}."],
+    o: [["The degenerate pair ψ{4} and ψ{5}, with two nodal planes each", "1-2-2-1 pattern: the three lowest MOs ψ{1}, ψ{2}, ψ{3} hold the six π electrons, so the lowest empty level is the pair ψ{4}/ψ{5}."],
         ["ψ{4} alone, with three nodal planes", "ψ{4} and ψ{5} are degenerate, so together they form the LUMO; each has two nodal planes."],
         ["The degenerate pair ψ{2} and ψ{3}, with one nodal plane each", "They hold electrons: they are the HOMO."],
         ["ψ{6}, with three nodal planes", "ψ{6} is the highest π MO, above ψ{4}/ψ{5}."]] },
