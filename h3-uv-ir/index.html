@@ -863,7 +863,7 @@ function parseAnswer(str, allowed, opts){
   if (str == null) return { error: "Type an answer first.", kind: "empty" };
   let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
   if (!t) return { error: "Type an answer first.", kind: "empty" };
-  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
   let val = NaN, rest = "", m;
   const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
   if ((m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:,\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i")))){
@@ -1105,7 +1105,7 @@ const GH = [
   { id: "N2", f: "N₂", act: false, why: "Its only vibration, the N≡N stretch, does not change the dipole moment (the molecule stays non-polar): no IR absorption.", blocks: [] },
   { id: "O2", f: "O₂", act: false, why: "Its only vibration, the O=O stretch, does not change the dipole moment: no IR absorption.", blocks: [] },
   { id: "Ar", f: "Ar", act: false, why: "A single atom has no bonds and no vibrations: no IR absorption.", blocks: [] },
-  { id: "CO2", f: "CO₂", act: true, col: "--s1", dash: "", why: "The bends (667 cm⁻¹, about 15 µm) and the asymmetric stretch (2349 cm⁻¹) change the dipole moment. The bending band lies near the peak of the Earth's emission, so CO₂ absorbs strongly there.", main: "667 (bending, two of equal energy); 2349 (asymmetric stretch)", blocks: [[590, 750, 1, "bending 667"], [2300, 2390, 0.8, "asymmetric stretch 2349"]] },
+  { id: "CO2", f: "CO₂", act: true, col: "--s1", dash: "", why: "The bends (667 cm⁻¹, about 15 µm) and the asymmetric stretch (2349 cm⁻¹) change the dipole moment. The bending band lies on the long-wavelength side of the Earth's emission peak, where the emission is still strong, so CO₂ absorbs strongly there.", main: "667 (bending, two of equal energy); 2349 (asymmetric stretch)", blocks: [[590, 750, 1, "bending 667"], [2300, 2390, 0.8, "asymmetric stretch 2349"]] },
   { id: "H2O", f: "H₂O", act: true, col: "--s2", dash: "6 4", why: "All three vibrations change the dipole: the bend (1595 cm⁻¹) and the two stretches (3657, 3756 cm⁻¹). Water vapour also absorbs strongly below about 500 cm⁻¹ (beyond about 20 µm) through its rotation (literature).", main: "1595 (bending); 3657, 3756 (stretches); rotation below about 500", blocks: [[1400, 1800, 0.85, "bending 1595"], [3550, 3850, 0.75, "stretches 3657, 3756"], [400, 520, 0.95, "rotation"]] },
   { id: "CH4", f: "CH₄", act: true, fexNote: "9 vibrations, but only 2 IR absorptions.", col: "--s3", dash: "2 3", why: "It absorbs through its C–H stretch (3019 cm⁻¹) and its bend (1306 cm⁻¹), which sits at the edge of the atmospheric window.", main: "1306 (bend); 3019 (C–H stretch)", blocks: [[1260, 1350, 0.6, "bend 1306"], [2980, 3060, 0.55, "C–H stretch 3019"]] },
   { id: "CHF3", f: "CHF₃", act: true, col: "--c5", dash: "8 3 2 3", why: "The polar C–F bonds give strong C–F stretching absorptions at about 1100–1200 cm⁻¹ (8 to 9 µm), inside the atmospheric window, where CO₂ and H₂O absorb little: radiation that would otherwise escape is absorbed.", main: "about 1100–1200 (C–F stretches); 3035 (C–H stretch)", blocks: [[1100, 1200, 0.9, "C–F stretches"], [3010, 3060, 0.35, "C–H 3035"]] }
@@ -1133,7 +1133,7 @@ const badEps = e => rh("eps:" + Math.round(e));
 const badA = A => rh("a:" + aKey(A));
 const badAn = A => rh("an:" + aKey(A));
 const badPct = p => rh("p:" + Math.round(p));
-LAB.badNm = badNm; LAB.badWn = badWn; LAB.badEps = badEps; LAB.badA = badA;
+
 // numbers in a generated question (text, working, answer) that hash into the set: tested token by token, after rounding as displayed
 function resHit(str){
   const t = String(str).replace(/<[^>]*>/g, " ").replace(/ /g, " ");
@@ -1148,7 +1148,6 @@ function resHit(str){
   }
   return false;
 }
-LAB.resHit = resHit;
 
 /* ---------- one animation loop for every moving picture; each runs only while on screen ---------- */
 const ANIMS = [];
@@ -1448,6 +1447,7 @@ function bindBL(){
   blMethod(); newSample();
   $("bl-lam").oninput = e => { BL.lam = +e.target.value; blSens(); blReset("Changing the wavelength changes every reading: zero with the blank again and re-measure the standards (the calibration starts again)."); blRender(); bcDraw(); };
   document.querySelectorAll("#bl-cell input").forEach(i => i.onchange = () => { BL.l = +i.value; blReset("A new cell changes every reading (A ∝ l): zero with the blank again and re-measure the standards."); blRender(); bcDraw(); });
+  ["bu-a1", "bu-a2"].forEach(id => { $(id).onkeydown = e => { if (e.key === "Enter") buCheck(); }; });
   $("bu-new").onclick = () => { newSample(); $("bu-fb").hidden = true; $("bu-work").hidden = true; $("bu-a1").value = ""; $("bu-a2").value = ""; $("bu-a1").removeAttribute("aria-invalid"); $("bu-a2").removeAttribute("aria-invalid"); BL.sel = null; BL.reading = null; fb("bl-fb", "info", "New sample ready: put the unknown in the cell and measure it."); blRender(); bcDraw(); buRender(); };
   $("bu-dil").onclick = () => { const s = BL.cur, i = DILV.indexOf(s.V); if (i > 0){ s.V = DILV[i - 1]; s.cf = s.cw * s.V / 100; s.A = null; if (BL.sel === "u") { BL.sel = null; BL.reading = null; } fb("bl-fb", "info", `New flask: ${s.V.toFixed(1)} cm³ of the sample made up to 100.0 cm³. Measure it again.`); $("bu-fb").hidden = true; $("bu-work").hidden = true; blRender(); bcDraw(); buRender(); } };
   $("bu-check").onclick = buCheck;
@@ -1895,7 +1895,7 @@ function vInfo(){
   const { m, md } = vCur(), N = m.at.length, nv = nVib(m);
   const shape = { CO2: "linear", SO2: "bent", H2O: "bent", HCl: "linear (diatomic)", N2: "linear (diatomic)", O2: "linear (diatomic)", CH4: "tetrahedral", CHF3: "tetrahedral (distorted)" }[m.id];
   $("vb-info").innerHTML = (m.fex ? FEX : "") + H(`${m.f} is ${shape}: N = ${N}, so ${3}N − ${m.lin ? 5 : 6} = ${3 * N} − ${m.lin ? 5 : 6} = ${nv} vibration${nv === 1 ? "" : "s"}. (3N ways to move, minus 3 for moving the whole molecule, minus ${m.lin ? 2 : 3} for rotating it.) `) +
-    H(m.id === "N2" || m.id === "O2" ? "A homonuclear diatomic has no partial charges, so stretching it never makes a dipole: no IR absorption." : m.id === "HCl" ? "H–Cl is polar: stretching the bond changes the dipole moment, so it absorbs." : m.id === "CO2" ? { ss: "In the symmetric stretch the two bond dipoles stay equal and opposite, so the dipole stays zero.", as: "In the asymmetric stretch one C=O lengthens as the other shortens, so a dipole appears and changes.", b1: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes.", b2: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes." }[md.id] : "");
+    H(m.id === "N2" || m.id === "O2" ? "A homonuclear diatomic has no partial charges, so stretching it never makes a dipole: no IR absorption." : m.id === "HCl" ? "H–Cl is polar: stretching the bond changes the dipole moment, so it absorbs." : m.id === "CO2" ? { ss: "In the symmetric stretch the two bond dipoles still cancel, so the dipole stays zero.", as: "In the asymmetric stretch one C=O lengthens as the other shortens, so a dipole appears and changes.", b1: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes.", b2: "Bending makes the molecule non-linear for a moment, so a dipole appears and changes." }[md.id] : "");
   const kj = md.wn ? kjOfWn(md.wn) : null;
   $("vb-read").innerHTML = [
     ["This vibration", md.kind === "bend" ? "bending: changes a bond angle" : "stretching: changes bond lengths"],
@@ -2427,7 +2427,7 @@ const FC = [
     list: ["2349 cm⁻¹ → 28.1 kJ mol⁻¹, far less than the C=O bond energy in CO₂ (805 kJ mol⁻¹, Data Booklet): an IR photon only excites a vibration.", "Vibrational energies (5–50 kJ mol⁻¹) are about ten to a hundred times smaller than electronic ones."] },
   { cat: "ir", h: "Stretching and bending", k: "1.3(a)", list: ["Stretching changes a bond length (symmetric or asymmetric); bending changes a bond angle.", "Bends need less energy than stretches, so they absorb at lower wavenumber.", "Stronger (stiffer) bonds absorb at higher wavenumber: C≡C above C=C above C–O in the Data Booklet table.", "Bonds to H (a light atom) absorb at high wavenumber, above about 2500 cm⁻¹; bonds to heavy atoms absorb low (C–Cl is in the fingerprint region)."] },
   { cat: "ir", h: "Which vibrations absorb?", k: "1.3(a), (b)", d: "A vibration absorbs infrared (is IR active) only if it changes the dipole moment of the molecule.",
-    list: ["HCl (2886 cm⁻¹): stretching the polar bond changes the dipole: active.", "N₂ and O₂: homonuclear, no dipole however the bond stretches: no IR absorption.", "CO₂'s symmetric stretch: the two bond dipoles stay equal and opposite: inactive."] },
+    list: ["HCl (2886 cm⁻¹): stretching the polar bond changes the dipole: active.", "N₂ and O₂: homonuclear, no dipole however the bond stretches: no IR absorption.", "CO₂'s symmetric stretch: the two bond dipoles still cancel: inactive."] },
   { cat: "ir", h: "Counting vibrations and absorptions", k: "1.3(b)", d: "A molecule of N atoms has 3N − 5 vibrations if linear, 3N − 6 if not: 3N ways to move, minus 3 for moving the whole molecule, minus 3 (2 if linear) for rotating it.",
     list: ["(1) Count 3N − 5 or 3N − 6. (2) Find each vibration. (3) Keep those that change the dipole. (4) Count vibrations of equal energy (degenerate) once."] },
   { cat: "ir", h: "Carbon dioxide, CO₂", k: "1.3(b)", d: "Linear: 3 × 3 − 5 = 4 vibrations. Symmetric stretch about 1340 cm⁻¹ (from Raman spectra; some tables give 1388): inactive. Asymmetric stretch 2349 cm⁻¹: active. Two bends, 667 cm⁻¹, of equal energy: active, one absorption. So 2 absorptions." },
@@ -2496,7 +2496,7 @@ const QZ = [
         ["Use a longer cell", "A longer cell makes A larger (A ∝ l): the wrong direction."],
         ["Report the concentration of the highest standard", "The sample is more concentrated than that standard; that would be an underestimate."]] },
   { k: "1.3(a)", q: "Which vibration of CO₂ is IR inactive?",
-    o: [["The symmetric stretch", "The two C=O bond dipoles stay equal and opposite, so the dipole stays zero: no absorption (about 1340 cm⁻¹)."],
+    o: [["The symmetric stretch", "The two C=O bond dipoles still cancel, so the dipole stays zero: no absorption (about 1340 cm⁻¹)."],
         ["The asymmetric stretch", "One C=O lengthens as the other shortens, so a dipole appears and changes: active, 2349 cm⁻¹."],
         ["The bends", "Bending makes the molecule non-linear for a moment, so a dipole appears: active, 667 cm⁻¹."],
         ["None: every vibration of a polar bond absorbs", "Polar bonds are not enough: the vibration must change the dipole moment of the whole molecule."]] },
@@ -2512,7 +2512,7 @@ const QZ = [
         ["hexane", "Hexane has only C–H bands: no O–H and no C–O."]] },
   { k: "1.3(f)", q: "Why does CO₂ absorb strongly in the infrared that the Earth's surface emits?",
     o: [["Its bending vibrations (667 cm⁻¹, about 15 µm) change the dipole moment, and they lie on the long-wavelength side of the surface's emission peak, where the emission is still strong", "The surface at about 288 K emits most strongly near 10 µm; CO₂'s bending band at about 15 µm lies on the long-wavelength side of that peak, where the emission is still strong."],
-        ["Its symmetric stretch changes the dipole moment", "The symmetric stretch keeps the two bond dipoles equal and opposite: it is IR inactive."],
+        ["Its symmetric stretch changes the dipole moment", "The symmetric stretch keeps the two bond dipoles cancelling: it is IR inactive."],
         ["CO₂ is a polar molecule", "CO₂ is linear and non-polar: it absorbs because some of its vibrations change the dipole moment."],
         ["It absorbs the visible sunlight reflected by the ground", "CO₂ has no electronic absorption in the visible; the greenhouse effect involves infrared emitted by the surface."]] }
 ];
