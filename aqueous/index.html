@@ -88,21 +88,21 @@ section.lab:last-of-type{border-bottom:0}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; align-items:center; min-height:24px; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:flex; align-items:center; justify-content:center; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -285,6 +285,11 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   table.data{font-size:.8rem}
   table.data td, table.data th{padding:5px 5px}
 }
+
+/* ---------- plum Enrichment tag and ink for good feedback (as H3.1 and H3.2) ---------- */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -324,7 +329,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -336,7 +341,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -539,15 +544,15 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
     <div class="panel controls">
       <div class="ctl"><span class="lab">Buffer</span>
         <div class="seg" role="radiogroup" aria-label="Buffer">
-          <label><input type="radio" name="bf-pair" value="eth" checked>CH<sub>3</sub>COOH / CH<sub>3</sub>COO<sup>−</sup></label>
-          <label><input type="radio" name="bf-pair" value="nh4">NH<sub>4</sub><sup>+</sup> / NH<sub>3</sub></label>
+          <label><input type="radio" name="bf-pair" value="eth" checked><span>CH<sub>3</sub>COOH / CH<sub>3</sub>COO<sup>−</sup></span></label>
+          <label><input type="radio" name="bf-pair" value="nh4"><span>NH<sub>4</sub><sup>+</sup> / NH<sub>3</sub></span></label>
         </div></div>
       <div class="ctl"><label for="bf-ha"><span id="bf-hal"></span> <output id="bf-hao"></output></label><input type="range" id="bf-ha" min="0" max="20" step="1" value="4"></div>
       <div class="ctl"><label for="bf-a"><span id="bf-al"></span> <output id="bf-ao"></output></label><input type="range" id="bf-a" min="0" max="20" step="1" value="4"></div>
       <div class="ctl"><span class="lab">Compare with</span>
         <div class="seg" role="radiogroup" aria-label="Compare with">
           <label><input type="radio" name="bf-cmp" value="water" checked>pure water</label>
-          <label><input type="radio" name="bf-cmp" value="nacl">0.100&nbsp;mol dm<sup>−3</sup> NaCl(aq)</label>
+          <label><input type="radio" name="bf-cmp" value="nacl"><span>0.100&nbsp;mol dm<sup>−3</sup> NaCl(aq)</span></label>
           <label><input type="radio" name="bf-cmp" value="same">unbuffered, same pH</label>
         </div></div>
       <div class="btnrow"><button class="btn primary" id="bf-hcl">Add 1.00&nbsp;cm³ HCl</button><button class="btn primary" id="bf-naoh">Add 1.00&nbsp;cm³ NaOH</button></div>
@@ -655,7 +660,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
       <div class="ctl"><span class="lab">Salt</span>
         <div class="seg" role="radiogroup" aria-label="Salt">
           <label><input type="radio" name="ci-salt" value="AgCl" checked>AgCl in NaCl(aq)</label>
-          <label><input type="radio" name="ci-salt" value="MgOH2">Mg(OH)<sub>2</sub> in NaOH(aq)</label>
+          <label><input type="radio" name="ci-salt" value="MgOH2"><span>Mg(OH)<sub>2</sub> in NaOH(aq)</span></label>
         </div></div>
       <div class="ctl"><label for="ci-c"><span id="ci-cl"></span> <output id="ci-co"></output></label><input type="range" id="ci-c" min="0" max="16" step="1" value="15"></div>
       <div class="readout" id="ci-read"></div>
@@ -771,7 +776,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 10 Chemistry of Aqueous Solutions</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>K</i><sub>w</sub> at 298&nbsp;K and <i>A</i><sub>r</sub> from the Data Booklet · <i>K</i><sub>a</sub>, <i>K</i><sub>b</sub>, <i>K</i><sub>sp</sub>, indicator ranges, <i>K</i><sub>w</sub> at other temperatures, seawater constants and the stability constant are literature values · generator data are illustrative</span>
-  <span class="ls-updated">Last updated 13/10/26</span></div>
+  <span class="ls-updated">Last updated 24/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -885,15 +890,60 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(kPa\^?-?\d*|mol.*|dm.*|atm|kJmol\^?-1|kJ\/mol|kJ|K|J|°C|%)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+// ---------- typed answers: a number plus an optional unit, checked against the unit the question asks for ----------
+// Canonical unit ids: moldm3 mol2dm6 mol3dm9 mol1dm3 gdm3 pct K kPa atm kJ kJmol J degC g mg
+const UNIT_NAME = { moldm3: "mol dm⁻³", mol2dm6: "mol² dm⁻⁶", mol3dm9: "mol³ dm⁻⁹", mol1dm3: "mol⁻¹ dm³", gdm3: "g dm⁻³", pct: "%", K: "K", kPa: "kPa", atm: "atm", kJ: "kJ", kJmol: "kJ mol⁻¹", J: "J", degC: "°C", g: "g", mg: "mg" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){
+  let t = String(u).toLowerCase().replace(/[\s.·⋅*]/g, "").replace(/[−–]/g, "-").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/\(aq\)/g, "").replace(/[()]/g, "");
+  if (t === "%" || t === "percent" || t === "pc") return "pct";
+  if (/^mol(dm-3|\/dm3|\/l|l-1|perdm3|perl|\/litre|\/liter)$/.test(t)) return "moldm3";
+  if (/^mol2(dm-6|\/dm6|\/l2|l-2)$/.test(t)) return "mol2dm6";
+  if (/^mol3(dm-9|\/dm9|\/l3|l-3)$/.test(t)) return "mol3dm9";
+  if (/^mol-1(dm3|l)$/.test(t) || /^(dm3|l)\/mol$/.test(t) || /^(dm3|l)mol-1$/.test(t)) return "mol1dm3";
+  if (/^g(dm-3|\/dm3|\/l|l-1|perdm3|perl|\/litre|\/liter)$/.test(t)) return "gdm3";
+  if (/^kj(mol-1|\/mol|permol|\/mole|mole-1)$/.test(t)) return "kJmol";
+  if (t === "kj") return "kJ";
+  if (t === "j") return "J";
+  if (t === "k" || t === "kelvin") return "K";
+  if (t === "kpa") return "kPa";
+  if (t === "atm") return "atm";
+  if (t === "°c" || t === "c" || t === "degc") return "degC";
+  if (t === "g") return "g";
+  if (t === "mg") return "mg";
+  return null;
 }
+// The question's unit: a list of canonical ids it accepts (e.g. ["moldm3"]), [] for a plain number, null to accept any recognised unit.
+// "no units" is accepted wherever the question has no unit. Returns { value } or { error, kind }:
+// kind "empty" and "nan" are not answers at all; "unit" and "comma" are entries to fix.
+function parseAnswer(str, allowed, opts){
+  opts = opts || {};
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  let val = NaN, rest = "", m;
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  if ((m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:,\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i")))){
+    let mant = parseFloat(m[2].replace(/,/g, ""));
+    const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+    val = e != null ? mant * Math.pow(10, +e) : mant;
+    if (m[1] === "-") val = -val;
+    rest = m[6];
+  } else return { error: "Type an answer first: a number such as 2.87, 0.00125 or 1.8e-5.", kind: "nan" };
+  if (!isFinite(val)) return { error: "Type an answer first: a number such as 2.87, 0.00125 or 1.8e-5.", kind: "nan" };
+  rest = rest.trim();
+  if (!rest) return { value: val };
+  const plain = /^(no ?units?|unitless|dimensionless)$/i.test(rest);
+  const u = plain ? "none" : unitId(rest);
+  if (!u) return { error: "Type an answer first: a number such as 2.87, 0.00125 or 1.8e-5.", kind: "nan" };
+  const want = allowed == null ? null : allowed.length ? `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` : "Check the unit: this answer is a plain number, with no unit.";
+  if (allowed == null || (plain ? allowed.length === 0 : allowed.includes(u))) return plain ? { value: val } : { value: val, unit: u };
+  return { unit: u, kind: "unit", error: want };
+}
+LAB.parseAnswer = parseAnswer;
+// the old name: a number with any recognised unit tolerated (the unit is not checked); NaN when there is no number
+function parseNum(s){ const r = parseAnswer(s, null); return r.value != null ? r.value : NaN; }
 LAB.parseNum = parseNum;
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
@@ -940,7 +990,7 @@ const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" styl
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* =====================================================
-   DATA (exactly as DATA.md, issue 13/10/26)
+   DATA (reference values for the topic, issue 13/10/26)
    Kw is the Data Booklet value; every Ka, Kb, Ksp, indicator range and
    stability constant is a literature value.
    ===================================================== */
@@ -962,7 +1012,7 @@ const ACIDS = {
   clac: { f: "ClCH₂COOH", nm: "chloroethanoic acid", Ka: 1.4e-3, cb: "ClCH₂COO⁻" },
   HF:   { f: "HF", nm: "hydrofluoric acid", Ka: 5.6e-4, cb: "F⁻" },
   meth: { f: "HCOOH", nm: "methanoic acid", Ka: 1.8e-4, cb: "HCOO⁻" },
-  benz: { f: "C₆H₅COOH", nm: "benzoic acid", Ka: 6.3e-5, cb: "C₆H₅COO⁻", cmax: 0.0200 },
+  benz: { f: "C₆H₅COOH", nm: "benzoic acid", Ka: 6.3e-5, cb: "C₆H₅COO⁻", cmax: 0.0270 },
   eth:  { f: "CH₃COOH", nm: "ethanoic acid", Ka: 1.8e-5, cb: "CH₃COO⁻" },
   co2:  { f: "CO₂", nm: "carbonic acid (CO₂(aq)), first", Ka: 4.5e-7, cb: "HCO₃⁻", eqA: "CO₂(aq) + H₂O(l) ⇌ H⁺(aq) + HCO₃⁻(aq)", eqB: "HCO₃⁻(aq) ⇌ CO₂(aq) + OH⁻(aq)" },
   nh4:  { f: "NH₄⁺", nm: "ammonium ion", Ka: KW / 1.8e-5, derived: "NH3", cb: "NH₃", eqA: "NH₄⁺(aq) ⇌ NH₃(aq) + H⁺(aq)", eqB: "NH₃(aq) + H₂O(l) ⇌ NH₄⁺(aq) + OH⁻(aq)" },
@@ -1019,7 +1069,7 @@ const KSP = {
   AgI:     { f: "AgI", K: 8.5e-17, t: "11", cat: "Ag⁺", an: "I⁻", comp: { Ag: 1, I: 1 }, ppt: "yellow", rgb: [238, 214, 84] },
   BaSO4:   { f: "BaSO₄", K: 1.1e-10, t: "11", cat: "Ba²⁺", an: "SO₄²⁻", comp: { Ba: 1, S: 1, O: 4 }, ppt: "white", rgb: [246, 246, 242] },
   CaCO3:   { f: "CaCO₃", K: 3.4e-9, t: "11", cat: "Ca²⁺", an: "CO₃²⁻", comp: { Ca: 1, C: 1, O: 3 }, ppt: "white", rgb: [246, 246, 242], nm: "CaCO₃ (calcite)" },
-  CaSO4:   { f: "CaSO₄", K: 4.9e-6, t: "11", cat: "Ca²⁺", an: "SO₄²⁻", comp: { Ca: 1, S: 1, O: 4 }, ppt: "white", rgb: [246, 246, 242] },
+  CaSO4:   { f: "CaSO₄", K: 4.9e-5, t: "11", cat: "Ca²⁺", an: "SO₄²⁻", comp: { Ca: 1, S: 1, O: 4 }, ppt: "white", rgb: [246, 246, 242] },
   Ag2CrO4: { f: "Ag₂CrO₄", K: 1.1e-12, t: "21", cat: "Ag⁺", an: "CrO₄²⁻", comp: { Ag: 2, Cr: 1, O: 4 }, ppt: "brick red", rgb: [168, 52, 40] },
   CaF2:    { f: "CaF₂", K: 3.5e-11, t: "12", cat: "Ca²⁺", an: "F⁻", comp: { Ca: 1, F: 2 }, ppt: "white", rgb: [246, 246, 242] },
   MgOH2:   { f: "Mg(OH)₂", K: 5.6e-12, t: "12", cat: "Mg²⁺", an: "OH⁻", comp: { Mg: 1, O: 2, H: 2 }, ppt: "white", rgb: [246, 246, 242] },
@@ -1027,8 +1077,8 @@ const KSP = {
   PbI2:    { f: "PbI₂", K: 9.8e-9, t: "12", cat: "Pb²⁺", an: "I⁻", comp: { Pb: 1, I: 2 }, ppt: "yellow", rgb: [246, 200, 40] },
   PbCl2:   { f: "PbCl₂", K: 1.7e-5, t: "12", cat: "Pb²⁺", an: "Cl⁻", comp: { Pb: 1, Cl: 2 }, ppt: "white", rgb: [246, 246, 242] }
 };
-// table solubilities as DATA.md prints them (the tests recompute them)
-const KSP_S = { AgCl: "1.34 × 10⁻⁵", AgBr: "7.1 × 10⁻⁷", AgI: "9.2 × 10⁻⁹", BaSO4: "1.05 × 10⁻⁵", CaCO3: "5.8 × 10⁻⁵", CaSO4: "2.2 × 10⁻³", Ag2CrO4: "6.5 × 10⁻⁵", CaF2: "2.06 × 10⁻⁴", MgOH2: "1.12 × 10⁻⁴", CaOH2: "1.08 × 10⁻²", PbI2: "1.35 × 10⁻³", PbCl2: "1.62 × 10⁻²" };
+// table solubilities (the tests recompute them)
+const KSP_S = { AgCl: "1.34 × 10⁻⁵", AgBr: "7.1 × 10⁻⁷", AgI: "9.2 × 10⁻⁹", CaSO4: "7.0 × 10⁻³", Ag2CrO4: "6.5 × 10⁻⁵", MgOH2: "1.12 × 10⁻⁴", PbI2: "1.35 × 10⁻³" };
 const kspUnit = t => t === "11" ? "mol² dm⁻⁶" : "mol³ dm⁻⁹";
 const solOf = k => { const S = KSP[k]; return S.t === "11" ? Math.sqrt(S.K) : Math.cbrt(S.K / 4); };
 const kspExpr = k => { const S = KSP[k]; return S.t === "11" ? `[${S.cat}][${S.an}]` : S.t === "12" ? `[${S.cat}][${S.an}]²` : `[${S.cat}]²[${S.an}]`; };
@@ -1041,6 +1091,16 @@ const OCEAN = { K0: 0.0284, pK1: 5.85, pK2: 8.97, pH280: 8.20 };
 
 LAB.DATA = { KW, AR, KWT, ACIDS, BASES, INDS, KSP, KSP_S, KSTAB, OCEAN };
 LAB.MR = MR; LAB.dyeRGB = dyeRGB;
+/* ---------- draws kept out of the generated questions ----------
+   A few draws are kept out so that practice stays fresh. The page holds only opaque hashes of their keys (made when the page is built);
+   a draw whose keys hash into that set is redrawn. */
+const RESH = new Set(["16t1s3x", "1b4hwi7", "1bc03dd", "1flp4yg", "1gbl0c4", "1iscvz7", "1itfd1f", "1mawe8s", "1me0i0v", "1mesan7", "1nouepn", "1pgshvt", "1rd8hpb", "1sry2ok", "1xbjavj", "1y9gddi", "4blxyy", "64yg9h", "70yy1e", "byfk87", "czpifx", "dlj301", "dtm95r", "e9wzzz", "fnhyob", "fxeevb", "gv5w62", "hlg8us", "nb2wee", "p25iiq", "pqs4lq", "ud0cs3", "w0t2f5"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
+const kn = v => String(+(+v).toPrecision(3));   // a number to 3 s.f. as a key part
+const k2 = v => String(+(+v).toPrecision(2));   // to 2 s.f.
+const resHit = q => (q.rk || []).some(rh);
+
 
 /* =====================================================
    EXACT pH SOLVER (full charge balance, 298 K)
@@ -1159,8 +1219,17 @@ function tubeSVG(cx, top, w, h, o){
 const CLIST = [];
 for (let e = -8; e <= 0; e++) for (const k of [1, 2, 5]) if (!(e === 0 && k > 1)) CLIST.push(k * Math.pow(10, e));
 LAB.CLIST = CLIST;
+// extra steps for a substance (benzoic acid: 0.0250 just fails the 5 % check, 0.0270 passes it; it dissolves to about 0.028)
+const C_EXTRA = { benz: [0.0250, 0.0270] };
+const cListFor = (kind, id) => {
+  const S = kind === "acid" ? ACIDS[id] : BASES[id], ex = C_EXTRA[id] || [];
+  return CLIST.filter(v => !S.cmax || v <= S.cmax * (1 + 1e-9)).concat(ex).sort((a, b) => a - b);
+};
+LAB.cListFor = cListFor;
 const cIdx = c => CLIST.findIndex(v => Math.abs(v / c - 1) < 1e-9);
 const PH = { kind: "acid", id: "eth", ci: cIdx(0.100) };
+const phList = () => cListFor(PH.kind, PH.id);
+const phNear = (list, c) => { let b = 0; list.forEach((v, i) => { if (Math.abs(Math.log(v / c)) < Math.abs(Math.log(list[b] / c))) b = i; }); return b; };
 LAB.PH = PH;
 const PH_ACIDS = ["HCl", "HNO3", "eth", "meth", "benz", "clac", "HCN"];
 const PH_BASES = ["NaOH", "BaOH2", "NH3", "meam"];
@@ -1170,7 +1239,7 @@ const p2 = v => fx(v, 2);               // pH to 2 d.p.
 const ASIDE = t => `<span class="aside">(${t})</span>`;
 const BEYOND = t => `<span class="beyond">Enrichment</span>${t}`;
 function subst(){ return PH.kind === "acid" ? ACIDS[PH.id] : BASES[PH.id]; }
-function phMaxIdx(){ const S = subst(); return S.cmax ? cIdx(S.cmax) : CLIST.length - 1; }
+function phMaxIdx(){ return phList().length - 1; }
 // dissociation equation for a substance
 function dissEq(kind, id){
   if (kind === "acid"){ const A = ACIDS[id]; if (A.strong) return `${A.f}(aq) → H⁺(aq) + ${A.an}(aq)`; if (A.eqA) return A.eqA; return `${A.f}(aq) ⇌ H⁺(aq) + ${A.cb}(aq)`; }
@@ -1195,7 +1264,7 @@ function phWork(kind, id, c){
       out.push(`K{a} = [H⁺][${A.cb}] / [${A.f}] ≈ [H⁺]² / c{}`);
       out.push(`[H⁺] = √(K{a} × c{}) = √(${sci(A.Ka, 2)} × ${fmtM(c)}) = √(${sci(A.Ka * c, 3)}) = ${fmtM(F.h)} mol dm⁻³`);
       out.push(`pH = −lg(${fmtM(F.h)}) = <b>${p2(F.pH)}</b>`);
-      out.push(`% dissociated = (${fmtM(F.h)} / ${fmtM(c)}) × 100 = ${sf(F.pct, 3)} %${F.pct <= 5 ? ": under 5 %, so the approximation is fine." : F.pct < 100 ? ": over 5 %, so the approximation [" + A.f + "] ≈ c is getting poor." : ": impossible (more than all of it), so the approximation has failed."}`);
+      out.push(`% dissociated = (${fmtM(F.h)} / ${fmtM(c)}) × 100 = ${sf(F.pct, 3)} %${F.pct <= 5 ? ": under 5 %, so the approximation is fine." : F.pct < 100 ? ": " + (F.pct < 5.5 ? "just over" : "over") + " 5 %, so the approximation [" + A.f + "] ≈ c is getting poor." : ": impossible (more than all of it), so the approximation has failed."}`);
     }
   } else {
     const B = BASES[id];
@@ -1211,7 +1280,7 @@ function phWork(kind, id, c){
       out.push(`K{b} = [${B.ca}][OH⁻] / [${B.f}] ≈ [OH⁻]² / c{}`);
       out.push(`[OH⁻] = √(K{b} × c{}) = √(${sci(B.Kb, 2)} × ${fmtM(c)}) = √(${sci(B.Kb * c, 3)}) = ${fmtM(F.oh)} mol dm⁻³`);
       out.push(`pOH = −lg(${fmtM(F.oh)}) = ${p2(-Math.log10(F.oh))}; pH = 14.00 − ${p2(-Math.log10(F.oh))} = <b>${p2(F.pH)}</b>`);
-      out.push(`% reacted = (${fmtM(F.oh)} / ${fmtM(c)}) × 100 = ${sf(F.pct, 3)} %${F.pct <= 5 ? ": under 5 %, so the approximation is fine." : F.pct < 100 ? ": over 5 %, so the approximation [" + B.f + "] ≈ c is getting poor." : ": impossible, so the approximation has failed."}`);
+      out.push(`% reacted = (${fmtM(F.oh)} / ${fmtM(c)}) × 100 = ${sf(F.pct, 3)} %${F.pct <= 5 ? ": under 5 %, so the approximation is fine." : F.pct < 100 ? ": " + (F.pct < 5.5 ? "just over" : "over") + " 5 %, so the approximation [" + B.f + "] ≈ c is getting poor." : ": impossible, so the approximation has failed."}`);
     }
   }
   return out;
@@ -1221,7 +1290,7 @@ LAB.phWork = phWork;
 function phWarn(kind, id, c){
   const F = formulaPH(kind, id, c), X = exactPH(kind, id, c), S = kind === "acid" ? ACIDS[id] : BASES[id], w = [];
   const ion = kind === "acid" ? F.h : F.oh;
-  if (!S.strong && F.pct > 5 && F.pct < 100) w.push(`More than 5 % ${kind === "acid" ? "dissociated" : "reacted"} (${sf(F.pct, 2)} %): the approximation [${S.f}] ≈ c is getting poor.`);
+  if (!S.strong && F.pct > 5 && F.pct < 100) w.push(`${F.pct < 5.5 ? "Just over" : "More than"} 5 % ${kind === "acid" ? "dissociated" : "reacted"} (${sf(F.pct, F.pct < 5.5 ? 3 : 2)} %): the approximation [${S.f}] ≈ c is getting poor${F.pct < 5.5 ? " (the 5 % check just fails)" : ""}.`);
   if (!S.strong && F.pct >= 100) w.push(`The formula gives more ${kind === "acid" ? "H⁺" : "OH⁻"} than there is ${S.f}: the approximation has failed completely.`);
   if (ion < 1e-6) w.push(`${BEYOND("")}Below about 10⁻⁶ mol dm⁻³, the ${kind === "acid" ? "H⁺" : "OH⁻"} from water itself (1.00 × 10⁻⁷ mol dm⁻³ in pure water) is no longer negligible.${(kind === "acid" && F.pH > 7) || (kind === "base" && F.pH < 7) ? ` The formula gives pH ${p2(F.pH)}, which is impossible: ${kind === "acid" ? "an acid cannot make water alkaline" : "a base cannot make water acidic"}.` : ""}`);
   return { list: w, exact: X, formula: F.pH };
@@ -1231,10 +1300,10 @@ LAB.phWarn = phWarn;
 function phChips(){
   const mk = (ids, el, kind) => { $(el).innerHTML = ids.map(k => { const S = kind === "acid" ? ACIDS[k] : BASES[k]; return `<button type="button" data-k="${k}" data-kind="${kind}" aria-pressed="${PH.kind === kind && PH.id === k}">${H(S.f)}</button>`; }).join(""); };
   mk(PH_ACIDS, "ph-acids", "acid"); mk(PH_BASES, "ph-bases", "base");
-  document.querySelectorAll("#ph-acids button, #ph-bases button").forEach(b => b.onclick = () => { PH.kind = b.dataset.kind; PH.id = b.dataset.k; PH.ci = Math.min(PH.ci, phMaxIdx()); phAll(); });
+  document.querySelectorAll("#ph-acids button, #ph-bases button").forEach(b => b.onclick = () => { const c0 = phList()[PH.ci]; PH.kind = b.dataset.kind; PH.id = b.dataset.k; PH.ci = phNear(phList(), c0); phAll(); });
 }
 function phRead(){
-  const c = CLIST[PH.ci], S = subst(), F = formulaPH(PH.kind, PH.id, c), W = phWarn(PH.kind, PH.id, c);
+  const c = phList()[PH.ci], S = subst(), F = formulaPH(PH.kind, PH.id, c), W = phWarn(PH.kind, PH.id, c);
   document.querySelectorAll("#ph-acids button, #ph-bases button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.kind === PH.kind && b.dataset.k === PH.id)));
   $("ph-c").max = phMaxIdx(); $("ph-c").value = PH.ci;
   $("ph-co").innerHTML = H(cFmtC(c));
@@ -1253,7 +1322,7 @@ function phRead(){
 }
 // particle picture: 100 symbols, each 1 % of the acid or base
 function phPic(){
-  const c = CLIST[PH.ci], S = subst(), svg = $("ph-pic"), W = widthOf(svg.parentElement), narrow = W < 520;
+  const c = phList()[PH.ci], S = subst(), svg = $("ph-pic"), W = widthOf(svg.parentElement), narrow = W < 520;
   const X = exactPH(PH.kind, PH.id, c), F = formulaPH(PH.kind, PH.id, c);
   const pctExact = S.strong ? 100 : PH.kind === "acid" ? 100 * S.Ka / (S.Ka + Math.pow(10, -X)) : 100 * (Math.pow(10, -X) / (Math.pow(10, -X) + KW / S.Kb));
   const useF = !S.strong && F.pct <= 5 && (PH.kind === "acid" ? F.h : F.oh) >= 1e-6;
@@ -1286,7 +1355,7 @@ function phPic(){
 }
 // strong against weak at the same concentration, and a tenfold dilution (formula values)
 function phCompare(){
-  const c = CLIST[PH.ci], S = subst();
+  const c = phList()[PH.ci], S = subst();
   let strong, weak;
   if (PH.kind === "acid"){ strong = S.strong ? PH.id : "HCl"; weak = S.strong ? "eth" : PH.id; }
   else { strong = S.strong ? PH.id : "NaOH"; weak = S.strong ? "NH3" : PH.id; }
@@ -1308,7 +1377,7 @@ function phChart(){
   const weak = PH.kind === "acid" ? (S.strong ? "eth" : PH.id) : (S.strong ? "NH3" : PH.id);
   const T = id => PH.kind === "acid" ? ACIDS[id] : BASES[id];
   const curve = id => { const out = [], mx = Math.log10(T(id).cmax || 1); for (let e = -8; e <= mx + 1e-9; e += 0.05) out.push([e, exactPH(PH.kind, id, Math.pow(10, e))]); return out; };
-  const c = CLIST[PH.ci], lc = Math.log10(c), y = exactPH(PH.kind, PH.id, c);
+  const c = phList()[PH.ci], lc = Math.log10(c), y = exactPH(PH.kind, PH.id, c);
   lineChart(svg, { x: [-8, 0], y: [0, 14], xticks: [-8, -7, -6, -5, -4, -3, -2, -1, 0], yticks: [0, 2, 4, 6, 7, 8, 10, 12, 14], xfmt: v => v === 0 ? "1" : "10" + SUPS(v), xlab: "concentration / mol dm⁻³ (log scale)", ylab: "pH", h: 250,
     under: (X, Y, W, Hh, m) => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(7).toFixed(1)}" y2="${Y(7).toFixed(1)}" stroke="${cssVar("--ref")}" stroke-dasharray="3 3"/>`,
     series: [{ pts: curve(strong), col: C1, w: 2.4 }, { pts: curve(weak), col: C2, dash: "6 3", w: 2.2 }],
@@ -1418,16 +1487,33 @@ function ttSteep(T){
   return { Ve, w, vlo: Ve - w, vhi: Ve + w, lo, hi, lo1: Math.round(lo * 10) / 10, hi1: Math.round(hi * 10) / 10 };
 }
 LAB.ttSteep = ttSteep;
-// suitable: the whole range inside the steep section (both to 1 d.p.); never for weak acid + weak base
-function ttSuitable(T, ind){
+// grade: "yes" = the whole range inside the steep section (both read to 1 d.p.) and inside the unrounded values too;
+// "borderline" = inside at 1 d.p. but a little outside the unrounded values; "no" otherwise; always "no" for weak acid + weak base
+function ttGrade(T, ind){
   const A = ACIDS[T.acid], B = BASES[T.base];
-  if (!A.strong && !B.strong) return false;
+  if (!A.strong && !B.strong) return "no";
   const S = ttSteep(T), I = INDBY[ind];
-  return I.lo >= S.lo1 - 1e-9 && I.hi <= S.hi1 + 1e-9;
+  if (!(I.lo >= S.lo1 - 1e-9 && I.hi <= S.hi1 + 1e-9)) return "no";
+  return I.lo >= S.lo - 1e-9 && I.hi <= S.hi + 1e-9 ? "yes" : "borderline";
 }
+LAB.ttGrade = ttGrade;
+const ttSuitable = (T, ind) => ttGrade(T, ind) === "yes";   // clearly suitable
 LAB.ttSuitable = ttSuitable;
-const ttSuitList = T => INDS.filter(i => ttSuitable(T, i.id)).map(i => i.id);
-LAB.ttSuitList = ttSuitList;
+const ttSuitList = T => INDS.filter(i => ttGrade(T, i.id) === "yes").map(i => i.id);
+const ttBorderList = T => INDS.filter(i => ttGrade(T, i.id) === "borderline").map(i => i.id);
+LAB.ttSuitList = ttSuitList; LAB.ttBorderList = ttBorderList;
+// the safe choice: the clearly suitable indicator whose mid-range is nearest the equivalence-point pH
+function ttSafe(T){
+  const L = ttSuitList(T), pe = titPH(T, titVeq(T));
+  return L.length ? L.slice().sort((a, b) => Math.abs((INDBY[a].lo + INDBY[a].hi) / 2 - pe) - Math.abs((INDBY[b].lo + INDBY[b].hi) / 2 - pe))[0] : null;
+}
+LAB.ttSafe = ttSafe;
+// the sentence for a borderline indicator
+function ttBorderWhy(T, id){
+  const I = INDBY[id], S = ttSteep(T), safe = ttSafe(T), hiOut = I.hi > S.hi + 1e-9;
+  return `borderline (its range ${hiOut ? "ends at " + I.hi.toFixed(1) + ", the steep section at " + S.hi.toFixed(2) : "starts at " + I.lo.toFixed(1) + ", the steep section at " + S.lo.toFixed(2)})${safe ? `; ${INDBY[safe].nm} is the safe choice` : ""}`;
+}
+LAB.ttBorderWhy = ttBorderWhy;
 // volume at which the curve passes a given pH (curve rises monotonically)
 function ttVolAt(T, pH){
   const xm = Math.max(10, Math.ceil(2 * titVeq(T) / 5 - 1e-9) * 5);
@@ -1493,7 +1579,7 @@ function ttChart(){
       if (!A.strong && (showAll || TT.V >= Ve / 2 - 1e-9)){
         const ph = titPH(TT, Ve / 2);
         s += `<circle cx="${X(Ve / 2).toFixed(1)}" cy="${Y(ph).toFixed(1)}" r="4.5" fill="${C2}" stroke="${cssVar("--surface")}" stroke-width="1.5"/>`;
-        const lab = W < 520 ? `pH = pK{a} = ${p2(pK(A.Ka))}` : `half-equivalence: pH = pK{a} = ${p2(pK(A.Ka))}`, lw = lab.length * 6.1, lx = Math.max(m.l + 4 + lw / 2, Math.min(W - m.r - lw / 2, X(Ve / 2)));
+        const lab = W < 520 ? `half-eq.: pH = ${p2(ph)}` : `half-equivalence: pH = ${p2(ph)} (pK{a} ${p2(pK(A.Ka))})`, lw = lab.length * 6.1, lx = Math.max(m.l + 4 + lw / 2, Math.min(W - m.r - lw / 2, X(Ve / 2)));
         s += T(lx, Y(ph) - 12, lab, "lbl halo", 'text-anchor="middle"');
       }
       s += T(X(S.vhi) + 4, m.t + 12, "steep section", "cap halo");
@@ -1542,25 +1628,26 @@ function dyeWord(I, pH){
 LAB.dyeWord = dyeWord;
 // verdict for one indicator, with a reason from the curve
 function ttVerdict(T, id){
-  const I = INDBY[id], S = ttSteep(T), ok = ttSuitable(T, id), mid = (I.lo + I.hi) / 2;
+  const I = INDBY[id], S = ttSteep(T), grade = ttGrade(T, id), ok = grade === "yes", mid = (I.lo + I.hi) / 2;
   const vAt = ttVolAt(T, mid), Ve = S.Ve, A = ACIDS[T.acid], B = BASES[T.base];
   const inWin = vAt != null && vAt >= S.vlo && vAt <= S.vhi;
   const where = vAt == null ? `the pH never reaches ${mid.toFixed(1)} in this titration` : vAt === 0 ? "it has already changed at the start" : `it changes colour at about ${v2(vAt)} cm³ (equivalence ${v2(Ve)} cm³)`;
   let why;
   if (!A.strong && !B.strong) why = `Weak acid + weak base: the pH changes only from ${S.lo1.toFixed(1)} to ${S.hi1.toFixed(1)} between ${v2(S.vlo)} and ${v2(S.vhi)} cm³ (equivalence ± 2 %), so there is no sharp end point and no indicator is suitable; ${where}. Use a pH meter.`;
+  else if (grade === "borderline") why = `Its range (${I.lo.toFixed(1)}–${I.hi.toFixed(1)}) fits the steep section only when that is read to 1 d.p. (${S.lo1.toFixed(1)}–${S.hi1.toFixed(1)}); the exact steep section is ${S.lo.toFixed(2)}–${S.hi.toFixed(2)}, so this is ${ttBorderWhy(T, id)}. Its colour change happens at about ${v2(vAt)} cm³ (equivalence ${v2(Ve)} cm³).`;
   else if (ok) why = `Its range (${I.lo.toFixed(1)}–${I.hi.toFixed(1)}) lies inside the steep section (${S.lo1.toFixed(1)}–${S.hi1.toFixed(1)}), so its colour change happens on the steep part of the curve (${v2(S.vlo)} to ${v2(S.vhi)} cm³), close to the equivalence point: ${where}.`;
   else if (I.hi > S.hi1 && I.lo >= S.lo1) why = `Its range (${I.lo.toFixed(1)}–${I.hi.toFixed(1)}) goes above the steep section (${S.lo1.toFixed(1)}–${S.hi1.toFixed(1)}): the end of its colour change comes after the steep part, so the end point is not sharp; ${where}${inWin ? ". Its mid-point is inside the steep section, but its colour change is spread beyond it" : ""}.`;
   else if (I.lo < S.lo1 && I.hi <= S.hi1) why = `Its range (${I.lo.toFixed(1)}–${I.hi.toFixed(1)}) starts below the steep section (${S.lo1.toFixed(1)}–${S.hi1.toFixed(1)}): its colour change begins before the steep part, so the end point is not sharp; ${where}${inWin ? ". Its mid-point is inside the steep section, but its colour change is spread beyond it" : ""}.`;
   else why = `Its range (${I.lo.toFixed(1)}–${I.hi.toFixed(1)}) is not inside the steep section (${S.lo1.toFixed(1)}–${S.hi1.toFixed(1)}); ${where}.`;
-  return { ok, why, vAt, inWin };
+  return { ok, grade, why, vAt, inWin };
 }
 LAB.ttVerdict = ttVerdict;
 function ttIndFb(){
   const box = $("tt-indfb");
   if (TT.predict || !TT.ind){ box.className = ""; box.innerHTML = ""; return; }
-  const V = ttVerdict(TT, TT.ind), I = INDBY[TT.ind], list = ttSuitList(TT);
-  box.className = "fb " + (V.ok ? "ok" : "no");
-  box.innerHTML = `<p>${H(`${cap(I.nm)}: ${V.ok ? "suitable." : "not suitable."} ${V.why}`)}</p><p class="ink">${H(`Suitable for ${ttName()}: ${list.length ? listAnd(list.map(k => INDBY[k].nm)) : "none (use a pH meter)"}.`)} ${I.named ? "" : `<span class="hint">${H(I.nm)} is a common indicator, not named in 9476.</span>`}</p>`;
+  const V = ttVerdict(TT, TT.ind), I = INDBY[TT.ind], list = ttSuitList(TT), bl = ttBorderList(TT);
+  box.className = "fb " + (V.ok ? "ok" : V.grade === "borderline" ? "warn" : "no");
+  box.innerHTML = `<p>${H(`${cap(I.nm)}: ${V.ok ? "suitable." : V.grade === "borderline" ? "borderline." : "not suitable."} ${V.why}`)}</p><p class="ink">${H(`Suitable for ${ttName()}: ${list.length ? listAnd(list.map(k => INDBY[k].nm)) : "none (use a pH meter)"}.${bl.length ? ` Borderline: ${listAnd(bl.map(k => INDBY[k].nm))}.` : ""}`)} ${I.named ? "" : `<span class="hint">${H(I.nm)} is a common indicator, not named in 9476.</span>`}</p>`;
 }
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 const listAnd = a => a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
@@ -1571,7 +1658,7 @@ function ttCards(T){
   const p0 = titPH(T, 0), pe = titPH(T, Ve), cs = T.ca * T.Va / (T.Va + Ve), xm = Math.max(10, Math.ceil(2 * Ve / 5 - 1e-9) * 5);
   // start
   if (A.strong) cards.push({ h: "The start", t: `${A.f} is a strong acid, completely dissociated: [H⁺] = ${sf(T.ca, 3)} mol dm⁻³, pH = −lg(${sf(T.ca, 3)}) = ${p2(-Math.log10(T.ca))}.` });
-  else { const h = Math.sqrt(A.Ka * T.ca); cards.push({ h: "The start", t: `${A.f} is a weak acid, so the pH starts higher than for a strong acid of the same concentration: [H⁺] = √(K{a} × c{}) = √(${sci(A.Ka, 2)} × ${sf(T.ca, 3)}) = ${sci(h, 3)} mol dm⁻³, pH = ${p2(-Math.log10(h))}. (The curve uses the exact value, ${p2(p0)}.)` }); }
+  else { const h = Math.sqrt(A.Ka * T.ca); cards.push({ h: "The start", t: `${A.f} is a weak acid, so the pH starts higher than for a strong acid of the same concentration: [H⁺] = √(K{a} × c{}) = √(${sci(A.Ka, 2)} × ${sf(T.ca, 3)}) = ${sci(h, 3)} mol dm⁻³, pH = ${p2(-Math.log10(h))}. (The curve uses the exact value, ${p2(p0)}.)${h / T.ca > 0.05 ? ` Over 5 % dissociated: √(K{a} c{}) is only approximate here (${sf(100 * h / T.ca, 2)} % by the formula).` : ""}` }); }
   // before equivalence
   if (A.strong) cards.push({ h: "Before equivalence", t: `Excess H⁺ remains, so the pH rises only slowly: pH is a log scale, and even with 90 % of the acid neutralised [H⁺] has fallen only tenfold (pH ${p2(titPH(T, 0.9 * Ve))} at ${v2(0.9 * Ve)} cm³).` });
   else cards.push({ h: "Before equivalence: a buffer region", t: `Some ${A.f} has been turned into ${A.cb}, so the flask holds a weak acid and its conjugate base: a buffer, and the curve is shallow. At half-equivalence (${v2(Ve / 2)} cm³) [${A.f}] = [${A.cb}], so [H⁺] = K{a} and pH = pK{a} = ${p2(pK(A.Ka))} (exact curve ${p2(titPH(T, Ve / 2))}).` });
@@ -1592,7 +1679,7 @@ function ttCards(T){
   const list = ttSuitList(T);
   cards.push({ h: "The steep section and the indicator", t: !A.strong && !B.strong
     ? `Weak acid + weak base: from ${v2(S.vlo)} to ${v2(S.vhi)} cm³ (equivalence volume ± 2 %) the pH changes only from ${S.lo1.toFixed(1)} to ${S.hi1.toFixed(1)}. There is no sharp end point: no indicator is suitable. Follow the titration with a pH meter.`
-    : `From ${v2(S.vlo)} to ${v2(S.vhi)} cm³ (2 % either side of the equivalence volume; about ${Math.round(2 * S.w / 0.05)} drops) the pH jumps from ${S.lo1.toFixed(1)} to ${S.hi1.toFixed(1)}. An indicator is suitable if its whole range lies inside this steep section: ${listAnd(list.map(k => INDBY[k].nm))}.` });
+    : `From ${v2(S.vlo)} to ${v2(S.vhi)} cm³ (2 % either side of the equivalence volume; about ${Math.round(2 * S.w / 0.05)} drops) the pH jumps from ${S.lo1.toFixed(1)} to ${S.hi1.toFixed(1)}. An indicator is suitable if its whole range lies inside this steep section: ${listAnd(list.map(k => INDBY[k].nm))}.${ttBorderList(T).length ? ` ${cap(listAnd(ttBorderList(T).map(k => INDBY[k].nm)))}: ${ttBorderWhy(T, ttBorderList(T)[0])}.` : ""}` });
   // after equivalence
   cards.push({ h: "After equivalence", t: B.strong ? `Excess OH⁻ from ${B.f}: the pH levels off towards that of the base, diluted (pH ${p2(titPH(T, xm))} at ${v2(xm)} cm³).` : `Excess ${B.f} with ${B.ca}: another buffer, so the pH levels off slowly (pH ${p2(titPH(T, xm))} at ${v2(xm)} cm³). At ${v2(2 * Ve)} cm³ [${B.f}] = [${B.ca}], so the pH is close to pK{a}(${B.ca}) = ${p2(14 - pK(B.Kb))}.` });
   return cards;
@@ -1617,11 +1704,12 @@ function ttPredictBox(){
 function ttPredictCheck(){
   const list = ttSuitList(TT), pick = TT.pick, fb = $("tt-pfb");
   TT.checked = true;
-  let ok, msg;
-  if (pick === "none"){ ok = list.length === 0; msg = ok ? `Right: weak acid + weak base has no sharp end point, so no indicator is suitable. ${ttVerdict(TT, "btb").why}` : `There is a sharp end point here: the steep section runs from ${ttSteep().lo1.toFixed(1)} to ${ttSteep().hi1.toFixed(1)}.`; }
-  else { const V = ttVerdict(TT, pick); ok = V.ok; msg = `${cap(INDBY[pick].nm)}: ${V.why}`; TT.ind = pick; }
-  fb.className = "fb " + (ok ? "ok" : "no");
-  fb.innerHTML = `<p>${ok ? "Correct." : "Not quite."} ${H(msg)}</p><p class="ink">${H(`Suitable: ${list.length ? listAnd(list.map(k => INDBY[k].nm)) : "none (use a pH meter)"}.`)}</p>`;
+  let ok, msg, warn = false;
+  if (pick === "none"){ ok = list.length === 0 && !ttBorderList(TT).length; msg = ok ? `Right: weak acid + weak base has no sharp end point, so no indicator is suitable. ${ttVerdict(TT, "btb").why}` : `There is a sharp end point here: the steep section runs from ${ttSteep().lo1.toFixed(1)} to ${ttSteep().hi1.toFixed(1)}.`; }
+  else { const V = ttVerdict(TT, pick); ok = V.ok; warn = V.grade === "borderline"; msg = `${cap(INDBY[pick].nm)}: ${V.why}`; TT.ind = pick; }
+  const bl = ttBorderList(TT);
+  fb.className = "fb " + (ok ? "ok" : warn ? "warn" : "no");
+  fb.innerHTML = `<p>${ok ? "Correct." : warn ? "Borderline, not a clear pass." : "Not quite."} ${H(msg)}</p><p class="ink">${H(`Suitable: ${list.length ? listAnd(list.map(k => INDBY[k].nm)) : "none (use a pH meter)"}.${bl.length ? ` Borderline: ${listAnd(bl.map(k => INDBY[k].nm))}.` : ""}`)}</p>`;
   fb.hidden = false;
   ttAll();
 }
@@ -1862,7 +1950,7 @@ function bfAdd(k, n){
 }
 LAB.bfAdd = bfAdd;
 
-/* ---- worked examples (DATA.md) ---- */
+/* ---- worked examples ---- */
 const BWE = [
   { t: "0.100 mol dm⁻³ CH₃COOH + 0.100 mol dm⁻³ CH₃COONa", q: "Calculate the pH of a buffer containing 0.100 mol dm⁻³ CH₃COOH and 0.100 mol dm⁻³ CH₃COONa. K{a}(CH₃COOH) = 1.8 × 10⁻⁵ mol dm⁻³.",
     w: () => [ASIDE("To find the pH of a buffer, use [H⁺] = K{a} × [acid] / [conjugate base]"), "[H⁺] = 1.8 × 10⁻⁵ × (0.100 / 0.100) = 1.8 × 10⁻⁵ mol dm⁻³", `pH = −lg(1.8 × 10⁻⁵) = <b>${p2(pK(1.8e-5))}</b> (= pK{a}: equal concentrations)`], bench: { pair: "eth", iWA: 5, iWB: 5 } },
@@ -1907,7 +1995,7 @@ function bindBuffer(){
 }
 
 /* =====================================================
-   4. OCEAN (illustrative model, DATA.md)
+   4. OCEAN (illustrative model)
    ===================================================== */
 const OC = { p: 280 };
 LAB.OC = OC;
@@ -1999,15 +2087,18 @@ function mixResult(pairId, ca, va, cb, vb){
   const M = MIX.find(m => m.id === pairId), S = KSP[M.k], V = va + vb;
   const c1 = ca * va / V, c2 = cb * vb / V, ip = ionicProduct(M.k, c1, c2), n = Math.min(mcN(ca), mcN(cb));
   const ratio = ip / S.K, verdict = Math.abs(ratio - 1) < 0.005 ? "equal" : ratio > 1 ? "yes" : "no";
-  const pexp = S.t === "11" ? `(${sci(c1, n)}) × (${sci(c2, n)})` : `(${sci(c1, n)}) × (${sci(c2, n)})²`;
+  const edge = Math.abs(ratio - 1) < 0.05;                 // within 5 % of K_sp: on the edge of precipitating, shown to 3 s.f.
+  const nd = edge ? 3 : n;
+  const pexp = S.t === "11" ? `(${sci(c1, nd)}) × (${sci(c2, nd)})` : `(${sci(c1, nd)}) × (${sci(c2, nd)})²`;
   const work = [
     ASIDE(`To decide, find the concentrations just after mixing (before any precipitate forms), then compare the ionic product with K{sp}`),
     `Total volume = ${vS(va)} + ${vS(vb)} = ${vS(V)} cm³`,
-    `[${S.cat}] = (${mcS(ca)} × ${vS(va)}) / (${vS(V)}) = ${sci(c1, n)} mol dm⁻³; [${S.an}] = (${mcS(cb)} × ${vS(vb)}) / (${vS(V)}) = ${sci(c2, n)} mol dm⁻³`,
-    `Ionic product = ${kspExpr(M.k)} = ${pexp} = ${sci(ip, n)} ${kspUnit(S.t)}`,
-    `K{sp}(${S.f}) = ${sci(S.K, 2)} ${kspUnit(S.t)} (literature). ${verdict === "yes" ? `Ionic product > K{sp}, so ${S.f} precipitates: {{${mixEq(M.k)}}}, a ${S.ppt} precipitate.` : verdict === "no" ? `Ionic product < K{sp}: the solution is not saturated, so no precipitate forms.` : `Ionic product = K{sp}: the solution is just saturated; no precipitate forms.`}`
+    `[${S.cat}] = (${mcS(ca)} × ${vS(va)}) / (${vS(V)}) = ${sci(c1, nd)} mol dm⁻³; [${S.an}] = (${mcS(cb)} × ${vS(vb)}) / (${vS(V)}) = ${sci(c2, nd)} mol dm⁻³`,
+    `Ionic product = ${kspExpr(M.k)} = ${pexp} = ${sci(ip, nd)} ${kspUnit(S.t)}`,
+    `K{sp}(${S.f}) = ${sci(S.K, 2)} ${kspUnit(S.t)} (literature). ${edge ? `The ionic product is about equal to K{sp}: on the edge of precipitating.` : verdict === "yes" ? `Ionic product > K{sp}, so ${S.f} precipitates: {{${mixEq(M.k)}}}, a ${S.ppt} precipitate.` : verdict === "no" ? `Ionic product < K{sp}: the solution is not saturated, so no precipitate forms.` : `Ionic product = K{sp}: the solution is just saturated; no precipitate forms.`}`
   ];
-  return { M, S, c1, c2, ip, n, verdict, work, amt: pptAmount(M.k, c1, c2) };
+  if (M.id === "caco3") work.push(`Hydrolysis of CO₃²⁻ is ignored (beyond the syllabus).`);
+  return { M, S, c1, c2, ip, n, nd, edge, verdict, work, amt: pptAmount(M.k, c1, c2) };
 }
 LAB.mixResult = mixResult;
 function mxSelects(){
@@ -2034,18 +2125,19 @@ function mxDraw(R){
     s += tubeSVG(xs[2], top, 44, h, {}) + T(xs[2], top + h + 18, "mixture", "bt", 'text-anchor="middle"');
   } else {
     const liq = 30 + Math.min(80, (MX.va + MX.vb) * 1.0);
-    const f = R.verdict === "yes" ? Math.min(1, Math.max(0.12, Math.log10(R.ip / S.K) / 4)) : 0;
+    const f = R.verdict === "yes" && !R.edge ? Math.min(1, Math.max(0.12, Math.log10(R.ip / S.K) / 4)) : 0;
     const layers = [];
     if (f > 0){ const wh = S.rgb.every(v => v > 235); layers.push({ c: rgbS(S.rgb), h: 6 + 16 * f, op: 1, stroke: wh ? "#aab3bb" : null }); layers.push({ c: wh ? "#e4eef3" : rgbS(S.rgb), h: liq - 6 - 16 * f, op: wh ? 1 : 0.35 + 0.4 * f, cloudy: true, dotStroke: wh ? "#9aa4ad" : null }); }
     else layers.push({ c: clear, h: liq, op: 1 });
     s += tubeSVG(xs[2], top, 44, h, { layers });
-    s += T(xs[2], top + h + 18, R.verdict === "yes" ? `${S.ppt} precipitate of ${S.f}` : "no precipitate", "btb", 'text-anchor="middle"');
+    s += T(xs[2], top + h + 18, R.edge ? "on the edge of precipitating" : R.verdict === "yes" ? `${S.ppt} precipitate of ${S.f}` : "no precipitate", "btb", 'text-anchor="middle"');
     const tx = narrow ? 12 : xs[0] - 30;
     s += T(tx, top + 10, `${vS(MX.va)} cm³ ${M.s1}(aq)`, "bt") + T(tx, top + 28, `+ ${vS(MX.vb)} cm³ ${M.s2}(aq)`, "bt");
-    s += T(tx, top + 54, `ionic product ${sci(R.ip, R.n)}`, "bt") + T(tx, top + 72, `K{sp} ${sci(S.K, 2)}`, "bt");
+    s += T(tx, top + 54, `ionic product ${sci(R.ip, R.nd)}`, "bt") + T(tx, top + 72, `K{sp} ${sci(S.K, 2)}`, "bt");
   }
   setSvg(svg, W, Hh, s);
-  $("mx-note").innerHTML = MX.mixed ? H(`${S.f}: K{sp} = ${sci(S.K, 2)} ${kspUnit(S.t)} (literature). ${R.verdict === "yes" ? `Precipitate colour: ${S.ppt}.` : "The mixture stays clear and colourless."}`) : H(`Choose the solutions, ${MX.predict ? "predict, " : ""}then mix.`);
+  const carb = M.id === "caco3" ? " Hydrolysis of CO₃²⁻ is ignored (beyond the syllabus)." : "";
+  $("mx-note").innerHTML = MX.mixed ? H(`${S.f}: K{sp} = ${sci(S.K, 2)} ${kspUnit(S.t)} (literature). ${R.edge ? "The ionic product is within 5 % of K{sp}: on the edge of precipitating, so little or no precipitate would be seen." : R.verdict === "yes" ? `Precipitate colour: ${S.ppt}.` : "The mixture stays clear and colourless."}${carb}`) : H(`Choose the solutions, ${MX.predict ? "predict, " : ""}then mix.${carb}`);
 }
 function mxAll(){
   mxSelects();
@@ -2059,8 +2151,10 @@ function mxAll(){
   const fb = $("mx-fb");
   if (MX.mixed){
     const forms = R.verdict === "yes";
-    if (MX.predict && MX.pred){ const right = (MX.pred === "yes") === forms; fb.className = "fb " + (right ? "ok" : "no"); fb.innerHTML = H(`${right ? "Correct." : "Not quite."} Ionic product ${sci(R.ip, R.n)} ${forms ? ">" : R.verdict === "equal" ? "=" : "<"} K{sp} ${sci(R.S.K, 2)}: ${forms ? `${R.S.f} precipitates.` : "no precipitate."}`); }
-    else { fb.className = "fb info"; fb.innerHTML = H(`Ionic product ${sci(R.ip, R.n)} ${forms ? ">" : R.verdict === "equal" ? "=" : "<"} K{sp} ${sci(R.S.K, 2)}: ${forms ? `${R.S.f} precipitates.` : "no precipitate."}`); }
+    const line = R.edge ? `Ionic product ${sci(R.ip, 3)} mol${R.S.t === "11" ? "²" : "³"} dm⁻${R.S.t === "11" ? "⁶" : "⁹"} is about equal to K{sp}: on the edge of precipitating (K{sp} = ${sci(R.S.K, 2)}).` : `Ionic product ${sci(R.ip, R.n)} ${forms ? ">" : "<"} K{sp} ${sci(R.S.K, 2)}: ${forms ? `${R.S.f} precipitates.` : "no precipitate."}`;
+    if (R.edge){ fb.className = "fb info"; fb.innerHTML = H(`${MX.predict && MX.pred ? "Too close to call: either prediction is fair. " : ""}${line}`); }
+    else if (MX.predict && MX.pred){ const right = (MX.pred === "yes") === forms; fb.className = "fb " + (right ? "ok" : "no"); fb.innerHTML = H(`${right ? "Correct." : "Not quite."} ${line}`); }
+    else { fb.className = "fb info"; fb.innerHTML = H(line); }
     fb.hidden = false;
   } else fb.hidden = true;
 }
@@ -2069,8 +2163,10 @@ function mxReset(){ MX.mixed = false; MX.pred = null; mxAll(); }
 
 /* ---- common ion effect ---- */
 const CIL = [0, 1e-6, 2e-6, 5e-6, 1e-5, 2e-5, 5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3, 0.0100, 0.0200, 0.0500, 0.100];
-const CI = { salt: "AgCl", i: 16 };
-LAB.CI = CI; LAB.CIL = CIL;
+// the slider starts where the approximation s = K / c holds, i.e. where it gives an s below the pure-water value
+const CI_START = { AgCl: 7, MgOH2: 10 };
+const CI = { salt: "AgCl", i: CI_START.AgCl };
+LAB.CI = CI; LAB.CIL = CIL; LAB.CI_START = CI_START;
 // exact solubility with c of the common anion added: AgCl s(s + c) = Ksp; Mg(OH)₂ s(2s + c)² = Ksp
 function ciExact(k, c){
   const S = KSP[k], f = s => S.t === "11" ? s * (s + c) : s * Math.pow(2 * s + c, 2);
@@ -2100,7 +2196,7 @@ function ciWork(k, c){
 LAB.ciWork = ciWork;
 function ciAll(){
   const k = CI.salt, S = KSP[k], c = CIL[CI.i], s0 = solOf(k), se = ciExact(k, c);
-  $("ci-c").max = CIL.length - 1; $("ci-c").value = CI.i;
+  $("ci-c").min = CI_START[k]; $("ci-c").max = CIL.length - 1; if (CI.i < CI_START[k]) CI.i = CI_START[k]; $("ci-c").value = CI.i;
   $("ci-cl").innerHTML = H(`[${S.an}] added (as ${S.t === "11" ? "NaCl" : "NaOH"}) / mol dm⁻³`);
   $("ci-co").innerHTML = c === 0 ? "0 (pure water)" : H(ciS(c));
   const sa = c ? ciApprox(k, c) : s0, poor = c > 0 && Math.abs(sa / se - 1) > 0.05;
@@ -2112,7 +2208,7 @@ function ciAll(){
   $("ci-work").innerHTML = ciWork(k, c).map(t => `<li>${TX(t)}</li>`).join("");
   const svg = $("ci-chart"), C1 = cssVar("--s1"), C2 = cssVar("--s2");
   const ex = [], ap = [];
-  for (let e = -6; e <= -1 + 1e-9; e += 0.05){ const cc = Math.pow(10, e); ex.push([e, ciExact(k, cc)]); const a = ciApprox(k, cc); if (a <= 2e-3) ap.push([e, a]); }
+  for (let e = -6; e <= -1 + 1e-9; e += 0.05){ const cc = Math.pow(10, e); ex.push([e, ciExact(k, cc)]); const a = ciApprox(k, cc); if (a <= s0 && a <= 2e-3) ap.push([e, a]); }
   lineChart(svg, { x: [-6, -1], y: [1e-10, 1e-3], logY: true, xticks: [-6, -5, -4, -3, -2, -1], xfmt: v => "10" + SUPS(v), xlab: `[${S.an}] added / mol dm⁻³ (log scale)`, ylab: "solubility / mol dm⁻³", h: 250, ml: 56,
     under: (X, Y, W, Hh, m) => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(s0).toFixed(1)}" y2="${Y(s0).toFixed(1)}" stroke="${cssVar("--ref")}" stroke-dasharray="3 3"/>` + T(W - m.r - 4, Y(s0) - 5, "pure water", "cap", 'text-anchor="end"'),
     series: [{ pts: ex, col: C1, w: 2.4 }, { pts: ap, col: C2, w: 2, dash: "6 3" }],
@@ -2131,7 +2227,7 @@ function bindSol(){
   $("mx-pchips").querySelectorAll("button").forEach(b => b.onclick = () => { if (MX.mixed) return; MX.pred = b.dataset.v; mxAll(); });
   $("mx-go").onclick = () => { MX.mixed = true; mxAll(); };
   $("mx-reset").onclick = mxReset;
-  document.querySelectorAll("input[name=ci-salt]").forEach(r => r.onchange = () => { CI.salt = r.value; CI.i = r.value === "AgCl" ? 16 : 13; ciAll(); });
+  document.querySelectorAll("input[name=ci-salt]").forEach(r => r.onchange = () => { CI.salt = r.value; CI.i = CI_START[r.value]; ciAll(); });
   $("ci-c").oninput = e => { CI.i = +e.target.value; ciAll(); };
   mxAll(); ciAll();
 }
@@ -2181,7 +2277,7 @@ function agText(){
   const box = $("ag-text"), st = AG.step;
   let h = `<h3 class="sub3">Data Booklet (Qualitative Analysis Notes)</h3><ul class="notes">${AGX.map(X => `<li>${H(`${X.x === "Cl⁻" ? "chloride" : X.x === "Br⁻" ? "bromide" : "iodide"}, ${X.x}(aq): “${X.db}”`)}</li>`).join("")}</ul>`;
   if (st >= 1) h += `<h3 class="sub3">Adding Ag⁺(aq)</h3><div class="eqs"><div>${EQ("Ag⁺(aq) + X⁻(aq) ⇌ AgX(s)")}<span class="lab">${H("X = Cl, Br, I: the ionic product [Ag⁺][X⁻] is greater than K{sp}, so AgX precipitates")}</span></div></div><p class="hint" style="margin:0">${H(`K{sp} (literature): AgCl ${sci(KSP.AgCl.K, 2)}, AgBr ${sci(KSP.AgBr.K, 2)}, AgI ${sci(KSP.AgI.K, 2)} mol² dm⁻⁶.`)}</p>`;
-  if (st >= 2) h += `<h3 class="sub3">Adding NH₃(aq)</h3><div class="eqs"><div>${EQ("Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)")}<span class="lab">diamminesilver(I) ion</span></div></div><ul class="notes"><li>${H("NH₃ removes Ag⁺(aq) as the complex ion, so [Ag⁺] falls. When the ionic product [Ag⁺][X⁻] falls below K{sp}, the solid dissolves: the position of the solubility equilibrium AgX(s) ⇌ Ag⁺(aq) + X⁻(aq) moves to the right.")}</li><li>${H("AgCl: dilute NH₃ removes enough Ag⁺, so AgCl dissolves.")}</li><li>${H(st >= 3 ? "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially, concentrated NH₃ dissolves it." : "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially.")}</li><li>${H("AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount (about 7 × 10⁻⁵ mol dm⁻³ even in 2.0 mol dm⁻³ NH₃), far too little to see the precipitate go: the Data Booklet calls it insoluble.")}</li></ul>`;
+  if (st >= 2) h += `<h3 class="sub3">Adding NH₃(aq)</h3><div class="eqs"><div>${EQ("Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)")}<span class="lab">diamminesilver(I) ion</span></div></div><ul class="notes"><li>${H("NH₃ removes Ag⁺(aq) as the complex ion, so [Ag⁺] falls. When the ionic product [Ag⁺][X⁻] falls below K{sp}, the solid dissolves: the position of the solubility equilibrium AgX(s) ⇌ Ag⁺(aq) + X⁻(aq) moves to the right.")}</li><li>${H("AgCl: dilute NH₃ removes enough Ag⁺, so AgCl dissolves.")}</li><li>${H(st >= 3 ? "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially, concentrated NH₃ dissolves it." : "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially.")}</li><li>${H("AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount, far too little to see the precipitate go: the Data Booklet calls it insoluble.")}</li>${st >= 3 ? `<li>${BEYOND("")}${H("About 7 × 10⁻⁵ mol dm⁻³ of AgI dissolves even in 2.0 mol dm⁻³ ammonia (literature K{stab}).")}</li>` : ""}</ul>`;
   box.innerHTML = h;
   const eb = $("ag-enrbox");
   eb.hidden = !AG.enr;
@@ -2202,7 +2298,7 @@ function agEnr(){
     <ol class="working"><li>${TX(ASIDE("To find the solubility in 2.0 mol dm⁻³ NH₃, let s{} mol dm⁻³ of AgCl dissolve: [Ag(NH₃)₂⁺] = [Cl⁻] = s{}, [NH₃] = 2.0 − 2s{}"))}</li>
     <li>${TX(`K = s{}² / (2.0 − 2s{})² = ${sci(KSP.AgCl.K, 2)} × 1.6 × 10⁷ = ${sci(N.K, 2)}`)}</li>
     <li>${TX(`Both sides are perfect squares: s{} / (2.0 − 2s{}) = √(${sci(N.K, 2)}) = ${sf(N.r, 3)}, so s{} = (2.0 × ${sf(N.r, 3)}) / (1 + 2 × ${sf(N.r, 3)}) = ${sf(N.s, 2)} mol dm⁻³`)}</li>
-    <li>${TX(`AgI dissolves only to ${sci(agNumbers("AgI", 2.0).s, 2)} mol dm⁻³: far too little to see the precipitate go.`)}</li></ol>`;
+    <li>${TX(`AgI dissolves only to ${sci(agNumbers("AgI", 2.0).s, 2)} mol dm⁻³ in 2.0 mol dm⁻³ ammonia: far too little to see the precipitate go.`)}</li></ol>`;
 }
 function agStepsRender(){
   $("ag-steps").innerHTML = AG_STEPS.map((t, i) => `<button type="button" data-i="${i + 1}" aria-pressed="${AG.step >= i + 1}"${AG.step !== i || AG.pend ? " disabled" : ""}>${i + 1}. ${H(t)}</button>`).join("");
@@ -2251,7 +2347,9 @@ const rnd = (a, b) => a + Math.random() * (b - a);
 const r3 = v => +sf(v, 3);
 const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
 function ansN(v, n, unit){ return { v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.01 * Math.abs(v)), unit }; }
-function ansP(v){ return { v, ph: true, str: fx(v, 2), tol: 0.011, unit: "no units" }; }
+function ansP(v, tol){ return { v, ph: true, str: fx(v, 2), tol: tol || 0.011, unit: "no units" }; }
+// weak acid and weak base pH: a correct quadratic (exact) answer, given to 2 d.p., differs from the √(K c) value by under 0.016
+const TOL_WEAK = 0.016;
 // a concentration with 3 s.f. between lo and hi, on a log scale
 const cR = (lo, hi) => r3(Math.pow(10, rnd(Math.log10(lo), Math.log10(hi))));
 const cS = c => c >= 0.01 ? sf(c, 3) : sci(c, 3);
@@ -2269,12 +2367,12 @@ function genSA(){
     text = `${sf(v0, 3)} cm³ of ${sf(c0, 3)} mol dm⁻³ ${A.f} is diluted with water to ${V} cm³. Calculate the pH of the diluted solution.`;
     work = [ASIDE(`To find the pH, first find the new [H⁺]: ${A.f} is a strong acid, completely dissociated`), `n(${A.f}) = ${sf(c0, 3)} × (${sf(v0, 3)} / 1000) = ${sci(c0 * v0 / 1000, 3)} mol`,
       `[H⁺] = (${sci(c0 * v0 / 1000, 3)}) / (${V} / 1000) = ${sci(c, 3)} mol dm⁻³`, `pH = −lg(${sci(c, 3)}) = <b>${fx(-Math.log10(c), 2)}</b>`];
-    return { type: "sa", ans: ansP(-Math.log10(c)), units: null, fixedUnit: "no units", label: "pH", p: { c0, v0, V }, text, work, alts: [{ v: -Math.log10(c0), msg: "That is the pH before dilution." }], fmt: "2 decimal places" };
+    return { type: "sa", ans: ansP(-Math.log10(c)), units: null, uAllow: [], fixedUnit: "no units", label: "pH", p: { c0, v0, V }, text, work, alts: [{ v: -Math.log10(c0), msg: "That is the pH before dilution." }], fmt: "2 decimal places", rk: ["sa:dil:" + kn(c0) + ":" + kn(v0) + ":" + V] };
   }
   c = cR(1.0e-4, 0.500);
   text = `Calculate the pH of ${cS(c)} mol dm⁻³ ${A.f}.`;
   work = [ASIDE(`To find the pH of a strong acid, remember it is completely dissociated: [H⁺] = concentration of the acid`), `{{${A.f}(aq) → H⁺(aq) + ${A.an}(aq)}}`, `[H⁺] = ${cS(c)} mol dm⁻³`, `pH = −lg(${sci(c, 3)}) = <b>${fx(-Math.log10(c), 2)}</b>`];
-  return { type: "sa", ans: ansP(-Math.log10(c)), units: null, fixedUnit: "no units", label: "pH", p: { c }, text, work, alts: [{ v: 14 + Math.log10(c), msg: "That is 14 − pH: [H⁺] is the acid concentration, so pH = −lg c directly." }], fmt: "2 decimal places" };
+  return { type: "sa", ans: ansP(-Math.log10(c)), units: null, uAllow: [], fixedUnit: "no units", label: "pH", p: { c }, text, work, alts: [{ v: 14 + Math.log10(c), msg: "That is 14 − pH: [H⁺] is the acid concentration, so pH = −lg c directly." }], fmt: "2 decimal places", rk: ["sa:c:" + kn(c)] };
 }
 /* (2) strong base, including Ba(OH)₂ */
 function genSB(){
@@ -2284,7 +2382,7 @@ function genSB(){
     `[OH⁻] = ${B.nOH === 2 ? `2 × ${cS(c)} = ` : ""}${cS(oh)} mol dm⁻³`, `pOH = −lg(${sci(oh, 3)}) = ${fx(pOH, 2)}`, `pH = 14.00 − ${fx(pOH, 2)} = <b>${fx(ph, 2)}</b>`];
   const alts = [{ v: pOH, msg: "That is the pOH. pH = 14.00 − pOH." }];
   if (B.nOH === 2) alts.push({ v: 14 + Math.log10(c), msg: `Each ${B.f} gives two OH⁻: [OH⁻] = 2 × ${cS(c)}.` });
-  return { type: "sb", ans: ansP(ph), units: null, fixedUnit: "no units", label: "pH", p: { id, c }, text: `Calculate the pH of ${cS(c)} mol dm⁻³ ${B.f}(aq).`, work, alts, fmt: "2 decimal places" };
+  return { type: "sb", ans: ansP(ph), units: null, uAllow: [], fixedUnit: "no units", label: "pH", p: { id, c }, text: `Calculate the pH of ${cS(c)} mol dm⁻³ ${B.f}(aq).`, work, alts, fmt: "2 decimal places", rk: ["sb:" + B.nOH + ":" + kn(c)] };
 }
 /* (3) weak acid, x is small (under 5 % dissociated) */
 const WA_RANGE = { eth: [0.0100, 1.00], meth: [0.100, 1.00], HCN: [0.0100, 1.00], HF: [0.250, 1.00] };
@@ -2295,8 +2393,8 @@ function genWA(){
   const work = [ASIDE(`To find the pH of a weak acid, assume only a small fraction dissociates: [${A.f}] ≈ ${cS(c)} and [H⁺] = [${A.cb}]`), `{{${A.f}(aq) ⇌ H⁺(aq) + ${A.cb}(aq)}}`,
     `K{a} = [H⁺]² / [${A.f}], so [H⁺] = √(K{a} × c{}) = √(${sci(A.Ka, 2)} × ${cS(c)}) = ${sci(h, 3)} mol dm⁻³`, `pH = −lg(${sci(h, 3)}) = <b>${fx(ph, 2)}</b>`,
     `Check: (${sci(h, 3)} / ${cS(c)}) × 100 = ${sf(100 * h / c, 2)} % dissociated, under 5 %.`];
-  return { type: "wa", ans: ansP(ph), units: null, fixedUnit: "no units", label: "pH", p: { id, c }, text: `Calculate the pH of ${cS(c)} mol dm⁻³ ${A.nm}, ${A.f}. K{a} = ${sci(A.Ka, 2)} mol dm⁻³.`, work,
-    alts: [{ v: -Math.log10(c), msg: `That treats ${A.f} as a strong acid. It is weak: [H⁺] = √(K{a} × c).` }, { v: -Math.log10(A.Ka * c), msg: "Take the square root: [H⁺] = √(K{a} × c)." }], fmt: "2 decimal places" };
+  return { type: "wa", ans: ansP(ph, TOL_WEAK), units: null, uAllow: [], fixedUnit: "no units", label: "pH", p: { id, c }, text: `Calculate the pH of ${cS(c)} mol dm⁻³ ${A.nm}, ${A.f}. K{a} = ${sci(A.Ka, 2)} mol dm⁻³.`, work,
+    alts: [{ v: -Math.log10(c), msg: `That treats ${A.f} as a strong acid. It is weak: [H⁺] = √(K{a} × c).` }, { v: -Math.log10(A.Ka * c), msg: "Take the square root: [H⁺] = √(K{a} × c)." }], fmt: "2 decimal places (the √(K{a} c) value; an exact answer within 0.016 is also accepted)", rk: ["wa:" + id + ":" + kn(c)] };
 }
 /* (4) weak base */
 const WB_RANGE = { NH3: [0.0100, 1.00], meam: [0.200, 1.00], etam: [0.200, 1.00], phen: [0.0100, 0.200] };
@@ -2306,18 +2404,18 @@ function genWB(){
   const oh = Math.sqrt(B.Kb * c), pOH = -Math.log10(oh), ph = 14 - pOH;
   const work = [ASIDE(`To find the pH of a weak base, find [OH⁻] first: assume only a small fraction reacts, so [${B.f}] ≈ ${cS(c)} and [${B.ca}] = [OH⁻]`), `{{${B.f}(aq) + H₂O(l) ⇌ ${B.ca}(aq) + OH⁻(aq)}}`,
     `[OH⁻] = √(K{b} × c{}) = √(${sci(B.Kb, 2)} × ${cS(c)}) = ${sci(oh, 3)} mol dm⁻³`, `pOH = −lg(${sci(oh, 3)}) = ${fx(pOH, 2)}`, `pH = 14.00 − ${fx(pOH, 2)} = <b>${fx(ph, 2)}</b>`];
-  return { type: "wb", ans: ansP(ph), units: null, fixedUnit: "no units", label: "pH", p: { id, c }, text: `Calculate the pH of ${cS(c)} mol dm⁻³ ${B.nm}, ${B.f}. K{b} = ${sci(B.Kb, 2)} mol dm⁻³.`, work,
-    alts: [{ v: pOH, msg: "That is the pOH: pH = 14.00 − pOH." }, { v: 14 + Math.log10(c), msg: `That treats ${B.f} as a strong base. It is weak: [OH⁻] = √(K{b} × c).` }], fmt: "2 decimal places" };
+  return { type: "wb", ans: ansP(ph, TOL_WEAK), units: null, uAllow: [], fixedUnit: "no units", label: "pH", p: { id, c }, text: `Calculate the pH of ${cS(c)} mol dm⁻³ ${B.nm}, ${B.f}. K{b} = ${sci(B.Kb, 2)} mol dm⁻³.`, work,
+    alts: [{ v: pOH, msg: "That is the pOH: pH = 14.00 − pOH." }, { v: 14 + Math.log10(c), msg: `That treats ${B.f} as a strong base. It is weak: [OH⁻] = √(K{b} × c).` }, { v: 14 + Math.log10(B.Kb * c), msg: "Take the square root: [OH⁻] = √(K{b} × c)." }], fmt: "2 decimal places (the √(K{b} c) value; an exact answer within 0.016 is also accepted)", rk: ["wb:" + id + ":" + kn(c)] };
 }
 /* (5) Ka from the pH */
 function genKa(){
   const id = pick(["eth", "meth", "HCN"]), A = ACIDS[id];
-  let c; do c = cR(...WA_RANGE[id]); while (Math.sqrt(A.Ka / c) >= 0.05);
+  let c; do c = cR(...WA_RANGE[id]); while (Math.sqrt(A.Ka / c) >= 0.05 || c > 0.900);   // c at most 0.90, so h²/c and h² differ by over 10 %
   const pH = +(-Math.log10(Math.sqrt(A.Ka * c))).toFixed(2), h = Math.pow(10, -pH), Ka = h * h / c;
   const work = [ASIDE(`To find K{a}, find [H⁺] from the pH, then use K{a} = [H⁺]² / c (only a small fraction dissociates)`), `[H⁺] = 10^−${pH.toFixed(2)} = ${sci(h, 3)} mol dm⁻³`,
     `K{a} = [H⁺][${A.cb}] / [${A.f}] = (${sci(h, 3)})² / (${cS(c)}) = <b>${sci(Ka, 2)} mol dm⁻³</b>`, `Check: (${sci(h, 3)} / ${cS(c)}) × 100 = ${sf(100 * h / c, 2)} % dissociated, under 5 %.`];
-  return { type: "ka", ans: ansN(Ka, 2, "mol dm⁻³"), units: KAU, label: "K{a}", p: { c, pH }, text: `A ${cS(c)} mol dm⁻³ solution of ${A.nm}, ${A.f}, has a pH of ${pH.toFixed(2)}. Calculate K{a}, with its units.`, work,
-    alts: [{ v: h / c, msg: "Square [H⁺]: [H⁺] = [A⁻], so the top of the expression is [H⁺]²." }, { v: h * h, msg: "Divide by the concentration of the acid." }], fmt: "2 significant figures" };
+  return { type: "ka", ans: ansN(Ka, 2, "mol dm⁻³"), units: KAU, uAllow: ["moldm3"], label: "K{a}", p: { c, pH }, text: `A ${cS(c)} mol dm⁻³ solution of ${A.nm}, ${A.f}, has a pH of ${pH.toFixed(2)}. Calculate K{a}, with its units.`, work,
+    alts: [{ v: h / c, msg: "Square [H⁺]: [H⁺] = [A⁻], so the top of the expression is [H⁺]²." }, { v: h * h, msg: "Divide by the concentration of the acid." }], fmt: "2 significant figures", rk: ["ka:" + kn(c) + ":" + pH.toFixed(2)] };
 }
 /* (6) pH at equivalence: salt hydrolysis */
 function genSalt(){
@@ -2339,7 +2437,7 @@ function genSalt(){
       `[H⁺] = √(K{a} × c{}) = √(${sci(Ka, 3)} × ${sci(cs, 3)}) = ${sci(h, 3)} mol dm⁻³`, `pH = −lg(${sci(h, 3)}) = <b>${fx(ph, 2)}</b>`]);
   }
   const K = weakAcid ? KW / A.Ka : KW / B.Kb, wrongC = weakAcid ? 14 + Math.log10(Math.sqrt(K * ca)) : -Math.log10(Math.sqrt(K * ca));
-  return { type: "salt", ans: ansP(ph), units: null, fixedUnit: "no units", label: "pH at equivalence", p: { aid, bid, Va, ca, cb }, work,
+  return { type: "salt", ans: ansP(ph), units: null, uAllow: [], fixedUnit: "no units", label: "pH at equivalence", p: { aid, bid, Va, ca, cb }, work, rk: ["salt:" + (weakAcid ? aid : bid) + ":" + kn(cs)],
     text: `${sf(Va, 3)} cm³ of ${sf(ca, 3)} mol dm⁻³ ${A.f} is titrated with ${sf(cb, 3)} mol dm⁻³ ${B.f}. ${weakAcid ? `K{a}(${A.f}) = ${sci(A.Ka, 2)}` : `K{b}(${B.f}) = ${sci(B.Kb, 2)}`} mol dm⁻³. Calculate the pH at the equivalence point.`,
     alts: [{ v: 7, msg: `The salt is not neutral: ${weakAcid ? `${A.cb} is a weak base` : `${B.ca} is a weak acid`} (salt hydrolysis).` }, { v: wrongC, msg: "Allow for the dilution: the total volume at equivalence is the acid plus the base added." }], fmt: "2 decimal places" };
 }
@@ -2386,7 +2484,10 @@ function genBuf(){
       `{{OH⁻(aq) + ${N.HA}(aq) → ${N.A}(aq) + H₂O(l)}}`, `Left: n(${N.HA}) = ${sci(n1, 3)} − ${sci(n2, 3)} = ${sci(nHA, 3)} mol; n(${N.A}) = ${sci(nA, 3)} mol`].concat(bufFormLines(sys, sci(nHA, 3), sci(nA, 3), nHA, nA));
   }
   const ph = bufPHof(sys, nHA, nA), upside = sys === "nh4" ? 14 - (pK(BASES.NH3.Kb) - Math.log10(nHA / nA)) : pK(ACIDS[sys].Ka) - Math.log10(nA / nHA);
-  return { type: "buf", ans: ansP(ph), units: null, fixedUnit: "no units", label: "pH", p, text, work, alts: [{ v: upside, msg: "The ratio is upside down: the acid goes on the top for [H⁺] (the base on the top for [OH⁻])." }], fmt: "2 decimal places" };
+  const rk = [];
+  if (mode === "conc") rk.push("buf:" + sys + ":" + kn(p.c1) + ":" + kn(p.c2));
+  if (mode === "mass") rk.push("bufm:" + sys + ":" + kn(p.m));
+  return { type: "buf", ans: ansP(ph), units: null, uAllow: [], fixedUnit: "no units", label: "pH", p, text, work, alts: [{ v: upside, msg: "The ratio is upside down: the acid goes on the top for [H⁺] (the base on the top for [OH⁻])." }], fmt: "2 decimal places", rk };
 }
 /* (8) buffer after adding acid or base */
 function genBufAdd(){
@@ -2402,12 +2503,13 @@ function genBufAdd(){
     acid ? `{{H⁺(aq) + ${N.A}(aq) → ${N.HA}(aq)}}` : `{{OH⁻(aq) + ${N.HA}(aq) → ${N.A}(aq)${sys === "nh4" ? "" : ""} + H₂O(l)}}`,
     `Now: n(${N.HA}) = ${sci(nHA, 3)} mol; n(${N.A}) = ${sci(nA, 3)} mol`].concat(bufFormLines(sys, sci(nHA, 3), sci(nA, 3), nHA, nA));
   const comp = sys === "nh4" ? `${sf(c2, 3)} mol dm⁻³ NH₃ and ${sf(c1, 3)} mol dm⁻³ NH₄Cl` : `${sf(c1, 3)} mol dm⁻³ ${N.HA} and ${sf(c2, 3)} mol dm⁻³ ${SALTS[sys].f}`;
-  return { type: "bufadd", ans: ansP(ph), units: null, fixedUnit: "no units", label: "pH", p: { sys, V0, c1, c2, ca, va, acid }, work,
+  return { type: "bufadd", ans: ansP(ph), units: null, uAllow: [], fixedUnit: "no units", label: "pH", p: { sys, V0, c1, c2, ca, va, acid }, work, rk: ["bufadd:" + sys + ":" + kn(c1) + ":" + kn(c2)],
     text: `${sf(va, 3)} cm³ of ${sf(ca, 3)} mol dm⁻³ ${reag} is added to ${sf(V0, 3)} cm³ of a buffer containing ${comp}. Calculate the pH after the addition. ${N.Kt}.`,
     alts: (wrong == null ? [] : [{ v: wrong, msg: `Wrong way round: ${acid ? "added H⁺ turns the base into the acid" : "added OH⁻ turns the acid into its conjugate base"}.` }]).concat([{ v: bufPHof(sys, n1, n2), msg: "That is the pH before the addition." }]), fmt: "2 decimal places" };
 }
 /* (9) Ksp from solubility */
-const KS_SALTS = ["AgCl", "AgBr", "BaSO4", "CaCO3", "CaSO4", "Ag2CrO4", "CaF2", "MgOH2", "CaOH2", "PbI2", "PbCl2"];
+const KS_SALTS = ["AgCl", "AgBr", "BaSO4", "CaCO3", "CaSO4", "Ag2CrO4", "CaF2", "MgOH2", "PbI2", "PbCl2"];
+const SK_SALTS = ["AgCl", "AgBr", "BaSO4", "CaSO4", "Ag2CrO4", "CaF2", "MgOH2", "PbI2"];
 function kspFromS(k, s){ const t = KSP[k].t; return t === "11" ? s * s : 4 * s * s * s; }
 LAB.kspFromS = kspFromS;
 function kspLines(k, sTxt, s){
@@ -2424,30 +2526,43 @@ function genKspS(){
   work.push(...kspLines(k, sci(sUse, 3), sUse), `K{sp} = <b>${sci(K, 3)} ${u}</b>`);
   const alts = S.t === "11" ? [{ v: sUse, msg: "Square s: K{sp} = s²." }] : [{ v: sUse * sUse * sUse, msg: "Remember the 2: one of the ions has concentration 2s, so K{sp} = 4s³." }, { v: 2 * sUse * sUse * sUse, msg: "Square the 2s as well: (2s)² = 4s²." }, { v: sUse * sUse, msg: `${S.f} gives three ions: K{sp} = 4s³, not s².` }];
   if (grams) alts.push({ v: kspFromS(k, g), msg: "Convert g dm⁻³ to mol dm⁻³ first: divide by M{r}." });
-  return { type: "kspS", ans: ansN(K, 3, u), units: KSPU, label: "K{sp}", p: { k, s: sUse, grams, g }, work, alts, fmt: "3 significant figures",
+  return { type: "kspS", ans: ansN(K, 3, u), units: KSPU, uAllow: [S.t === "11" ? "mol2dm6" : "mol3dm9"], label: "K{sp}", p: { k, s: sUse, grams, g }, work, alts, fmt: "3 significant figures", rk: [grams ? "ks:" + k + ":" + String(g) : "ks:" + k + ":none", "ks2:" + k + ":" + k2(sUse), "ks3:" + k + ":" + kn(sUse)],
     text: `The solubility of ${S.f} in water at 298 K is ${grams ? `${sci(g, 3)} g dm⁻³` : `${sci(s, 3)} mol dm⁻³`} (illustrative data). Calculate K{sp}(${S.f}), with its units.` };
 }
 /* (10) solubility from Ksp */
 function genSKsp(){
-  const k = pick(KS_SALTS), S = KSP[k], Mr = MR(S.comp), grams = Math.random() < 0.35, s = solOf(k), v = grams ? s * Mr : s;
+  const k = pick(SK_SALTS), S = KSP[k], Mr = MR(S.comp), grams = Math.random() < 0.35, s = solOf(k), v = grams ? s * Mr : s;
   const work = [ASIDE(`To find the solubility, let s{} mol dm⁻³ of ${S.f} dissolve and write K{sp} in terms of s{}`), `{{${solEq(k)}}}`];
   if (S.t === "11") work.push(`K{sp} = [${S.cat}][${S.an}] = s{}², so s{} = √(${sci(S.K, 2)}) = ${sci(s, 4)} = <b>${sci(s, 2)} mol dm⁻³</b>`);
   else work.push(`K{sp} = ${S.t === "12" ? `s{} × (2s{})²` : `(2s{})² × s{}`} = 4s{}³, so s{} = ∛((${sci(S.K, 2)}) / 4) = ${sci(s, 4)} = <b>${sci(s, 2)} mol dm⁻³</b>`);
   if (grams) work.push(`In g dm⁻³: ${sci(s, 4)} × ${sf(Mr, 4)} = <b>${sci(v, 2)} g dm⁻³</b>`);
   const alts = S.t === "11" ? [{ v: S.K / 2, msg: "Take the square root: s = √K{sp}." }] : [{ v: grams ? Math.sqrt(S.K) * Mr : Math.sqrt(S.K), msg: `${S.f} is not 1 : 1: K{sp} = 4s³, so s = ∛(K{sp} / 4).` }, { v: grams ? Math.cbrt(S.K) * Mr : Math.cbrt(S.K), msg: "Divide by 4 before the cube root: K{sp} = 4s³." }];
-  if (grams) alts.push({ v: s, msg: "That is in mol dm⁻³: multiply by M{r} for g dm⁻³." });
-  return { type: "sKsp", ans: ansN(v, 2, grams ? "g dm⁻³" : "mol dm⁻³"), units: null, fixedUnit: grams ? "g dm⁻³" : "mol dm⁻³", label: "solubility", p: { k, grams }, work, alts, fmt: "2 significant figures (the data are 2 s.f.)",
+  alts.push(grams ? { v: s, msg: "That is in mol dm⁻³: multiply by M{r} for g dm⁻³." } : { v: s * Mr, msg: "That is in g dm⁻³: the question asks for mol dm⁻³, so do not multiply by M{r}." });
+  return { type: "sKsp", ans: ansN(v, 2, grams ? "g dm⁻³" : "mol dm⁻³"), units: null, uAllow: [grams ? "gdm3" : "moldm3"], fixedUnit: grams ? "g dm⁻³" : "mol dm⁻³", label: "solubility", p: { k, grams }, work, alts, fmt: "2 significant figures (the data are 2 s.f.)", rk: ["sk:" + k],
     text: `K{sp}(${S.f}) = ${sci(S.K, 2)} ${kspUnit(S.t)} at 298 K (literature). Calculate the solubility of ${S.f} in water at 298 K, in ${grams ? `g dm⁻³ (M{r} ${sf(Mr, 4)})` : "mol dm⁻³"}.` };
 }
-/* (11) will a precipitate form? */
+/* (11) will a precipitate form?
+   Each salt has its own concentration range (1, 2 and 5 × 10ⁿ mol dm⁻³), centred where its ionic product is near K_sp, and the verdict is chosen first,
+   so every salt gives "precipitate forms" and "no precipitate" equally often (ionic product never within a factor of 2 of K_sp):
+   AgCl 2.0 × 10⁻⁶ to 5.0 × 10⁻⁴; AgBr 1.0 × 10⁻⁷ to 2.0 × 10⁻⁵; AgI 1.0 × 10⁻⁹ to 2.0 × 10⁻⁷; PbI₂ 5.0 × 10⁻⁴ to 5.0 × 10⁻²; PbCl₂ 5.0 × 10⁻³ to 0.20;
+   BaSO₄ 2.0 × 10⁻⁶ to 2.0 × 10⁻⁴; CaSO₄ 1.0 × 10⁻³ to 0.20; Mg(OH)₂ 2.0 × 10⁻⁵ to 5.0 × 10⁻³; CaCO₃ 1.0 × 10⁻⁵ to 2.0 × 10⁻³. */
+const pptSeries = (lo, hi) => { const out = []; for (let e = lo; e <= hi; e++) for (const m of [1, 2, 5]) out.push(+(m + "e" + e)); return out; };
+const PPT_C = {
+  agcl: pptSeries(-6, -4).filter(c => c >= 2e-6 && c <= 5e-4), agbr: pptSeries(-7, -5).filter(c => c >= 1e-7 && c <= 2e-5), agi: pptSeries(-9, -7).filter(c => c >= 1e-9 && c <= 2e-7),
+  pbi2: pptSeries(-4, -2).filter(c => c >= 5e-4 && c <= 5e-2), pbcl2: pptSeries(-3, -1).filter(c => c >= 5e-3 && c <= 0.2), baso4: pptSeries(-6, -4).filter(c => c >= 2e-6 && c <= 2e-4),
+  caso4: pptSeries(-3, -1).filter(c => c >= 1e-3 && c <= 0.2), mgoh2: pptSeries(-5, -3).filter(c => c >= 2e-5 && c <= 5e-3), caco3: pptSeries(-5, -3).filter(c => c >= 1e-5 && c <= 2e-3)
+};
+LAB.PPT_C = PPT_C;
 function genPpt(){
-  let M, ia, ib, va, vb, R, tries = 0;
-  do { M = pick(MIX); ia = ri(0, MC.length - 1); ib = ri(0, MC.length - 1); va = pick(MV); vb = pick(MV); R = mixResult(M.id, MC[ia], va, MC[ib], vb); tries++; }
-  while (Math.abs(Math.log10(R.ip / R.S.K)) < 0.3 && tries < 50);
+  let ca, cb, va, vb, R, tries = 0;
+  const M = pick(MIX), want = Math.random() < 0.5 ? "yes" : "no";   // the salt first, then the verdict: each salt is balanced
+  do { ca = pick(PPT_C[M.id]); cb = pick(PPT_C[M.id]); va = pick(MV); vb = pick(MV); R = mixResult(M.id, ca, va, cb, vb); tries++; }
+  while ((R.verdict !== want || Math.abs(Math.log10(R.ip / R.S.K)) < 0.3) && tries < 2000);
   const S = R.S, u = kspUnit(S.t), forms = R.verdict === "yes";
-  return { type: "ppt", ans: { ...ansN(R.ip, R.n, forms ? VERD[0] : VERD[1]) }, units: VERD, unitLabel: "Verdict", fixedUnit: u, label: "Ionic product", p: { id: M.id, ca: MC[ia], va, cb: MC[ib], vb }, work: R.work,
-    text: `${vS(va)} cm³ of ${mcS(MC[ia])} mol dm⁻³ ${M.s1}(aq) is mixed with ${vS(vb)} cm³ of ${mcS(MC[ib])} mol dm⁻³ ${M.s2}(aq). K{sp}(${S.f}) = ${sci(S.K, 2)} ${u} (literature). Calculate the ionic product of ${S.f} just after mixing, and decide whether a precipitate forms.`,
-    alts: [{ v: ionicProduct(M.k, MC[ia], MC[ib]), msg: "Use the concentrations after mixing: each solution dilutes the other." }].concat(S.t === "11" ? [] : [{ v: R.c1 * R.c2, msg: `Square [${S.an}]: K{sp} = ${kspExpr(M.k)}.` }]), fmt: `${R.n} significant figures` };
+  return { type: "ppt", ans: { ...ansN(R.ip, R.n, forms ? VERD[0] : VERD[1]) }, units: VERD, uAllow: [S.t === "11" ? "mol2dm6" : "mol3dm9"], unitLabel: "Verdict", fixedUnit: u, label: "Ionic product", p: { id: M.id, ca, va, cb, vb }, work: R.work,
+    rk: ["ppt:" + M.id + ":" + kn(ca) + ":" + kn(va) + ":" + kn(cb) + ":" + kn(vb)],
+    text: `${vS(va)} cm³ of ${mcS(ca)} mol dm⁻³ ${M.s1}(aq) is mixed with ${vS(vb)} cm³ of ${mcS(cb)} mol dm⁻³ ${M.s2}(aq). K{sp}(${S.f}) = ${sci(S.K, 2)} ${u} (literature). Calculate the ionic product of ${S.f} just after mixing, and decide whether a precipitate forms.`,
+    alts: [{ v: ionicProduct(M.k, ca, cb), msg: "Use the concentrations after mixing: each solution dilutes the other." }].concat(S.t === "11" ? [] : [{ v: R.c1 * R.c2, msg: `Square [${S.an}]: K{sp} = ${kspExpr(M.k)}.` }]), fmt: `${R.n} significant figures` };
 }
 /* (12) solubility with a common ion */
 const CI_GEN = [
@@ -2472,28 +2587,57 @@ function genCI(){
   const alts = [{ v: solOf(G.k), msg: "That is the solubility in pure water. Here the added ion is already present." }];
   if (S.t !== "11" && G.ion === "an") alts.push({ v: S.K / c, msg: `Square [${S.an}]: K{sp} = [${S.cat}][${S.an}]².` });
   if (S.t !== "11" && G.ion === "cat") alts.push({ v: Math.sqrt(S.K / c), msg: `[${S.an}] = 2s, so (2s)² = K{sp} / c; halve the square root.` });
-  return { type: "ci", ans: ansN(s, 2, "mol dm⁻³"), units: null, fixedUnit: "mol dm⁻³", label: "solubility", p: { k: G.k, ion: G.ion, c }, work, alts, fmt: "2 significant figures",
+  if (S.t === "11") alts.push({ v: Math.sqrt(S.K / c), msg: `With the added ion fixed at ${sf(c, 3)} mol dm⁻³, K{sp} = s{} × ${sf(c, 3)}: no square root is needed.` }, { v: S.K / (2 * c), msg: `The added ion has concentration ${sf(c, 3)} mol dm⁻³, not 2 × ${sf(c, 3)}: s{} = K{sp} / ${sf(c, 3)}.` });
+  return { type: "ci", ans: ansN(s, 2, "mol dm⁻³"), units: null, uAllow: ["moldm3"], fixedUnit: "mol dm⁻³", label: "solubility", p: { k: G.k, ion: G.ion, c }, work, alts, fmt: "2 significant figures",
     text: `Calculate the solubility of ${S.f} in ${sf(c, 3)} mol dm⁻³ ${G.src}(aq) at 298 K. K{sp}(${S.f}) = ${sci(S.K, 2)} ${kspUnit(S.t)} (literature).` };
 }
-const GENS = { sa: genSA, sb: genSB, wa: genWA, wb: genWB, ka: genKa, salt: genSalt, buf: genBuf, bufadd: genBufAdd, kspS: genKspS, sKsp: genSKsp, ppt: genPpt, ci: genCI };
+// Wrong-route hints. "Close" is tested before any hint, so a hint must lie outside the Close band (0.06 pH, or 5 % of the answer), outside the marking window,
+// at least 3 % from the answer, and at least 2.5 % from every earlier hint. A hint that cannot meet this is dropped, so every hint left is reachable
+// when its value is typed in full or to 3 s.f.
+// how far a typed value may be from a hint and still get that hint's message
+const hintTol = v => Math.max(lastUnit(v, 2), 0.01 * Math.abs(v));
+function cleanAlts(q){
+  if (!q.alts) return q;
+  const a = q.ans.v, out = [];
+  q.alts.forEach(al => {
+    if (!isFinite(al.v) || al.v === a) return;
+    if (Math.abs(al.v - a) <= q.ans.tol * 1.0001) return;
+    if (q.ans.ph ? Math.abs(al.v - a) <= 0.075 : (a !== 0 && Math.abs(al.v / a - 1) < 0.05)) return;
+    // pH answers are values near 7 to 13, so 3 % of the answer (0.4 pH) would remove genuine slips such as a forgotten factor of 2 (0.30 pH):
+    // for a pH the margin is the Close band (0.06) plus the 0.011 a typed hint may be off (0.075), and two hints must be 0.03 apart; other answers use the 3 % and 2.5 % margins
+    if (q.ans.ph){ if (out.some(o => Math.abs(al.v - o.v) < 0.03)) return; }
+    else {
+      if (a !== 0 && Math.abs(al.v / a - 1) < 0.03) return;
+      if (out.some(o => o.v !== 0 && (Math.abs(al.v / o.v - 1) < 0.025 || Math.abs(al.v - o.v) <= Math.max(hintTol(al.v), hintTol(o.v))))) return;
+    }
+    out.push(al);
+  });
+  q.alts = out;
+  return q;
+}
+LAB.cleanAlts = cleanAlts;
+// every generator returns cleaned hints, and is asked again for a draw that is kept out (see the hash set)
+const wrapGen = f => () => { let q, n = 0; do { q = cleanAlts(f()); n++; } while (n < 200 && resHit(q)); return q; };
+const GENS = { sa: wrapGen(genSA), sb: wrapGen(genSB), wa: wrapGen(genWA), wb: wrapGen(genWB), ka: wrapGen(genKa), salt: wrapGen(genSalt), buf: wrapGen(genBuf), bufadd: wrapGen(genBufAdd), kspS: wrapGen(genKspS), sKsp: wrapGen(genSKsp), ppt: wrapGen(genPpt), ci: wrapGen(genCI) };
 LAB.GENS = GENS;
-const GN = { type: "sa", q: null, right: 0, tried: 0 };
+const GN = { type: "sa", q: null, right: 0, tried: 0, graded: false, firstOk: null };
 LAB.GN = GN;
 function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; return GENS[tt](); }
 function gnGrade(q, s, unit){
-  const v = parseNum(s);
-  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 2.87, 0.00125 or 1.8e-5 (or 1.8 × 10^-5)." };
-  const a = q.ans.v, tol = q.ans.tol * 1.0001, numOk = Math.abs(v - a) <= tol;
+  const pr = parseAnswer(s, q.uAllow);
+  if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };            // not an answer yet: not scored
+  if (q.units && !unit) return { ok: false, msg: q.type === "ppt" ? "Choose the verdict too." : "Choose the units too (or “no units”).", entry: true, kind: "choose" };
+  const v = pr.value, a = q.ans.v, tol = q.ans.tol * 1.0001, numOk = Math.abs(v - a) <= tol;
   if (numOk && q.units && unit !== q.ans.unit){
     if (q.type === "ppt") return { ok: false, msg: "The ionic product is right; check the verdict: a precipitate forms only if the ionic product is greater than K{sp}." };
     return { ok: false, msg: unit === "no units" ? "The number is right, but it has units: work them out from the expression." : "The number is right; check the units from the expression." };
   }
   if (numOk) return { ok: true };
+  if (q.ans.ph ? Math.abs(v - a) <= 0.06 : (a !== 0 && Math.abs(v / a - 1) < 0.05)) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
   for (const al of q.alts || []){
-    const t = q.ans.ph ? 0.011 : Math.max(lastUnit(al.v, 2), 0.01 * Math.abs(al.v));
+    const t = q.ans.ph ? 0.011 : hintTol(al.v);
     if (Math.abs(al.v - a) > tol && Math.abs(v - al.v) <= t) return { ok: false, msg: al.msg };
   }
-  if (q.ans.ph ? Math.abs(v - a) <= 0.06 : (a !== 0 && Math.abs(v / a - 1) < 0.05)) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }
 LAB.gnGrade = gnGrade; LAB.genQ = genQ;
@@ -2505,23 +2649,28 @@ function gnRender(){
   $("gn-ufield").hidden = !q.units;
   $("gn-ulab").textContent = q.unitLabel || "Units";
   if (q.units) $("gn-unit").innerHTML = `<option value="">choose…</option>` + q.units.map(u => `<option value="${u}">${u}</option>`).join("");
-  $("gn-fmt").innerHTML = H(`Answer to ${q.fmt}${q.type === "ppt" ? ", and choose the verdict" : q.units ? ", and choose the units" : q.fixedUnit === "no units" ? "" : `, in ${q.fixedUnit}`}. Very large or small numbers: type 1.8e-5 or 1.8 × 10^-5.`);
+  $("gn-fmt").innerHTML = TX(`Answer to ${q.fmt}${q.type === "ppt" ? ", and choose the verdict" : q.units ? ", and choose the units" : q.fixedUnit === "no units" ? "" : `, in ${q.fixedUnit}`}. Very large or small numbers: type 1.8e-5 or 1.8 × 10^-5.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  GN.graded = false; GN.firstOk = null;   // a new question, or a new tab, is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
-  const q = GN.q;
-  if (q.units && !$("gn-unit").value && !isNaN(parseNum($("gn-ans").value))){ const fb = $("gn-fb"); fb.className = "fb warn"; fb.innerHTML = q.type === "ppt" ? "Choose the verdict too." : "Choose the units too (or “no units”)."; fb.hidden = false; return; }
-  const r = gnGrade(q, $("gn-ans").value, $("gn-unit").value), fb = $("gn-fb");
-  GN.tried++; if (r.ok) GN.right++;
+  const q = GN.q, fb = $("gn-fb"), r = gnGrade(q, $("gn-ans").value, $("gn-unit").value);
+  if (r.entry){   // nothing to grade yet (empty, unreadable, wrong unit text, decimal comma, units not chosen): say so, do not score
+    $("gn-ans").setAttribute("aria-invalid", r.kind === "choose" ? "false" : "true"); $("gn-ans").classList.remove("ok");
+    fb.className = "fb warn"; fb.innerHTML = H(r.msg); fb.hidden = false;
+    return;
+  }
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fb.className = "fb " + (r.ok ? "ok" : "no");
   const unitTxt = q.type === "ppt" ? ` ${q.fixedUnit}: ${q.ans.unit}` : q.ans.unit === "no units" ? "" : " " + q.ans.unit;
-  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${unitTxt}.`) : H(r.msg);
+  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${unitTxt}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
   fb.hidden = false;
   $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
 }
+LAB.gnCheck = gnCheck;
 function bindGN(){
   document.querySelectorAll("#gn-tabs button").forEach(b => b.onclick = () => { GN.type = b.dataset.type; GN.q = genQ(GN.type); gnRender(); });
   $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
@@ -2533,7 +2682,7 @@ function bindGN(){
 LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
 
 /* =====================================================
-   8. FACT CARDS (all values from DATA.md)
+   8. FACT CARDS (values as in the topic data)
    ===================================================== */
 const sw = rgb => `<i class="swatch" style="background:${rgbS(rgb)}"></i>`;
 const indRows = () => INDS.map(I => {
@@ -2542,7 +2691,7 @@ const indRows = () => INDS.map(I => {
 });
 const kaRows = () => ["clac", "HF", "meth", "benz", "eth", "co2", "nh4", "HCN", "hco3"].map(k => { const A = ACIDS[k]; return [H(A.nm), H(A.f === "CO₂" ? "CO₂ + H₂O / H₂CO₃" : A.f), H(sci(A.Ka, 2) + (A.derived ? " (= K{w} / K{b}(NH₃))" : "")), fx(pK(A.Ka), 2)]; });
 const kbRows = () => ["NH3", "meam", "etam", "phen", "ac"].map(k => { const B = BASES[k]; return [H(B.nm), H(B.f), H(sci(B.Kb, 2) + (B.derived ? " (= K{w} / K{a})" : "")), fx(pK(B.Kb), 2)]; });
-const kspRows = () => Object.keys(KSP).map(k => { const S = KSP[k]; return [H(S.nm || S.f), H(sci(S.K, 2)), H(kspUnit(S.t)), H(KSP_S[k])]; });
+const kspRows = () => Object.keys(KSP).map(k => { const S = KSP[k]; return [H(S.nm || S.f), H(sci(S.K, 2)), H(kspUnit(S.t)), KSP_S[k] ? H(KSP_S[k]) : "work it out"]; });
 const FC = [
   { cat: "ab", h: "Strong and weak", k: "10.1(a)", d: "A strong acid (or base) is completely dissociated in water; a weak acid (or base) is only partly dissociated, so most of it stays as molecules. Strength (extent of dissociation) is not the same as concentration (amount per dm³).",
     e: [["HCl(aq) → H⁺(aq) + Cl⁻(aq)", "strong: HCl, HNO₃; NaOH, KOH, Ba(OH)₂"], ["CH₃COOH(aq) ⇌ H⁺(aq) + CH₃COO⁻(aq)", "weak: 0.100 mol dm⁻³ is 1.34 % dissociated, pH 2.87 (HCl: pH 1.00)"]] },
@@ -2559,7 +2708,7 @@ const FC = [
   { cat: "ti", h: "Indicators", k: "10.1(e)", d: "An indicator is itself a weak acid, HIn ⇌ H⁺ + In⁻, whose two forms have different colours. It is suitable if its whole range lies inside the steep section of the titration curve. Use only 2 or 3 drops. Ranges are literature values:",
     tbl: { head: ["Indicator", "pH range", "Colour (acid → alkali)", "Named in 9476"], num: [], rows: indRows } },
   { cat: "ti", h: "Four titration curves", k: "10.1(d)(e)", d: "25.0 cm³ of 0.100 mol dm⁻³ acid, 0.100 mol dm⁻³ base added (exact curves).",
-    tbl: { head: ["Pairing", "pH at equivalence", "Steep section", "Suitable"], num: [], rows: () => TT_PAIRS.map(([a, b]) => { const T = { acid: a, base: b, ca: 0.100, cb: 0.100, Va: 25.0 }, S = ttSteep(T), L = ttSuitList(T); return [H(`${ACIDS[a].f} + ${BASES[b].f}`), p2(titPH(T, 25)), `<span class="nw">${S.lo1.toFixed(1)}–${S.hi1.toFixed(1)}</span>`, L.length ? H(L.length === INDS.length - 1 ? "all except thymol blue (first change)" : listAnd(L.map(x => INDBY[x].nm))) : "none: use a pH meter"]; }) } },
+    tbl: { head: ["Pairing", "pH at equivalence", "Steep section", "Suitable"], num: [], rows: () => TT_PAIRS.map(([a, b]) => { const T = { acid: a, base: b, ca: 0.100, cb: 0.100, Va: 25.0 }, S = ttSteep(T), L = ttSuitList(T); const BL = ttBorderList(T), bs = BL.length ? `. ${cap(listAnd(BL.map(x => INDBY[x].nm)))}: ${ttBorderWhy(T, BL[0])}` : ""; return [H(`${ACIDS[a].f} + ${BASES[b].f}`), p2(titPH(T, 25)), `<span class="nw">${S.lo1.toFixed(1)}–${S.hi1.toFixed(1)}</span>`, L.length ? H((L.length === INDS.length - 1 - BL.length ? "all except thymol blue (first change)" : listAnd(L.map(x => INDBY[x].nm))) + bs) : "none: use a pH meter"]; }) } },
   { cat: "ti", h: "Salt hydrolysis at equivalence", k: "10.1(d)", d: "At equivalence the flask holds a salt. Its ions can react with water.",
     e: [["CH₃COO⁻(aq) + H₂O(l) ⇌ CH₃COOH(aq) + OH⁻(aq)", "weak acid + strong base: pH 8.72 (above 7)"], ["NH₄⁺(aq) ⇌ NH₃(aq) + H⁺(aq)", "strong acid + weak base: pH 5.28 (below 7)"]], list: ["Strong acid + strong base: Na⁺ and Cl⁻ do not react with water: pH 7.00."] },
   { cat: "bu", h: "Buffer solutions", k: "10.1(f)(i)", d: "A buffer solution resists changes in pH when small amounts of acid or base are added. It contains a weak acid and its conjugate base (or a weak base and its conjugate acid), both in reasonable amounts.",
@@ -2579,7 +2728,7 @@ const FC = [
   { cat: "so", h: "Common ion effect", k: "10.2(c)(i)", d: "A salt is less soluble in a solution that already contains one of its ions: the position of the solubility equilibrium shifts left.",
     list: ["AgCl in 0.100 mol dm⁻³ NaCl: s = 1.8 × 10⁻¹⁰ / 0.100 = 1.8 × 10⁻⁹ mol dm⁻³, about 7500 times less than in water.", "Mg(OH)₂ in 0.0100 mol dm⁻³ NaOH: s = 5.6 × 10⁻¹² / (0.0100)² = 5.6 × 10⁻⁸ mol dm⁻³."] },
   { cat: "so", h: "Silver halides and ammonia", k: "10.2(c)(ii)", d: "Data Booklet: chloride “gives white ppt. with Ag⁺(aq) (soluble in NH₃(aq))”; bromide “gives pale cream ppt. with Ag⁺(aq) (partially soluble in NH₃(aq))”; iodide “gives yellow ppt. with Ag⁺(aq) (insoluble in NH₃(aq))”.",
-    e: [["Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)", "NH₃ removes Ag⁺(aq); the ionic product [Ag⁺][X⁻] falls below K{sp} and the solid dissolves"]], list: ["AgBr dissolves only partially in dilute NH₃, fully in concentrated NH₃. AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount (about 7 × 10⁻⁵ mol dm⁻³ even in 2.0 mol dm⁻³ NH₃), far too little to see: the Data Booklet calls it insoluble."] },
+    e: [["Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)", "NH₃ removes Ag⁺(aq); the ionic product [Ag⁺][X⁻] falls below K{sp} and the solid dissolves"]], list: ["AgBr dissolves only partially in dilute NH₃, fully in concentrated NH₃. AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount, far too little to see: the Data Booklet calls it insoluble."] },
   { cat: "so", fex: true, h: "When does Mg(OH)₂ start to precipitate?", k: "10.2(b)", d: "From 0.0100 mol dm⁻³ Mg²⁺: [OH⁻] = √(5.6 × 10⁻¹² / 0.0100) = 2.37 × 10⁻⁵ mol dm⁻³, pOH 4.63, so precipitation starts at pH 9.37." },
   { cat: "enr", enr: true, h: "K = K{sp} × K{stab}", k: "beyond 9476", d: "AgX(s) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq) + X⁻(aq) has K = K{sp} × K{stab}, with K{stab} about 1.6 × 10⁷ mol⁻² dm⁶ (literature).",
     list: ["K: AgCl 2.9 × 10⁻³, AgBr 8.0 × 10⁻⁶, AgI 1.4 × 10⁻⁹.", "Solubility in 2.0 mol dm⁻³ NH₃: AgCl 0.097, AgBr 5.6 × 10⁻³, AgI 7.4 × 10⁻⁵ mol dm⁻³."] },
@@ -2647,7 +2796,7 @@ const QZ = [
   { k: "10.1(g)", q: "What is the pH of a buffer containing 0.200 mol dm⁻³ NH₃ and 0.100 mol dm⁻³ NH₄Cl? K{b}(NH₃) = 1.8 × 10⁻⁵ mol dm⁻³.",
     o: [["9.56", "[OH⁻] = 1.8 × 10⁻⁵ × (0.200 / 0.100) = 3.6 × 10⁻⁵ mol dm⁻³; pOH = 4.44; pH = 9.56."],
         ["9.26", "That is the pH with equal concentrations; here [NH₃] is twice [NH₄⁺]."],
-        ["8.96", "The ratio is upside down: [OH⁻] = K{b} × [NH₃] / [NH₄⁺]."],
+        ["8.95", "This comes from the inverted formula, [OH⁻] = K{b} × [NH₄⁺] / [NH₃] = 9.0 × 10⁻⁶ mol dm⁻³ (pOH 5.05, pH 8.95). The base goes on top: [OH⁻] = K{b} × [NH₃] / [NH₄⁺]."],
         ["4.44", "That is the pOH. pH = 14.00 − 4.44."]] },
   { k: "10.2(b)(c)(i)", q: "K{sp}(AgCl) = 1.8 × 10⁻¹⁰ mol² dm⁻⁶. What is the solubility of AgCl in 0.100 mol dm⁻³ NaCl(aq)?",
     o: [["1.8 × 10⁻⁹ mol dm⁻³", "[Cl⁻] ≈ 0.100, so s = K{sp} / 0.100 = 1.8 × 10⁻⁹ mol dm⁻³: about 7500 times less than in water."],
