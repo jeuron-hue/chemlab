@@ -990,7 +990,7 @@ const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" styl
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* =====================================================
-   DATA (as the topic data sheet, issue 13/10/26)
+   DATA (reference values for the topic, issue 13/10/26)
    Kw is the Data Booklet value; every Ka, Kb, Ksp, indicator range and
    stability constant is a literature value.
    ===================================================== */
@@ -1077,8 +1077,8 @@ const KSP = {
   PbI2:    { f: "PbI₂", K: 9.8e-9, t: "12", cat: "Pb²⁺", an: "I⁻", comp: { Pb: 1, I: 2 }, ppt: "yellow", rgb: [246, 200, 40] },
   PbCl2:   { f: "PbCl₂", K: 1.7e-5, t: "12", cat: "Pb²⁺", an: "Cl⁻", comp: { Pb: 1, Cl: 2 }, ppt: "white", rgb: [246, 246, 242] }
 };
-// table solubilities as the data sheet prints them (the tests recompute them)
-const KSP_S = { AgCl: "1.34 × 10⁻⁵", AgBr: "7.1 × 10⁻⁷", AgI: "9.2 × 10⁻⁹", BaSO4: "1.05 × 10⁻⁵", CaCO3: "5.8 × 10⁻⁵", CaSO4: "7.0 × 10⁻³", Ag2CrO4: "6.5 × 10⁻⁵", CaF2: "2.06 × 10⁻⁴", MgOH2: "1.12 × 10⁻⁴", CaOH2: "1.08 × 10⁻²", PbI2: "1.35 × 10⁻³", PbCl2: "1.62 × 10⁻²" };
+// table solubilities (the tests recompute them)
+const KSP_S = { AgCl: "1.34 × 10⁻⁵", AgBr: "7.1 × 10⁻⁷", AgI: "9.2 × 10⁻⁹", CaSO4: "7.0 × 10⁻³", Ag2CrO4: "6.5 × 10⁻⁵", MgOH2: "1.12 × 10⁻⁴", PbI2: "1.35 × 10⁻³" };
 const kspUnit = t => t === "11" ? "mol² dm⁻⁶" : "mol³ dm⁻⁹";
 const solOf = k => { const S = KSP[k]; return S.t === "11" ? Math.sqrt(S.K) : Math.cbrt(S.K / 4); };
 const kspExpr = k => { const S = KSP[k]; return S.t === "11" ? `[${S.cat}][${S.an}]` : S.t === "12" ? `[${S.cat}][${S.an}]²` : `[${S.cat}]²[${S.an}]`; };
@@ -1094,7 +1094,7 @@ LAB.MR = MR; LAB.dyeRGB = dyeRGB;
 /* ---------- draws kept out of the generated questions ----------
    A few draws are kept out so that practice stays fresh. The page holds only opaque hashes of their keys (made when the page is built);
    a draw whose keys hash into that set is redrawn. */
-const RESH = new Set(["16t1s3x", "1b4hwi7", "1bc03dd", "1flp4yg", "1gbl0c4", "1iscvz7", "1itfd1f", "1mawe8s", "1me0i0v", "1mesan7", "1nouepn", "1pgshvt", "1rd8hpb", "1sry2ok", "4blxyy", "64yg9h", "70yy1e", "byfk87", "czpifx", "dlj301", "dtm95r", "e9wzzz", "fnhyob", "fxeevb", "gv5w62", "hlg8us", "nb2wee", "p25iiq", "pqs4lq", "ud0cs3", "w0t2f5"]);
+const RESH = new Set(["16t1s3x", "1b4hwi7", "1bc03dd", "1flp4yg", "1gbl0c4", "1iscvz7", "1itfd1f", "1mawe8s", "1me0i0v", "1mesan7", "1nouepn", "1pgshvt", "1rd8hpb", "1sry2ok", "1xbjavj", "1y9gddi", "4blxyy", "64yg9h", "70yy1e", "byfk87", "czpifx", "dlj301", "dtm95r", "e9wzzz", "fnhyob", "fxeevb", "gv5w62", "hlg8us", "nb2wee", "p25iiq", "pqs4lq", "ud0cs3", "w0t2f5"]);
 function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
 const rh = k => RESH.has(fnv(k));
 const kn = v => String(+(+v).toPrecision(3));   // a number to 3 s.f. as a key part
@@ -1950,7 +1950,7 @@ function bfAdd(k, n){
 }
 LAB.bfAdd = bfAdd;
 
-/* ---- worked examples (data sheet) ---- */
+/* ---- worked examples ---- */
 const BWE = [
   { t: "0.100 mol dm⁻³ CH₃COOH + 0.100 mol dm⁻³ CH₃COONa", q: "Calculate the pH of a buffer containing 0.100 mol dm⁻³ CH₃COOH and 0.100 mol dm⁻³ CH₃COONa. K{a}(CH₃COOH) = 1.8 × 10⁻⁵ mol dm⁻³.",
     w: () => [ASIDE("To find the pH of a buffer, use [H⁺] = K{a} × [acid] / [conjugate base]"), "[H⁺] = 1.8 × 10⁻⁵ × (0.100 / 0.100) = 1.8 × 10⁻⁵ mol dm⁻³", `pH = −lg(1.8 × 10⁻⁵) = <b>${p2(pK(1.8e-5))}</b> (= pK{a}: equal concentrations)`], bench: { pair: "eth", iWA: 5, iWB: 5 } },
@@ -1995,7 +1995,7 @@ function bindBuffer(){
 }
 
 /* =====================================================
-   4. OCEAN (illustrative model, data sheet)
+   4. OCEAN (illustrative model)
    ===================================================== */
 const OC = { p: 280 };
 LAB.OC = OC;
@@ -2277,7 +2277,7 @@ function agText(){
   const box = $("ag-text"), st = AG.step;
   let h = `<h3 class="sub3">Data Booklet (Qualitative Analysis Notes)</h3><ul class="notes">${AGX.map(X => `<li>${H(`${X.x === "Cl⁻" ? "chloride" : X.x === "Br⁻" ? "bromide" : "iodide"}, ${X.x}(aq): “${X.db}”`)}</li>`).join("")}</ul>`;
   if (st >= 1) h += `<h3 class="sub3">Adding Ag⁺(aq)</h3><div class="eqs"><div>${EQ("Ag⁺(aq) + X⁻(aq) ⇌ AgX(s)")}<span class="lab">${H("X = Cl, Br, I: the ionic product [Ag⁺][X⁻] is greater than K{sp}, so AgX precipitates")}</span></div></div><p class="hint" style="margin:0">${H(`K{sp} (literature): AgCl ${sci(KSP.AgCl.K, 2)}, AgBr ${sci(KSP.AgBr.K, 2)}, AgI ${sci(KSP.AgI.K, 2)} mol² dm⁻⁶.`)}</p>`;
-  if (st >= 2) h += `<h3 class="sub3">Adding NH₃(aq)</h3><div class="eqs"><div>${EQ("Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)")}<span class="lab">diamminesilver(I) ion</span></div></div><ul class="notes"><li>${H("NH₃ removes Ag⁺(aq) as the complex ion, so [Ag⁺] falls. When the ionic product [Ag⁺][X⁻] falls below K{sp}, the solid dissolves: the position of the solubility equilibrium AgX(s) ⇌ Ag⁺(aq) + X⁻(aq) moves to the right.")}</li><li>${H("AgCl: dilute NH₃ removes enough Ag⁺, so AgCl dissolves.")}</li><li>${H(st >= 3 ? "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially, concentrated NH₃ dissolves it." : "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially.")}</li><li>${H("AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount (about 7 × 10⁻⁵ mol dm⁻³ even in 2.0 mol dm⁻³ NH₃), far too little to see the precipitate go: the Data Booklet calls it insoluble.")}</li></ul>`;
+  if (st >= 2) h += `<h3 class="sub3">Adding NH₃(aq)</h3><div class="eqs"><div>${EQ("Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)")}<span class="lab">diamminesilver(I) ion</span></div></div><ul class="notes"><li>${H("NH₃ removes Ag⁺(aq) as the complex ion, so [Ag⁺] falls. When the ionic product [Ag⁺][X⁻] falls below K{sp}, the solid dissolves: the position of the solubility equilibrium AgX(s) ⇌ Ag⁺(aq) + X⁻(aq) moves to the right.")}</li><li>${H("AgCl: dilute NH₃ removes enough Ag⁺, so AgCl dissolves.")}</li><li>${H(st >= 3 ? "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially, concentrated NH₃ dissolves it." : "AgBr: K{sp} is smaller, so [Ag⁺] must be lowered further: dilute NH₃ dissolves it only partially.")}</li><li>${H("AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount, far too little to see the precipitate go: the Data Booklet calls it insoluble.")}</li>${st >= 3 ? `<li>${BEYOND("")}${H("About 7 × 10⁻⁵ mol dm⁻³ of AgI dissolves even in 2.0 mol dm⁻³ ammonia (literature K{stab}).")}</li>` : ""}</ul>`;
   box.innerHTML = h;
   const eb = $("ag-enrbox");
   eb.hidden = !AG.enr;
@@ -2508,10 +2508,8 @@ function genBufAdd(){
     alts: (wrong == null ? [] : [{ v: wrong, msg: `Wrong way round: ${acid ? "added H⁺ turns the base into the acid" : "added OH⁻ turns the acid into its conjugate base"}.` }]).concat([{ v: bufPHof(sys, n1, n2), msg: "That is the pH before the addition." }]), fmt: "2 decimal places" };
 }
 /* (9) Ksp from solubility */
-const KS_SALTS = ["AgCl", "AgBr", "BaSO4", "CaCO3", "CaSO4", "Ag2CrO4", "CaF2", "MgOH2", "CaOH2", "PbI2", "PbCl2"];
-// "Solubility from K_sp" does not draw Ca(OH)₂ (its saturated solution is worked in the notes as a pH problem)
-// the s-from-K_sp pool leaves out Ca(OH)₂ (Review 6) and the two salts whose K_sp and s are worked in the exercises
-const SK_SALTS = KS_SALTS.filter(k => !["CaOH2", "CaCO3", "PbCl2"].includes(k));
+const KS_SALTS = ["AgCl", "AgBr", "BaSO4", "CaCO3", "CaSO4", "Ag2CrO4", "CaF2", "MgOH2", "PbI2", "PbCl2"];
+const SK_SALTS = ["AgCl", "AgBr", "BaSO4", "CaSO4", "Ag2CrO4", "CaF2", "MgOH2", "PbI2"];
 function kspFromS(k, s){ const t = KSP[k].t; return t === "11" ? s * s : 4 * s * s * s; }
 LAB.kspFromS = kspFromS;
 function kspLines(k, sTxt, s){
@@ -2528,7 +2526,7 @@ function genKspS(){
   work.push(...kspLines(k, sci(sUse, 3), sUse), `K{sp} = <b>${sci(K, 3)} ${u}</b>`);
   const alts = S.t === "11" ? [{ v: sUse, msg: "Square s: K{sp} = s²." }] : [{ v: sUse * sUse * sUse, msg: "Remember the 2: one of the ions has concentration 2s, so K{sp} = 4s³." }, { v: 2 * sUse * sUse * sUse, msg: "Square the 2s as well: (2s)² = 4s²." }, { v: sUse * sUse, msg: `${S.f} gives three ions: K{sp} = 4s³, not s².` }];
   if (grams) alts.push({ v: kspFromS(k, g), msg: "Convert g dm⁻³ to mol dm⁻³ first: divide by M{r}." });
-  return { type: "kspS", ans: ansN(K, 3, u), units: KSPU, uAllow: [S.t === "11" ? "mol2dm6" : "mol3dm9"], label: "K{sp}", p: { k, s: sUse, grams, g }, work, alts, fmt: "3 significant figures", rk: [grams ? "ks:" + k + ":" + String(g) : "ks:" + k + ":none", "ks2:" + k + ":" + k2(sUse)],
+  return { type: "kspS", ans: ansN(K, 3, u), units: KSPU, uAllow: [S.t === "11" ? "mol2dm6" : "mol3dm9"], label: "K{sp}", p: { k, s: sUse, grams, g }, work, alts, fmt: "3 significant figures", rk: [grams ? "ks:" + k + ":" + String(g) : "ks:" + k + ":none", "ks2:" + k + ":" + k2(sUse), "ks3:" + k + ":" + kn(sUse)],
     text: `The solubility of ${S.f} in water at 298 K is ${grams ? `${sci(g, 3)} g dm⁻³` : `${sci(s, 3)} mol dm⁻³`} (illustrative data). Calculate K{sp}(${S.f}), with its units.` };
 }
 /* (10) solubility from Ksp */
@@ -2684,7 +2682,7 @@ function bindGN(){
 LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
 
 /* =====================================================
-   8. FACT CARDS (all values from the data sheet)
+   8. FACT CARDS (values as in the topic data)
    ===================================================== */
 const sw = rgb => `<i class="swatch" style="background:${rgbS(rgb)}"></i>`;
 const indRows = () => INDS.map(I => {
@@ -2693,8 +2691,7 @@ const indRows = () => INDS.map(I => {
 });
 const kaRows = () => ["clac", "HF", "meth", "benz", "eth", "co2", "nh4", "HCN", "hco3"].map(k => { const A = ACIDS[k]; return [H(A.nm), H(A.f === "CO₂" ? "CO₂ + H₂O / H₂CO₃" : A.f), H(sci(A.Ka, 2) + (A.derived ? " (= K{w} / K{b}(NH₃))" : "")), fx(pK(A.Ka), 2)]; });
 const kbRows = () => ["NH3", "meam", "etam", "phen", "ac"].map(k => { const B = BASES[k]; return [H(B.nm), H(B.f), H(sci(B.Kb, 2) + (B.derived ? " (= K{w} / K{a})" : "")), fx(pK(B.Kb), 2)]; });
-const S_BLANK = ["CaCO3", "PbCl2", "CaOH2"];   // K{sp} shown, s left for the student to work out
-const kspRows = () => Object.keys(KSP).map(k => { const S = KSP[k]; return [H(S.nm || S.f), H(sci(S.K, 2)), H(kspUnit(S.t)), S_BLANK.includes(k) ? "work it out" : H(KSP_S[k])]; });
+const kspRows = () => Object.keys(KSP).map(k => { const S = KSP[k]; return [H(S.nm || S.f), H(sci(S.K, 2)), H(kspUnit(S.t)), KSP_S[k] ? H(KSP_S[k]) : "work it out"]; });
 const FC = [
   { cat: "ab", h: "Strong and weak", k: "10.1(a)", d: "A strong acid (or base) is completely dissociated in water; a weak acid (or base) is only partly dissociated, so most of it stays as molecules. Strength (extent of dissociation) is not the same as concentration (amount per dm³).",
     e: [["HCl(aq) → H⁺(aq) + Cl⁻(aq)", "strong: HCl, HNO₃; NaOH, KOH, Ba(OH)₂"], ["CH₃COOH(aq) ⇌ H⁺(aq) + CH₃COO⁻(aq)", "weak: 0.100 mol dm⁻³ is 1.34 % dissociated, pH 2.87 (HCl: pH 1.00)"]] },
@@ -2723,7 +2720,7 @@ const FC = [
   { cat: "bu", fex: true, h: "Blood", k: "10.1(f)(ii)", d: "Blood is kept at pH 7.35–7.45; H₂CO₃/HCO₃⁻ is the main buffer (literature)." },
   { cat: "so", h: "Solubility product, K{sp}", k: "10.2(a)(b)", d: "For a saturated solution of a sparingly soluble salt, A<sub><i>x</i></sub>B<sub><i>y</i></sub>: K{sp} = [A]<sup><i>x</i></sup>[B]<sup><i>y</i></sup>. Units follow from the expression. 1 : 1 salt: s = √K{sp}; 1 : 2 or 2 : 1 salt: K{sp} = 4s³.",
     list: ["PbI₂: 0.621 g dm⁻³ (M{r} 461.0) → s = 1.35 × 10⁻³ mol dm⁻³ → K{sp} = 4s³ = 9.8 × 10⁻⁹ mol³ dm⁻⁹.", "Mg(OH)₂: s = ∛(5.6 × 10⁻¹² / 4) = 1.12 × 10⁻⁴ mol dm⁻³ = 6.5 × 10⁻³ g dm⁻³."] },
-  { cat: "so", h: "K{sp} values", k: "10.2(a)", d: "Literature values at 298 K (sources differ by a few per cent); s is the solubility in pure water (left for you to work out for CaCO₃, PbCl₂ and Ca(OH)₂).",
+  { cat: "so", h: "K{sp} values", k: "10.2(a)", d: "Literature values at 298 K (sources differ by a few per cent); s is the solubility in pure water.",
     tbl: { head: ["Salt", "K{sp}", "units", "s / mol dm⁻³"], num: [1, 3], rows: kspRows } },
   { cat: "so", h: "Compare like with like", k: "10.2(a)", d: "K{sp}(Ag₂CrO₄) = 1.1 × 10⁻¹² is smaller than K{sp}(AgCl) = 1.8 × 10⁻¹⁰, yet Ag₂CrO₄ (6.5 × 10⁻⁵ mol dm⁻³) is more soluble than AgCl (1.34 × 10⁻⁵ mol dm⁻³): different formula types, different units. Compare solubilities, or K{sp} only for salts of the same type." },
   { cat: "so", h: "Will it precipitate?", k: "10.2(b)", d: "Work out the ionic product from the concentrations just after mixing. Ionic product > K{sp}: a precipitate forms. Ionic product < K{sp}: no precipitate. Equal: just saturated.",
@@ -2731,7 +2728,7 @@ const FC = [
   { cat: "so", h: "Common ion effect", k: "10.2(c)(i)", d: "A salt is less soluble in a solution that already contains one of its ions: the position of the solubility equilibrium shifts left.",
     list: ["AgCl in 0.100 mol dm⁻³ NaCl: s = 1.8 × 10⁻¹⁰ / 0.100 = 1.8 × 10⁻⁹ mol dm⁻³, about 7500 times less than in water.", "Mg(OH)₂ in 0.0100 mol dm⁻³ NaOH: s = 5.6 × 10⁻¹² / (0.0100)² = 5.6 × 10⁻⁸ mol dm⁻³."] },
   { cat: "so", h: "Silver halides and ammonia", k: "10.2(c)(ii)", d: "Data Booklet: chloride “gives white ppt. with Ag⁺(aq) (soluble in NH₃(aq))”; bromide “gives pale cream ppt. with Ag⁺(aq) (partially soluble in NH₃(aq))”; iodide “gives yellow ppt. with Ag⁺(aq) (insoluble in NH₃(aq))”.",
-    e: [["Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)", "NH₃ removes Ag⁺(aq); the ionic product [Ag⁺][X⁻] falls below K{sp} and the solid dissolves"]], list: ["AgBr dissolves only partially in dilute NH₃, fully in concentrated NH₃. AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount (about 7 × 10⁻⁵ mol dm⁻³ even in 2.0 mol dm⁻³ NH₃), far too little to see: the Data Booklet calls it insoluble."] },
+    e: [["Ag⁺(aq) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq)", "NH₃ removes Ag⁺(aq); the ionic product [Ag⁺][X⁻] falls below K{sp} and the solid dissolves"]], list: ["AgBr dissolves only partially in dilute NH₃, fully in concentrated NH₃. AgI: K{sp} is so small that even concentrated NH₃ dissolves only a tiny amount, far too little to see: the Data Booklet calls it insoluble."] },
   { cat: "so", fex: true, h: "When does Mg(OH)₂ start to precipitate?", k: "10.2(b)", d: "From 0.0100 mol dm⁻³ Mg²⁺: [OH⁻] = √(5.6 × 10⁻¹² / 0.0100) = 2.37 × 10⁻⁵ mol dm⁻³, pOH 4.63, so precipitation starts at pH 9.37." },
   { cat: "enr", enr: true, h: "K = K{sp} × K{stab}", k: "beyond 9476", d: "AgX(s) + 2NH₃(aq) ⇌ [Ag(NH₃)₂]⁺(aq) + X⁻(aq) has K = K{sp} × K{stab}, with K{stab} about 1.6 × 10⁷ mol⁻² dm⁶ (literature).",
     list: ["K: AgCl 2.9 × 10⁻³, AgBr 8.0 × 10⁻⁶, AgI 1.4 × 10⁻⁹.", "Solubility in 2.0 mol dm⁻³ NH₃: AgCl 0.097, AgBr 5.6 × 10⁻³, AgI 7.4 × 10⁻⁵ mol dm⁻³."] },
