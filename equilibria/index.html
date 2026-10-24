@@ -88,21 +88,21 @@ section.lab:last-of-type{border-bottom:0}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; align-items:center; min-height:24px; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -290,6 +290,17 @@ table.ice tr.pend td{color:var(--muted)}
 #dy-read .stat{min-height:5.4em}
 #dy-read .stat.wide{min-height:4.4em}
 #dy-read #dy-labstat{min-height:7em}
+
+/* ---------- tokens for the Enrichment tag (plum) and for readable feedback text; amber stays for warnings only ---------- */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+.chips button, .stepchips button{min-height:24px; min-width:24px}
+.stepchips button .capnote{display:block; font-size:.78rem; color:var(--muted); margin-top:2px}
+.stepchips button.full:disabled{opacity:1; background:var(--surface-2); color:var(--ink-2); border-style:dashed}
+.stepchips button.full .capnote{color:var(--ink-2)}
+#lc-score{margin:0}
+.ls-mapfoot button.ls-all2{min-height:24px; min-width:24px}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -329,7 +340,7 @@ table.ice tr.pend td{color:var(--muted)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -341,7 +352,7 @@ table.ice tr.pend td{color:var(--muted)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -477,6 +488,7 @@ table.ice tr.pend td{color:var(--muted)}
       <label class="switch"><input type="checkbox" id="lc-predict" checked><span>Predict before you see it</span></label>
       <div class="chipgrp"><span>Make a change</span><div class="stepchips" id="lc-changes"></div></div>
       <div class="btnrow"><button class="btn" id="lc-reset">Start again</button></div>
+      <p class="hint" id="lc-score"></p>
       <p class="hint" id="lc-model" style="margin:0"></p>
     </div>
     <div class="stack">
@@ -599,7 +611,7 @@ table.ice tr.pend td{color:var(--muted)}
   <div class="sechead">
     <span class="eyebrow">Plant · <span class="nc">9476 9(g)</span></span>
     <h2>The Haber process</h2>
-    <p>N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ⇌ 2NH<sub>3</sub>(g) &nbsp; Δ<i>H</i> = −92 kJ mol<sup>−1</sup>. Set the conditions and see the trade-offs. Equilibrium figures use a stated model: ideal gases, a 1 : 3 feed and the <span class="src lit">literature</span> Gillespie–Beattie <i>K</i><sub>p</sub>(<i>T</i>).</p>
+    <p>N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ⇌ 2NH<sub>3</sub>(g) &nbsp; Δ<i>H</i> = −92 kJ mol<sup>−1</sup> <span class="src lit">literature</span>. Set the conditions and see the trade-offs. Equilibrium figures use a stated model: ideal gases, a 1 : 3 feed and the <span class="src lit">literature</span> Gillespie–Beattie <i>K</i><sub>p</sub>(<i>T</i>).</p>
   </div>
   <div class="grid2">
     <div class="panel controls">
@@ -660,7 +672,7 @@ table.ice tr.pend td{color:var(--muted)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 9 Chemical Equilibria</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>R</i> and bond energies from the Data Booklet · Δ<i>H</i>, Δ<i>S</i> and <i>K</i><sub>p</sub>(<i>T</i>) for N<sub>2</sub>O<sub>4</sub> and NH<sub>3</sub> are literature values · worked-example and generator data are illustrative</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 24/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -770,15 +782,63 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(kPa\^?-?\d*|mol.*|dm.*|atm|kJmol\^?-1|kJ\/mol|kJ|K|J|°C|%)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+// ---------- typed answers: a number plus an optional unit ----------
+// A unit typed after the number is read into the form the unit menu prints (mol⁻² dm⁶, kPa⁻¹, no units, mol, ...); any spelling is accepted:
+// kPa^-1, kPa-1, kPa⁻¹, mol-1 dm3, dm3 mol-1, dm³/mol, mol^2 dm^-6, no units, none. A recognised unit that is not a K unit comes back as another string.
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitOf(raw){
+  let t = String(raw).toLowerCase().replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013]/g, "-")
+    .replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, m => "^" + [...m].map(c => SUPASC[c]).join("")).replace(/[·⋅*]/g, " ").replace(/\s*\^\s*/g, "^").replace(/\s*\/\s*/g, "/");
+  if (/^(no ?units?|none|dimensionless|unitless)$/.test(t.replace(/\s+/g, " "))) return "no units";
+  const parts = t.split("/");
+  if (parts.length > 2) return null;
+  const ex = {};
+  for (let k = 0; k < parts.length; k++){
+    const s = parts[k].replace(/\s+/g, "");
+    if (!s) return null;
+    const re = /(mol|dm|kpa|atm|bar|pa|cm|g|l)(?:\^?([-+]?\d+))?/y;
+    let pos = 0;
+    while (pos < s.length){
+      re.lastIndex = pos; const m = re.exec(s);
+      if (!m) return null;
+      pos = re.lastIndex; const p = m[2] == null ? 1 : +m[2];
+      ex[m[1]] = (ex[m[1]] || 0) + (k ? -p : p);
+    }
+  }
+  const keys = Object.keys(ex).filter(x => ex[x] !== 0);
+  if (!keys.length) return "no units";
+  if (keys.length === 1 && keys[0] === "kpa") return unitP(ex.kpa);
+  if (keys.length === 2 && ex.mol && ex.dm === -3 * ex.mol) return unitC(ex.mol);
+  if (keys.length === 1 && keys[0] === "mol" && ex.mol === 1) return "mol";
+  return "other:" + keys.map(x => x + ex[x]).join(" ");
 }
+// allowed: the question's unit as a list of menu strings (e.g. ["mol"]), [] (or ["no units"]) for a plain number, null to accept (and report) any recognised unit.
+// Returns { value, unit? } or { error, kind }. kind "empty" and "nan" are not answers at all; "unit" and "comma" are entries to fix.
+function parseAnswer(str, allowed){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  const t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const bad = { error: "Type an answer first: a number such as 50.3, 0.00125 or 1.5e-8.", kind: "nan" };
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  const m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:[, ]\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i"));
+  if (!m) return bad;
+  const mantS = m[2].replace(/[, ]/g, ""), mant = parseFloat(mantS);
+  const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+  let val = e != null ? parseFloat(mantS + "e" + e) : mant;
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return bad;
+  const rest = m[6].trim();
+  if (!rest) return { value: val };
+  const u = unitOf(rest);
+  if (!u) return bad;
+  const al = allowed == null ? null : allowed.length ? allowed : ["no units"];
+  if (al == null || al.includes(u)) return { value: val, unit: u };
+  return { unit: u, kind: "unit", error: al[0] === "no units" ? "Check the unit: this answer is a plain number, with no unit." : `Check the unit: this answer is in ${al[0]}.` };
+}
+LAB.parseAnswer = parseAnswer;
+// the old name: a number with any recognised unit tolerated (the unit is not checked); NaN when there is no number
+function parseNum(s){ const r = parseAnswer(s, null); return r.value != null ? r.value : NaN; }
 LAB.parseNum = parseNum;
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
@@ -825,7 +885,7 @@ const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" styl
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* =====================================================
-   DATA (exactly as DATA.md, issue 13/10/26)
+   DATA (constants, the Haber table and the N₂O₄ model)
    ===================================================== */
 const R_GAS = 8.31;                       // J K⁻¹ mol⁻¹ (Data Booklet)
 const KC_HI = 50.3;                       // H₂ + I₂ ⇌ 2HI at 731 K (WE1, illustrative; literature about 50)
@@ -1163,6 +1223,9 @@ function eqSolve(sys, c, T){
 }
 LAB.eqSolve = eqSolve;
 // the changes: label, which systems, apply(state) → immediate state (or null if not possible)
+// a test tube holds no more than six additions (3.0 cm³) of each reagent
+const ADD_MAX = 6;
+const adds = (s, id) => (s.ad && s.ad[id]) || 0;
 const CHG = {
   in: { t: "Push the plunger in (halve the volume)", ok: s => s.V / 2 >= 25, app: s => ({ ...s, V: s.V / 2, c: s.c.map(x => x * 2) }) },
   out: { t: "Pull the plunger out (double the volume)", ok: s => s.V * 2 <= 100, app: s => ({ ...s, V: s.V * 2, c: s.c.map(x => x / 2) }) },
@@ -1172,8 +1235,8 @@ const CHG = {
   arV: { t: "Add argon, plunger clamped (constant volume)", fex: true, ok: () => true, app: s => ({ ...s, ar: s.ar + (s.c[0] + s.c[1]) * s.V / 1000 }) },
   arP: { t: "Add argon, plunger free (constant total pressure)", fex: true, ok: s => { const ng = (s.c[0] + s.c[1]) * s.V / 1000, nt = ng + s.ar; return s.V * (nt + ng) / nt <= 100.5; },
     app: s => { const ng = (s.c[0] + s.c[1]) * s.V / 1000, nt = ng + s.ar, V2 = s.V * (nt + ng) / nt; return { ...s, ar: s.ar + ng, V: V2, c: s.c.map(x => x * s.V / V2) }; } },
-  fe: { t: "Add a few drops of FeCl₃(aq) (more Fe³⁺)", ok: s => s.V + 0.5 <= 40, app: s => { const V2 = s.V + 0.5, n = s.c.map(x => x * s.V); n[0] += 0.050 * 0.5; return { ...s, V: V2, c: n.map(x => x / V2) }; } },
-  scn: { t: "Add a few drops of KSCN(aq) (more SCN⁻)", ok: s => s.V + 0.5 <= 40, app: s => { const V2 = s.V + 0.5, n = s.c.map(x => x * s.V); n[1] += 0.050 * 0.5; return { ...s, V: V2, c: n.map(x => x / V2) }; } },
+  fe: { t: "Add a few drops of FeCl₃(aq) (more Fe³⁺)", cap: true, ok: s => adds(s, "fe") < ADD_MAX && s.V + 0.5 <= 40, app: s => { const V2 = s.V + 0.5, n = s.c.map(x => x * s.V); n[0] += 0.050 * 0.5; return { ...s, V: V2, c: n.map(x => x / V2), ad: { ...(s.ad || {}), fe: adds(s, "fe") + 1 } }; } },
+  scn: { t: "Add a few drops of KSCN(aq) (more SCN⁻)", cap: true, ok: s => adds(s, "scn") < ADD_MAX && s.V + 0.5 <= 40, app: s => { const V2 = s.V + 0.5, n = s.c.map(x => x * s.V); n[1] += 0.050 * 0.5; return { ...s, V: V2, c: n.map(x => x / V2), ad: { ...(s.ad || {}), scn: adds(s, "scn") + 1 } }; } },
   water: { t: "Add water (double the volume)", ok: s => s.V * 2 <= 40, app: s => ({ ...s, V: s.V * 2, c: s.c.map(x => x / 2) }) },
   hcl: { t: "Add concentrated HCl (more Cl⁻)", ok: s => s.V + 2 <= 30, app: s => { const V2 = s.V + 2, n = s.c.map(x => x * s.V); n[1] += 12.0 * 2; return { ...s, V: V2, c: n.map(x => x / V2) }; } },
   cowater: { t: "Add water", ok: s => s.V + 5 <= 30, app: s => { const V2 = s.V + 5; return { ...s, V: V2, c: s.c.map(x => x * s.V / V2) }; } },
@@ -1273,7 +1336,7 @@ function lcRead(){
   let h = S.sp.filter(s => EPS[s.e].some(x => x > 0) || LC.sys !== "n2o4").map((s, i) => `<div class="stat"><div class="l">${H(brk(s.f))} / mol dm<sup>−3</sup></div><div class="v">${H(cFmt(now.c[S.sp.indexOf(s)]))}</div></div>`).join("");
   if (LC.sys === "n2o4") h = S.sp.map((s, i) => `<div class="stat"><div class="l">${H("p(" + s.f + ")")} / kPa</div><div class="v">${sf(now.c[i] * RT(now.T), 3)}</div></div>`).join("") + `<div class="stat"><div class="l">[NO<sub>2</sub>] / mol dm<sup>−3</sup></div><div class="v">${sf(now.c[1], 3)}</div></div>`;
   h += `<div class="stat" id="lc-K"><div class="l">${H(K.lab)}${K.ill ? " (illustrative)" : ""} / ${H(K.u)}</div><div class="v">${H(sci(K.v, 3))}</div><div class="l">changes only with temperature</div></div>`;
-  h += `<div class="stat" id="lc-Q"><div class="l">Q (beyond the syllabus)</div><div class="v">${H(sci(Q, 3))}</div><div class="l">${Math.abs(Q / K.v - 1) < 0.005 ? "= K: at equilibrium" : Q < K.v ? "less than K: forward reaction faster" : "greater than K: reverse reaction faster"}</div></div>`;
+  h += `<div class="stat" id="lc-Q"><div class="l">Ratio now, to compare with <i>K</i> (its name, Q, is beyond the syllabus)</div><div class="v">${H(sci(Q, 3))}</div><div class="l">${Math.abs(Q / K.v - 1) < 0.005 ? "= K: at equilibrium" : Q < K.v ? "less than K: forward reaction faster" : "greater than K: reverse reaction faster"}</div></div>`;
   $("lc-read").innerHTML = h;
 }
 function lcGraph(){
@@ -1300,7 +1363,7 @@ function lcExplain(id, r){
   const S = SYS[LC.sys], pc = r.prev.c, ic = r.imm.c, fc = r.fin.c, T0 = r.prev.T, T1 = r.imm.T;
   const K1 = S.Kshow(T1), Q1 = S.Qshow(ic, T1), K0 = S.Kshow(T0);
   const Kt = `${H(K1.lab)} = ${H(sci(K1.v, 3))} ${H(K1.u)}`;
-  const qline = `Q = ${H(sci(Q1, 3))} (beyond the syllabus)`;
+  const qline = `the ratio is now ${H(sci(Q1, 3))} ${H(K1.u)}`;
   const L = [];
   const kSame = `${H(K1.lab)} is unchanged (${H(sci(K1.v, 3))} ${H(K1.u)}): the temperature has not changed, and only a change in temperature changes K.`;
   if (id === "in"){
@@ -1346,14 +1409,14 @@ function lcExplain(id, r){
     L.push(`<b>Le Chatelier:</b> adding water dilutes every ion, so the position shifts to the side with more dissolved ions: <b>left</b> (1 + 4 = 5 ions on the left, 1 on the right). The solution turns pinker.`);
     L.push(`<b>Using K:</b> diluting by a factor f divides the top of [CoCl₄²⁻] / ([Co(H₂O)₆²⁺][Cl⁻]⁴) by f but the bottom by f⁵, so the ratio rises above K{c} (${qline}). The reverse reaction goes faster until the ratio is back to K{c}. ${kSame}`);
   }
-  return `<span class="eyebrow">What happened · <span class="nc">${H(CHG[id].t)}</span></span><ul class="notes">${L.map(x => `<li>${TX(x)}</li>`).join("")}</ul>`;
+  return `<span class="eyebrow">What happened · <span class="nc">${H(CHG[id].t)}</span></span><ul class="notes">${L.map(x => `<li>${TX(x)}</li>`).join("")}</ul><p class="hint" style="margin:0">Arguing from this ratio is part of the syllabus. Only its name, the reaction quotient Q, is beyond it.</p>`;
 }
 LAB.lcExplain = lcExplain;
 
 /* ---- flow: pick a change → predict → run ---- */
 function lcChanges(){
   const S = SYS[LC.sys];
-  $("lc-changes").innerHTML = S.changes.map(id => `<button type="button" data-c="${id}"${CHG[id].ok(LC.st) ? "" : " disabled"}>${CHG[id].fex ? FEX : ""}${H(CHG[id].t)}</button>`).join("");
+  $("lc-changes").innerHTML = S.changes.map(id => { const full = CHG[id].cap && adds(LC.st, id) >= ADD_MAX; return `<button type="button" data-c="${id}"${full ? ' class="full"' : ""}${CHG[id].ok(LC.st) ? "" : " disabled"}>${CHG[id].fex ? FEX : ""}${H(CHG[id].t)}${full ? `<span class="capnote">The test tube is full: it holds no more than ${(ADD_MAX * 0.5).toFixed(1)} cm³ of this solution.</span>` : ""}</button>`; }).join("");
   $("lc-changes").querySelectorAll("button").forEach(b => b.onclick = () => lcStart(b.dataset.c));
 }
 function lcStart(id){
@@ -1374,6 +1437,7 @@ function lcStart(id){
   } else lcRun(null);
 }
 function lcRun(pred){
+  if (!LC.pending) return;
   const { id, r } = LC.pending; LC.pending = null;
   $("lc-pred").hidden = true;
   const fb = $("lc-pfb");
@@ -1381,7 +1445,8 @@ function lcRun(pred){
     const a = pred.shift === r.shift, b = pred.k === r.kdir;
     LC.score[0] += (a ? 1 : 0) + (b ? 1 : 0); LC.score[1] += 2;
     fb.className = "fb " + (a && b ? "ok" : "no");
-    fb.innerHTML = `<p><b>Position: ${a ? "right" : "not quite"}.</b> It ${word[r.shift]}.${a ? "" : ` You said it ${word[pred.shift]}.`}</p><p><b>${H("K")}: ${b ? "right" : "not quite"}.</b> ${kword[r.kdir].replace("K", "<i>K</i>")}.${b ? "" : ` You said ${kword[pred.k].replace("K", "<i>K</i>")}.`}</p><p class="ink" style="font-size:.82rem">Predictions so far: ${LC.score[0]} / ${LC.score[1]} right.</p>`;
+    fb.innerHTML = `<p><b>Position: ${a ? "right" : "not quite"}.</b> It ${word[r.shift]}.${a ? "" : ` You said it ${word[pred.shift]}.`}</p><p><b>${H("K")}: ${b ? "right" : "not quite"}.</b> ${kword[r.kdir].replace("K", "<i>K</i>")}.${b ? "" : ` You said ${kword[pred.k].replace("K", "<i>K</i>")}.`}</p>`;
+    lcScore();
     fb.hidden = false;
   } else {
     fb.className = "fb info"; fb.innerHTML = `<p>The position of equilibrium ${word[r.shift]}; ${kword[r.kdir].replace("K", "<i>K</i>")}.</p>`; fb.hidden = false;
@@ -1394,6 +1459,7 @@ function lcRun(pred){
   const step = ts => { LC.frac = Math.min(1, (ts - t0) / dur); lcAll(); if (LC.frac < 1) LC.anim = requestAnimationFrame(step); };
   LC.anim = requestAnimationFrame(step);
 }
+function lcScore(){ $("lc-score").textContent = LC.score[1] ? `Predictions right: ${LC.score[0]} of ${LC.score[1]} (position and K each count)` : ""; }
 LAB.lcRun = (id, pred) => { lcStart(id); if (LC.pending) lcRun(pred || null); };
 LAB.lcPredictRun = (id, shift, k) => { lcStart(id); LC.pick = { shift, k }; lcRun(LC.pick); };
 function lcSetSys(k){
@@ -1443,7 +1509,7 @@ function bindBench(){
     `<article class="panel card"><h3>${FEX}Adding an inert gas</h3><div class="kind">9476 9(b) · try the two argon changes on the N<sub>2</sub>O<sub>4</sub> syringe</div>
       <p><b>At constant volume:</b> the total pressure rises, but the partial pressures of the reacting gases do not change, so there is <b>no shift</b>.</p>
       <p><b>At constant total pressure:</b> the volume must increase, so the partial pressures of the reacting gases fall. This is <b>like lowering the pressure</b>: the position shifts to the side with more gas molecules.</p>
-      <p>Either way <i>K</i> is unchanged. In the Haber process, argon and methane in the recycle loop lower the partial pressures of N<sub>2</sub> and H<sub>2</sub>, which is why a purge is needed.</p></article>`,
+      <p>Either way <i>K</i> is unchanged.</p></article>`,
     `<article class="panel card"><h3>Summary: what moves the position, what changes <i>K</i></h3><div class="kind">9476 9(b)(c)</div>
       <div class="tblwrap"><table class="data"><thead><tr><th>Change</th><th>Position of equilibrium</th><th><i>K</i></th></tr></thead><tbody>
       <tr><td>Add a reactant or remove a product</td><td>right</td><td>unchanged</td></tr>
@@ -1456,7 +1522,7 @@ function bindBench(){
 }
 
 /* =====================================================
-   3. ICE TABLE WORKBENCH (WE1 to WE6 of Part 1, values exactly as DATA.md)
+   3. ICE TABLE WORKBENCH (WE1 to WE6 of Part 1)
    Each step may reveal one table row (r) and adds working lines (w).
    ===================================================== */
 const ASIDE = t => `<span class="aside">(${t})</span>`;
@@ -1573,7 +1639,7 @@ const KX = [
   { r: [[1, "CH₃COOH", "l"], [1, "C₂H₅OH", "l"]], p: [[1, "CH₃COOC₂H₅", "l"], [1, "H₂O", "l"]], liq: true, note: "All four are liquids in one mixture, so all four appear, water included (it is a product here, not the solvent). No gases, so no K{p}." },
   { r: [[1, "Fe³⁺", "aq"], [1, "SCN⁻", "aq"]], p: [[1, "[Fe(SCN)]²⁺", "aq"]], note: "Ions in solution: K{c} only." },
   { r: [[1, "[Co(H₂O)₆]²⁺", "aq"], [4, "Cl⁻", "aq"]], p: [[1, "[CoCl₄]²⁻", "aq"], [6, "H₂O", "l", false, "the solvent"]], note: "Water is the solvent of a dilute solution, so it is left out." },
-  { r: [[1, "CH₄", "g"], [1, "H₂O", "g"]], p: [[1, "CO", "g"], [3, "H₂", "g"]], note: "Steam reforming (hydrogen for the Haber process). Here water is steam, a gas, so it is included." }
+  { r: [[1, "CO", "g"], [2, "H₂", "g"]], p: [[1, "CH₃OH", "g"]], fex: true, note: "Methanol synthesis. At plant temperatures methanol is a gas, so it is included." }
 ];
 const sideStr = L => L.map(([n, f, s]) => (n === 1 ? "" : n) + f + "(" + s + ")").join(" + ");
 KX.forEach(k => { k.eq = sideStr(k.r) + " ⇌ " + sideStr(k.p); });
@@ -1657,6 +1723,24 @@ function bindExpr(){
    5. CALCULATION GENERATOR (no quadratics; illustrative data)
    Every question keeps its data in q.p so the test suite can recompute the answer.
    ===================================================== */
+/* ---------- data kept out of the generated questions ----------
+   The page holds only opaque hashes of the excluded data sets (made when the page is built); a draw whose data hash into the set is drawn again. */
+const RESH = new Set(["1005nem", "14em772", "17k0qn", "18wkir3", "19v3oe6", "3ggrzm", "9w0rnk", "crinn", "eua1fb", "lfmncz", "r00v2d", "x0n7jp"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const kn = x => String(+(+x).toPrecision(12));
+function resKey(q){
+  const p = q.p, t = q.type;
+  if (t === "kc1") return `kc1:${p.id}:${kn(p.V)}:${p.n.map(kn).join(",")}`;
+  if (t === "kc2") return `kc2:${p.id}:${kn(p.V)}:${p.n0.map(kn).join(",")}:${kn(p.eqAmt)}`;
+  if (t === "sqrt") return `sqrt:${p.id}:${kn(p.K)}:${kn(p.a)}`;
+  if (t === "kp1") return `kp1:${p.id}:${p.n.map(kn).join(",")}:${kn(p.P)}`;
+  if (t === "kp2") return `kp2:${p.id}:${kn(p.al)}:${kn(p.P)}`;
+  if (t === "kp3") return `kp3:${p.id}:${kn(p.K)}:${kn(p.P)}`;
+  return `man:${kn(p.K)}:${p.kind}:${p.pw}:${p.op}`;
+}
+const resHit = q => RESH.has(fnv(resKey(q)));
+
+
 const GS = {
   hi: { eq: "H₂(g) + I₂(g) ⇌ 2HI(g)", sp: [["H₂", -1], ["I₂", -1], ["HI", 2]] },
   so3: { eq: "2SO₂(g) + O₂(g) ⇌ 2SO₃(g)", sp: [["SO₂", -2], ["O₂", -1], ["SO₃", 2]] },
@@ -1843,8 +1927,10 @@ function genMan(){
   const v = Math.pow(M.K, f), pw = M.pw * f, u = M.kind === "c" ? unitC(pw) : unitP(pw);
   const uBase = M.kind === "c" ? unitC(M.pw) : unitP(M.pw);
   const ans = ansN(v, M.n, u);
-  const alts = [{ v: 1 / v, msg: "Check which way up: is the new equation the reverse of the one given?" }];
-  if (op !== "rev") alts.push({ v: Math.pow(M.K, -f), msg: "Right power, wrong way up." });
+  const alts = op === "rev" ? [{ v: 1 / v, msg: "Check which way up: is the new equation the reverse of the one given?" }] : [{ v: 1 / v, msg: "Right power, wrong way up." }];
+  if (op === "half") alts.push({ v: M.K / 2, msg: "Halving the coefficients takes the square root of K: K is not halved." });
+  if (op === "revhalf") alts.push({ v: 2 / M.K, msg: "Halving the coefficients takes the square root of K: K is not halved." });
+  if (op === "dbl") alts.push({ v: 2 * M.K, msg: "Doubling the coefficients squares K: K is not doubled." });
   return { type: "man", ans, units: M.kind === "c" ? UNITS_C : UNITS_P, label: M.lab + "′", p: { K: M.K, op, kind: M.kind, pw: M.pw, n: M.n },
     text: `For {{${M.base}}}, ${M.lab} = ${sci(M.K, M.n)}${uBase === "no units" ? "" : " " + uBase} ${M.note}. Calculate ${M.lab} for {{${eq2}}} at the same temperature, with its units.`,
     alts, fmt: `${M.n} significant figures`,
@@ -1853,32 +1939,48 @@ function genMan(){
       `Units: the old units raised to the same power: (${uBase === "no units" ? "none" : uBase})${op === "rev" ? "⁻¹" : op === "dbl" ? "²" : op === "half" ? "^½" : "^−½"} → ${u}.`] };
 }
 const GENS = { kc1: genKc1, kc2: genKc2, sqrt: genSqrt, kp1: genKp1, kp2: genKp2, kp3: genKp3, man: genMan };
-/* Every hint must be reachable. An alternative (wrong-route) value that falls within the marking tolerance of the
-   right answer is marked correct, and one within the tolerance of an earlier alternative is shadowed by it.
-   Either way its hint can never show, so draw the question again (18/10/26). */
+/* Wrong-route hints. "Close" (within 5 % of the answer) is tested before any hint, so a hint inside that band could never show: a hint is kept only if it
+   lies at least 5.5 % from the answer (the 5 % band plus the slack of a value typed to 3 s.f.; this includes everything within 3 %), and a later hint
+   is dropped if it lies within 2.5 % of an earlier one. Every hint that remains is reachable and brings up its own message. */
+const CLOSE = 0.05, HINT_FAR = 0.055, HINT_GAP = 0.025;
 const altTol = v => Math.max(lastUnit(v, 3), 0.01 * Math.abs(v));
-function hintsDistinct(q){
-  const a = q.ans.v, ta = q.ans.tol * 1.0001, al = q.alts || [];
-  return al.every((x, i) => Math.abs(x.v - a) > ta + altTol(x.v) && al.slice(0, i).every(y => Math.abs(x.v - y.v) > altTol(x.v) + altTol(y.v)));
+function cleanAlts(q){
+  const a = q.ans.v, out = [];
+  (q.alts || []).forEach(al => {
+    if (!isFinite(al.v) || al.v === 0) return;
+    if (a !== 0 && Math.abs(al.v / a - 1) < HINT_FAR) return;
+    if (out.some(o => Math.abs(al.v / o.v - 1) < HINT_GAP)) return;
+    out.push(al);
+  });
+  q.alts = out;
+  return q;
 }
-LAB.hintsDistinct = hintsDistinct;
+function hintsDistinct(q){
+  const a = q.ans.v, al = q.alts || [];
+  return al.every((x, i) => Math.abs(x.v / a - 1) >= HINT_FAR && al.slice(0, i).every(y => Math.abs(x.v / y.v - 1) >= HINT_GAP));
+}
+LAB.hintsDistinct = hintsDistinct; LAB.cleanAlts = cleanAlts;
 for (const k of Object.keys(GENS)){
   const raw = GENS[k];
-  GENS[k] = () => { let q; for (let i = 0; i < 200; i++){ q = raw(); if (hintsDistinct(q)) return q; } return q; };
+  GENS[k] = () => { let q, n = 0; do { q = cleanAlts(raw()); n++; } while (n < 200 && resHit(q)); return q; };
 }
 LAB.GENS = GENS;
-const GN = { type: "kc1", q: null, right: 0, tried: 0 };
+const GN = { type: "kc1", q: null, right: 0, tried: 0, graded: false, firstOk: null };
 LAB.GN = GN;
 function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; return GENS[tt](); }
+// One answer box: the number, with the unit typed after it or chosen from the menu (a unit typed after the number is the one used).
+// Returns { ok } or { ok: false, msg }; entry: true means there is nothing to grade yet (blank, unreadable, a unit to fix, no unit chosen), so it is not scored.
 function gnGrade(q, s, unit){
-  const v = parseNum(s);
-  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 50.3, 0.00125 or 1.5e-8 (or 1.5 × 10^-8)." };
+  const pr = parseAnswer(s, q.units ? null : [q.fixedUnit]);
+  if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };
+  const v = pr.value, eu = pr.unit || unit;
+  if (q.units && !eu) return { ok: false, msg: "Choose the units too (or “no units”).", entry: true, kind: "choose" };
   const a = q.ans.v, tol = q.ans.tol * 1.0001;
   const numOk = Math.abs(v - a) <= tol;
-  if (numOk && q.units && unit !== q.ans.unit) return { ok: false, msg: unit === "no units" ? "The number is right, but this K has units: work them out from the expression." : q.ans.unit === "no units" ? "The number is right, but this K has no units: they cancel." : "The number is right; check the units: (unit) raised to the power (top minus bottom)." };
+  if (numOk && q.units && eu !== q.ans.unit) return { ok: false, msg: eu === "no units" ? "The number is right, but this K has units: work them out from the expression." : q.ans.unit === "no units" ? "The number is right, but this K has no units: they cancel." : "The number is right; check the units: (unit) raised to the power (top minus bottom)." };
   if (numOk) return { ok: true };
+  if (a !== 0 && Math.abs(v / a - 1) < CLOSE) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
   for (const al of q.alts || []) if (Math.abs(v - al.v) <= altTol(al.v)) return { ok: false, msg: al.msg };
-  if (a !== 0 && Math.abs(v / a - 1) < 0.05) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }
 LAB.gnGrade = gnGrade; LAB.genQ = genQ;
@@ -1889,22 +1991,27 @@ function gnRender(){
   $("gn-lab").innerHTML = H(q.label + (q.units ? "" : q.fixedUnit === "no units" ? "" : " / " + q.fixedUnit));
   $("gn-ufield").hidden = !q.units;
   if (q.units) $("gn-unit").innerHTML = `<option value="">choose…</option>` + q.units.map(u => `<option value="${u}">${u}</option>`).join("");
-  $("gn-fmt").innerHTML = H(`Answer to ${q.fmt}${q.units ? ", and choose the units" : q.fixedUnit === "no units" ? " (no units)" : `, in ${q.fixedUnit}`}. Very large or small numbers: type 1.5e-8 or 1.5 × 10^-8.`);
+  $("gn-fmt").innerHTML = H(`Answer to ${q.fmt}${q.units ? ", and choose the units (or type them after the number)" : q.fixedUnit === "no units" ? " (no units)" : `, in ${q.fixedUnit}`}. Very large or small numbers: type 1.5e-8 or 1.5 × 10^-8.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  GN.graded = false; GN.firstOk = null;   // a new question is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
-  const q = GN.q;
-  if (q.units && !$("gn-unit").value && !isNaN(parseNum($("gn-ans").value))){ const fb = $("gn-fb"); fb.className = "fb warn"; fb.innerHTML = "Choose the units too (or “no units”)."; fb.hidden = false; return; }
-  const r = gnGrade(q, $("gn-ans").value, $("gn-unit").value), fb = $("gn-fb");
-  GN.tried++; if (r.ok) GN.right++;
+  const q = GN.q, fb = $("gn-fb"), r = gnGrade(q, $("gn-ans").value, $("gn-unit").value);
+  if (r.entry){   // nothing to grade yet: say so and do not score
+    $("gn-ans").setAttribute("aria-invalid", r.kind === "choose" ? "false" : "true"); $("gn-ans").classList.remove("ok");
+    fb.className = "fb warn"; fb.innerHTML = H(r.msg); fb.hidden = false;
+    return;
+  }
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fb.className = "fb " + (r.ok ? "ok" : "no");
-  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.ans.unit === "no units" ? " (no units)" : " " + q.ans.unit}.`) : H(r.msg);
+  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.ans.unit === "no units" ? " (no units)" : " " + q.ans.unit}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
   fb.hidden = false;
   $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
 }
+LAB.gnCheck = gnCheck;
 function bindGN(){
   document.querySelectorAll("#gn-tabs button").forEach(b => b.onclick = () => { GN.type = b.dataset.type; GN.q = genQ(GN.type); gnRender(); });
   $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
@@ -1917,7 +2024,7 @@ LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); }
 
 /* =====================================================
    6. HABER PLANT
-   Equilibrium: ideal gases, 1 : 3 feed, Gillespie–Beattie Kp(T) (DATA.md).
+   Equilibrium: ideal gases, 1 : 3 feed, Gillespie–Beattie Kp(T).
    Rate and output: illustrative Arrhenius model only.
    ===================================================== */
 const HB = { T: 450, P: 200, cat: true, rec: true };
@@ -1930,6 +2037,19 @@ function hbRate(tC, P, cat){ const Tk = tC + 273, Ea = (cat ? EA_CAT : EA_UNCAT)
 const fEq = (tC, P) => { const y = yNH3(tC, P); return 2 * y / (1 + y); };
 function hbOut(tC, P, cat){ return fEq(tC, P) * (1 - Math.exp(-hbRate(tC, P, cat) * TAU)); }
 LAB.hbRate = hbRate; LAB.hbOut = hbOut;
+// the temperature (5 °C steps) that makes the most NH₃ per hour at this pressure: used by the read-out label and by the note under the trade-off chart
+const HB_TS = []; for (let t = 300; t <= 550; t += 5) HB_TS.push(t);
+function hbBest(P, cat){
+  let best = HB_TS[0], mx = -1;
+  for (const t of HB_TS){ const o = hbOut(t, P, cat); if (o > mx){ mx = o; best = t; } }
+  return { best, max: mx };
+}
+LAB.hbBest = hbBest;
+// where the chosen temperature sits against the best one: "near" when the output is at least 90 % of the maximum at this pressure
+function hbWhere(T, P, cat){
+  const { best, max } = hbBest(P, cat), o = hbOut(T, P, cat);
+  return { best, where: o >= 0.9 * max ? "near" : T < best ? "below" : "above" };
+}
 // a value label on a solid background box so chart lines never run through it
 function boxLabel(x, y, text, end, cls){
   const w = String(text).replace(/[₀-₉]/g, "").length * 6.4 + 10, x0 = end ? x - w : x;
@@ -1939,14 +2059,14 @@ const HB_SER = [[50, "--c6", "2 3"], [100, "--s3", "7 3"], [200, "--s1", null], 
 function hbRead(){
   const y = yNH3(HB.T, HB.P) * 100, Kp = kpHaber(HB.T + 273), Pk = HB.P * ATM_KPA;
   const r = hbRate(HB.T, HB.P, HB.cat), out = hbOut(HB.T, HB.P, HB.cat) / hbOut(450, 200, true) * 100;
-  const cost = HB.P / 400, costW = HB.P <= 150 ? "moderate" : HB.P <= 250 ? "high" : "very high";
+  const bw = hbWhere(HB.T, HB.P, HB.cat), cost = HB.P / 400, costW = HB.P <= 150 ? "moderate" : HB.P <= 250 ? "high" : "very high";
   $("hb-To").textContent = `${HB.T} °C (${HB.T + 273} K)`;
   $("hb-Po").innerHTML = `${HB.P} atm (${H(sci(Pk, 2))} kPa)`;
   $("hb-read").innerHTML =
     `<div class="stat" id="hb-y"><div class="l">Equilibrium NH<sub>3</sub> (model)</div><div class="v">${y.toFixed(1)} %</div><div class="l">by volume</div></div>` +
     `<div class="stat"><div class="l"><i>K</i><sub>p</sub> at ${HB.T} °C <span class="src lit">literature</span></div><div class="v">${H(sci(Kp, 2))} atm<sup>−2</sup></div><div class="l">${H(sci(Kp / ATM_KPA / ATM_KPA, 2))} kPa<sup>−2</sup></div></div>` +
     `<div class="stat" id="hb-r"><div class="l">Rate (illustrative, 1.00 at 450 °C, 200 atm, iron)</div><div class="v">${r >= 0.01 ? r.toFixed(2) : H(sci(r, 2))}</div><div class="l">${HB.cat ? (HB.T < 400 ? "slow: the iron catalyst works well only from about 400 °C" : "fast enough") : "far too slow without the catalyst"}</div></div>` +
-    `<div class="stat" id="hb-o"><div class="l">NH<sub>3</sub> made per hour (illustrative, 100 at 450 °C, 200 atm)</div><div class="v">${out >= 0.1 ? out.toFixed(0) : "≈ 0"}</div><div class="l">${out < 0.1 ? "almost none: the reaction is too slow" : HB.T < 400 ? "low: good yield but slow" : HB.T > 470 ? "falling: fast but little NH₃ at equilibrium" : "near the best compromise"}</div></div>` +
+    `<div class="stat" id="hb-o"><div class="l">NH<sub>3</sub> made per hour (illustrative, 100 at 450 °C, 200 atm)</div><div class="v">${out >= 0.1 ? out.toFixed(0) : "≈ 0"}</div><div class="l">${out < 0.1 ? "almost none: the reaction is too slow" : bw.where === "below" ? "below the best: good yield but slow" : bw.where === "above" ? "above the best: fast but little NH₃ at equilibrium" : `near the best (about ${bw.best} °C at ${HB.P} atm)`}</div></div>` +
     `<div class="stat wide" id="hb-c"><div class="l">Cost and hazard of the pressure (illustrative)</div><div class="meter" aria-hidden="true"><i style="width:${(cost * 100).toFixed(0)}%;background:${HB.P > 250 ? "var(--warn)" : "var(--s1)"}"></i></div><div class="l">${costW}${HB.P > 250 ? " (warning): compressors, energy and thick-walled plant cost more, and leaks are more dangerous" : ": compressors and energy cost more as the pressure rises"}</div></div>` +
     `<div class="stat wide" id="hb-rc"><div class="l">${HB.rec ? "With recycling" : "Without recycling"}</div><div class="v" style="font-family:var(--sans);font-weight:500">${HB.rec ? "about 98 % of the N₂ and H₂ is converted overall" : "only about 15 % is converted in one pass; the rest would be wasted"}</div><div class="l">Typical plant figures. About 15 % is converted on each pass through the converter, because the gases do not stay long enough to reach equilibrium.</div></div>`;
 }
@@ -1964,10 +2084,10 @@ function hbChart(){
   $("hb-leg").innerHTML = legendHTML(HB_SER.map(([P, col, dash]) => ({ col: C(col), dash, t: `${P} atm` })).concat(extra ? [{ col: C("--ink"), dash: "1 3", t: `${HB.P} atm (your setting)`, w: 1.6 }] : []));
 }
 function hbTrade(){
-  const C = n => cssVar(n), ts = []; for (let t = 300; t <= 550; t += 5) ts.push(t);
+  const C = n => cssVar(n), ts = HB_TS;
   const yv = ts.map(t => yNH3(t, HB.P)), rv = ts.map(t => hbRate(t, HB.P, HB.cat)), ov = ts.map(t => hbOut(t, HB.P, HB.cat));
   const ymax = Math.max(...yv), rmaxC = Math.max(...ts.map(t => hbRate(t, HB.P, true))), omaxC = Math.max(...ts.map(t => hbOut(t, HB.P, true)));
-  const best = ts[ov.indexOf(Math.max(...ov))];
+  const best = hbBest(HB.P, HB.cat).best;
   lineChart($("hb-trade"), { x: [300, 550], y: [0, 105], xlab: "temperature / °C", ylab: "relative scale", xticks: [300, 350, 400, 450, 500, 550], yticks: [0, 25, 50, 75, 100], h: 230,
     series: [{ pts: ts.map((t, i) => [t, yv[i] / ymax * 100]), col: C("--s2"), dash: "6 3" }, { pts: ts.map((t, i) => [t, rv[i] / rmaxC * 100]), col: C("--s3"), dash: "2 3" }, { pts: ts.map((t, i) => [t, ov[i] / omaxC * 100]), col: C("--s1"), w: 2.6 }],
     over: (X, Y, W, Hh, m) => `<line x1="${X(HB.T)}" x2="${X(HB.T)}" y1="${m.t}" y2="${Hh - m.b}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/>` + (HB.cat ? `<circle cx="${X(best)}" cy="${Y(100)}" r="4" fill="var(--s1)"/>` + (() => { const endA = X(best) > W * 0.55; return boxLabel(X(best) + (endA ? -8 : 8), Y(100) + 20, W < 520 ? `best: about ${best} °C` : `most NH₃ per hour: about ${best} °C`, endA, "cap"); })() : "") });
@@ -2029,7 +2149,7 @@ function hbText(){
     <tr><td>Feed ratio</td><td>N<sub>2</sub> : H<sub>2</sub> = 1 : 3 by volume</td><td>The ratio in the equation.</td></tr>
     <tr><td>Removing NH<sub>3</sub></td><td>cooled: NH<sub>3</sub> liquefies (b.p. −33 °C, <span class="src lit">literature</span>)</td><td>Taking out a product; the unreacted N<sub>2</sub> and H<sub>2</sub> are recycled. About 15 % is converted per pass, about 98 % overall.</td></tr>
     </tbody></table></div>
-    <div class="callout"><p><b>Industry: recycle and purge.</b> After the converter the gas is cooled, NH<sub>3</sub> condenses and is removed, and the unreacted N<sub>2</sub> and H<sub>2</sub> are recompressed and returned. Argon (from the air) and methane (left from making the hydrogen) do not react, so they build up in the loop and lower the partial pressures of N<sub>2</sub> and H<sub>2</sub>. A small purge stream is bled off continuously to keep them low; hydrogen is often recovered from it and the rest burned as fuel.</p></div>
+    <div class="callout"><p><b>Industry: recycle and purge.</b> After the converter the gas is cooled, NH<sub>3</sub> condenses and is removed, and the unreacted N<sub>2</sub> and H<sub>2</sub> are recompressed and returned. Argon (from the air) and methane (left from making the hydrogen) do not react, so they build up in the loop and lower the partial pressures of N<sub>2</sub> and H<sub>2</sub>. The compressors hold the loop at a fixed total pressure, so argon and methane take the place of N<sub>2</sub> and H<sub>2</sub> (the constant-pressure case on the Le Chatelier bench). A small purge stream is bled off continuously to keep them low; hydrogen is often recovered from it and the rest burned as fuel.</p></div>
     <p class="hint" style="margin:0">Model: ideal gases, 1 : 3 feed, <i>K</i><sub>p</sub> from the Gillespie–Beattie correlation (<span class="src lit">literature</span>): log<sub>10</sub> <i>K</i><sub>a</sub> = −2.691122 log<sub>10</sub> <i>T</i> − 5.519265 × 10<sup>−5</sup> <i>T</i> + 1.848863 × 10<sup>−7</sup> <i>T</i><sup>2</sup> + 2001.6/<i>T</i> + 2.6899 for ½N<sub>2</sub> + 3/2 H<sub>2</sub> ⇌ NH<sub>3</sub> (<i>K</i><sub>a</sub> in atm<sup>−1</sup>); <i>K</i><sub>p</sub> = <i>K</i><sub>a</sub><sup>2</sup>. 1 atm = 101 kPa.</p>`;
 }
 function hbAll(){ hbRead(); hbChart(); hbTrade(); hbFlow(); }
@@ -2067,14 +2187,14 @@ const FC = [
     e: [["N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", "K is large at 298 K, but without a catalyst the reaction is immeasurably slow"]] },
   { cat: "k", h: "Manipulating K", k: "9(d)", d: "Reverse the equation: K′ = 1 / K. Double every coefficient: K′ = K². Halve them: K′ = √K.",
     e: [["2HI(g) ⇌ H₂(g) + I₂(g)", "K{c} = 1 / 50.3 = 0.0199 at 731 K"], ["HI(g) ⇌ ½H₂(g) + ½I₂(g)", "K{c} = √0.0199 = 0.141"]] },
-  { cat: "hb", h: "Haber process conditions", k: "9(g)", d: "N₂(g) + 3H₂(g) ⇌ 2NH₃(g), ΔH = −92 kJ mol⁻¹.",
+  { cat: "hb", h: "Haber process conditions", k: "9(g)", d: "N₂(g) + 3H₂(g) ⇌ 2NH₃(g), ΔH = −92 kJ mol⁻¹ " + SRC("lit") + ".",
     e: [], list: ["400 to 450 °C: compromise between yield (lower T better, exothermic) and rate; the iron catalyst needs about 400 °C.", "About 200 atm: more NH₃ and faster (4 mol gas → 2 mol), but cost and hazard rise with pressure.", "Finely divided iron catalyst (promoted with K₂O and Al₂O₃): equilibrium reached faster, no change in yield.", "N₂ : H₂ = 1 : 3; NH₃ liquefied and removed; unreacted gases recycled (about 15 % per pass, about 98 % overall)."] },
   { cat: "enr", enr: true, h: "ΔG⦵ = −RT ln K", k: "beyond 9476 · Topic 7", d: "Links the Gibbs free energy change to the equilibrium constant (K dimensionless, pressures relative to 1 bar). Negative ΔG⦵: K > 1.",
-    e: [["N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", "298 K: ΔG⦵ = −32.7 kJ mol⁻¹, K = 5.4 × 10⁵"], ["same, 700 K", "ΔG⦵ = +47.3 kJ mol⁻¹, K = 2.9 × 10⁻⁴"]], list: ["Uses ΔH⦵ = −92 kJ mol⁻¹ and ΔS⦵ = −199 J K⁻¹ mol⁻¹ taken as constant. The Gillespie–Beattie value at 700 K is 7.6 × 10⁻⁵ bar⁻²: the difference is because ΔH and ΔS change with temperature."] },
+    e: [["N₂(g) + 3H₂(g) ⇌ 2NH₃(g)", "298 K: ΔG⦵ = −32.7 kJ mol⁻¹, K = 5.4 × 10⁵"], ["same, 700 K", "ΔG⦵ = +47.3 kJ mol⁻¹, K = 2.9 × 10⁻⁴"]], list: ["Uses ΔH⦵ = −92 kJ mol⁻¹ and ΔS⦵ = −199 J K⁻¹ mol⁻¹, " + SRC("lit") + " values as in Topic 7, taken as constant. The Gillespie–Beattie value at 700 K is 7.6 × 10⁻⁵ bar⁻²: the difference is because ΔH and ΔS change with temperature."] },
   { cat: "enr", enr: true, h: "K{p} and K{c}", k: "not required by 9476", d: "For ideal gases K{p} = K{c}(RT)<sup>Δ<i>n</i></sup>, where Δ<i>n</i> = moles of gas on the right − moles on the left. With p in kPa and c in mol dm⁻³, R = 8.31 J K⁻¹ mol⁻¹.",
     e: [["N₂O₄(g) ⇌ 2NO₂(g)", "Δ<i>n</i> = 1: K{p} = K{c} × RT"]] },
-  { cat: "enr", enr: true, h: "The reaction quotient, Q", k: "beyond the syllabus", d: "Same expression as K but with the concentrations (or partial pressures) at any moment. Q < K: the forward reaction is faster until Q = K. Q > K: the reverse reaction is faster.",
-    e: [], list: ["The Le Chatelier bench shows Q beside K after every change."] }
+  { cat: "lc", h: "The ratio against K", k: "9(b)", d: "Work out the same expression as K, but with the concentrations (or partial pressures) at any moment. Ratio < K: the forward reaction is faster until the ratio equals K. Ratio > K: the reverse reaction is faster.",
+    e: [], list: ["The Le Chatelier bench shows this ratio beside K after every change.", ENR + "The name Q, the reaction quotient, is beyond the syllabus; the argument itself is core."] }
 ];
 LAB.FC = FC;
 const FCF = [["all", "All"], ["eq", "Dynamic equilibrium"], ["lc", "Le Chatelier and K"], ["k", "Expressions and calculations"], ["hb", "Haber process"], ["enr", "Enrichment"]];
