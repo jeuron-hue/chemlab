@@ -2124,7 +2124,7 @@ function bindConc(){
   $("fc-eqs").innerHTML = [
     ["anode (negative)", eqS(hr.E, "→", true), "E⦵ = 0.00 V"], ["cathode (positive)", eqS(ho.E, "→", true), "E⦵ = +1.23 V"], ["overall", eqS(fc.E, "→", true), "E⦵{cell} = 1.23 − 0.00 = +1.23 V"]
   ].map(([l, e, v]) => `<div><span class="lab">${H(l)}</span>${EQ(e)} &nbsp; <span class="nw">${H(v)}</span></div>`).join("") +
-    `<div><span class="lab">free energy</span>${H(`ΔG⦵ = −4 × 96 500 × 1.23 = ${grp(minus(String(Math.round(dG))))} J = ${sfS(dG / 1000, 3)} kJ per mol O₂, i.e. ${sfS(dG / 2000, 3)} kJ per mol H₂O (Topic 7: ΔG⦵{f} of H₂O(l) is −237 kJ mol⁻¹)`)}</div>` +
+    `<div><span class="lab">free energy</span>${H(`ΔG⦵ = −4 × 96 500 × 1.23 = ${grp(minus(String(Math.round(dG))))} J = ${sfS(dG / 1000, 3)} kJ per mol O₂, i.e. ${sfS(dG / 2000, 3)} kJ per mol H₂O (the literature value of ΔG⦵{f} of H₂O(l) is −237 kJ mol⁻¹)`)}</div>` +
     `<ul class="notes"><li>${H("Advantages: the only product is water; it runs as long as fuel is supplied, with no recharging time; it converts chemical energy into electrical energy more efficiently than burning petrol or diesel in an engine to drive a generator.")}</li><li>${H("Drawbacks: hydrogen has to be made (mostly by steam reforming, Topic 9) and stored; the platinum catalyst is expensive.")}</li></ul>`;
   fcDraw(); addAnim($("fc-svg"), fcTick);
   document.querySelectorAll("#bt-tabs button").forEach(b => b.onclick = () => { BTS.t = b.dataset.t; btDraw(); });
