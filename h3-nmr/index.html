@@ -88,21 +88,21 @@ section.lab:last-of-type{border-bottom:0}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; align-items:center; min-height:24px; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:flex; align-items:center; justify-content:center; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -321,6 +321,16 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
 .fb .ink b{font-weight:600}
 .molpick{display:grid; grid-template-columns:minmax(0,3fr) minmax(0,2fr); gap:10px 20px; margin-bottom:16px}
 @media (max-width:860px){ .molpick{grid-template-columns:minmax(0,1fr)} }
+
+/* ---------- tokens for the Enrichment tag (plum) and for readable feedback text; amber stays for warnings only ---------- */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+
+/* ---------- keyboard access to the tap targets (focusable SVG hit areas and signal-table rows) ---------- */
+svg .hitbox:focus{outline:none}
+svg .hitbox:focus-visible{fill:var(--accent-soft); fill-opacity:.7; stroke:var(--accent); stroke-width:2}
+table.data tr[tabindex]:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -360,7 +370,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -372,7 +382,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -473,9 +483,9 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
           <label class="field"><span>Peak-area ratio, e.g. 3 : 2 : 1</span><input id="sb-pr" type="text" autocomplete="off" spellcheck="false"></label>
           <label class="field"><span>Multiplicities, e.g. t, q, s</span><input id="sb-pm" type="text" autocomplete="off" spellcheck="false"></label>
         </div>
-        <p class="hint" style="margin:0">Any order. Use s, d, t, q, quintet, sextet, septet or m (multiplet). In these compounds a C₆H₅ ring counts as one signal, a multiplet.</p>
+        <p class="hint" style="margin:0">Any order. Use s, d, t, q, quintet, sextet, septet or m (multiplet); an O–H singlet is just s, broad or not. In these compounds a C₆H₅ ring counts as one signal, a multiplet.</p>
         <div class="btnrow"><button class="btn primary" id="sb-reveal">Check and reveal</button><button class="btn" id="sb-skip">Just show me</button></div>
-        <div id="sb-pfb" hidden></div>
+        <div id="sb-pfb" aria-live="polite" hidden></div>
       </div>
       <div class="viewer" id="sp-wrap">
         <div class="vhead" id="sp-head"></div>
@@ -486,7 +496,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
   </div>
   <div class="grid2b" style="margin-top:20px">
     <div class="stack">
-      <div id="sb-info" class="fb info"></div>
+      <div id="sb-info" class="fb info" aria-live="polite"></div>
       <div class="tblwrap"><table class="data" id="sb-tbl"></table></div>
     </div>
     <div class="viewer" id="sx-wrap">
@@ -554,7 +564,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
         <div class="viewer"><div class="vhead">Replace the first H</div><svg id="eqx1" role="img" aria-label="Product of replacing the first hydrogen by X"></svg></div>
         <div class="viewer"><div class="vhead">Replace the second H</div><svg id="eqx2" role="img" aria-label="Product of replacing the second hydrogen by X"></svg></div>
       </div>
-      <div id="eq-fb" class="fb info"></div>
+      <div id="eq-fb" class="fb info" aria-live="polite"></div>
       <div id="eq-sets"></div>
     </div>
   </div>
@@ -569,13 +579,13 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
   </div>
   <div class="stack">
     <div class="tabs" role="tablist" id="cs-tabs">
-      <button role="tab" data-p="en" aria-selected="true">Electronegativity</button>
-      <button role="tab" data-p="dist" aria-selected="false">Several groups and distance</button>
-      <button role="tab" data-p="ani" aria-selected="false">Anisotropy</button>
-      <button role="tab" data-p="hb" aria-selected="false">Hydrogen bonding</button>
-      <button role="tab" data-p="d2o" aria-selected="false">D₂O shake</button>
+      <button role="tab" data-p="en" aria-controls="cs-en" aria-selected="true">Electronegativity</button>
+      <button role="tab" data-p="dist" aria-controls="cs-dist" aria-selected="false">Several groups and distance</button>
+      <button role="tab" data-p="ani" aria-controls="cs-ani" aria-selected="false">Anisotropy</button>
+      <button role="tab" data-p="hb" aria-controls="cs-hb" aria-selected="false">Hydrogen bonding</button>
+      <button role="tab" data-p="d2o" aria-controls="cs-d2o" aria-selected="false">D₂O shake</button>
     </div>
-    <div class="grid2b" id="cs-en">
+    <div class="grid2b" id="cs-en" role="tabpanel">
       <div class="viewer" id="ce-wrap">
         <div class="vhead">δ of CH₃X against the electronegativity of X <span class="hint">literature values</span></div>
         <svg id="ce-svg" role="img" aria-label="Chemical shift of CH3X against electronegativity of X"></svg>
@@ -587,7 +597,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
         <div class="tblwrap"><table class="data" id="ce-tbl"></table></div>
       </div>
     </div>
-    <div class="grid2b" id="cs-dist" hidden>
+    <div class="grid2b" id="cs-dist" role="tabpanel" hidden>
       <div class="stack">
         <div class="viewer" id="cd-wrap">
           <div class="vhead">Positions of the signals (δ axis only; splitting is ignored here) <span class="hint">literature values</span></div>
@@ -600,7 +610,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
         <div class="callout" id="cd-txt"></div>
       </div>
     </div>
-    <div class="grid2b" id="cs-ani" hidden>
+    <div class="grid2b" id="cs-ani" role="tabpanel" hidden>
       <div class="viewer" id="ca-wrap">
         <div class="vhead" id="ca-head"></div>
         <svg id="ca-svg" role="img" aria-label="Schematic of the field set up by circulating π electrons"></svg>
@@ -612,7 +622,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
         <div class="viewer" id="cab-wrap"><div class="vhead">Where the H absorbs <span class="hint">literature values</span></div><svg id="cab-svg" role="img" aria-label="δ of the five compounds"></svg></div>
       </div>
     </div>
-    <div class="grid2b" id="cs-hb" hidden>
+    <div class="grid2b" id="cs-hb" role="tabpanel" hidden>
       <div class="stack">
         <div class="viewer" id="ch-wrap">
           <div class="vhead">Ethanol at different concentrations (diluted with CCl₄): simulated 400&nbsp;MHz ¹H NMR spectrum <span class="hint">O–H position from an illustrative model</span></div>
@@ -625,14 +635,14 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
       </div>
       <div class="stack">
         <div class="panel controls">
-          <div class="ctl"><label for="ch-c"><span>Concentration of ethanol</span> <output id="ch-cv"></output></label><input type="range" id="ch-c" min="-3" max="1.24" step="0.02" value="1.24"></div>
+          <div class="ctl"><label for="ch-c"><span>Concentration of ethanol</span> <output id="ch-cv"></output></label><input type="range" id="ch-c" min="-3" max="1.23" step="0.01" value="1.23"></div>
           <div class="readout" id="ch-read"></div>
         </div>
         <div class="callout" id="ch-txt"></div>
         <div class="viewer" id="cha-wrap"><div class="vhead">Ethanoic acid: hydrogen-bonded pair</div><svg id="cha-svg" role="img" aria-label="Two ethanoic acid molecules joined by two hydrogen bonds"></svg><div class="vnote">COOH signal about δ 11.4 (11 to 12, depending on concentration; <span class="src lit">literature</span>): the two hydrogen bonds of each pair deshield the O–H strongly. Booklet range 9.0–13.0.</div></div>
       </div>
     </div>
-    <div class="grid2b" id="cs-d2o" hidden>
+    <div class="grid2b" id="cs-d2o" role="tabpanel" hidden>
       <div class="stack">
         <div class="viewer" id="cx-wrap">
           <div class="vhead" id="cx-head"></div>
@@ -673,13 +683,13 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
         <span class="eyebrow">Step 1 · <span class="nc">assign each signal</span></span>
         <div class="tblwrap"><table class="data" id="us-tbl"></table></div>
         <div class="btnrow"><button class="btn" id="us-acheck">Check the assignments</button></div>
-        <div id="us-afb" hidden></div>
+        <div id="us-afb" aria-live="polite" hidden></div>
       </div>
       <div class="panel stack">
         <span class="eyebrow">Step 2 · <span class="nc">choose the structure</span></span>
         <div class="cands" id="us-cands" role="group" aria-label="Candidate structures"></div>
         <div class="btnrow"><button class="btn primary" id="us-check">Check</button></div>
-        <div id="us-fb" hidden></div>
+        <div id="us-fb" aria-live="polite" hidden></div>
       </div>
     </div>
   </div>
@@ -694,15 +704,15 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
   </div>
   <div class="stack">
     <div class="tabs" role="tablist" id="gn-tabs">
-      <button role="tab" data-type="dz" aria-selected="true">δ and Hz</button>
-      <button role="tab" data-type="sp" aria-selected="false">Splitting</button>
-      <button role="tab" data-type="sig" aria-selected="false">Signals and ratios</button>
-      <button role="tab" data-type="cnt" aria-selected="false">Proton counting</button>
-      <button role="tab" data-type="conv" aria-selected="false">% conversion</button>
-      <button role="tab" data-type="qn" aria-selected="false">qNMR purity</button>
-      <button role="tab" data-type="mix" aria-selected="false">Mixed</button>
+      <button role="tab" data-type="dz" aria-controls="gn-panel" aria-selected="true">δ and Hz</button>
+      <button role="tab" data-type="sp" aria-controls="gn-panel" aria-selected="false">Splitting</button>
+      <button role="tab" data-type="sig" aria-controls="gn-panel" aria-selected="false">Signals and ratios</button>
+      <button role="tab" data-type="cnt" aria-controls="gn-panel" aria-selected="false">Proton counting</button>
+      <button role="tab" data-type="conv" aria-controls="gn-panel" aria-selected="false">% conversion</button>
+      <button role="tab" data-type="qn" aria-controls="gn-panel" aria-selected="false">qNMR purity</button>
+      <button role="tab" data-type="mix" aria-controls="gn-panel" aria-selected="false">Mixed</button>
     </div>
-    <div class="panel stack">
+    <div class="panel stack" id="gn-panel" role="tabpanel">
       <p class="qtext" id="gn-q" style="margin:0"></p>
       <div class="ansrow" id="gn-ansrow">
         <label class="field" id="gn-afield"><span id="gn-lab">Answer</span><input id="gn-ans" type="text" autocomplete="off" spellcheck="false"></label>
@@ -710,7 +720,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
       </div>
       <p class="hint" style="margin:0" id="gn-fmt"></p>
       <div class="btnrow"><button class="btn primary" id="gn-check">Check</button><button class="btn" id="gn-show">Show working</button><button class="btn" id="gn-new">New question</button><span class="hint" id="gn-score"></span></div>
-      <div id="gn-fb" hidden></div>
+      <div id="gn-fb" aria-live="polite" hidden></div>
       <ol class="working" id="gn-work" hidden></ol>
     </div>
   </div>
@@ -744,7 +754,7 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.3 ¹H NMR Spectroscopy</span>
     <span>Written for SEAB H3 Chemistry 9813 · ¹H shift ranges and IR ranges from the Data Booklet · chemical shifts and electronegativities are literature values · spectra simulated in-house (first-order model, 400&nbsp;MHz) · generated values are illustrative</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 30/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -820,7 +830,25 @@ function svgChem(s, fs){
 }
 const T = (x, y, s, cls, extra, fs) => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}"${cls ? ` class="${cls}"` : ""}${extra ? " " + extra : ""}${fs ? ` style="font-size:${fs}px"` : ""}>${svgChem(String(s).replace(/(\d) (?=(%|mol|cm|dm|K\b|µ|ppm|g\b|×))/g, "$1\u00a0").replace(/× 10/g, "×\u00a010"), fs || 12)}</text>`;
 function widthOf(el){ const w = el.getBoundingClientRect().width; return Math.max(260, Math.round(w || 600)); }
-function setSvg(svg, W, Hh, inner){ svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("width", W); svg.setAttribute("height", Hh); svg.style.height = Hh + "px"; svg.innerHTML = inner; }
+function setSvg(svg, W, Hh, inner){ svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("width", W); svg.setAttribute("height", Hh); svg.style.height = Hh + "px"; svg.innerHTML = inner; kbdHits(svg); }
+// keyboard and screen-reader access to the tap targets: each is focusable, named from its <title>, and Enter or Space presses it;
+// the redraw that follows a press would drop the focus, so it is put back on the same target
+function kbdKey(el, activate){
+  el.addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    const svg = el.ownerSVGElement, at = [...el.attributes].find(a => /^data-/.test(a.name)), id = svg ? svg.id : el.closest("table") && el.closest("table").id;
+    activate();
+    if (id && at){ const n = document.querySelector(`#${id} [${at.name}="${CSS.escape(at.value)}"]`); if (n) n.focus({ preventScroll: true }); }
+  });
+}
+function kbdHits(svg){
+  svg.querySelectorAll(".hitbox").forEach(h => {
+    const t = h.querySelector("title");
+    h.setAttribute("tabindex", "0"); h.setAttribute("role", "button"); h.setAttribute("aria-label", t ? t.textContent : "select");
+    kbdKey(h, () => h.dispatchEvent(new MouseEvent("click", { bubbles: true })));
+  });
+}
 function niceTicks(lo, hi, n){
   const span = hi - lo, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
   const step = [1, 2, 2.5, 5, 10].map(k => k * mag).find(s => s >= raw) || mag * 10;
@@ -860,16 +888,37 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(mol.*|kJmol\^?-1|kJ\/mol|kJ|J|nm|µm|um|cm-?1|cm⁻¹|m|GHz|MHz|Hz)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+// ---------- typed answers: a number plus an optional unit, checked against the unit the question asks for (as H3.1) ----------
+// Canonical unit ids: ppm Hz MHz % mm H (hydrogen atoms) lines signals
+const UNIT_NAME = { ppm: "ppm", Hz: "Hz", MHz: "MHz", "%": "%", mm: "mm", H: "H atoms", lines: "lines", signals: "signals" };
+const UNIT_KEY = { ppm: "ppm", "δ": "ppm", hz: "Hz", mhz: "MHz", "%": "%", percent: "%", mm: "mm", h: "H", hatoms: "H", atoms: "H", protons: "H", hydrogens: "H", lines: "lines", line: "lines", signals: "signals", signal: "signals" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){ return UNIT_KEY[String(u).toLowerCase().replace(/[\s.]/g, "")] || null; }
+// allowed: the canonical ids the question accepts (e.g. ["ppm"]); a bare number is always accepted.
+// Returns { value } or { error, kind }: "empty", "nan", "comma" and "unit" are entries to fix, not answers, and are never scored.
+function parseAnswer(str, allowed){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  t = t.replace(/^(?:δ|delta)\s*=?\s*/i, "").replace(/^=\s*/, "").replace(/\.\s*$/, "").trim();   // "δ = 2.5", "=2.5", "2.5 ppm."
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (/^[-+]?\s*\d+,\d/.test(t) && !/^[-+]?\s*[1-9]\d{0,2}(?:,\d{3})+(?![\d,])/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };   // 1,234 is a thousand; 2,5 and 0,983 are decimal commas
+  const NAN = { error: "Enter a number, e.g. 3.65.", kind: "nan" };
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  const m = t.match(new RegExp("^([-+]?)\\s*([1-9]\\d{0,2}(?:[, ]\\d{3})+(?![\\d,])(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i"));
+  if (!m) return NAN;
+  const mant = parseFloat(m[2].replace(/[, ]/g, ""));   // 1,230 and 1 230 are a thousand and more
+  const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+  let val = e != null ? mant * Math.pow(10, +e) : mant;
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return NAN;
+  const rest = m[6].trim();
+  if (!rest) return { value: val };
+  const u = unitId(rest);
+  if (!u) return NAN;
+  if (allowed == null || allowed.includes(u)) return { value: val, unit: u };
+  return { unit: u, kind: "unit", error: allowed.length === 0 ? "Check the unit: this answer is a plain number, with no unit." : `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` };
 }
-LAB.parseNum = parseNum;
+LAB.parseAnswer = parseAnswer;
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
 const SUPS = n => String(n).split("").map(c => c === "-" ? "⁻" : SUPD[+c]).join("");
@@ -917,21 +966,23 @@ const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-
 /* ---------- shared answer helpers (as H3.1) ---------- */
 const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
 const ansN = (v, n) => ({ v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.005 * Math.abs(v)) });
+// a whole-number count typed in a box: "3", "3 signals", " 3 "; null for anything else (blank, 3.5, 3,5, abc)
+const parseCount = s => { const t = String(s == null ? "" : s).trim().replace(/\s*signals?\.?$/i, "").trim(); return /^\d+$/.test(t) ? parseInt(t, 10) : null; };
 const ASIDE = t => `<span class="aside">(${t}.)</span>`;
 const SVGNS = "http://www.w3.org/2000/svg";
 /* GENERATED by lab-src/gen_mol.py from RDKit 2D coordinates (every H explicit); do not edit by hand. */
-const MOLG = {"ethanol":{"smiles":"CCO","atoms":[["C",-0.866,-0.167],["C",-0.0,0.333],["O",0.866,-0.167],["H",-0.366,-1.033],["H",-1.366,-1.033],["H",-1.732,0.333],["H",-0.5,1.199],["H",0.5,1.199],["H",1.732,0.333]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1],[2,8,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH2","7":"CH2","8":"OH"}},"chloroethane":{"smiles":"CCCl","atoms":[["C",-0.866,-0.167],["C",0.0,0.333],["Cl",0.866,-0.167],["H",-0.366,-1.033],["H",-1.366,-1.033],["H",-1.732,0.333],["H",-0.5,1.199],["H",0.5,1.199]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH2","7":"CH2"}},"propan-2-ol":{"smiles":"CC(O)C","atoms":[["C",-1.088,-0.128],["C",-0.088,-0.095],["O",0.794,-0.565],["C",0.382,0.788],["H",-1.054,-1.127],["H",-1.937,-0.657],["H",-1.616,0.721],["H",-0.055,-1.094],["H",0.827,-1.565],["H",-0.5,1.258],["H",0.349,1.787],["H",1.382,0.821]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[3,10,1],[3,11,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH","8":"OH","9":"CH3","10":"CH3","11":"CH3"}},"propanone":{"smiles":"CC(=O)C","atoms":[["C",-0.61,-0.793],["C",0.0,-0.0],["O",0.991,-0.132],["C",-0.382,0.924],["H",0.183,-1.402],["H",-0.742,-1.784],["H",-1.601,-0.661],["H",-1.306,0.543],["H",-1.174,1.534],["H",0.228,1.717]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[3,7,1],[3,8,1],[3,9,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH3","8":"CH3","9":"CH3"}},"ethanal":{"smiles":"CC=O","atoms":[["C",-0.866,-0.167],["C",0.0,0.333],["O",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",-0.0,1.333]],"bonds":[[0,1,1],[1,2,2],[0,3,1],[0,4,1],[0,5,1],[1,6,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CHO"}},"methylbenzene":{"smiles":"Cc1ccccc1","atoms":[["C",-1.714,0.0],["C",-0.714,0.0],["C",-0.214,0.866],["C",0.786,0.866],["C",1.286,-0.0],["C",0.786,-0.866],["C",-0.214,-0.866],["H",-1.714,1.0],["H",-2.58,0.5],["H",-2.214,-0.866],["H",-0.714,1.732],["H",1.286,1.732],["H",2.286,-0.0],["H",1.286,-1.732],["H",-0.714,-1.732]],"bonds":[[0,1,1],[1,2,2,1],[2,3,1,1],[3,4,2,1],[4,5,1,1],[5,6,2,1],[6,1,1,1],[0,7,1],[0,8,1],[0,9,1],[2,10,1],[3,11,1],[4,12,1],[5,13,1],[6,14,1]],"hset":{"7":"CH3","8":"CH3","9":"CH3","10":"C6H5","11":"C6H5","12":"C6H5","13":"C6H5","14":"C6H5"}},"ethylbenzene":{"smiles":"CCc1ccccc1","atoms":[["C",-2.057,-0.313],["C",-1.378,0.422],["C",-0.403,0.202],["C",-0.106,-0.753],["C",0.87,-0.973],["C",1.548,-0.238],["C",1.251,0.717],["C",0.275,0.937],["H",-2.792,0.365],["H",-3.012,-0.61],["H",-1.759,-1.268],["H",-1.159,1.397],["H",-2.113,1.1],["H",-0.784,-1.488],["H",1.167,-1.928],["H",2.523,-0.458],["H",1.929,1.452],["H",-0.022,1.892]],"bonds":[[0,1,1],[1,2,1],[2,3,2,1],[3,4,1,1],[4,5,2,1],[5,6,1,1],[6,7,2,1],[7,2,1,1],[0,8,1],[0,9,1],[0,10,1],[1,11,1],[1,12,1],[3,13,1],[4,14,1],[5,15,1],[6,16,1],[7,17,1]],"hset":{"8":"CH3","9":"CH3","10":"CH3","11":"CH2","12":"CH2","13":"C6H5","14":"C6H5","15":"C6H5","16":"C6H5","17":"C6H5"}},"1,4-dimethylbenzene":{"smiles":"Cc1ccc(C)cc1","atoms":[["C",-2.0,0.0],["C",-1.0,-0.0],["C",-0.5,0.866],["C",0.5,0.866],["C",1.0,0.0],["C",2.0,-0.0],["C",0.5,-0.866],["C",-0.5,-0.866],["H",-2.0,1.0],["H",-2.866,0.5],["H",-2.5,-0.866],["H",-1.0,1.732],["H",1.0,1.732],["H",2.0,1.0],["H",2.866,0.5],["H",2.5,-0.866],["H",1.0,-1.732],["H",-1.0,-1.732]],"bonds":[[0,1,1],[1,2,1,1],[2,3,2,1],[3,4,1,1],[4,5,1],[4,6,2,1],[6,7,1,1],[7,1,2,1],[0,8,1],[0,9,1],[0,10,1],[2,11,1],[3,12,1],[5,13,1],[5,14,1],[5,15,1],[6,16,1],[7,17,1]],"hset":{"8":"CH3","9":"CH3","10":"CH3","11":"ArH","12":"ArH","13":"CH3","14":"CH3","15":"CH3","16":"ArH","17":"ArH"}},"ethyl ethanoate":{"smiles":"CC(=O)OCC","atoms":[["C",-1.513,0.637],["C",-0.726,0.02],["O",-0.868,-0.97],["O",0.202,0.392],["C",0.988,-0.226],["C",1.916,0.146],["H",-0.895,1.424],["H",-1.885,1.566],["H",-2.441,0.265],["H",1.361,-1.154],["H",0.371,-1.012],["H",1.544,1.075],["H",2.534,0.933],["H",2.703,-0.471]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[4,9,1],[4,10,1],[5,11,1],[5,12,1],[5,13,1]],"hset":{"6":"CH3CO","7":"CH3CO","8":"CH3CO","9":"OCH2","10":"OCH2","11":"CH3","12":"CH3","13":"CH3"}},"methyl propanoate":{"smiles":"CCC(=O)OC","atoms":[["C",-1.732,-0.0],["C",-0.866,0.5],["C",-0.0,-0.0],["O",-0.0,-1.0],["O",0.866,0.5],["C",1.732,-0.0],["H",-1.232,-0.866],["H",-2.232,-0.866],["H",-2.598,0.5],["H",-1.366,1.366],["H",-0.366,1.366],["H",1.232,-0.866],["H",2.232,-0.866],["H",2.598,0.5]],"bonds":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[1,10,1],[5,11,1],[5,12,1],[5,13,1]],"hset":{"6":"CH3","7":"CH3","8":"CH3","9":"CH2","10":"CH2","11":"OCH3","12":"OCH3","13":"OCH3"}},"2-methylpropan-1-ol":{"smiles":"CC(C)CO","atoms":[["C",-0.911,0.752],["C",-0.159,0.104],["C",-0.883,-0.692],["C",0.678,-0.5],["O",1.274,0.337],["H",-0.253,1.503],["H",-1.231,1.697],["H",-1.857,0.426],["H",0.46,0.886],["H",-0.199,-1.392],["H",-1.142,-1.662],["H",-1.857,-0.456],["H",0.6,-1.463],["H",1.672,-0.595],["H",2.284,0.259]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[2,10,1],[2,11,1],[3,12,1],[3,13,1],[4,14,1]],"hset":{"5":"CH3","6":"CH3","7":"CH3","8":"CH","9":"CH3","10":"CH3","11":"CH3","12":"CH2O","13":"CH2O","14":"OH"}},"2-methylpropan-2-ol":{"smiles":"CC(C)(C)O","atoms":[["C",-0.109,-1.0],["C",-0.005,-0.007],["C",0.013,1.049],["C",1.096,-0.079],["O",-0.994,0.037],["H",0.762,-1.081],["H",0.341,-1.889],["H",-1.0,-1.436],["H",-0.983,1.061],["H",-0.481,1.912],["H",0.872,1.563],["H",1.158,0.804],["H",1.964,0.403],["H",1.604,-0.938],["H",-1.519,-0.815]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1],[0,5,1],[0,6,1],[0,7,1],[2,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1],[4,14,1]],"hset":{"5":"CH3","6":"CH3","7":"CH3","8":"CH3","9":"CH3","10":"CH3","11":"CH3","12":"CH3","13":"CH3","14":"OH"}},"4-methylbenzaldehyde":{"smiles":"Cc1ccc(C=O)cc1","atoms":[["C",-2.268,0.234],["C",-1.278,0.09],["C",-0.658,0.874],["C",0.331,0.73],["C",0.701,-0.2],["C",1.69,-0.344],["O",2.31,0.44],["C",0.081,-0.984],["C",-0.909,-0.84],["H",-2.123,1.224],["H",-3.052,0.854],["H",-2.888,-0.55],["H",-1.028,1.803],["H",0.951,1.514],["H",2.06,-1.273],["H",0.45,-1.914],["H",-1.529,-1.624]],"bonds":[[0,1,1],[1,2,1,1],[2,3,2,1],[3,4,1,1],[4,5,1],[5,6,2],[4,7,2,1],[7,8,1,1],[8,1,2,1],[0,9,1],[0,10,1],[0,11,1],[2,12,1],[3,13,1],[5,14,1],[7,15,1],[8,16,1]],"hset":{"9":"CH3","10":"CH3","11":"CH3","12":"ArH_b","13":"ArH_a","14":"CHO","15":"ArH_a","16":"ArH_b"}},"1-chloropropane":{"smiles":"CCCCl","atoms":[["C",-1.0,-0.433],["C",-0.5,0.433],["C",0.5,0.433],["Cl",1.0,-0.433],["H",-1.866,0.067],["H",-1.866,-0.933],["H",-0.5,-1.299],["H",-1.366,0.933],["H",-0.5,1.433],["H",0.5,1.433],["H",1.366,0.933]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH2","8":"CH2","9":"CH2Cl","10":"CH2Cl"}},"ethanoic acid":{"smiles":"CC(=O)O","atoms":[["C",-0.537,-0.843],["C",0.0,-0.0],["O",0.999,-0.044],["O",-0.462,0.887],["H",-1.381,-0.306],["H",-1.424,-1.305],["H",-0.076,-1.73],["H",0.076,1.73]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[3,7,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"COOH"}},"propane":{"smiles":"CCC","atoms":[["C",-0.866,-0.167],["C",-0.0,0.333],["C",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",-0.5,1.199],["H",0.5,1.199],["H",1.366,0.699],["H",1.866,-0.167],["H",0.866,-1.167]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH2","7":"CH2","8":"CH3","9":"CH3","10":"CH3"}},"butane":{"smiles":"CCCC","atoms":[["C",-1.32,-0.091],["C",-0.4,0.301],["C",0.4,-0.301],["C",1.32,0.091],["H",-1.711,0.829],["H",-2.312,0.03],["H",-1.441,-1.084],["H",0.202,1.1],["H",-0.791,1.221],["H",-0.202,-1.1],["H",0.791,-1.221],["H",1.711,-0.829],["H",2.312,-0.03],["H",1.441,1.084]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH2","8":"CH2","9":"CH2","10":"CH2","11":"CH3","12":"CH3","13":"CH3"}},"2-methylpropane":{"smiles":"CC(C)C","atoms":[["C",-0.964,0.314],["C",0.008,0.248],["C",1.072,0.198],["C",-0.116,-0.76],["H",-0.899,1.309],["H",-1.794,0.858],["H",-1.509,-0.523],["H",0.064,1.247],["H",1.114,1.194],["H",1.951,0.668],["H",1.564,-0.674],["H",0.763,-0.877],["H",0.3,-1.667],["H",-1.023,-1.171]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH","8":"CH3","9":"CH3","10":"CH3","11":"CH3","12":"CH3","13":"CH3"}},"benzene":{"smiles":"c1ccccc1","atoms":[["C",-0.923,-0.386],["C",-0.127,-0.992],["C",0.795,-0.606],["C",0.923,0.386],["C",0.127,0.992],["C",-0.795,0.606],["H",-1.845,-0.771],["H",-0.255,-1.984],["H",1.591,-1.212],["H",1.845,0.771],["H",0.255,1.984],["H",-1.591,1.212]],"bonds":[[0,1,1,1],[1,2,2,1],[2,3,1,1],[3,4,2,1],[4,5,1,1],[5,0,2,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[4,10,1],[5,11,1]],"hset":{"6":"ArH","7":"ArH","8":"ArH","9":"ArH","10":"ArH","11":"ArH"}},"methanol":{"smiles":"CO","atoms":[["C",-0.5,-0.0],["O",0.5,0.0],["H",-0.5,-1.0],["H",-1.366,-0.5],["H",-1.0,0.866],["H",1.0,-0.866]],"bonds":[[0,1,1],[0,2,1],[0,3,1],[0,4,1],[1,5,1]],"hset":{"2":"CH3","3":"CH3","4":"CH3","5":"OH"}},"ethoxyethane":{"smiles":"CCOCC","atoms":[["C",-1.354,0.544],["C",-0.959,-0.395],["O",0.035,-0.532],["C",0.644,0.253],["C",1.634,0.13],["H",-2.274,0.152],["H",-2.152,1.142],["H",-0.75,1.354],["H",-1.881,-0.783],["H",-1.088,-1.388],["H",-0.133,0.843],["H",0.766,1.247],["H",1.512,-0.86],["H",2.432,-0.47],["H",2.236,0.931]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[1,9,1],[3,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1]],"hset":{"5":"CH3","6":"CH3","7":"CH3","8":"OCH2","9":"OCH2","10":"OCH2","11":"OCH2","12":"CH3","13":"CH3","14":"CH3"}},"1,1,2-trichloroethane":{"smiles":"ClCC(Cl)Cl","atoms":[["Cl",-1.471,0.208],["C",-0.673,-0.394],["C",0.248,-0.004],["Cl",0.85,0.795],["Cl",1.046,-0.606],["H",-0.282,-1.314],["H",-1.275,-1.192],["H",-0.142,0.917]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[2,4,1],[1,5,1],[1,6,1],[2,7,1]],"hset":{"5":"CH2Cl","6":"CH2Cl","7":"CHCl2"}},"ethyl propanoate":{"smiles":"CCC(=O)OCC","atoms":[["C",-2.1,0.129],["C",-1.191,0.544],["C",-0.376,-0.036],["O",-0.471,-1.031],["O",0.533,0.38],["C",1.348,-0.2],["C",2.257,0.215],["H",-1.685,-0.781],["H",-2.68,-0.686],["H",-2.915,0.709],["H",-1.606,1.454],["H",-0.611,1.359],["H",0.768,-1.015],["H",1.764,-1.11],["H",1.842,1.125],["H",2.838,1.03],["H",3.072,-0.365]],"bonds":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[1,11,1],[5,12,1],[5,13,1],[6,14,1],[6,15,1],[6,16,1]],"hset":{"7":"CH3","8":"CH3","9":"CH3","10":"CH2","11":"CH2","12":"OCH2","13":"OCH2","14":"OCH2CH3","15":"OCH2CH3","16":"OCH2CH3"}},"methoxymethane":{"smiles":"COC","atoms":[["C",-0.866,-0.167],["O",-0.0,0.333],["C",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",0.366,-1.033],["H",1.366,-1.033],["H",1.732,0.333]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[2,6,1],[2,7,1],[2,8,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH3","7":"CH3","8":"CH3"}},"1,4-dichlorobenzene":{"smiles":"Clc1ccc(Cl)cc1","atoms":[["Cl",-2.0,-0.0],["C",-1.0,0.0],["C",-0.5,-0.866],["C",0.5,-0.866],["C",1.0,-0.0],["Cl",2.0,0.0],["C",0.5,0.866],["C",-0.5,0.866],["H",-1.0,-1.732],["H",1.0,-1.732],["H",1.0,1.732],["H",-1.0,1.732]],"bonds":[[0,1,1],[1,2,1,1],[2,3,2,1],[3,4,1,1],[4,5,1],[4,6,2,1],[6,7,1,1],[7,1,2,1],[2,8,1],[3,9,1],[6,10,1],[7,11,1]],"hset":{"8":"ArH","9":"ArH","10":"ArH","11":"ArH"}},"chloromethane":{"smiles":"CCl","atoms":[["C",-0.5,-0.0],["Cl",0.5,-0.0],["H",-0.5,-1.0],["H",-1.366,-0.5],["H",-1.0,0.866]],"bonds":[[0,1,1],[0,2,1],[0,3,1],[0,4,1]],"hset":{"2":"CH3","3":"CH3","4":"CH3"}},"dichloromethane":{"smiles":"ClCCl","atoms":[["Cl",-0.707,-0.236],["C",-0.0,0.471],["Cl",0.707,-0.236],["H",-0.966,0.73],["H",0.259,1.437]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"hset":{"3":"CH2","4":"CH2"}},"trichloromethane":{"smiles":"ClC(Cl)Cl","atoms":[["Cl",-0.884,0.209],["C",0.104,0.362],["Cl",1.037,0.0],["Cl",-0.257,-0.571],["H",-0.048,1.35]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"hset":{"4":"CH"}},"ethene":{"smiles":"C=C","atoms":[["C",-0.5,-0.0],["C",0.5,-0.0],["H",-1.0,-0.866],["H",-1.0,0.866],["H",1.0,0.866],["H",1.0,-0.866]],"bonds":[[0,1,2],[0,2,1],[0,3,1],[1,4,1],[1,5,1]],"hset":{"2":"CH2","3":"CH2","4":"CH2","5":"CH2"}},"ethyne":{"smiles":"C#C","atoms":[["C",-0.5,-0.0],["C",0.5,-0.0],["H",-1.5,-0.0],["H",1.5,0.0]],"bonds":[[0,1,3],[0,2,1],[1,3,1]],"hset":{"2":"CH","3":"CH"}}};
+const MOLG = {"ethanol":{"smiles":"CCO","atoms":[["C",-0.866,-0.167],["C",-0.0,0.333],["O",0.866,-0.167],["H",-0.366,-1.033],["H",-1.366,-1.033],["H",-1.732,0.333],["H",-0.5,1.199],["H",0.5,1.199],["H",1.732,0.333]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1],[2,8,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH2","7":"CH2","8":"OH"}},"chloroethane":{"smiles":"CCCl","atoms":[["C",-0.866,-0.167],["C",0.0,0.333],["Cl",0.866,-0.167],["H",-0.366,-1.033],["H",-1.366,-1.033],["H",-1.732,0.333],["H",-0.5,1.199],["H",0.5,1.199]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH2","7":"CH2"}},"propan-2-ol":{"smiles":"CC(O)C","atoms":[["C",-1.088,-0.128],["C",-0.088,-0.095],["O",0.794,-0.565],["C",0.382,0.788],["H",-1.054,-1.127],["H",-1.937,-0.657],["H",-1.616,0.721],["H",-0.055,-1.094],["H",0.827,-1.565],["H",-0.5,1.258],["H",0.349,1.787],["H",1.382,0.821]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[3,10,1],[3,11,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH","8":"OH","9":"CH3","10":"CH3","11":"CH3"}},"propanone":{"smiles":"CC(=O)C","atoms":[["C",-0.61,-0.793],["C",0.0,-0.0],["O",0.991,-0.132],["C",-0.382,0.924],["H",0.183,-1.402],["H",-0.742,-1.784],["H",-1.601,-0.661],["H",-1.306,0.543],["H",-1.174,1.534],["H",0.228,1.717]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[3,7,1],[3,8,1],[3,9,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH3","8":"CH3","9":"CH3"}},"ethanal":{"smiles":"CC=O","atoms":[["C",-0.866,-0.167],["C",0.0,0.333],["O",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",-0.0,1.333]],"bonds":[[0,1,1],[1,2,2],[0,3,1],[0,4,1],[0,5,1],[1,6,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CHO"}},"methylbenzene":{"smiles":"Cc1ccccc1","atoms":[["C",-1.714,0.0],["C",-0.714,0.0],["C",-0.214,0.866],["C",0.786,0.866],["C",1.286,-0.0],["C",0.786,-0.866],["C",-0.214,-0.866],["H",-1.714,1.0],["H",-2.58,0.5],["H",-2.214,-0.866],["H",-0.714,1.732],["H",1.286,1.732],["H",2.286,-0.0],["H",1.286,-1.732],["H",-0.714,-1.732]],"bonds":[[0,1,1],[1,2,2,1],[2,3,1,1],[3,4,2,1],[4,5,1,1],[5,6,2,1],[6,1,1,1],[0,7,1],[0,8,1],[0,9,1],[2,10,1],[3,11,1],[4,12,1],[5,13,1],[6,14,1]],"hset":{"7":"CH3","8":"CH3","9":"CH3","10":"C6H5","11":"C6H5","12":"C6H5","13":"C6H5","14":"C6H5"}},"ethylbenzene":{"smiles":"CCc1ccccc1","atoms":[["C",-2.057,-0.313],["C",-1.378,0.422],["C",-0.403,0.202],["C",-0.106,-0.753],["C",0.87,-0.973],["C",1.548,-0.238],["C",1.251,0.717],["C",0.275,0.937],["H",-2.792,0.365],["H",-3.012,-0.61],["H",-1.759,-1.268],["H",-1.159,1.397],["H",-2.113,1.1],["H",-0.784,-1.488],["H",1.167,-1.928],["H",2.523,-0.458],["H",1.929,1.452],["H",-0.022,1.892]],"bonds":[[0,1,1],[1,2,1],[2,3,2,1],[3,4,1,1],[4,5,2,1],[5,6,1,1],[6,7,2,1],[7,2,1,1],[0,8,1],[0,9,1],[0,10,1],[1,11,1],[1,12,1],[3,13,1],[4,14,1],[5,15,1],[6,16,1],[7,17,1]],"hset":{"8":"CH3","9":"CH3","10":"CH3","11":"CH2","12":"CH2","13":"C6H5","14":"C6H5","15":"C6H5","16":"C6H5","17":"C6H5"}},"1,4-dimethylbenzene":{"smiles":"Cc1ccc(C)cc1","atoms":[["C",-2.0,0.0],["C",-1.0,-0.0],["C",-0.5,0.866],["C",0.5,0.866],["C",1.0,0.0],["C",2.0,-0.0],["C",0.5,-0.866],["C",-0.5,-0.866],["H",-2.0,1.0],["H",-2.866,0.5],["H",-2.5,-0.866],["H",-1.0,1.732],["H",1.0,1.732],["H",2.0,1.0],["H",2.866,0.5],["H",2.5,-0.866],["H",1.0,-1.732],["H",-1.0,-1.732]],"bonds":[[0,1,1],[1,2,1,1],[2,3,2,1],[3,4,1,1],[4,5,1],[4,6,2,1],[6,7,1,1],[7,1,2,1],[0,8,1],[0,9,1],[0,10,1],[2,11,1],[3,12,1],[5,13,1],[5,14,1],[5,15,1],[6,16,1],[7,17,1]],"hset":{"8":"CH3","9":"CH3","10":"CH3","11":"ArH","12":"ArH","13":"CH3","14":"CH3","15":"CH3","16":"ArH","17":"ArH"}},"ethyl ethanoate":{"smiles":"CC(=O)OCC","atoms":[["C",-1.513,0.637],["C",-0.726,0.02],["O",-0.868,-0.97],["O",0.202,0.392],["C",0.988,-0.226],["C",1.916,0.146],["H",-0.895,1.424],["H",-1.885,1.566],["H",-2.441,0.265],["H",1.361,-1.154],["H",0.371,-1.012],["H",1.544,1.075],["H",2.534,0.933],["H",2.703,-0.471]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[4,9,1],[4,10,1],[5,11,1],[5,12,1],[5,13,1]],"hset":{"6":"CH3CO","7":"CH3CO","8":"CH3CO","9":"OCH2","10":"OCH2","11":"CH3","12":"CH3","13":"CH3"}},"methyl propanoate":{"smiles":"CCC(=O)OC","atoms":[["C",-1.732,-0.0],["C",-0.866,0.5],["C",-0.0,-0.0],["O",-0.0,-1.0],["O",0.866,0.5],["C",1.732,-0.0],["H",-1.232,-0.866],["H",-2.232,-0.866],["H",-2.598,0.5],["H",-1.366,1.366],["H",-0.366,1.366],["H",1.232,-0.866],["H",2.232,-0.866],["H",2.598,0.5]],"bonds":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[1,10,1],[5,11,1],[5,12,1],[5,13,1]],"hset":{"6":"CH3","7":"CH3","8":"CH3","9":"CH2","10":"CH2","11":"OCH3","12":"OCH3","13":"OCH3"}},"2-methylpropan-1-ol":{"smiles":"CC(C)CO","atoms":[["C",-0.911,0.752],["C",-0.159,0.104],["C",-0.883,-0.692],["C",0.678,-0.5],["O",1.274,0.337],["H",-0.253,1.503],["H",-1.231,1.697],["H",-1.857,0.426],["H",0.46,0.886],["H",-0.199,-1.392],["H",-1.142,-1.662],["H",-1.857,-0.456],["H",0.6,-1.463],["H",1.672,-0.595],["H",2.284,0.259]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[2,10,1],[2,11,1],[3,12,1],[3,13,1],[4,14,1]],"hset":{"5":"CH3","6":"CH3","7":"CH3","8":"CH","9":"CH3","10":"CH3","11":"CH3","12":"CH2O","13":"CH2O","14":"OH"}},"2-methylpropan-2-ol":{"smiles":"CC(C)(C)O","atoms":[["C",-0.109,-1.0],["C",-0.005,-0.007],["C",0.013,1.049],["C",1.096,-0.079],["O",-0.994,0.037],["H",0.762,-1.081],["H",0.341,-1.889],["H",-1.0,-1.436],["H",-0.983,1.061],["H",-0.481,1.912],["H",0.872,1.563],["H",1.158,0.804],["H",1.964,0.403],["H",1.604,-0.938],["H",-1.519,-0.815]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1],[0,5,1],[0,6,1],[0,7,1],[2,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1],[4,14,1]],"hset":{"5":"CH3","6":"CH3","7":"CH3","8":"CH3","9":"CH3","10":"CH3","11":"CH3","12":"CH3","13":"CH3","14":"OH"}},"4-methylbenzaldehyde":{"smiles":"Cc1ccc(C=O)cc1","atoms":[["C",-2.268,0.234],["C",-1.278,0.09],["C",-0.658,0.874],["C",0.331,0.73],["C",0.701,-0.2],["C",1.69,-0.344],["O",2.31,0.44],["C",0.081,-0.984],["C",-0.909,-0.84],["H",-2.123,1.224],["H",-3.052,0.854],["H",-2.888,-0.55],["H",-1.028,1.803],["H",0.951,1.514],["H",2.06,-1.273],["H",0.45,-1.914],["H",-1.529,-1.624]],"bonds":[[0,1,1],[1,2,1,1],[2,3,2,1],[3,4,1,1],[4,5,1],[5,6,2],[4,7,2,1],[7,8,1,1],[8,1,2,1],[0,9,1],[0,10,1],[0,11,1],[2,12,1],[3,13,1],[5,14,1],[7,15,1],[8,16,1]],"hset":{"9":"CH3","10":"CH3","11":"CH3","12":"ArH_b","13":"ArH_a","14":"CHO","15":"ArH_a","16":"ArH_b"}},"1-chloropropane":{"smiles":"CCCCl","atoms":[["C",-1.0,-0.433],["C",-0.5,0.433],["C",0.5,0.433],["Cl",1.0,-0.433],["H",-1.866,0.067],["H",-1.866,-0.933],["H",-0.5,-1.299],["H",-1.366,0.933],["H",-0.5,1.433],["H",0.5,1.433],["H",1.366,0.933]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH2","8":"CH2","9":"CH2Cl","10":"CH2Cl"}},"ethanoic acid":{"smiles":"CC(=O)O","atoms":[["C",-0.537,-0.843],["C",0.0,-0.0],["O",0.999,-0.044],["O",-0.462,0.887],["H",-1.381,-0.306],["H",-1.424,-1.305],["H",-0.076,-1.73],["H",0.076,1.73]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[3,7,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"COOH"}},"propane":{"smiles":"CCC","atoms":[["C",-0.866,-0.167],["C",-0.0,0.333],["C",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",-0.5,1.199],["H",0.5,1.199],["H",1.366,0.699],["H",1.866,-0.167],["H",0.866,-1.167]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH2","7":"CH2","8":"CH3","9":"CH3","10":"CH3"}},"butane":{"smiles":"CCCC","atoms":[["C",-1.32,-0.091],["C",-0.4,0.301],["C",0.4,-0.301],["C",1.32,0.091],["H",-1.711,0.829],["H",-2.312,0.03],["H",-1.441,-1.084],["H",0.202,1.1],["H",-0.791,1.221],["H",-0.202,-1.1],["H",0.791,-1.221],["H",1.711,-0.829],["H",2.312,-0.03],["H",1.441,1.084]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH2","8":"CH2","9":"CH2","10":"CH2","11":"CH3","12":"CH3","13":"CH3"}},"2-methylpropane":{"smiles":"CC(C)C","atoms":[["C",-0.964,0.314],["C",0.008,0.248],["C",1.072,0.198],["C",-0.116,-0.76],["H",-0.899,1.309],["H",-1.794,0.858],["H",-1.509,-0.523],["H",0.064,1.247],["H",1.114,1.194],["H",1.951,0.668],["H",1.564,-0.674],["H",0.763,-0.877],["H",0.3,-1.667],["H",-1.023,-1.171]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1]],"hset":{"4":"CH3","5":"CH3","6":"CH3","7":"CH","8":"CH3","9":"CH3","10":"CH3","11":"CH3","12":"CH3","13":"CH3"}},"benzene":{"smiles":"c1ccccc1","atoms":[["C",-0.923,-0.386],["C",-0.127,-0.992],["C",0.795,-0.606],["C",0.923,0.386],["C",0.127,0.992],["C",-0.795,0.606],["H",-1.845,-0.771],["H",-0.255,-1.984],["H",1.591,-1.212],["H",1.845,0.771],["H",0.255,1.984],["H",-1.591,1.212]],"bonds":[[0,1,1,1],[1,2,2,1],[2,3,1,1],[3,4,2,1],[4,5,1,1],[5,0,2,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[4,10,1],[5,11,1]],"hset":{"6":"ArH","7":"ArH","8":"ArH","9":"ArH","10":"ArH","11":"ArH"}},"methanol":{"smiles":"CO","atoms":[["C",-0.5,-0.0],["O",0.5,0.0],["H",-0.5,-1.0],["H",-1.366,-0.5],["H",-1.0,0.866],["H",1.0,-0.866]],"bonds":[[0,1,1],[0,2,1],[0,3,1],[0,4,1],[1,5,1]],"hset":{"2":"CH3","3":"CH3","4":"CH3","5":"OH"}},"methoxymethane":{"smiles":"COC","atoms":[["C",-0.866,-0.167],["O",-0.0,0.333],["C",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",0.366,-1.033],["H",1.366,-1.033],["H",1.732,0.333]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[2,6,1],[2,7,1],[2,8,1]],"hset":{"3":"CH3","4":"CH3","5":"CH3","6":"CH3","7":"CH3","8":"CH3"}},"1,4-dichlorobenzene":{"smiles":"Clc1ccc(Cl)cc1","atoms":[["Cl",-2.0,-0.0],["C",-1.0,0.0],["C",-0.5,-0.866],["C",0.5,-0.866],["C",1.0,-0.0],["Cl",2.0,0.0],["C",0.5,0.866],["C",-0.5,0.866],["H",-1.0,-1.732],["H",1.0,-1.732],["H",1.0,1.732],["H",-1.0,1.732]],"bonds":[[0,1,1],[1,2,1,1],[2,3,2,1],[3,4,1,1],[4,5,1],[4,6,2,1],[6,7,1,1],[7,1,2,1],[2,8,1],[3,9,1],[6,10,1],[7,11,1]],"hset":{"8":"ArH","9":"ArH","10":"ArH","11":"ArH"}},"chloromethane":{"smiles":"CCl","atoms":[["C",-0.5,-0.0],["Cl",0.5,-0.0],["H",-0.5,-1.0],["H",-1.366,-0.5],["H",-1.0,0.866]],"bonds":[[0,1,1],[0,2,1],[0,3,1],[0,4,1]],"hset":{"2":"CH3","3":"CH3","4":"CH3"}},"dichloromethane":{"smiles":"ClCCl","atoms":[["Cl",-0.707,-0.236],["C",-0.0,0.471],["Cl",0.707,-0.236],["H",-0.966,0.73],["H",0.259,1.437]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"hset":{"3":"CH2","4":"CH2"}},"trichloromethane":{"smiles":"ClC(Cl)Cl","atoms":[["Cl",-0.884,0.209],["C",0.104,0.362],["Cl",1.037,0.0],["Cl",-0.257,-0.571],["H",-0.048,1.35]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"hset":{"4":"CH"}},"ethene":{"smiles":"C=C","atoms":[["C",-0.5,-0.0],["C",0.5,-0.0],["H",-1.0,-0.866],["H",-1.0,0.866],["H",1.0,0.866],["H",1.0,-0.866]],"bonds":[[0,1,2],[0,2,1],[0,3,1],[1,4,1],[1,5,1]],"hset":{"2":"CH2","3":"CH2","4":"CH2","5":"CH2"}},"ethyne":{"smiles":"C#C","atoms":[["C",-0.5,-0.0],["C",0.5,-0.0],["H",-1.5,-0.0],["H",1.5,0.0]],"bonds":[[0,1,3],[0,2,1],[1,3,1]],"hset":{"2":"CH","3":"CH"}}};
 LAB.MOLG = MOLG;
 
 /* =====================================================
-   DATA. The spectrum model is the shared spectra.json (inserted by build.sh, the same file the notes' figures use).
-   Booklet table (section 6) and the per-set descriptions are from DATA.md.
+   DATA. The spectrum model is inserted here when the page is assembled.
+   Booklet table (section 6) and the per-set descriptions come from the chapter data sheet.
    ===================================================== */
-const SPECJ = {"spectrometer_MHz":400,"linewidth_Hz":1.0,"broad_width_Hz":8.0,"arom_m_lines_ppm":[7.3,7.28,7.26,7.24,7.22,7.2,7.18,7.16],"arom_m_rel":[1,2,3,2,3,2,2,1],"notes":"Each set: [label, delta_ppm, nH, [[n_equivalent_neighbours, J_Hz], ...], kind]. Lines: first-order; for each neighbour group n with J, convolve Pascal row n; centre on delta*MHz Hz; scale total area to nH. kind 'broad' = one Lorentzian width broad_width_Hz; 'arom_m' = envelope from arom_m_lines_ppm with arom_m_rel weights (area nH); 'para_d' = doublet as given (not truly first order); 'm' = draw first-order but label multiplet. OH/COOH positions vary (illustrative). TMS at 0.00 (singlet) added to every displayed spectrum unless stated.","compounds":{"ethanol":{"formula":"C2H6O","sets":[["CH2",3.69,2,[[3,7.0]],""],["OH",2.6,1,[],"broad"],["CH3",1.22,3,[[2,7.0]],""]]},"chloroethane":{"formula":"C2H5Cl","sets":[["CH2",3.57,2,[[3,7.0]],""],["CH3",1.48,3,[[2,7.0]],""]]},"propan-2-ol":{"formula":"C3H8O","sets":[["CH",4.01,1,[[6,7.0]],""],["OH",2.0,1,[],"broad"],["CH3",1.2,6,[[1,7.0]],""]]},"propanone":{"formula":"C3H6O","sets":[["CH3",2.17,6,[],""]]},"ethanal":{"formula":"C2H4O","sets":[["CHO",9.8,1,[[3,2.9]],""],["CH3",2.21,3,[[1,2.9]],""]]},"methylbenzene":{"formula":"C7H8","sets":[["C6H5",7.22,5,[],"arom_m"],["CH3",2.35,3,[],""]]},"ethylbenzene":{"formula":"C8H10","sets":[["C6H5",7.22,5,[],"arom_m"],["CH2",2.65,2,[[3,7.0]],""],["CH3",1.24,3,[[2,7.0]],""]]},"1,4-dimethylbenzene":{"formula":"C8H10","sets":[["ArH",7.05,4,[],""],["CH3",2.3,6,[],""]]},"ethyl ethanoate":{"formula":"C4H8O2","sets":[["OCH2",4.12,2,[[3,7.0]],""],["CH3CO",2.05,3,[],""],["CH3",1.26,3,[[2,7.0]],""]]},"methyl propanoate":{"formula":"C4H8O2","sets":[["OCH3",3.67,3,[],""],["CH2",2.32,2,[[3,7.0]],""],["CH3",1.14,3,[[2,7.0]],""]]},"2-methylpropan-1-ol":{"formula":"C4H10O","sets":[["CH2O",3.4,2,[[1,7.0]],""],["OH",1.9,1,[],"broad"],["CH",1.77,1,[[8,7.0]],""],["CH3",0.92,6,[[1,7.0]],""]]},"2-methylpropan-2-ol":{"formula":"C4H10O","sets":[["OH",1.6,1,[],"broad"],["CH3",1.28,9,[],""]]},"4-methylbenzaldehyde":{"formula":"C8H8O","sets":[["CHO",9.96,1,[],""],["ArH_a",7.77,2,[[1,8.0]],"para_d"],["ArH_b",7.33,2,[[1,8.0]],"para_d"],["CH3",2.43,3,[],""]]},"1-chloropropane":{"formula":"C3H7Cl","sets":[["CH2Cl",3.47,2,[[2,7.0]],""],["CH2",1.81,2,[[5,7.0]],""],["CH3",1.06,3,[[2,7.0]],""]]},"ethanoic acid":{"formula":"C2H4O2","sets":[["COOH",11.4,1,[],"broad"],["CH3",2.1,3,[],""]]},"propane":{"formula":"C3H8","sets":[["CH2",1.34,2,[[6,7.0]],""],["CH3",0.9,6,[[2,7.0]],""]]},"butane":{"formula":"C4H10","sets":[["CH2",1.31,4,[[3,7.0]],"m"],["CH3",0.9,6,[[2,7.0]],""]]},"2-methylpropane":{"formula":"C4H10","sets":[["CH",1.74,1,[[9,7.0]],""],["CH3",0.89,9,[[1,7.0]],""]]},"benzene":{"formula":"C6H6","sets":[["ArH",7.36,6,[],""]]},"methanol":{"formula":"CH4O","sets":[["CH3",3.49,3,[],""],["OH",1.8,1,[],"broad"]]},"ethoxyethane":{"formula":"C4H10O","sets":[["OCH2",3.48,4,[[3,7.0]],""],["CH3",1.21,6,[[2,7.0]],""]]},"1,1,2-trichloroethane":{"formula":"C2H3Cl3","sets":[["CHCl2",5.76,1,[[2,6.0]],""],["CH2Cl",3.95,2,[[1,6.0]],""]]},"ethyl propanoate":{"formula":"C5H10O2","sets":[["OCH2",4.13,2,[[3,7.0]],""],["CH2",2.32,2,[[3,7.0]],""],["OCH2CH3",1.26,3,[[2,7.0]],""],["CH3",1.14,3,[[2,7.0]],""]]},"methoxymethane":{"formula":"C2H6O","sets":[["CH3",3.24,6,[],""]]},"1,4-dichlorobenzene":{"formula":"C6H4Cl2","sets":[["ArH",7.25,4,[],""]]},"chloromethane":{"formula":"CH3Cl","sets":[["CH3",3.05,3,[],""]]},"dichloromethane":{"formula":"CH2Cl2","sets":[["CH2",5.3,2,[],""]]},"trichloromethane":{"formula":"CHCl3","sets":[["CH",7.26,1,[],""]]},"ethene":{"formula":"C2H4","sets":[["CH2",5.28,4,[],""]]},"ethyne":{"formula":"C2H2","sets":[["CH",1.91,2,[],""]]},"2-chloro-2-methylpropane":{"formula":"C4H9Cl","sets":[["CH3",1.62,9,[],""]]}}};
+const SPECJ = {"spectrometer_MHz":400,"linewidth_Hz":1.0,"broad_width_Hz":8.0,"arom_m_lines_ppm":[7.3,7.28,7.26,7.24,7.22,7.2,7.18,7.16],"arom_m_rel":[1,2,3,2,3,2,2,1],"notes":"Each set: [label, delta_ppm, nH, [[n_equivalent_neighbours, J_Hz], ...], kind]. Lines: first-order; for each neighbour group n with J, convolve Pascal row n; centre on delta*MHz Hz; scale total area to nH. kind 'broad' = one Lorentzian width broad_width_Hz; 'arom_m' = envelope from arom_m_lines_ppm with arom_m_rel weights (area nH); 'para_d' = doublet as given (not truly first order); 'm' = draw first-order but label multiplet. OH/COOH positions vary (illustrative). TMS at 0.00 (singlet) added to every displayed spectrum unless stated.","compounds":{"ethanol":{"formula":"C2H6O","sets":[["CH2",3.69,2,[[3,7.0]],""],["OH",2.6,1,[],"broad"],["CH3",1.22,3,[[2,7.0]],""]]},"chloroethane":{"formula":"C2H5Cl","sets":[["CH2",3.57,2,[[3,7.0]],""],["CH3",1.48,3,[[2,7.0]],""]]},"propan-2-ol":{"formula":"C3H8O","sets":[["CH",4.01,1,[[6,7.0]],""],["OH",2.0,1,[],"broad"],["CH3",1.2,6,[[1,7.0]],""]]},"propanone":{"formula":"C3H6O","sets":[["CH3",2.17,6,[],""]]},"ethanal":{"formula":"C2H4O","sets":[["CHO",9.8,1,[[3,2.9]],""],["CH3",2.21,3,[[1,2.9]],""]]},"methylbenzene":{"formula":"C7H8","sets":[["C6H5",7.22,5,[],"arom_m"],["CH3",2.35,3,[],""]]},"ethylbenzene":{"formula":"C8H10","sets":[["C6H5",7.22,5,[],"arom_m"],["CH2",2.65,2,[[3,7.0]],""],["CH3",1.24,3,[[2,7.0]],""]]},"1,4-dimethylbenzene":{"formula":"C8H10","sets":[["ArH",7.05,4,[],""],["CH3",2.3,6,[],""]]},"ethyl ethanoate":{"formula":"C4H8O2","sets":[["OCH2",4.12,2,[[3,7.0]],""],["CH3CO",2.05,3,[],""],["CH3",1.26,3,[[2,7.0]],""]]},"methyl propanoate":{"formula":"C4H8O2","sets":[["OCH3",3.67,3,[],""],["CH2",2.32,2,[[3,7.0]],""],["CH3",1.14,3,[[2,7.0]],""]]},"2-methylpropan-1-ol":{"formula":"C4H10O","sets":[["CH2O",3.4,2,[[1,7.0]],""],["OH",1.9,1,[],"broad"],["CH",1.77,1,[[8,7.0]],""],["CH3",0.92,6,[[1,7.0]],""]]},"2-methylpropan-2-ol":{"formula":"C4H10O","sets":[["OH",1.6,1,[],"broad"],["CH3",1.28,9,[],""]]},"4-methylbenzaldehyde":{"formula":"C8H8O","sets":[["CHO",9.96,1,[],""],["ArH_a",7.77,2,[[1,8.0]],"para_d"],["ArH_b",7.33,2,[[1,8.0]],"para_d"],["CH3",2.43,3,[],""]]},"1-chloropropane":{"formula":"C3H7Cl","sets":[["CH2Cl",3.47,2,[[2,7.0]],""],["CH2",1.81,2,[[5,7.0]],""],["CH3",1.06,3,[[2,7.0]],""]]},"ethanoic acid":{"formula":"C2H4O2","sets":[["COOH",11.4,1,[],"broad"],["CH3",2.1,3,[],""]]},"propane":{"formula":"C3H8","sets":[["CH2",1.34,2,[[6,7.0]],""],["CH3",0.9,6,[[2,7.0]],""]]},"butane":{"formula":"C4H10","sets":[["CH2",1.31,4,[[3,7.0]],"m"],["CH3",0.9,6,[[2,7.0]],""]]},"2-methylpropane":{"formula":"C4H10","sets":[["CH",1.74,1,[[9,7.0]],""],["CH3",0.89,9,[[1,7.0]],""]]},"benzene":{"formula":"C6H6","sets":[["ArH",7.36,6,[],""]]},"methanol":{"formula":"CH4O","sets":[["CH3",3.49,3,[],""],["OH",1.8,1,[],"broad"]]},"methoxymethane":{"formula":"C2H6O","sets":[["CH3",3.24,6,[],""]]},"1,4-dichlorobenzene":{"formula":"C6H4Cl2","sets":[["ArH",7.25,4,[],""]]},"chloromethane":{"formula":"CH3Cl","sets":[["CH3",3.05,3,[],""]]},"dichloromethane":{"formula":"CH2Cl2","sets":[["CH2",5.3,2,[],""]]},"trichloromethane":{"formula":"CHCl3","sets":[["CH",7.26,1,[],""]]},"ethene":{"formula":"C2H4","sets":[["CH2",5.28,4,[],""]]},"ethyne":{"formula":"C2H2","sets":[["CH",1.91,2,[],""]]}}};
 LAB.SPECJ = SPECJ;
 const MHZ = SPECJ.spectrometer_MHz, LW = SPECJ.linewidth_Hz, BW = SPECJ.broad_width_Hz;
 
-// Data Booklet section 6, as printed (DATA.md)
+// Data Booklet section 6, as printed
 const BOOK = [
   { k: "alk", t: "C–H alkane", ex: "–CH₃, –CH₂–", lo: 0.9, hi: 1.7 },
   { k: "co", t: "alkyl next to C=O", ex: "CH₃–C=O, –CH₂–C=O", lo: 2.2, hi: 3.0 },
@@ -953,9 +1004,9 @@ const BOOK_NOTE = "δ values for –O–H and –N–H protons can vary dependin
 LAB.BOOK = BOOK;
 const rng = r => `${r.lo.toFixed(1)}–${r.hi.toFixed(1)}`;
 
-// Molecules offered: the notes' compounds (DATA.md whole-compound table) and the lab-only extras.
+// Molecules offered: the notes' compounds (whole-compound table) and the lab-only extras.
 const NOTES_MOLS = ["ethanol", "chloroethane", "propan-2-ol", "propanone", "ethanal", "methylbenzene", "ethylbenzene", "1,4-dimethylbenzene", "ethyl ethanoate", "methyl propanoate", "2-methylpropan-1-ol", "2-methylpropan-2-ol", "4-methylbenzaldehyde", "1-chloropropane", "ethanoic acid", "propane", "butane", "2-methylpropane", "benzene", "methanol"];
-const EXTRA_MOLS = ["ethoxyethane", "1,1,2-trichloroethane", "ethyl propanoate", "methoxymethane", "1,4-dichlorobenzene", "chloromethane", "dichloromethane", "trichloromethane", "ethene", "ethyne"];
+const EXTRA_MOLS = ["methoxymethane", "1,4-dichlorobenzene", "chloromethane", "dichloromethane", "trichloromethane", "ethene", "ethyne"];
 const ALL_MOLS = NOTES_MOLS.concat(EXTRA_MOLS);
 LAB.NOTES_MOLS = NOTES_MOLS; LAB.EXTRA_MOLS = EXTRA_MOLS;
 const FORMULA = n => SPECJ.compounds[n].formula.replace(/\d+/g, m => [...m].map(d => "₀₁₂₃₄₅₆₇₈₉"[d]).join(""));
@@ -982,9 +1033,6 @@ const SI = {
   "2-methylpropane": { CH: ["CH", "alk", "the 9 H of the three CH₃ groups"], CH3: ["three CH₃ groups", "alk", "the 1 H of the CH"] },
   "benzene": { ArH: ["6 ring H", "arH", "none: all six are equivalent"] },
   "methanol": { CH3: ["CH₃ next to O", "en", "none (the O–H does not split it)"], OH: ["O–H", "oh", "OH"] },
-  "ethoxyethane": { OCH2: ["two CH₂ groups next to O", "en", "the 3 H of the CH₃ next to it"], CH3: ["two CH₃ groups", "alk", "the 2 H of the CH₂ next to it"] },
-  "1,1,2-trichloroethane": { CHCl2: ["CH with two Cl", "en", "the 2 H of the CH₂Cl", "Two Cl on the same carbon: the inductive effects add up."], CH2Cl: ["CH₂ next to Cl", "en", "the 1 H of the CHCl₂"] },
-  "ethyl propanoate": { OCH2: ["CH₂ next to the ester O", "en", "the 3 H of its CH₃", "Next to the O of an ester, a little higher than the 3.2–4.0 range."], CH2: ["CH₂ next to C=O", "co", "the 3 H of its CH₃"], OCH2CH3: ["CH₃ of the O–CH₂CH₃ group", "alk", "the 2 H of the O–CH₂"], CH3: ["CH₃ of the CH₃CH₂–C=O group", "alk", "the 2 H of the CH₂ next to C=O"] },
   "methoxymethane": { CH3: ["two CH₃ groups next to O", "en", "none: the O has no H"] },
   "1,4-dichlorobenzene": { ArH: ["4 ring H", "arH", "none: the four ring H are equivalent"] },
   "chloromethane": { CH3: ["CH₃ next to Cl", "en", "none", "A few small molecules sit just outside the typical ranges: 3.05 is just below 3.2."] },
@@ -995,7 +1043,7 @@ const SI = {
 };
 LAB.SI = SI;
 
-/* ---------- the first-order model (DATA.md / spectra.json notes) ---------- */
+/* ---------- the first-order model (chapter data sheet) ---------- */
 const PASCAL = n => { let r = [1]; for (let i = 0; i < n; i++){ const s = [1]; for (let k = 1; k < r.length; k++) s.push(r[k - 1] + r[k]); s.push(1); r = s; } return r; };
 LAB.PASCAL = PASCAL;
 const MULT = ["singlet", "doublet", "triplet", "quartet", "quintet", "sextet", "septet"];
@@ -1023,12 +1071,12 @@ function setLines(st){
 }
 LAB.setLines = setLines;
 const nNb = st => st[3].reduce((a, g) => a + g[0], 0);
-// display: δ with 2 decimals; broad (variable) signals with 1, as DATA.md writes them
+// display: δ with 2 decimals; broad (variable) signals with 1, as the chapter writes them
 const dTxt = st => st[4] === "broad" ? st[1].toFixed(1) : st[1].toFixed(2);
 function multOf(st){
   const n = nNb(st), kind = st[4];
   if (kind === "arom_m") return { name: "multiplet", abb: "m", lines: null };
-  if (kind === "broad") return { name: "singlet, broad", abb: "s", lines: 1 };
+  if (kind === "broad") return { name: "singlet (broad)", abb: "s", lines: 1 };
   if (kind === "m") return { name: "multiplet", abb: "m", lines: n + 1, fo: multName(n) };
   if (st[3].length > 1) return { name: "multiplet", abb: "m", lines: null };
   return { name: multName(n), abb: multAbb(n), lines: n + 1 };
@@ -1119,13 +1167,14 @@ function drawMol(svg, name, o){
     const offs = ord === 2 ? [-2.6, 2.6] : ord === 3 ? [-3.6, 0, 3.6] : [0];
     offs.forEach(d => { s += `<line class="bond" x1="${(ax - uy * d).toFixed(1)}" y1="${(ay + ux * d).toFixed(1)}" x2="${(bx - uy * d).toFixed(1)}" y2="${(by + ux * d).toFixed(1)}"/>`; });
   });
+  let hn = 0;
   g.atoms.forEach((a, i) => {
     const [x, y] = P(i), e = sym(i), isH = e === "H";
     const lt = o.letters && o.letters[i];
     const cls = e === "X" ? "atomx" + (o.xAnim ? " xin" : "") : isH ? "atomh" + (o.dim && o.dim.has(i) ? " dim" : "") : "atom";
     s += `<text x="${x.toFixed(1)}" y="${(y + 4.3).toFixed(1)}" class="${cls}" text-anchor="middle">${e}</text>`;
     if (lt) s += `<text x="${(x + 6.2).toFixed(1)}" y="${(y + 8.6).toFixed(1)}" class="hlet">${lt}</text>`;
-    if (isH && o.tap) s += `<circle class="hitbox" data-h="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="12"><title>H atom</title></circle>`;
+    if (isH && o.tap) s += `<circle class="hitbox" data-h="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="12"><title>${lt ? `Hydrogen, set ${lt}` : `Hydrogen atom ${++hn}`}</title></circle>`;
   });
   if (o.note) s += T(8, Hh - 6, o.note, "cap");
   setSvg(svg, W, Hh, s);
@@ -1210,7 +1259,7 @@ function specPlot(svg, sigs, o){
     });
   }
   // tap targets
-  if (o.tap && !o.hide) sigs.forEach(sg => { const [a, b] = span(sg); const xa = X(a), xb = X(b), w = Math.max(xb - xa, 18); s += `<rect class="hitbox" data-k="${esc(sg.key)}" x="${((xa + xb) / 2 - w / 2).toFixed(1)}" y="${top - 30}" width="${w.toFixed(1)}" height="${base - top + 30}"><title>signal</title></rect>`; });
+  if (o.tap && !o.hide) sigs.forEach(sg => { const [a, b] = span(sg); const xa = X(a), xb = X(b), w = Math.max(xb - xa, 24); s += `<rect class="hitbox" data-k="${esc(sg.key)}" x="${((xa + xb) / 2 - w / 2).toFixed(1)}" y="${top - 30}" width="${w.toFixed(1)}" height="${base - top + 30}"><title>${sg.letter ? `Signal ${sg.letter}` : "Signal"}</title></rect>`; });
   if (o.extra) s += o.extra(X, base, top, sy);
   setSvg(svg, W, Hh, s);
   if (o.tap) svg.querySelectorAll(".hitbox[data-k]").forEach(r => r.addEventListener("click", () => o.tap(r.dataset.k)));
@@ -1238,7 +1287,7 @@ function specExpand(svg, sg, o){
   s += `<line class="axis" x1="${m.l}" y1="${base}" x2="${W - m.r}" y2="${base}"/>` + T(W - m.r, base + 30, "δ / ppm", "axlab", 'text-anchor="end"');
   if (o.hz){
     const hstep = span > 120 ? 20 : span > 50 ? 10 : 5;
-    for (let v = Math.ceil((lo - c) * MHZ / hstep) * hstep; v <= (hi - c) * MHZ + 1e-9; v += hstep){ const x = X(c + v / MHZ); s += T(x, base + 44, sgn(v, 0), "tick", 'text-anchor="middle"'); }
+    for (let v = Math.ceil((lo - c) * MHZ / hstep) * hstep; v <= (hi - c) * MHZ + 1e-9; v += hstep){ const x = X(c + v / MHZ); if (x > m.l + 40) s += T(x, base + 44, sgn(v, 0), "tick", 'text-anchor="middle"'); }   // clear of the "Hz:" caption
     s += T(m.l, base + 44, "Hz:", "tick");
   }
   s += `<path d="${pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + (base - p[1] * sy).toFixed(1)).join("")}" class="specline"/>`;
@@ -1255,7 +1304,7 @@ LAB.specExpand = specExpand;
 /* =====================================================
    1. SPECTRUM BUILDER
    ===================================================== */
-const SB = { mol: "ethanol", mode: "show", sel: "CH2", revealed: true, trace: true, J: false };
+const SB = { mol: "ethanol", mode: "show", sel: "CH2", revealed: true, trace: true, J: false, checked: false };
 LAB.SB = SB;
 const gcd = (a, b) => b ? gcd(b, a % b) : a;
 const ratioOf = arr => { const g = arr.reduce((a, b) => gcd(a, b)); return arr.map(v => v / g); };
@@ -1300,7 +1349,7 @@ function sbChips(){
 function sbSet(name, sel){
   SB.mol = name; const sets = molSets(name);
   SB.sel = sel || sets.slice().sort((a, b) => a.letter.localeCompare(b.letter))[0].key;
-  SB.revealed = SB.mode !== "pred";
+  SB.revealed = SB.mode !== "pred"; SB.checked = false;
   document.querySelectorAll("#sb-mols button, #sb-mols2 button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.m === name)));
   ["sb-pn", "sb-pr", "sb-pm"].forEach(i => { $(i).value = ""; });
   $("sb-pfb").hidden = true;
@@ -1312,7 +1361,7 @@ LAB.sbSelect = sbSelect;
 function sbRender(){
   const name = SB.mol, sets = molSets(name), show = SB.revealed;
   const g = MOLG[name], sel = sets.find(S => S.key === SB.sel);
-  $("sb-pred").hidden = SB.mode !== "pred" || show;
+  $("sb-pred").hidden = SB.mode !== "pred" || (show && !SB.checked);   // the prediction and its marking stay up after "Check and reveal"
   $("sm-head").innerHTML = `${H(name)}, ${H(FORMULA(name))} <span class="hint">${show ? "tap a hydrogen atom" : "displayed formula"}</span>`;
   const halo = show && sel ? Object.entries(g.hset).filter(([h, k]) => k === sel.key).map(([h]) => [+h, "ahalo"]) : [];
   drawMol($("sm-svg"), name, { letters: show ? letterMap(name) : null, halo, tap: show ? (h => sbSelect(g.hset[h])) : null, maxH: 240, bond: 48 });
@@ -1336,7 +1385,7 @@ function sbRender(){
   const ord = sets.slice().sort((a, b) => b.st[1] - a.st[1]);
   $("sb-tbl").innerHTML = `<caption class="hint" style="text-align:left;caption-side:top;padding-bottom:4px">The signals, from left (high δ) to right</caption><thead><tr><th>Set</th><th class="num">δ / ppm</th><th>Data Booklet row (range)</th><th class="num">Peak area</th><th>Multiplicity</th></tr></thead><tbody>` +
     ord.map(S => { const rn = rangeNote(name, S); return `<tr data-k="${esc(S.key)}"${S.key === SB.sel ? ' class="hl"' : ""} style="cursor:pointer"><td>${S.letter}</td><td class="num">${dTxt(S.st)}</td><td>${H(rn.r.t)} (${rng(rn.r)})${rn.inR ? "" : ` <span class="hint">${rn.side}</span>`}</td><td class="num">${S.st[2]} H</td><td>${H(S.mult.name)}</td></tr>`; }).join("") + `</tbody>`;
-  $("sb-tbl").querySelectorAll("tr[data-k]").forEach(r => r.onclick = () => sbSelect(r.dataset.k));
+  $("sb-tbl").querySelectorAll("tr[data-k]").forEach(r => { r.onclick = () => sbSelect(r.dataset.k); r.setAttribute("tabindex", "0"); if (r.dataset.k === SB.sel) r.setAttribute("aria-current", "true"); kbdKey(r, () => sbSelect(r.dataset.k)); });
   $("sb-info").className = "fb info";
   $("sb-info").innerHTML = sel ? setInfo(name, sel, { J: SB.J }) + `<p>Peak areas ${rat.join(" : ")} add up to ${rat.reduce((a, b) => a + b, 0)}; ${H(FORMULA(name))} has ${sets.reduce((a, S) => a + S.st[2], 0)} H, so each unit is ${sets.reduce((a, S) => a + S.st[2], 0) / rat.reduce((a, b) => a + b, 0)} H.</p>` : "";
   if (sel){
@@ -1351,7 +1400,7 @@ function sbRender(){
 }
 LAB.sbRender = sbRender;
 // predict mode: number of signals, ratio, multiplicities
-const MTOK = { s: "s", singlet: "s", d: "d", doublet: "d", t: "t", triplet: "t", q: "q", quartet: "q", quintet: "quintet", quin: "quintet", pentet: "quintet", sextet: "sextet", sext: "sextet", septet: "septet", sept: "septet", heptet: "septet", m: "m", multiplet: "m" };
+const MTOK = { nonet: "m", s: "s", singlet: "s", d: "d", doublet: "d", t: "t", triplet: "t", q: "q", quartet: "q", quintet: "quintet", quin: "quintet", pentet: "quintet", sextet: "sextet", sext: "sextet", septet: "septet", sept: "septet", heptet: "septet", m: "m", multiplet: "m" };
 function acceptMult(S){
   const st = S.st, n = nNb(st);
   if (st[4] === "arom_m") return ["m"];
@@ -1371,14 +1420,26 @@ function parseRatio(s){ const v = String(s).split(/[:\s,;/]+/).filter(Boolean).m
 LAB.parseRatio = parseRatio;
 const sameRatioSet = (a, b) => { if (!a || a.length !== b.length) return false; const ra = a.map(x => Math.round(x * 1000)); if (ra.some((x, i) => Math.abs(x - a[i] * 1000) > 1e-6)) return false; const A = ratioOf(ra).sort((x, y) => x - y), B = ratioOf(b).sort((x, y) => x - y); return A.every((x, i) => x === B[i]); };
 LAB.sameRatioSet = sameRatioSet;
+// the typed multiplicities as tokens: "broad", "br" and "(broad)" are ignored (an O–H singlet is still a singlet); "9 lines" means a nonet;
+// "multiplet (9 lines)" is one multiplet, not two items
+function multToks(s){
+  const raw = String(s).toLowerCase().replace(/\b(\d+)\s*[- ]?lines?\b/g, (m, k) => k === "9" ? "nonet" : "?").replace(/[()]/g, " ").split(/[\s,;]+/).filter(Boolean).filter(t => t !== "broad" && t !== "br");
+  const out = [], kept = [];
+  raw.forEach(t => {
+    const m = MTOK[t] || "?";
+    if (m === "m" && out.length && out[out.length - 1] === "m" && (t === "nonet" || kept[kept.length - 1] === "nonet")) return;   // "multiplet nonet": one item
+    out.push(m); kept.push(t);
+  });
+  return out;
+}
 function sbGrade(nS, rS, mS){
   const sets = molSets(SB.mol), n = sets.length, res = [];
-  const nv = parseInt(nS, 10);
-  res.push([nv === n, nv === n ? `Signals: ${n}. Right.` : `Signals: ${n}, not ${isNaN(nv) ? "blank" : nv}. Each set of equivalent protons gives one signal${hasRing5(SB.mol) ? " (the C₆H₅ ring counts as one multiplet here)" : ""}.`]);
+  const nv = parseCount(nS), raw = String(nS).trim();
+  res.push([nv === n, nv === n ? `Signals: ${n}. Right.` : `Signals: ${n}, not ${nv == null ? (raw || "blank") : nv}. Each set of equivalent protons gives one signal${hasRing5(SB.mol) ? " (the C₆H₅ ring counts as one multiplet here)" : ""}.`]);
   const rv = parseRatio(rS), tr = ratioOf(sets.map(S => S.st[2]));
   const rok = sameRatioSet(rv, tr);
   res.push([rok, rok ? `Peak areas ${tr.join(" : ")}. Right.` : `Peak areas ${tr.join(" : ")} (in some order): the area of each signal is proportional to the number of H in its set.`]);
-  const toks = String(mS).toLowerCase().split(/[\s,;]+/).filter(Boolean).map(t => MTOK[t] || "?");
+  const toks = multToks(mS);
   const mok = permMatch(toks, sets.map(acceptMult));
   res.push([mok, mok ? `Multiplicities ${sets.map(S => S.mult.abb).join(", ")}. Right.` : `Multiplicities: ${sets.slice().sort((a, b) => b.st[1] - a.st[1]).map(S => S.mult.name).join(", ")}. Count the H on the neighbouring carbons (n) and use n + 1; O–H gives a singlet.`]);
   return res;
@@ -1386,16 +1447,16 @@ function sbGrade(nS, rS, mS){
 LAB.sbGrade = sbGrade;
 function bindSB(){
   sbChips();
-  document.querySelectorAll('input[name="sb-mode"]').forEach(r => r.onchange = () => { SB.mode = r.value; SB.revealed = SB.mode !== "pred"; $("sb-pfb").hidden = true; sbRender(); });
+  document.querySelectorAll('input[name="sb-mode"]').forEach(r => r.onchange = () => { SB.mode = r.value; SB.revealed = SB.mode !== "pred"; SB.checked = false; $("sb-pfb").hidden = true; sbRender(); });
   $("sb-int").onchange = e => { SB.trace = e.target.checked; sbRender(); };
   $("sb-j").onchange = e => { SB.J = e.target.checked; sbRender(); };
   $("sb-reveal").onclick = () => {
     const r = sbGrade($("sb-pn").value, $("sb-pr").value, $("sb-pm").value), all = r.every(x => x[0]);
     $("sb-pfb").className = "fb " + (all ? "ok" : "no");
     $("sb-pfb").innerHTML = `<p>${all ? "All three right." : "Compare with the spectrum below."}</p><ul>${r.map(x => `<li>${x[0] ? "✓" : "✗"} ${H(x[1])}</li>`).join("")}</ul>`;
-    $("sb-pfb").hidden = false; SB.revealed = true; sbRender(); $("sb-pred").hidden = false;
+    $("sb-pfb").hidden = false; SB.revealed = true; SB.checked = true; sbRender();
   };
-  $("sb-skip").onclick = () => { SB.revealed = true; sbRender(); };
+  $("sb-skip").onclick = () => { SB.revealed = true; SB.checked = false; sbRender(); };
   sbSet("ethanol", "CH2");
 }
 
@@ -1481,8 +1542,9 @@ function trDraw(){
   });
   let yy = yb + 4;
   if (TR.J){
-    const hstep = spreadHz > 60 ? 20 : spreadHz > 24 ? 10 : 5, half = spreadHz / 2 + 2;
-    for (let v = -Math.floor(half / hstep) * hstep; v <= half; v += hstep){ const x = X(v); s += `<line class="axis" x1="${x.toFixed(1)}" y1="${yb}" x2="${x.toFixed(1)}" y2="${yb + 4}"/>` + T(x, yb + 16, sgn(v, 0), "tick", 'text-anchor="middle"'); }
+    // ruler: the smallest step whose labels are 30 px apart, and only ticks that lie inside the drawing
+    const hstep = [1, 2, 5, 10, 20, 50].find(h => h * pxHz >= 30) || 50, half = pxHz ? Math.min(spreadHz / 2 + 2, (avail / 2 - 6) / pxHz) : 0;
+    for (let v = -Math.floor(half / hstep) * hstep; v <= half + 1e-9; v += hstep){ const x = X(v); s += `<line class="axis" x1="${x.toFixed(1)}" y1="${yb}" x2="${x.toFixed(1)}" y2="${yb + 4}"/>` + T(x, yb + 16, sgn(v, 0), "tick", 'text-anchor="middle"'); }
     s += T(W - mR, yb + 30, "Hz from the centre", "tick", 'text-anchor="end"');
     yy += 22;
   }
@@ -1541,7 +1603,7 @@ function bindTR(){
   $("tr-n2").oninput = e => trSet({ n2: +e.target.value });
   $("tr-j1").oninput = e => trSet({ J1: +e.target.value });
   $("tr-j2").oninput = e => trSet({ J2: +e.target.value });
-  $("tr-j").onchange = e => trSet({ J: e.target.checked, J1: TR.J1, J2: TR.J2 });
+  $("tr-j").onchange = e => trSet(e.target.checked ? { J: true } : { J: false, J1: 7.0, J2: 7.0 });   // J off means equal J again
   trSet({});
 }
 
@@ -1625,9 +1687,9 @@ function ringPos(name, grp){
 }
 LAB.ringPos = ringPos;
 function eqCheck(){
-  const v = parseInt($("eq-n").value, 10), name = EQP.mol, ns = nSignals(name), np = hGroups(name).length;
+  const v = parseCount($("eq-n").value), name = EQP.mol, ns = nSignals(name), np = hGroups(name).length;
   const fb = $("eq-fb");
-  if (isNaN(v)){ fb.className = "fb no"; fb.innerHTML = "Enter a whole number."; return; }
+  if (v == null){ fb.className = "fb warn"; fb.innerHTML = "Enter a whole number."; $("eq-n").setAttribute("aria-invalid", "true"); return; }
   const ok = v === ns || v === np;
   $("eq-n").setAttribute("aria-invalid", String(!ok)); $("eq-n").classList.toggle("ok", ok);
   fb.className = "fb " + (ok ? "ok" : "no");
@@ -1649,7 +1711,7 @@ function bindEQ(){
    ===================================================== */
 const CS = { p: "en", en: "CH3Cl", dist: "CHCl3", ani: "benzene", c: 1.233, d2o: "ethanol", shaken: false, fade: 0 };
 LAB.CS = CS;
-// CH₃X series (DATA.md, literature): electronegativity of X (Pauling) and δ of the CH₃ protons
+// CH₃X series (literature): electronegativity of X (Pauling) and δ of the CH₃ protons
 const CHX = [
   { id: "TMS", lp: [7, 17, "start"], lb: "TMS", chip: "TMS (Si(CH₃)₄)", f: "Si(CH₃)₄", X: "Si", chi: 1.90, d: 0.00, t: "TMS: the CH₃ groups are on Si, which is less electronegative than C, so these protons are more shielded than almost any in an organic compound. TMS is the reference, δ = 0." },
   { id: "CH4", lp: [0, -15, "middle"], f: "CH₄", X: "H", chi: 2.20, d: 0.23, t: "Methane: no electronegative atom, only C and H. Well shielded." },
@@ -1769,16 +1831,19 @@ function caDraw(){
       s += at(cx, y1 - S(46), "H", "atomh") + at(cx, y2 + S(46), "H", "atomh") + bond(cx, y1, cx, y1 - S(46), 1) + bond(cx, y2, cx, y2 + S(46), 1);
       s += lab(cx + S(56), cy - S(90), "shielding", "start") + lab(cx + S(56), cy + S(98), "shielding", "start");
       s += lab(cx - S(70), cy + S(50), "deshielding") + lab(cx + S(70), cy + S(50), "deshielding");
-      s += lab(cx - S(52), cy + S(118), "≡C–H on the axis:", "end") + lab(cx - S(52), cy + S(134), "shielded", "end");
+      s += lab(cx - S(52), cy + S(118), "≡C–H on the axis:", "end") + lab(cx - S(52), cy + S(118) + 16, "shielded", "end");   // 16 px apart at any width
     } else {
-      const x1 = cx - S(34), x2 = cx + S(34), right = a.id === "ethanal" ? "O" : "C";
+      // seen edge-on: the molecular plane is the horizontal line through the C=C or C=O axis, perpendicular to the vertical field,
+      // so every atom of the group lies on that line (the two H on one carbon sit one behind the other and are drawn as one)
+      const ethanal = a.id === "ethanal", x1 = cx - S(28), x2 = cx + S(28), right = ethanal ? "O" : "C";
       s += cone(cx, cy - S(14), -1, S(90), S(44)) + cone(cx, cy + S(14), 1, S(90), S(44));
-      s += lobe(cx - S(104), cy, S(52), S(34)) + lobe(cx + S(104), cy, S(52), S(34));
+      s += lobe(cx - S(84), cy, S(42), S(34)) + lobe(cx + S(84), cy, S(42), S(34));   // each lobe is centred on the H it deshields
       s += at(x1, cy, "C") + at(x2, cy, right) + bond(x1, cy, x2, cy, 2);
-      const hs = a.id === "ethanal" ? [[x1 - S(40), cy - S(34), "H", true], [x1 - S(40), cy + S(34), "CH₃", false]] : [[x1 - S(40), cy - S(34), "H", true], [x1 - S(40), cy + S(34), "H", true], [x2 + S(40), cy - S(34), "H", true], [x2 + S(40), cy + S(34), "H", true]];
-      hs.forEach(([x, y, t, h]) => { s += (h ? at(x, y, t, "atomh") : T(x, y + 4.5, t, "atom", 'text-anchor="middle"')) + bond(x1 + (x > cx ? x2 - x1 : 0), cy, x, y, 1); });
+      s += at(x1 - S(52), cy, "H", "atomh") + bond(x1, cy, x1 - S(52), cy, 1);
+      if (!ethanal) s += at(x2 + S(52), cy, "H", "atomh") + bond(x2, cy, x2 + S(52), cy, 1);
       s += lab(cx + S(52), cy - S(88), "shielding", "start") + lab(cx + S(52), cy + S(96), "shielding", "start");
-      s += lab(cx - S(118), cy - S(48), "deshielding") + lab(cx + S(118), cy - S(48), "deshielding");
+      s += lab(cx - S(84), cy - S(48), "deshielding") + lab(cx + S(84), cy - S(48), "deshielding");
+      s += lab(cx, Hh - 12, ethanal ? "seen edge-on: the C=O and its H lie in the horizontal plane" : "seen edge-on: the C=C and its H lie in the horizontal plane");
     }
   }
   setSvg(svg, W, Hh, s);
@@ -1802,13 +1867,13 @@ function cabDraw(){
   });
   const yb = AN.length * rh + 6;
   for (let v = 0; v <= hi; v++){ const x = X(v); s += `<line class="axis" x1="${x.toFixed(1)}" y1="${yb}" x2="${x.toFixed(1)}" y2="${yb + 4}"/>` + (v % (W < 420 ? 2 : 1) === 0 ? T(x, yb + 16, String(v), "tick", 'text-anchor="middle"') : ""); }
-  s += `<line class="axis" x1="${mL}" y1="${yb}" x2="${W - mR}" y2="${yb}"/>` + T(W - mR, Hh - 2, "δ / ppm (bars: Data Booklet ranges)", "axlab", 'text-anchor="end"');
+  s += `<line class="axis" x1="${mL}" y1="${yb}" x2="${W - mR}" y2="${yb}"/>` + T(W - mR, Hh - 5, "δ / ppm (bars: Data Booklet ranges)", "axlab", 'text-anchor="end"');
   setSvg(svg, W, Hh, s);
   svg.querySelectorAll(".hitbox").forEach(h => h.addEventListener("click", () => caSet(h.dataset.c)));
 }
 function caSet(id){ CS.ani = id; caDraw(); }
 LAB.caSet = caSet;
-// hydrogen bonding: ethanol O–H against concentration in CCl₄ (illustrative model, DATA.md: about 5 neat, about 0.7 very dilute)
+// hydrogen bonding: ethanol O–H against concentration in CCl₄ (illustrative model: about 5 neat, about 0.7 very dilute)
 const HB = { dFree: 0.70, dHB: 5.30, K: 0.8, n: 1.5, cNeat: 17.1 };
 LAB.HB = HB;
 const hbFrac = c => Math.pow(c, HB.n) / (Math.pow(c, HB.n) + Math.pow(HB.K, HB.n));
@@ -1823,8 +1888,9 @@ function chDraw(){
     series: [{ pts: Array.from({ length: 87 }, (_, i) => { const L = -3 + i * 0.05; return [L, hbDelta(Math.pow(10, L))]; }).filter(p => p[0] <= Math.log10(HB.cNeat) + 1e-9), col: cssVar("--s1") }],
     over: (X, Y) => `<circle cx="${X(CS.c).toFixed(1)}" cy="${Y(d).toFixed(1)}" r="5.5" class="pt on"/>` });
   $("ch-read").innerHTML = [["O–H δ (model)", d.toFixed(1)], ["O–H groups", hbFrac(c) > 0.8 ? "mostly hydrogen-bonded" : hbFrac(c) < 0.2 ? "mostly free" : "partly hydrogen-bonded"]].map(([l, v]) => `<div class="stat"><div class="l">${l}</div><div class="v">${v}</div></div>`).join("");
-  $("ch-txt").innerHTML = H(`A proton in a hydrogen bond (O–H···O) has less electron density round it: it is deshielded. ${neat ? "In pure ethanol almost every O–H is hydrogen-bonded: δ about 5." : d < 1.2 ? "Very dilute in CCl₄ the molecules are far apart, the hydrogen bonds are broken and the O–H signal moves to low δ, below 1." : "Diluting in a non-polar solvent breaks hydrogen bonds, so the O–H signal moves to lower δ."} The CH₂ and CH₃ signals do not move. This is why the booklet says that δ for O–H and N–H protons varies with solvent and concentration.`);
+  $("ch-txt").innerHTML = H(`A proton in a hydrogen bond (O–H···O) has less electron density round it: it is deshielded. ${neat ? "In pure ethanol almost every O–H is hydrogen-bonded: δ about 5." : d < 0.95 ? "Very dilute in CCl₄ the molecules are far apart, the hydrogen bonds are broken and the O–H signal moves to low δ, below 1." : "Diluting in a non-polar solvent breaks hydrogen bonds, so the O–H signal moves to lower δ."} The CH₂ and CH₃ signals do not move. This is why the booklet says that δ for O–H and N–H protons varies with solvent and concentration.`);
 }
+const CH_TOP = 1.23;   // the slider's last step (max 1.23, step 0.01); log10 17.1 = 1.233
 function chSet(L){ CS.c = Math.max(-3, Math.min(Math.log10(HB.cNeat), L)); $("ch-c").value = CS.c; chDraw(); }
 LAB.chSet = chSet;
 function chaDraw(){
@@ -1877,18 +1943,20 @@ function cxDraw(){
   $("cx-txt").innerHTML = `<p class="eqs"><span>${EQ_(D2O[name])}</span></p><p>${H("Labile protons (O–H, N–H, COOH) exchange quickly with D from the excess D₂O, which pushes the equilibrium to the right. C–H hydrogens do not exchange, so their signals stay. A D₂O shake identifies the O–H or N–H signal.")}</p>`;
 }
 const EQ_ = s => EQ(s);
-function cxSet(name){ CS.d2o = name; CS.shaken = false; CS.fade = 0; cxDraw(); }
+function cxStop(){ if (CS.raf){ cancelAnimationFrame(CS.raf); CS.raf = 0; } }   // one shake animation at a time
+function cxSet(name){ cxStop(); CS.d2o = name; CS.shaken = false; CS.fade = 0; cxDraw(); }
 LAB.cxSet = cxSet;
 function cxShake(on){
-  CS.shaken = on;
+  cxStop(); CS.shaken = on;
   const to = on ? 1 : 0;
   if (NOANIM()){ CS.fade = to; cxDraw(); return; }
   const from = CS.fade, t0 = performance.now();
-  const step = t => { const k = Math.min(1, (t - t0) / 900); CS.fade = from + (to - from) * k; cxDraw(); if (k < 1) requestAnimationFrame(step); };
-  requestAnimationFrame(step);
+  const step = t => { const k = Math.min(1, (t - t0) / 900); CS.fade = from + (to - from) * k; cxDraw(); CS.raf = k < 1 ? requestAnimationFrame(step) : 0; };
+  CS.raf = requestAnimationFrame(step);
 }
 LAB.cxShake = cxShake;
 function csPanel(p){
+  cxStop(); if (CS.fade > 0 && CS.fade < 1) CS.fade = CS.shaken ? 1 : 0;   // leaving the panel mid-shake: settle on the state the button chose
   CS.p = p;
   document.querySelectorAll("#cs-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.p === p)));
   ["en", "dist", "ani", "hb", "d2o"].forEach(k => { $("cs-" + k).hidden = k !== p; });
@@ -1898,21 +1966,21 @@ LAB.csPanel = csPanel;
 function csDraw(){ ({ en: ceDraw, dist: cdDraw, ani: caDraw, hb: () => { chDraw(); chaDraw(); }, d2o: cxDraw })[CS.p](); }
 function bindCS(){
   document.querySelectorAll("#cs-tabs button").forEach(b => b.onclick = () => csPanel(b.dataset.p));
-  $("ch-c").oninput = e => { CS.c = +e.target.value; chDraw(); };
+  $("ch-c").oninput = e => { const v = +e.target.value; CS.c = v >= CH_TOP - 1e-9 ? Math.log10(HB.cNeat) : v; chDraw(); };   // the end stop is pure ethanol
   $("cx-shake").onclick = () => cxShake(true);
   $("cx-reset").onclick = () => cxShake(false);
   csPanel("en");
 }
 
 /* =====================================================
-   5. UNKNOWN SOLVER (isomer sets from DATA.md's allowed list only)
+   5. UNKNOWN SOLVER (isomer sets from the allowed list only)
    ===================================================== */
 const US_SETS = [
   { f: "C₂H₆O", c: ["ethanol", "methoxymethane"] },
   { f: "C₄H₁₀", c: ["butane", "2-methylpropane"] },
   { f: "C₈H₁₀", c: ["ethylbenzene", "1,4-dimethylbenzene"] },
   { f: "C₄H₈O₂", c: ["ethyl ethanoate", "methyl propanoate"] },
-  { f: "C₄H₁₀O", c: ["2-methylpropan-1-ol", "2-methylpropan-2-ol", "ethoxyethane"] }
+  { f: "C₄H₁₀O", c: ["2-methylpropan-1-ol", "2-methylpropan-2-ol"] }
 ];
 LAB.US_SETS = US_SETS;
 const IRB = {
@@ -1922,18 +1990,19 @@ const IRB = {
 const IRH = {
   "ethanol": ["ohA", "chA", "coA"], "methoxymethane": ["chA", "coE", "noOH"], "butane": ["chA", "noOH"], "2-methylpropane": ["chA", "noOH"],
   "ethylbenzene": ["chAr", "chA", "ccAr"], "1,4-dimethylbenzene": ["chAr", "chA", "ccAr"],
-  "ethyl ethanoate": ["c2Es", "coEs", "chA", "noOH"], "methyl propanoate": ["c2Es", "coEs", "chA", "noOH"], "ethyl propanoate": ["c2Es", "coEs", "chA", "noOH"],
-  "2-methylpropan-1-ol": ["ohA", "chA", "coA", "noCO"], "2-methylpropan-2-ol": ["ohA", "chA", "coA", "noCO"], "ethoxyethane": ["chA", "coE", "noOH", "noCO"]
+  "ethyl ethanoate": ["c2Es", "coEs", "chA", "noOH"], "methyl propanoate": ["c2Es", "coEs", "chA", "noOH"],
+  "2-methylpropan-1-ol": ["ohA", "chA", "coA", "noCO"], "2-methylpropan-2-ol": ["ohA", "chA", "coA", "noCO"]
 };
 LAB.IRH = IRH;
-const US = { set: null, ans: null, k: 6, d2o: false, ir: false, pick: null, right: 0, tried: 0, answered: false };
+const US = { set: null, ans: null, k: 6, d2o: false, ir: false, pick: null, right: 0, tried: 0, answered: false, sel: {} };
 LAB.US = US;
 const nHof = name => SPECJ.compounds[name].sets.reduce((a, s) => a + s[2], 0);
 function usNew(force){
   let set, ans;
   do { set = force ? US_SETS[force[0]] : pick(US_SETS); ans = force ? force[1] : (set.only || pick(set.c)); } while (!force && US.ans === ans && Math.random() < 0.8);
-  Object.assign(US, { set, ans, k: ri(8, 18) / 2, d2o: false, ir: false, pick: null, answered: false });
+  Object.assign(US, { set, ans, k: ri(8, 18) / 2, d2o: false, ir: false, pick: null, answered: false, sel: {} });
   $("us-irt").hidden = true; $("us-afb").hidden = true; $("us-fb").hidden = true; $("us-d2o").textContent = "Shake with D₂O";
+  $("us-tbl").innerHTML = "";   // a new question starts with empty assignments
   usRender();
 }
 LAB.usNew = usNew;
@@ -1955,7 +2024,9 @@ function usRender(){
   $("us-note").innerHTML = H(`Numbers above the signals: heights of the integration trace steps in mm (illustrative). ${US.d2o ? (hasOH ? "After D₂O: one signal has gone; HOD may appear near δ 4.8." : "After D₂O: no signal has gone, so there is no O–H (or N–H) proton.") : ""}`);
   $("us-irt").innerHTML = `<p class="ink"><b>IR spectrum (Data Booklet ranges):</b></p><ul style="margin:4px 0 0;padding-left:18px">${IRH[name].map(k => `<li>${H(IRB[k])}</li>`).join("")}</ul><p style="margin-top:6px">${H("IR shows which groups are present; the NMR spectrum shows how they are joined.")}</p>`;
   const opts = usOptions();
-  $("us-tbl").innerHTML = `<thead><tr><th class="num">δ / ppm</th><th>Shape</th><th class="num">Trace / mm</th><th>Which protons?</th></tr></thead><tbody>${usOrder().map((S, i) => `<tr${US.d2o && (S.key === "OH" || S.key === "COOH") ? ' class="gone"' : ""}><td class="num">${dTxt(S.st)}</td><td>${H(S.mult.name)}</td><td class="num">${mmTxt(S.st[2] * US.k)}</td><td><select data-i="${i}" aria-label="Protons for the signal at δ ${dTxt(S.st)}"><option value="">choose…</option>${opts.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select></td></tr>`).join("")}</tbody>`;
+  $("us-tbl").querySelectorAll("select").forEach(sl => { US.sel[sl.dataset.i] = sl.value; });   // keep what is chosen when the page is redrawn (D₂O shake, IR)
+  $("us-tbl").innerHTML = `<thead><tr><th class="num">δ / ppm</th><th>Shape</th><th class="num">Trace / mm</th><th>Which protons?</th></tr></thead><tbody>${usOrder().map((S, i) => `<tr${US.d2o && (S.key === "OH" || S.key === "COOH") ? ' class="gone"' : ""}><td class="num">${dTxt(S.st)}</td><td>${H(S.mult.name)}</td><td class="num">${mmTxt(S.st[2] * US.k)}</td><td><select data-i="${i}" aria-label="Protons for the signal at δ ${dTxt(S.st)}"><option value="">choose…</option>${opts.map(o => `<option value="${esc(o)}"${US.sel[i] === o ? " selected" : ""}>${esc(o)}</option>`).join("")}</select></td></tr>`).join("")}</tbody>`;
+  $("us-tbl").querySelectorAll("select").forEach(sl => { sl.onchange = () => { US.sel[sl.dataset.i] = sl.value; }; });   // the assignments survive the D₂O shake
   $("us-cands").innerHTML = US.set.c.map(n => `<button class="cand" data-m="${esc(n)}" aria-pressed="${US.pick === n}"><svg role="img" aria-label="${esc(n)}"></svg><span>${H(n)}<br><span class="hint">${H(FORMULA(n))}</span></span></button>`).join("");
   $("us-cands").querySelectorAll(".cand").forEach(b => { drawMol(b.querySelector("svg"), b.dataset.m, { W: Math.min(260, Math.max(200, b.getBoundingClientRect().width - 16 || 220)), maxH: 130, bond: 24, pad: 12 }); b.onclick = () => { US.pick = b.dataset.m; $("us-cands").querySelectorAll(".cand").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.m === US.pick))); }; });
   $("us-score").textContent = US.tried ? `${US.right} / ${US.tried} solved first time` : "";
@@ -1975,7 +2046,7 @@ function usWhy(){
 LAB.usWhy = usWhy;
 function usCheck(){
   const fb = $("us-fb");
-  if (!US.pick){ fb.className = "fb no"; fb.innerHTML = "Choose a structure first."; fb.hidden = false; return; }
+  if (!US.pick){ fb.className = "fb warn"; fb.innerHTML = "Choose a structure first."; fb.hidden = false; return; }
   const ok = US.pick === US.ans;
   if (!US.answered){ US.tried++; if (ok) US.right++; US.answered = true; }
   fb.className = "fb " + (ok ? "ok" : "no");
@@ -2014,25 +2085,24 @@ function bindUS(){
 
 /* =====================================================
    6. PRACTICE GENERATOR. Numbers that must not be generated are checked against hashed keys
-   made at build time; the page holds only the hashes.
+   made when the page is assembled; the page holds only the hashes.
    ===================================================== */
-const RESH = new Set(["10m6xiu", "11t1ruh", "11tsqkk", "12pguhw", "143qxb", "14ssdm9", "14svj48", "14tgjn", "15muc75", "15q5m9a", "15wqse5", "1991asj", "1a0qd8t", "1afcitu", "1b9bbwr", "1c3a4zo", "1ca8ooz", "1cmfvpo", "1d1wa1k", "1e6i49", "1eoh7w", "1epwqn", "1fxys8u", "1hvid5l", "1i5ghi4", "1iyxbhe", "1jxoemn", "1ozpsj4", "1pg1hoq", "1pu9q7n", "1qe8xll", "1qfnuyg", "1smgwfx", "1u06x47", "1ukt2nb", "1vfkipn", "1w9pmsi", "1xlgqj1", "1yr6mxl", "1yr9sfk", "2i4ww5", "2uc82j", "3couko", "46nnnl", "4irzmm", "4qmv1j", "5ih4m4", "5w9vh8", "6hootx", "7zyq97", "85trvy", "8txjc4", "9okmim", "ez7rgf", "g3ratx", "k1e1e", "kdwtmk", "kuki3d", "kypv89", "miduqh", "ogc7o6", "p0d41f", "qwdrpd", "r6giwb", "say8wm", "svffe7", "tfems5", "tfkxs3", "tzhofc", "usuo5d", "v3ijxx", "vbb4wr", "vneltw", "vw0o4s", "vxewa5", "w5yoty", "wrjblq", "xjb3yi", "xvhqdm"]);
+const RESH = new Set(["10aowe1", "10m6xiu", "11t1ruh", "11tsqkk", "12pguhw", "134rlyg", "13er7nf", "13ytkjc", "143qxb", "14dc2y7", "14gxowv", "14lq0y", "14m0ztn", "14ovix", "14ssdm9", "14svj48", "14tgjn", "15muc75", "15q5m9a", "15wqse5", "178vmq3", "197wige", "1991asj", "1a0qd8t", "1a6ty46", "1afcitu", "1b9bbwr", "1c3a4zo", "1ca8ooz", "1cmfvpo", "1d1wa1k", "1d5aasv", "1e6i49", "1eoh7w", "1epwqn", "1eu70f9", "1fxys8u", "1hv2k44", "1hvid5l", "1i5ghi4", "1iyxbhe", "1jxoemn", "1mjars5", "1ozpsj4", "1pg1hoq", "1pu9q7n", "1q3ljsc", "1qe8xll", "1qfnuyg", "1qnqk6x", "1qobosj", "1s4tm1y", "1sc65ge", "1smgwfx", "1t75e6j", "1t9xupl", "1tro8vt", "1u06x47", "1ukt2nb", "1vfkipn", "1vpk4em", "1w1x1l0", "1w9pmsi", "1wtou6g", "1x3ofvf", "1xlgqj1", "1y5pi7", "1yhs5u8", "1yr6mxl", "1yr9sfk", "2i4ww5", "2uc82j", "3couko", "3hp4lu", "46nnnl", "4irzmm", "4qmv1j", "57jxzu", "5ap7xg", "5ih4m4", "5ounh2", "5w9vh8", "68b5t1", "6hootx", "7zyq97", "85trvy", "8txjc4", "9okmim", "brptzw", "datwn5", "e5u2z4", "ez7rgf", "f9shr0", "fuu4d0", "g3ratx", "hrnvzu", "ivqh9m", "jvuvbf", "k1e1e", "kdwtmk", "kuki3d", "kypv89", "miduqh", "ogc7o6", "p0d41f", "qiukd9", "qpfl5r", "qw5rws", "qwdrpd", "r3wp6m", "r6giwb", "say8wm", "svffe7", "svikw6", "tfems5", "tfkxs3", "tyz0kf", "tzhofc", "u458c", "u6lii5", "u7cq4v", "usuo5d", "v1bj7s", "v3ijxx", "vbb4wr", "vneltw", "vw0o4s", "vxewa5", "w5d3hn", "w5yoty", "wrjblq", "x9bi9j", "xjb3yi", "xvhqdm", "y5hc2l", "zv4j8v"]);
 const rh = k => RESH.has(fnv(k));
 const badD = d => [d - 0.005, d, d + 0.005].some(x => rh("d:" + x.toFixed(2)));
 const badHz = (hz, F) => [-1, 0, 1].some(k => rh(`hz:${Math.round(hz) + k}@${F}`) || rh(`hz:${Math.round(hz) + k}@*`));
-LAB.badD = badD; LAB.badHz = badHz;
 const FIELDS = [60, 90, 300, 400, 500, 600];
 function genDZ(){
   const F = pick(FIELDS);
   let d, hz;
   if (Math.random() < 0.5){
     do { d = ri(50, 1150) / 100; hz = Math.round(d * F); d = hz / F; } while (badD(d) || badD(+sf(d, 3)) || badHz(hz, F) || hz < 20);
-    return { type: "dz", text: `On a ${F} MHz spectrometer a signal is ${hz} Hz from the TMS signal. Calculate its chemical shift, δ.`, label: "δ / ppm", ans: ansN(d, 3), fmt: "3 significant figures, e.g. 2.35",
+    return { type: "dz", text: `On a ${F} MHz spectrometer a signal is ${hz} Hz from the TMS signal. Calculate its chemical shift, δ.`, label: "δ / ppm", units: ["ppm"], ans: ansN(d, 3), fmt: "3 significant figures, e.g. 2.35",
       work: [ASIDE("To answer, use δ = (ν − ν{TMS}) / ν{spectrometer} × 10⁶, with the spectrometer frequency in Hz"), `δ = ${hz} / (${F} × 10⁶) × 10⁶`, `= ${hz} / ${F} = <b>${sfS(d, 3)} ppm</b>`],
       alts: [{ v: F / hz, msg: "Upside down: divide the shift in Hz by the spectrometer frequency in MHz." }, { v: hz / F * 1e-6, msg: "Multiply by 10⁶: δ is in parts per million." }] };
   }
   do { d = ri(50, 1150) / 100; hz = d * F; } while (badD(d) || badHz(hz, F));
-  return { type: "dz", text: `A proton absorbs at δ ${d.toFixed(2)}. How far from the TMS signal, in Hz, is its signal on a ${F} MHz spectrometer?`, label: "shift / Hz", ans: ansN(hz, 3), fmt: "3 significant figures, e.g. 1250",
+  return { type: "dz", text: `A proton absorbs at δ ${d.toFixed(2)}. How far from the TMS signal, in Hz, is its signal on a ${F} MHz spectrometer?`, label: "shift / Hz", units: ["Hz"], ans: ansN(hz, 3), fmt: "3 significant figures, e.g. 1250",
     work: [ASIDE("To answer, rearrange δ = Δν / ν{spectrometer} × 10⁶ for Δν"), `Δν = δ × ν{spectrometer} / 10⁶ = ${d.toFixed(2)} × (${F} × 10⁶) / 10⁶`, `= ${d.toFixed(2)} × ${F} = <b>${sfS(hz, 3)} Hz</b>`, "The same proton on a different instrument has the same δ but a different shift in Hz: that is why δ is reported."],
     alts: [{ v: d / F, msg: "Multiply δ by the frequency in MHz; don't divide." }, { v: hz * 1e6, msg: "δ × MHz gives Hz directly: the 10⁶ factors cancel." }] };
 }
@@ -2052,7 +2122,7 @@ function genSP(){
   }
   if (r < 0.7){
     const [n, S] = pick(SP_POOL), k = nNb(S.st);
-    return { type: "sp", text: `In the ¹H NMR spectrum of ${n}, into how many lines is the signal from ${protOf(S)} split?`, label: "Number of lines", ans: { v: k + 1, str: String(k + 1), tol: 0.01 }, fmt: "a whole number", int: true,
+    return { type: "sp", text: `In the ¹H NMR spectrum of ${n}, into how many lines is the signal from ${protOf(S)} split?`, label: "Number of lines", units: ["lines"], ans: { v: k + 1, str: String(k + 1), tol: 0.01 }, fmt: "a whole number", int: true,
       work: [ASIDE("To answer, use the n + 1 rule"), (/^none/.test(S.si[2]) ? `${S.si[0]}: not split (${S.si[2].replace(/^none:? ?/, "").replace(/^\((.*)\)$/, "$1") || "no H on the neighbouring carbons"}).` : `${S.si[0]}: split by ${S.si[2]}.`), `n = ${k}, so <b>${k + 1}</b> line${k ? "s" : ""}${k ? ", " + PASCAL(k).join(" : ") : ""}.`],
       alts: [{ v: k, msg: "That is n: the signal has n + 1 lines." }] };
   }
@@ -2064,7 +2134,7 @@ function genSIG(){
   const n = pick(ALL_MOLS), sets = molSets(n), rat = ratioOf(sets.map(S => S.st[2]));
   const ring = hasRing5(n) ? " (In this compound treat the C₆H₅ ring as one signal.)" : "";
   if (Math.random() < 0.45 || sets.length === 1){
-    return { type: "sig", text: `How many signals does ${n} give in its ¹H NMR spectrum (TMS not counted)?${ring}`, label: "Signals", ans: { v: sets.length, str: String(sets.length), tol: 0.01 }, fmt: "a whole number", int: true,
+    return { type: "sig", text: `How many signals does ${n} give in its ¹H NMR spectrum (TMS not counted)?${ring}`, label: "Signals", units: ["signals"], ans: { v: sets.length, str: String(sets.length), tol: 0.01 }, fmt: "a whole number", int: true,
       work: [ASIDE("To answer, sort the hydrogens into sets of equivalent protons; each set gives one signal"), ...sets.slice().sort((a, b) => b.st[1] - a.st[1]).map(S => `${S.si[0]}: ${S.st[2]} H`), `<b>${sets.length}</b> set${sets.length > 1 ? "s" : ""}, so ${sets.length} signal${sets.length > 1 ? "s" : ""}.`],
       alts: [{ v: SPECJ.compounds[n].formula.match(/H(\d+)/) ? +SPECJ.compounds[n].formula.match(/H(\d+)/)[1] : -1, msg: "That counts every H: equivalent hydrogens share one signal." }] };
   }
@@ -2075,7 +2145,7 @@ function genCNT(){
   let n; do { n = pick(ALL_MOLS); } while (molSets(n).length < 2);
   const sets = molSets(n).slice().sort((a, b) => b.st[1] - a.st[1]), k = ri(7, 19) / 2, S = pick(sets), nH = nHof(n);
   const hs = sets.map(x => x.st[2] * k), tot = hs.reduce((a, b) => a + b, 0);
-  return { type: "cnt", text: `A compound ${FORMULA(n)} gives ${sets.length} signals in its ¹H NMR spectrum: ${sets.map((x, i) => `δ ${dTxt(x.st)} (trace height ${mmTxt(hs[i])} mm)`).join(", ")}. How many hydrogen atoms does the signal at δ ${dTxt(S.st)} represent?`, label: "H atoms", ans: { v: S.st[2], str: String(S.st[2]), tol: 0.01 }, fmt: "a whole number", int: true,
+  return { type: "cnt", text: `A compound ${FORMULA(n)} gives ${sets.length} signals in its ¹H NMR spectrum: ${sets.map((x, i) => `δ ${dTxt(x.st)} (trace height ${mmTxt(hs[i])} mm)`).join(", ")}. How many hydrogen atoms does the signal at δ ${dTxt(S.st)} represent?`, label: "H atoms", units: ["H"], ans: { v: S.st[2], str: String(S.st[2]), tol: 0.01 }, fmt: "a whole number", int: true,
     work: [ASIDE("To answer, share the H atoms of the formula in the ratio of the trace heights"), `Total height = ${hs.map(mmTxt).join(" + ")} = ${mmTxt(tot)} mm for ${nH} H`, `1 H = ${mmTxt(tot)} / ${nH} = ${mmTxt(k)} mm`, `δ ${dTxt(S.st)}: ${mmTxt(S.st[2] * k)} / ${mmTxt(k)} = <b>${S.st[2]} H</b>`],
     alts: [{ v: Math.round(S.st[2] * k), msg: "That is the height in mm: divide by the height for one H." }] };
 }
@@ -2084,52 +2154,81 @@ function genCONV(){
   let I1, I2, p;
   do { I1 = ri(10, 90) / 10; I2 = ri(10, 90) / 10; p = I2 / (I1 + I2) * 100; } while (badConv(p) || rh(`cp:${I1.toFixed(1)},${I2.toFixed(1)}`) || p < 5 || p > 97);
   const intro = "Ethanol is esterified with ethanoic acid, and the reaction is followed by benchtop ¹H NMR (illustrative data).";
-  return { type: "conv", text: `${intro} In one sample the CH₂ quartet of ethanol (δ 3.69, 2H) has integral ${I1.toFixed(1)} and the O–CH₂ quartet of ethyl ethanoate (δ 4.12, 2H) has integral ${I2.toFixed(1)}. Calculate the percentage of the ethanol converted to ethyl ethanoate.`, label: "conversion / %", ans: ansN(p, 3), fmt: "3 significant figures",
+  return { type: "conv", text: `${intro} In one sample the CH₂ quartet of ethanol (δ 3.69, 2H) has integral ${I1.toFixed(1)} and the O–CH₂ quartet of ethyl ethanoate (δ 4.12, 2H) has integral ${I2.toFixed(1)}. Calculate the percentage of the ethanol converted to ethyl ethanoate.`, label: "conversion / %", units: ["%"], ans: ansN(p, 3), fmt: "3 significant figures",
     work: [ASIDE("To answer, both signals come from a CH₂ (2H) and do not overlap, so their integrals compare moles directly"), `% converted = ${I2.toFixed(1)} / (${I1.toFixed(1)} + ${I2.toFixed(1)}) × 100`, `= ${I2.toFixed(1)} / ${(I1 + I2).toFixed(1)} × 100 = <b>${sfS(p, 3)} %</b>`],
     alts: [{ v: I1 / (I1 + I2) * 100, msg: "That is the ethanol left: the conversion is the ester's share." }, { v: I2 / I1 * 100, msg: "Divide by the total of both integrals, not by the ethanol alone." }] };
 }
 // qNMR (Further example): P_a = (I_a/I_s)(N_s/N_a)(M_a/M_s)(m_s/m_a) P_s
-const QSTD = [{ n: "maleic acid", M: 116.07, N: 2, d: "δ about 6.3 in DMSO-d₆" }, { n: "dimethyl sulfone", M: 94.13, N: 6, d: "δ about 3.0" }];
+const QSTD = [{ n: "maleic acid", M: 116.07, dp: 2, N: 2, d: "δ about 6.3 in DMSO-d₆" }, { n: "dimethyl sulfone", M: 94.1, dp: 1, N: 6, d: "δ about 3.0" }];
 LAB.QSTD = QSTD;
 const badQ = q => rh("qm:" + q.ma.toFixed(2)) || rh("qm:" + q.ms.toFixed(2)) || rh("qs:" + q.Ps.toFixed(1)) || rh("qr:" + q.Ia.toFixed(3)) || [q.P - 0.05, q.P, q.P + 0.05].some(x => rh("qp:" + x.toFixed(1))) || rh("qM:" + q.Ma.toFixed(1));
 function genQN(){
   let q;
   do {
-    const st = pick(QSTD), Na = pick([1, 2, 3, 6, 9]), Ma = ri(1500, 4500) / 10, ma = ri(800, 3000) / 100, ms = ri(400, 1500) / 100, Ps = pick([99.0, 99.5, 99.6, 99.7, 99.9]), Pt = ri(900, 995) / 10;
+    const st = pick(QSTD), Na = pick([1, 2, 3, 6, 9]), Ma = ri(1500, 4500) / 10, ma = ri(800, 3000) / 100, ms = ri(400, 1500) / 100, Ps = pick([98.5, 99.0, 99.2, 99.5, 99.6]), Pt = ri(900, 995) / 10;
     // integral of the analyte signal that gives about Pt, then rounded as printed (3 d.p.); the answer comes from the printed values
     const Ia = +((Pt / 100) / ((st.N / Na) * (Ma / st.M) * (ms / ma) * (Ps / 100))).toFixed(3);
     const P = Ia * (st.N / Na) * (Ma / st.M) * (ms / ma) * Ps;
     q = { st, Na, Ma, ma, ms, Ps, Ia, P };
   } while (badQ(q) || q.P > 100 || q.P < 85 || q.Ia < 0.05);
   const { st, Na, Ma, ma, ms, Ps, Ia, P } = q;
-  return { type: "qn", fex: true, text: `The purity of compound X (M{r} ${Ma.toFixed(1)}) is measured by qNMR with ${st.n} (M{r} ${st.M.toFixed(2)}, purity ${Ps.toFixed(1)} %) as the internal standard. ${ma.toFixed(2)} mg of X and ${ms.toFixed(2)} mg of the standard are dissolved together. The integral of a ${Na}H signal of X is ${Ia.toFixed(3)} when the ${st.N}H singlet of the standard (${st.d}) is set to 1.000. Calculate the purity of X (illustrative data).`,
-    label: "purity / %", ans: ansN(P, 3), fmt: "3 significant figures", q,
-    work: [ASIDE("To answer, compare moles of protons: each integral divided by its number of H gives moles, then convert to mass"), `P{a} = (I{a} / I{s}) × (N{s} / N{a}) × (M{a} / M{s}) × (m{s} / m{a}) × P{s}`, `= (${Ia.toFixed(3)} / 1.000) × (${st.N} / ${Na}) × (${Ma.toFixed(1)} / ${st.M.toFixed(2)}) × (${ms.toFixed(2)} / ${ma.toFixed(2)}) × ${Ps.toFixed(1)} %`, `= <b>${sfS(P, 3)} %</b>`],
-    alts: [{ v: Ia * (Na / st.N) * (Ma / st.M) * (ms / ma) * Ps, msg: "The proton numbers are upside down: multiply by N(standard) / N(X)." }, { v: Ia * (Ma / st.M) * (ms / ma) * Ps, msg: "Include the numbers of protons giving each signal, N(standard) / N(X)." }, { v: Ia * (st.N / Na) * (Ma / st.M) * (ma / ms) * Ps, msg: "The masses are upside down: multiply by m(standard) / m(X)." }] };
+  return { type: "qn", fex: true, text: `The purity of compound X (M{r} ${Ma.toFixed(1)}) is measured by qNMR with ${st.n} (M{r} ${st.M.toFixed(st.dp)}, purity ${Ps.toFixed(1)} %) as the internal standard. ${ma.toFixed(2)} mg of X and ${ms.toFixed(2)} mg of the standard are dissolved together. The integral of a ${Na}H signal of X is ${Ia.toFixed(3)} when the ${st.N}H singlet of the standard (${st.d}) is set to 1.000. Calculate the purity of X (illustrative data).`,
+    label: "purity / %", units: ["%"], ans: Object.assign(ansN(P, 3), { tol: Math.max(lastUnit(P, 3), 0.0015 * P) }), fmt: "3 significant figures", q,
+    work: [ASIDE("To answer, compare moles of protons: each integral divided by its number of H gives moles, then convert to mass"), `P{a} = (I{a} / I{s}) × (N{s} / N{a}) × (M{a} / M{s}) × (m{s} / m{a}) × P{s}`, `= (${Ia.toFixed(3)} / 1.000) × (${st.N} / ${Na}) × (${Ma.toFixed(1)} / ${st.M.toFixed(st.dp)}) × (${ms.toFixed(2)} / ${ma.toFixed(2)}) × ${Ps.toFixed(1)} %`, `= <b>${sfS(P, 3)} %</b>`],
+    alts: [{ v: Ia * (Na / st.N) * (Ma / st.M) * (ms / ma) * Ps, msg: "The proton numbers are upside down: multiply by N(standard) / N(X)." }, { v: Ia * (Ma / st.M) * (ms / ma) * Ps, msg: "Include the numbers of protons giving each signal, N(standard) / N(X)." }, { v: Ia * (st.N / Na) * (Ma / st.M) * (ma / ms) * Ps, msg: "The masses are upside down: multiply by m(standard) / m(X)." }, { v: P / Ps * 100, near: true, msg: "Include the purity of the standard, P(s): multiply by P(s) / 100." }] };
 }
 const GENS = { dz: genDZ, sp: genSP, sig: genSIG, cnt: genCNT, conv: genCONV, qn: genQN };
 LAB.GENS = GENS;
-const GN = { type: "dz", q: null, right: 0, tried: 0 };
+const GN = { type: "dz", q: null, right: 0, tried: 0, graded: false, firstOk: null };
 LAB.GN = GN;
-function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; const q = GENS[tt](); q.alts = (q.alts || []).filter(a => isFinite(a.v) && Math.abs(a.v - q.ans.v) > Math.max(q.ans.tol, 1e-9)); return q; }
+// The window in which a typed number counts as a hint's route; "near" hints (a route that lands within a few tenths of a percent of the answer,
+// such as leaving out the standard's purity) get a tighter window and are tried before "Close".
+const altWin = (q, al) => q.int ? 0.01 : al.near ? 0.0015 * Math.abs(al.v) : Math.max(lastUnit(Math.abs(al.v) || 1, 3), 0.005 * Math.abs(al.v));
+function genQ(t){
+  const tt = t === "mix" ? pick(Object.keys(GENS)) : t, q = GENS[tt](), a = q.ans.v, kept = [];
+  // a hint is kept only if its route lands outside the marking window and, for a calculated answer, outside the 3 % "Close" band
+  // (3.5 %, so its own window is clear of the band), and does not sit within 2.5 % of a hint already kept
+  (q.alts || []).slice().sort((x, y) => (y.near ? 1 : 0) - (x.near ? 1 : 0)).forEach(al => {   // the near hint (a left-out purity) is kept first
+    if (!isFinite(al.v)) return;
+    if (Math.abs(al.v - a) <= q.ans.tol) return;   // a route that lands inside the marking window is right, so it is no hint
+    if (!q.int && !al.near && a !== 0 && Math.abs(al.v / a - 1) < 0.035) return;
+    if (!q.int && kept.some(k => Math.abs(k.v - al.v) <= 0.025 * Math.max(Math.abs(k.v), Math.abs(al.v)))) return;
+    kept.push(al);
+  });
+  q.alts = kept;
+  return q;
+}
 LAB.genQ = genQ;
+// a ratio typed as numbers: separators are colons, commas, semicolons, slashes or spaces
+function parseRatioStrict(s){
+  const t = String(s == null ? "" : s).replace(/[\u00a0\u2009\u202f]/g, " ").trim();
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  const toks = t.split(/\s*[:;/,]\s*|\s+/).filter(Boolean);
+  if (!toks.length || !toks.every(x => /^\d+(\.\d+)?$/.test(x))) return { error: "Enter numbers separated by colons, e.g. 1 : 2 : 1.", kind: "nan" };
+  const v = toks.map(Number);
+  if (v.some(x => !Number.isInteger(x))) return { error: "Give whole numbers (the simplest whole-number ratio).", kind: "whole" };
+  if (v.some(x => x <= 0)) return { error: "Each number must be at least 1.", kind: "nan" };
+  return { v };
+}
 function gnGrade(q, s, sel){
-  if (q.noNum) return sel === q.sel.ans ? { ok: true } : { ok: false, msg: !sel ? "Choose from the list." : "Not right: count the H on the neighbouring carbons (n) and use n + 1." };
+  if (q.noNum) return !sel ? { ok: false, msg: "Choose from the list.", entry: true, kind: "choose" } : sel === q.sel.ans ? { ok: true } : { ok: false, msg: "Not right: count the H on the neighbouring carbons (n) and use n + 1." };
   if (q.ratio){
-    const v = parseRatio(s);
-    if (!v) return { ok: false, msg: "Enter whole numbers separated by colons, e.g. 1 : 2 : 1." };
-    if (q.ratio.ordered){ const a = v.join(), b = q.ratio.v.join(), c = q.ratio.v.slice().reverse().join(); return a === b || a === c ? { ok: true } : { ok: false, msg: v.length !== q.ratio.v.length ? `n neighbours give n + 1 lines: ${q.ratio.v.length} numbers.` : "Use the row of Pascal's triangle for this number of neighbours." }; }
-    return sameRatioSet(v, q.ratio.v) ? { ok: true } : { ok: false, msg: v.length !== q.ratio.v.length ? `One number per signal: ${q.ratio.v.length} signals.` : "Count the H in each set of equivalent protons, then divide by the smallest." };
+    const pr = parseRatioStrict(s);
+    if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };
+    const v = pr.v, want = q.ratio.v, k = v.reduce(gcd);
+    if (k > 1 && (q.ratio.ordered ? ratioOf(v).join() === want.join() || ratioOf(v).reverse().join() === want.join() : ratioOf(v).sort((x, y) => x - y).join() === want.slice().sort((x, y) => x - y).join())) return { ok: false, msg: "That is the right ratio but not in its simplest form: divide every number by their common factor.", entry: true, kind: "simplest" };
+    if (q.ratio.ordered){ const a = v.join(), b = want.join(), c = want.slice().reverse().join(); return a === b || a === c ? { ok: true } : { ok: false, msg: v.length !== want.length ? `n neighbours give n + 1 lines: ${want.length} numbers.` : "Use the row of Pascal's triangle for this number of neighbours." }; }
+    return v.slice().sort((x, y) => x - y).join() === want.slice().sort((x, y) => x - y).join() ? { ok: true } : { ok: false, msg: v.length !== want.length ? `One number per signal: ${want.length} signals.` : "Count the H in each set of equivalent protons, then divide by the smallest." };
   }
-  const v = parseNum(String(s).replace(/\s*(%|ppm|Hz|mm|H)$/i, ""));
-  if (isNaN(v)) return { ok: false, msg: "Enter a number." };
-  const a = q.ans.v, numOk = Math.abs(v - a) <= q.ans.tol * 1.0001;
-  if (numOk) return { ok: true };
-  for (const al of q.alts || []){
-    const t = q.int ? 0.01 : Math.max(lastUnit(Math.abs(al.v) || 1, 3), 0.005 * Math.abs(al.v));
-    if (Math.abs(al.v - a) > q.ans.tol && Math.abs(v - al.v) <= t) return { ok: false, msg: al.msg };
-  }
+  const pr = parseAnswer(s, q.units || []);
+  if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };
+  const v = pr.value;
+  if (q.int && !Number.isInteger(v)) return { ok: false, msg: "Give a whole number.", entry: true, kind: "whole" };
+  const a = q.ans.v;
+  if (Math.abs(v - a) <= q.ans.tol * 1.0001) return { ok: true };
+  for (const al of q.alts || []) if (al.near && Math.abs(v - al.v) <= altWin(q, al)) return { ok: false, msg: al.msg };
   if (!q.int && a !== 0 && Math.abs(v / a - 1) < 0.03) return { ok: false, msg: "Close. Keep unrounded values between steps and give 3 significant figures." };
+  for (const al of q.alts || []) if (!al.near && Math.abs(v - al.v) <= altWin(q, al)) return { ok: false, msg: al.msg };
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }
 LAB.gnGrade = gnGrade;
@@ -2145,14 +2244,20 @@ function gnRender(){
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  GN.graded = false; GN.firstOk = null;   // a new question is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
   const q = GN.q, fbx = $("gn-fb"), r = gnGrade(q, $("gn-ans").value, $("gn-unit").value);
-  GN.tried++; if (r.ok) GN.right++;
+  if (r.entry){   // nothing to grade yet (blank, unreadable, wrong unit, decimal comma, ratio not simplified, no choice made): say so, do not score
+    $("gn-ans").setAttribute("aria-invalid", r.kind === "choose" ? "false" : "true"); $("gn-ans").classList.remove("ok");
+    fbx.className = "fb warn"; fbx.innerHTML = H(r.msg); fbx.hidden = false;
+    return;
+  }
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fbx.className = "fb " + (r.ok ? "ok" : "no");
-  fbx.innerHTML = r.ok ? H(`Correct: ${q.ans.str}.`) : H(r.msg);
+  fbx.innerHTML = r.ok ? H(`Correct: ${q.ans.str}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
   fbx.hidden = false;
   $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
 }
@@ -2168,7 +2273,7 @@ function bindGN(){
 LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
 
 /* =====================================================
-   7. FACT CARDS (the notes' statements and examples only; nothing from the tutorials)
+   7. FACT CARDS (the notes' statements and examples only)
    ===================================================== */
 const FC = [
   { cat: "p1", h: "Nuclear spin", k: "1.4(a)(i)", d: "A ¹H nucleus has spin ½: like a tiny magnet, it can take two orientations in an applied magnetic field.",
@@ -2232,19 +2337,19 @@ function bindCards(){
 LAB.fcFilter = f => { FCSEL = f; document.querySelector(`#fc-filter button[data-f="${f}"]`).click(); };
 
 /* =====================================================
-   8. QUIZ (option 0 is correct; each option carries its reason). Notes' examples and lab-only compounds; no tutorial item.
+   8. QUIZ (option 0 is correct; each option carries its reason)
    ===================================================== */
 const QZ = [
   { k: "1.4(a)", q: "In an NMR spectrometer, what happens when a proton in the applied field absorbs a radio-frequency photon?",
     o: [["Its nuclear spin flips from the lower-energy (aligned) state to the higher-energy (opposed) state", "Absorption happens when the photon energy equals ΔE between the two spin states: resonance."],
         ["An electron is promoted to a higher orbital", "That is UV/visible absorption (Chapter H3.2): radio photons carry far too little energy."],
         ["A bond starts to vibrate more strongly", "That is infrared absorption; NMR involves the spin states of the nucleus."],
-        ["The nucleus loses a neutron and becomes ²H", "Nothing nuclear changes except the orientation of the spin."]] },
-  { k: "1.4(c)", q: "On a 300 MHz spectrometer a signal is 900 Hz from the TMS signal. What is its chemical shift?",
-    o: [["δ 3.00", "δ = 900 / (300 × 10⁶) × 10⁶ = 900 / 300 = 3.00 ppm."],
-        ["δ 0.333", "Upside down: divide the shift in Hz by the spectrometer frequency."],
-        ["δ 3.00 × 10⁻⁶", "Multiply by 10⁶: δ is in parts per million."],
-        ["δ 2.70 × 10⁵", "Multiplying 900 by 300 gives no meaningful quantity: divide by the spectrometer frequency."]] },
+        ["The nucleus changes into a nucleus of a different element", "Nothing nuclear changes except the orientation of the spin: radio-frequency photons carry far too little energy to alter a nucleus."]] },
+  { k: "1.4(c)", q: "On a 200 MHz spectrometer a signal is 760 Hz from the TMS signal. What is its chemical shift?",
+    o: [["δ 3.80", "δ = 760 / (200 × 10⁶) × 10⁶ = 760 / 200 = 3.80 ppm."],
+        ["δ 0.263", "Upside down: divide the shift in Hz by the spectrometer frequency."],
+        ["δ 3.80 × 10⁻⁶", "Multiply by 10⁶: δ is in parts per million."],
+        ["δ 1.52 × 10⁵", "Multiplying 760 by 200 gives no meaningful quantity: divide by the spectrometer frequency."]] },
   { k: "1.4(c)", q: "Why is only a small amount of TMS needed as the reference?",
     o: [["Its 12 equivalent H give one strong singlet", "All twelve protons are in identical environments, so their whole area is in one sharp signal."],
         ["It is volatile, so it is easily removed", "True of TMS, but that is why it is easy to remove afterwards, not why little is needed."],
@@ -2265,16 +2370,16 @@ const QZ = [
         ["It moves to higher δ, because the solution is more dilute", "Hydrogen bonding deshields; breaking hydrogen bonds lowers δ."],
         ["It does not move: δ is a constant of the proton", "O–H and N–H shifts vary with concentration and solvent, as the booklet note says."],
         ["It disappears", "Dilution makes it smaller, but it is shaking with D₂O that removes it."]] },
-  { k: "1.4(b)(iii)", q: "How many signals does ethoxyethane, CH₃CH₂OCH₂CH₃, give in its ¹H NMR spectrum (TMS not counted)?",
-    o: [["2", "The molecule is symmetrical about the O: both CH₂ groups are equivalent, and so are both CH₃ groups."],
-        ["4", "The two ethyl groups are related by symmetry, so they give the same two signals."],
+  { k: "1.4(b)(iii)", q: "How many signals does butane, CH₃CH₂CH₂CH₃, give in its ¹H NMR spectrum (TMS not counted)?",
+    o: [["2", "The molecule is symmetrical about the middle C–C bond: the two CH₃ groups are equivalent and so are the two CH₂ groups."],
+        ["4", "That counts each carbon atom; the two CH₃ groups are related by symmetry, as are the two CH₂ groups, so each pair shares one signal."],
         ["10", "That counts every H: equivalent hydrogens share one signal."],
-        ["1", "The CH₂ protons (next to O) and the CH₃ protons are in different environments."]] },
-  { k: "1.4(b)(v)", q: "In 1,1,2-trichloroethane, Cl₂CH–CH₂Cl, what is the multiplicity of the CH₂ signal?",
-    o: [["Doublet", "The neighbouring carbon carries 1 H: n = 1, so 1 + 1 = 2 lines."],
-        ["Triplet", "A triplet is the CH signal: it has the 2 H of the CH₂ as neighbours."],
-        ["Singlet", "The two CH₂ protons are equivalent and do not split each other, but the CH next door does split them."],
-        ["Quartet", "A quartet needs three neighbouring H; the next carbon has only one."]] },
+        ["1", "The CH₃ protons and the CH₂ protons are in different environments, so they give different signals."]] },
+  { k: "1.4(b)(v)", q: "In ethanal, CH₃CHO, what is the multiplicity of the signal from the H on the C=O carbon?",
+    o: [["Quartet", "The neighbouring CH₃ carries 3 H: n = 3, so 3 + 1 = 4 lines."],
+        ["Doublet", "A doublet is the CH₃ signal, which has only the 1 H of the CHO as its neighbour. The CHO proton has 3 neighbours."],
+        ["Singlet", "The O of the C=O carries no H, but the CH₃ carbon next to the CHO carbon carries three, and they split the signal."],
+        ["Triplet", "A triplet needs two neighbouring H; the CH₃ group has three."]] },
   { k: "1.4(b)(ii)", q: "The spectrum of 2-methylpropan-1-ol is run again after shaking with D₂O. Which change is seen?",
     o: [["The broad singlet near δ 1.9 disappears, and a signal from HOD may appear near δ 4.8", "The O–H hydrogen exchanges for D, which gives no ¹H signal."],
         ["The doublet at δ 3.40 disappears", "That is the CH₂ next to O: C–H hydrogens do not exchange."],
