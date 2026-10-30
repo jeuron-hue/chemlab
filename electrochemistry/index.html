@@ -88,21 +88,21 @@ section.lab:last-of-type{border-bottom:0}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; align-items:center; min-height:24px; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -302,7 +302,7 @@ details.enr > summary{cursor:pointer; font-weight:600; font-size:.92rem; color:v
 .rsitem{border:1px solid var(--line); border-radius:6px; padding:10px 12px; display:flex; flex-direction:column; gap:8px}
 .rsitem .btnrow .btn[aria-pressed=true]{border-color:var(--accent); background:var(--accent-soft)}
 .rsitem .cond{font-size:.82rem; color:var(--muted)}
-.ok-w{color:var(--good); font-weight:600}
+.ok-w{color:var(--good-ink); font-weight:600}
 .no-w{color:var(--bad); font-weight:600}
 .check-tbl{font-size:.82rem}
 #cb-read .stat, #bd-read .stat{min-height:4.2em}
@@ -313,6 +313,14 @@ details.enr > summary{cursor:pointer; font-weight:600; font-size:.92rem; color:v
 .fdin{display:flex; gap:8px; flex-wrap:wrap}
 .cards{align-items:start}
 .skel{margin:0; font-size:.92rem}
+
+/* ---------- tokens for the Enrichment tag (plum) and for readable feedback text; amber stays for warnings only ---------- */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+.chips button, .stepchips button{min-height:24px; min-width:24px}
+details.enr > summary{min-height:24px; padding:2px 0; box-sizing:border-box}
+.ls-mapfoot button.ls-all2{min-height:24px; padding:2px 0}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -352,7 +360,7 @@ details.enr > summary{cursor:pointer; font-weight:600; font-size:.92rem; color:v
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -364,7 +372,7 @@ details.enr > summary{cursor:pointer; font-weight:600; font-size:.92rem; color:v
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -736,7 +744,7 @@ details.enr > summary{cursor:pointer; font-weight:600; font-size:.92rem; color:v
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 12 Electrochemistry</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>E</i><sup>⦵</sup> values, F, L, e, molar gas volume and <i>A</i><sub>r</sub> from the Data Booklet · battery voltages and specific energies, anodised layer thickness and copper purity are literature values · generator data are illustrative</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 30/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -855,16 +863,79 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(kPa\^?-?\d*|mol.*|dm.*|atm|kJmol\^?-1|kJ\/mol|kJ|K|J|°C|%)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+// ---------- typed answers: a number plus an optional unit ----------
+// One parser for every answer box. The question's unit is accepted in any spelling (V, volts, kJ mol⁻¹, kJ mol-1, kJ/mol, kJ per mole, g, cm³, min, mol, C, "no units");
+// another recognised unit gives "Check the unit"; a decimal comma gives "Use a decimal point"; a charge may be typed +2, (+2), 2+ or Cu²⁺.
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+const UNIT_NAME = { V: "V", kJmol: "kJ mol⁻¹", kJ: "kJ", J: "J", Jmol: "J mol⁻¹", g: "g", mg: "mg", kg: "kg", cm3: "cm³", dm3: "dm³", mol: "mol", C: "C", s: "s", min: "min", h: "h", A: "A" };
+function unitId(raw){
+  let t = String(raw).toLowerCase().replace(/[   ]/g, " ").trim().replace(/[−–]/g, "-")
+    .replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, m => [...m].map(c => SUPASC[c]).join("")).replace(/[·⋅*]/g, " ");
+  t = t.replace(/\s+per\s+/g, "/").replace(/\^/g, "").replace(/\s+/g, "").replace(/\.$/, "");
+  if (/^(v|volts?)$/.test(t)) return "V";
+  if (/^kj(mol-1|\/mol|\/mole|mole-1)$/.test(t)) return "kJmol";
+  if (/^j(mol-1|\/mol|\/mole|mole-1)$/.test(t)) return "Jmol";
+  if (t === "kj") return "kJ";
+  if (t === "j") return "J";
+  if (/^(g|gram|grams)$/.test(t)) return "g";
+  if (/^(mg|milligrams?)$/.test(t)) return "mg";
+  if (/^(kg|kilograms?)$/.test(t)) return "kg";
+  if (/^(cm3|ml|cc|cm-3|millilit(re|er)s?)$/.test(t)) return "cm3";
+  if (/^(dm3|l|lit(re|er)s?)$/.test(t)) return "dm3";
+  if (/^(mol|mole|moles)$/.test(t)) return "mol";
+  if (/^(c|coulombs?)$/.test(t)) return "C";
+  if (/^(s|sec|secs|seconds?)$/.test(t)) return "s";
+  if (/^(min|mins|minutes?)$/.test(t)) return "min";
+  if (/^(h|hr|hrs|hours?)$/.test(t)) return "h";
+  if (/^(a|amps?|amperes?)$/.test(t)) return "A";
+  return null;
 }
+// allowed: the question's unit as a list of ids (e.g. ["V"]), [] for a plain number, null to accept any recognised unit; "none" in the list also accepts "no units".
+// opts.charge: the answer is an ion charge, typed +2, (+2), 2+ or Cu²⁺. Returns { value } or { error, kind }:
+// kind "empty" and "nan" are not answers at all; "unit" and "comma" are entries to fix.
+function parseAnswer(str, allowed, opts){
+  opts = opts || {};
+  const NAN = "Type an answer first: a number such as +0.46, −212 or 2.5e-3.";
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[   ]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (opts.charge){
+    const c = t.replace(/[⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, m => "^" + [...m].map(x => SUPASC[x]).join("")).match(/^\(?\s*([A-Za-z]{1,2}\s*)?\^?\s*\(?\s*([+-]?)\s*(\d+(?:\.\d+)?|)\s*([+-]?)\s*\)?\s*$/);
+    if (c && (c[3] || (c[1] && (c[2] || c[4]))) && !(c[2] && c[4])){   // a number, or a symbol with a sign; a bare sign is not an answer
+      const sg = (c[2] || c[4]) === "-" ? -1 : 1;
+      return { value: sg * (c[3] ? +c[3] : 1) };
+    }
+  }
+  const par = t.match(/^\(\s*(.*?)\s*\)$/); if (par) t = par[1];
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const fr = t.match(/^([-+]?)\s*(\d+)\s*\/\s*(\d+)$/);
+  if (fr && +fr[3] > 0) return { value: (fr[1] === "-" ? -1 : 1) * (+fr[2] / +fr[3]) };
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  const m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:[, ]\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i"));
+  if (!m) return { error: NAN, kind: "nan" };
+  const mantS = m[2].replace(/[, ]/g, "");
+  const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+  let val = e != null ? parseFloat(mantS + "e" + e) : parseFloat(mantS);
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return { error: NAN, kind: "nan" };
+  const rest = m[6].trim();
+  if (!rest) return { value: val };
+  const plain = /^(no ?units?|none|unitless|dimensionless)$/i.test(rest);
+  const u = plain ? "none" : unitId(rest);
+  if (!u){   // a number followed by text that is not a unit
+    const names = (allowed || []).filter(x => x !== "none").map(x => UNIT_NAME[x]);
+    return { error: names.length ? `Type just the number, or the number and its unit (${names[0]}).` : "Type just the number.", kind: "nan" };
+  }
+  if (allowed == null) return plain ? { value: val } : { value: val, unit: u };
+  if (plain ? (allowed.length === 0 || allowed.includes("none")) : allowed.includes(u)) return plain ? { value: val } : { value: val, unit: u };
+  return { unit: u, kind: "unit", error: allowed.filter(x => x !== "none").length ? `Check the unit: this answer is in ${UNIT_NAME[allowed.filter(x => x !== "none")[0]]}.` : "Check the unit: this answer is a plain number, with no unit." };
+}
+LAB.parseAnswer = parseAnswer;
+// the old name: a number with any recognised unit tolerated; NaN when there is no number
+function parseNum(s){ const r = parseAnswer(s, null); return r.value != null ? r.value : NaN; }
 LAB.parseNum = parseNum;
+// the calculators: a decimal comma in any of these boxes gets the same message as an answer box
+function commaMsg(ids){ return ids.some(id => parseAnswer($(id).value, null).kind === "comma") ? "Use a decimal point (2.5, not 2,5)." : null; }
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
 const SUPS = n => String(n).split("").map(c => c === "-" ? "⁻" : SUPD[+c]).join("");
@@ -911,7 +982,7 @@ const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-
 
 /* =====================================================
    CHEMISTRY ENGINE: formulae, oxidation numbers, half-equations by the four steps,
-   combining half-equations, Data Booklet E⦵ values (all from DATA.md)
+   combining half-equations, Data Booklet E⦵ values
    ===================================================== */
 const F_C = 9.65e4;           // Faraday constant, C mol⁻¹ (Data Booklet)
 const L_A = 6.02e23, E_CH = 1.60e-19, VM = 24.0;   // Avogadro, electron charge, molar gas volume dm³ at r.t.p.
@@ -1166,6 +1237,15 @@ const vRound = v => Math.sign(v) * Math.round(Math.round(Math.abs(v) * 1e6) / 1e
 LAB.vS = vS; LAB.vRound = vRound;
 const halfDisp = (k, arrow) => eqS(cpHalf(k).E, arrow || "⇌");
 LAB.halfDisp = halfDisp;
+/* ---------- redraw check ----------
+   A draw whose keys hash into this set is drawn again. */
+const RESH = new Set(["10hofk9", "10tdk65", "10u2xng", "14uh71a", "15s9yeh", "16her9m", "16id03b", "189kk18", "18bpovd", "18ruoz8", "195ohya", "1aab6tr", "1abarlb", "1bjl06u", "1bppw3h", "1cs35oi", "1dj0y9m", "1dlk5a4", "1ek8bvr", "1ekcorj", "1f3aq7j", "1fte9uc", "1gxgce6", "1i30bq0", "1jpn5ub", "1k92143", "1l38b2g", "1m1w5s0", "1mgt5p", "1mq1vxc", "1nbhzuy", "1oj88kc", "1oqx7bw", "1ppzqyb", "1se4pbj", "1t4zxoe", "1u6793j", "1vce3hf", "1xa5ciy", "1xa8ldr", "1xsybl7", "3238w1", "3pwn3a", "4aqtwt", "4fkv27", "4okwzb", "4qg341", "4rnlku", "4w12mm", "6w1fp4", "8qi9ak", "99c22a", "9skzuz", "a1eck", "a1g420", "a4rzf", "ajl5ee", "b3niab", "brnxb5", "d9s6hk", "eytzsm", "f569w9", "gkfhxj", "h8a80w", "h8hm5l", "ifj9t7", "jj9k01", "ky2c3y", "myqx9a", "noe7zg", "q2lsfd", "q6isdh", "qtv06x", "s2j855", "sfyc49", "t0iq8b", "vnw8fb", "wr7wmu", "z5fy0b", "zq2dz0"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
+const kn = v => String(+(+v).toPrecision(3));   // a number to 3 s.f. as a key part
+const pairKey = (a, b) => "p:" + (a < b ? a + ":" + b : b + ":" + a);
+const resHit = q => (q.rk || []).some(rh);
+
 
 /* ---------- one animation loop for every moving picture; each runs only while on screen ---------- */
 const ANIMS = [];
@@ -1195,7 +1275,7 @@ const BT = (x, y, s, cls, extra, fs) => T(x, y, s, cls || "bt", extra, fs);
    A. REDOX EQUATION BUILDER (9476 12(a), 12(h))
    ===================================================== */
 const ASIDE = t => `<span class="aside">(${t})</span>`;
-// oxidising agents, written as reductions; reducing agents, written as oxidations (DATA.md notes list plus booklet couples)
+// oxidising agents, written as reductions; reducing agents, written as oxidations (the couples in the notes plus the booklet couples)
 const OXA = [
   { id: "mno4", L: ["MnO₄⁻"], R: ["Mn²⁺"], key: "Mn", cp: "mno4" },
   { id: "cr2o7", L: ["Cr₂O₇²⁻"], R: ["Cr³⁺"], key: "Cr", cp: "cr2o7" },
@@ -1458,10 +1538,10 @@ const CBM = {
   ni:    { elec: "Ni", sol: ["1 mol dm⁻³ Ni²⁺(aq)"], col: PHYS.ni2, desc: "nickel rod in 1 mol dm⁻³ Ni²⁺(aq)" },
   cl2:   { elec: "Pt", gas: "Cl₂", sol: ["1 mol dm⁻³ Cl⁻(aq)"], col: PHYS.cl2aq, desc: "Cl₂ at 1 bar bubbled over platinum in 1 mol dm⁻³ Cl⁻(aq)" },
   br2:   { elec: "Pt", sol: ["Br₂(aq) and", "1 mol dm⁻³ Br⁻(aq)"], col: PHYS.br2, desc: "platinum electrode in Br₂(aq) with 1 mol dm⁻³ Br⁻(aq)" },
-  i2:    { elec: "Pt", sol: ["I₂(aq) and", "1 mol dm⁻³ I⁻(aq)"], col: PHYS.i2, desc: "platinum electrode in I₂(aq) with 1 mol dm⁻³ I⁻(aq)" },
+  i2:    { elec: "Pt", sol: ["I₂(aq) and", "1 mol dm⁻³ I⁻(aq)"], col: PHYS.i2, tx: "#14181c", desc: "platinum electrode in I₂(aq) with 1 mol dm⁻³ I⁻(aq)" },
   fe3:   { elec: "Pt", sol: ["1 mol dm⁻³ Fe²⁺(aq)", "and Fe³⁺(aq)"], col: PHYS.fe32, desc: "platinum electrode in a solution 1 mol dm⁻³ in both Fe²⁺ and Fe³⁺" },
   mno4:  { elec: "Pt", sol: ["1 mol dm⁻³ MnO₄⁻,", "Mn²⁺ and H⁺(aq)"], col: PHYS.mno4, dark: true, desc: "platinum electrode in a solution 1 mol dm⁻³ in MnO₄⁻, Mn²⁺ and H⁺" },
-  cr2o7: { elec: "Pt", sol: ["1 mol dm⁻³ Cr₂O₇²⁻,", "Cr³⁺ and H⁺(aq)"], col: PHYS.cr2o7, desc: "platinum electrode in a solution 1 mol dm⁻³ in Cr₂O₇²⁻, Cr³⁺ and H⁺" },
+  cr2o7: { elec: "Pt", sol: ["1 mol dm⁻³ Cr₂O₇²⁻,", "Cr³⁺ and H⁺(aq)"], col: PHYS.cr2o7, tx: "#14181c", desc: "platinum electrode in a solution 1 mol dm⁻³ in Cr₂O₇²⁻, Cr³⁺ and H⁺" },
   o2:    { elec: "Pt", gas: "O₂", sol: ["1 mol dm⁻³ H⁺(aq)"], col: PHYS.water, desc: "O₂ at 1 bar bubbled over platinum in 1 mol dm⁻³ H⁺(aq)" }
 };
 const CB_KEYS = ["she", "mg", "zn", "fe2", "ni", "sn", "pb", "cu", "i2", "fe3", "ag", "br2", "o2", "cr2o7", "cl2", "mno4"];
@@ -1499,7 +1579,7 @@ function cbWork(R){
     const o = a === "she" ? b : a, sign = CP[o].E > 0 ? "positive" : "negative";
     out.push(`${ASIDE("Measuring E⦵ against the SHE, 12(d)")} The voltmeter reads ${Math.abs(CP[o].E).toFixed(2)} V and the ${eTerm(o)} electrode is ${sign}, so E⦵(${eTerm(o)}) = <b>${vS(CP[o].E)} V</b>.`);
   }
-  if (R.pos === "cu" && R.neg === "zn") out.push(`${ASIDE("Compare Topic 7")} ΔH for Zn + Cu²⁺ is −217 kJ mol⁻¹ (literature value): ΔH and ΔG⦵ are close because ΔS is small.`);
+  if (R.pos === "cu" && R.neg === "zn") out.push(`ΔH for Zn + Cu²⁺: Topic 7 Part 1 measured about −217 kJ mol⁻¹ (illustrative data); the literature value is about −219, so TΔS⦵ is about −6 kJ mol⁻¹ (−218.7 − (−212.3) = −6.4 unrounded).`);
   return out;
 }
 function cbReadout(R){
@@ -1522,7 +1602,7 @@ function polyAt(P, f){   // point at fraction f of a polyline
 }
 function cbDraw(){
   const R = cellCalc(CB.a, CB.b), svg = $("cb-svg"), W = widthOf(svg.parentElement), narrow = W < 520;
-  const Hh = narrow ? 350 : 340, bw = Math.min(170, W * 0.38), cxL = W * 0.25, cxR = W * 0.75;
+  const Hh = narrow ? 350 : 340, bw = Math.min(170, W * (narrow ? 0.36 : 0.38)), cxL = W * (narrow ? 0.27 : 0.25), cxR = W * (narrow ? 0.73 : 0.75);
   const bTop = 128, bBot = Hh - 44, liq = 156;
   const hide = CB.pred && !cbAnswered() && !R.same;
   let s = "";
@@ -1538,19 +1618,22 @@ function cbDraw(){
       // a glass tube around the electrode carries the gas at 1 bar
       s += `<path d="M${ex - 15} ${eTop - 4} L${ex - 15} ${bBot - 62} M${ex + 15} ${eTop - 4} L${ex + 15} ${bBot - 62}" stroke="${PHYS.glass}" stroke-width="1.6" fill="none"/>`;
       s += `<path d="M${ex + 15} ${eTop + 8} L${ex + 15 + (isLeft ? -1 : 1) * 0} ${eTop + 8}" stroke="none"/>`;
-      s += `<line x1="${ex + (isLeft ? -15 : 15)}" y1="${eTop + 14}" x2="${ex + (isLeft ? -38 : 38)}" y2="${eTop + 14}" stroke="${PHYS.glass}" stroke-width="1.6"/>`;
-      s += BT(ex + (isLeft ? -40 : 40), eTop + 10, `${M.gas}(g), 1 bar`, "bt2", `text-anchor="${isLeft ? "end" : "start"}"`);
+      // the gas label sits beside the tube: on one line when there is room, on two lines at phone width
+      const gx = narrow ? 22 : 38, anc = `text-anchor="${isLeft ? "end" : "start"}"`;
+      s += `<line x1="${ex + (isLeft ? -15 : 15)}" y1="${eTop + 14}" x2="${ex + (isLeft ? -gx : gx)}" y2="${eTop + 14}" stroke="${PHYS.glass}" stroke-width="1.6"/>`;
+      if (narrow) s += BT(ex + (isLeft ? -gx - 2 : gx + 2), eTop + 6, `${M.gas}(g)`, "bt2", anc, 10.5) + BT(ex + (isLeft ? -gx - 2 : gx + 2), eTop + 21, "1 bar", "bt2", anc, 10.5);
+      else s += BT(ex + (isLeft ? -40 : 40), eTop + 10, `${M.gas}(g), 1 bar`, "bt2", anc);
       for (let i = 0; i < 4; i++) s += `<circle class="cb-bub" data-x="${ex}" data-i="${i}" cx="${ex + (i % 2 ? 6 : -6)}" cy="${bBot - 50 - i * 12}" r="2.6" fill="${PHYS.bubble}" stroke="#8ea0ad" stroke-width="0.8"/>`;
     }
     s += `<rect x="${ex - ew / 2}" y="${eTop}" width="${ew}" height="${eBot - eTop}" fill="${PHYS[M.elec]}" stroke="#59626a" stroke-width="1"/>`;
     if (M.black) s += `<rect x="${ex - ew / 2}" y="${eBot - 30}" width="${ew}" height="30" fill="#2a2d30"/>`;
     s += BT(ex + (isLeft ? -11 : 11), eTop - 5, M.elec, "btb", `text-anchor="${isLeft ? "end" : "start"}"`);
     // solution label
-    M.sol.forEach((t, i) => { s += BT(cx, bBot - 22 + i * 12 - (M.sol.length - 1) * 6, t, "bt2", `text-anchor="middle"${M.dark ? ' style="fill:#ffffff"' : ""}`); });
+    M.sol.forEach((t, i) => { s += BT(cx, bBot - 22 + i * 16 - (M.sol.length - 1) * 8, t, "bt2", `text-anchor="middle"${M.dark ? ' style="fill:#ffffff"' : M.tx ? ` style="fill:${M.tx}"` : ""}`); });
     // polarity and role
     if (!R.same && !hide){
       const isPos = (isLeft ? CB.a : CB.b) === R.pos;
-      s += `<text x="${(ex + (isLeft ? -20 : 20)).toFixed(1)}" y="${eTop + 34}" text-anchor="middle" style="font-size:22px;font-weight:700;fill:${PHYS.ink}">${isPos ? "+" : "−"}</text>`;
+      s += `<text x="${(ex + (isLeft ? -20 : 20)).toFixed(1)}" y="${eTop + (M.gas && narrow ? 50 : 34)}" text-anchor="middle" style="font-size:22px;font-weight:700;fill:${PHYS.ink}">${isPos ? "+" : "−"}</text>`;
       s += BT(cx, bBot + 22, isPos ? "cathode (reduction)" : "anode (oxidation)", "btb", 'text-anchor="middle"', narrow ? 11 : 12);
     }
     else if (hide) s += BT(cx, bBot + 22, "?", "btb", 'text-anchor="middle"');
@@ -1561,7 +1644,8 @@ function cbDraw(){
   const bxL = cxL + bw * 0.22, bxR = cxR - bw * 0.22, bY = 108, bD = liq + 44;
   const bridge = `M${bxL} ${bD} L${bxL} ${bY + 12} Q${bxL} ${bY} ${bxL + 12} ${bY} L${bxR - 12} ${bY} Q${bxR} ${bY} ${bxR} ${bY + 12} L${bxR} ${bD}`;
   s += `<path d="${bridge}" fill="none" stroke="${PHYS.bridgeEdge}" stroke-width="16" stroke-linejoin="round"/><path d="${bridge}" fill="none" stroke="${PHYS.bridge}" stroke-width="13" stroke-linejoin="round"/>`;
-  s += BT((bxL + bxR) / 2, bY + 24, narrow ? "salt bridge, KNO₃(aq)" : "salt bridge: saturated KNO₃(aq)", "bt2", 'text-anchor="middle"');
+  if (narrow) s += BT((bxL + bxR) / 2, bY + 22, "salt bridge", "bt2", 'text-anchor="middle"', 10.5) + BT((bxL + bxR) / 2, bY + 36, "KNO₃(aq)", "bt2", 'text-anchor="middle"', 10.5);
+  else s += BT((bxL + bxR) / 2, bY + 24, "salt bridge: saturated KNO₃(aq)", "bt2", 'text-anchor="middle"');
   // wire and voltmeter
   const vx = W / 2, vy = 46, wy = vy;
   s += `<path d="M${L.ex} ${L.eTop} L${L.ex} ${wy} L${vx - 22} ${wy} M${vx + 22} ${wy} L${Rr.ex} ${wy} L${Rr.ex} ${Rr.eTop}" fill="none" stroke="${PHYS.wire}" stroke-width="2"/>`;
@@ -1675,7 +1759,7 @@ const WR = [
   { lab: "Fe + dilute acid", red: "she", ox: "fe2", then: { red: "she", ox: "fe3", q: "Can H⁺ go on to oxidise Fe²⁺ to Fe³⁺?" }, note: "Iron gives Fe²⁺(aq), not Fe³⁺(aq), with dilute acid." },
   { lab: "acidified MnO₄⁻ + Fe²⁺", red: "mno4", ox: "fe3" },
   { lab: "acidified Cr₂O₇²⁻ + Fe²⁺", red: "cr2o7", ox: "fe3" },
-  { lab: "acidified MnO₄⁻ + Cl⁻", red: "mno4", ox: "cl2", note: "So KMnO₄ titrations are acidified with dilute H₂SO₄, not HCl: MnO₄⁻ would oxidise Cl⁻ too and the titre would be too large (Topic 6)." },
+  { lab: "acidified MnO₄⁻ + Cl⁻", red: "mno4", ox: "cl2", note: "So KMnO₄ titrations are acidified with dilute H₂SO₄, not HCl: MnO₄⁻ would oxidise Cl⁻ too and the titre would be too large (Topic 6). In sulfuric acid, SO₄²⁻ cannot be oxidised: sulfur is already +6 (water could be, but only extremely slowly)." },
   { lab: "acidified Cr₂O₇²⁻ + Cl⁻", red: "cr2o7", ox: "cl2", note: "So dichromate(VI) titrations can be acidified with HCl." },
   { lab: "Cu + concentrated HNO₃", red: "no3", ox: "cu", fex: true, note: "Cu does not react with H⁺, but NO₃⁻ is a stronger oxidising agent: brown NO₂ is given off." },
   { lab: "Cu⁺(aq) on its own", red: "cup", ox: "cu21", fex: true, note: "Disproportionation: Cu⁺ is both reduced (to Cu) and oxidised (to Cu²⁺), so copper(I) salts are not stable in water." }
@@ -1930,7 +2014,7 @@ function bdDraw(){
   pts.sort((a, b) => a[0] - b[0]);
   lineChart($("bd-chart"), { x: [0, 100], y: [0, 1.2], h: 210, xlab: "Cu²⁺ used up / %", ylab: "E{cell} / V", yticks: [0, 0.4, 0.8, 1.2], yfmt: v => v.toFixed(1), series: [{ pts, col: "var(--s1)" }],
     over: (X, Y) => `<circle cx="${X(f * 100).toFixed(1)}" cy="${Y(E).toFixed(1)}" r="5" fill="var(--s2)"/>` });
-  $("bd-note").innerHTML = H(flat ? "Equilibrium: E{cell} = 0 and ΔG = 0; no more current flows. The battery is flat. (At equilibrium [Cu²⁺] has fallen to about 10⁻³⁷ mol dm⁻³: K is about 1.7 × 10³⁷, Enrichment.)" : "As Cu²⁺ is used up, E(Cu²⁺/Cu) becomes less positive; as Zn²⁺ builds up, E(Zn²⁺/Zn) becomes less negative. Both make E{cell} fall, slowly at first and steeply at the end, until it reaches 0 at equilibrium.");
+  $("bd-note").innerHTML = H(flat ? "Equilibrium: E{cell} = 0 and ΔG = 0; no more current flows. The battery is flat. (At equilibrium [Cu²⁺] has fallen to about 10⁻³⁷ mol dm⁻³: K is about 2 × 10³⁷, Enrichment.)" : "As Cu²⁺ is used up, E(Cu²⁺/Cu) becomes less positive; as Zn²⁺ builds up, E(Zn²⁺/Zn) becomes less negative. Both make E{cell} fall, slowly at first and steeply at the end, until it reaches 0 at equilibrium.");
 }
 LAB.bdDraw = bdDraw;
 function bdTick(t){
@@ -1949,9 +2033,9 @@ function limCards(){
   const s2 = cellEq("s2o8", "i2"), mn2 = cellEq("mno2", "cl2"), agfe = cellEq("ag", "fe3");
   const Emn = nernst(1.23, 2, Math.pow(12, 4)), Ecl = nernst(1.36, 2, 1 / Math.pow(12, 2));
   return [
-    { h: "1. It says nothing about the rate", eq: [eqS(s2.E, "→", true)], t: [`E⦵{cell} = 2.01 − 0.54 = ${vS(vRound(2.01 - 0.54))} V, yet the reaction is slow: two negative ions repel each other. Fe²⁺ catalyses it (Topic 8).`, `${eqS(mnc.E, "→", true)} is slow at room temperature: the titration is warmed to about 60 °C, and the Mn²⁺ formed catalyses it.`] },
+    { h: "1. It says nothing about the rate", eq: [eqS(s2.E, "→", true)], t: [`E⦵{cell} = 2.01 − 0.54 = ${vS(vRound(2.01 - 0.54))} V, yet the reaction is slow: two negative ions repel each other. Fe²⁺ catalyses it (Topic 8).`, `${eqS(mnc.E, "→", true)} is slow at room temperature: the titration is warmed to about 60 °C (literature value), and the Mn²⁺ formed catalyses it.`] },
     { h: "2. Standard conditions only", eq: [eqS(mn2.E, "→", true)], t: [`E⦵{cell} = 1.23 − 1.36 = ${vS(vRound(1.23 - 1.36))} V, yet MnO₂ with concentrated HCl gives Cl₂: the conditions are far from standard (and heating and the escape of Cl₂ help).`], enr: `Rough numbers with the Nernst equation, taking [H⁺] = [Cl⁻] = 12 mol dm⁻³ (rough: activities are not concentrations at 12 mol dm⁻³): E(MnO₂/Mn²⁺) ≈ ${vS(vRound(Emn))} V and E(Cl₂/Cl⁻) ≈ ${vS(vRound(Ecl))} V, so the reaction becomes feasible.` },
-    { h: "3. A small E⦵{cell} means an equilibrium", eq: [eqS(agfe.E, "⇌", true)], t: [`E⦵{cell} = 0.80 − 0.77 = ${vS(vRound(0.80 - 0.77))} V: both reactants and products are present at equilibrium, and a change of concentration can reverse the direction (Topic 9 Tutorial 1).`] },
+    { h: "3. A small E⦵{cell} means an equilibrium", eq: [eqS(agfe.E, "⇌", true)], t: [`E⦵{cell} = 0.80 − 0.77 = ${vS(vRound(0.80 - 0.77))} V: both reactants and products are present at equilibrium, and a change of concentration can reverse the direction (Topic 9).`] },
     { h: "4. Aqueous solutions at 298 K", t: ["E⦵ values apply to aqueous solutions at 298 K. At other temperatures, or without water, the values (and the order) can change."] },
     { h: "5. The actual products may differ", t: ["Another reaction with a more positive E⦵{cell} may happen instead, or a product may react further."] }
   ];
@@ -1996,7 +2080,7 @@ function btDraw(){
   });
   setSvg(svg, W, Hh, s);
   $("bt-head").innerHTML = t === "v" ? 'Cell voltage <span class="hint"><span class="src lit">literature</span> approximate values</span>' : t === "e" ? 'Specific energy <span class="hint">bars show the range; <span class="src lit">literature</span> approximate values</span>' : 'Mass of metal giving 1 mol of electrons <span class="hint"><i>A</i><sub>r</sub> ÷ charge, <span class="src">Data Booklet</span> <i>A</i><sub>r</sub></span>';
-  $("bt-note").innerHTML = t === "v" ? H("Solid bar: nominal (or, for the fuel cell, theoretical) voltage; dashed part: range. Fuel cell thick line: about 0.6–0.8 V per cell while delivering current. Li⁺/Li, −3.04 V, is the most negative E⦵ in the Data Booklet, so lithium cells give the highest voltage.") : t === "e" ? H("Higher specific energy means a lighter battery for the same energy: the point of lithium-ion cells in electric vehicles.") : H(`Li: 6.9 / 1 = 6.9 g; Zn: 65.4 / 2 = 32.7 g; Pb: 207.2 / 2 = 103.6 g. Lithium is the lightest metal, so a lithium cell has a lower mass for the same charge.`);
+  $("bt-note").innerHTML = t === "v" ? H("Solid bar: nominal (or, for the fuel cell, theoretical) voltage; dashed part: range. Fuel cell thick line: about 0.6–0.8 V per cell while delivering current. Li⁺/Li, −3.04 V, is the most negative E⦵ in the Data Booklet, so lithium cells give the highest voltage: each lithium-ion cell gives about 3.6 V against 2.0 V for a lead-acid cell, so fewer cells are needed.") : t === "e" ? H("Higher specific energy means a lighter battery for the same energy: the point of lithium-ion cells in electric vehicles.") : H(`Li: 6.9 / 1 = 6.9 g; Zn: 65.4 / 2 = 32.7 g; Pb: 207.2 / 2 = 103.6 g. Lithium is the lightest metal, so a lithium cell has a lower mass for the same charge.`);
 }
 function fcDraw(){
   const svg = $("fc-svg"), W = widthOf(svg.parentElement), Hh = 230, xa = W * 0.3, xc = W * 0.7, xm = W / 2, top = 70, bot = Hh - 30;
@@ -2044,8 +2128,8 @@ function bindConc(){
   $("fc-eqs").innerHTML = [
     ["anode (negative)", eqS(hr.E, "→", true), "E⦵ = 0.00 V"], ["cathode (positive)", eqS(ho.E, "→", true), "E⦵ = +1.23 V"], ["overall", eqS(fc.E, "→", true), "E⦵{cell} = 1.23 − 0.00 = +1.23 V"]
   ].map(([l, e, v]) => `<div><span class="lab">${H(l)}</span>${EQ(e)} &nbsp; <span class="nw">${H(v)}</span></div>`).join("") +
-    `<div><span class="lab">free energy</span>${H(`ΔG⦵ = −4 × 96 500 × 1.23 = ${grp(minus(String(Math.round(dG))))} J = ${sfS(dG / 1000, 3)} kJ per mol O₂, i.e. ${sfS(dG / 2000, 3)} kJ per mol H₂O (Topic 7: ΔG⦵{f} of H₂O(l) is −237 kJ mol⁻¹)`)}</div>` +
-    `<ul class="notes"><li>${H("Advantages: the only product is water; it runs as long as fuel is supplied, with no recharging time; it is more efficient than burning hydrogen in an engine.")}</li><li>${H("Drawbacks: hydrogen has to be made (mostly by steam reforming, Topic 9) and stored; the platinum catalyst is expensive.")}</li></ul>`;
+    `<div><span class="lab">free energy</span>${H(`ΔG⦵ = −4 × 96 500 × 1.23 = ${grp(minus(String(Math.round(dG))))} J = ${sfS(dG / 1000, 3)} kJ per mol O₂, i.e. ${sfS(dG / 2000, 3)} kJ per mol H₂O (the literature value of ΔG⦵{f} of H₂O(l) is −237 kJ mol⁻¹)`)}</div>` +
+    `<ul class="notes"><li>${H("Advantages: the only product is water; it runs as long as fuel is supplied, with no recharging time; it converts chemical energy into electrical energy more efficiently than burning petrol or diesel in an engine to drive a generator.")}</li><li>${H("Drawbacks: hydrogen has to be made (mostly by steam reforming, Topic 9) and stored; the platinum catalyst is expensive.")}</li></ul>`;
   fcDraw(); addAnim($("fc-svg"), fcTick);
   document.querySelectorAll("#bt-tabs button").forEach(b => b.onclick = () => { BTS.t = b.dataset.t; btDraw(); });
   btDraw();
@@ -2057,7 +2141,7 @@ function bindConc(){
 function concAll(){ ecDraw(); bdDraw(); btDraw(); fcDraw(); }
 
 /* =====================================================
-   D. ELECTROLYSIS BENCH (9476 12(l)–(o)); exactly the DATA.md notes set
+   D. ELECTROLYSIS BENCH (9476 12(l)–(o)); the systems in the notes
    ===================================================== */
 // cat/an: how the electrode reaction is built from a couple ("cp" = as a reduction, "rev" = reversed); cc/ac: candidate couples for "Why this product?"
 const O2M = halfSteps({ L: ["O²⁻"], R: ["O₂"], key: "O" });
@@ -2106,7 +2190,7 @@ function elWhyText(S){
     const cm = S.cc.filter(k => k !== "h2o" && k !== "she"), w = S.cc.includes("she") ? "she" : "h2o";
     if (S.cc.includes("she")) out.push("Cathode: in acid, 2H⁺ + 2e⁻ → H₂ (E⦵ = 0.00 V) is reduced.");
     else if (cm.length && CP[cm[0]].E > CP.h2o.E) out.push(`Cathode: ${CP[cm[0]].nm} (${vS(CP[cm[0]].E)} V) is more positive than water (−0.83 V), so the metal ion is reduced.`);
-    else if (cm.length) out.push(`Cathode: ${CP[cm[0]].nm} (${vS(CP[cm[0]].E)} V) is more negative than water (−0.83 V), so water is reduced to H₂. Ions of K, Na, Ca, Mg and Al are never discharged from water.`);
+    else if (cm.length) out.push(`Cathode: ${CP[cm[0]].nm} (${vS(CP[cm[0]].E)} V) is more negative than water (−0.83 V), so water is reduced to H₂. Ions of K, Na, Ca, Mg and Al are not discharged at inert electrodes from aqueous solution.`);
     const ac = S.ac;
     if (S.copper) out.push("Anode: the copper anode itself (Cu²⁺/Cu, +0.34 V) is less positive than water (+1.23 V), so copper is oxidised and dissolves.");
     else if (S.id === "nacld") out.push("Anode: Cl₂/Cl⁻ (+1.36 V) and O₂/H₂O (+1.23 V) are close. Dilute chloride gives mainly O₂ (with some Cl₂).");
@@ -2257,7 +2341,12 @@ function elWhy(){
       s += T(x0 + 52, lab[i] + 4, `${nm} ${vS(CP[k].E)}${w ? " ✓" : ""}`, w ? "lblb" : "lbl", "", fs);
     });
     if (ci === 1 && S.no) s += T(x0 + 52, bot - 4, `${S.no[0]}: not oxidised`, "cap");
-    if (ci === 1 && !ks.length) s += T(x0 + 52, Y(0), "O²⁻ → O₂ (no Data Booklet value)", "cap");
+    if (ci === 1 && !ks.length){
+      // the caption wraps inside its column (about 0.55 of the font size per character)
+      const room = x1 - (x0 + 52), per = Math.max(8, Math.floor(room / (11.5 * 0.56))), words = "O²⁻ → O₂ (no Data Booklet value)".split(" "), lines = [];
+      words.forEach(wd => { if (lines.length && (lines[lines.length - 1] + " " + wd).length <= per) lines[lines.length - 1] += " " + wd; else lines.push(wd); });
+      lines.forEach((ln, li) => { s += T(x0 + 52, Y(0) + li * 16, ln, "cap"); });
+    }
   });
   setSvg(svg, W, Hh, s);
   const pH = aq ? " Water: H⁺/H₂ and H₂O/H₂ are one couple, and so are O₂/H₂O and O₂/OH⁻ (dashed): the potential depends on pH. 0.00 V and +1.23 V are for 1 mol dm⁻³ H⁺; −0.83 V and +0.40 V are for 1 mol dm⁻³ OH⁻. For neutral solutions the notes use −0.83 V and +1.23 V as working values." : "";
@@ -2317,12 +2406,12 @@ function fdWork(I, tmin, sys){
 LAB.fdWork = fdWork;
 function fdRender(){
   const sys = FD.find(x => x.id === $("fd-sys").value), I = parseNum($("fd-I").value), t = parseNum($("fd-t").value);
-  if (!(I > 0) || !(t > 0) || I > 100 || t > 10000){ $("fd-work").innerHTML = `<li>${H("Enter a current from 0 to 100 A and a time from 0 to 10 000 min, both greater than 0.")}</li>`; return; }
+  if (!(I > 0) || !(t > 0) || I > 100 || t > 10000){ $("fd-work").innerHTML = `<li>${H(commaMsg(["fd-I", "fd-t"]) || "Enter a current from 0 to 100 A and a time from 0 to 10 000 min, both greater than 0.")}</li>`; return; }
   $("fd-work").innerHTML = fdWork(I, t, sys).map(x => `<li>${TX(x)}</li>`).join("");
 }
 function srRender(){
   const m = parseNum($("sr-m").value);
-  if (!(m > 0) || m > 1000){ $("sr-work").innerHTML = `<li>${H("Enter a mass of silver greater than 0 and up to 1000 g.")}</li>`; return; }
+  if (!(m > 0) || m > 1000){ $("sr-work").innerHTML = `<li>${H(commaMsg(["sr-m"]) || "Enter a mass of silver greater than 0 and up to 1000 g.")}</li>`; return; }
   const nAg = m / AR.Ag, ne = nAg, nCu = ne / 2, mCu = nCu * AR.Cu;
   $("sr-work").innerHTML = [
     `${ASIDE("Silver cell")} ${EQ("Ag⁺ + e⁻ → Ag")}: n(Ag) = ${n3(m)} / 107.9 = ${sci(nAg, 3)} mol, so n(e⁻) = ${sci(ne, 3)} mol`,
@@ -2335,7 +2424,7 @@ LAB.srRender = srRender;
 function flRender(){
   const I = parseNum($("fl-I").value), t = parseNum($("fl-t").value), m = parseNum($("fl-m").value);
   let w;
-  if (!(I > 0) || !(t > 0) || !(m > 0) || I > 100 || t > 10000 || m > 1000) w = [H("Enter a current up to 100 A, a time up to 10 000 min and a mass up to 1000 g, all greater than 0.")];
+  if (!(I > 0) || !(t > 0) || !(m > 0) || I > 100 || t > 10000 || m > 1000) w = [H(commaMsg(["fl-I", "fl-t", "fl-m"]) || "Enter a current up to 100 A, a time up to 10 000 min and a mass up to 1000 g, all greater than 0.")];
   else {
     const Q = I * t * 60, nCu = m / AR.Cu, ne = 2 * nCu, F = Q / ne, L = F / E_CH;
     w = [`Q{} = It{} = ${n3(I)} × (${n3(t)} × 60) = ${n3(Q)} C`, `n(Cu) = ${n3(m)} / 63.5 = ${sci(nCu, 3)} mol; ${EQ("Cu²⁺ + 2e⁻ → Cu")}, so n(e⁻) = ${sci(ne, 3)} mol`,
@@ -2415,10 +2504,10 @@ function bindElys(){
   ["fl-I", "fl-t", "fl-m"].forEach(id => $(id).addEventListener("input", flRender)); flRender();
   const pe = (t, e) => `<div><span class="lab">${H(t)}</span>${EQ(e)}</div>`;
   $("pu-eqs").innerHTML = pe("anode (+): copper dissolves", eqS(cpRev("cu").E)) + pe("anode: more reactive metals dissolve too", `${eqS(cpRev("zn").E)}`) + pe("", eqS(cpRev("fe2").E)) + pe("", eqS(cpRev("ni").E)) + pe("cathode (−): pure copper deposits", eqS(cpHalf("cu").E));
-  $("pu-notes").innerHTML = ["Zn (−0.76 V), Fe (−0.44 V) and Ni (−0.25 V) are oxidised and stay in solution as ions: their E⦵ values are more negative than Cu²⁺/Cu (+0.34 V), so they are not reduced at the cathode.", "Ag (+0.80 V), Au and Pt are less reactive: they are not oxidised and fall as anode sludge, which is recovered for its value.", "The cathode copper is about 99.99 % pure (literature value).", "Zn²⁺, Fe²⁺ and Ni²⁺ build up in the solution, which is purified from time to time."].map(x => `<li>${H(x)}</li>`).join("");
+  $("pu-notes").innerHTML = ["Zn (−0.76 V), Fe (−0.44 V) and Ni (−0.25 V) are oxidised and stay in solution as ions. Their E⦵ values are more negative than Cu²⁺/Cu (+0.34 V), so Zn²⁺, Fe²⁺ and Ni²⁺ are not deposited while Cu²⁺ is present (Cu²⁺ is reduced in preference).", "Ag (+0.80 V), Au and Pt are less reactive: they are not oxidised and fall as anode sludge, which is recovered for its value.", "The cathode copper is about 99.99 % pure (literature value).", "Zn²⁺, Fe²⁺ and Ni²⁺ build up in the solution, which is purified from time to time."].map(x => `<li>${H(x)}</li>`).join("");
   const alq = halfSteps({ L: ["Al"], R: ["Al₂O₃"], key: "Al" });
   $("an-eqs").innerHTML = pe("anode (+): the aluminium surface is oxidised", eqS(alq.E)) + pe("equivalently, water is oxidised to O₂, which oxidises the Al surface", eqS(cpRev("o2").E)) + pe("cathode (−)", eqS(cpHalf("she").E));
-  $("an-notes").innerHTML = ["The natural oxide layer is only a few nm thick; anodising grows it to several µm (about 5–25 µm, literature value).", "The thicker layer is harder and gives better corrosion resistance.", "It is porous at first, so it can be dyed, and is then sealed."].map(x => `<li>${H(x)}</li>`).join("");
+  $("an-notes").innerHTML = ["The natural oxide layer is only a few nm thick (literature value); anodising grows it to several µm (about 5–25 µm, literature value).", "The thicker layer is harder and gives better corrosion resistance.", "It is porous at first, so it can be dyed, and is then sealed."].map(x => `<li>${H(x)}</li>`).join("");
   puDraw(); anDraw();
   const bindRun = (S, draw, run, reset) => {
     $(run).onclick = () => { if (S.on){ S.on = false; $(run).textContent = "Run"; return; } if (S.p >= 1) S.p = 0; if (NOANIM()){ S.p = 1; draw(); return; } S.on = true; S.t0 = 0; S.p0 = S.p; $(run).textContent = "Pause"; };
@@ -2432,7 +2521,7 @@ function elysAll(){ elDraw(); elWhy(); puDraw(); anDraw(); }
 
 /* =====================================================
    E. PRACTICE GENERATOR (illustrative currents, times and masses; Data Booklet E⦵ and A_r).
-   Nothing here uses the tutorial items reserved in DATA.md.
+   Every generator returns rk, the keys of the draw; wrapGen asks again for a draw whose key is kept out (see 02-util.js).
    ===================================================== */
 const rnd = (a, b) => a + Math.random() * (b - a);
 const r3 = v => +sf(v, 3);
@@ -2443,15 +2532,25 @@ const ansE = v => ({ v, str: vS(vRound(v)), tol: 0.0051, e: true });
 const GN_ON = [["MnO₄⁻", "Mn"], ["MnO₄²⁻", "Mn"], ["MnO₂", "Mn"], ["Cr₂O₇²⁻", "Cr"], ["CrO₄²⁻", "Cr"], ["S₂O₃²⁻", "S"], ["S₄O₆²⁻", "S"], ["NH₄⁺", "N"], ["NO₃⁻", "N"], ["NO₂", "N"], ["NO", "N"], ["NH₃", "N"],
   ["H₂O₂", "O"], ["NaH", "H"], ["OF₂", "O"], ["ClO⁻", "Cl"], ["ClO₃⁻", "Cl"], ["NaClO", "Cl"], ["NaClO₃", "Cl"], ["CuI", "Cu"], ["IO₃⁻", "I"]];
 LAB.GN_ON = GN_ON;
+// the sign slip: a message that is true for this species (not every oxidation number is "oxygen is −2, so the other element is positive")
+function onSignMsg(f, el, on){
+  if (f === "H₂O₂") return "Check the sign: in a peroxide each oxygen is −1.";
+  if (f === "OF₂") return "Check the sign: fluorine is the more electronegative atom and is −1, so oxygen is positive.";
+  if (f === "NaH") return "Check the sign: in a metal hydride, hydrogen is −1.";
+  if (el === "N" && on < 0) return "Check the sign: nitrogen is more electronegative than hydrogen, so it is negative here.";
+  if (on > 0 && el !== "O" && /O/.test(f)) return "Check the sign: oxygen is −2, so the other element is positive here.";
+  return "Check the sign: the oxidation numbers must add up to the charge on the species (zero for a neutral compound).";
+}
 function genON(){
   const [f, el] = pick(GN_ON), r = oxNums(f), e = r.els.find(x => x.el === el);
   const work = [ASIDE(`To find the oxidation number of ${el}, use the rules for the other elements, then make the total equal the ${r.q ? "charge on the ion" : "zero"}`)]
     .concat(r.els.filter(x => !x.calc).map(x => `${x.el}: ${x.rule}.`)).concat([`${e.rule.replace(/^the oxidation numbers/, "The oxidation numbers")}.`, `Oxidation number of ${el} in ${f}: <b>${onS(e.on)}</b>`]);
   return { type: "on", text: `What is the oxidation number of ${el} in ${f}?`, label: "Oxidation number", ans: { v: e.on, str: onS(e.on), tol: 0.01 }, p: { f, el }, work, fmt: "a signed number, e.g. +6 or −2; an average can be a decimal, e.g. +2.5",
-    alts: [{ v: -e.on, msg: "Check the sign: oxygen is −2, so the other element is usually positive in an oxoanion." }] };
+    uAllow: [], charge: true, rk: ["on:" + f + ":" + el],
+    alts: [{ v: -e.on, msg: onSignMsg(f, el, e.on) }] };
 }
-// (2) build an equation: pairs from the notes and the booklet that are not reserved for the tutorials
-const GN_BUILD = [["mno4", "fe2"], ["mno4", "c2o4"], ["mno4", "h2o2o"], ["mno4", "iod"], ["mno4", "cl"], ["cr2o7", "fe2"], ["cr2o7", "etoh"], ["cr2o7", "iod"], ["io3", "iod"], ["cui", "iod"], ["i2", "s2o3"], ["cl2", "fe2"], ["cl2", "iod"], ["cl2", "br"], ["br2", "iod"], ["fe3", "iod"], ["h2o2", "fe2"], ["no3", "cu"]];
+// (2) build an equation: pairs from the notes and the booklet
+const GN_BUILD = [["mno4", "fe2"], ["mno4", "c2o4"], ["mno4", "h2o2o"], ["mno4", "iod"], ["mno4", "cl"], ["cr2o7", "fe2"], ["cr2o7", "etoh"], ["io3", "iod"], ["cui", "iod"], ["i2", "s2o3"], ["cl2", "fe2"], ["cl2", "iod"], ["cl2", "br"], ["br2", "iod"], ["fe3", "iod"], ["h2o2", "fe2"], ["no3", "cu"]];
 LAB.GN_BUILD = GN_BUILD;
 function genBuild(){
   const [o, r] = pick(GN_BUILD), O = OXA.find(x => x.id === o), Rd = REDA.find(x => x.id === r);
@@ -2463,16 +2562,13 @@ function genBuild(){
     `Add and cancel e⁻ (and any H⁺ or H₂O on both sides)${c.g > 1 ? `, then divide by ${c.g}` : ""}: ${EQ(eqS(c.E))}`,
     `${co(fr)} mol of ${fr} react with ${co(fo)} mol of ${fo}, so with 1 mol of ${fo}: <b>${sf(ratio, 3).replace(/\.?0+$/, "")} mol</b>`];
   return { type: "build", text: `Use the two half-equations to construct the balanced equation. How many moles of ${fr} react with 1 mol of ${fo}?`, given: [eqS(ho.E), eqS(hr.E)], fex: O.fex,
-    label: `mol of ${fr}`, ans: { v: ratio, str: sf(ratio, 3).replace(/\.?0+$/, ""), tol: 0.01 }, p: { o, r }, work, fmt: "a number, e.g. 5 or 2.5",
+    label: `mol of ${fr}`, ans: { v: ratio, str: sf(ratio, 3).replace(/\.?0+$/, ""), tol: 0.01 }, p: { o, r }, work, fmt: "a number, e.g. 5 or 2.5", uAllow: ["mol", "none"], rk: ["bd:" + o + ":" + r],
     alts: [{ v: 1 / ratio, msg: "That is the ratio the other way up." }, { v: hr.ne === 0 ? 0 : ho.ne / hr.ne, msg: "Use the electrons: multiply each half-equation so that both have the same number of electrons." }] };
 }
-// (3) E⦵cell and polarity; pairs that are not reserved
-const RESERVED_CELLS = [["ni", "ag"], ["br2", "fe3"], ["i2", "fe3"], ["zn", "fe2"], ["ag", "she"], ["sn", "fe3"]];
-const isReservedPair = (a, b) => RESERVED_CELLS.some(([x, y]) => (x === a && y === b) || (x === b && y === a));
-LAB.isReservedPair = isReservedPair; LAB.RESERVED_CELLS = RESERVED_CELLS;
+// (3) E⦵cell and polarity
 const elecName = k => CBM[k].elec === "Pt" ? `Pt in the ${CP[k].nm} half-cell` : `${CBM[k].elec} electrode`;
 function genEcell(){
-  let a, b; do { a = pick(CB_KEYS); b = pick(CB_KEYS); } while (a === b || isReservedPair(a, b) || Math.abs(CP[a].E - CP[b].E) < 0.05);
+  let a, b; do { a = pick(CB_KEYS); b = pick(CB_KEYS); } while (a === b || resHit({ rk: [pairKey(a, b)] }) || Math.abs(CP[a].E - CP[b].E) < 0.05);
   const R = cellCalc(a, b);
   const work = [ASIDE("To find E⦵{cell}, take the more positive E⦵ as the reduction, at the positive electrode"),
     `${EQ(halfDisp(a))} E⦵ = ${vS(CP[a].E)} V`, `${EQ(halfDisp(b))} E⦵ = ${vS(CP[b].E)} V`,
@@ -2480,31 +2576,31 @@ function genEcell(){
     `The negative electrode (anode) is the one with the more negative E⦵: <b>${elecName(R.neg)}</b>. Electrons flow from it through the wire to the ${elecName(R.pos)}.`,
     `Overall: ${EQ(eqS(R.c.E, "→", true))}`];
   return { type: "ecell", text: `A cell is made from the ${CP[a].nm} and ${CP[b].nm} half-cells under standard conditions. Calculate E⦵{cell} and say which electrode is negative.`,
-    label: "E⦵{cell} / V", ans: ansE(R.Ec), sel: { lab: "Negative electrode", opts: [elecName(a), elecName(b)], ans: elecName(R.neg) }, p: { a, b }, work, fmt: "2 decimal places with a sign, e.g. +0.46",
-    alts: [{ v: -R.Ec, msg: "E⦵{cell} for a working cell is positive: E⦵(reduction) − E⦵(oxidation), with the more positive couple as the reduction." }, { v: CP[a].E + CP[b].E, msg: "Subtract, do not add: E⦵{cell} = E⦵(reduction) − E⦵(oxidation)." }] };
+    label: "E⦵{cell} / V", ans: ansE(R.Ec), sel: { lab: "Negative electrode", opts: [elecName(a), elecName(b)], ans: elecName(R.neg) }, p: { a, b }, work, fmt: "2 decimal places with a sign, e.g. +0.46", uAllow: ["V"], rk: [pairKey(a, b)],
+    signMsg: "Check the sign: E⦵{cell} for a working cell is positive: E⦵(reduction) − E⦵(oxidation), with the more positive couple as the reduction.",
+    alts: [{ v: CP[a].E + CP[b].E, msg: "Subtract, do not add: E⦵{cell} = E⦵(reduction) − E⦵(oxidation)." }] };
 }
-// (4) will it react? (not the tutorial items)
+// (4) will it react?
 const GN_REACT = [["cu", "mg", "Mg(s) with Cu²⁺(aq)"], ["pb", "zn", "Zn(s) with Pb²⁺(aq)"], ["zn", "pb", "Pb(s) with Zn²⁺(aq)"], ["zn", "cu", "Cu(s) with Zn²⁺(aq)"], ["cu", "fe2", "Fe(s) with Cu²⁺(aq)"], ["cu", "ni", "Ni(s) with Cu²⁺(aq)"],
-  ["ag", "sn", "Sn(s) with Ag⁺(aq)"], ["she", "mg", "Mg(s) with dilute acid, H⁺(aq)"], ["she", "ni", "Ni(s) with dilute acid, H⁺(aq)"], ["cl2", "br2", "Cl₂(aq) with Br⁻(aq)"], ["cl2", "i2", "Cl₂(aq) with I⁻(aq)"], ["br2", "i2", "Br₂(aq) with I⁻(aq)"],
-  ["i2", "br2", "I₂(aq) with Br⁻(aq)"], ["br2", "cl2", "Br₂(aq) with Cl⁻(aq)"], ["fe3", "cu", "Cu(s) with Fe³⁺(aq)"], ["mno4", "br2", "acidified MnO₄⁻(aq) with Br⁻(aq)"], ["cr2o7", "br2", "acidified Cr₂O₇²⁻(aq) with Br⁻(aq)"],
-  ["cr2o7", "i2", "acidified Cr₂O₇²⁻(aq) with I⁻(aq)"], ["cu", "ag", "Ag(s) with Cu²⁺(aq)"], ["o2", "fe3", "O₂(g) with acidified Fe²⁺(aq)"], ["fe2", "cu", "Cu(s) with Fe²⁺(aq)"]];
+  ["ag", "sn", "Sn(s) with Ag⁺(aq)"], ["she", "mg", "Mg(s) with dilute acid, H⁺(aq)"], ["cl2", "br2", "Cl₂(aq) with Br⁻(aq)"], ["cl2", "i2", "Cl₂(aq) with I⁻(aq)"],
+  ["br2", "cl2", "Br₂(aq) with Cl⁻(aq)"], ["cu", "ag", "Ag(s) with Cu²⁺(aq)"], ["o2", "fe3", "O₂(g) with acidified Fe²⁺(aq)"], ["fe2", "cu", "Cu(s) with Fe²⁺(aq)"]];
 LAB.GN_REACT = GN_REACT;
 function genReact(){
   const [red, ox, t] = pick(GN_REACT), r = wrCalc(red, ox), yes = r.Ec > 0, st = /Cl₂\(aq\)/.test(t) ? { "Cl₂": "aq" } : true;
   return { type: "react", text: `Will ${t} react under standard conditions? Calculate E⦵{cell} for the reaction that would have to happen.`, label: "E⦵{cell} / V", ans: ansE(r.Ec),
     sel: { lab: "Verdict", opts: ["reacts", "no reaction"], ans: yes ? "reacts" : "no reaction" }, p: { red, ox }, work: [ASIDE("To decide, write the reaction that would have to happen and find E⦵{cell} = E⦵ of the species reduced − E⦵ of the species oxidised")].concat(wrWork(red, ox, st)), fmt: "2 decimal places with a sign",
-    alts: [{ v: -r.Ec, msg: "Take the couple that would be reduced (the oxidising agent's couple) first: E⦵{cell} = E⦵(reduction) − E⦵(oxidation)." }] };
+    uAllow: ["V"], rk: [pairKey(red, ox)], signMsg: "Check the sign: take the couple that would be reduced (the oxidising agent's couple) first: E⦵{cell} = E⦵(reduction) − E⦵(oxidation).", alts: [] };
 }
 // (5) ΔG⦵ from E⦵cell
 function genDG(){
   let red, ox, r;
-  do { [red, ox] = pick(GN_REACT); r = wrCalc(red, ox); } while (r.Ec <= 0);
+  do { [red, ox] = pick(GN_REACT); r = wrCalc(red, ox); } while (r.Ec <= 0 || resHit({ rk: [pairKey(red, ox)] }));
   const work = [ASIDE("To find ΔG⦵, you need n, the number of moles of electrons transferred in the equation as written"),
     `${EQ(eqS(r.c.E, "→", true))}: n = ${r.n}`, `ΔG⦵ = −nFE⦵{cell} = −${r.n} × 96 500 × (${vS(r.Ec)}) = ${grp(minus(String(Math.round(-r.n * 96500 * r.Ec))))} J mol⁻¹ = <b>${sfS(r.dG, 3)} kJ mol⁻¹</b>`];
-  return { type: "dg", text: `For the reaction below, E⦵{cell} = ${vS(r.Ec)} V. Calculate ΔG⦵ in kJ mol⁻¹.`, given: [eqS(r.c.E, "→", true)], label: "ΔG⦵ / kJ mol⁻¹", ans: ansN(r.dG, 3), p: { red, ox }, work, fmt: "3 significant figures, with a sign",
+  return { type: "dg", text: `For the reaction below, E⦵{cell} = ${vS(r.Ec)} V. Calculate ΔG⦵ in kJ mol⁻¹.`, given: [eqS(r.c.E, "→", true)], label: "ΔG⦵ / kJ mol⁻¹", ans: ansN(r.dG, 3), p: { red, ox }, work, fmt: "3 significant figures, with a sign", uAllow: ["kJmol"], rk: [pairKey(red, ox)],
     alts: [{ v: -r.dG, msg: "ΔG⦵ = −nFE⦵{cell}: a positive E⦵{cell} gives a negative ΔG⦵." }, { v: r.dG * 1000, msg: "Divide by 1000 to give kJ mol⁻¹." }, { v: r.dG / r.n, msg: `Multiply by n = ${r.n}, the moles of electrons in the equation as written.` }] };
 }
-// (6) combined E⦵ (not V or Co: those are reserved)
+// (6) combined E⦵
 const GN_COMB = [{ s: ["fe3", "fe2"], t: ["Fe³⁺", "Fe", "Fe"] }, { s: ["cr32", "cr2"], t: ["Cr³⁺", "Cr", "Cr"] }, { s: ["cu21", "cup"], t: ["Cu²⁺", "Cu", "Cu"] },
   { s: ["mn3", "mn"], t: ["Mn³⁺", "Mn", "Mn"] }, { s: ["pb4", "pb"], t: ["Pb⁴⁺", "Pb", "Pb"] }, { s: ["o2h2o2", "h2o2"], t: ["O₂", "H₂O", "O"] }];
 LAB.GN_COMB = GN_COMB;
@@ -2514,72 +2610,118 @@ function genComb(){
   const work = [ASIDE("To combine half-equations, add the ΔG⦵ values, that is nE⦵, never the E⦵ values"),
     `ΔG⦵₁ = −${n1}F(${vS(E1)}) = ${fF(-n1 * E1)}; ΔG⦵₂ = −${n2}F(${vS(E2)}) = ${fF(-n2 * E2)}`, `ΔG⦵ = ${fF(G)} for ${EQ(eqS(h.E, "⇌"))} (n = ${h.ne})`, `E⦵ = −ΔG⦵ / (nF) = −(${fF(G)}) / (${h.ne}F) = ${minus(sf(E, 3))} → <b>${vS(vRound(E))} V</b>`];
   return { type: "comb", text: `Use the two Data Booklet half-equations to calculate E⦵ for ${eqS(h.E, "⇌")}.`, given: [`${halfDisp(g.s[0])}   E⦵ = ${vS(E1)} V`, `${halfDisp(g.s[1])}   E⦵ = ${vS(E2)} V`],
-    label: "E⦵ / V", ans: ansE(E), p: { i: GN_COMB.indexOf(g) }, work, fmt: "2 decimal places with a sign", signMsg: "Check the sign: keep the sign of each E⦵ as given, add nE⦵ (that is, ΔG⦵ = −nFE⦵) for the two steps and divide by the total n. A positive E⦵ means the reduction is favoured against the hydrogen electrode.", alts: n1 !== n2 ? [{ v: (E1 + E2) / 2, msg: "Averaging the E⦵ values is wrong: the steps transfer different numbers of electrons. Add nE⦵ (that is, ΔG⦵) instead." }, { v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] : [{ v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] };
+    label: "E⦵ / V", ans: ansE(E), p: { i: GN_COMB.indexOf(g) }, work, fmt: "2 decimal places with a sign", uAllow: ["V"], rk: [], signMsg: "Check the sign: keep the sign of each E⦵ as given, add nE⦵ (that is, ΔG⦵ = −nFE⦵) for the two steps and divide by the total n. A positive E⦵ means the reduction is favoured against the hydrogen electrode.", alts: n1 !== n2 ? [{ v: (E1 + E2) / 2, msg: "Averaging the E⦵ values is wrong: the steps transfer different numbers of electrons. Add nE⦵ (that is, ΔG⦵) instead." }, { v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] : [{ v: E1 + E2, msg: "E⦵ values cannot be added: add ΔG⦵ = −nFE⦵ instead." }] };
 }
 // (7) electrolysis products: the notes set
 function genProd(){
   const S = pick(ELS), o = elOpts(S);
   const work = [ASIDE("To predict the products, decide what can be reduced at the cathode and oxidised at the anode, and compare E⦵ values with water's")].concat(elWhyText(S), [`Cathode: ${EQ(eqS(elHalf(S.cat).E))}`, `Anode: ${EQ(eqS(elHalf(S.an).E))}`, `Left: ${S.left}`]);
-  return { type: "prod", fex: S.fex, text: `${S.nm} is electrolysed with ${S.el} electrodes. Name the product at each electrode.`, noNum: true, sel: { lab: "Cathode (−)", opts: o.cat.slice().sort(), ans: S.cP }, sel2: { lab: "Anode (+)", opts: o.an.slice().sort(), ans: S.aP }, p: { id: S.id }, work, fmt: "choose both" };
+  const dil = S.id === "nacld";
+  return { type: "prod", fex: S.fex, text: dil ? `${S.nm} is electrolysed with ${S.el} electrodes. Name the product at the cathode and the main product at the anode.` : `${S.nm} is electrolysed with ${S.el} electrodes. Name the product at each electrode.`, noNum: true, sel: { lab: "Cathode (−)", opts: o.cat.slice().sort(), ans: S.cP },
+    sel2: { lab: dil ? "Anode (+), main product" : "Anode (+)", opts: o.an.slice().sort(), ans: S.aP, hint: dil ? { "Cl₂": "Some Cl₂ does form, but it is not the main product: in dilute NaCl the main product at the anode is O₂." } : null }, p: { id: S.id }, work, fmt: "choose both", rk: [] };
 }
 // (8)–(10) quantitative electrolysis (12(n)); illustrative data
 const MET = [{ m: "Cu", ion: "Cu²⁺", salt: "CuSO₄(aq)", z: 2 }, { m: "Ag", ion: "Ag⁺", salt: "AgNO₃(aq)", z: 1 }, { m: "Ni", ion: "Ni²⁺", salt: "NiSO₄(aq)", z: 2 }, { m: "Pb", ion: "Pb²⁺", salt: "Pb(NO₃)₂(aq)", z: 2 }];
 const GASQ = [{ g: "H₂", z: 2, src: "dilute H₂SO₄(aq) with platinum electrodes", where: "cathode", eq: ["cp", "she"] }, { g: "O₂", z: 4, src: "dilute H₂SO₄(aq) with platinum electrodes", where: "anode", eq: ["rev", "o2"] }, { g: "Cl₂", z: 2, src: "concentrated NaCl(aq) with inert electrodes", where: "anode", eq: ["rev", "cl2"] }, { g: "O₂", z: 4, src: "CuSO₄(aq) with inert electrodes", where: "anode", eq: ["rev", "o2"] }];
-const isReservedQ = (m, I, t) => (m === "Ni" && Math.abs(I - 1.50) < 1e-9 && Math.abs(t - 40.0) < 1e-9);
+const KEEP = ASIDE("keep unrounded values; the last figure may differ if you round on the way");
 function genMass(){
-  let I, t, M; do { I = r3(rnd(0.100, 2.50)); t = r3(rnd(5.0, 90.0)); M = pick(MET); } while (isReservedQ(M.m, I, t));
+  let I, t, M; do { I = r3(rnd(0.100, 2.50)); t = r3(rnd(5.0, 90.0)); M = pick(MET); } while (resHit({ rk: ["it:" + kn(I) + ":" + kn(t)] }));
   const gas = Math.random() < 0.35, Q = I * t * 60, ne = Q / F_C;
   if (gas){
     const G = pick(GASQ), n = ne / G.z, V = n * VM * 1000;
-    return { type: "mass", text: `A current of ${sf(I, 3)} A is passed through ${G.src} for ${sf(t, 3)} min. Calculate the volume of ${G.g} given off at the ${G.where}, measured at r.t.p.`, label: `volume of ${G.g} / cm³`, ans: ansN(V, 3), p: { I, t, z: G.z, gas: true },
-      work: [ASIDE(`To find the volume, first find the charge passed, then the moles of electrons`), `Q{} = It{} = ${sf(I, 3)} × (${sf(t, 3)} × 60) = ${sf(Q, 3)} C`, `n(e⁻) = (${sf(Q, 3)}) / (9.65 × 10⁴) = ${sci(ne, 3)} mol`, `${EQ(eqS(elHalf(G.eq).E))}: n(${G.g}) = (${sci(ne, 3)}) / ${G.z} = ${sci(n, 3)} mol`, `V = ${sci(n, 3)} × 24 000 = <b>${sfS(V, 3)} cm³</b>`],
-      fmt: "3 significant figures", alts: [{ v: ne * VM * 1000, msg: `Divide by ${G.z}: ${G.z} mol of electrons give 1 mol of ${G.g}.` }, { v: Q / F_C * VM * 1000 / G.z / 60, msg: "Convert minutes to seconds: t = min × 60." }] };
+    return { type: "mass", text: `A current of ${sf(I, 3)} A is passed through ${G.src} for ${sf(t, 3)} min. Calculate the volume of ${G.g} given off at the ${G.where}, measured at r.t.p.`, label: `volume of ${G.g} / cm³`, ans: ansN(V, 3), p: { I, t, z: G.z, gas: true }, uAllow: ["cm3"], rk: ["it:" + kn(I) + ":" + kn(t)],
+      work: [ASIDE(`To find the volume, first find the charge passed, then the moles of electrons`), `Q{} = It{} = ${sf(I, 3)} × (${sf(t, 3)} × 60) = ${sf(Q, 3)} C`, `n(e⁻) = (${sf(Q, 3)}) / (9.65 × 10⁴) = ${sci(ne, 3)} mol`, `${EQ(eqS(elHalf(G.eq).E))}: n(${G.g}) = (${sci(ne, 3)}) / ${G.z} = ${sci(n, 3)} mol`, `V = ${sci(n, 3)} × 24 000 = <b>${sfS(V, 3)} cm³</b>`, KEEP],
+      fmt: "3 significant figures", alts: [{ v: ne * VM * 1000, msg: `Divide by ${G.z}: ${G.z} mol of electrons give 1 mol of ${G.g}.` }, { v: n, msg: `That is n(${G.g}), the amount in mol: multiply by 24 000 to give the volume in cm³.` }, { v: V / 1000, msg: "That is in dm³: multiply by 1000 to give cm³." }, { v: V / 60, msg: "Convert minutes to seconds: t = min × 60." }] };
   }
   const n = ne / M.z, m = n * AR[M.m];
-  return { type: "mass", text: `A current of ${sf(I, 3)} A is passed through ${M.salt} for ${sf(t, 3)} min. Calculate the mass of ${M.m} deposited at the cathode.`, label: `mass of ${M.m} / g`, ans: ansN(m, 3), p: { I, t, m: M.m, z: M.z },
-    work: [ASIDE("To find the mass, first find the charge passed, then the moles of electrons"), `Q{} = It{} = ${sf(I, 3)} × (${sf(t, 3)} × 60) = ${sf(Q, 3)} C`, `n(e⁻) = (${sf(Q, 3)}) / (9.65 × 10⁴) = ${sci(ne, 3)} mol`, `${EQ(`${M.ion} + ${M.z > 1 ? M.z : ""}e⁻ → ${M.m}`)}: n(${M.m}) = (${sci(ne, 3)}) / ${M.z} = ${sci(n, 3)} mol`, `mass = ${sci(n, 3)} × ${AR[M.m]} = <b>${sfS(m, 3)} g</b>`],
-    fmt: "3 significant figures", alts: [{ v: ne * AR[M.m], msg: `Divide by ${M.z}: ${M.z} mol of electrons deposit 1 mol of ${M.m}.` }, { v: m / 60, msg: "Convert minutes to seconds: t = min × 60." }].filter(a => M.z > 1 || a.v !== ne * AR[M.m]) };
+  return { type: "mass", text: `A current of ${sf(I, 3)} A is passed through ${M.salt} for ${sf(t, 3)} min. Calculate the mass of ${M.m} deposited at the cathode.`, label: `mass of ${M.m} / g`, ans: ansN(m, 3), p: { I, t, m: M.m, z: M.z }, uAllow: ["g"], rk: ["it:" + kn(I) + ":" + kn(t)],
+    work: [ASIDE("To find the mass, first find the charge passed, then the moles of electrons"), `Q{} = It{} = ${sf(I, 3)} × (${sf(t, 3)} × 60) = ${sf(Q, 3)} C`, `n(e⁻) = (${sf(Q, 3)}) / (9.65 × 10⁴) = ${sci(ne, 3)} mol`, `${EQ(`${M.ion} + ${M.z > 1 ? M.z : ""}e⁻ → ${M.m}`)}: n(${M.m}) = (${sci(ne, 3)}) / ${M.z} = ${sci(n, 3)} mol`, `mass = ${sci(n, 3)} × ${AR[M.m]} = <b>${sfS(m, 3)} g</b>`, KEEP],
+    fmt: "3 significant figures", alts: (M.z > 1 ? [{ v: ne * AR[M.m], msg: `Divide by ${M.z}: ${M.z} mol of electrons deposit 1 mol of ${M.m}.` }] : []).concat(metalSlip(M.m, n, m)) };
+}
+// two slips give a number close to n(metal): stopping at the amount in mol (not multiplied by A{r}), and minutes not turned into seconds.
+// For a metal whose A{r} is near 60 (Ni, Cu) they cannot be told apart, so one message names both; otherwise each slip has its own message.
+function metalSlip(sym, n, m){
+  const msgN = `That is n(${sym}), the amount in mol: multiply by A{r} (${AR[sym]}) to give the mass in g.`, msgT = "Convert minutes to seconds: t = min × 60.";
+  if (hintsClash(n, m / 60)) return [{ v: n, vs: [n, m / 60], msg: `Check two things: that you multiplied n(${sym}) by A{r} (${AR[sym]}) to give the mass in g, and that t was changed from minutes to seconds (× 60).` }];
+  return [{ v: n, msg: msgN }, { v: m / 60, msg: msgT }];
 }
 function genTime(){
-  let I, mass, M; do { M = pick(MET); I = r3(rnd(0.100, 2.00)); mass = r3(rnd(0.100, 3.00)); } while (M.m === "Ag" && Math.abs(mass - 2.00) < 1e-9 && Math.abs(I - 0.250) < 1e-9);
+  let I, mass, M; do { M = pick(MET); I = r3(rnd(0.100, 2.00)); mass = r3(rnd(0.100, 3.00)); } while (resHit({ rk: ["tm:" + M.m + ":" + kn(I) + ":" + kn(mass)] }));
   const n = mass / AR[M.m], ne = n * M.z, Q = ne * F_C, t = Q / I / 60;
-  return { type: "time", text: `How long, in minutes, does a current of ${sf(I, 3)} A take to deposit ${sf(mass, 3)} g of ${M.m} from ${M.salt}?`, label: "time / min", ans: ansN(t, 3), p: { I, mass, m: M.m, z: M.z },
-    work: [ASIDE("To find the time, work backwards: moles of metal, moles of electrons, charge, then t = Q / I"), `n(${M.m}) = ${sf(mass, 3)} / ${AR[M.m]} = ${sci(n, 3)} mol`, `${EQ(`${M.ion} + ${M.z > 1 ? M.z : ""}e⁻ → ${M.m}`)}: n(e⁻) = ${M.z} × ${sci(n, 3)} = ${sci(ne, 3)} mol`, `Q{} = n(e⁻) × F = ${sci(ne, 3)} × 9.65 × 10⁴ = ${sf(Q, 3)} C`, `t{} = Q{} / I = (${sf(Q, 3)}) / ${sf(I, 3)} = ${sf(Q / I, 3)} s = <b>${sfS(t, 3)} min</b>`],
+  return { type: "time", text: `How long, in minutes, does a current of ${sf(I, 3)} A take to deposit ${sf(mass, 3)} g of ${M.m} from ${M.salt}?`, label: "time / min", ans: ansN(t, 3), p: { I, mass, m: M.m, z: M.z }, uAllow: ["min"], rk: ["tm:" + M.m + ":" + kn(I) + ":" + kn(mass)],
+    work: [ASIDE("To find the time, work backwards: moles of metal, moles of electrons, charge, then t = Q / I"), `n(${M.m}) = ${sf(mass, 3)} / ${AR[M.m]} = ${sci(n, 3)} mol`, `${EQ(`${M.ion} + ${M.z > 1 ? M.z : ""}e⁻ → ${M.m}`)}: n(e⁻) = ${M.z} × ${sci(n, 3)} = ${sci(ne, 3)} mol`, `Q{} = n(e⁻) × F = ${sci(ne, 3)} × 9.65 × 10⁴ = ${sf(Q, 3)} C`, `t{} = Q{} / I = (${sf(Q, 3)}) / ${sf(I, 3)} = ${sf(Q / I, 3)} s = <b>${sfS(t, 3)} min</b>`, KEEP],
     fmt: "3 significant figures", alts: [{ v: t * 60, msg: "That is in seconds: divide by 60 for minutes." }].concat(M.z > 1 ? [{ v: t / M.z, msg: `Multiply by ${M.z}: each ${M.ion} needs ${M.z} electrons.` }] : []) };
 }
 const MCH = [{ m: "Cu", z: 2 }, { m: "Ag", z: 1 }, { m: "Ni", z: 2 }, { m: "Pb", z: 2 }];
 function genChg(){
-  const M = pick(MCH), I = r3(rnd(0.150, 1.50)), t = r3(rnd(10.0, 60.0)), Q = I * t * 60, ne = Q / F_C, mass = r3(ne / M.z * AR[M.m]), n = mass / AR[M.m], z = ne / n;
-  return { type: "chg", text: `A current of ${sf(I, 3)} A passed for ${sf(t, 3)} min through a solution of a salt of ${M.m} deposits ${sf(mass, 3)} g of ${M.m} (A{r} = ${AR[M.m]}). Deduce the charge on the ${M.m} ion.`, label: "charge on the ion", ans: { v: M.z, str: `+${M.z}`, tol: 0.01 }, p: { I, t, mass, m: M.m, z: M.z },
-    work: [ASIDE("To find the charge, compare the moles of electrons with the moles of metal"), `Q{} = It{} = ${sf(I, 3)} × (${sf(t, 3)} × 60) = ${sf(Q, 3)} C`, `n(e⁻) = (${sf(Q, 3)}) / (9.65 × 10⁴) = ${sci(ne, 3)} mol`, `n(${M.m}) = ${sf(mass, 3)} / ${AR[M.m]} = ${sci(n, 3)} mol`, `n(e⁻) / n(${M.m}) = (${sci(ne, 3)}) / (${sci(n, 3)}) = ${sf(z, 3)} ≈ ${M.z}, so the ion is <b>${M.m}${["", "⁺", "²⁺", "³⁺"][M.z]}</b>`],
-    fmt: "a whole number, e.g. 2 for M²⁺", alts: [{ v: 1 / M.z, msg: "That is n(metal) / n(e⁻): turn it the other way up." }] };
+  let M, I, t, Q, ne, mass, n, z;
+  do { M = pick(MCH); I = r3(rnd(0.150, 1.50)); t = r3(rnd(10.0, 60.0)); Q = I * t * 60; ne = Q / F_C; mass = r3(ne / M.z * AR[M.m]); n = mass / AR[M.m]; z = ne / n; } while (resHit({ rk: ["it:" + kn(I) + ":" + kn(t), "cm:" + M.m + ":" + kn(mass)] }));
+  return { type: "chg", text: `A current of ${sf(I, 3)} A passed for ${sf(t, 3)} min through a solution of a salt of ${M.m} deposits ${sf(mass, 3)} g of ${M.m} (A{r} = ${AR[M.m]}). Deduce the charge on the ${M.m} ion.`, label: "charge on the ion", ans: { v: M.z, str: `+${M.z}`, tol: 0.01 }, p: { I, t, mass, m: M.m, z: M.z }, uAllow: [], charge: true, rk: ["it:" + kn(I) + ":" + kn(t), "cm:" + M.m + ":" + kn(mass)],
+    work: [ASIDE("To find the charge, compare the moles of electrons with the moles of metal"), `Q{} = It{} = ${sf(I, 3)} × (${sf(t, 3)} × 60) = ${sf(Q, 3)} C`, `n(e⁻) = (${sf(Q, 3)}) / (9.65 × 10⁴) = ${sci(ne, 3)} mol`, `n(${M.m}) = ${sf(mass, 3)} / ${AR[M.m]} = ${sci(n, 3)} mol`, `n(e⁻) / n(${M.m}) = (${sci(ne, 3)}) / (${sci(n, 3)}) = ${sf(z, 3)} ≈ ${M.z}, so the ion is <b>${M.m}${["", "⁺", "²⁺", "³⁺"][M.z]}</b>`, KEEP],
+    fmt: "a whole number, e.g. 2 for M²⁺ (+2 and 2+ are fine)", alts: [{ v: 1 / M.z, msg: "That is n(metal) / n(e⁻): turn it the other way up." }] };
 }
-const GENS = { on: genON, build: genBuild, ecell: genEcell, react: genReact, dg: genDG, comb: genComb, prod: genProd, mass: genMass, time: genTime, chg: genChg };
+// Wrong-route hints. "Close" is tested before any hint, so a hint must lie outside the Close band (5 % of the answer; a voltage has none) and outside the marking window,
+// and at least 2.5 % (0.02 V for a voltage) from every earlier hint. A hint that cannot meet this is dropped, so every hint left is reachable
+// when its value is typed in full or to 3 s.f. A hint may carry several values (vs) when two slips give the same number.
+const hintTol = v => Math.max(lastUnit(v, 2), 0.01 * Math.abs(v));
+const hintsClash = (x, y) => y !== 0 && (Math.abs(x / y - 1) < 0.025 || Math.abs(x - y) <= hintTol(x) + hintTol(y));
+const altVals = al => al.vs || [al.v];
+function cleanAlts(q){
+  if (!q.alts) return q;
+  const a = q.ans.v, out = [];
+  q.alts.forEach(al => {
+    const vs = altVals(al);
+    if (vs.some(x => !isFinite(x) || x === a || Math.abs(x - a) <= q.ans.tol * 1.0001)) return;
+    if (q.ans.e){
+      // a voltage: the sign check takes the negative of the answer, and the marking window is 0.0051 V either side
+      if (vs.some(x => Math.abs(x - a) <= 0.02 || Math.abs(x + a) <= 0.02)) return;
+      if (out.some(o => altVals(o).some(y => vs.some(x => Math.abs(x - y) <= 0.02)))) return;
+    } else {
+      if (a !== 0 && vs.some(x => Math.abs(x / a - 1) < 0.05)) return;
+      if (out.some(o => altVals(o).some(y => vs.some(x => hintsClash(x, y))))) return;
+    }
+    out.push(al);
+  });
+  q.alts = out;
+  return q;
+}
+LAB.cleanAlts = cleanAlts;
+// every generator returns cleaned hints, and is asked again for a draw that is kept out (see the hash set)
+const wrapGen = f => () => { let q, n = 0; do { q = cleanAlts(f()); n++; } while (n < 200 && resHit(q)); return q; };
+const GENS = { on: wrapGen(genON), build: wrapGen(genBuild), ecell: wrapGen(genEcell), react: wrapGen(genReact), dg: wrapGen(genDG), comb: wrapGen(genComb), prod: wrapGen(genProd), mass: wrapGen(genMass), time: wrapGen(genTime), chg: wrapGen(genChg) };
 LAB.GENS = GENS;
-const GN = { type: "on", q: null, right: 0, tried: 0 };
+const GN = { type: "on", q: null, right: 0, tried: 0, graded: false, firstOk: null };
 LAB.GN = GN;
 function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; return GENS[tt](); }
-function gnParse(s){ const m = String(s).trim().match(/^([+−-]?)\s*(\d+)\s*\/\s*(\d+)$/); if (m) return (m[1] && m[1] !== "+" ? -1 : 1) * (+m[2] / +m[3]); return parseNum(String(s).replace(/\s*V$/i, "")); }
+// grade one entry. r.entry means there is nothing to grade yet (empty, unreadable, a unit to fix, a decimal comma, a choice not made): it is said, not scored.
+// oxidation numbers, ratios and charges are not rounded to figures, so "Close" does not apply
+const GN_WHOLE = { on: 1, build: 1, chg: 1 };
 function gnGrade(q, s, sel, sel2){
   if (q.noNum){
-    if (!sel || !sel2) return { ok: false, msg: "Choose a product for each electrode." };
+    if (!sel || !sel2) return { ok: false, msg: "Choose a product for each electrode.", entry: true, kind: "choose" };
     const a = sel === q.sel.ans, b = sel2 === q.sel2.ans;
-    return a && b ? { ok: true } : { ok: false, msg: `${a ? "Cathode right" : "Cathode wrong"}; ${b ? "anode right" : "anode wrong"}. Press Show working.` };
+    if (a && b) return { ok: true };
+    const extra = !b && q.sel2.hint && q.sel2.hint[sel2] ? " " + q.sel2.hint[sel2] : "";
+    return { ok: false, msg: `${a ? "Cathode right" : "Cathode wrong"}; ${b ? "anode right" : "anode wrong"}.${extra} Press Show working.` };
   }
-  const v = gnParse(s);
-  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example +0.46, −212 or 2.5e-3." };
-  const a = q.ans.v, numOk = Math.abs(v - a) <= q.ans.tol * 1.0001;
+  const pr = parseAnswer(s, q.uAllow, { charge: !!q.charge });
+  if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };
+  if (q.sel && !sel) return { ok: false, msg: `Choose the ${q.sel.lab.toLowerCase()} too.`, entry: true, kind: "choose" };
+  const v = pr.value, a = q.ans.v, tol = q.ans.tol * 1.0001, numOk = Math.abs(v - a) <= tol;
   if (numOk && q.sel && sel !== q.sel.ans) return { ok: false, msg: q.type === "ecell" ? "The value is right; check the negative electrode: it is the couple with the more negative E⦵." : "The value is right; check the verdict: a positive E⦵{cell} means it reacts." };
   if (numOk) return { ok: true };
-  if (q.ans.e && Math.abs(Math.abs(v) - Math.abs(a)) <= q.ans.tol && Math.sign(v) !== Math.sign(a) && a !== 0) return { ok: false, msg: q.signMsg || (q.alts && q.alts[0] && /sign|positive|negative/i.test(q.alts[0].msg) ? q.alts[0].msg : "Check the sign: E⦵{cell} = E⦵(reduction) − E⦵(oxidation), and the couple that is reduced is the oxidising agent's.") };
+  if (q.ans.e && Math.abs(Math.abs(v) - Math.abs(a)) <= q.ans.tol && Math.sign(v) !== Math.sign(a) && a !== 0) return { ok: false, msg: q.signMsg };
+  if (!q.ans.e && !GN_WHOLE[q.type] && a !== 0 && Math.abs(v / a - 1) < 0.05) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
   for (const al of q.alts || []){
-    const t = q.ans.e ? 0.0051 : Math.max(lastUnit(Math.abs(al.v) || 1, 2), 0.01 * Math.abs(al.v));
-    if (Math.abs(al.v - a) > q.ans.tol && Math.abs(v - al.v) <= t) return { ok: false, msg: al.msg };
+    if (altVals(al).some(x => Math.abs(v - x) <= (q.ans.e ? 0.0051 : hintTol(x)))) return { ok: false, msg: al.msg };
   }
-  if (!q.ans.e && a !== 0 && Math.abs(v / a - 1) < 0.05) return { ok: false, msg: "Close. Keep unrounded values between steps and round only at the end." };
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }
 LAB.gnGrade = gnGrade; LAB.genQ = genQ;
+// answers that can be negative need the full keyboard (the phone decimal pad has no minus key); the rest stay on the decimal pad
+const GN_INPUT = { on: ["text", "e.g. +3"], react: ["text", "e.g. +0.46"], dg: ["text", "e.g. −150"], comb: ["text", "e.g. −0.04"],
+  ecell: ["decimal", "e.g. +0.46"], build: ["decimal", "e.g. 2.5"], mass: ["decimal", "e.g. 1.25"], time: ["decimal", "e.g. 25.0"], chg: ["decimal", "e.g. 2"] };
+LAB.GN_INPUT = GN_INPUT;
 function gnRender(){
   const q = GN.q;
   document.querySelectorAll("#gn-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.type === GN.type)));
@@ -2592,21 +2734,28 @@ function gnRender(){
   if (q.sel){ $("gn-ulab").textContent = q.sel.lab; $("gn-unit").innerHTML = `<option value="">choose…</option>` + q.sel.opts.map(u => `<option value="${esc(u)}">${esc(u)}</option>`).join(""); }
   if (q.sel2){ $("gn-vlab").textContent = q.sel2.lab; $("gn-v").innerHTML = `<option value="">choose…</option>` + q.sel2.opts.map(u => `<option value="${esc(u)}">${esc(u)}</option>`).join(""); }
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
+  const im = GN_INPUT[q.type] || ["decimal", "e.g. 1.25"];   // the keypad and the example follow the question (Mixed draws any type)
+  $("gn-ans").setAttribute("inputmode", im[0]); $("gn-ans").placeholder = im[1];
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  GN.graded = false; GN.firstOk = null;   // a new question, or a new tab, is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
-  const q = GN.q, fb = $("gn-fb");
-  if (q.sel && !q.noNum && !$("gn-unit").value && !isNaN(gnParse($("gn-ans").value))){ fb.className = "fb warn"; fb.innerHTML = H(`Choose the ${q.sel.lab.toLowerCase()} too.`); fb.hidden = false; return; }
-  const r = gnGrade(q, $("gn-ans").value, $("gn-unit").value, $("gn-v").value);
-  GN.tried++; if (r.ok) GN.right++;
+  const q = GN.q, fb = $("gn-fb"), r = gnGrade(q, $("gn-ans").value, $("gn-unit").value, $("gn-v").value);
+  if (r.entry){   // nothing to grade yet: say so, do not score
+    $("gn-ans").setAttribute("aria-invalid", r.kind === "choose" ? "false" : "true"); $("gn-ans").classList.remove("ok");
+    fb.className = "fb warn"; fb.innerHTML = H(r.msg); fb.hidden = false;
+    return;
+  }
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fb.className = "fb " + (r.ok ? "ok" : "no");
-  fb.innerHTML = r.ok ? H(`Correct${q.noNum ? `: ${q.sel.ans} at the cathode, ${q.sel2.ans} at the anode` : `: ${q.ans.str}${q.sel ? `; ${q.sel.ans}` : ""}`}.`) : H(r.msg);
+  fb.innerHTML = r.ok ? H(`Correct${q.noNum ? `: ${q.sel.ans} at the cathode, ${q.sel2.ans} at the anode` : `: ${q.ans.str}${q.sel ? `; ${q.sel.ans}` : ""}`}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
   fb.hidden = false;
   $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
 }
+LAB.gnCheck = gnCheck;
 function bindGN(){
   document.querySelectorAll("#gn-tabs button").forEach(b => b.onclick = () => { GN.type = b.dataset.type; GN.q = genQ(GN.type); gnRender(); });
   $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
@@ -2648,20 +2797,20 @@ const FC = [
     list: ["The more negative E⦵ is the negative electrode (anode, oxidation); the other is the positive electrode (cathode, reduction).", "Electrons flow through the wire from the negative electrode to the positive one: Zn → Cu.", "In the salt bridge, anions (NO₃⁻) move towards the anode half-cell and cations (K⁺) towards the cathode half-cell.", "Cu with Ag: E⦵{cell} = 0.80 − 0.34 = +0.46 V; Cu is negative; Cu + 2Ag⁺ → Cu²⁺ + 2Ag."] },
   { cat: "ce", h: "Predicting spontaneity", k: "12(f)(ii)", d: "Write the reaction that would have to happen. E⦵{cell} = E⦵(species reduced) − E⦵(species oxidised). Positive: spontaneous (energetically feasible) under standard conditions.",
     list: ["Cl₂ + 2Fe²⁺ → 2Cl⁻ + 2Fe³⁺: +0.59 V, yes. 2Fe³⁺ + 2I⁻ → 2Fe²⁺ + I₂: +0.23 V, yes. Fe³⁺ with Br⁻: −0.30 V, no.", "Zn + 2H⁺: +0.76 V, yes. Cu + 2H⁺: −0.34 V, no. Fe + 2H⁺ gives Fe²⁺ (+0.44 V) but not Fe³⁺.", "Acidified MnO₄⁻ oxidises Cl⁻ (+0.16 V), so KMnO₄ titrations use H₂SO₄, not HCl. Cr₂O₇²⁻ does not (−0.03 V), so HCl can be used."] },
-  { cat: "ce", h: "Limitations of E⦵{cell}", k: "12(g)", list: ["No information about rate: S₂O₈²⁻ + 2I⁻ has +1.47 V but is slow (Fe²⁺ catalyses it); MnO₄⁻ with C₂O₄²⁻ is slow until warmed to about 60 °C.", "Standard conditions only: MnO₂ with concentrated HCl gives Cl₂ although E⦵{cell} = −0.13 V.", "A small E⦵{cell} (Ag⁺ + Fe²⁺ ⇌ Ag + Fe³⁺, +0.03 V) means an equilibrium mixture; changing concentrations can reverse it.", "Aqueous solutions at 298 K only.", "The actual products may differ."] },
+  { cat: "ce", h: "Limitations of E⦵{cell}", k: "12(g)", list: ["No information about rate: S₂O₈²⁻ + 2I⁻ has +1.47 V but is slow (Fe²⁺ catalyses it); MnO₄⁻ with C₂O₄²⁻ is slow until warmed to about 60 °C (literature value).", "Standard conditions only: MnO₂ with concentrated HCl gives Cl₂ although E⦵{cell} = −0.13 V.", "A small E⦵{cell} (Ag⁺ + Fe²⁺ ⇌ Ag + Fe³⁺, +0.03 V) means an equilibrium mixture; changing concentrations can reverse it.", "Aqueous solutions at 298 K only.", "The actual products may differ."] },
   { cat: "ce", h: "ΔG⦵ = −nFE⦵{cell}", k: "12(i)", d: "n is the number of moles of electrons transferred in the equation as written; F = 9.65 × 10⁴ C mol⁻¹. E⦵{cell} positive ↔ ΔG⦵ negative.",
-    list: ["Daniell: ΔG⦵ = −2 × 96 500 × 1.10 = −212 kJ mol⁻¹ (Topic 7: ΔH = −217 kJ mol⁻¹, literature value).", "MnO₄⁻ with Fe²⁺: +0.75 V, n = 5, ΔG⦵ = −362 kJ mol⁻¹. Cr₂O₇²⁻ with Fe²⁺: +0.56 V, n = 6, −324 kJ mol⁻¹.", "Combined half-reactions: add ΔG⦵ (that is, nE⦵), never E⦵. Fe³⁺/Fe from +0.77 V (n = 1) and −0.44 V (n = 2): −0.04 V. Cr³⁺/Cr from −0.41 V and −0.91 V: −0.74 V."] },
+    list: ["Daniell: ΔG⦵ = −2 × 96 500 × 1.10 = −212 kJ mol⁻¹. Topic 7 Part 1 measured about −217 kJ mol⁻¹ (illustrative data); the literature value is about −219, so TΔS⦵ is about −6 kJ mol⁻¹ (−218.7 − (−212.3) = −6.4 unrounded).", "MnO₄⁻ with Fe²⁺: +0.75 V, n = 5, ΔG⦵ = −362 kJ mol⁻¹. Cr₂O₇²⁻ with Fe²⁺: +0.56 V, n = 6, −324 kJ mol⁻¹.", "Combined half-reactions: add ΔG⦵ (that is, nE⦵), never E⦵. Fe³⁺/Fe from +0.77 V (n = 1) and −0.44 V (n = 2): −0.04 V. Cr³⁺/Cr from −0.41 V and −0.91 V: −0.74 V."] },
   { cat: "cb", h: "Concentration and E", k: "12(j)", d: "Apply Le Chatelier's Principle to the reduction half-equation: more of the oxidised form (or of H⁺ on the left) makes E more positive; less makes it more negative.",
     list: ["Lower [Cu²⁺]: E(Cu²⁺/Cu) less positive, so the Daniell E{cell} falls. Lower [Zn²⁺]: E(Zn²⁺/Zn) more negative, so E{cell} rises.", "As any cell runs, E{cell} falls towards 0: equilibrium is a flat battery.", "MnO₄⁻/Mn²⁺ depends strongly on [H⁺] (8H⁺): it is used in acid.", "Further example: complexing lowers the free ion: [Cu(NH₃)₄]²⁺/Cu −0.05 V against Cu²⁺/Cu +0.34 V."] },
   { cat: "cb", h: "Fuel cells and better batteries", k: "12(k)", e: [["2H₂(g) + O₂(g) → 2H₂O(l)", "acid electrolyte: E⦵{cell} = 1.23 − 0.00 = +1.23 V; ΔG⦵ = −237 kJ per mol H₂O"]],
-    list: ["Anode (negative): H₂ → 2H⁺ + 2e⁻. Cathode (positive): O₂ + 4H⁺ + 4e⁻ → 2H₂O.", "Advantages: only water is formed, it runs as long as fuel is supplied, and it is more efficient than burning hydrogen in an engine.", "Lithium has the most negative E⦵ (−3.04 V) and the smallest mass per mole of electrons (6.9 g, against Zn 32.7 g and Pb 103.6 g): higher voltage, lower mass, smaller size."] },
+    list: ["Anode (negative): H₂ → 2H⁺ + 2e⁻. Cathode (positive): O₂ + 4H⁺ + 4e⁻ → 2H₂O.", "Advantages: only water is formed, it runs as long as fuel is supplied, and it converts chemical energy into electrical energy more efficiently than burning petrol or diesel in an engine to drive a generator.", "Lithium has the most negative E⦵ (−3.04 V) and the smallest mass per mole of electrons (6.9 g, against Zn 32.7 g and Pb 103.6 g): higher voltage (each lithium-ion cell gives about 3.6 V against 2.0 V for a lead-acid cell, so fewer cells are needed), lower mass, smaller size."] },
   { cat: "el", h: "What is discharged?", k: "12(m)", d: "Molten: the ions of the compound. Aqueous: water competes.",
-    list: ["Cathode: the species with the more positive E⦵ is reduced: the metal ion, or water (2H₂O + 2e⁻ → H₂ + 2OH⁻, −0.83 V). K⁺, Na⁺, Ca²⁺, Mg²⁺ and Al³⁺ are never discharged from water.", "Anode: the species with the less positive E⦵ is oxidised: the anion, water (2H₂O → O₂ + 4H⁺ + 4e⁻, +1.23 V; in alkali 4OH⁻ → O₂ + 2H₂O + 4e⁻, +0.40 V), or the anode metal itself (Cu, +0.34 V). SO₄²⁻ and NO₃⁻ are not oxidised.", "Concentration: dilute chloride gives mainly O₂; concentrated chloride gives Cl₂."] },
+    list: ["Cathode: the species with the more positive E⦵ is reduced: the metal ion, or water (2H₂O + 2e⁻ → H₂ + 2OH⁻, −0.83 V). K⁺, Na⁺, Ca²⁺, Mg²⁺ and Al³⁺ are not discharged at inert electrodes from aqueous solution.", "Anode: the species with the less positive E⦵ is oxidised: the anion (I⁻ and Br⁻; Cl⁻ mainly when concentrated), water (2H₂O → O₂ + 4H⁺ + 4e⁻, +1.23 V; in alkali 4OH⁻ → O₂ + 2H₂O + 4e⁻, +0.40 V), or the anode metal itself (Cu, +0.34 V). SO₄²⁻ and NO₃⁻ are not oxidised.", "Concentration: dilute chloride gives mainly O₂; concentrated chloride gives Cl₂."] },
   { cat: "el", h: "The electrolysis set", k: "12(m)", d: "Inert electrodes are graphite or platinum.", tbl: { head: ["Electrolyte", "Electrodes", "Cathode", "Anode", "Left"], num: [], rows: elRows } },
   { cat: "el", h: "Quantitative electrolysis and F = Le", k: "12(l), 12(n)", d: "Q = It (C = A × s); n(e⁻) = Q / F; then use the electrode equation. F = Le = 6.02 × 10²³ × 1.60 × 10⁻¹⁹ = 9.63 × 10⁴ C mol⁻¹ (Data Booklet 9.65 × 10⁴, from more precise constants).",
     list: ["CuSO₄(aq), inert electrodes, 0.500 A for 30.0 min: Q = 900 C; n(e⁻) = 9.33 × 10⁻³ mol; 0.296 g Cu; 56.0 cm³ O₂ at r.t.p.", "Cells in series pass the same charge: 0.540 g of Ag (5.00 × 10⁻³ mol e⁻) goes with 0.159 g of Cu."] },
-  { cat: "el", h: "Industrial electrolysis", k: "12(o)", list: ["Anodising: the Al object is the anode in dilute H₂SO₄; 2Al + 3H₂O → Al₂O₃ + 6H⁺ + 6e⁻; cathode 2H⁺ + 2e⁻ → H₂. The oxide layer grows from a few nm to several µm: harder, more corrosion resistant, can be dyed.", "Purifying copper: impure Cu anode, pure Cu cathode, CuSO₄(aq) with H₂SO₄. Anode Cu → Cu²⁺ + 2e⁻ (Zn, Fe, Ni dissolve too and stay in solution); Ag and Au fall as anode sludge; cathode Cu²⁺ + 2e⁻ → Cu.", "Technical details are not required."] },
-  { cat: "enr", enr: true, h: "The numbers behind 12(j) and 12(i)", k: "beyond 9476", list: ["Nernst equation at 298 K: E = E⦵ + (0.0591 / n) lg([oxidised] / [reduced]). Cu²⁺ at 0.0100 mol dm⁻³: +0.28 V; Zn²⁺ at 0.0100 mol dm⁻³: −0.82 V.", "ΔG⦵ = −RT ln K (Topic 9): for the Daniell cell K = e^(212 300 / (8.31 × 298)) ≈ 1.7 × 10³⁷."] }
+  { cat: "el", h: "Industrial electrolysis", k: "12(o)", list: ["Anodising: the Al object is the anode in dilute H₂SO₄; 2Al + 3H₂O → Al₂O₃ + 6H⁺ + 6e⁻; cathode 2H⁺ + 2e⁻ → H₂. The oxide layer grows from a few nm (literature value) to several µm: harder, more corrosion resistant, can be dyed.", "Purifying copper: impure Cu anode, pure Cu cathode, CuSO₄(aq) with H₂SO₄. Anode Cu → Cu²⁺ + 2e⁻ (Zn, Fe, Ni dissolve too and stay in solution); Ag and Au fall as anode sludge; cathode Cu²⁺ + 2e⁻ → Cu.", "Technical details are not required."] },
+  { cat: "enr", enr: true, h: "The numbers behind 12(j) and 12(i)", k: "beyond 9476", list: ["Nernst equation at 298 K: E = E⦵ + (0.0591 / n) lg([oxidised] / [reduced]). Cu²⁺ at 0.0100 mol dm⁻³: +0.28 V; Zn²⁺ at 0.0100 mol dm⁻³: −0.82 V.", "ΔG⦵ = −RT ln K (Topic 9): for the Daniell cell K = e^(212 300 / (8.31 × 298)) ≈ 2 × 10³⁷."] }
 ];
 LAB.FC = FC;
 const FCF = [["all", "All"], ["rx", "Redox (12(a), (h))"], ["ce", "Cells and E⦵ (12(b)–(g), (i))"], ["cb", "Concentration and batteries (12(j), (k))"], ["el", "Electrolysis (12(l)–(o))"], ["enr", "Enrichment"]];
@@ -2705,14 +2854,14 @@ const QZ = [
     o: [["H₂ at 1 bar over platinum coated with platinum black, in 1 mol dm⁻³ H⁺(aq), at 298 K", "All the standard conditions, with platinum black to catalyse H₂ ⇌ 2H⁺ + 2e⁻."],
         ["H₂ at 1 bar over a copper electrode, in 1 mol dm⁻³ H⁺(aq), at 298 K", "Copper would take part in its own equilibrium; the SHE uses inert platinum, coated with platinum black as a catalyst."],
         ["H₂ at 1 bar over platinum, in pure water, at 298 K", "Pure water has [H⁺] of only 10⁻⁷ mol dm⁻³: the SHE needs 1 mol dm⁻³ H⁺(aq)."],
-        ["H₂ at 1 bar over platinum, in 1 mol dm⁻³ H₂SO₄, at 298 K", "1 mol dm⁻³ H₂SO₄ gives about 2 mol dm⁻³ H⁺: use 1 mol dm⁻³ HCl, for example."]] },
+        ["H₂ at 1 bar over platinum, in 1 mol dm⁻³ H₂SO₄, at 298 K", "1 mol dm⁻³ H₂SO₄ gives more than 1 mol dm⁻³ H⁺, because HSO₄⁻ also loses some protons: use 1 mol dm⁻³ HCl, for example."]] },
   { k: "12(e), 12(f)(i)", q: "A cell is made from Cu²⁺/Cu (E⦵ = +0.34 V) and Ag⁺/Ag (E⦵ = +0.80 V). What is E⦵{cell}, and which electrode is negative?",
     o: [["+0.46 V; the copper electrode is negative", "E⦵{cell} = 0.80 − 0.34 = +0.46 V. Cu²⁺/Cu has the less positive E⦵, so copper is oxidised: the negative electrode."],
         ["+0.46 V; the silver electrode is negative", "The value is right, but Ag⁺/Ag has the more positive E⦵: Ag⁺ is reduced there, so silver is the positive electrode."],
         ["+1.14 V; the copper electrode is negative", "This adds the two E⦵ values: E⦵{cell} = E⦵(reduction) − E⦵(oxidation)."],
         ["+1.26 V; the copper electrode is negative", "This doubles E⦵(Ag⁺/Ag) because the equation has 2Ag⁺. Never multiply an E⦵ by a coefficient."]] },
   { k: "12(f)(ii)", q: "Why are KMnO₄ titrations acidified with dilute H₂SO₄ rather than HCl?",
-    o: [["Acidified MnO₄⁻ oxidises Cl⁻ (E⦵{cell} = 1.52 − 1.36 = +0.16 V), so extra MnO₄⁻ would be used.", "The titre would be too large. Cr₂O₇²⁻ cannot oxidise Cl⁻ (−0.03 V), so HCl can be used with dichromate."],
+    o: [["Acidified MnO₄⁻ oxidises Cl⁻ (E⦵{cell} = 1.52 − 1.36 = +0.16 V), so extra MnO₄⁻ would be used.", "The titre would be too large. In sulfuric acid, SO₄²⁻ cannot be oxidised: sulfur is already +6 (water could be, but only extremely slowly). Cr₂O₇²⁻ cannot oxidise Cl⁻ (−0.03 V), so HCl can be used with dichromate."],
         ["HCl is a weak acid, so it cannot supply enough H⁺.", "HCl is a strong acid, completely dissociated."],
         ["H₂SO₄ gives two H⁺ per molecule, so the reaction is faster.", "The reason is a side reaction of Cl⁻, not the amount of H⁺ or the rate."],
         ["Cl⁻ reduces Mn²⁺ back to Mn.", "Mn²⁺/Mn is −1.18 V: Cl⁻ cannot reduce Mn²⁺. The problem is MnO₄⁻ oxidising Cl⁻ to Cl₂."]] },
@@ -2796,6 +2945,9 @@ function redrawAll(){ onLadder(); cellAll(); concAll(); elysAll(); }
 LAB.redrawAll = redrawAll;
 let RW = 0, RTM = 0;
 window.addEventListener("resize", () => { const w = document.documentElement.clientWidth; if (w === RW) return; RW = w; clearTimeout(RTM); RTM = setTimeout(redrawAll, 120); });
+// one section at a time: a section drawn while hidden can be the wrong width, so draw again when it is shown
+try { const mo = new MutationObserver(ms => { if (ms.some(m => m.oldValue && /\bls-off\b/.test(m.oldValue) && !m.target.classList.contains("ls-off"))){ clearTimeout(RTM); RTM = setTimeout(redrawAll, 60); } });
+  document.querySelectorAll("section.lab").forEach(el => mo.observe(el, { attributes: true, attributeFilter: ["class"], attributeOldValue: true })); } catch (e) {}
 try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
 
 RW = document.documentElement.clientWidth;
