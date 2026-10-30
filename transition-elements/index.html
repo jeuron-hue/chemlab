@@ -1005,10 +1005,6 @@ const P4 = [
   { s: "Zn", z: 30, r: 0.135, ie: [908, 1730, 3828, 5980], mp: 420, d: 7.13, ar: 65.4 }
 ];
 LAB.P4 = P4;
-// ionic radii / nm (booklet, section (g))
-const IONR = { "Sc³⁺": 0.075, "Ti²⁺": 0.086, "Ti³⁺": 0.067, "V²⁺": 0.079, "V³⁺": 0.064, "Cr²⁺": 0.073, "Cr³⁺": 0.062, "Mn²⁺": 0.083, "Mn³⁺": 0.058, "Fe²⁺": 0.061, "Fe³⁺": 0.055,
-  "Co²⁺": 0.065, "Co³⁺": 0.055, "Ni²⁺": 0.069, "Ni³⁺": 0.056, "Cu²⁺": 0.073, "Zn²⁺": 0.074, "Ca²⁺": 0.099 };
-LAB.IONR = IONR;
 // Period 3 (booklet), Na to Cl: atomic radius / nm and first IE / kJ mol⁻¹ (the notes compare Na to Cl throughout)
 const P3 = [
   { s: "Na", n: 1, r: 0.186, ie1: 494 }, { s: "Mg", n: 2, r: 0.160, ie1: 736 }, { s: "Al", n: 3, r: 0.143, ie1: 577 }, { s: "Si", n: 4, r: 0.117, ie1: 786 },
@@ -1076,7 +1072,7 @@ LAB.ecell = ecell;
 
 /* ---------- data kept out of the redox chooser and the generated questions ----------
    The page holds only opaque hashes (made when the page is built) of the keys of the excluded items; an item whose key hashes into the set is not offered. */
-const RESH = new Set(["140uhwc", "144fm1y", "14ef7qx", "14ktpaa", "14utaz9", "14yb9mw", "15sd87s", "162ctwr", "16ccflq", "16mc1ap", "16wbmzo", "176b8on", "17gaudm", "17qag2l", "19vdx3", "1a8wvv4", "1c8k8u9", "1e56rhv", "1er4ypi", "1ldybgb", "1o6b7qn", "1qhyurm", "1qryggl", "1ro0psf", "1spdp7r", "1syejwk", "1szdawq", "1t9cwlp", "1tjahjy", "1tndpjl", "1wpms4q", "2q3be7", "2xyspw", "2zqh61", "44ys4d", "4nki42", "4vhv2x", "58j6s5", "5c50ou", "5m4mdt", "6w697x", "7qotxd", "9gldiy", "fxewz8", "fy87ox", "mup4hk", "n4oq6j", "qnqi3k", "r1tgz3", "rbt2o2", "rlsod1", "rvsa20", "s5rvqz", "sverav", "udy5so", "unxrhn", "uxxd6m", "v7wyvl", "vhwkkk", "vrw69j", "w8siob", "z51xg0", "zf1j4z", "zkdfyu"]);
+const RESH = new Set(["140uhwc", "144fm1y", "14ef7qx", "14ktpaa", "14utaz9", "14yb9mw", "15sd87s", "162ctwr", "16ccflq", "16mc1ap", "16wbmzo", "176b8on", "17gaudm", "17qag2l", "19vdx3", "1a8wvv4", "1c8k8u9", "1e56rhv", "1ldybgb", "1o6b7qn", "1qhyurm", "1qryggl", "1ro0psf", "1spdp7r", "1syejwk", "1szdawq", "1t9cwlp", "1tjahjy", "1tndpjl", "1wpms4q", "2q3be7", "2xyspw", "2zqh61", "44ys4d", "4nki42", "4vhv2x", "58j6s5", "5c50ou", "5m4mdt", "6w697x", "7qotxd", "9gldiy", "fxewz8", "fy87ox", "mup4hk", "n4oq6j", "qnqi3k", "r0ribl", "r1tgz3", "rbt2o2", "rlsod1", "rvsa20", "s5rvqz", "sverav", "udy5so", "unxrhn", "uxxd6m", "v7wyvl", "vhwkkk", "vrw69j", "w8siob", "z51xg0", "zf1j4z", "zkdfyu"]);
 function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
 const resKeyHit = k => RESH.has(fnv(k));
 
@@ -1137,7 +1133,7 @@ function trExplain(){
       `<p>${H(`In Period 3 each extra electron goes into the same outer shell, which shields poorly, so the effective nuclear charge rises steeply and the radius falls a lot.`)}</p>`,
       `<ul class="notes"><li>${H(`Sc to Cu: 0.164 → 0.128 nm. From Ti to Cu every radius lies between ${f3(N.rMin)} and ${f3(N.rMax)} nm: a range of only ${f3(N.rRange)} nm.`)}</li><li>${H(`Na to Cl: 0.186 → 0.099 nm, a range of ${f3(N.p3rRange)} nm, four times as much.`)}</li><li>${H(`Beyond the syllabus: the slight rise at Cu and Zn comes from repulsion by the filled 3d subshell.`)}</li></ul>`],
     ie1: [`<h3 class="sub3">Why the first IE changes so little</h3>`,
-      `<p>${H(`The first electron removed is a 4s electron. Across Sc to Cu the nuclear charge rises by one each time, but the added 3d electron shields the 4s electrons fairly well, so the effective nuclear charge on them, and their distance from the nucleus, change only slightly.`)}</p>`,
+      `<p>${H(`The first electron removed is a 4s electron. Across Sc to Cu the nuclear charge rises by one each time, but the added 3d electron shields the 4s electrons fairly well, but not completely, so the effective nuclear charge on them, and their distance from the nucleus, change only slightly.`)}</p>`,
       `<ul class="notes"><li>${H(`Ti to Cu: first IE between ${N.iMin} and ${N.iMax} kJ mol⁻¹, a range of ${N.iRange} kJ mol⁻¹ (Sc 632).`)}</li><li>${H(`Na to Cl: 494 to 1260 kJ mol⁻¹, a range of ${N.p3iRange} kJ mol⁻¹, about ${(N.p3iRange / N.iRange).toFixed(1)} times as much.`)}</li><li>${H(`Zn (908) is higher: its 4s² is removed from a filled 3d¹⁰ 4s² arrangement (Zn is not a transition element).`)}</li></ul>`],
     ie: [`<h3 class="sub3">Successive ionisation energies: Ca against the d block</h3>`,
       `<p>${H(`Calcium loses its two 4s electrons fairly easily, but the third electron comes from the inner 3p subshell, much closer to the nucleus: a huge jump (IE₃/IE₂ = 4940/1150 = 4.30). So calcium forms only Ca²⁺.`)}</p>`,
@@ -2698,6 +2694,9 @@ function gnGrade(q, s, sel){
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }
 LAB.gnGrade = gnGrade;
+// the phone keypad follows the answer: the decimal pad has no minus, plus, e or × key, so an answer that is signed (a charge, an E⦵cell) or written in standard form (J per ion) gets the full keyboard
+function gnKeypad(q){ return q.type === "chg" || q.type === "ecell" || q.signed || q.ans.v < 0 || (q.type === "photon" && /^ΔE \/ J/.test(q.label)) ? "text" : "decimal"; }
+LAB.gnKeypad = gnKeypad;
 function gnRender(){
   const q = GN.q;
   document.querySelectorAll("#gn-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.type === GN.type)));
@@ -2708,6 +2707,7 @@ function gnRender(){
   $("gn-ufield").hidden = !q.sel;
   if (q.sel){ $("gn-ulab").textContent = q.sel.lab; $("gn-unit").innerHTML = `<option value="">choose…</option>` + q.sel.opts.map(u => `<option value="${esc(u)}">${esc(u)}</option>`).join(""); }
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
+  $("gn-ans").setAttribute("inputmode", gnKeypad(q));
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
   GN.graded = false; GN.firstOk = null;   // a new question, or a new tab, is graded afresh
