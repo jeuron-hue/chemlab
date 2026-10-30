@@ -351,6 +351,8 @@ svg .egh{fill:var(--ink-2); opacity:.55}
 .chips button, .stepchips button{min-height:24px; min-width:24px}
 
 .ls-mapfoot .ls-all2{min-height:24px;padding:2px 0}
+.form.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:480px){.form.two{grid-template-columns:minmax(0,1fr)}}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -630,7 +632,7 @@ svg .egh{fill:var(--ink-2); opacity:.55}
       <div class="vnote">Higher up: more positive <i>E</i><sup>⦵</sup>; the oxidised form (left) is a stronger oxidising agent. Lower down: the reduced form (right) is a stronger reducing agent. * Further example.</div>
     </div>
     <div class="panel stack">
-      <div class="form" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <div class="form two">
         <label class="field"><span>Oxidising agent (is reduced)</span><select id="rd-ox"></select></label>
         <label class="field"><span>Reducing agent (is oxidised)</span><select id="rd-red"></select></label>
       </div>
@@ -1131,7 +1133,7 @@ function trExplain(){
   const N = trNums();
   const out = {
     r: [`<h3 class="sub3">Why the radius changes so little</h3>`,
-      `<p>${H(`From Sc to Cu each element has one more proton, but the extra electron goes into the inner 3d subshell, not the outer 4s. The 3d electrons shield the 4s electrons fairly well, so the effective nuclear charge felt by the 4s electrons rises only slightly. The 4s electrons set the size of the atom, so the radius changes little.`)}</p>`,
+      `<p>${H(`From Sc to Cu each element has one more proton, but the extra electron goes into the inner 3d subshell, not the outer 4s. The 3d electrons shield the 4s electrons fairly well, but not completely, so the effective nuclear charge felt by the 4s electrons still rises, but only slightly. The 4s electrons set the size of the atom, so the radius changes little.`)}</p>`,
       `<p>${H(`In Period 3 each extra electron goes into the same outer shell, which shields poorly, so the effective nuclear charge rises steeply and the radius falls a lot.`)}</p>`,
       `<ul class="notes"><li>${H(`Sc to Cu: 0.164 → 0.128 nm. From Ti to Cu every radius lies between ${f3(N.rMin)} and ${f3(N.rMax)} nm: a range of only ${f3(N.rRange)} nm.`)}</li><li>${H(`Na to Cl: 0.186 → 0.099 nm, a range of ${f3(N.p3rRange)} nm, four times as much.`)}</li><li>${H(`Beyond the syllabus: the slight rise at Cu and Zn comes from repulsion by the filled 3d subshell.`)}</li></ul>`],
     ie1: [`<h3 class="sub3">Why the first IE changes so little</h3>`,
@@ -2755,7 +2757,7 @@ const FC = [
     list: ["Sc: the atom is [Ar]3d¹4s², an incomplete d subshell, although its only ion, Sc³⁺, is [Ar].", "Cu: the atom is [Ar]3d¹⁰4s¹, but Cu²⁺ is [Ar]3d⁹, an incomplete d subshell.", "Zn is in the d block but is not a transition element: Zn is [Ar]3d¹⁰4s² and Zn²⁺ is [Ar]3d¹⁰, a full d subshell in both."] },
   { cat: "te", h: "Configurations: the 4s electrons are lost first", k: "13(b)", d: "Write 3d before 4s. On forming ions, the 4s electrons are lost first. Fe²⁺ is [Ar]3d⁶, not [Ar]3d⁴4s².",
     tbl: { head: ["Atom", "Configuration", "Ions in the notes"], num: [], rows: () => ["Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn"].map(a => [a, H(confStr(confOf(a, 0))), NOTE_IONS.filter(x => x[1] === a).map(x => H(`${x[0]} ${confStr(confOf(x[1], x[2]))}`)).join("; ") || "–"]) } },
-  { cat: "te", h: "Radius and first IE: relatively invariant", k: "13(c)", d: "Across Sc to Cu the extra electron goes into the inner 3d subshell. The nuclear charge rises by one each time, but the extra 3d electron shields the outer 4s electrons fairly well, so the effective nuclear charge felt by the 4s electrons rises only slightly: the atomic radius and first IE change little.",
+  { cat: "te", h: "Radius and first IE: relatively invariant", k: "13(c)", d: "Across Sc to Cu the extra electron goes into the inner 3d subshell. The nuclear charge rises by one each time, but the extra 3d electron shields the outer 4s electrons fairly well, but not completely, so the effective nuclear charge felt by the 4s electrons still rises, but only slightly: the atomic radius and first IE change little.",
     list: ["Ti to Cu: radius 0.124 to 0.146 nm (a range of 0.022 nm); Na to Cl: 0.186 to 0.099 nm (0.087 nm).", "Ti to Cu: first IE 648 to 762 kJ mol⁻¹ (a range of 114); Na to Cl: 494 to 1260 kJ mol⁻¹ (766, about 6.7 times as much).", "In Period 3 electrons are added to the same outer shell, which shields poorly: large changes."] },
   { cat: "te", h: "Melting point and density against calcium", k: "13(d)", d: "Metallic bonding: a transition element delocalises both its 4s and 3d electrons, and its cations are smaller with a higher charge density, so the attraction is stronger and the melting point higher. It has a larger A{r} and a much smaller atomic radius, so it is denser.",
     tbl: { head: ["", "Ca", "Fe", "Cu"], num: [1, 2, 3], rows: () => [["m.p. / °C (literature)", "842", "1538", "1085"], ["Density / g cm⁻³ (literature)", "1.55", "7.87", "8.96"], ["Atomic radius / nm", "0.197", "0.126", "0.128"]].map(r => r.map(H)) },
