@@ -2159,7 +2159,7 @@ function genCONV(){
     alts: [{ v: I1 / (I1 + I2) * 100, msg: "That is the ethanol left: the conversion is the ester's share." }, { v: I2 / I1 * 100, msg: "Divide by the total of both integrals, not by the ethanol alone." }] };
 }
 // qNMR (Further example): P_a = (I_a/I_s)(N_s/N_a)(M_a/M_s)(m_s/m_a) P_s
-const QSTD = [{ n: "maleic acid", M: 116.07, N: 2, d: "δ about 6.3 in DMSO-d₆" }, { n: "dimethyl sulfone", M: 94.13, N: 6, d: "δ about 3.0" }];
+const QSTD = [{ n: "maleic acid", M: 116.07, dp: 2, N: 2, d: "δ about 6.3 in DMSO-d₆" }, { n: "dimethyl sulfone", M: 94.1, dp: 1, N: 6, d: "δ about 3.0" }];
 LAB.QSTD = QSTD;
 const badQ = q => rh("qm:" + q.ma.toFixed(2)) || rh("qm:" + q.ms.toFixed(2)) || rh("qs:" + q.Ps.toFixed(1)) || rh("qr:" + q.Ia.toFixed(3)) || [q.P - 0.05, q.P, q.P + 0.05].some(x => rh("qp:" + x.toFixed(1))) || rh("qM:" + q.Ma.toFixed(1));
 function genQN(){
@@ -2172,9 +2172,9 @@ function genQN(){
     q = { st, Na, Ma, ma, ms, Ps, Ia, P };
   } while (badQ(q) || q.P > 100 || q.P < 85 || q.Ia < 0.05);
   const { st, Na, Ma, ma, ms, Ps, Ia, P } = q;
-  return { type: "qn", fex: true, text: `The purity of compound X (M{r} ${Ma.toFixed(1)}) is measured by qNMR with ${st.n} (M{r} ${st.M.toFixed(2)}, purity ${Ps.toFixed(1)} %) as the internal standard. ${ma.toFixed(2)} mg of X and ${ms.toFixed(2)} mg of the standard are dissolved together. The integral of a ${Na}H signal of X is ${Ia.toFixed(3)} when the ${st.N}H singlet of the standard (${st.d}) is set to 1.000. Calculate the purity of X (illustrative data).`,
+  return { type: "qn", fex: true, text: `The purity of compound X (M{r} ${Ma.toFixed(1)}) is measured by qNMR with ${st.n} (M{r} ${st.M.toFixed(st.dp)}, purity ${Ps.toFixed(1)} %) as the internal standard. ${ma.toFixed(2)} mg of X and ${ms.toFixed(2)} mg of the standard are dissolved together. The integral of a ${Na}H signal of X is ${Ia.toFixed(3)} when the ${st.N}H singlet of the standard (${st.d}) is set to 1.000. Calculate the purity of X (illustrative data).`,
     label: "purity / %", units: ["%"], ans: Object.assign(ansN(P, 3), { tol: Math.max(lastUnit(P, 3), 0.0015 * P) }), fmt: "3 significant figures", q,
-    work: [ASIDE("To answer, compare moles of protons: each integral divided by its number of H gives moles, then convert to mass"), `P{a} = (I{a} / I{s}) × (N{s} / N{a}) × (M{a} / M{s}) × (m{s} / m{a}) × P{s}`, `= (${Ia.toFixed(3)} / 1.000) × (${st.N} / ${Na}) × (${Ma.toFixed(1)} / ${st.M.toFixed(2)}) × (${ms.toFixed(2)} / ${ma.toFixed(2)}) × ${Ps.toFixed(1)} %`, `= <b>${sfS(P, 3)} %</b>`],
+    work: [ASIDE("To answer, compare moles of protons: each integral divided by its number of H gives moles, then convert to mass"), `P{a} = (I{a} / I{s}) × (N{s} / N{a}) × (M{a} / M{s}) × (m{s} / m{a}) × P{s}`, `= (${Ia.toFixed(3)} / 1.000) × (${st.N} / ${Na}) × (${Ma.toFixed(1)} / ${st.M.toFixed(st.dp)}) × (${ms.toFixed(2)} / ${ma.toFixed(2)}) × ${Ps.toFixed(1)} %`, `= <b>${sfS(P, 3)} %</b>`],
     alts: [{ v: Ia * (Na / st.N) * (Ma / st.M) * (ms / ma) * Ps, msg: "The proton numbers are upside down: multiply by N(standard) / N(X)." }, { v: Ia * (Ma / st.M) * (ms / ma) * Ps, msg: "Include the numbers of protons giving each signal, N(standard) / N(X)." }, { v: Ia * (st.N / Na) * (Ma / st.M) * (ma / ms) * Ps, msg: "The masses are upside down: multiply by m(standard) / m(X)." }, { v: P / Ps * 100, near: true, msg: "Include the purity of the standard, P(s): multiply by P(s) / 100." }] };
 }
 const GENS = { dz: genDZ, sp: genSP, sig: genSIG, cnt: genCNT, conv: genCONV, qn: genQN };
