@@ -88,21 +88,21 @@ section.lab:last-of-type{border-bottom:0}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; align-items:center; min-height:24px; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -345,6 +345,10 @@ svg .atl{font-size:9px; font-weight:600; fill:#ffffff; pointer-events:none}
 #tr-explain p{margin:0}
 svg .eh{fill:var(--ink)}
 svg .egh{fill:var(--ink-2); opacity:.55}
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+.chips button, .stepchips button{min-height:24px; min-width:24px}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -384,7 +388,7 @@ svg .egh{fill:var(--ink-2); opacity:.55}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -396,7 +400,7 @@ svg .egh{fill:var(--ink-2); opacity:.55}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -700,7 +704,7 @@ svg .egh{fill:var(--ink-2); opacity:.55}
   <div class="sechead">
     <span class="eyebrow">Practice generator · <span class="nc">9476 13(b), 13(h), 13(i), 13(l)</span></span>
     <h2>Practice questions</h2>
-    <p>Questions are generated at random from Data Booklet values (h, c, L, <i>E</i><sup>⦵</sup>); generated wavelengths and energies are illustrative data. Give <i>E</i><sup>⦵</sup> values to 2 decimal places with a sign, and other answers to 3 significant figures.</p>
+    <p>Questions are generated at random from Data Booklet values (h, c, L, <i>E</i><sup>⦵</sup>); generated wavelengths and energies are illustrative data. Give <i>E</i><sup>⦵</sup> values to 2 decimal places with a sign, and other answers to 3 significant figures. You may type the unit after the number (for example J per ion, kJ mol<sup>−1</sup>, nm or V); a different unit is not accepted. The score counts the first answer to each question.</p>
   </div>
   <div class="stack">
     <div class="tabs" role="tablist" id="gn-tabs">
@@ -754,7 +758,7 @@ svg .egh{fill:var(--ink-2); opacity:.55}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 13 Transition Elements</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · radii, ionisation energies, <i>E</i><sup>⦵</sup>, h, c and L from the Data Booklet · melting points, densities, absorption wavelengths and the CO binding ratio are literature values · generator wavelengths and energies are illustrative</span>
-  <span class="ls-updated">Last updated 16/10/26</span></div>
+  <span class="ls-updated">Last updated 30/10/26</span></div>
 </footer>
 <script>
 (function(){
@@ -790,13 +794,23 @@ const fx = (v, d) => minus((Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixe
 const sgn = (v, d) => { d = d || 0; const r = +v.toFixed(d); return (r > 0 ? "+" : r < 0 ? "−" : "") + Math.abs(r).toFixed(d); };
 // grouped thousands with a thin space for numbers of five or more digits (16 720)
 const grp = s => { const m = String(s).match(/^([−+]?)(\d+)(\.\d+)?$/); if (!m || m[2].length < 5) return s; return m[1] + m[2].replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0") + (m[3] || ""); };
+// Rounding to n significant figures is half-up on the value to 12 significant figures (so 3.315 gives 3.32 and 2.925 gives 2.93, as printed
+// on paper), not on the binary value that toFixed sees. Returns the n digits and the power of ten of the first digit.
+function roundSF(v, n){
+  const [m, ex] = Math.abs(v).toExponential(11).split("e");
+  let ds = m.replace(".", "").split("").map(Number), e = +ex;
+  const up = ds[n] >= 5;
+  ds = ds.slice(0, n);
+  if (up){ let i = n - 1; while (i >= 0){ if (ds[i] === 9){ ds[i] = 0; i--; } else { ds[i]++; break; } } if (i < 0){ ds.unshift(1); ds.pop(); e += 1; } }
+  return { d: ds.join(""), e };
+}
+LAB.roundSF = roundSF;
 const sf = (v, n) => {
   if (v === 0) return "0";
-  let e = n - 1 - Math.floor(Math.log10(Math.abs(v)));
-  const r = +v.toFixed(Math.max(0, e));
-  if (e >= 0 && Math.floor(Math.log10(Math.abs(r))) > Math.floor(Math.log10(Math.abs(v)))) e -= 1;   // 9.996 → 10.0
-  if (e >= 0) return v.toFixed(e);
-  const k = Math.pow(10, -e); return String(Math.round(v / k) * k);
+  const { d, e } = roundSF(v, n), sg = v < 0 ? "-" : "";
+  if (e >= n - 1) return sg + d + "0".repeat(e - n + 1);
+  if (e >= 0) return sg + d.slice(0, e + 1) + "." + d.slice(e + 1);
+  return sg + "0." + "0".repeat(-e - 1) + d;
 };
 const sfS = (v, n) => grp(minus(sf(v, n)));          // to n s.f., true minus, grouped
 const sfSg = (v, n) => (v > 0 ? "+" : "") + sfS(v, n); // signed
@@ -874,15 +888,55 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(kPa\^?-?\d*|mol.*|dm.*|atm|kJmol\^?-1|kJ\/mol|kJ|K|J|°C|%)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+// ---------- typed answers: a number plus an optional unit, checked against the unit the question asks for ----------
+// Canonical unit ids: J (per ion), Jmol, kJ, kJmol, nm, m, V
+const UNIT_NAME = { J: "J", Jmol: "J mol⁻¹", kJ: "kJ", kJmol: "kJ mol⁻¹", nm: "nm", m: "m", V: "V" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){
+  const t = String(u).toLowerCase().replace(/[\s.·⋅*]/g, "").replace(/[−–]/g, "-").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/[()]/g, "");
+  if (/^j(per(ion|photon|complex|particle)|\/(ion|photon|complex|particle)|(ion|photon|complex|particle)-1)$/.test(t) || t === "j") return "J";
+  if (/^j(mol-1|\/mol|permol|permole|\/mole|mole-1)$/.test(t)) return "Jmol";
+  if (/^kj(mol-1|\/mol|permol|permole|\/mole|mole-1)$/.test(t)) return "kJmol";
+  if (t === "kj" || /^kj(per(ion|photon)|\/(ion|photon))$/.test(t)) return "kJ";
+  if (/^(nm|nanometres?|nanometers?)$/.test(t)) return "nm";
+  if (/^(m|metres?|meters?)$/.test(t)) return "m";
+  if (/^(v|volts?)$/.test(t)) return "V";
+  return null;
 }
+// The question's unit: a list of canonical ids it accepts (e.g. ["kJmol"]), or [] for a plain number. "no units" is accepted wherever the question has none.
+// opts.sign: a signed whole number may be written +3, (+3), 3+ or 2−. Returns { value, unit? } or { error, kind }:
+// kind "empty" and "nan" are not answers at all; "unit" and "comma" are entries to fix.
+function parseAnswer(str, allowed, opts){
+  opts = opts || {};
+  const NAN = { error: "Enter a number, for example 6, +3, −2, 215 or 3.42e-19.", kind: "nan" };
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (opts.sign){ const br = t.match(/^\(\s*([-+]?\s*\d+)\s*\)$/); if (br) t = br[1].replace(/\s+/g, ""); }
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  let val = NaN, rest = "", m;
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  if ((m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:,\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i")))){
+    const mant = parseFloat(m[2].replace(/,/g, ""));
+    const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+    val = e != null ? mant * Math.pow(10, +e) : mant;
+    if (m[1] === "-") val = -val;
+    rest = m[6];
+  } else return NAN;
+  if (!isFinite(val)) return NAN;
+  rest = rest.trim();
+  if (opts.sign && /^[-+]$/.test(rest) && !/^[-+]/.test(t)){ val = rest === "-" ? -val : val; rest = ""; }
+  if (!rest) return { value: val };
+  const plain = /^(no ?units?|unitless|dimensionless)$/i.test(rest);
+  const u = plain ? "none" : unitId(rest);
+  if (!u) return NAN;
+  const want = allowed == null ? null : allowed.length ? `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` : "Check the unit: this answer is a plain number, with no unit.";
+  if (allowed == null || (plain ? allowed.length === 0 : allowed.includes(u))) return plain ? { value: val } : { value: val, unit: u };
+  return { unit: u, kind: "unit", error: want };
+}
+LAB.parseAnswer = parseAnswer;
+// the old name: a number with any recognised unit tolerated (the unit is not checked); NaN when there is no number
+function parseNum(s){ const r = parseAnswer(s, null, { sign: true }); return r.value != null ? r.value : NaN; }
 LAB.parseNum = parseNum;
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
@@ -892,9 +946,8 @@ function sci(v, n){
   if (v === 0) return "0";
   const a = Math.abs(v);
   if (a >= 0.01 && a < 1e4) return sfS(v, n);
-  let e = Math.floor(Math.log10(a)), m = v / Math.pow(10, e);
-  let ms = sf(m, n); if (Math.abs(+ms) >= 10){ e += 1; ms = sf(v / Math.pow(10, e), n); }
-  return minus(ms) + " × 10" + SUPS(e);
+  const { d, e } = roundSF(v, n);
+  return (v < 0 ? "−" : "") + d[0] + (n > 1 ? "." + d.slice(1) : "") + " × 10" + SUPS(e);
 }
 LAB.sci = sci; LAB.sf = sf;
 // a generic SVG line chart; returns { X, Y, svg string pieces }
@@ -929,7 +982,7 @@ const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" styl
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* =====================================================
-   DATA (all from DATA.md, 16/10/26). Data Booklet values unless marked literature.
+   DATA (as in the notes). Data Booklet values unless marked literature.
    ===================================================== */
 const H_PL = 6.63e-34, C_L = 3.00e8, L_A = 6.02e23;          // Data Booklet constants
 LAB.CONST = { h: H_PL, c: C_L, L: L_A };
@@ -961,11 +1014,10 @@ LAB.P3 = P3;
 // electrons outside the noble-gas core (the common x axis): Ca 2, Sc 3 ... Zn 12
 const nOut = el => el.z - 18;
 
-// atoms: [3d, 4s] electrons (DATA.md configurations; Cr and Cu are the exceptions)
+// atoms: [3d, 4s] electrons (the notes' configurations; Cr and Cu are the exceptions)
 const ATOM = { Ca: [0, 2], Sc: [1, 2], Ti: [2, 2], V: [3, 2], Cr: [5, 1], Mn: [5, 2], Fe: [6, 2], Co: [7, 2], Ni: [8, 2], Cu: [10, 1], Zn: [10, 2] };
 LAB.ATOM = ATOM;
-// charges offered in the free configuration viewer (ions met in common chemistry, up to +3)
-// ions limited to those in the notes (the others are Tutorial 1 Q2 answers)
+// charges offered in the configuration viewer: the atoms, and the ions that the notes use
 const CHG = { Sc: [0, 3], Ti: [0, 3], V: [0], Cr: [0, 3], Mn: [0, 2], Fe: [0, 2, 3], Co: [0], Ni: [0], Cu: [0, 1, 2], Zn: [0, 2] };
 LAB.CHG = CHG;
 // configuration of an atom or ion: 4s electrons are lost first
@@ -983,12 +1035,12 @@ LAB.confStr = confStr;
 const ionName = (el, q) => q ? el + (q === 1 ? "⁺" : SUPN(q) + "⁺") : el;
 LAB.ionName = ionName;
 
-// oxidation states (DATA.md, notes Part 1 table): c = common (filled), l = less common (open)
+// oxidation states (notes Part 1 table): c = common (filled), l = less common (open)
 const OXS = { Sc: { c: [3], l: [] }, Ti: { c: [3, 4], l: [2] }, V: { c: [2, 3, 4, 5], l: [] }, Cr: { c: [3, 6], l: [2] }, Mn: { c: [2, 4, 7], l: [3, 6] },
   Fe: { c: [2, 3], l: [6] }, Co: { c: [2, 3], l: [] }, Ni: { c: [2], l: [3, 4] }, Cu: { c: [1, 2], l: [] }, Zn: { c: [2], l: [] } };
 LAB.OXS = OXS;
 
-/* ---------- E⦵ / V (Data Booklet, as DATA.md) ---------- */
+/* ---------- E⦵ / V (Data Booklet, as in the notes) ---------- */
 // ox: oxidised side, red: reduced side, half: the half-equation as printed (reduction), n electrons, alk: alkaline couple
 const CPL = {
   zn:    { E: -0.76, ox: "Zn²⁺", red: "Zn", half: "Zn²⁺ + 2e⁻ ⇌ Zn", n: 2 },
@@ -1017,6 +1069,12 @@ const vS = v => (v > 0.0049 ? "+" : v < -0.0049 ? "−" : "") + Math.abs(v).toFi
 LAB.vS = vS;
 const ecell = (o, r) => Math.round((CPL[o].E - CPL[r].E) * 100) / 100;
 LAB.ecell = ecell;
+
+/* ---------- data kept out of the redox chooser and the generated questions ----------
+   The page holds only opaque hashes (made when the page is built) of the keys of the excluded items; an item whose key hashes into the set is not offered. */
+const RESH = new Set(["140uhwc", "144fm1y", "14ef7qx", "14ktpaa", "14utaz9", "14yb9mw", "15sd87s", "162ctwr", "16ccflq", "16mc1ap", "16wbmzo", "176b8on", "17gaudm", "17qag2l", "19vdx3", "1a8wvv4", "1c8k8u9", "1e56rhv", "1ldybgb", "1o6b7qn", "1qhyurm", "1qryggl", "1ro0psf", "1spdp7r", "1syejwk", "1szdawq", "1t9cwlp", "1tjahjy", "1tndpjl", "1wpms4q", "2q3be7", "2xyspw", "2zqh61", "44ys4d", "4nki42", "4vhv2x", "58j6s5", "5c50ou", "5m4mdt", "6w697x", "7qotxd", "9gldiy", "fxewz8", "fy87ox", "mup4hk", "n4oq6j", "qnqi3k", "r1tgz3", "rbt2o2", "rlsod1", "rvsa20", "s5rvqz", "sverav", "udy5so", "unxrhn", "uxxd6m", "v7wyvl", "vhwkkk", "vrw69j", "w8siob", "z51xg0", "zf1j4z", "zkdfyu"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const resKeyHit = k => RESH.has(fnv(k));
 
 /* ---------- one animation loop for every moving picture; each runs only while on screen ---------- */
 const ANIMS = [];
@@ -1086,8 +1144,8 @@ function trExplain(){
       `<p>${H(`Calcium delocalises only its two 4s electrons, and Ca²⁺ (0.099 nm) is a large ion: weaker metallic bonding, m.p. 842 °C against 1085 to 1910 °C for Sc to Cu.`)}</p>`,
       `<ul class="notes"><li>${H(`Beyond the syllabus: Zn (420 °C) is low because its filled 3d subshell is not used in bonding.`)}</li></ul>`],
     d: [`<h3 class="sub3">Why the densities are so high</h3>`,
-      `<p>${H(`A transition element atom has a larger A{r} than calcium and a much smaller atomic radius: more mass in a smaller volume. (The atoms are also more closely packed: beyond the syllabus.)`)}</p>`,
-      `<p class="hint" style="margin:0">${H(`Estimate (illustrative: it assumes the same packing): density ∝ A{r} ÷ r³.`)}</p>`,
+      `<p>${H(`A transition element atom has a larger A{r} than calcium and a much smaller atomic radius: more mass in a smaller volume.`)}</p>`,
+      `<p class="hint" style="margin:0">${FEX} ${H(`Estimate (illustrative: it assumes the same packing): density ∝ A{r} ÷ r³.`)}</p>`,
       `<ol class="working"><li>${H(`Ca: 40.1 / (0.197)³ = ${grp(N.caEst.toFixed(0))}`)}</li><li>${H(`Fe: 55.8 / (0.126)³ = ${grp(N.feEst.toFixed(0))}`)}</li><li>${H(`Ratio Fe : Ca = ${grp(N.feEst.toFixed(0))} / ${grp(N.caEst.toFixed(0))} = <b>${N.est.toFixed(2)}</b>, against the literature densities 7.87 / 1.55 = <b>${N.lit.toFixed(2)}</b>.`)}</li></ol>`]
   };
   return out[TR.prop].join("");
@@ -1095,7 +1153,7 @@ function trExplain(){
 // a category chart: cats [{x, lab}], series [{pts:[[x,y,label?]], col, dash, mark, open}], y range
 function catChart(svg, o){
   const W = widthOf(svg.parentElement), Hh = o.h || (W < 520 ? 250 : 290), sm = W < 520;
-  const m = { l: sm ? 44 : 54, r: 12, t: 16, b: sm ? 44 : 46 };
+  const m = { l: sm ? 60 : 66, r: 12, t: 16, b: sm ? 44 : 46 };   // room for the widest tick label (8 000) and the axis title beside it
   const [x0, x1] = o.x, [y0, y1] = o.y;
   const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r), Y = v => Hh - m.b - (v - y0) / (y1 - y0) * (Hh - m.t - m.b);
   let s = "";
@@ -1104,7 +1162,7 @@ function catChart(svg, o){
   s += `<line class="axis" x1="${m.l}" y1="${Hh - m.b}" x2="${W - m.r}" y2="${Hh - m.b}"/><line class="axis" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${Hh - m.b}"/>`;
   (o.xticks || []).forEach(t => { s += T(X(t.x), Hh - m.b + 14, t.lab, "tick", 'text-anchor="middle"') + (t.lab2 ? T(X(t.x), Hh - m.b + 27, t.lab2, "tick", 'text-anchor="middle"') : ""); });
   if (o.xlab) s += T(m.l + (W - m.l - m.r) / 2, Hh - 4, o.xlab, "axlab", 'text-anchor="middle"');
-  if (o.ylab) s += `<g transform="translate(16 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
+  if (o.ylab) s += `<g transform="translate(15 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
   if (o.under) s += o.under(X, Y, W, Hh, m);
   (o.series || []).forEach(se => {
     const pts = se.pts.filter(p => p[1] != null);
@@ -1123,7 +1181,7 @@ function catChart(svg, o){
 LAB.catChart = catChart;
 function barChart(svg, o){
   const W = widthOf(svg.parentElement), Hh = o.h || (W < 520 ? 250 : 290), sm = W < 520;
-  const m = { l: sm ? 44 : 54, r: 10, t: 22, b: 40 };
+  const m = { l: sm ? 60 : 66, r: 10, t: 22, b: 40 };
   const n = o.bars.length, bw = (W - m.l - m.r) / n, [y0, y1] = o.y;
   const Y = v => Hh - m.b - (v - y0) / (y1 - y0) * (Hh - m.t - m.b);
   let s = `<defs><pattern id="${o.id}-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--surface)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s3)" stroke-width="2.4"/></pattern>
@@ -1138,7 +1196,7 @@ function barChart(svg, o){
     s += T(xc, Hh - m.b + 14, b.lab, "tick", 'text-anchor="middle"');
   });
   s += `<line class="axis" x1="${m.l}" y1="${Hh - m.b}" x2="${W - m.r}" y2="${Hh - m.b}"/><line class="axis" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${Hh - m.b}"/>`;
-  if (o.ylab) s += `<g transform="translate(16 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
+  if (o.ylab) s += `<g transform="translate(15 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
   if (o.xlab) s += T(m.l + (W - m.l - m.r) / 2, Hh - 4, o.xlab, "axlab", 'text-anchor="middle"');
   setSvg(svg, W, Hh, s);
 }
@@ -1174,7 +1232,7 @@ function trDraw(){
     $("tr-note").innerHTML = H("Calcium's IE₃ stands far above its IE₂; across Sc to Zn the four lines rise much more evenly.");
     // compare panel
     const A = P4[0], B = P4.find(e => e.s === TR.cmp), svg2 = $("tr-svg2");
-    const W = widthOf(svg2.parentElement), Hh = W < 520 ? 240 : 270, m = { l: W < 520 ? 44 : 54, r: 10, t: 16, b: 34 };
+    const W = widthOf(svg2.parentElement), Hh = W < 520 ? 240 : 270, m = { l: W < 520 ? 60 : 66, r: 10, t: 16, b: 34 };
     const Y = v => Hh - m.b - v / 8000 * (Hh - m.t - m.b), gw = (W - m.l - m.r) / 4;
     let s = `<defs><pattern id="cmp-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="6" height="6" fill="var(--s2-wash)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s2)" stroke-width="2"/></pattern></defs>`;
     [0, 2000, 4000, 6000, 8000].forEach(v => { s += `<line class="grid" x1="${m.l}" y1="${Y(v).toFixed(1)}" x2="${W - m.r}" y2="${Y(v).toFixed(1)}"/>` + T(m.l - 6, Y(v) + 4, grp(String(v)), "tick", 'text-anchor="end"'); });
@@ -1189,7 +1247,7 @@ function trDraw(){
       s += T(xc, Hh - m.b + 15, `IE${"₁₂₃₄"[k]}`, "tick", 'text-anchor="middle"');
     });
     s += `<line class="axis" x1="${m.l}" y1="${Hh - m.b}" x2="${W - m.r}" y2="${Hh - m.b}"/><line class="axis" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${Hh - m.b}"/>`;
-    s += `<g transform="translate(16 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, "IE / kJ mol⁻¹", "axlab", 'text-anchor="middle"')}</g>`;
+    s += `<g transform="translate(15 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, "IE / kJ mol⁻¹", "axlab", 'text-anchor="middle"')}</g>`;
     setSvg(svg2, W, Hh, s);
     const rat = e => [1, 2, 3].map(k => (e.ie[k] / e.ie[k - 1]).toFixed(2));
     const rb = rat(B), ra = rat(A);
@@ -1209,7 +1267,7 @@ LAB.trDraw = trDraw;
 function bindTrends(){
   $("tr-prop").innerHTML = TRP.map(([k, t]) => `<button type="button" data-p="${k}" aria-pressed="false">${H(t)}</button>`).join("");
   $("tr-prop").querySelectorAll("button").forEach(b => b.onclick = () => { TR.prop = b.dataset.p; trDraw(); });
-  $("tr-cmp").innerHTML = P4.filter(e => e.s !== "Ca" && e.s !== "Ti").map(e => `<button type="button" data-s="${e.s}" aria-pressed="false">${e.s}</button>`).join("");
+  $("tr-cmp").innerHTML = P4.filter(e => !["Ca", "Ti", "Zn"].includes(e.s)).map(e => `<button type="button" data-s="${e.s}" aria-pressed="false">${e.s}</button>`).join("");
   $("tr-cmp").querySelectorAll("button").forEach(b => b.onclick = () => { TR.cmp = b.dataset.s; trDraw(); });
   $("tr-p3").onchange = e => { TR.p3 = e.target.checked; trDraw(); };
   trDraw();
@@ -1274,7 +1332,7 @@ function cfDraw(){
     ["Species", sp], ["Configuration", confStr(c)], ["Electrons outside [Ar]", `${Z} − 18${CF.q ? ` − ${CF.q}` : ""} = ${c.d + c.s}`], ["3d subshell", c.d === 0 ? "empty (3d⁰)" : c.d === 10 ? "full (3d¹⁰)" : `incomplete (3d${SUPN(c.d)})`]
   ].map(([l, v]) => `<div class="stat"><div class="l">${H(l)}</div><div class="v">${H(v)}</div></div>`).join("");
   // verdict for the element
-  // name only ions that the notes use (other configurations are tutorial questions)
+  // the ions that the notes use
   const incIon = NOTE_IONS.filter(x => x[1] === el).map(x => [x[2], confOf(el, x[2])]).find(([q, x]) => x.d > 0 && x.d < 10);
   let v;
   if (el === "Zn") v = `<p><b>Zn is a d-block element but not a transition element.</b> ${H(`The atom is [Ar]3d¹⁰4s² and its only ion, Zn²⁺, is [Ar]3d¹⁰: the 3d subshell is full in both.`)}</p>`;
@@ -1315,7 +1373,7 @@ function oxDraw(){
   $("ox-note").innerHTML = H("Lowest: usually +2, from losing the two 4s electrons. Highest: up to Mn it equals the number of 4s + 3d electrons (Sc +3, Ti +4, V +5, Cr +6, Mn +7); after Mn it falls, because the 3d electrons are held more strongly as the nuclear charge rises. High states exist only bonded to O (or F), in oxoanions and oxides such as MnO₄⁻ (+7) and Cr₂O₇²⁻ (+6): there are no Mn⁷⁺ ions.");
 }
 LAB.oxDraw = oxDraw;
-// predict presets: configurations from the notes and others not reserved for the tutorials
+// the elements offered in the predictor
 const PR_SET = ["Sc", "Mn", "Fe", "Ni", "Cu", "Zn"];
 LAB.PR_SET = PR_SET;
 const PR = { i: 0, el: "Mn", sel: new Set(), done: false, right: 0, tried: 0 };
@@ -1330,12 +1388,12 @@ function prGrade(el, sel){
   const R = prRule(el), C = OXS[el].c, Lc = OXS[el].l, lines = [];
   let ok = true;
   for (let v = 1; v <= 7; v++){
-    const on = sel.has(v), common = C.includes(v), less = Lc.includes(v), rule = ["Sc", "Ti", "V", "Cr", "Mn"].includes(el) && v >= R.lo && v <= R.hi;
+    const on = sel.has(v), common = C.includes(v), less = Lc.includes(v), rule = ["Ti", "V", "Cr", "Mn"].includes(el) && v >= R.lo && v <= R.hi;   // Sc is +3 only (it loses its 3d¹ electron too)
     if (common && !on){ ok = false; lines.push([false, `+${v}: missed. It is a common oxidation state of ${el}.`]); }
     else if (common && on) lines.push([true, `+${v}: right, common.`]);
     else if (on && less) lines.push([true, `+${v}: possible, but less common.`]);
     else if (on && rule) lines.push([true, `+${v}: allowed by the rule (between +${R.lo} and +${R.hi}), but not common for ${el}.`]);
-    else if (on){ ok = false; lines.push([false, `+${v}: not formed. ${v < R.lo ? `Losing the 4s electrons gives +${R.lo} first.` : el === "Zn" ? "Zn²⁺ is [Ar]3d¹⁰: removing a 3d electron from a full subshell costs too much." : v > R.mx ? `${el} has only ${R.mx} electrons outside [Ar].` : `after Mn the highest state falls: the 3d electrons are held too strongly, and ${el} does not form +${v}.`}`]); }
+    else if (on){ ok = false; lines.push([false, `+${v}: not formed. ${el === "Sc" && v < R.mx ? "Sc loses its 3d¹ electron along with the 4s² electrons: +3 only." : v < R.lo ? `Losing the 4s electrons gives +${R.lo} first.` : el === "Zn" ? "Zn²⁺ is [Ar]3d¹⁰: removing a 3d electron from a full subshell costs too much." : v > R.mx ? `${el} has only ${R.mx} electrons outside [Ar].` : `After Mn the highest state falls: the 3d electrons are held too strongly, and ${el} does not form +${v}.`}`]); }
   }
   return { ok, lines };
 }
@@ -1344,17 +1402,21 @@ function prRender(){
   const el = PR.el, c = confOf(el, 0);
   $("pr-q").innerHTML = H(`An element has the configuration ${confStr(c)}. Which oxidation states is it likely to show?`);
   $("pr-chips").innerHTML = [1, 2, 3, 4, 5, 6, 7].map(v => `<button type="button" data-v="${v}" aria-pressed="${PR.sel.has(v)}"${PR.done ? " disabled" : ""}>+${v}</button>`).join("");
-  $("pr-chips").querySelectorAll("button").forEach(b => b.onclick = () => { const v = +b.dataset.v; PR.sel.has(v) ? PR.sel.delete(v) : PR.sel.add(v); b.setAttribute("aria-pressed", PR.sel.has(v)); });
+  $("pr-chips").querySelectorAll("button").forEach(b => b.onclick = () => { const v = +b.dataset.v; PR.sel.has(v) ? PR.sel.delete(v) : PR.sel.add(v); b.setAttribute("aria-pressed", PR.sel.has(v)); if (!PR.done) $("pr-fb").hidden = true; });
   OX.hide = PR.done ? null : el; oxDraw();
   $("pr-fb").hidden = !PR.done;
   $("pr-score").textContent = PR.tried ? `${PR.right} / ${PR.tried} right` : "";
 }
 function prCheck(){
   if (PR.done) return;
+  if (!PR.sel.size){   // nothing chosen: prompt, and do not use up the question
+    $("pr-fb").innerHTML = `<div class="fb warn">Choose at least one oxidation state.</div>`; $("pr-fb").hidden = false;
+    return;
+  }
   const el = PR.el, g = prGrade(el, PR.sel), R = prRule(el), [d, s] = ATOM[el];
   PR.done = true; PR.tried++; if (g.ok) PR.right++;
   const rule = el === "Zn" ? H(`Rule: losing the 4s² electrons gives +2; Zn²⁺ is [Ar]3d¹⁰, so zinc forms only +2 (and is not a transition element).`)
-    : H(`Rule: losing the ${s === 2 ? "two 4s electrons gives +2" : "4s electron gives +1"}; ${["Sc", "Ti", "V", "Cr", "Mn"].includes(el) ? `the highest is all ${s} 4s + ${d} 3d electrons = +${R.mx}.` : `after Mn the highest is lower than the ${R.mx} electrons outside [Ar]: the 3d electrons are held more strongly.`} The prediction gives possibilities; which states are common needs data.`);
+    : H(`Rule: losing the ${s === 2 ? "two 4s electrons gives +2" : "4s electron gives +1"}${el === "Sc" ? " (Sc loses its 3d¹ electron too: +3 only)" : ""}; ${["Sc", "Ti", "V", "Cr", "Mn"].includes(el) ? `the highest is all ${s} 4s + ${d} 3d electrons = +${R.mx}.` : `after Mn the highest is lower than the ${R.mx} electrons outside [Ar]: the 3d electrons are held more strongly.`} The prediction gives possibilities; which states are common needs data.`);
   $("pr-fb").innerHTML = `<div class="fb ${g.ok ? "ok" : "no"}"><p><b>${g.ok ? "Right" : "Not quite"}: this is ${el}.</b> Common: ${OXS[el].c.map(v => "+" + v).join(", ")}${OXS[el].l.length ? `; less common: ${OXS[el].l.map(v => "+" + v).join(", ")}` : ""}.</p><ul>${g.lines.map(([k, t]) => `<li>${H(t)}</li>`).join("")}</ul></div><p class="hint" style="margin:8px 0 0">${rule}</p>`;
   prRender();
 }
@@ -1556,7 +1618,7 @@ function hueName(c){
   return pale + nm;
 }
 LAB.hueName = hueName;
-// six-sector colour wheel (DATA.md ranges, literature, approximate); clockwise from the top: red, orange, yellow, green, blue, violet
+// six-sector colour wheel (the notes' ranges, literature, approximate); clockwise from the top: red, orange, yellow, green, blue, violet
 const SECT = [
   { n: "red", lo: 630, hi: 700, col: "#d8312b", opp: "green" }, { n: "orange", lo: 590, hi: 630, col: "#ee8a22", opp: "blue" },
   { n: "yellow", lo: 560, hi: 590, col: "#f1d02c", opp: "violet" }, { n: "green", lo: 490, hi: 560, col: "#3aa556", opp: "red" },
@@ -1598,7 +1660,7 @@ function cwInfo(){
 }
 LAB.cwInfo = cwInfo;
 function cwDraw(){
-  const I = cwInfo(), svg = $("cw-svg"), W = Math.min(widthOf(svg.parentElement), 300), Hh = W, cx = W / 2, cy = Hh / 2, R = W / 2 - 30, r0 = R * 0.42;
+  const I = cwInfo(), lamR = I.lam ? Math.round(I.lam) : 0, svg = $("cw-svg"), W = Math.min(widthOf(svg.parentElement), 300), Hh = W, cx = W / 2, cy = Hh / 2, R = W / 2 - 30, r0 = R * 0.42;
   const pt = (a, r) => [cx + r * Math.sin(a * D2R), cy - r * Math.cos(a * D2R)];
   const arc = (a0, a1, r1, r2) => { const p = [pt(a0, r2), pt(a1, r2), pt(a1, r1), pt(a0, r1)], lg = a1 - a0 > 180 ? 1 : 0; return `M${f1(p[0][0])} ${f1(p[0][1])} A${r2} ${r2} 0 ${lg} 1 ${f1(p[1][0])} ${f1(p[1][1])} L${f1(p[2][0])} ${f1(p[2][1])} A${r1} ${r1} 0 ${lg} 0 ${f1(p[3][0])} ${f1(p[3][1])}Z`; };
   let s = "";
@@ -1612,7 +1674,7 @@ function cwDraw(){
     s += `<text x="${f1(lp[0])}" y="${f1(lp[1] + 4)}" text-anchor="middle" class="wl${S.n === "yellow" ? " dk" : ""}">${S.n}</text>`;
   });
   if (I.lam){
-    const a = I.lam > 700 ? -30 : angOf(I.lam), p1 = pt(a, r0 - 2), p2 = pt(a, R + 16);
+    const a = lamR > 700 ? -30 : angOf(lamR), p1 = pt(a, r0 - 2), p2 = pt(a, R + 16);
     s += `<line x1="${f1(p1[0])}" y1="${f1(p1[1])}" x2="${f1(p2[0])}" y2="${f1(p2[1])}" stroke="var(--ink)" stroke-width="2.2"/>`;
   }
   s += `<circle cx="${cx}" cy="${cy}" r="${f1(r0 - 6)}" fill="${hex(I.rgb)}" stroke="#9aa4ad" stroke-width="1.2" id="cw-swatch" data-rgb="${I.rgb.join(",")}"/>`;
@@ -1621,20 +1683,20 @@ function cwDraw(){
   svg.style.maxWidth = W + "px";
   const ion = I.p ? I.p.f : "Your own λ";
   $("cw-side").innerHTML = `<div class="stat"><div class="l">Complex</div><div class="v">${H(ion)}</div></div>` +
-    (I.lam ? `<div class="stat"><div class="l">Absorbed most strongly</div><div class="v">${H(`${Math.round(I.lam)} nm (${I.lam > 700 ? "near infra-red" : sectOf(I.lam).n})`)}</div></div><div class="stat"><div class="l">Mainly absorbed</div><div class="v">${I.abs.map(x => x.n).join(", ") || "little"}</div></div><div class="stat"><div class="l">Opposite on the wheel</div><div class="v">${I.opp.join(", ") || "none"}</div></div>` : `<div class="stat"><div class="l">Absorbed</div><div class="v">no visible light</div></div>`) +
+    (I.lam ? `<div class="stat"><div class="l">Absorbed most strongly</div><div class="v">${H(`${lamR} nm (${lamR > 700 ? "near infra-red" : sectOf(lamR).n})`)}</div></div><div class="stat"><div class="l">Mainly absorbed</div><div class="v">${I.abs.map(x => x.n).join(", ") || "little"}</div></div><div class="stat"><div class="l">Opposite on the wheel</div><div class="v">${I.opp.join(", ") || "none"}</div></div>` : `<div class="stat"><div class="l">Absorbed</div><div class="v">no visible light</div></div>`) +
     `<div class="stat"><div class="l">Seen</div><div class="v"><span class="swatch" style="background:${hex(I.rgb)}"></span>${I.name}</div></div>`;
   // working, Gary's style
   const w = [];
   if (I.p && I.p.id === "cunh3") w.push(H("ΔE = hc/λ × L = about 200 kJ mol⁻¹ (λ about 600 nm, literature), against 150 kJ mol⁻¹ for [Cu(H₂O)₆]²⁺ at about 800 nm."));
   else if (I.lam){
-    const J = photonJ(I.lam), kj = photonKJ(I.lam);
+    const J = photonJ(lamR), kj = photonKJ(lamR);   // from the rounded wavelength that is shown
     w.push(`<span class="aside">(To find ΔE, use E = hc/λ with λ in metres, then multiply by L for one mole)</span>`);
-    w.push(H(`ΔE = hc/λ = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${grp(String(Math.round(I.lam)))} × 10⁻⁹) = <b>${sci(J, 3)} J</b> per ion`));
+    w.push(H(`ΔE = hc/λ = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${grp(String(lamR))} × 10⁻⁹) = <b>${sci(J, 3)} J</b> per ion`));
     w.push(H(`Per mole: ${sci(J, 4)} × 6.02 × 10²³ = ${sci(J * L_A, 4)} J mol⁻¹ = <b>${sfS(kj, 3)} kJ mol⁻¹</b>`));
   }
   w.push(H(I.p ? I.p.note : "A single absorption band (a simple model) with its maximum at the slider's λ. The colour seen is the mixture of all the light that is not absorbed: roughly the colours opposite the absorbed ones on the wheel."));
   $("cw-work").innerHTML = w.map(x => `<li>${x}</li>`).join("");
-  const lamS = I.lam ? Math.round(I.lam) + " nm" : "none", deS = I.lam ? sfS(photonKJ(I.lam), 3) + " kJ mol⁻¹" : "none";
+  const lamS = I.lam ? lamR + " nm" : "none", deS = I.lam ? sfS(photonKJ(lamR), 3) + " kJ mol⁻¹" : "none";
   $("cw-lamv").textContent = lamS; $("cw-dev").innerHTML = H(deS);
   document.querySelectorAll("#cw-pre button").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === CW.pre));
 }
@@ -1768,7 +1830,7 @@ const NOTES_LX = {
   nh3: ["A few drops: NH₃ acts as a base. The OH⁻ it gives precipitates copper(II) hydroxide.", "No ligand exchange yet."],
   xs: ["Excess NH₃: ligand exchange. Four NH₃ ligands replace four H₂O; the precipitate dissolves.", "[Cu(NH₃)₄(H₂O)₂]²⁺ is octahedral: four NH₃ in a square, two H₂O above and below. It is often written [Cu(NH₃)₄]²⁺, as in the Data Booklet couple [Cu(NH₃)₄]²⁺/Cu.", "ΔE changes with the ligand, so the colour changes."],
   hcl: ["Concentrated HCl: four Cl⁻ replace the six H₂O. A high [Cl⁻] pushes the equilibrium to the right.", "The coordination number falls from 6 to 4, and the shape changes from octahedral to tetrahedral (109.5°): Cl⁻ is larger than H₂O, and the four negative ligands repel each other.", "Charge: +2 + 4(−1) = 2−."],
-  w: ["Adding water raises [H₂O] and lowers [Cl⁻]: the equilibrium shifts to the left, back to [Cu(H₂O)₆]²⁺ (Le Chatelier)."]
+  w: ["Water is the solvent, so it does not appear in K{c}. Adding water lowers [Cl⁻] and the other concentrations, so the side with more dissolved particles is favoured and the position shifts to the left, back to [Cu(H₂O)₆]²⁺ (Le Chatelier, Topic 9)."]
 };
 function lxTube(st, from, p){
   const svg = $("lx-svg"), W = Math.min(widthOf(svg.parentElement), 320), Hh = 230;
@@ -1853,10 +1915,9 @@ LAB.LADDER = LADDER;
 const RD_OX = [["mno4", "MnO₄⁻ (acidified)"], ["cr2o7", "Cr₂O₇²⁻ (acidified)"], ["fe3", "Fe³⁺"], ["cr32", "Cr³⁺ (to Cr²⁺)"], ["cr2", "Cr²⁺ (to Cr)"], ["o2", "O₂, in acid"], ["o2oh", "O₂, in alkali"], ["s2o8", "S₂O₈²⁻"], ["mn3", "Mn³⁺ (Further example)"], ["fecn", "[Fe(CN)₆]³⁻ (Further example)"]];
 const RD_RED = [["zn", "Zn"], ["fe3", "Fe²⁺"], ["i2", "I⁻"], ["br2", "Br⁻"], ["cl2", "Cl⁻"], ["cr32", "Cr²⁺ (to Cr³⁺)"], ["feoh", "Fe(OH)₂, in alkali"], ["o2", "H₂O (to O₂)"]];
 LAB.RD_OX = RD_OX; LAB.RD_RED = RD_RED;
-// pairs held back for the tutorials (Topic 13 Tutorial 3): no result is shown for these
-const RD_BLOCK = ["mno4|br2", "cr2o7|br2", "mno4|zn", "s2o8|cr32", "cr32|i2"];
-LAB.RD_BLOCK = RD_BLOCK;
-// balanced equations: the notes' examples only (DATA.md, Equations)
+// a pair the chooser does not offer is recognised by its hash only (see RESH in the data module)
+const rdOffered = key => !resKeyHit("rd:" + key);
+// balanced equations: the notes' examples only
 // state symbols are added by stq() when the switch is on (stored without them)
 const STM = { "Zn": "s", "Cr": "s", "Cu": "s", "Fe(OH)₃": "s", "Fe(OH)₂": "s", "MnO₂": "s", "H₂O": "l", "O₂": "g", "Cl₂": "g", "H₂": "g", "I₂": "aq", "Br₂": "aq" };
 const stateify = eq => eq.split(/( [→⇌] )/).map((side, i) => i % 2 ? side : side.split(" + ").map(t => {
@@ -1884,7 +1945,7 @@ const RD_EQ = {
 LAB.RD_EQ = RD_EQ;
 const RD_NOTE = {
   "mno4|cl2": "So acidified KMnO₄ would also oxidise Cl⁻: KMnO₄ titrations are acidified with dilute H₂SO₄, not HCl.",
-  "cr2o7|cl2": "Not feasible under standard conditions, so dichromate(VI) titrations can be done in dilute HCl.",
+  "cr2o7|cl2": "E⦵{cell} is −0.03 V: marginal, so dichromate does not oxidise chloride appreciably, and dichromate(VI) titrations can be done in dilute HCl.",
   "mno4|fe3": "Used in titrations: purple MnO₄⁻ turns colourless Mn²⁺; the first permanent pale pink is the end point (self-indicating).",
   "cr2o7|fe3": "Orange turns green; the change is hard to judge, so a redox indicator is needed.",
   "fe3|i2": "Fe³⁺ is a mild oxidising agent: it oxidises I⁻ but not Br⁻.",
@@ -1909,25 +1970,27 @@ LAB.RD = RD;
 const oxidHalf = k => { const [l, r] = CPL[k].half.split(" ⇌ "); return `${r} ⇌ ${l}`; };
 function rdCalc(o, r){
   const key = o + "|" + r;
-  if (RD_BLOCK.includes(key)) return { blocked: true, key };
+  if (!rdOffered(key)) return { blocked: true, key };
   if (o === r) return { same: true, key };
   const ao = !!CPL[o].alk, ar = !!CPL[r].alk;
   if (ao !== ar) return { mismatch: true, key };
   const E = ecell(o, r);
-  return { key, E, ok: E > 0, eq: RD_EQ[key] || null, note: RD_NOTE[key] || null, fex: !!(CPL[o].fex || CPL[r].fex) };
+  return { key, E, ok: E > 0, marg: Math.abs(E) < 0.05, eq: RD_EQ[key] || null, note: RD_NOTE[key] || null, fex: !!(CPL[o].fex || CPL[r].fex) };
 }
 LAB.rdCalc = rdCalc;
 function rdWork(o, r){
   const R = rdCalc(o, r), w = [];
   const on = RD_OX.find(x => x[0] === o)[1], rn = RD_RED.find(x => x[0] === r)[1];
-  if (R.blocked) return { R, w: [H(`${on} with ${rn} is a Tutorial 3 question. Use the ladder: write both half-equations, then E⦵{cell} = E⦵(reduction) − E⦵(oxidation).`)] };
+  if (R.blocked) return { R, w: [H("This pair is not offered here.")] };
   if (R.same) return { R, w: [H(`These are the two sides of the same couple (${cplName(o)}): choose a different pair.`)] };
-  if (R.mismatch) return { R, w: [H(`Mixed conditions: ${CPL[o].alk ? cplName(o) : cplName(r)} is the value in alkali. Fe(OH)₂ exists only in alkali, so pair it with O₂ in alkali; for reactions in acid use O₂ in acid. (O₂/H₂O and O₂/OH⁻ are one couple at two pH values.)`)] };
+  if (R.mismatch) return { R, w: [H(CPL[r].alk
+    ? `Mixed conditions: ${cplName(r)} is the value in alkali. Fe(OH)₂ exists only in alkali, so pair it with O₂ in alkali; for reactions in acid use O₂ in acid. (O₂/H₂O and O₂/OH⁻ are one couple at two pH values.)`
+    : `Mixed conditions: O₂ in alkali is the value at pH 14: pair it with a reductant in alkali (Fe(OH)₂), or use O₂ in acid. (O₂/H₂O and O₂/OH⁻ are one couple at two pH values.)`)] };
   w.push(ASIDE("To decide, write both as reductions; the oxidising agent's couple is the reduction"));
   w.push(`Reduction: ${EQ(stq(CPL[o].half))} &nbsp; E⦵ = ${vS(CPL[o].E)} V`);
   w.push(`Oxidation: ${EQ(stq(oxidHalf(r)))} &nbsp; (E⦵ = ${vS(CPL[r].E)} V as a reduction)`);
   w.push(`E⦵{cell} = E⦵(reduction) − E⦵(oxidation) = (${vS(CPL[o].E)}) − (${vS(CPL[r].E)}) = <b>${vS(R.E)} V</b>`);
-  w.push(R.ok ? `E⦵{cell} is positive: the reaction is <b>energetically feasible</b> (spontaneous) under standard conditions.` : `E⦵{cell} is negative: <b>not feasible</b> under standard conditions; no reaction.`);
+  w.push(R.marg ? `E⦵{cell} is ${vS(R.E)} V: marginal, so the reaction does not go appreciably under standard conditions.` : R.ok ? `E⦵{cell} is positive: the reaction is <b>energetically feasible</b> (spontaneous) under standard conditions.` : `E⦵{cell} is negative: <b>not feasible</b> under standard conditions; no reaction.`);
   if (R.ok && R.eq) w.push(`Equation: ${EQ(stq(R.eq))}`);
   return { R, w };
 }
@@ -1965,9 +2028,9 @@ function rdRender(){
   const { R, w } = rdWork(RD.ox, RD.red);
   $("rd-work").innerHTML = w.map(x => `<li>${TX(x)}</li>`).join("");
   let fb = "";
-  if (R.blocked) fb = `<div class="fb info">${H("Held back for the tutorial: no answer shown here.")}</div>`;
+  if (R.blocked) fb = `<div class="fb info">${H("This pair is not offered here.")}</div>`;
   else if (!R.same && !R.mismatch){
-    fb = `<div class="fb ${R.ok ? "ok" : "no"}"><p><b>${R.ok ? "Feasible" : "Not feasible"}</b>: E⦵{cell} = ${vS(R.E)} V.${R.fex ? ` <span class="fex">Further example</span>` : ""}</p>${R.note ? `<p>${TX(R.note)}</p>` : ""}${R.ok && !R.eq ? `<p class="ink">${H("The balanced equation is not one of the notes' examples: build it from the two half-equations (Topic 12).")}</p>` : ""}</div>`;
+    fb = `<div class="fb ${R.marg ? "warn" : R.ok ? "ok" : "no"}"><p><b>${R.marg ? "Marginal" : R.ok ? "Feasible" : "Not feasible"}</b>: E⦵{cell} = ${vS(R.E)} V.${R.fex ? ` <span class="fex">Further example</span>` : ""}</p>${R.note ? `<p>${TX(R.note)}</p>` : ""}${R.ok && !R.eq ? `<p class="ink">${H("The balanced equation is not one of the notes' examples: build it from the two half-equations (Topic 12).")}</p>` : ""}</div>`;
     fb += `<p class="hint" style="margin:8px 0 0">${H("Limitations: E⦵ predicts feasibility under standard conditions only. It says nothing about rate (a feasible reaction may be too slow to see), and different concentrations change E (Topic 12).")}</p>`;
   }
   $("rd-fb").innerHTML = TX(fb);
@@ -1994,7 +2057,7 @@ function bindRedox(){
 const CRC = { cr2o7: "#e0862f", cr3: "#4f9a58", cr2: "#4f8fd8", h2o: "#e6eff4" };
 LAB.CRC = CRC;
 // stage: 0 start (orange), 1 green, 2 blue (stops), 3 open to air: green
-const CZ = { st: 0, from: 0, p: 1, bub: false, t: 0 };
+const CZ = { st: 0, from: 0, p: 1, bub: false, t: 0, tok: 0, raf: 0, tm: 0 };
 LAB.CZ = CZ;
 const CZ_STEPS = [
   { t: "1. Cr₂O₇²⁻ → Cr³⁺: orange to green", o: "cr2o7", r: "zn", eq: "Cr₂O₇²⁻ + 14H⁺ + 3Zn → 2Cr³⁺ + 3Zn²⁺ + 7H₂O" },
@@ -2045,26 +2108,34 @@ function czRender(k){
   czDraw();
 }
 LAB.czRender = czRender;
+// one animation at a time: a new step, Reset and a second Run all cancel the running frame and the pending timer first
+function czStop(){ CZ.tok = (CZ.tok || 0) + 1; if (CZ.raf){ cancelAnimationFrame(CZ.raf); CZ.raf = 0; } if (CZ.tm){ clearTimeout(CZ.tm); CZ.tm = 0; } }
 function czGo(to, dur){
-  const from = CZ.st;
+  czStop();
+  const from = CZ.st, tok = CZ.tok;
   CZ.from = from; CZ.st = to;
   if (NOANIM()){ CZ.p = 1; czRender(); return; }
   CZ.p = 0; const t0 = performance.now();
-  const step = now => { CZ.p = Math.min(1, (now - t0) / dur); czDraw(); if (CZ.p < 1) requestAnimationFrame(step); else czRender(); };
-  czRender(); requestAnimationFrame(step);
+  const step = now => { if (tok !== CZ.tok) return; CZ.p = Math.min(1, (now - t0) / dur); czDraw(); if (CZ.p < 1) CZ.raf = requestAnimationFrame(step); else { CZ.raf = 0; czRender(); } };
+  czRender(); CZ.raf = requestAnimationFrame(step);
 }
 LAB.czGo = czGo;
 function bindCZ(){
-  $("cz-run").onclick = () => { if (CZ.st !== 0) return; czGo(1, 2200); setTimeout(() => { if (CZ.st === 1) czGo(2, 2200); }, NOANIM() ? 0 : 2600); };
+  $("cz-run").onclick = () => {
+    if (CZ.st !== 0) return;
+    czGo(1, 2200);
+    const tok = CZ.tok;
+    CZ.tm = setTimeout(() => { CZ.tm = 0; if (tok === CZ.tok && CZ.st === 1) czGo(2, 2200); }, NOANIM() ? 0 : 2600);
+  };
   $("cz-air").onclick = () => { if (CZ.st === 2) czGo(3, 2400); };
-  $("cz-reset").onclick = () => { CZ.st = 0; CZ.from = 0; CZ.p = 1; czRender(); };
+  $("cz-reset").onclick = () => { czStop(); CZ.st = 0; CZ.from = 0; CZ.p = 1; czRender(); };
   addAnim($("cz-svg"), t => { CZ.t = t; if (CZ.st === 1 || CZ.st === 2) czDraw(); });
   czRender();
 }
 
 /* ---------- iron(II) in air: Fe(OH)₂ against Fe²⁺(aq) ---------- */
 const FOC = { feoh2: "#5d7a45", feoh3: "#8b4a1f", fe2: "#d6e8c8", fe2liq: "#eef5e6", alk: "#e9eef1" };
-const FO = { p: 0, run: false };
+const FO = { p: 0, run: false, tok: 0, raf: 0 };
 LAB.FO = FO;
 function foDraw(){
   const svg = $("fo-svg"), W = Math.min(widthOf(svg.parentElement), 420), Hh = 220;
@@ -2103,14 +2174,18 @@ function foRender(){
   $("fo-work").innerHTML = w.map(x => `<li>${TX(x)}</li>`).join("");
   foDraw();
 }
+// one animation id for the station: Run (also a second Run) and Start again cancel the running frame first, so a reset is never overwritten by a late frame
+function foStop(){ FO.tok++; if (FO.raf){ cancelAnimationFrame(FO.raf); FO.raf = 0; } FO.run = false; }
 function bindFO(){
   $("fo-run").onclick = () => {
+    foStop();
     if (NOANIM()){ FO.p = 1; foDraw(); return; }
-    const t0 = performance.now(), p0 = FO.p;
-    const step = now => { FO.p = Math.min(1, p0 + (now - t0) / 3500); foDraw(); if (FO.p < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
+    const t0 = performance.now(), p0 = FO.p, tok = FO.tok;
+    FO.run = true;
+    const step = now => { if (tok !== FO.tok) return; FO.p = Math.min(1, p0 + (now - t0) / 3500); foDraw(); if (FO.p < 1) FO.raf = requestAnimationFrame(step); else { FO.raf = 0; FO.run = false; } };
+    FO.raf = requestAnimationFrame(step);
   };
-  $("fo-reset").onclick = () => { FO.p = 0; foDraw(); };
+  $("fo-reset").onclick = () => { foStop(); FO.p = 0; foDraw(); };
   foRender();
 }
 
@@ -2205,6 +2280,7 @@ function bindCycle(){
 }
 
 /* ---------- heterogeneous catalysis: adsorption, bond weakening, reaction, desorption ---------- */
+const HC_PAD = 40;   // scene units of free space above the scene
 const HC = { rx: "haber", str: "ok", poison: false, t: 0, play: true, last: 0 };
 LAB.HC = HC;
 const HCP = [["Diffusion to the surface", 0, 1.5], ["Adsorption", 1.5, 2.5], ["Bonds weaken and break", 2.5, 4.0], ["Reaction on the surface", 4.0, 5.2], ["Desorption", 5.2, 6.6]];
@@ -2308,7 +2384,7 @@ function hcState(){
   return { S, tl, bounce, blocked, per };
 }
 function hcDraw(){
-  const svg = $("hc-svg"), W = Math.min(widthOf(svg.parentElement), 600), k = W / 480, Hh = Math.round(250 * k);
+  const svg = $("hc-svg"), W = Math.min(widthOf(svg.parentElement), 600), k = W / 480, Hh = Math.round((250 + HC_PAD) * k);
   svg.style.maxWidth = W + "px"; svg.style.margin = "0 auto";
   const { S, tl, bounce, blocked } = hcState();
   const X = x => f1(x * k), Yy = y => f1(y * k);
@@ -2331,7 +2407,7 @@ function hcDraw(){
     const P = S.A.map(a => kf(a.k, tl));
     s += hcBonds(S, P, tl, k) + S.A.map((a, i) => hcAtom(a.el, P[i], k, S.ads && tl >= S.ads[0] && tl < S.ads[1] && Math.abs(P[i][1] - yS(a.el)) < 3)).join("");
   }
-  setSvg(svg, W, Hh, s);
+  setSvg(svg, W, Hh, `<g transform="translate(0 ${f1(HC_PAD * k)})">${s}</g>`);   // room above the scene: no atom or label touches the top edge
   svg.dataset.t = HC.t.toFixed(2);
   // caption and readouts
   const ph = HC.str === "weak" ? (tl < 1.5 ? 0 : -1) : HCP.findIndex(p => tl >= p[1] && tl < p[2]);
@@ -2339,7 +2415,7 @@ function hcDraw(){
   if (HC.str === "weak") cap = "Adsorption too weak: the molecules hit the surface and bounce off. Few stay long enough for their bonds to weaken, so there is little reaction.";
   else if (bounce) cap = HC.rx === "haber" ? "Poisoned: sulfur atoms (from sulfur compounds in the feed) are adsorbed so strongly that they block sites. Molecules arriving over them cannot be adsorbed and bounce off." : "Poisoned: lead (from leaded petrol) is adsorbed so strongly that it blocks sites. Molecules arriving over them bounce off.";
   else if (blocked) cap = "Adsorption too strong: the products are held so strongly that they do not desorb. The sites stay covered, new molecules cannot be adsorbed, and the reaction stops.";
-  else cap = ph >= 0 ? ["Reactant molecules diffuse to the catalyst surface.", "Adsorption: the molecules form weak bonds to the metal atoms (using vacant or partly filled 3d orbitals). They are held close together in a suitable orientation.", "Bonds in the reactants weaken and break.", "The atoms react on the surface to form the product.", "Desorption: the product leaves the surface, freeing the sites for more reactant molecules."][ph] : "The sites are free again: the cycle repeats.";
+  else cap = ph >= 0 ? ["Reactant molecules diffuse to the catalyst surface.", "Adsorption: the molecules form weak bonds to the metal atoms (using partly filled d (and s) orbitals). They are held close together in a suitable orientation.", "Bonds in the reactants weaken and break.", "The atoms react on the surface to form the product.", "Desorption: the product leaves the surface, freeing the sites for more reactant molecules."][ph] : "The sites are free again: the cycle repeats.";
   $("hc-cap").innerHTML = H(cap);
   document.querySelectorAll("#hc-steps button").forEach((b, i) => b.setAttribute("aria-pressed", String(HC.str !== "weak" && !bounce && !blocked && i === ph)));
   const nprod = hcProducts(HC.rx, HC.str, HC.poison, HC.t);
@@ -2347,21 +2423,25 @@ function hcDraw(){
   $("hc-read").innerHTML = `<div class="stat"><div class="l">Catalyst surface (schematic)</div><div class="v">${HC.rx === "haber" ? "iron" : "Pt/Pd/Rh"}</div></div><div class="stat"><div class="l">${H(S.label === "NH₃" ? "NH₃ molecules formed" : "CO₂ molecules formed")}</div><div class="v" id="hc-n">${nprod}</div></div><div class="stat"><div class="l">Rate</div><div class="v">${rate}</div></div>`;
 }
 LAB.hcDraw = hcDraw;
+// an atom that leaves through the top of the scene fades out as it goes (scene y below 0)
+const hcOp = y => clamp(1 + y / 30, 0, 1);
 function hcAtom(el, p, k, ads){
-  const [col, r] = AT[el];
+  const [col, r] = AT[el], op = hcOp(p[1]);
+  if (op <= 0) return "";
   let s = "";
   if (ads) s += `<line x1="${f1(p[0] * k)}" y1="${f1((p[1] + r) * k)}" x2="${f1(p[0] * k)}" y2="${f1((SURF + 6) * k)}" stroke="#5b6670" stroke-width="1.4" stroke-dasharray="2 2" class="adsb"/>`;
-  return s + `<circle cx="${f1(p[0] * k)}" cy="${f1(p[1] * k)}" r="${f1(r * k)}" fill="${col}" stroke="#2b3036" stroke-width="1" data-el="${el}"/>` + (el === "H" ? "" : `<text x="${f1(p[0] * k)}" y="${f1(p[1] * k + 3.5)}" text-anchor="middle" class="atl">${el}</text>`);
+  return s + `<g${op < 1 ? ` opacity="${op.toFixed(2)}"` : ""}><circle cx="${f1(p[0] * k)}" cy="${f1(p[1] * k)}" r="${f1(r * k)}" fill="${col}" stroke="#2b3036" stroke-width="1" data-el="${el}"/>` + (el === "H" ? "" : `<text x="${f1(p[0] * k)}" y="${f1(p[1] * k + 3.5)}" text-anchor="middle" class="atl">${el}</text>`) + "</g>";
 }
 function hcBonds(S, P, t, k){
   let s = "";
   S.B.forEach(([i, j, a, b, st]) => {
     if (t < a || t >= b) return;
-    const fade = b < 90 && t > b - 0.8 ? clamp((b - t) / 0.8, 0, 1) : 1;
     const [x1, y1] = P[i], [x2, y2] = P[j];
+    const bf = b < 90 && t > b - 0.8 ? clamp((b - t) / 0.8, 0, 1) : 1, fade = Math.min(bf, hcOp(y1), hcOp(y2));
+    if (fade <= 0) return;
     if (Math.hypot(x2 - x1, y2 - y1) > 60) return;
     const w = st === "tri" ? 5 : st === "d" ? 4 : 2.6;
-    s += `<line x1="${f1(x1 * k)}" y1="${f1(y1 * k)}" x2="${f1(x2 * k)}" y2="${f1(y2 * k)}" stroke="#3a434d" stroke-width="${w * k}" stroke-opacity="${fade.toFixed(2)}"${fade < 1 ? ' stroke-dasharray="3 2"' : ""} stroke-linecap="round"/>`;
+    s += `<line x1="${f1(x1 * k)}" y1="${f1(y1 * k)}" x2="${f1(x2 * k)}" y2="${f1(y2 * k)}" stroke="#3a434d" stroke-width="${w * k}" stroke-opacity="${fade.toFixed(2)}"${bf < 1 ? ' stroke-dasharray="3 2"' : ""} stroke-linecap="round"/>`;
   });
   return s;
 }
@@ -2371,9 +2451,9 @@ function hcRender(){
   $("hc-eqs").innerHTML = `<div>${EQ(haber ? "N₂(g) + 3H₂(g) ⇌ 2NH₃(g)" : "2CO(g) + 2NO(g) → 2CO₂(g) + N₂(g)")}<span class="lab">${H(haber ? "Haber process, iron catalyst (Topic 9)" : "catalytic converter, Pt/Pd/Rh catalyst (Topic 8)")}</span></div>`;
   $("hc-notes").innerHTML = [
     "Heterogeneous: the catalyst is in a different phase from the reactants (a solid with gases).",
-    "Vacant or partly filled 3d orbitals (and 4s) let the metal form weak bonds to the reactant molecules: adsorption. This weakens bonds in the reactants and holds them close together in a suitable orientation.",
+    "Partly filled d (and s) orbitals let the metal form weak bonds to the reactant molecules: adsorption. This weakens bonds in the reactants and holds them close together in a suitable orientation.",
     "The strength of adsorption must be suitable: strong enough to weaken the bonds, weak enough for the products to desorb.",
-    haber ? "Sulfur compounds are removed from the feed gases, because they poison the iron catalyst (Topic 8)." : "Leaded petrol poisons a catalytic converter: lead blocks the active sites (Topic 8).",
+    haber ? "Sulfur compounds are removed from the feed gases, because they poison the iron catalyst (Topic 8). CO also poisons the Haber iron (Topic 9)." : "Leaded petrol poisons a catalytic converter: lead blocks the active sites (Topic 8).",
     "<span class=\"fex\">Further example</span>Nickel catalyses the hydrogenation of alkenes (Topic 11.4) in the same way."
   ].map(t => `<li>${H(t)}</li>`).join("");
   hcDraw();
@@ -2405,14 +2485,29 @@ function bindFX(){ $("fx-cards").innerHTML = FX.map(c => `<article class="panel 
 
 /* =====================================================
    7. PRACTICE GENERATOR (Data Booklet h, c, L and E⦵; generated λ and ΔE are illustrative).
-   Nothing here uses the tutorial items reserved in DATA.md.
+   Every question keeps its data in q.p so the test suite can recompute the answer.
    ===================================================== */
 const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
 const ansN = (v, n) => ({ v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.005 * Math.abs(v)) });
 const sgnS = v => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v);
-// (1) configurations: atoms and ions from the notes, and others that are not reserved for the tutorials
+/* ---------- which draws are kept out ----------
+   The keys below are looked up as hashes only (see RESH in the data module). A draw whose key is in the set is drawn again. */
+const kn = x => String(+(+x).toPrecision(12));
+function resKeys(q){
+  const p = q.p, t = q.type;
+  if (t === "conf") return [`cf:${p.el}:${p.q}`];
+  if (t === "on" || t === "chg") return [`sp:${p.f}`];
+  if (t === "ecell") return [`rd:${p.o}|${p.r}`];
+  // photon: the wavelength asked or answered (nm, as an integer) and the energy asked or answered (kJ mol⁻¹, as an integer)
+  const l = p.kind === "lam" ? lamOfKJ(p.e) : p.l, e = p.kind === "lam" ? p.e : photonKJ(p.l);
+  return [`phl:${Math.round(l)}`, `phe:${Math.round(e)}`];
+}
+const resKey = q => resKeys(q).join(" ");
+const resHit = q => resKeys(q).some(resKeyHit);
+
+// (1) configurations: the atoms and the ions that the notes use
 const GN_CONF = [["Sc", 0], ["Ti", 0], ["V", 0], ["Cr", 0], ["Mn", 0], ["Fe", 0], ["Ni", 0], ["Cu", 0], ["Zn", 0],
-  ["Sc", 3], ["Ti", 3], ["V", 2], ["Cr", 3], ["Mn", 2], ["Fe", 2], ["Fe", 3], ["Cu", 1], ["Cu", 2], ["Zn", 2]];
+  ["Sc", 3], ["Ti", 3], ["Cr", 3], ["Mn", 2], ["Fe", 2], ["Fe", 3], ["Cu", 1], ["Cu", 2], ["Zn", 2]];
 LAB.GN_CONF = GN_CONF;
 function genConf(){
   const [el, q] = pick(GN_CONF), A = confOf(el, 0), c = confOf(el, q), Z = P4.find(e => e.s === el).z, sp = ionName(el, q);
@@ -2424,11 +2519,13 @@ function genConf(){
   if (q && A.d - q >= 0 && !(A.d - q === c.d && A.s === c.s)) alts.push({ d: A.d - q, s: A.s, msg: "On forming ions, the 4s electrons are lost first, not the 3d electrons." });
   if (el === "Cr") alts.push({ d: 4 - Math.max(0, q - 2), s: Math.max(0, 2 - q), msg: "Chromium is the exception: the atom is [Ar]3d⁵4s¹." });
   if (el === "Cu") alts.push({ d: 9 - Math.max(0, q - 2), s: Math.max(0, 2 - q), msg: "Copper is the exception: the atom is [Ar]3d¹⁰4s¹." });
-  for (let i = alts.length - 1; i >= 0; i--) if (alts[i].d === c.d && alts[i].s === c.s) alts.splice(i, 1);
+  if (q && A.s === 2 && c.s !== 2) alts.push({ d: c.d, s: 2, msg: "The 3d electrons are right, but the 4s electrons are lost first, so none are left on the ion." });
+  // one message per (3d, 4s) pair: the first stays, and none repeats the right answer
+  for (let i = alts.length - 1; i >= 0; i--) if ((alts[i].d === c.d && alts[i].s === c.s) || alts.findIndex(a => a.d === alts[i].d && a.s === alts[i].s) < i) alts.splice(i, 1);
   return { type: "conf", text: `Give the electronic configuration of ${sp}${q ? "" : " (an atom)"} in the form [Ar]3dˣ4sʸ: how many 3d electrons, and how many 4s electrons?`, label: "3d electrons", ans: { v: c.d, str: confStr(c), tol: 0.01, conf: c },
-    sel: { lab: "4s electrons", opts: ["0", "1", "2"], ans: String(c.s) }, p: { el, q, sp }, work, fmt: "a whole number of 3d electrons, and choose the number of 4s electrons", alts };
+    sel: { lab: "4s electrons", opts: ["0", "1", "2"], ans: String(c.s) }, p: { el, q, sp }, work, fmt: "a whole number of 3d electrons, and choose the number of 4s electrons", alts, uAllow: [] };
 }
-// (2) oxidation number of the metal: species from the notes and others not reserved
+// (2) oxidation number of the metal: species from the notes and similar ones
 // parts: [group, count, charge]
 const GN_SP = [
   ["MnO₄⁻", "Mn", -1, [["O", 4, -2]]], ["KMnO₄", "Mn", 0, [["K", 1, 1], ["O", 4, -2]]], ["MnO₂", "Mn", 0, [["O", 2, -2]]], ["Mn²⁺", "Mn", 2, []], ["[Mn(H₂O)₆]²⁺", "Mn", 2, [["H₂O", 6, 0]]],
@@ -2440,7 +2537,7 @@ const GN_SP = [
 LAB.GN_SP = GN_SP;
 const spON = sp => { const [f, m, q, parts, n] = sp, sum = parts.reduce((a, [g, c, z]) => a + c * z, 0); return (q - sum) / (n || 1); };
 LAB.spON = spON;
-const PARTNAME = { O: "oxygen is −2", K: "K is +1 (Group 1)", OH: "hydroxide, OH⁻, is −1", "SO₄": "sulfate, SO₄²⁻, is −2", I: "iodide is −1", "H₂O": "H₂O ligands carry no charge", "NH₃": "NH₃ ligands carry no charge", "CN⁻": "each CN⁻ ligand is −1", "Cl⁻": "each Cl⁻ ligand is −1", "OH⁻": "each OH⁻ ligand is −1" };
+const PARTNAME = { O: "Oxygen is −2", K: "K is +1 (Group 1)", OH: "Hydroxide, OH⁻, is −1", "SO₄": "Sulfate, SO₄²⁻, is −2", I: "Iodide is −1", "H₂O": "H₂O ligands carry no charge", "NH₃": "NH₃ ligands carry no charge", "CN⁻": "Each CN⁻ ligand is −1", "Cl⁻": "Each Cl⁻ ligand is −1", "OH⁻": "Each OH⁻ ligand is −1" };
 function genON(){
   const sp = pick(GN_SP), [f, m, q, parts, n] = sp, on = spON(sp), cx = f.startsWith("[");
   const terms = parts.map(([g, c, z]) => `${c}(${sgnS(z) || "0"})`);
@@ -2448,8 +2545,16 @@ function genON(){
   const work = [ASIDE(`To find the oxidation number of ${m}, the oxidation numbers (or charges) add up to the ${q ? "charge on the " + (cx ? "complex" : "ion") : "zero for a neutral compound"}`)]
     .concat(parts.map(([g]) => PARTNAME[g] + "."))
     .concat([`${lhs} = ${q ? sgnS(q) : "0"}, so ${(n || 1) > 1 ? `${n}${m} = ${sgnS(on * n)} and ` : ""}${m} = <b>${sgnS(on)}</b>`]);
-  return { type: "on", text: `What is the oxidation number of ${m} in ${f}?`, label: "Oxidation number", ans: { v: on, str: sgnS(on), tol: 0.01 }, p: { f }, work, fmt: "a signed whole number, e.g. +3",
-    alts: [{ v: -on, msg: "Check the sign." }].concat(cx && parts.some(x => x[2]) ? [{ v: q, msg: "The ligands carry charges too: subtract them from the charge on the complex." }] : []).concat((n || 1) > 1 ? [{ v: on * n, msg: `That is the total for the ${n} ${m} atoms: divide by ${n}.` }] : []) };
+  // the charged ligands, named in the messages
+  const chl = parts.filter(x => x[2] && cx), chn = chl.map(([g, c]) => `${NUMW[c]} ${LIGNM[g]}`).join(" and "), chsum = chl.map(([g, c, z]) => `${c}(${sgnS(z)})`).join(" + ");
+  const alts = [];
+  if (chl.length && q === -on) alts.push({ v: q, msg: `That is the charge on the whole complex, not the oxidation number of ${m}: the ${chn} ligand${chl.length > 1 || chl[0][1] > 1 ? "s" : ""} carr${chl.length > 1 || chl[0][1] > 1 ? "y" : "ies"} charge too (${chsum}), so subtract it from the charge on the complex. Check the sign as well.` });
+  else {
+    alts.push({ v: -on, msg: "Check the sign." });
+    if (chl.length) alts.push({ v: q, msg: `The ${chn} ligand${chl.length > 1 || chl[0][1] > 1 ? "s" : ""} carr${chl.length > 1 || chl[0][1] > 1 ? "y" : "ies"} charge too (${chsum}): subtract it from the charge on the complex.` });
+  }
+  if ((n || 1) > 1) alts.push({ v: on * n, msg: `That is the total for the ${n} ${m} atoms: divide by ${n}.` });
+  return { type: "on", text: `What is the oxidation number of ${m} in ${f}?`, label: "Oxidation number", ans: { v: on, str: sgnS(on), tol: 0.01 }, p: { f }, work, fmt: "a signed whole number, e.g. +3", alts, uAllow: [], signed: true };
 }
 // (3) charge on a complex
 const GN_CX = GN_SP.filter(s => s[0].startsWith("["));
@@ -2464,12 +2569,18 @@ function genChg(){
   const work = [ASIDE("To find the charge, add the charge on the metal ion to the charges on all the ligands"),
     `${ion}: ${sgnS(on)}; ${parts.map(([g, c, z]) => `${LIGNM[g]}: ${z ? sgnS(z) + " each" : "no charge"}`).join("; ")}.`,
     `Charge = ${sgnS(on)} + ${sum} = <b>${sgnS(q) || "0"}</b>: the complex is ${f} (charge ${qs}, written outside the square brackets).`];
-  return { type: "chg", text: `A complex ion contains ${ion} with ${ligs}. What is the overall charge on the complex?`, label: "Charge", ans: { v: q, str: sgnS(q), tol: 0.01 }, p: { f }, work, fmt: "a signed whole number, e.g. −2 for 2−",
-    alts: (on !== q ? [{ v: on, msg: "Add the charges on the ligands as well as the metal ion." }] : []).concat([{ v: -q, msg: "Check the sign." }]) };
+  const chl = parts.filter(x => x[2]), chn = chl.map(([g, c]) => `${NUMW[c]} ${LIGNM[g]}`).join(" and "), pl = chl.length > 1 || (chl[0] && chl[0][1] > 1), chsum = chl.map(([g, c, z]) => `${c}(${sgnS(z)})`).join(" + ");
+  const alts = [];
+  if (on !== q && on === -q) alts.push({ v: on, msg: `That is the charge on ${ion} alone, or the right size with the wrong sign: the ${chn} ligand${pl ? "s" : ""} carr${pl ? "y" : "ies"} charge too (${chsum}), so add it, and check the sign.` });
+  else {
+    if (on !== q) alts.push({ v: on, msg: `Add the charges on the ligands (${chn}: ${chsum}) as well as the metal ion.` });
+    alts.push({ v: -q, msg: "Check the sign." });
+  }
+  return { type: "chg", text: `A complex ion contains ${ion} with ${ligs}. What is the overall charge on the complex?`, label: "Charge", ans: { v: q, str: sgnS(q), tol: 0.01 }, p: { f }, work, fmt: "a signed whole number, e.g. −2 for 2−", alts, uAllow: [], signed: true };
 }
-// (4) photon energy and wavelength (illustrative λ and ΔE; not the notes' or tutorials' values)
-const BAD_L = l => [[495, 505], [595, 605], [660, 670], [795, 805]].some(([a, b]) => l >= a && l <= b) || [430, 490, 560, 590, 630].some(b => Math.abs(l - b) <= 3);
-const BAD_E = e => [149, 150, 180, 199, 200, 239, 240].includes(e);
+// (4) photon energy and wavelength (illustrative λ and ΔE, not the values the notes use)
+const BAD_L = l => [[495, 505], [595, 605], [795, 805]].some(([a, b]) => l >= a && l <= b) || [430, 490, 560, 590, 630].some(b => Math.abs(l - b) <= 3);
+const BAD_E = e => [149, 150, 199, 200, 239, 240].includes(e);
 LAB.BAD_L = BAD_L; LAB.BAD_E = BAD_E;
 function genPhoton(){
   const kind = pick(["mol", "ion", "lam"]), w = [];
@@ -2479,11 +2590,11 @@ function genPhoton(){
     w.push(ASIDE("To find ΔE, use E = hc/λ with λ in metres"));
     w.push(`ΔE = hc/λ = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${l} × 10⁻⁹) = ${kind === "ion" ? `<b>${sci(J, 3)} J</b>` : sci(J, 4) + " J"} per ion`);
     if (kind === "mol") w.push(`Per mole: ${sci(J, 4)} × 6.02 × 10²³ = ${sci(J * L_A, 4)} J mol⁻¹ = <b>${sfS(kj, 3)} kJ mol⁻¹</b>`);
-    const S = sectOf(l);
+    const S = sectOf(l);   // l is a whole number of nm
     w.push(`${l} nm lies in the ${S.lo}–${S.hi} nm range: <b>${S.n}</b> light is absorbed (the colour seen is roughly the opposite colour on the wheel, ${S.opp}).`);
     const ans = kind === "ion" ? ansN(J, 3) : ansN(kj, 3);
     return { type: "photon", text: `A complex absorbs light most strongly at ${l} nm. Calculate the energy gap ΔE ${kind === "ion" ? "for one ion, in J" : "per mole, in kJ mol⁻¹"}, and name the colour absorbed.`, label: kind === "ion" ? "ΔE / J" : "ΔE / kJ mol⁻¹", ans,
-      sel: { lab: "Colour absorbed", opts: SECT.map(s => s.n), ans: S.n }, p: { l, kind }, work: w, fmt: kind === "ion" ? "3 significant figures, e.g. 3.42e-19" : "3 significant figures, e.g. 215",
+      sel: { lab: "Colour absorbed", opts: SECT.map(s => s.n), ans: S.n }, p: { l, kind }, work: w, fmt: kind === "ion" ? "3 significant figures, e.g. 3.42e-19" : "3 significant figures, e.g. 215", uAllow: [kind === "ion" ? "J" : "kJmol"],
       alts: kind === "mol" ? [{ v: J * L_A, msg: "That is in J mol⁻¹: divide by 1000." }, { v: kj * 1e-9, msg: "Convert nm to m: × 10⁻⁹." }, { v: J, msg: "That is for one ion: multiply by L for one mole." }] : [{ v: J * 1e-9, msg: "Convert nm to m: × 10⁻⁹." }, { v: kj, msg: "That is per mole in kJ mol⁻¹; the question asks for one ion, in J." }] };
   }
   let e; do { e = ri(173, 285); } while (BAD_E(e) || BAD_L(Math.round(lamOfKJ(e))));
@@ -2491,53 +2602,94 @@ function genPhoton(){
   w.push(ASIDE("To find λ, change ΔE to joules per ion, then use λ = hc/ΔE"));
   w.push(`Per ion: (${e} × 1000) / 6.02 × 10²³ = ${sci(Jion, 4)} J`);
   w.push(`λ = hc/ΔE = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / ${sci(Jion, 4)} = ${sci(l * 1e-9, 4)} m = <b>${sfS(l, 3)} nm</b>`);
-  const S = sectOf(l);
+  const lr = +sf(l, 3), S = sectOf(lr);   // the colour is read from the wavelength as it is shown
   w.push(`${sfS(l, 3)} nm: <b>${S.n}</b> light is absorbed.`);
   return { type: "photon", text: `In a complex the energy gap ΔE between the two sets of d orbitals is ${e} kJ mol⁻¹. Calculate the wavelength of light absorbed, in nm, and name its colour.`, label: "λ / nm", ans: ansN(l, 3),
-    sel: { lab: "Colour absorbed", opts: SECT.map(s => s.n), ans: S.n }, p: { e, kind }, work: w, fmt: "3 significant figures, e.g. 532",
+    sel: { lab: "Colour absorbed", opts: SECT.map(s => s.n), ans: S.n }, p: { e, kind }, work: w, fmt: "3 significant figures, e.g. 532", uAllow: ["nm"],
     alts: [{ v: l * 1000, msg: "Change kJ to J (× 1000) before dividing." }, { v: l / L_A, msg: "ΔE is per mole: divide by L to get the energy of one photon." }] };
 }
-// (5) E⦵cell and feasibility: the chooser's pairs, without the reserved ones
-// sensible pairs from the notes' couples and the presets (no reserved pair)
+// (5) E⦵cell and feasibility: pairs from the chooser (the notes' couples and presets)
 const GN_EC = [["cr2o7", "zn"], ["cr32", "zn"], ["cr2", "zn"], ["o2", "cr32"], ["o2oh", "feoh"], ["o2", "fe3"], ["mno4", "cl2"], ["cr2o7", "cl2"], ["mno4", "fe3"], ["cr2o7", "fe3"],
   ["fe3", "i2"], ["fe3", "br2"], ["mn3", "o2"], ["fecn", "i2"], ["s2o8", "fe3"], ["s2o8", "i2"], ["fe3", "zn"], ["cr2o7", "i2"], ["mno4", "i2"], ["o2", "i2"], ["fe3", "cl2"], ["mn3", "fe3"], ["s2o8", "br2"]]
-  .filter(([o, r]) => { const R = rdCalc(o, r); return !R.blocked && !R.same && !R.mismatch; });
+  .filter(([o, r]) => { const R = rdCalc(o, r); return !R.blocked && !R.same && !R.mismatch && !R.marg; });   // a marginal E⦵cell has no clear verdict to ask for
 LAB.GN_EC = GN_EC;
+const gcd = (a, b) => b ? gcd(b, a % b) : a, lcm = (a, b) => a / gcd(a, b) * b;
 function genEcell(){
   const [o, r] = pick(GN_EC), R = rdCalc(o, r), on = RD_OX.find(x => x[0] === o)[1], rn = RD_RED.find(x => x[0] === r)[1];
   const w = rdWork(o, r).w;
+  const r2 = x => Math.round(x * 100) / 100, no = CPL[o].n, nr = CPL[r].n, L = lcm(no, nr);
+  const alts = [{ v: -R.E, msg: "The oxidising agent's couple is the reduction: E⦵{cell} = E⦵(reduction) − E⦵(oxidation)." }, { v: r2(CPL[o].E + CPL[r].E), msg: "Subtract, do not add." }];
+  const noN = "E⦵ values are not multiplied by the number of electrons or by the coefficients in the equation: E⦵{cell} does not depend on how many electrons are transferred.";
+  alts.push({ v: r2(CPL[o].E * (L / no) - CPL[r].E * (L / nr)), msg: noN }, { v: r2(R.E * L), msg: noN });
+  // the other medium for O₂ (acid +1.23 V, alkali +0.40 V)
+  const medMsg = "Check the medium for O₂: O₂/H₂O is +1.23 V in acid and O₂/OH⁻ is +0.40 V in alkali.";
+  if (o === "o2") alts.push({ v: r2(CPL.o2oh.E - CPL[r].E), msg: medMsg });
+  if (o === "o2oh") alts.push({ v: r2(CPL.o2.E - CPL[r].E), msg: medMsg });
+  if (r === "o2") alts.push({ v: r2(CPL[o].E - CPL.o2oh.E), msg: medMsg });
   return { type: "ecell", text: `Use E⦵ values to decide whether ${on.replace(/ \(Further example\)/, "")} can oxidise ${rn.replace(/ \(to .*\)/, "")} under standard conditions. Calculate E⦵{cell}.`, fex: !!(CPL[o].fex || CPL[r].fex),
     given: [CPL[o].half + `    E⦵ = ${vS(CPL[o].E)} V`, CPL[r].half + `    E⦵ = ${vS(CPL[r].E)} V`],
     label: "E⦵{cell} / V", ans: { v: R.E, str: vS(R.E), tol: 0.0051, e: true }, sel: { lab: "Verdict", opts: ["Feasible", "Not feasible"], ans: R.ok ? "Feasible" : "Not feasible" }, p: { o, r }, work: w, fmt: "2 decimal places with a sign, e.g. +0.46",
-    alts: [{ v: -R.E, msg: "The oxidising agent's couple is the reduction: E⦵{cell} = E⦵(reduction) − E⦵(oxidation)." }, { v: Math.round((CPL[o].E + CPL[r].E) * 100) / 100, msg: "Subtract, do not add." }] };
+    alts, uAllow: ["V"] };
 }
 const GENS = { conf: genConf, on: genON, chg: genChg, photon: genPhoton, ecell: genEcell };
+/* Wrong-route hints. "Close" (within 3 % of the answer) is tested before any hint, so a hint inside that band could never show: a hint is kept only if it lies
+   at least 3.6 % from the answer (the 3 % band plus the slack of a value typed to 3 s.f.), and a later hint is dropped if it lies within 2.5 % of an earlier one.
+   E⦵cell values are compared in volts (0.02 V) instead. A (3d, 4s) pair is kept once. Every hint that remains is reachable and brings up its own message. */
+const CLOSE = 0.03, HINT_FAR = 0.036, HINT_GAP = 0.025, E_GAP = 0.02;
+const farFrom = (q, v, a) => q.ans.e ? Math.abs(v - a) >= E_GAP : a === 0 ? v !== 0 : Math.abs(v / a - 1) >= HINT_FAR;
+const apart = (q, v, w) => q.ans.e ? Math.abs(v - w) >= E_GAP : w === 0 ? v !== 0 : Math.abs(v / w - 1) >= HINT_GAP;
+const altTol = (q, v) => q.ans.e ? 0.0051 : Math.max(lastUnit(Math.abs(v) || 1, 3), 0.01 * Math.abs(v));
+function cleanAlts(q){
+  const out = [];
+  if (q.type === "conf"){
+    (q.alts || []).forEach(al => { if (!(al.d === q.ans.conf.d && al.s === q.ans.conf.s) && !out.some(o => o.d === al.d && o.s === al.s)) out.push(al); });
+    q.alts = out; return q;
+  }
+  const a = q.ans.v;
+  (q.alts || []).forEach(al => {
+    if (!isFinite(al.v) || !farFrom(q, al.v, a)) return;
+    const same = out.find(o => Math.abs(o.v - al.v) < 1e-9);
+    if (same){ if (same.msg !== al.msg) same.msg += " " + al.msg; return; }   // one value, two honest messages: both are shown
+    if (out.some(o => !apart(q, al.v, o.v))) return;
+    out.push(al);
+  });
+  q.alts = out;
+  return q;
+}
+function hintsDistinct(q){
+  if (q.type === "conf"){ const al = q.alts || []; return al.every((x, i) => !(x.d === q.ans.conf.d && x.s === q.ans.conf.s) && al.slice(0, i).every(y => y.d !== x.d || y.s !== x.s)); }
+  const a = q.ans.v, al = q.alts || [];
+  return al.every((x, i) => farFrom(q, x.v, a) && al.slice(0, i).every(y => apart(q, x.v, y.v)));
+}
+LAB.hintsDistinct = hintsDistinct; LAB.cleanAlts = cleanAlts;
+for (const k of Object.keys(GENS)){
+  const raw = GENS[k];
+  GENS[k] = () => { let q, n = 0; do { q = cleanAlts(raw()); n++; } while (n < 200 && resHit(q)); return q; };
+}
 LAB.GENS = GENS;
-const GN = { type: "conf", q: null, right: 0, tried: 0 };
+const GN = { type: "conf", q: null, right: 0, tried: 0, graded: false, firstOk: null };
 LAB.GN = GN;
 function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; return GENS[tt](); }
 LAB.genQ = genQ;
-function gnParse(s){ return parseNum(String(s).replace(/\s*(V|nm|J|kJ mol.*)$/i, "").replace(/^([0-9.]+)\s*([+−-])$/, "$2$1")); }
-LAB.gnParse = gnParse;
+// One answer box: the number, with the unit typed after it (any recognised spelling) checked against the unit the question asks for.
+// Returns { ok } or { ok: false, msg }; entry: true means there is nothing to grade yet (blank, unreadable, a unit to fix, a menu not chosen), so it is not scored.
 function gnGrade(q, s, sel){
-  const v = gnParse(s);
-  if (isNaN(v)) return { ok: false, msg: "Enter a number, for example 6, +3, −2, 215 or 3.42e-19." };
+  const pr = parseAnswer(s, q.uAllow, { sign: !!q.signed });
+  if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };
+  if (q.sel && !sel) return { ok: false, msg: `Choose the ${q.sel.lab.toLowerCase()} too.`, entry: true, kind: "choose" };
+  const v = pr.value;
   if (q.type === "conf"){
     const c = q.ans.conf, okD = Math.abs(v - c.d) < 0.01, okS = sel === String(c.s);
     if (okD && okS) return { ok: true };
-    if (!sel) return { ok: false, msg: "Choose the number of 4s electrons too." };
     const al = (q.alts || []).find(a => Math.abs(v - a.d) < 0.01 && sel === String(a.s));
     if (al) return { ok: false, msg: al.msg };
     return { ok: false, msg: `${okD ? "3d right" : "3d wrong"}; ${okS ? "4s right" : "4s wrong"}. Press Show working.` };
   }
   const a = q.ans.v, numOk = Math.abs(v - a) <= q.ans.tol * 1.0001;
-  if (numOk && q.sel && sel !== q.sel.ans) return { ok: false, msg: !sel ? `Choose the ${q.sel.lab.toLowerCase()} too.` : q.type === "ecell" ? "The value is right; check the verdict: a positive E⦵{cell} means feasible." : "The value is right; check the colour absorbed against the wavelength ranges." };
+  if (numOk && q.sel && sel !== q.sel.ans) return { ok: false, msg: q.type === "ecell" ? "The value is right; check the verdict: a positive E⦵{cell} means feasible." : "The value is right; check the colour absorbed against the wavelength ranges." };
   if (numOk) return { ok: true };
-  for (const al of q.alts || []){
-    const t = q.ans.e ? 0.0051 : Math.max(lastUnit(Math.abs(al.v) || 1, 3), 0.005 * Math.abs(al.v));
-    if (Math.abs(al.v - a) > q.ans.tol && Math.abs(v - al.v) <= t) return { ok: false, msg: al.msg };
-  }
-  if (!q.ans.e && a !== 0 && Math.abs(v / a - 1) < 0.03) return { ok: false, msg: "Close. Keep unrounded values between steps and give 3 significant figures." };
+  if (!q.ans.e && a !== 0 && Math.abs(v / a - 1) < CLOSE) return { ok: false, msg: "Close. Keep unrounded values between steps and give 3 significant figures." };
+  for (const al of q.alts || []) if (Math.abs(v - al.v) <= altTol(q, al.v)) return { ok: false, msg: al.msg };
   return { ok: false, msg: "Not right. Press Show working to compare." };
 }
 LAB.gnGrade = gnGrade;
@@ -2553,15 +2705,21 @@ function gnRender(){
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  GN.graded = false; GN.firstOk = null;   // a new question, or a new tab, is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
   const q = GN.q, fb = $("gn-fb");
   const r = gnGrade(q, $("gn-ans").value, $("gn-unit").value);
-  GN.tried++; if (r.ok) GN.right++;
+  if (r.entry){   // nothing to grade yet (blank, unreadable, a unit to fix, a decimal comma, a menu not chosen): say so, do not score
+    $("gn-ans").setAttribute("aria-invalid", r.kind === "choose" ? "false" : "true"); $("gn-ans").classList.remove("ok");
+    fb.className = "fb warn"; fb.innerHTML = H(r.msg); fb.hidden = false;
+    return;
+  }
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fb.className = "fb " + (r.ok ? "ok" : "no");
-  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.sel && q.type !== "conf" ? `; ${q.sel.ans}` : ""}.`) : TX(r.msg);
+  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.sel && q.type !== "conf" ? `; ${q.sel.ans}` : ""}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : TX(r.msg);
   fb.hidden = false;
   $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
 }
@@ -2598,11 +2756,11 @@ const FC = [
     list: ["Ti to Cu: radius 0.124 to 0.146 nm (a range of 0.022 nm); Na to Cl: 0.186 to 0.099 nm (0.087 nm).", "Ti to Cu: first IE 648 to 762 kJ mol⁻¹ (a range of 114); Na to Cl: 494 to 1260 kJ mol⁻¹ (766, about 6.7 times as much).", "In Period 3 electrons are added to the same outer shell, which shields poorly: large changes."] },
   { cat: "te", h: "Melting point and density against calcium", k: "13(d)", d: "Metallic bonding: a transition element delocalises both its 4s and 3d electrons, and its cations are smaller with a higher charge density, so the attraction is stronger and the melting point higher. It has a larger A{r} and a much smaller atomic radius, so it is denser.",
     tbl: { head: ["", "Ca", "Fe", "Cu"], num: [1, 2, 3], rows: () => [["m.p. / °C (literature)", "842", "1538", "1085"], ["Density / g cm⁻³ (literature)", "1.55", "7.87", "8.96"], ["Atomic radius / nm", "0.197", "0.126", "0.128"]].map(r => r.map(H)) },
-    list: ["Estimate (illustrative, same packing assumed): A{r} ÷ r³ gives Fe : Ca = 5.32, against the literature density ratio 7.87 / 1.55 = 5.08."] },
+    list: ["<span class=\"fex\">Further example</span>Estimate (illustrative, same packing assumed): A{r} ÷ r³ gives Fe : Ca = 5.32, against the literature density ratio 7.87 / 1.55 = 5.08."] },
   { cat: "te", h: "Variable oxidation states", k: "13(e)", d: "The 3d and 4s electrons have similar energies, so a variable number of them can be lost, or used in bonding, without a huge jump in ionisation energy. Calcium's IE₃/IE₂ is 4940/1150 = 4.30 (a 3p electron); iron's is 2960/1560 = 1.90.",
     list: ["Highest states occur only bonded to O (or F): MnO₄⁻ (+7), Cr₂O₇²⁻ and CrO₄²⁻ (+6), MnO₂ (+4). There are no Mn⁷⁺ ions.", "Fe²⁺ → Fe³⁺ is easier than Mn²⁺ → Mn³⁺: IE₃ 2960 against 3250 kJ mol⁻¹; Mn²⁺ is 3d⁵, half-filled."] },
   { cat: "te", h: "Predicting oxidation states", k: "13(f)", d: "Lowest: lose the 4s electrons, usually +2 (+1 for 4s¹). Highest: up to Mn, the total number of 4s and 3d electrons; after Mn the highest state is lower, because the 3d electrons are held more strongly.",
-    list: ["Mn [Ar]3d⁵4s²: +2 (lose 4s²) up to +7 (all seven); common +2, +4, +7.", "Cu [Ar]3d¹⁰4s¹: +1 (lose 4s¹) and +2 (and one 3d).", "A prediction gives possibilities; which states are common needs data."] },
+    list: ["Mn [Ar]3d⁵4s²: +2 (lose 4s²) up to +7 (all seven); common +2, +4, +7.", "Cu [Ar]3d¹⁰4s¹: +1 (lose 4s¹) and +2 (and one 3d).", "Sc [Ar]3d¹4s²: +3 only (Sc loses its 3d¹ electron too).", "A prediction gives possibilities; which states are common needs data."] },
   { cat: "cx", h: "Ligands and complexes", k: "13(i)", d: "Ligand: a species (molecule or anion) with at least one lone pair of electrons that it donates to a central metal atom or ion, forming a dative covalent (co-ordinate) bond. Complex: a central metal atom or ion surrounded by ligands bonded to it by dative covalent bonds.",
     list: ["Coordination number: the number of dative bonds to the central metal.", "Ligands are Lewis bases (electron-pair donors); the metal ion is a Lewis acid (electron-pair acceptor), Topic 4.", "Common ligands and donor atoms: H₂O (O), NH₃ (N), Cl⁻ (Cl), OH⁻ (O), CN⁻ (C).", "Transition-metal ions form complexes readily: they are small, highly charged and have vacant orbitals of suitable energy to accept lone pairs."] },
   { cat: "cx", h: "Shapes and charges of complexes", k: "13(i)", d: "Charge on a complex = charge on the metal ion + the sum of the ligand charges. Square brackets go round the complex, with the charge outside.",
@@ -2628,12 +2786,12 @@ const FC = [
     tbl: { head: ["Couple", "E⦵ / V", "Colour change", "Use"], num: [1], rows: () => [["Fe³⁺ + e⁻ ⇌ Fe²⁺", "+0.77", "yellow to pale green", "Fe²⁺ a mild reducing agent (titrated with MnO₄⁻ or Cr₂O₇²⁻); Fe³⁺ a mild oxidising agent (oxidises I⁻, not Br⁻)"], ["MnO₄⁻ + 8H⁺ + 5e⁻ ⇌ Mn²⁺ + 4H₂O", "+1.52", "purple to colourless", "strong oxidising agent in acid; self-indicating; acidify with dilute H₂SO₄, not HCl"], ["Cr₂O₇²⁻ + 14H⁺ + 6e⁻ ⇌ 2Cr³⁺ + 7H₂O", "+1.33", "orange to green", "weaker than MnO₄⁻; can be used in HCl; needs a redox indicator; oxidises alcohols (Topic 11.6)"]].map((r, i) => [EQ(stateify(r[0])), r[1], H(r[2]), H(r[3])]) },
     list: ["2CrO₄²⁻ + 2H⁺ ⇌ Cr₂O₇²⁻ + H₂O is not redox: Cr is +6 on both sides (Topic 12)."] },
   { cat: "rc", h: "Predicting with E⦵", k: "13(h)", d: "E⦵{cell} = E⦵(reduction) − E⦵(oxidation). If E⦵{cell} is positive, the reaction is energetically feasible (spontaneous) under standard conditions. Never multiply E⦵ by coefficients.",
-    list: ["MnO₄⁻ + Cl⁻: 1.52 − 1.36 = +0.16 V, feasible. Cr₂O₇²⁻ + Cl⁻: 1.33 − 1.36 = −0.03 V, not feasible.", "Zinc reduces Cr₂O₇²⁻ to Cr³⁺ (+2.09 V) and Cr³⁺ to Cr²⁺ (+0.35 V), but not Cr²⁺ to Cr (−0.15 V).", "Limitations: E⦵ says nothing about rate, and different concentrations change E (Topic 12)."] },
+    list: ["MnO₄⁻ + Cl⁻: 1.52 − 1.36 = +0.16 V, feasible. Cr₂O₇²⁻ + Cl⁻: 1.33 − 1.36 = −0.03 V, marginal, so dichromate does not oxidise chloride appreciably.", "Zinc reduces Cr₂O₇²⁻ to Cr³⁺ (+2.09 V) and Cr³⁺ to Cr²⁺ (+0.35 V), but not Cr²⁺ to Cr (−0.15 V).", "Limitations: E⦵ says nothing about rate, and different concentrations change E (Topic 12)."] },
   { cat: "rc", h: "Why transition elements are good catalysts", k: "13(m)", d: "A catalyst provides an alternative reaction pathway with lower activation energy.",
-    list: ["Variable oxidation states: the metal ion can accept and give back electrons, forming an intermediate and being regenerated (homogeneous catalysis, same phase).", "Vacant or partly filled 3d orbitals (and 4s) let reactant molecules be adsorbed on the metal surface by forming weak bonds. This weakens bonds in the reactants and holds them close together in a suitable orientation. The adsorption must be neither too weak nor too strong (heterogeneous catalysis, different phase)."] },
+    list: ["Variable oxidation states: the metal ion can accept and give back electrons, forming an intermediate and being regenerated (homogeneous catalysis, same phase).", "Partly filled d (and s) orbitals let reactant molecules be adsorbed on the metal surface by forming weak bonds. This weakens bonds in the reactants and holds them close together in a suitable orientation. The adsorption must be neither too weak nor too strong (heterogeneous catalysis, different phase)."] },
   { cat: "rc", h: "Fe²⁺ in the S₂O₈²⁻/I⁻ reaction", k: "13(m), 8(j)", e: [["S₂O₈²⁻(aq) + 2Fe²⁺(aq) → 2SO₄²⁻(aq) + 2Fe³⁺(aq)", "step 1: 2.01 − 0.77 = +1.24 V"], ["2Fe³⁺(aq) + 2I⁻(aq) → 2Fe²⁺(aq) + I₂(aq)", "step 2: 0.77 − 0.54 = +0.23 V"]],
     d: "Both steps are feasible because E⦵(Fe³⁺/Fe²⁺) lies between the two couples: +0.54 < +0.77 < +2.01 V. Either Fe²⁺ or Fe³⁺ starts the cycle. Uncatalysed, the reaction is feasible (+1.47 V) but slow: two negative ions must collide (Topic 8)." },
-  { cat: "rc", h: "Heterogeneous catalysts", k: "13(m), 8(j)", list: ["Haber process: iron, N₂(g) + 3H₂(g) ⇌ 2NH₃(g) (Topic 9).", "Catalytic converter: Pt/Pd/Rh, 2CO(g) + 2NO(g) → 2CO₂(g) + N₂(g) (Topic 8).", "<span class=\"fex\">Further example</span>Nickel catalyses the hydrogenation of alkenes (Topic 11.4).", "Poisoning: substances such as sulfur compounds or lead are adsorbed so strongly that they block the active sites (Topic 8)."] },
+  { cat: "rc", h: "Heterogeneous catalysts", k: "13(m), 8(j)", list: ["Haber process: iron, N₂(g) + 3H₂(g) ⇌ 2NH₃(g) (Topic 9).", "Catalytic converter: Pt/Pd/Rh, 2CO(g) + 2NO(g) → 2CO₂(g) + N₂(g) (Topic 8).", "<span class=\"fex\">Further example</span>Nickel catalyses the hydrogenation of alkenes (Topic 11.4).", "Poisoning: substances such as sulfur compounds or lead are adsorbed so strongly that they block the active sites (Topic 8). CO also poisons the Haber iron (Topic 9)."] },
   { cat: "enr", enr: true, h: "Labels and other shapes", k: "beyond 9476", list: ["The lower set of three is called t₂g and the upper set of two e_g.", "In a tetrahedral complex the splitting is reversed (two lower, three upper) and smaller.", "Some four-coordinate complexes are square planar rather than tetrahedral."] },
   { cat: "enr", enr: true, h: "Colour without d electrons", k: "beyond 9476", d: "MnO₄⁻ (Mn +7) and Cr₂O₇²⁻ (Cr +6) are d⁰, yet intensely coloured. Their colour comes from charge transfer (an electron moving from O towards the metal), not from d-d transitions." }
 ];
@@ -2671,7 +2829,7 @@ const QZ = [
         ["[Ar]3d⁶", "That is Fe²⁺: Fe³⁺ has lost one more electron."],
         ["[Ar]3d⁴4s¹", "Three electrons have gone, but from the wrong subshells: the 4s electrons are lost first."]] },
   { k: "13(c)", q: "Why does the first ionisation energy change only a little from Ti to Cu?",
-    o: [["Each added electron enters the inner 3d subshell and shields the 4s electrons well.", "So the effective nuclear charge on the 4s electron, the one removed, rises only slightly."],
+    o: [["Each added electron enters the inner 3d subshell and shields the 4s electrons fairly well, but not completely.", "So the effective nuclear charge on the 4s electron, the one removed, rises only slightly."],
         ["The nuclear charge stays the same from one element to the next across the row.", "It rises by one proton each time."],
         ["Each added electron enters the 4s subshell, which is far from the nucleus.", "4s is already filled (4s² or 4s¹); the extra electrons go into 3d."],
         ["The atomic radius increases steadily from titanium to copper, cancelling the extra charge.", "The radius changes little (0.124 to 0.146 nm), and it does not increase steadily."]] },
@@ -2701,7 +2859,7 @@ const QZ = [
         ["239 000 kJ mol⁻¹", "239 000 is in J mol⁻¹: divide by 1000."],
         ["2.39 × 10⁻⁷ kJ mol⁻¹", "λ must be in metres: 500 nm = 500 × 10⁻⁹ m."]] },
   { k: "13(g), 13(h)", q: "Why can acidified dichromate(VI) titrations be done in dilute HCl, but KMnO₄ titrations cannot?",
-    o: [["MnO₄⁻ oxidises Cl⁻ (+0.16 V), but Cr₂O₇²⁻ does not (−0.03 V).", "E⦵{cell}: 1.52 − 1.36 = +0.16 V against 1.33 − 1.36 = −0.03 V. MnO₄⁻ would use up extra titrant oxidising Cl⁻."],
+    o: [["MnO₄⁻ oxidises Cl⁻ (+0.16 V), but Cr₂O₇²⁻ does not appreciably (−0.03 V, marginal).", "E⦵{cell}: 1.52 − 1.36 = +0.16 V against 1.33 − 1.36 = −0.03 V, which is marginal. MnO₄⁻ would use up extra titrant oxidising Cl⁻."],
         ["HCl reacts with Cr₂O₇²⁻ to give the colour change at the end point.", "Dichromate(VI) titrations need a separate redox indicator; HCl is not one."],
         ["Cr₂O₇²⁻ oxidises Cl⁻ (+0.03 V), but MnO₄⁻ does not (−0.16 V).", "The signs are the wrong way round: E⦵{cell} is +0.16 V for MnO₄⁻ and −0.03 V for Cr₂O₇²⁻."],
         ["Cr₂O₇²⁻ is a stronger oxidising agent than MnO₄⁻, so it reacts faster.", "It is weaker: +1.33 V against +1.52 V. That is why it cannot oxidise Cl⁻."]] },
@@ -2728,7 +2886,7 @@ function renderQ(){
   const q = QZ[Q.i], ord = Q.order[Q.i];
   Q.answered = false;
   const show = t => /[⇌→]/.test(t) && !/[a-z]{4,}/.test(t.replace(/\((aq|s|l|g)\)/g, "")) ? EQ(t) : TX(t);
-  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score ${Q.score}</span></div>
+  box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score <span id="q-score">${Q.score}</span></span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${TX(q.q)}</p>
     <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${show(q.o[oi][0])}</span></button>`).join("")}</div>
@@ -2737,6 +2895,7 @@ function renderQ(){
     if (Q.answered) return; Q.answered = true;
     const oi = +b.dataset.oi, right = oi === 0;
     if (right) Q.score++;
+    $("q-score").textContent = Q.score;   // the header shows the new score as soon as the answer is marked
     box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${TX(q.o[k][1])}</li>`).join("");
