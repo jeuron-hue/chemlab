@@ -1074,7 +1074,7 @@ LAB.ecell = ecell;
 
 /* ---------- data kept out of the redox chooser and the generated questions ----------
    The page holds only opaque hashes (made when the page is built) of the keys of the excluded items; an item whose key hashes into the set is not offered. */
-const RESH = new Set(["140uhwc", "144fm1y", "14ef7qx", "14ktpaa", "14utaz9", "14yb9mw", "15sd87s", "162ctwr", "16ccflq", "16mc1ap", "16wbmzo", "176b8on", "17gaudm", "17qag2l", "19vdx3", "1a8wvv4", "1c8k8u9", "1e56rhv", "1ldybgb", "1o6b7qn", "1qhyurm", "1qryggl", "1ro0psf", "1spdp7r", "1syejwk", "1szdawq", "1t9cwlp", "1tjahjy", "1tndpjl", "1wpms4q", "2q3be7", "2xyspw", "2zqh61", "44ys4d", "4nki42", "4vhv2x", "58j6s5", "5c50ou", "5m4mdt", "6w697x", "7qotxd", "9gldiy", "fxewz8", "fy87ox", "mup4hk", "n4oq6j", "qnqi3k", "r1tgz3", "rbt2o2", "rlsod1", "rvsa20", "s5rvqz", "sverav", "udy5so", "unxrhn", "uxxd6m", "v7wyvl", "vhwkkk", "vrw69j", "w8siob", "z51xg0", "zf1j4z", "zkdfyu"]);
+const RESH = new Set(["140uhwc", "144fm1y", "14ef7qx", "14ktpaa", "14utaz9", "14yb9mw", "15sd87s", "162ctwr", "16ccflq", "16mc1ap", "16wbmzo", "176b8on", "17gaudm", "17qag2l", "19vdx3", "1a8wvv4", "1c8k8u9", "1e56rhv", "1er4ypi", "1ldybgb", "1o6b7qn", "1qhyurm", "1qryggl", "1ro0psf", "1spdp7r", "1syejwk", "1szdawq", "1t9cwlp", "1tjahjy", "1tndpjl", "1wpms4q", "2q3be7", "2xyspw", "2zqh61", "44ys4d", "4nki42", "4vhv2x", "58j6s5", "5c50ou", "5m4mdt", "6w697x", "7qotxd", "9gldiy", "fxewz8", "fy87ox", "mup4hk", "n4oq6j", "qnqi3k", "r1tgz3", "rbt2o2", "rlsod1", "rvsa20", "s5rvqz", "sverav", "udy5so", "unxrhn", "uxxd6m", "v7wyvl", "vhwkkk", "vrw69j", "w8siob", "z51xg0", "zf1j4z", "zkdfyu"]);
 function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
 const resKeyHit = k => RESH.has(fnv(k));
 
@@ -2500,7 +2500,7 @@ function resKeys(q){
   const p = q.p, t = q.type;
   if (t === "conf") return [`cf:${p.el}:${p.q}`];
   if (t === "on" || t === "chg") return [`sp:${p.f}`];
-  if (t === "ecell") return [`rd:${p.o}|${p.r}`];
+  if (t === "ecell") return [`rd:${p.o}|${p.r}`, `gx:${p.o}|${p.r}`];
   // photon: the wavelength asked or answered (nm, as an integer) and the energy asked or answered (kJ mol⁻¹, as an integer)
   const l = p.kind === "lam" ? lamOfKJ(p.e) : p.l, e = p.kind === "lam" ? p.e : photonKJ(p.l);
   return [`phl:${Math.round(l)}`, `phe:${Math.round(e)}`];
@@ -2614,7 +2614,7 @@ function genPhoton(){
 // (5) E⦵cell and feasibility: pairs from the chooser (the notes' couples and presets)
 const GN_EC = [["cr2o7", "zn"], ["cr32", "zn"], ["cr2", "zn"], ["o2", "cr32"], ["o2oh", "feoh"], ["o2", "fe3"], ["mno4", "cl2"], ["cr2o7", "cl2"], ["mno4", "fe3"], ["cr2o7", "fe3"],
   ["fe3", "i2"], ["fe3", "br2"], ["mn3", "o2"], ["fecn", "i2"], ["s2o8", "fe3"], ["s2o8", "i2"], ["fe3", "zn"], ["cr2o7", "i2"], ["mno4", "i2"], ["o2", "i2"], ["fe3", "cl2"], ["mn3", "fe3"], ["s2o8", "br2"]]
-  .filter(([o, r]) => { const R = rdCalc(o, r); return !R.blocked && !R.same && !R.mismatch && !R.marg; });   // a marginal E⦵cell has no clear verdict to ask for
+  .filter(([o, r]) => { const R = rdCalc(o, r); return !R.blocked && !R.same && !R.mismatch && !R.marg && !resKeyHit(`gx:${o}|${r}`); });   // a marginal E⦵cell has no clear verdict to ask for
 LAB.GN_EC = GN_EC;
 const gcd = (a, b) => b ? gcd(b, a % b) : a, lcm = (a, b) => a / gcd(a, b) * b;
 function genEcell(){
