@@ -349,6 +349,8 @@ svg .egh{fill:var(--ink-2); opacity:.55}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
 :root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
 .chips button, .stepchips button{min-height:24px; min-width:24px}
+
+.ls-mapfoot .ls-all2{min-height:24px;padding:2px 0}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -1153,7 +1155,8 @@ function trExplain(){
 // a category chart: cats [{x, lab}], series [{pts:[[x,y,label?]], col, dash, mark, open}], y range
 function catChart(svg, o){
   const W = widthOf(svg.parentElement), Hh = o.h || (W < 520 ? 250 : 290), sm = W < 520;
-  const m = { l: sm ? 60 : 66, r: 12, t: 16, b: sm ? 44 : 46 };   // room for the widest tick label (8 000) and the axis title beside it
+  const row2 = (o.xticks || []).some(t => t.lab2);
+  const m = { l: sm ? 60 : 66, r: 12, t: 16, b: (sm ? 44 : 46) + (row2 ? 6 : 0) };   // room for the widest tick label (8 000), a second tick row, and the axis title beside it
   const [x0, x1] = o.x, [y0, y1] = o.y;
   const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r), Y = v => Hh - m.b - (v - y0) / (y1 - y0) * (Hh - m.t - m.b);
   let s = "";

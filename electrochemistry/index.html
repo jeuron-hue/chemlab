@@ -922,7 +922,10 @@ function parseAnswer(str, allowed, opts){
   if (!rest) return { value: val };
   const plain = /^(no ?units?|none|unitless|dimensionless)$/i.test(rest);
   const u = plain ? "none" : unitId(rest);
-  if (!u) return { error: NAN, kind: "nan" };
+  if (!u){   // a number followed by text that is not a unit
+    const names = (allowed || []).filter(x => x !== "none").map(x => UNIT_NAME[x]);
+    return { error: names.length ? `Type just the number, or the number and its unit (${names[0]}).` : "Type just the number.", kind: "nan" };
+  }
   if (allowed == null) return plain ? { value: val } : { value: val, unit: u };
   if (plain ? (allowed.length === 0 || allowed.includes("none")) : allowed.includes(u)) return plain ? { value: val } : { value: val, unit: u };
   return { unit: u, kind: "unit", error: allowed.filter(x => x !== "none").length ? `Check the unit: this answer is in ${UNIT_NAME[allowed.filter(x => x !== "none")[0]]}.` : "Check the unit: this answer is a plain number, with no unit." };
@@ -2573,7 +2576,7 @@ function genEcell(){
     `Overall: ${EQ(eqS(R.c.E, "→", true))}`];
   return { type: "ecell", text: `A cell is made from the ${CP[a].nm} and ${CP[b].nm} half-cells under standard conditions. Calculate E⦵{cell} and say which electrode is negative.`,
     label: "E⦵{cell} / V", ans: ansE(R.Ec), sel: { lab: "Negative electrode", opts: [elecName(a), elecName(b)], ans: elecName(R.neg) }, p: { a, b }, work, fmt: "2 decimal places with a sign, e.g. +0.46", uAllow: ["V"], rk: [pairKey(a, b)],
-    signMsg: "E⦵{cell} for a working cell is positive: E⦵(reduction) − E⦵(oxidation), with the more positive couple as the reduction.",
+    signMsg: "Check the sign: E⦵{cell} for a working cell is positive: E⦵(reduction) − E⦵(oxidation), with the more positive couple as the reduction.",
     alts: [{ v: CP[a].E + CP[b].E, msg: "Subtract, do not add: E⦵{cell} = E⦵(reduction) − E⦵(oxidation)." }] };
 }
 // (4) will it react?
