@@ -1431,7 +1431,7 @@ LAB.ikSet = n => { IP.km = n; ikRender(); };
 /* =====================================================
    B. FRAGMENTATION EXPLORER (9813 1.5(a)(i), 1.5(b)(iii)): simple cleavage of one bond, cation + radical = M
    ===================================================== */
-const FE = { mol: "hexane", cut: null, found: new Set(), all: false, mode: "pred0", pred: null, graded: false, right: 0, tried: 0 };
+const FE = { mol: "hexane", cut: null, found: new Set(), all: false, mode: "pred0", pred: null, scored: new Set(), right: 0, tried: 0 };
 LAB.FE = FE;
 const CLS_NOTE = {
   methyl: "A methyl cation, CH₃⁺: the least stable alkyl cation (methyl < primary < secondary < tertiary, as in 11.1 Part 3), so it forms rarely and its peak is small.",
@@ -1464,8 +1464,8 @@ function feTap(bi){
   if (FE.mode === "pred" && ct.opts){
     FE.pred = bi;
     const b = baseIdx(FE.mol), right = ct.opts.some(o => o.peak === b);
-    const again = FE.graded;     // this molecule's question was already scored: Start again or the same chip shows it again but does not score it twice
-    if (!FE.graded){ FE.graded = true; FE.tried++; if (right) FE.right++; }
+    const again = FE.scored.has(FE.mol);     // a molecule already scored this session is never scored again, however the learner returns to it
+    if (!again){ FE.scored.add(FE.mol); FE.tried++; if (right) FE.right++; }
     const fb = $("fe-pfb"); fb.hidden = false; fb.className = "fb " + (right ? "ok" : "no");
     const bp = CPD(FE.mol).peaks[b];
     fb.innerHTML = `<p>${right ? "Right." : "Not this one."} ${H(`The base peak is m/z ${bp.mz}, ${peakIon(FE.mol, b)}, formed by loss of ${peakLost(FE.mol, b)}•.`)} ${H(right ? "" : "Tap “Another molecule” or switch to Explore to try every bond.")}${again ? " " + H("The score keeps your first answer for this molecule; tap “Another molecule” for a new question.") : ""}</p><div class="btnrow" style="margin-top:8px"><button class="btn sm" id="fe-pnext">Another molecule</button><span class="hint">${FE.right} right out of ${FE.tried}</span></div>`;
@@ -1483,7 +1483,7 @@ function optHTML(n, o, both){
   else if (o.shared != null){ const p = c.peaks[o.shared]; st = `<span class="ok-w">In the simulated spectrum:</span> m/z ${o.mz} is the same peak as ${peakIon(n, o.shared)} (height ${p.rel}): both have nominal mass ${o.mz}.`; }
   else if (o.other != null){ const p = c.peaks[o.other]; st = `<span class="no-w">Small or absent in the simulated spectrum</span> from this bond. The peak at m/z ${o.mz} (height ${p.rel}) comes from a different bond, the one next to the C=O.`; }
   else { const q = c.peaks.findIndex(p => p.mz === o.mz && p.lost); st = `<span class="no-w">Small or absent in the simulated spectrum</span> (m/z ${o.mz}).` + (q >= 0 ? ` The peak at m/z ${o.mz} in the spectrum is ${peakIon(n, q)}, formed by loss of ${peakLost(n, q)}•${peakLost(n, q) === "H" ? " from the carbon next to O" : ""}.` : ""); }
-  const cn = CLS_NOTE[o.cls] || "", trop = o.cls === "benzyl" && o.ionN === "C₆H₅CH₂" ? `<p class="hint">${TROP}</p>` : "";
+  const cn = o.lostN === "H" && o.peak < 0 && o.shared == null && o.cls !== "onO" ? "M − 1 (loss of H•); not in the simulated spectrum." : CLS_NOTE[o.cls] || "", trop = o.cls === "benzyl" && o.ionN === "C₆H₅CH₂" ? `<p class="hint">${TROP}</p>` : "";
   const extra = o.ionN === "CHO" ? H(" CHO⁺ has m/z 29, the same as C₂H₅⁺: other data decide.") : "";
   return `<div class="eqs"><div>${EQ(`${mPlus(n)} → ${o.ionN}⁺ + ${o.lostN}•`)}</div><div class="eqn">${H(`Check: ${o.mz} + ${o.lm} = ${o.mz + o.lm} = M (${M}) ${o.mz + o.lm === M ? "✓" : "✗"}`)}</div></div>
     <p>${H(`Cation detected: ${o.ionN}⁺, m/z ${o.mz}. Radical lost: ${o.lostN}•, mass ${o.lm} (not detected: it has no charge, so it is not accelerated or deflected).`)}</p>
@@ -1529,7 +1529,7 @@ function feRender(){
   $("fe-found").innerHTML = H(FE.mode === "pred" ? "Predict mode: the fragment peaks are hidden until you tap a bond." : `Found: ${pl.filter(g => g.p.lost && FE.found.has(g.k)).map(g => "m/z " + g.p.mz).join(", ") || "none yet"}.`);
 }
 LAB.feRender = feRender;
-function feSet(n, bi){ if (n !== FE.mol) FE.graded = false; FE.mol = n; FE.cut = null; FE.found = new Set(); FE.all = false; FE.pred = null; $("fe-pfb").hidden = true; feRender(); if (bi != null) feTap(bi); }
+function feSet(n, bi){ FE.mol = n; FE.cut = null; FE.found = new Set(); FE.all = false; FE.pred = null; $("fe-pfb").hidden = true; feRender(); if (bi != null) feTap(bi); }
 LAB.feSet = feSet;
 function bindFE(){
   const chip = n => `<button type="button" data-m="${n}" aria-pressed="false">${H(nameOf(n))}</button>`;
@@ -1537,7 +1537,7 @@ function bindFE(){
   document.querySelectorAll("#fe-mols button, #fe-mols2 button").forEach(b => b.onclick = () => feSet(b.dataset.m));
   $("fe-all").onclick = () => { FE.all = !FE.all; $("fe-all").textContent = FE.all ? "Show only the peaks found" : "Show the whole simulated spectrum"; feRender(); };
   $("fe-reset").onclick = () => feSet(FE.mol);
-  document.querySelectorAll('input[name="fe-mode"]').forEach(r => r.onchange = () => { FE.mode = r.value; FE.graded = false; if (FE.mode === "pred" && !PRED_MOLS().includes(FE.mol)) FE.mol = "hexane"; feSet(FE.mol); });
+  document.querySelectorAll('input[name="fe-mode"]').forEach(r => r.onchange = () => { FE.mode = r.value; if (FE.mode === "pred" && !PRED_MOLS().includes(FE.mol)) FE.mol = "hexane"; feSet(FE.mol); });
   FE.mode = "show";
   feRender();
 }
@@ -1836,7 +1836,7 @@ function usClue(){
   } else if (k === "UV"){
     const u = c.uv;
     const strong = u.eps >= 1000;
-    s += `<div class="fb info" aria-live="polite"><p class="ink"><b>${H(strong ? `UV/vis: strong band, λ{max} about ${u.lmax} nm, ε about ${sci(u.eps, 2)} mol⁻¹ dm³ cm⁻¹` : `UV/vis: nothing strong beyond about 210 nm; a weak band, λ{max} about ${u.lmax} nm, ε about ${u.eps} mol⁻¹ dm³ cm⁻¹`)}</b> <span class="src lit">literature</span></p><p>${H(strong ? "A strong band beyond about 210 nm means a conjugated system larger than a benzene ring, such as C=O on a ring (H3.2)." : "A benzene ring alone gives a strong band near 205 nm and a weak one near 258 nm, so there is no conjugation beyond the ring (H3.2).")}</p></div>`;
+    s += `<div class="fb info" aria-live="polite"><p class="ink"><b>${H(strong ? `UV/vis: strong band, λ{max} about ${u.lmax} nm, ε about ${sci(u.eps, 2)} mol⁻¹ dm³ cm⁻¹` : `UV/vis: nothing strong beyond about 210 nm; a weak band, λ{max} about ${u.lmax} nm, ε about ${u.eps} mol⁻¹ dm³ cm⁻¹`)}</b> <span class="src lit">literature</span></p><p>${H(strong ? "A strong band beyond about 210 nm means a conjugated system larger than a benzene ring, such as C=O on a ring (H3.2)." : "A benzene ring alone gives a strong band near 205 nm and a weak one near 260 nm, so there is no conjugation beyond the ring (H3.2).")}</p></div>`;
   }
   box.innerHTML = s;
   if ($("us-ms")) msPlot($("us-ms"), { lines: c.lines.filter(l => l[1] > 0).map(l => [l[0], l[1]]), x: xRange(c.M), brackets: clusterBrackets(n).map(b => ({ a: b.a, b: b.b, t: b.approx })), lab: (mz, h) => mz === c.M ? "M⁺ " + mz : h >= 4 && !isoPartners(n).has(mz) ? String(mz) : null, h: 230 });
@@ -1883,7 +1883,7 @@ function duRender(){
     <p class="hint">${H("A whole number of 0 or more: a check on the formula.")}</p>`;
 }
 LAB.duRender = duRender;
-// random formulas CₐH{b}(O)(X), a ≤ 10, of compounds that can exist, and never a formula on the exclusion list made when the page is built
+// random formulas CₐH{b}(O)(X), a ≤ 10, only formulas of compounds that can exist
 const RES_H = new Set(["11h6pxo", "131vmf5", "149cd4c", "17s4y8o", "1824jxn", "188ymjr", "18w3d0k", "1962ypj", "19g2kei", "19q263h", "19uz15h", "1anfqsc", "1ba486w", "1bdc1tf", "1bk06um", "1datq06", "1db99o8", "1dl8vd7", "1dv8h26", "1e54x96", "1e582r5", "1ef4iy5", "1ef7og4", "1ep7a53", "1er6htu", "1eyrc60", "1ez6vu2", "1f8qxuz", "1f96hj1", "1fe3n2b", "1fiqjjy", "1fsq58x", "1g2pqxw", "1gcpcmv", "1gmoybu", "1gwok0t", "1gyohry", "1heo3pn", "1lh1aey", "1m4779y", "1p2gu02", "1pmg9qm", "1qbe4h3", "1r974n", "1v0cmtr", "1w2gos4", "1w2oe63", "1yipi59", "5qzep8", "6wp1ex", "c2rxhi", "ccrj6h", "ccuoog", "cmuadf", "cwno6m", "cwtw2e", "d6thrd", "dgt3gc", "dqsp5b", "earwj9", "f6bysc", "fccaki", "fgbkhb", "fiwjd9", "g8p4e2", "gioq31", "glic13", "i488ho", "io7fvm", "iw6vf8", "iy71kl", "j86n9k", "ji68yj", "jna0jz", "mlj930", "ne7fu2", "q8j2ae", "vixb2j", "vt5cl", "w2xgqd", "xn8usx", "y19vdw"]);
 const fnvH = s => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
 LAB.isRes = k => RES_H.has(fnvH(k));
@@ -1912,7 +1912,7 @@ function bindUS(){
 }
 
 /* =====================================================
-   PRACTICE GENERATOR. Questions are drawn at random; a draw that matches the exclusion list made when the page is built is refused.
+   PRACTICE GENERATOR. Questions are drawn at random; a draw that would print a protected value is refused.
    ===================================================== */
 const massLine = f => { const d = parseF(f); return Object.entries(d).map(([e, n]) => `${n > 1 ? n + " × " : ""}${NOM[e]}${e === "Cl" ? " (³⁵Cl)" : e === "Br" ? " (⁷⁹Br)" : ""}`).join(" + "); };
 function genCC(){
@@ -2063,7 +2063,7 @@ const FC = [
   { cat: "p2", h: "Degree of unsaturation", k: "added as a method", d: "Degree of unsaturation (double-bond equivalents) = number of rings + π bonds. For C<sub>a</sub>H<sub>b</sub>N<sub>c</sub>O<sub>d</sub>X<sub>e</sub>: a − (b + e)/2 + c/2 + 1; O is ignored.",
     list: ["One double bond or one ring = 1; a triple bond = 2; a benzene ring = 4 (three C=C and one ring). 4 or more suggests a benzene ring.", "Notes WE1: C₄H₈O₂ 1, C₅H₁₀O 1, C₃H₇Br 0, C₈H₈O 5, C₇H₇Cl 4, C₈H₁₀ 4, C₆H₁₄ 0.", "It must be a whole number of 0 or more: a check on the formula."] },
   { cat: "p2", h: "The molecular formula", k: "1.5(b)", list: ["M from the molecular ion; Cl and Br from M+2 and M+4; the number of C from M+1; or composition by mass (Topic 6) with M{r}.", "Notes WE2: C 69.8 %, H 11.6 %, O 18.6 %, M⁺ 86: C 5.82, H 11.6, O 1.16 → 5 : 10 : 1, C₅H₁₀O (86.0); M 25.0, M+1 1.39 → 5.05 → 5 carbons agrees."] },
-  { cat: "p2", wide: true, h: "A method for unknowns", k: "1.3, 1.4, 1.5", list: ["(1) Molecular formula: M from the molecular ion; Cl/Br from M+2/M+4; carbon count from M+1; or composition by mass + M{r}.", "(2) Degree of unsaturation.", "(3) IR: which groups (booklet table; fingerprint caution).", "(4) ¹H NMR: number of signals, δ, integration → H counts, splitting → neighbours, D₂O.", "(5) Mass spectrum fragments: which pieces (43 CH₃CO⁺ against 57 C₂H₅CO⁺, 91 benzyl, 105 benzoyl, 29, 31…) join the parts.", "(6) UV/vis where useful: a strong band beyond about 210 nm (for example near 240 nm) means a conjugated system larger than a benzene ring, such as C=O on a ring (H3.2). A benzene ring alone gives a strong band near 205 nm and a weak one near 258 nm.", "(7) Assemble candidate structures, check each against every piece of data and the formula; say which datum rules each wrong candidate out."] },
+  { cat: "p2", wide: true, h: "A method for unknowns", k: "1.3, 1.4, 1.5", list: ["(1) Molecular formula: M from the molecular ion; Cl/Br from M+2/M+4; carbon count from M+1; or composition by mass + M{r}.", "(2) Degree of unsaturation.", "(3) IR: which groups (booklet table; fingerprint caution).", "(4) ¹H NMR: number of signals, δ, integration → H counts, splitting → neighbours, D₂O.", "(5) Mass spectrum fragments: which pieces (43 CH₃CO⁺ against 57 C₂H₅CO⁺, 91 benzyl, 105 benzoyl, 29, 31…) join the parts.", "(6) UV/vis where useful: a strong band beyond about 210 nm (for example near 240 nm) means a conjugated system larger than a benzene ring, such as C=O on a ring (H3.2). A benzene ring alone gives a strong band near 205 nm and a weak one near 260 nm.", "(7) Assemble candidate structures, check each against every piece of data and the formula; say which datum rules each wrong candidate out."] },
   { cat: "p2", h: "Two isomers with almost the same mass spectrum", k: "1.5, 1.4", d: "Notes WE4, C₃H₇Br: both give 122/124 in 1 : 1 (one Br), 43 base (C₃H₇⁺, single) and a small 107/109 (1-bromopropane also shows small peaks at 93/95 and 29). Small differences in minor peaks are not a safe basis for a decision.",
     list: ["NMR decides: 2-bromopropane septet (1H) and doublet (6H); 1-bromopropane triplet, sextet, triplet."] },
   { cat: "enr", enr: true, h: "Exact mass", k: "beyond 9813", d: "High-resolution instruments measure m/z to 4 decimal places; the formula with the matching exact mass is chosen. Never tested.",
