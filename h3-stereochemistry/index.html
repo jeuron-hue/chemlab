@@ -88,21 +88,21 @@ section.lab:last-of-type{border-bottom:0}
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; align-items:center; min-height:24px; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:flex; align-items:center; justify-content:center; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -135,7 +135,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -306,6 +306,12 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
 #tr-centres > .chips{flex-wrap:wrap}
 #gn-nm{touch-action:auto; cursor:default}
 #gn-check[hidden]{display:none}
+
+.sr{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+.ls-mapfoot button.ls-all2{min-height:24px; padding:2px 0}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -345,7 +351,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -357,7 +363,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -421,7 +427,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
   <div class="wrap">
     <a href="#newman">Newman rotor</a>
     <a href="#chair">Cyclohexane in 3D</a>
-    <a href="#trainer">R/S and E/Z trainer</a>
+    <a href="#trainer"><i>R</i>/<i>S</i> and <i>E</i>/<i>Z</i> trainer</a>
     <a href="#sorter">Isomer sorter</a>
     <a href="#complexes">Complex isomers</a>
     <a href="#practice">Practice</a>
@@ -452,8 +458,8 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
     <div class="stack">
       <div class="viewer" id="nr-wrap">
         <div class="vhead" id="nr-head"></div>
-        <svg id="nr-svg" role="img" aria-label="Newman projection along the C–C bond"></svg>
-        <svg id="nr-3d" role="img" aria-label="3D model of the molecule" hidden></svg>
+        <svg id="nr-svg" role="slider" aria-label="Dihedral angle θ in the Newman projection; drag the back carbon or use the arrow keys" aria-valuemin="0" aria-valuemax="360" aria-valuenow="60"></svg>
+        <svg id="nr-3d" role="application" aria-label="3D model of the molecule; drag to turn it, or use the arrow keys" hidden></svg>
         <div class="vnote" id="nr-note"></div>
       </div>
       <div class="viewer">
@@ -489,7 +495,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
     <div class="stack">
       <div class="viewer" id="cy-wrap">
         <div class="vhead" id="cy-head"></div>
-        <svg id="cy-svg" role="img" aria-label="3D model of the ring"></svg>
+        <svg id="cy-svg" role="application" aria-label="3D model of the ring; drag to turn it, or use the arrow keys"></svg>
         <div class="vnote" id="cy-note"></div>
       </div>
       <div class="viewer">
@@ -507,13 +513,14 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
 <section class="lab" id="trainer">
   <div class="sechead">
     <span class="eyebrow">Explorer · <span class="nc">9813 2.1(b)(ii), (iii)</span></span>
-    <h2>R/S and E/Z trainer</h2>
+    <h2><i>R</i>/<i>S</i> and <i>E</i>/<i>Z</i> trainer</h2>
     <p>Rank the groups by the Cahn–Ingold–Prelog (CIP) priority rules, turn the molecule so that group 4 points away, and read <i>R</i> or <i>S</i>; then name double bonds <i>E</i> or <i>Z</i>. Every label is worked out by the lab from the 3D coordinates of the model, as you would from a drawing.</p>
   </div>
   <div class="tabs" id="tr-tabs" role="tablist" aria-label="Trainer">
     <button role="tab" data-t="rs" aria-selected="true"><i>R</i>/<i>S</i> centres</button>
     <button role="tab" data-t="ez" aria-selected="false"><i>E</i>/<i>Z</i> double bonds</button>
   </div>
+  <div id="tr-panel" role="tabpanel">
   <div class="molpick" style="margin-top:14px">
     <div class="chipgrp"><span>Molecule (notes)</span><div class="chips" id="tr-mols" role="group" aria-label="Molecule"></div></div>
     <div class="chipgrp"><span>More molecules (lab only)</span><div class="chips" id="tr-mols2" role="group" aria-label="More molecules"></div></div>
@@ -529,18 +536,19 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
     <div class="stack">
       <div class="viewer" id="tr-wrap">
         <div class="vhead" id="tr-head"></div>
-        <svg id="tr-svg" role="img" aria-label="3D model; drag to turn it"></svg>
+        <svg id="tr-svg" role="application" aria-label="3D model; drag to turn it, or use the arrow keys"></svg>
         <div class="vnote" id="tr-note"></div>
       </div>
       <div class="panel stack" id="tr-ask" hidden>
         <p class="qtext" style="margin:0" id="tr-q"></p>
         <div class="chips" id="tr-opts" role="group" aria-label="Your answer"></div>
-        <div id="tr-fb" hidden></div>
+        <div id="tr-fb" role="status" aria-live="polite" hidden></div>
         <div class="btnrow"><button class="btn" id="tr-next">Another one</button><span class="hint" id="tr-score"></span></div>
       </div>
       <div class="tblwrap"><table class="data" id="tr-tbl"></table></div>
       <div class="fb info" id="tr-out"></div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -554,19 +562,19 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
   <div class="grid2c">
     <div class="viewer" id="so-wa">
       <div class="vhead" id="so-ha">Structure A</div>
-      <svg id="so-sa" role="img" aria-label="Structure A; drag to turn it"></svg>
+      <svg id="so-sa" role="application" aria-label="Structure A; drag to turn it, or use the arrow keys"></svg>
       <div class="vnote" id="so-na"></div>
     </div>
     <div class="viewer" id="so-wb">
       <div class="vhead" id="so-hb">Structure B</div>
-      <svg id="so-sb" role="img" aria-label="Structure B; drag to turn it"></svg>
+      <svg id="so-sb" role="application" aria-label="Structure B; drag to turn it, or use the arrow keys"></svg>
       <div class="vnote" id="so-nb"></div>
     </div>
   </div>
   <div class="panel stack" style="margin-top:14px">
     <p class="qtext" style="margin:0" id="so-q">How are structures A and B related?</p>
     <div class="optlist" id="so-opts" role="group" aria-label="Your answer"></div>
-    <div id="so-fb" hidden></div>
+    <div id="so-fb" role="status" aria-live="polite" hidden></div>
     <div class="btnrow"><button class="btn primary" id="so-next">Next pair</button><button class="btn" id="so-lab">Show the labels</button><button class="btn" id="so-newman" hidden>Look along C2–C3</button><button class="btn" id="so-reset">Reset views</button><span class="hint" id="so-score"></span></div>
   </div>
 
@@ -576,12 +584,12 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
       <div class="chipgrp"><span>Notes examples</span><div class="chips" id="op-ex" role="group" aria-label="Notes examples"></div></div>
       <div class="chipgrp"><span>Sample</span><div class="seg" id="op-kind"><label><input type="radio" name="op-kind" value="soln" checked>Solution</label><label><input type="radio" name="op-kind" value="neat">Neat liquid</label><label><input type="radio" name="op-kind" value="mix">From a mixture</label></div></div>
       <div class="form" id="op-form">
-        <label class="field" data-k="a"><span>Observed rotation α / °</span><input id="op-a" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="+2.61"></label>
+        <label class="field" data-k="a"><span>Observed rotation α / °</span><input id="op-a" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="+2.61"></label>
         <label class="field" data-k="l"><span>Path length l / dm</span><input id="op-l" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="2.00"></label>
         <label class="field" data-k="c"><span>Concentration c / g cm⁻³</span><input id="op-c" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="0.100"></label>
         <label class="field" data-k="r" hidden><span>Density ρ / g cm⁻³</span><input id="op-r" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="0.960"></label>
         <label class="field" data-k="maj" hidden><span>% of the (+) enantiomer</span><input id="op-maj" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="70.0"></label>
-        <label class="field" data-k="p"><span>[α] of the pure enantiomer / °</span><input id="op-p" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="+14.5"></label>
+        <label class="field" data-k="p"><span>[α] of the pure enantiomer / °</span><input id="op-p" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="+14.5"></label>
       </div>
       <p class="hint" style="margin:0" id="op-hint">Type any values. Specific rotations in the notes are <span class="src lit">literature</span> values; the polarimeter readings in the notes' examples are illustrative.</p>
     </div>
@@ -615,11 +623,11 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
     </div>
     <div class="stack">
       <div class="viewer" id="cx-wrap">
-        <svg id="cx-svg" role="img" aria-label="The complex and its mirror image; drag to turn either"></svg>
+        <svg id="cx-svg" role="application" aria-label="The complex and its mirror image; drag to turn either, or use the arrow keys"></svg>
         <div class="vnote" id="cx-note"></div>
       </div>
       <div class="readout" id="cx-read"></div>
-      <div id="cx-fb" hidden></div>
+      <div id="cx-fb" role="status" aria-live="polite" hidden></div>
       <div class="callout" id="cx-fact"></div>
     </div>
   </div>
@@ -642,16 +650,16 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
       <button role="tab" data-type="ax" aria-selected="false">Axial or equatorial?</button>
       <button role="tab" data-type="mix" aria-selected="false">Mixed</button>
     </div>
-    <div class="panel stack">
+    <div class="panel stack" id="gn-panel" role="tabpanel">
       <p class="qtext" id="gn-q" style="margin:0"></p>
-      <div class="viewer" id="gn-vw" hidden><svg id="gn-svg" role="img" aria-label="Structure for the question; drag to turn it"></svg><svg id="gn-nm" role="img" aria-label="Newman projection for the question" hidden></svg><div class="vnote" id="gn-vnote"></div></div>
+      <div class="viewer" id="gn-vw" hidden><svg id="gn-svg" role="application" aria-label="Structure for the question; drag to turn it, or use the arrow keys"></svg><svg id="gn-nm" role="img" aria-label="Newman projection for the question" hidden></svg><div class="vnote" id="gn-vnote"></div></div>
       <div class="chips" id="gn-opts" role="group" aria-label="Your answer" hidden></div>
       <div class="ansrow" id="gn-ansrow">
         <label class="field"><span id="gn-lab">Answer</span><input id="gn-ans" type="text" inputmode="decimal" autocomplete="off" spellcheck="false"></label>
       </div>
       <p class="hint" style="margin:0" id="gn-fmt"></p>
       <div class="btnrow"><button class="btn primary" id="gn-check">Check</button><button class="btn" id="gn-show">Show working</button><button class="btn" id="gn-new">New question</button><span class="hint" id="gn-score"></span></div>
-      <div id="gn-fb" hidden></div>
+      <div id="gn-fb" role="status" aria-live="polite" hidden></div>
       <ol class="working" id="gn-work" hidden></ol>
     </div>
   </div>
@@ -678,6 +686,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
     <p>Ten questions across Chapter H3.5. Pick an answer to see the explanation, including why each other option is wrong.</p>
   </div>
   <div class="panel quiz" id="quiz-box"></div>
+  <p class="sr" id="q-live" role="status" aria-live="polite"></p>
 </section>
 </main>
 
@@ -685,27 +694,36 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.5 Molecular Stereochemistry</span>
     <span>Written for SEAB H3 Chemistry 9813 · conformational energies, bond lengths and angles, and specific rotations are literature values · energy curves are schematic models drawn through those values · complex geometries use model bond lengths · polarimeter readings and generated values are illustrative</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 15/11/26</span></div>
 </footer>
 
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
+const LAB = {};
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const MINUS = "−";
 const D2R = Math.PI / 180;
 const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
 const supCh = c => c === "⁺" ? "+" : c === "⁻" ? "−" : String(SUPD.indexOf(c));
-// Unicode sub/superscript digits become <sub>/<sup>; "(R)" style descriptors are written with <i> in the data strings.
-const H = t => String(t)
+// every R, S, E and Z descriptor is italic (Review D, D1): IT wraps each one found in the text of an HTML string, outside tags and outside an <i> already there
+const DESC = /(?<![A-Za-z0-9\u2080-\u2089\u2070-\u2079\u00b2\u00b3\u00b9_\-])([RSEZ])(?![A-Za-z0-9\u2080-\u2089\u2070-\u2079\u00b2\u00b3\u00b9_])|(?<=\d)([RSEZ])(?=[,)])/g;
+function IT(h){
+  let d = 0;
+  return String(h).split(/(<[^>]*>)/).map(seg => {
+    if (seg[0] === "<"){ if (/^<i[\s>]/i.test(seg)) d++; else if (/^<\/i>/i.test(seg)) d = Math.max(0, d - 1); return seg; }
+    return d ? seg : seg.replace(DESC, (m, a, b) => `<i>${a || b}</i>`);
+  }).join("");
+}
+// Unicode sub/superscript digits become <sub>/<sup>; descriptors become italic.
+const H = t => IT(String(t)
   .replace(/\[α\]\{obs\}/g, "[<i>α</i>]<sub>obs</sub>").replace(/\[α\]\{pure\}/g, "[<i>α</i>]<sub>pure</sub>").replace(/\[α\]\{D\}\{20\}/g, "[<i>α</i>]<sup>20</sup><sub>D</sub>")
   .replace(/(?<![A-Za-z>])([lcρα])\{\}/g, "<i>$1</i>")
   .replace(/[₀-₉]+/g, m => `<sub>${[...m].map(c => SUBD.indexOf(c)).join("")}</sub>`)
   .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+/g, m => `<sup>${[...m].map(supCh).join("")}</sup>`)
   .replace(/(\d) × 10/g, "$1 × 10")
-  .replace(/(\d|<\/sup>|<\/sub>) (?=(nm\b|cm|dm\b|mol|kJ|J\b|°C|K\b|%|g\b))/g, "$1 ");
+  .replace(/(\d|<\/sup>|<\/sub>) (?=(nm\b|cm|dm\b|mol|kJ|J\b|°C|K\b|%|g\b))/g, "$1 "));
 const minus = s => String(s).replace(/-/g, MINUS);
 const f1 = x => x.toFixed(1), f2 = x => x.toFixed(2);
 const fx = (v, d) => minus((Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixed(d));
@@ -735,7 +753,7 @@ function svgChem(s, fs){
     if (m[1]){ target = 0.3 * fs; txt = [...m[1]].map(c => SUBD.indexOf(c)).join(""); small = true; }
     else if (m[2]){ target = -0.42 * fs; txt = [...m[2]].map(supCh).join(""); small = true; }
     else if (m[3] != null){ target = 0.3 * fs; txt = esc(m[3]); small = true; }
-    else txt = esc(m[4]);
+    else txt = esc(m[4]).replace(DESC, (mm_, a, b) => `</tspan><tspan font-style="italic">${a || b}</tspan><tspan>`);
     const dy = target - cur; cur = target;
     out += `<tspan dy="${dy.toFixed(1)}"${small ? ` font-size="${(fs * 0.72).toFixed(1)}"` : ""}>${txt}</tspan>`;
   }
@@ -751,16 +769,37 @@ function niceTicks(lo, hi, n){
   const out = []; for (let v = Math.ceil(lo / step - 1e-9) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
   return { ticks: out, step };
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-");
-  // a comma is a thousands separator only in groups of three (1,000 or 12,345.6); otherwise a decimal comma (1,00 → 1.00)
-  if (/^[-+]?\d{1,3}(,\d{3})+(\.\d+)?/.test(t)) t = t.replace(/,/g, "");
-  else if ((t.match(/,/g) || []).length === 1 && !t.includes(".")) t = t.replace(",", ".");
-  else if (t.includes(",")) return NaN;
-  t = t.replace(/(%|°|kJmol\^?-1|kJmol-1|kJ\/mol|kJ)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(t)) return NaN;
-  return parseFloat(t);
+// one parser for every answer box: the number, then an optional unit. A unit other than the question's is refused, and a comma
+// is a thousands separator only in groups of three (a lone comma before 1 or 2 digits, or after a leading 0, is a decimal comma).
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+const UNITS = {
+  pct: { re: /^(%|percent|percentage)$/, name: "per cent (%)" },
+  deg: { re: /^(°|º|˚|deg|degs|degree|degrees)$/, name: "degrees (°)" },
+  kj: { re: /^(kj|kjmol|kjmol-1|kj\/mol|kjpermol|kjpermole|kj\/mole|kjmole-1)$/, name: "kJ mol⁻¹" },
+  dens: { re: /^(gcm-3|gcm3|g\/cm3|g\/ml|gml-1)$/, name: "g cm⁻³" },
+  dm: { re: /^(dm|decimetres?|decimeters?)$/, name: "dm" },
+  num: { re: /^(stereoisomers?|isomers?)$/, name: "a plain number" }
+};
+const unitId = rest => {
+  const r = rest.toLowerCase().replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/[\s·.^]+/g, "");
+  return Object.keys(UNITS).find(k => UNITS[k].re.test(r)) || null;
+};
+function parseAnswer(str, allowed){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  const t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013]/g, "-");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:,\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)\s*(.*)$/);
+  if (!m) return { error: "Type a number.", kind: "nan" };
+  let val = parseFloat(m[2].replace(/,/g, ""));
+  if (!isFinite(val)) return { error: "Type a number.", kind: "nan" };
+  if (m[1] === "-") val = -val;
+  const rest = m[3].trim();
+  if (!rest) return { value: val };
+  const u = unitId(rest);
+  if (u && (allowed == null || allowed.includes(u))) return { value: val, unit: u };
+  if (!u && allowed == null) return { error: "Type a number, with the unit of the answer or none.", kind: "nan" };
+  return { unit: u || "?", kind: "unit", error: allowed.length === 0 || allowed[0] === "num" ? "Check the unit: this answer is a plain number, with no unit." : `Check the unit: this answer is in ${UNITS[allowed[0]].name}.` };
 }
 const sf = (v, n) => {
   if (v === 0) return "0";
@@ -770,7 +809,6 @@ const sf = (v, n) => {
   if (e >= 0) return v.toFixed(e);
   const k = Math.pow(10, -e); return String(Math.round(v / k) * k);
 };
-Object.assign(LAB, { parseNum, sf, H });
 
 /* ---------- vectors and matrices (row-major 3 × 3) ---------- */
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
@@ -870,7 +908,6 @@ function place(A, B, C, r, th, ph){
 const TET = Math.acos(-1 / 3) / D2R;   // 109.47°
 // literature bond lengths in units of 0.1 nm for the organic models; the complexes use model lengths (complexes.js)
 const BL = { CH: 1.09, CC: 1.54 };
-LAB.math = { bestRotation, det3, rmsdOf, quatToMat, matToQuat, dihedral, angDeg, mm, ap, tr, rotTo, axisRot, len, sub, dot, cross, unit, centroid };
 
 /* ---------- molecular graph, CIP priorities, R/S and E/Z from coordinates ---------- */
 const ZNUM = { H: 1, C: 6, N: 7, O: 8, F: 9, Cl: 17, Br: 35, Ni: 28, Co: 27, Pt: 78 };
@@ -1006,7 +1043,6 @@ function isomorphisms(gA, gB, cap){
   })(0);
   return out;
 }
-LAB.chem = { graphOf, cipKey, cmpKey, ranked, chiralCentres, rsLabel, ezBonds, ezLabel, sameSide, automorphisms, heavyGraph, isomorphisms };
 
 /* ---------- 3D viewer (as the Topic 11.1 to 11.3 and 11.5 labs: hand-built SVG projection, depth sort, drag to rotate) ---------- */
 const COLR = { H: "#eceff2", C: "#5d646e", N: "#3a6fd8", O: "#e0453b", Br: "#a8452a", Cl: "#35b06a", F: "#9be07a", Ni: "#4f9a74", Co: "#c97a92", Pt: "#aeb3bb" };
@@ -1079,7 +1115,7 @@ function Viewer(svg, wrap, hOf){
     v.D = R * 6;
     v.S = (v.scene && v.scene.zoom || 1) * (Math.min(v.W - 16, v.H - (v.pad || 24)) / 2) / (R * v.D / (v.D - R));
   };
-  v.set = (scene, M0) => { v.scene = scene; v.ctr = scene.ctr || [0, 0, 0]; if (M0){ v.M0 = M0.slice(); v.M = M0.slice(); } v.size(); v.draw(); };
+  v.set = (scene, M0) => { v.stop(); v.scene = scene; v.ctr = scene.ctr || [0, 0, 0]; if (M0){ v.M0 = M0.slice(); v.M = M0.slice(); } v.size(); v.draw(); };
   v.reset = () => { v.stop(); v.M = v.M0.slice(); v.draw(); if (v.onRotate) v.onRotate(); };
   v.draw = () => {
     const sc = v.scene; if (!sc){ gS.innerHTML = gO.innerHTML = ""; return; }
@@ -1188,7 +1224,6 @@ function viewUp(vdir, up){
   const x = cross(y, vdir);
   return [...x, ...y, ...vdir];
 }
-Object.assign(LAB, { viewGap, bestView, viewFrom, RAD, COLR });
 
 /* ---------- small chart helper (profiles) ---------- */
 function lineChart(svg, o){
@@ -1204,7 +1239,7 @@ function lineChart(svg, o){
   yt.forEach(v => { s += `<line class="grid" x1="${m.l}" y1="${Y(v).toFixed(1)}" x2="${W - m.r}" y2="${Y(v).toFixed(1)}"/>` + T(m.l - 6, Y(v) + 4, minus(String(v)), "tick", 'text-anchor="end"'); });
   s += `<line class="axis" x1="${m.l}" y1="${Hh - m.b}" x2="${W - m.r}" y2="${Hh - m.b}"/><line class="axis" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${Hh - m.b}"/>`;
   if (o.xlab) s += T(m.l + (W - m.l - m.r) / 2, Hh - 6, o.xlab, "axlab", 'text-anchor="middle"');
-  if (o.ylab) s += `<g transform="translate(13 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
+  if (o.ylab) s += `<g transform="translate(15 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
   (o.series || []).forEach(se => {
     const d = se.pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join("");
     s += `<path d="${d}" fill="none" stroke="${se.col}" stroke-width="${se.w || 2}"${se.dash ? ` stroke-dasharray="${se.dash}"` : ""} stroke-linejoin="round"/>`;
@@ -1221,12 +1256,10 @@ function profileE(pts, x){
   }
   return pts[pts.length - 1][1];
 }
-LAB.profileE = profileE;
 
 /* ---------- redraw on resize and theme change ---------- */
 const REDRAW = [];
 function redrawAll(){ REDRAW.forEach(f => { try { f(); } catch (e) { console.error(e); } }); }
-LAB.redrawAll = redrawAll;
 let RTM = 0;
 window.addEventListener("resize", () => { clearTimeout(RTM); RTM = setTimeout(redrawAll, 80); });
 try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
@@ -1253,7 +1286,6 @@ const BIND = [];
    DATA: RDKit 3D coordinates of the open-chain molecules (gen_mol.py, units of 0.1 nm) and their names
    ===================================================== */
 const MOLS = {"butan2ol_R":{"el":["C","C","O","C","C","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.8022,-0.4074,0.4937],[-0.5362,0.1303,-0.1597],[-0.5433,1.5526,-0.0756],[0.7169,-0.4071,0.5352],[1.9982,0.0594,-0.1434],[-1.8656,-0.0949,1.5419],[-2.6909,-0.0085,-0.0072],[-1.84,-1.5,0.4492],[-0.523,-0.1463,-1.22],[-1.3375,1.87,-0.5383],[0.6977,-1.5031,0.5433],[0.7395,-0.0679,1.578],[2.0913,1.1495,-0.1139],[2.0255,-0.2606,-1.1899],[2.8697,-0.366,0.3642]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[3,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1]],"M0":[-0.65845,-0.59264,-0.46392,-0.14676,0.70568,-0.69317,0.73818,-0.38833,-0.55163]},"butan2ol_S":{"el":["C","C","O","C","C","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.3223,-0.9588,0.0088],[-0.7094,0.196,0.7896],[-1.1643,1.4314,0.2448],[0.8224,0.1678,0.8352],[1.5053,0.2464,-0.5242],[-2.4148,-0.9239,0.0826],[-1.086,-0.8961,-1.0584],[-0.9797,-1.9245,0.3923],[-1.0805,0.1527,1.8199],[-0.9711,1.433,-0.7077],[1.1549,-0.7425,1.3477],[1.1701,1.0205,1.4315],[1.23,1.1597,-1.0598],[2.5926,0.2525,-0.3944],[1.2526,-0.6142,-1.1502]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[3,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1]],"M0":[-0.82532,-0.56129,-0.06163,0.23756,-0.44416,0.86388,-0.51226,0.69833,0.49992]},"bromobutane_R":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.1055,-0.7964,0.9048],[0.4714,0.5574,0.6246],[1.8922,1.9154,0.6622],[-0.2367,0.645,-0.7279],[-1.446,-0.2738,-0.8267],[0.3448,-1.5784,0.9901],[1.6648,-0.784,1.8471],[1.8021,-1.0865,0.1104],[-0.2083,0.8347,1.437],[-0.5759,1.6745,-0.9003],[0.4598,0.4081,-1.542],[-1.1536,-1.3272,-0.7901],[-2.1533,-0.0809,-0.0139],[-1.9669,-0.1079,-1.7753]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"M0":[-0.89965,-0.15269,-0.40903,-0.34744,0.81772,0.45894,0.2644,0.555,-0.78871]},"bromobutane_S":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.3576,-0.7324,0.5438],[0.8072,0.3062,-0.4215],[2.0226,1.8511,-0.4125],[-0.5963,0.801,-0.0698],[-1.6542,-0.2883,-0.173],[0.7704,-1.6551,0.5077],[1.3495,-0.3659,1.5764],[2.3915,-0.9961,0.2943],[0.8386,-0.0741,-1.4479],[-0.6126,1.2203,0.9441],[-0.8799,1.6168,-0.7469],[-1.4957,-1.0735,0.572],[-2.6483,0.1364,0.0003],[-1.6505,-0.7465,-1.1671]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"M0":[-0.95655,-0.2268,-0.18321,0.09771,0.34268,-0.93436,0.27469,-0.91167,-0.30563]},"alanine_S":{"el":["C","C","N","C","O","O","H","H","H","H","H","H","H"],"P":[[-1.0262,-0.9411,-0.1704],[-0.1891,0.0891,0.5757],[-0.6091,1.4626,0.2257],[1.2899,-0.1306,0.2489],[2.0451,-0.9072,0.8127],[1.7189,0.579,-0.8208],[-0.9199,-0.8349,-1.2561],[-0.7111,-1.9577,0.0899],[-2.088,-0.8442,0.0802],[-0.3128,-0.032,1.657],[-1.6235,1.5058,0.1529],[-0.2403,1.673,-0.7055],[2.6661,0.3383,-0.8901]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[2,10,1],[2,11,1],[5,12,1]],"M0":[-0.97058,-0.24077,0.00213,0.17293,-0.69091,0.70195,-0.16754,0.68167,0.71222]},"alanine_R":{"el":["C","C","N","C","O","O","H","H","H","H","H","H","H"],"P":[[-0.9846,-0.6445,-0.6717],[-0.1538,0.4903,-0.0874],[-0.7591,0.9895,1.1633],[1.2681,-0.0075,0.1798],[1.6983,-0.4636,1.2288],[2.0581,0.0521,-0.9121],[-0.5391,-1.0123,-1.6026],[-1.0449,-1.494,0.0184],[-2.0042,-0.3133,-0.8962],[-0.1035,1.3285,-0.7905],[-0.5867,0.3043,1.903],[-1.7695,1.0547,1.0581],[2.9209,-0.2844,-0.5911]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[2,10,1],[2,11,1],[5,12,1]],"M0":[-0.98717,-0.1521,0.04857,-0.06647,0.11487,-0.99115,0.14518,-0.98167,-0.12351]},"carvone_R":{"el":["C","C","C","C","C","C","C","O","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[3.6844,-0.4632,0.1083],[2.2006,-0.2818,0.0515],[1.5616,0.3639,-0.9387],[0.077,0.5862,-0.991],[-0.5784,0.4374,0.3926],[-0.1077,-0.8533,1.0671],[1.403,-0.8907,1.1622],[1.9711,-1.463,2.091],[-2.0974,0.5496,0.3319],[-2.8722,-0.5227,-0.3877],[-2.7368,1.5795,0.9135],[4.1833,-0.0054,-0.7526],[4.0928,-0.0005,1.0127],[3.9418,-1.5274,0.1131],[2.1347,0.7751,-1.7672],[-0.115,1.597,-1.372],[-0.3456,-0.1162,-1.7184],[-0.2004,1.2694,1.0077],[-0.4256,-1.7461,0.5168],[-0.516,-0.9113,2.0831],[-2.5678,-0.5882,-1.4361],[-2.7181,-1.4971,0.085],[-3.9497,-0.3243,-0.3761],[-3.8189,1.6702,0.8819],[-2.2007,2.3628,1.4416]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,2],[4,8,1],[8,9,1],[8,10,2],[6,1,1],[0,11,1],[0,12,1],[0,13,1],[2,14,1],[3,15,1],[3,16,1],[4,17,1],[5,18,1],[5,19,1],[9,20,1],[9,21,1],[9,22,1],[10,23,1],[10,24,1]],"M0":[-0.85616,0.51259,-0.0652,0.02668,0.16986,0.98511,0.51603,0.84167,-0.1591]},"carvone_S":{"el":["C","C","C","C","C","C","C","O","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[3.6592,-0.428,-0.3258],[2.1975,-0.2365,-0.0716],[1.6952,0.7106,0.7386],[0.2296,0.9391,0.975],[-0.6375,0.325,-0.1372],[-0.2096,-1.1194,-0.4077],[1.2636,-1.1888,-0.7509],[1.7018,-2.0459,-1.5165],[-2.1289,0.4529,0.1503],[-2.7072,-0.3062,1.3153],[-2.9169,1.2212,-0.6221],[4.2664,0.2969,0.2265],[3.9754,-1.4295,-0.0162],[3.8825,-0.3044,-1.3906],[2.373,1.3807,1.2637],[-0.0229,0.5297,1.9597],[0.0438,2.0195,1.0194],[-0.4179,0.8948,-1.0541],[-0.3771,-1.7685,0.4592],[-0.7775,-1.5222,-1.2547],[-2.5761,-1.3838,1.1806],[-2.2287,-0.0081,2.2525],[-3.7814,-0.1227,1.4285],[-3.9821,1.3185,-0.4317],[-2.5243,1.775,-1.4701]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,2],[4,8,1],[8,9,1],[8,10,2],[6,1,1],[0,11,1],[0,12,1],[0,13,1],[2,14,1],[3,15,1],[3,16,1],[4,17,1],[5,18,1],[5,19,1],[9,20,1],[9,21,1],[9,22,1],[10,23,1],[10,24,1]],"M0":[-0.84506,0.53059,0.06601,0.13998,0.10038,0.98505,0.51603,0.84167,-0.1591]},"bcb_RR":{"el":["C","C","Br","C","Cl","C","H","H","H","H","H","H","H","H"],"P":[[1.44,-0.5304,-0.5421],[0.8175,0.5501,0.3394],[0.9223,2.2395,-0.6742],[-0.6306,0.2905,0.7932],[-0.7176,-1.2537,1.718],[-1.6638,0.1903,-0.3307],[0.8799,-0.6755,-1.4718],[2.4656,-0.262,-0.8213],[1.494,-1.4924,-0.0242],[1.4565,0.716,1.2142],[-0.9437,1.0798,1.4859],[-1.4243,-0.6105,-1.0378],[-1.7477,1.1246,-0.8926],[-2.6596,-0.0181,0.0782]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[3,10,1],[5,11,1],[5,12,1],[5,13,1]],"M0":[-0.84278,0.46177,0.27657,-0.06319,0.4254,-0.9028,-0.53454,-0.77833,-0.32934]},"bcb_SS":{"el":["C","C","Br","C","Cl","C","H","H","H","H","H","H","H","H"],"P":[[1.9049,-0.4095,-0.2619],[0.4711,-0.0123,-0.6057],[0.5577,1.7884,-1.407],[-0.5258,-0.0255,0.5675],[-0.599,-1.6733,1.2936],[-0.2124,0.9453,1.7077],[2.5446,-0.3675,-1.1513],[2.3479,0.2565,0.4859],[1.9598,-1.4333,0.1198],[0.1017,-0.6538,-1.4139],[-1.5334,0.1888,0.1935],[-0.2393,1.9869,1.3759],[0.7712,0.7552,2.1494],[-0.9562,0.8535,2.5079]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[3,10,1],[5,11,1],[5,12,1],[5,13,1]],"M0":[0.20998,0.466,-0.85951,0.71565,0.52571,0.45986,0.66615,-0.71167,-0.22311]},"bcb_RS":{"el":["C","C","Br","C","Cl","C","H","H","H","H","H","H","H","H"],"P":[[1.5578,-0.3604,-0.6389],[0.7626,0.5329,0.3097],[0.3998,2.2109,-0.6635],[-0.5536,-0.0927,0.8026],[-0.2142,-1.6242,1.6901],[-1.3434,0.8037,1.7574],[0.9538,-0.6657,-1.5009],[2.4436,0.1585,-1.0228],[1.9123,-1.2656,-0.137],[1.3934,0.8338,1.1536],[-1.192,-0.3633,-0.0458],[-1.7164,1.702,1.2573],[-0.7295,1.12,2.6081],[-2.2212,0.2789,2.1519]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[3,10,1],[5,11,1],[5,12,1],[5,13,1]],"M0":[-0.7998,0.07894,0.59505,0.54569,-0.3174,0.77555,0.25009,0.945,0.21078]},"bcb_SR":{"el":["C","C","Br","C","Cl","C","H","H","H","H","H","H","H","H"],"P":[[1.9224,-0.4048,-0.0869],[0.5072,-0.0888,-0.564],[0.6397,1.5147,-1.7067],[-0.4985,0.1503,0.5754],[-0.6141,-1.318,1.6143],[-1.916,0.4604,0.0923],[2.6159,-0.4885,-0.9315],[2.3041,0.378,0.5782],[1.9623,-1.3559,0.4525],[0.1562,-0.8792,-1.2367],[-0.1559,0.9622,1.2265],[-2.2859,-0.3166,-0.5859],[-1.9666,1.4189,-0.4322],[-2.6116,0.5297,0.9367]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[3,10,1],[5,11,1],[5,12,1],[5,13,1]],"M0":[-0.91887,0.15208,0.36408,0.18802,0.98,0.06517,-0.34688,0.12833,-0.92909]},"dbb_RR":{"el":["C","C","Br","C","C","Br","H","H","H","H","H","H","H","H"],"P":[[1.8668,-0.3967,0.3525],[0.405,0.0204,0.5156],[0.4416,1.9064,1.1079],[-0.4789,-0.1074,-0.7345],[-0.0437,0.7068,-1.9532],[-0.5155,-1.9934,-1.3268],[2.4226,-0.2386,1.2845],[2.3751,0.18,-0.4274],[1.9627,-1.458,0.1073],[-0.0389,-0.5288,1.3534],[-1.5201,0.1309,-0.4906],[-0.0731,1.782,-1.7564],[0.9688,0.4485,-2.281],[-0.7137,0.5247,-2.802]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"M0":[-0.75584,0.38202,-0.53176,-0.54354,-0.8189,0.1843,-0.36505,0.42833,0.8266]},"dbb_SS":{"el":["C","C","Br","C","C","Br","H","H","H","H","H","H","H","H"],"P":[[1.3603,-0.8171,0.2452],[0.8386,0.463,-0.3988],[1.9532,1.9394,0.3006],[-0.6384,0.7576,-0.1047],[-0.9666,0.8836,1.3792],[-1.753,-0.7187,-0.8041],[1.1786,-0.8259,1.3258],[2.4392,-0.9302,0.0892],[0.881,-1.7003,-0.1889],[1.0448,0.4408,-1.4745],[-0.9904,1.6502,-0.6335],[-0.4871,1.7657,1.8154],[-2.045,0.9938,1.5406],[-0.6356,0.0022,1.9399]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"M0":[-0.65813,0.45204,0.6021,-0.39633,-0.88794,0.23344,0.64015,-0.085,0.76353]},"dbb_meso":{"el":["C","C","Br","C","C","Br","H","H","H","H","H","H","H","H"],"P":[[1.5489,-0.2403,0.6713],[0.9249,0.106,-0.6802],[1.5311,1.9402,-1.1029],[-0.6091,0.0537,-0.701],[-1.2331,0.4,-2.0525],[-1.2153,-1.7805,-0.2783],[1.1334,0.3789,1.4744],[2.6335,-0.0818,0.6593],[1.3882,-1.2894,0.9356],[1.3584,-0.5241,-1.4645],[-1.0426,0.6839,0.0833],[-1.0724,1.4492,-2.3168],[-0.8176,-0.2191,-2.8556],[-2.3177,0.2415,-2.0405]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"M0":[-0.40923,0.8531,-0.32366,0.75515,0.11757,-0.64492,-0.51212,-0.50833,-0.69233]},"tart_RR":{"el":["O","C","O","C","O","C","O","C","O","O","H","H","H","H","H","H"],"P":[[-0.1963,1.1196,-1.5698],[-0.4984,1.1445,-0.3885],[-0.5603,2.3193,0.2826],[-0.8932,-0.0423,0.4934],[-0.676,0.2703,1.8725],[-0.1304,-1.3084,0.0849],[-0.3421,-1.6295,-1.296],[1.3611,-1.1342,0.3496],[2.1638,-0.6103,-0.4089],[1.7675,-1.6322,1.5329],[-0.2814,2.9869,-0.3823],[-1.9689,-0.1915,0.3452],[-0.9336,1.2084,1.9792],[-0.4783,-2.1657,0.6717],[0.0933,-0.9269,-1.8259],[2.7307,-1.4555,1.5579]],"bonds":[[0,1,2],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[5,7,1],[7,8,2],[7,9,1],[2,10,1],[3,11,1],[4,12,1],[5,13,1],[6,14,1],[9,15,1]],"M0":[-0.73233,0.62108,-0.2792,0.42186,0.09194,-0.90199,-0.53454,-0.77833,-0.32934]},"tart_SS":{"el":["O","C","O","C","O","C","O","C","O","O","H","H","H","H","H","H"],"P":[[-2.2043,0.36,-0.8007],[-1.6843,0.2842,0.3039],[-2.0793,1.0947,1.3035],[-0.5791,-0.6903,0.696],[-0.8664,-1.9612,0.0969],[0.7783,-0.1337,0.248],[1.0317,1.1376,0.8669],[0.8701,0.0775,-1.2652],[1.3929,1.0458,-1.8001],[0.3818,-0.9298,-2.0123],[-2.7759,1.6583,0.9078],[-0.6045,-0.8242,1.7827],[-0.8846,-1.8225,-0.8733],[1.5852,-0.8202,0.5265],[1.7243,1.5807,0.3364],[0.5163,-0.6289,-2.9386]],"bonds":[[0,1,2],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[5,7,1],[7,8,2],[7,9,1],[2,10,1],[3,11,1],[4,12,1],[5,13,1],[6,14,1],[9,15,1]],"M0":[-0.77831,-0.02592,0.62734,-0.60762,-0.22069,-0.76295,0.15823,-0.975,0.15601]},"tart_meso":{"el":["O","C","O","C","O","C","O","C","O","O","H","H","H","H","H","H"],"P":[[-1.5436,1.7495,1.185],[-0.545,1.0462,1.1169],[0.6774,1.5515,1.3623],[-0.5496,-0.4369,0.7872],[-1.7855,-0.9914,1.2619],[-0.4039,-0.615,-0.7245],[0.832,-0.0606,-1.1992],[-0.4086,-2.0981,-1.0543],[0.5901,-2.8015,-1.1223],[-1.6309,-2.6035,-1.2997],[0.5239,2.5033,1.5391],[0.2618,-0.9246,1.3384],[-2.4865,-0.3359,1.0699],[-1.2153,-0.1274,-1.2757],[1.533,-0.7161,-1.0073],[-1.4774,-3.5553,-1.4764]],"bonds":[[0,1,2],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[5,7,1],[7,8,2],[7,9,1],[2,10,1],[3,11,1],[4,12,1],[5,13,1],[6,14,1],[9,15,1]],"M0":[-0.011,-0.73886,-0.67377,0.96054,-0.19509,0.19826,-0.27793,-0.645,0.71185]},"bcfm_R":{"el":["F","C","Cl","Br","H"],"P":[[-0.0091,1.2337,0.6942],[-0.0423,0.1175,-0.0764],[-1.4285,-0.8771,0.3673],[1.5996,-0.886,0.1409],[-0.1197,0.4119,-1.1259]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"M0":[0.24146,-0.9643,-0.10876,0.2925,0.17918,-0.93933,0.92528,0.195,0.32532]},"bcfm_S":{"el":["F","C","Cl","Br","H"],"P":[[-0.1863,1.169,-0.7763],[-0.0588,0.1152,0.0687],[-1.287,-1.0965,-0.2936],[1.7107,-0.6544,-0.0952],[-0.1785,0.4667,1.0964]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"M0":[-0.3724,-0.91481,0.15633,0.44424,-0.32361,-0.83542,0.81484,-0.24167,0.52691]},"chlorobutane_R":{"el":["C","C","Cl","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.1304,-0.7694,0.8901],[0.4567,0.5761,0.6509],[1.6967,1.8674,0.7553],[-0.2463,0.6728,-0.7072],[-1.4052,-0.3033,-0.8546],[0.3939,-1.5776,0.9363],[1.6721,-0.7732,1.8425],[1.8442,-1.0074,0.0939],[-0.2597,0.7728,1.4557],[-0.6393,1.6886,-0.8416],[0.4696,0.5006,-1.5204],[-1.0581,-1.3406,-0.8627],[-2.1258,-0.1838,-0.0394],[-1.9292,-0.1232,-1.7989]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"M0":[-0.81491,0.43532,-0.38265,0.57942,0.59571,-0.55624,-0.0142,-0.675,-0.73768]},"chlorobutane_S":{"el":["C","C","Cl","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.3732,-0.7654,0.4364],[0.8138,0.3837,-0.3931],[1.9158,1.7908,-0.2442],[-0.5955,0.8111,0.0299],[-1.64,-0.2774,-0.1742],[0.7864,-1.678,0.2939],[1.3718,-0.5259,1.5054],[2.4032,-0.9963,0.1427],[0.8157,0.1032,-1.4517],[-0.6013,1.1167,1.0836],[-0.9005,1.6879,-0.5554],[-1.4643,-1.1316,0.4861],[-2.6377,0.1135,0.0502],[-1.6405,-0.6323,-1.2096]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"M0":[-0.82309,0.3423,-0.45316,-0.12706,-0.88871,-0.44051,-0.55352,-0.305,0.77498]},"bromobutene_S":{"el":["C","C","C","C","Br","H","H","H","H","H","H","H"],"P":[[1.9783,-0.2912,0.3402],[0.8998,0.2006,-0.2851],[-0.4432,0.3754,0.3591],[-1.5371,-0.3921,-0.3643],[-0.8642,2.2848,0.3112],[1.9485,-0.5962,1.3818],[2.9244,-0.3923,-0.1834],[0.9919,0.491,-1.3306],[-0.4265,0.1052,1.42],[-2.5122,-0.2254,0.1068],[-1.6232,-0.0909,-1.415],[-1.3364,-1.4689,-0.3408]],"bonds":[[0,1,2],[1,2,1],[2,3,1],[2,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[3,10,1],[3,11,1]],"M0":[-0.99267,0.08546,-0.0854,-0.12029,-0.765,0.63269,-0.01126,0.63833,0.76968]},"bromobutene_R":{"el":["C","C","C","C","Br","H","H","H","H","H","H","H"],"P":[[1.6377,-0.7053,-0.1676],[0.9822,0.4421,-0.3935],[-0.4807,0.7163,-0.1779],[-1.3394,-0.4393,0.3168],[-0.5932,2.1719,1.1332],[1.1502,-1.5912,0.2256],[2.7027,-0.7792,-0.3698],[1.558,1.2769,-0.7937],[-0.9094,1.1239,-1.0995],[-2.3826,-0.1265,0.4399],[-1.3282,-1.2684,-0.399],[-0.9973,-0.8211,1.2856]],"bonds":[[0,1,2],[1,2,1],[2,3,1],[2,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[3,10,1],[3,11,1]],"M0":[-0.63595,0.60797,0.47533,-0.17143,-0.71183,0.68111,0.75245,0.35167,0.55691]},"aminopropanol_S":{"el":["C","C","N","C","O","H","H","H","H","H","H","H","H","H"],"P":[[1.3763,-0.6005,0.2361],[0.1461,0.0414,-0.3919],[0.0503,1.4677,-0.0279],[-1.145,-0.6776,0.0356],[-2.2713,0.0208,-0.4935],[1.4539,-1.6528,-0.0573],[1.338,-0.558,1.3302],[2.292,-0.0952,-0.0898],[0.2256,-0.0055,-1.4843],[0.0538,1.5587,0.9895],[0.8931,1.9482,-0.3464],[-1.2465,-0.705,1.126],[-1.168,-1.7046,-0.3414],[-1.9984,0.9624,-0.485]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[4,13,1]],"M0":[-0.74691,-0.5663,-0.34848,-0.14983,0.65394,-0.74156,0.64783,-0.50167,-0.57328]},"aminopropanol_R":{"el":["C","C","N","C","O","H","H","H","H","H","H","H","H","H"],"P":[[1.2194,-0.5575,0.7163],[-0.1426,0.0428,0.393],[-0.0201,1.4683,0.0339],[-0.8321,-0.7111,-0.7572],[-2.0526,-0.0505,-1.0896],[1.1182,-1.6092,1.0045],[1.6939,-0.0276,1.5494],[1.8954,-0.5079,-0.1446],[-0.7859,-0.0099,1.2792],[0.4042,1.9712,0.8148],[0.6368,1.567,-0.7419],[-0.2049,-0.7333,-1.6549],[-1.0648,-1.7412,-0.4703],[-1.8648,0.8988,-0.9326]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[4,13,1]],"M0":[-0.81146,-0.54797,-0.20311,-0.57639,0.6931,0.43288,-0.09643,0.46833,-0.87827]},"but2ene_E":{"el":["C","C","C","C","H","H","H","H","H","H","H","H"],"P":[[1.9457,0.055,-0.1182],[0.4893,0.086,-0.4507],[-0.4893,-0.086,0.4507],[-1.9457,-0.055,0.1182],[2.4403,-0.7392,-0.6856],[2.1237,-0.1244,0.9467],[2.4091,1.0094,-0.3859],[0.239,0.2605,-1.495],[-0.239,-0.2605,1.495],[-2.4403,0.7392,0.6856],[-2.4091,-1.0094,0.3859],[-2.1237,0.1244,-0.9467]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[3,10,1],[3,11,1]],"M0":[-0.74382,-0.51079,0.43108,0.10376,0.5489,0.82942,-0.66028,0.66167,-0.35529]},"but2ene_Z":{"el":["C","C","C","C","H","H","H","H","H","H","H","H"],"P":[[1.5672,-0.4709,0.1065],[0.7083,0.7216,-0.1636],[-0.6324,0.7858,-0.178],[-1.6069,-0.3189,0.0725],[2.2099,-0.2735,0.9702],[2.2097,-0.6651,-0.7581],[0.9993,-1.3802,0.3126],[1.2579,1.6393,-0.3716],[-1.0873,1.7516,-0.3967],[-1.133,-1.2781,0.2897],[-2.2462,-0.0601,0.9224],[-2.2464,-0.4517,-0.8058]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[3,10,1],[3,11,1]],"M0":[-0.99922,0.03626,-0.01587,-0.03369,-0.56881,0.82178,0.02077,0.82167,0.56959]},"brbutene_E":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H"],"P":[[1.3722,-0.8413,-0.1539],[0.797,0.5426,-0.1245],[2.0966,1.8866,-0.343],[-0.4941,0.8808,0.0358],[-1.6647,-0.0292,0.2224],[1.8716,-1.0289,-1.1108],[0.6194,-1.6224,-0.0273],[2.1058,-0.9691,0.6496],[-0.7551,1.9388,0.0346],[-2.3897,0.1356,-0.5809],[-2.1562,0.1952,1.1744],[-1.4029,-1.0887,0.2236]],"bonds":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[3,8,1],[4,9,1],[4,10,1],[4,11,1]],"M0":[-0.96008,0.22482,0.16642,0.05172,0.72741,-0.68425,-0.27489,-0.64833,-0.71]},"brbutene_Z":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H"],"P":[[1.9455,0.2045,-0.0216],[0.52,0.0686,0.4295],[0.3219,0.1074,2.2909],[-0.4986,-0.0666,-0.4371],[-1.9559,-0.2105,-0.1309],[2.3704,1.1552,0.3179],[2.0327,0.1787,-1.1133],[2.5569,-0.6134,0.3746],[-0.2689,-0.0765,-1.5015],[-2.1861,-0.2005,0.9366],[-2.3261,-1.154,-0.5443],[-2.5118,0.6071,-0.6008]],"bonds":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[3,8,1],[4,9,1],[4,10,1],[4,11,1]],"M0":[-0.85805,-0.39133,-0.33259,-0.03663,-0.59933,0.79967,-0.51226,0.69833,0.49992]},"brclpropene_Z":{"el":["C","C","C","Br","Cl","H","H","H","H"],"P":[[-1.2101,-0.1123,0.1274],[0.2369,-0.4732,0.0246],[1.278,0.3529,-0.158],[1.1648,2.206,-0.3327],[2.8751,-0.3259,-0.2434],[-1.6039,-0.4452,1.093],[-1.4045,0.9589,0.0388],[-1.7724,-0.621,-0.662],[0.4361,-1.5402,0.1123]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[2,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1]],"M0":[-0.81389,-0.4612,0.35338,-0.1614,0.76373,0.62503,-0.55816,0.45167,-0.69603]},"brclpropene_E":{"el":["C","C","C","Br","Cl","H","H","H","H"],"P":[[-1.2278,-0.0431,0.0499],[0.2039,-0.4731,0.0162],[1.2925,0.3068,-0.0659],[3.0138,-0.4265,-0.0953],[1.1952,2.0317,-0.15],[-1.3637,1.0398,-0.0],[-1.6958,-0.3971,0.9739],[-1.7645,-0.4873,-0.7944],[0.3463,-1.5512,0.0656]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[2,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1]],"M0":[-0.75963,-0.55176,0.34427,0.15946,-0.67122,-0.7239,0.6305,-0.495,0.59787]},"clpropene_E":{"el":["C","C","C","Cl","H","H","H","H","H"],"P":[[-1.2048,0.0259,0.0099],[0.2068,-0.4567,0.0535],[1.2682,0.3468,-0.0561],[2.878,-0.236,-0.0024],[-1.2668,1.1109,-0.1219],[-1.717,-0.2347,0.9411],[-1.7361,-0.4497,-0.8201],[0.3511,-1.5269,0.1826],[1.2205,1.4205,-0.1867]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1]],"M0":[-0.85974,-0.35956,0.3627,0.10175,-0.81652,-0.56827,0.50049,-0.45167,0.73859]},"clpropene_Z":{"el":["C","C","C","Cl","H","H","H","H","H"],"P":[[-1.1581,-0.0647,0.0392],[0.2587,-0.4908,-0.1733],[1.3605,0.2438,0.0086],[1.3921,1.8709,0.5368],[-1.2543,0.9691,0.3808],[-1.6291,-0.7111,0.7863],[-1.7166,-0.163,-0.8969],[0.3878,-1.5162,-0.5139],[2.359,-0.1381,-0.1676]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1]],"M0":[-0.87529,-0.39014,-0.28577,-0.25346,0.87334,-0.41598,0.41186,-0.29167,-0.86331]},"clbutene_E":{"el":["C","C","Cl","C","C","H","H","H","H","H","H","H"],"P":[[1.415,-0.7887,-0.1424],[0.7805,0.5659,-0.1398],[1.912,1.8677,-0.3719],[-0.5181,0.8695,0.0166],[-1.6563,-0.075,0.2278],[1.9205,-0.971,-1.0969],[0.6974,-1.599,0.0038],[2.1571,-0.8635,0.6597],[-0.8103,1.9189,-0.0082],[-2.3887,0.0462,-0.5766],[-2.1525,0.1535,1.1762],[-1.3566,-1.1243,0.2516]],"bonds":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[3,8,1],[4,9,1],[4,10,1],[4,11,1]],"M0":[-0.97961,0.16783,0.11043,-0.20015,-0.76779,-0.60864,-0.01736,-0.61833,0.78572]},"clbutene_Z":{"el":["C","C","Cl","C","C","H","H","H","H","H","H","H"],"P":[[1.9505,0.2052,-0.0106],[0.5215,0.0866,0.4209],[0.2887,0.19,2.1327],[-0.4987,-0.0852,-0.435],[-1.9535,-0.2146,-0.1109],[2.3677,1.1689,0.3001],[2.0557,0.1349,-1.0985],[2.5539,-0.5944,0.432],[-0.2725,-0.1409,-1.4985],[-2.1728,-0.1578,0.9578],[-2.3276,-1.175,-0.4793],[-2.5131,0.5823,-0.6108]],"bonds":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[3,8,1],[4,9,1],[4,10,1],[4,11,1]],"M0":[-0.85295,0.23731,-0.46493,0.18038,-0.70182,-0.68914,-0.48984,-0.67167,0.55581]},"butenal_E":{"el":["C","C","C","C","O","H","H","H","H","H","H"],"P":[[-1.7582,0.0247,0.0483],[-0.3327,-0.3847,-0.1374],[0.7058,0.4155,0.1407],[2.0917,-0.0501,-0.0653],[3.0493,0.6709,0.1849],[-1.8492,1.0449,0.4343],[-2.2513,-0.6522,0.7527],[-2.2881,-0.0273,-0.9077],[-0.1722,-1.3905,-0.5195],[0.5925,1.4236,0.5227],[2.2123,-1.0749,-0.4537]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[3,10,1]],"M0":[-0.89651,-0.19978,-0.39543,0.07607,-0.94872,0.30684,-0.43645,0.245,0.86573]},"butenal_Z":{"el":["C","C","C","C","O","H","H","H","H","H","H"],"P":[[-1.4691,-0.3065,0.0597],[-0.4398,0.6923,-0.3628],[0.8938,0.6229,-0.2338],[1.6718,-0.5067,0.3354],[1.2121,-1.6059,0.6083],[-1.0912,-1.0679,0.7433],[-1.8918,-0.8016,-0.8198],[-2.2824,0.2111,0.5794],[-0.8499,1.5894,-0.8247],[1.5065,1.4521,-0.5746],[2.74,-0.2792,0.4897]],"bonds":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[2,9,1],[3,10,1]],"M0":[-0.93806,0.12549,-0.32295,-0.06286,-0.97828,-0.19754,-0.34072,-0.165,0.92557]},"butane_anti":{"el":["C","C","C","C","H","H","H","H","H","H","H","H","H","H"],"P":[[1.8649,-0.5139,0.3606],[0.4367,-0.0628,0.6213],[-0.4367,-0.2236,-0.6213],[-1.8649,0.2275,-0.3606],[2.3225,0.0755,-0.4403],[2.4722,-0.3903,1.2628],[1.8965,-1.5694,0.0719],[0.4432,0.9864,0.939],[0.0195,-0.6493,1.4483],[-0.4432,-1.2728,-0.939],[-0.0195,0.3628,-1.4483],[-1.8965,1.283,-0.0719],[-2.4722,0.1039,-1.2628],[-2.3225,-0.3619,0.4403]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1]],"M0":[-0.82672,0.04433,-0.56087,0.23744,0.93125,-0.27639,0.51006,-0.36167,-0.78041]},"butane_gauche":{"el":["C","C","C","C","H","H","H","H","H","H","H","H","H","H"],"P":[[1.8343,-0.3755,0.4871],[0.3453,-0.1051,0.6372],[-0.4525,-0.3144,-0.6506],[-0.3674,-1.7292,-1.2018],[2.2617,0.2203,-0.3255],[2.3584,-0.1129,1.4118],[2.0321,-1.4322,0.2845],[0.206,0.9305,0.9695],[-0.0582,-0.7479,1.4285],[-0.1069,0.3904,-1.416],[-1.504,-0.0752,-0.4524],[-0.6654,-2.4635,-0.4468],[-1.0356,-1.8375,-2.0622],[0.6456,-1.9686,-1.5386]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1]],"M0":[-0.17481,0.25777,0.95026,0.48825,-0.8154,0.31101,0.85502,0.51833,0.01669]},"dibromobutane12_R":{"el":["Br","C","C","Br","C","C","H","H","H","H","H","H","H","H"],"P":[[2.5842,1.5325,-0.4141],[1.9215,-0.2747,-0.091],[0.5173,-0.2393,0.4979],[0.1623,-2.0307,1.2469],[-0.564,0.0878,-0.5401],[-1.9254,0.3802,0.0814],[2.6495,-0.7216,0.5934],[1.9647,-0.8049,-1.0472],[0.4633,0.4421,1.3539],[-0.6674,-0.7291,-1.2651],[-0.2734,0.9761,-1.1123],[-1.8569,1.1979,0.8061],[-2.3409,-0.4957,0.5873],[-2.6349,0.6794,-0.6971]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[2,4,1],[4,5,1],[1,6,1],[1,7,1],[2,8,1],[4,9,1],[4,10,1],[5,11,1],[5,12,1],[5,13,1]],"M0":[-0.78785,-0.61578,-0.01067,-0.06398,0.09907,-0.99302,0.61254,-0.78167,-0.11745]},"methylpropene":{"el":["C","C","C","C","H","H","H","H","H","H","H","H"],"P":[[-1.1584,-0.7876,0.1234],[-0.0312,0.2027,0.0673],[1.337,-0.3728,-0.1586],[-0.2343,1.5217,0.2105],[-0.9978,-1.4999,0.9391],[-1.2222,-1.3439,-0.8174],[-2.1254,-0.3014,0.2901],[1.5937,-1.0692,0.6462],[2.1098,0.4026,-0.1885],[1.3693,-0.9131,-1.1103],[0.5867,2.2312,0.1686],[-1.2273,1.9297,0.3736]],"bonds":[[0,1,1],[1,2,1],[1,3,2],[0,4,1],[0,5,1],[0,6,1],[2,7,1],[2,8,1],[2,9,1],[3,10,1],[3,11,1]],"M0":[0.03877,-0.99715,-0.06472,0.67277,0.07393,-0.73615,0.73884,-0.015,0.67371]}};
-LAB.MOLS = MOLS;
 // display names (HTML) for the open-chain models; descriptors in italics as the notes write them
 const NM = {
   butan2ol_R: "(<i>R</i>)-butan-2-ol", butan2ol_S: "(<i>S</i>)-butan-2-ol",
@@ -1315,7 +1347,6 @@ function molModel(id){
   const d = MOLS[id];
   return { id, el: d.el.slice(), P: d.P.map(p => p.slice()), bonds: d.bonds.map(b => b.slice()), M0: d.M0.slice(), name: NM[id] };
 }
-LAB.molModel = molModel;
 /* =====================================================
    CYCLOHEXANE MODELS: idealised ring (C–C 0.154 nm, C–C–C 111°) with Cremer–Pople puckering for the flip path
    Ring atoms 0 to 5 are C1 to C6. Each carbon has an "up" slot and a "down" slot (the face, set by the ring
@@ -1330,7 +1361,7 @@ const RING = (() => {
   return { R: s, Q: h0 * s * Math.sqrt(6) };
 })();
 // stations along the flip: s = 0 chair, 1 half-chair, 2 twist-boat, 3 boat, 4 twist-boat, 5 half-chair, 6 flipped chair
-const FLIP_PTS = [[0, 0], [1, 45], [2, 23], [3, 30], [4, 23], [5, 45], [6, 0]];   // kJ mol⁻¹, literature values (DATA.md)
+const FLIP_PTS = [[0, 0], [1, 45], [2, 23], [3, 30], [4, 23], [5, 45], [6, 0]];   // kJ mol⁻¹, literature values
 const FLIP_NAMES = ["chair", "half-chair", "twist-boat", "boat", "twist-boat", "half-chair", "chair (flipped)"];
 const HC = 50.8;   // Cremer–Pople θ used for the half-chair station (schematic)
 function cpAngles(s){
@@ -1409,7 +1440,7 @@ function classifyRing(m){
   });
   return m;
 }
-// the compounds of the "Cyclohexane in 3D" explorer (DATA.md allowed list: 1; 1,2; 1,4 patterns; CH3 and C(CH3)3 only)
+// the compounds of the "Cyclohexane in 3D" explorer (the notes' compounds: 1; 1,2; 1,4 patterns; CH3 and C(CH3)3 only)
 const RINGS = [
   { id: "cyclohexane", name: "cyclohexane", subs: {} },
   { id: "methyl", name: "methylcyclohexane", subs: { "0up": "CH3" } },
@@ -1419,7 +1450,6 @@ const RINGS = [
   { id: "cis14", name: "cis-1,4-dimethylcyclohexane", subs: { "0up": "CH3", "3up": "CH3" } },
   { id: "trans14", name: "trans-1,4-dimethylcyclohexane", subs: { "0up": "CH3", "3down": "CH3" } }
 ];
-LAB.RING = RING; LAB.buildRing = buildRing; LAB.RINGS = RINGS; LAB.ringPos = ringPos; LAB.FLIP_PTS = FLIP_PTS;
 // mirror-image ring spec (swap up and down: the enantiomer of a chiral ring compound, or the same compound if achiral)
 const mirrorSpec = subs => { const o = {}; Object.keys(subs).forEach(k => { o[k.replace(/up$/, "U").replace(/down$/, "up").replace(/U$/, "down")] = subs[k]; }); return o; };
 // a chair view: ring axis upright on screen, looking from slightly above the ring plane, no atom hidden if possible
@@ -1433,9 +1463,8 @@ function chairView(m, az0, m2){
   }
   return bm;
 }
-LAB.chairView = chairView;
 /* =====================================================
-   A. NEWMAN ROTOR (9813 2.1(a), (b)(i)): ethane C1–C2 and butane C2–C3 only (DATA.md allowed list)
+   A. NEWMAN ROTOR (9813 2.1(a), (b)(i)): ethane C1–C2 and butane C2–C3 only
    θ = dihedral angle between the marked front bond and the marked back bond (butane: CH3–C–C–CH3).
    ===================================================== */
 const NR_PTS = {   // stationary points (θ, E / kJ mol⁻¹), literature values (CONVENTIONS §3)
@@ -1445,9 +1474,7 @@ const NR_PTS = {   // stationary points (θ, E / kJ mol⁻¹), literature values
 const NR_COST = { "H/H": 4.0, "CH3/H": 6.0, "CH3/CH3": 11, gauche: 3.8 };   // literature values, additive (a model)
 const NR_FRONT = { ethane: ["H*", "H", "H"], butane: ["CH3", "H", "H"] };   // at screen angles 90, 210, 330 (front); back the same, turned by θ
 const NR = { mol: "ethane", th: 60, view: "newman", play: 0 };
-LAB.NR = NR;
 const nrE = (mol, th) => profileE(NR_PTS[mol], ((th % 360) + 360) % 360);
-LAB.nrE = nrE;
 const grpTxt = g => g === "CH3" ? "CH₃" : "H";
 // conformation name at θ (stationary points within ±1°)
 function nrName(mol, th){
@@ -1478,7 +1505,6 @@ function nrIncrements(mol, th){
   }));
   return out;
 }
-LAB.nrIncrements = nrIncrements;
 // 3D model of the molecule at θ: front carbon at +z (towards a viewer on +z), back carbon at −z
 function nrModel(mol, th){
   const el = ["C", "C"], P = [[0, 0, BL.CC / 2], [0, 0, -BL.CC / 2]], bonds = [[0, 1, 1]], marks = {};
@@ -1499,9 +1525,7 @@ function nrModel(mol, th){
   });
   return { el, P, bonds, marks };
 }
-LAB.nrModel = nrModel;
 function nrDihedral(m){ const d = dihedral(m.P[m.marks.front], m.P[0], m.P[1], m.P[m.marks.back]); return ((d % 360) + 360) % 360; }
-LAB.nrDihedral = nrDihedral;
 
 let nrV = null;
 function nrDrawNewman(){
@@ -1512,7 +1536,7 @@ function nrDrawNewman(){
 }
 // a Newman projection drawing (also used by the practice questions)
 function newmanSvg(mol, th0, W, Hh, arc){
-  const cx = W / 2, cy = Hh / 2 + 4, Rc = Math.min(54, Hh * 0.19), L1 = Rc * 1.95, L2 = Rc * 2.05;
+  const cx = W / 2, cy = Hh / 2 + 4, Rc = Math.min(54, Hh * 0.19, (Hh / 2 - 46) / 2.05), L1 = Rc * 1.95, L2 = Rc * 2.05;   // the outermost group letters keep clear of the panel edge
   const A = nrAngles(th0), F = NR_FRONT[mol];
   const pt = (a, r) => [cx + r * Math.cos(a * D2R), cy - r * Math.sin(a * D2R)];
   const dA = (a, b) => { let d = ((a - b) % 360 + 360) % 360; return d > 180 ? d - 360 : d; };
@@ -1586,7 +1610,7 @@ function nrRead(){
 }
 function nrCosts(){
   $("nr-costs").innerHTML = H(`<p><b>Costs used</b> ${SRC("lit")}: H/H eclipsed 4.0; CH₃/H eclipsed 6.0; CH₃/CH₃ eclipsed 11; CH₃/CH₃ gauche 3.8 ${KJ}. The costs add up approximately (a model).</p>` +
-    (NR.mol === "ethane" ? `<p>Ethane's barrier, about 12 ${KJ}, is three H/H eclipsings. It is small next to the energy available at room temperature, so rotation is rapid and the conformations cannot be separated.</p>`
+    (NR.mol === "ethane" ? `<p>Ethane's barrier, about 12 ${KJ}, is three H/H eclipsings. Only a small fraction of collisions at room temperature carry this much energy, but molecules collide so often that ethane still rotates rapidly, so the conformations cannot be separated.</p>`
       : `<p>Butane has two kinds of conformer, anti and a pair of gauche. At room temperature it is mostly anti, but rotation is still rapid.</p>`));
 }
 function nrDraw3D(){
@@ -1596,14 +1620,13 @@ function nrDraw3D(){
   if (NR.fit){ NR.fit = false; nrV.M0 = bestView(m, { n: 500, cost: vd => 0.25 * Math.abs(vd[2]) }); nrV.M = nrV.M0.slice(); sc.ctr = [0, 0, 0]; NR.zoom = sc.zoom = nrV.fitZoom(sc, nrV.M0); NR.ctr = sc.ctr; nrV.set(sc); }
   else if (!nrV.scene || nrV.scene.R !== sc.R) nrV.set(sc); else { nrV.scene = sc; nrV.draw(); }
 }
-LAB.nrView = () => nrV;
 function nrRender(){
   show($("nr-svg"), NR.view === "newman"); show($("nr-3d"), NR.view !== "newman");
   if (NR.view === "newman") nrDrawNewman();
   else { nrV.size(); nrDraw3D(); }
   nrDrawPlot(); nrRead();
+  { const sv = $("nr-svg"); sv.setAttribute("aria-valuenow", Math.round(NR.th)); sv.setAttribute("aria-valuetext", Math.round(NR.th) + " degrees"); }
 }
-LAB.nrSet = (mol, th, view) => { NR.fit = true; if (mol) { NR.mol = mol; document.querySelector(`input[name="nr-mol"][value="${mol}"]`).checked = true; nrStops(); nrCosts(); } if (th != null){ NR.th = th; $("nr-th").value = th; } if (view){ NR.view = view; document.querySelector(`input[name="nr-view"][value="${view}"]`).checked = true; } nrRender(); };
 function nrStops(){
   const names = NR.mol === "ethane" ? ["eclipsed", "staggered", "eclipsed", "staggered", "eclipsed", "staggered"] : ["fully eclipsed", "gauche", "eclipsed", "anti", "eclipsed", "gauche"];
   $("nr-stops").innerHTML = [0, 60, 120, 180, 240, 300].map((t, i) => `<button type="button" data-th="${t}">${t}° ${names[i]}</button>`).join("");
@@ -1641,29 +1664,27 @@ REDRAW.push(nrRender);
    B. CYCLOHEXANE IN 3D (9813 2.1(b)(i)): chair, boat, ring flip; axial and equatorial; 1,3-diaxial interactions
    ===================================================== */
 const CY = { id: "cyclohexane", s: 0, ax: true, ud: false, dx: true, h: true, play: 0 };
-LAB.CY = CY;
 const AVAL = { CH3: 7.3, tBu: 21 };   // literature values, kJ mol⁻¹ (equatorial preference)
 const KIND = { CH3: "CH₃", tBu: "C(CH₃)₃", H: "H" };
 let cyV = null;
 const cySpec = () => RINGS.find(r => r.id === CY.id);
 function cyStation(s){
+  s = clamp(+s || 0, 0, 6);
   const k = Math.round(s);
   if (Math.abs(s - k) < 0.02) return { n: FLIP_NAMES[k], k };
-  const a = Math.floor(s), b = a + 1;
+  const a = Math.min(5, Math.floor(s)), b = a + 1;
   return { n: `between ${FLIP_NAMES[a].replace(" (flipped)", "")} and ${FLIP_NAMES[b].replace(" (flipped)", "")}`, k: null };
 }
 // the two chairs of a compound: axial non-H groups in each
 function cyChairs(spec){
   return [0, 6].map(s => { const m = buildRing(spec, s); const ax = m.slots.filter(sl => sl.kind !== "H" && sl.pos === "axial"); return { m, ax, cost: ax.reduce((a, sl) => a + AVAL[sl.kind], 0) }; });
 }
-LAB.cyChairs = cyChairs;
 // boat flagpole atoms: on the two ring carbons furthest along the axis, the slot pointing most along the axis
 function flagpoles(m){
   const c = centroid(m.P.slice(0, 6)), h = m.ring.map(j => dot(sub(m.P[j], c), m.axis));
   const order = m.ring.slice().sort((a, b) => h[b] - h[a]).slice(0, 2);
   return order.map(j => { const sl = m.slots.filter(t => t.c === j).sort((a, b) => dot(sub(m.P[b.atom], m.P[j]), m.axis) - dot(sub(m.P[a.atom], m.P[j]), m.axis))[0]; return sl; });
 }
-LAB.flagpoles = flagpoles;
 function cyModel(){ return buildRing(cySpec(), CY.s); }
 function cyDraw(){
   const spec = cySpec(), m = cyModel(); CY.m = m;
@@ -1736,8 +1757,8 @@ function cyVerdict(spec, m){
   const now = here == null ? "" : better < 0 ? " This chair and the flipped one have the same energy." : here === better ? " This is the more stable chair." : " This is the less stable chair: flip the ring.";
   switch (spec.id){
     case "cyclohexane": return `<p>The two chairs are identical. The ring flips through the half-chair (about 45 ${KJ} above the chair, the barrier) about 10⁵ times a second at room temperature (${SRC("lit")}, order of magnitude). The boat is about 30 ${KJ} above the chair.</p><p>A ring flip turns every axial bond equatorial and every equatorial bond axial; up stays up.</p>`;
-    case "methyl": return `<p>Equatorial CH₃ is preferred by about 7.3 ${KJ} (${SRC("lit")}): about 95 % of the molecules have CH₃ equatorial at 298 K (${SRC("lit")}). An axial CH₃ meets the axial H atoms on C3 and C5: two 1,3-diaxial interactions, each like a gauche butane interaction, about 2 × 3.8 = 7.6 ${KJ}.${now}</p>`;
-    case "tbu": return `<p>An axial <i>tert</i>-butyl group would push one of its CH₃ groups into the axial H atoms on C3 and C5. Equatorial is preferred by about 21 ${KJ} (${SRC("lit")}): effectively 100 % equatorial, so the <i>tert</i>-butyl group "locks" the ring.${now}</p>`;
+    case "methyl": return `<p>Equatorial CH₃ is preferred by about 7.3 ${KJ} (${SRC("lit")}): about 95 % of the molecules have CH₃ equatorial at 298 K (${SRC("lit")}). An axial CH₃ meets the two axial H atoms on C3 and C5: two 1,3-diaxial interactions, each like a gauche butane interaction, about 2 × 3.8 = 7.6 ${KJ}.${now}</p>`;
+    case "tbu": return `<p>An axial <i>tert</i>-butyl group would push one of its CH₃ groups into the two axial H atoms on C3 and C5. Equatorial is preferred by about 21 ${KJ} (${SRC("lit")}): effectively 100 % equatorial, so the <i>tert</i>-butyl group "locks" the ring.${now}</p>`;
     case "cis12": return `<p>cis (both CH₃ up): ${code(ch[0])} ⇌ ${code(ch[1])}. Each chair has one axial CH₃, so the two chairs have equal energy.${now}</p>`;
     case "trans12": return `<p>trans (one up, one down): ${code(ch[0])} ⇌ ${code(ch[1])}. The e,e chair is strongly preferred (no axial CH₃), so trans is the more stable isomer: it can have both CH₃ groups equatorial.${now}</p>`;
     case "cis14": return `<p>cis (both CH₃ up): ${code(ch[0])} ⇌ ${code(ch[1])}. One axial CH₃ in each chair: equal energy.${now}</p>`;
@@ -1745,13 +1766,10 @@ function cyVerdict(spec, m){
   }
   return "";
 }
-LAB.cyVerdict = (id, s) => { const o = { id: CY.id, s: CY.s }; CY.id = id; CY.s = s; const m = buildRing(cySpec(), s); const t = cyVerdict(cySpec(), m); CY.id = o.id; CY.s = o.s; return t; };
-function cyRender(){ cyDraw(); cyPlot(); cyRead(); $("cy-stops").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", Math.abs(+b.dataset.s - CY.s) < 0.02)); $("cy-mols").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === CY.id)); }
+function cyRender(){ CY.s = clamp(Number.isFinite(+CY.s) ? +CY.s : 0, 0, 6); cyDraw(); cyPlot(); cyRead(); $("cy-stops").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", Math.abs(+b.dataset.s - CY.s) < 0.02)); $("cy-mols").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === CY.id)); }
 // one view for both chairs, so that neither hides an atom and the view does not jump during a flip
-function cyReset(){ cyV.stop(); const m0 = buildRing(cySpec(), 0), m6 = buildRing(cySpec(), 6); cyV.M0 = chairView(m0, 0, m6); cyV.M = cyV.M0.slice(); }
-LAB.cyView = () => cyV;
-function cyStop(){ if (CY.play){ cancelAnimationFrame(CY.play); CY.play = 0; $("cy-play").textContent = "Flip the ring"; } }
-LAB.cySet = (id, s, opts) => { cyStop(); if (id && id !== CY.id){ CY.id = id; cyReset(); } if (s != null){ CY.s = s; $("cy-s").value = s; } if (opts) Object.keys(opts).forEach(k => { CY[k] = opts[k]; const el = $("cy-" + k); if (el) el.checked = !!opts[k]; }); cyRender(); };
+function cyReset(){ cyStop(); cyV.stop(); const m0 = buildRing(cySpec(), 0), m6 = buildRing(cySpec(), 6); cyV.M0 = chairView(m0, 0, m6); cyV.M = cyV.M0.slice(); }
+function cyStop(){ if (CY.play) cancelAnimationFrame(CY.play); CY.play = 0; $("cy-play").textContent = "Flip the ring"; }
 function bindCY(){
   cyV = Viewer($("cy-svg"), $("cy-wrap"), W => W < 420 ? 280 : 300);
   $("cy-mols").innerHTML = RINGS.map(r => `<button type="button" data-id="${r.id}">${r.name}</button>`).join("");
@@ -1760,14 +1778,14 @@ function bindCY(){
   $("cy-stops").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; cyStop(); CY.s = +b.dataset.s; $("cy-s").value = CY.s; cyRender(); });
   $("cy-s").addEventListener("input", e => { cyStop(); CY.s = +e.target.value; cyRender(); });
   ["ax", "ud", "dx", "h"].forEach(k => $("cy-" + k).addEventListener("change", e => { CY[k] = e.target.checked; cyRender(); }));
-  $("cy-reset").addEventListener("click", () => { cyReset(); cyRender(); });
+  $("cy-reset").addEventListener("click", () => { cyStop(); cyReset(); cyRender(); });
   $("cy-play").addEventListener("click", () => {
     if (CY.play){ cyStop(); return; }
     const from = CY.s, to = CY.s > 3 ? 0 : 6;
     if (NOANIM()){ CY.s = to; $("cy-s").value = to; cyRender(); return; }
     $("cy-play").textContent = "Stop";
     const t0 = performance.now(), dur = 3200 * Math.abs(to - from) / 6;
-    const step = now => { const t = Math.min(1, (now - t0) / dur); CY.s = from + (to - from) * t; $("cy-s").value = CY.s; cyRender(); if (t < 1) CY.play = requestAnimationFrame(step); else { CY.play = 0; $("cy-play").textContent = "Flip the ring"; } };
+    const step = now => { const t = clamp((now - t0) / dur, 0, 1); CY.s = clamp(from + (to - from) * t, 0, 6); $("cy-s").value = CY.s; cyRender(); if (t < 1) CY.play = requestAnimationFrame(step); else { CY.play = 0; $("cy-play").textContent = "Flip the ring"; } };
     CY.play = requestAnimationFrame(step);
   });
   cyReset(); cyRender();
@@ -1775,7 +1793,7 @@ function bindCY(){
 BIND.push(bindCY);
 REDRAW.push(() => { cyPlot(); cyDraw(); });
 /* =====================================================
-   C. R/S AND E/Z TRAINER (9813 2.1(b)(ii), (iii)); labels from the 3D coordinates, checked against RDKit in test.js
+   C. R/S AND E/Z TRAINER (9813 2.1(b)(ii), (iii)); labels from the 3D coordinates, checked independently against RDKit
    ===================================================== */
 const SYM = { 1: "H", 6: "C", 7: "N", 8: "O", 9: "F", 17: "Cl", 35: "Br" };
 // ring compounds of the trainer and sorter (1,2- and 1,4-dimethylcyclohexane chairs)
@@ -1789,7 +1807,6 @@ function ringModel(key){
   m.ringc = true;
   return m;
 }
-LAB.ringModel = ringModel;
 const RS_SETS = [
   { id: "butan2ol", name: "butan-2-ol", forms: ["butan2ol_R", "butan2ol_S"] },
   { id: "bromobutane", name: "2-bromobutane", forms: ["bromobutane_R", "bromobutane_S"] },
@@ -1812,7 +1829,6 @@ const EZ_SETS = [
   { id: "clbutene", name: "2-chlorobut-2-ene", extra: true, forms: ["clbutene_E", "clbutene_Z"] },
   { id: "butenal", name: "but-2-enal", extra: true, forms: ["butenal_E", "butenal_Z"] }
 ];
-LAB.RS_SETS = RS_SETS; LAB.EZ_SETS = EZ_SETS;
 // any form id -> model with centre names and group names
 function formModel(id){
   if (RING_FORMS[id]){
@@ -1832,7 +1848,6 @@ function formModel(id){
   }
   return m;
 }
-LAB.formModel = formModel;
 const symSet = arr => "(" + arr.map(z => SYM[z]).join(",") + ")";
 // priorities at centre c: rows in rank order with names, the sphere sets, and why each beats the next
 function rsInfo(m, c, excl){
@@ -1856,7 +1871,6 @@ function rsInfo(m, c, excl){
   }
   return { nb, rows, why, label: excl == null ? rsLabel(g, m.P, c) : null };
 }
-LAB.rsInfo = rsInfo;
 // every chiral centre and stereogenic C=C of a model, with labels from the coordinates
 function stereoLabels(m){
   const g = graphOf(m);
@@ -1864,10 +1878,10 @@ function stereoLabels(m){
   const db = ezBonds(g).map(([a, b]) => ({ a, b, lab: ezLabel(g, m.P, a, b) }));
   return { cc, db };
 }
-LAB.stereoLabels = stereoLabels;
 
-const TR = { t: "rs", set: RS_SETS[0], form: 0, c: null, mode: "show", pri: false, away: false, score: [0, 0], answered: false };
-LAB.TR = TR;
+// answered: this item has been scored (once per item). results: the items scored in this test run, by key, so a chip click cannot score one again.
+const TR = { t: "rs", set: RS_SETS[0], form: 0, c: null, mode: "show", pri: false, help: false, away: false, score: [0, 0], answered: false, results: new Map() };
+const trKey = () => TR.set.id + "|" + TR.form + "|" + TR.c;
 let trV = null;
 function trSets(){ return TR.t === "rs" ? RS_SETS : EZ_SETS; }
 function trChips(){
@@ -1896,6 +1910,17 @@ function trForms(){
   $("tr-clab").textContent = TR.t === "rs" ? "Stereoisomer, then chiral centre" : "Stereoisomer";
   $("tr-centres").insertAdjacentHTML("beforeend", TR.t === "rs" ? `<span class="chips" data-row="centres" style="margin-top:6px">${cent}</span>` : "");
 }
+// a chosen item: if it was already scored in this test run it shows its verdict and cannot be scored again; otherwise it is a fresh item
+function trLoad(){
+  const r = TR.mode === "test" ? TR.results.get(trKey()) : null;
+  TR.answered = !!r;
+  if (r){ TR.pri = true; trShowFb(r); } else $("tr-fb").hidden = true;
+}
+function trShowFb(r){
+  const fb = $("tr-fb"); fb.hidden = false; fb.className = "fb " + (r.ok ? "ok" : "no");
+  const nsc = r.counted === false ? " Not scored: the priorities were shown before checking." : "";
+  fb.innerHTML = r.ok ? `<p>Right: <i>${r.right}</i>.${nsc}</p>` : `<p>Not this time: it is <i>${r.right}</i>. ${TR.t === "rs" ? "Check the priorities below, then press Turn group 4 away to see 1 → 2 → 3." : "Check which group ranks higher on each carbon below."}${nsc}</p>`;
+}
 function trSet(setId, form, opts){
   opts = opts || {};
   TR.set = trSets().find(s => s.id === setId) || trSets()[0];
@@ -1903,17 +1928,16 @@ function trSet(setId, form, opts){
   TR.m = formModel(TR.set.forms[TR.form]);
   const s = stereoLabels(TR.m);
   TR.c = TR.t === "rs" ? (opts.c != null ? opts.c : s.cc[0].c) : s.db[0].a;
-  TR.pri = !!opts.pri; TR.away = false; TR.answered = false;
+  TR.pri = !!opts.pri; TR.away = false; TR.help = !!opts.pri;
+  trLoad();
   const sc = sceneOf(TR.m); sc.R = modelR(TR.m.P, centroid(TR.m.P)); sc.ctr = centroid(TR.m.P); sc.zoom = 1.3;
   trV.set(sc, opts.M || TR.m.M0);
   [...$("tr-mols").querySelectorAll("button"), ...$("tr-mols2").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.id === TR.set.id));
   trForms(); trRender();
 }
-LAB.trSet = (t, setId, form, opts) => { if (t && t !== TR.t){ TR.t = t; document.querySelectorAll("#tr-tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.t === t)); trChips(); } trSet(setId, form, opts); };
 function randRot(){ const q = [Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5]; const n = Math.hypot(...q); return quatToMat(q.map(v => v / n)); }
 // a random orientation in which no atom hides another
 function randView(m){ let best = null, bg = -Infinity; for (let k = 0; k < 40; k++){ const M = randRot(), g = viewGap(m, M); if (g > bg){ bg = g; best = M; } if (g > 0.15) break; } return best; }
-LAB.randView = randView;
 function trInfo(){
   const m = TR.m;
   if (TR.t === "rs") return rsInfo(m, TR.c);
@@ -1946,7 +1970,16 @@ function trOverlay(v){
       // arrowheads at the end of each arc segment
       const segs = []; let cur = []; pts.forEach(p => { if (!p){ segs.push(cur); cur = []; } else cur.push(p); });
       segs.forEach(sg => { const p1 = sg[sg.length - 1], p0 = sg[sg.length - 3]; const dx = p1[0] - p0[0], dy = p1[1] - p0[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L; s += `<path d="M${f1(p1[0] + ux * 4)} ${f1(p1[1] + uy * 4)} L${f1(p1[0] - ux * 6 - uy * 5)} ${f1(p1[1] - uy * 6 + ux * 5)} L${f1(p1[0] - ux * 6 + uy * 5)} ${f1(p1[1] - uy * 6 - ux * 5)} Z" class="rshead"/>`; });
-      if (TR.mode === "show" || TR.answered) s += T(12, v.H - 12, `1 → 2 → 3 ${cw ? "clockwise" : "anticlockwise"}: ${inf.label}`, "rs halo", "", 13);
+      if (TR.mode === "show" || TR.answered){
+        // the verdict sits in the corner of the panel that no atom (or its letter) reaches
+        const txt = `1 → 2 → 3 ${cw ? "clockwise" : "anticlockwise"}: ${inf.label}`, tw = 7.4 * txt.length, th = 17, pad = 10;
+        const atoms = m.P.map((p, i) => { const q = v.proj(p); return { x: q[0], y: q[1], r: Math.max(8, RAD[m.el[i]] * 0.9 * v.S * q[3] + 4) }; });
+        const hit = (x, y) => atoms.reduce((n, a) => n + (a.x + a.r > x && a.x - a.r < x + tw && a.y + a.r > y - th + 3 && a.y - a.r < y + 4 ? 1 : 0), 0);
+        const cands = [[pad, v.H - 12], [v.W - pad - tw, v.H - 12], [pad, 18], [v.W - pad - tw, 18]];
+        let best = cands[0], bn = Infinity;
+        cands.forEach(([x, y]) => { const n = hit(x, y); if (n < bn){ bn = n; best = [x, y]; } });
+        s += T(best[0], best[1], txt, "rs halo", "", 13);
+      }
     }
   } else {
     const inf = trInfo();
@@ -1988,7 +2021,8 @@ function trRender(){
   if (test){
     $("tr-q").innerHTML = TR.t === "rs" ? `Is ${loc} <i>R</i> or <i>S</i>?` : `Is this isomer <i>E</i> or <i>Z</i>?`;
     const opts = TR.t === "rs" ? ["R", "S"] : ["E", "Z"];
-    if (!TR.answered) $("tr-opts").innerHTML = opts.map(o => `<button type="button" data-a="${o}"><i>${o}</i></button>`).join("");
+    const rr = TR.results.get(trKey());
+    $("tr-opts").innerHTML = opts.map(o => `<button type="button" data-a="${o}"${TR.answered ? " disabled" : ""} aria-pressed="${!!(rr && rr.a === o)}"><i>${o}</i></button>`).join("");
     $("tr-score").textContent = `${TR.score[0]} right out of ${TR.score[1]}`;
   }
 }
@@ -2014,7 +2048,6 @@ function ezText(inf){
   }
   return t + `<p>${ct}</p>`;
 }
-LAB.ezText = () => ezText(trInfo());
 function trAway(){
   const m = TR.m;
   if (TR.t === "rs"){
@@ -2026,14 +2059,14 @@ function trAway(){
     Mt = tiltClear(m, Mt, 22);
     // centre the chiral centre on screen: shift the view centre
     trV.ctr = m.P[TR.c];
-    TR.pri = true; TR.away = true;
+    TR.pri = true; TR.away = true; if (!TR.answered) TR.help = true;
     trV.turnTo(Mt, 900, () => trRender());
     trRender();
   } else {
     const inf = trInfo(), a = inf.db.a, b = inf.db.b, g = graphOf(m);
     const ax = unit(sub(m.P[b], m.P[a])), o = g.nb[a].find(j => j !== b), n = unit(cross(ax, sub(m.P[o], m.P[a])));
     const Mt = tiltClear(m, [...ax, ...cross(n, ax), ...n], 25);
-    TR.pri = true;
+    TR.pri = true; if (!TR.answered) TR.help = true;
     trV.turnTo(Mt, 900, () => trRender());
     trRender();
   }
@@ -2047,53 +2080,53 @@ function tiltClear(m, M, maxDeg){
   }
   return best;
 }
-LAB.tiltClear = tiltClear;
 function trNewTest(){
-  const sets = trSets(), set = pick(sets), k = ri(0, set.forms.length - 1);
-  TR.set = set; TR.form = k; TR.m = formModel(set.forms[k]);
-  const s = stereoLabels(TR.m);
-  TR.c = TR.t === "rs" ? pick(s.cc).c : s.db[0].a;
-  TR.pri = false; TR.away = false; TR.answered = false;
+  // a new item: one not yet scored in this run (every item scored: start the run again)
+  const all = [];
+  trSets().forEach(set => set.forms.forEach((id, k) => { const m = formModel(id), st_ = stereoLabels(m); (TR.t === "rs" ? st_.cc.map(x => x.c) : [st_.db[0].a]).forEach(c => all.push({ set, k, c, key: set.id + "|" + k + "|" + c })); }));
+  let fresh = all.filter(x => !TR.results.has(x.key));
+  if (!fresh.length){ TR.results.clear(); fresh = all; }
+  const it = pick(fresh);
+  TR.set = it.set; TR.form = it.k; TR.m = formModel(it.set.forms[it.k]); TR.c = it.c;
+  TR.pri = false; TR.away = false; TR.answered = false; TR.help = false;
   const sc = sceneOf(TR.m); sc.R = modelR(TR.m.P, centroid(TR.m.P)); sc.ctr = centroid(TR.m.P); sc.zoom = 1.3;
   trV.set(sc, randView(TR.m));
-  [...$("tr-mols").querySelectorAll("button"), ...$("tr-mols2").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.id === set.id));
+  [...$("tr-mols").querySelectorAll("button"), ...$("tr-mols2").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.id === it.set.id));
   $("tr-fb").hidden = true;
   trForms(); trRender();
 }
-LAB.trNewTest = trNewTest;
 function trAnswer(a){
-  if (TR.answered) return;
+  if (TR.answered || TR.mode !== "test") return;   // score once per item
   const inf = trInfo(), right = TR.t === "rs" ? inf.label : inf.lab;
-  const ok = a === right; TR.answered = true; TR.score[1]++; if (ok) TR.score[0]++;
-  $("tr-opts").querySelectorAll("button").forEach(b => { b.disabled = true; b.setAttribute("aria-pressed", b.dataset.a === a); });
-  const fb = $("tr-fb"); fb.hidden = false; fb.className = "fb " + (ok ? "ok" : "no");
-  fb.innerHTML = ok ? `<p>Right: <i>${right}</i>.</p>` : `<p>Not this time: it is <i>${right}</i>. ${TR.t === "rs" ? "Check the priorities below, then press Turn group 4 away to see 1 → 2 → 3." : "Check which group ranks higher on each carbon below."}</p>`;
+  const ok = a === right; TR.answered = true;
+  const counted = !TR.help;   // priorities shown before Check: marked, not scored (as in Practice)
+  if (counted){ TR.score[1]++; if (ok) TR.score[0]++; }
+  const r = { a, right, ok, counted }; TR.results.set(trKey(), r);
+  trShowFb(r);
   TR.pri = true; trRender();
 }
-LAB.trAnswer = trAnswer;
 function bindTR(){
   trV = Viewer($("tr-svg"), $("tr-wrap"), W => W < 420 ? 300 : 330);
   trChips();
-  document.querySelectorAll("#tr-tabs button").forEach(b => b.addEventListener("click", () => { TR.t = b.dataset.t; document.querySelectorAll("#tr-tabs button").forEach(x => x.setAttribute("aria-selected", x === b)); trChips(); if (TR.mode === "test") trNewTest(); else trSet(trSets()[0].id, 0); }));
+  document.querySelectorAll("#tr-tabs button").forEach(b => b.addEventListener("click", () => { TR.t = b.dataset.t; TR.results.clear(); document.querySelectorAll("#tr-tabs button").forEach(x => x.setAttribute("aria-selected", x === b)); trChips(); if (TR.mode === "test") trNewTest(); else trSet(trSets()[0].id, 0); }));
   const pickSet = e => { const b = e.target.closest("button"); if (!b) return; trSet(b.dataset.id, 0); };
   $("tr-mols").addEventListener("click", pickSet); $("tr-mols2").addEventListener("click", pickSet);
   $("tr-centres").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
-    if (b.dataset.f != null){ trSet(TR.set.id, +b.dataset.f, { pri: TR.pri, M: trV.M }); return; }
-    if (b.dataset.c != null && TR.t === "rs"){ TR.c = +b.dataset.c; TR.away = false; TR.answered = false; $("tr-fb").hidden = true; trV.ctr = centroid(TR.m.P); trForms(); trRender(); }
+    if (b.dataset.f != null){ trSet(TR.set.id, +b.dataset.f, { pri: TR.pri && !(TR.mode === "test" && TR.answered), M: trV.M }); return; }
+    if (b.dataset.c != null && TR.t === "rs"){ trV.stop(); TR.c = +b.dataset.c; TR.away = false; if (TR.mode === "test" && TR.answered){ TR.pri = false; TR.help = false; } trLoad(); trV.ctr = centroid(TR.m.P); trForms(); trRender(); }
   });
-  $("tr-mode").addEventListener("change", e => { TR.mode = e.target.value; if (TR.mode === "test") trNewTest(); else trSet(TR.set.id, 0); });
-  $("tr-pri").addEventListener("click", () => { TR.pri = !TR.pri; trRender(); });
+  $("tr-mode").addEventListener("change", e => { TR.mode = e.target.value; TR.results.clear(); if (TR.mode === "test") trNewTest(); else trSet(TR.set.id, 0); });
+  $("tr-pri").addEventListener("click", () => { TR.pri = !TR.pri; if (TR.pri && !TR.answered) TR.help = true; trRender(); });
   $("tr-away").addEventListener("click", trAway);
-  $("tr-rand").addEventListener("click", () => { trV.ctr = centroid(TR.m.P); TR.away = false; trV.turnTo(randView(TR.m), 700, () => trRender()); });
-  $("tr-reset").addEventListener("click", () => { trV.ctr = centroid(TR.m.P); TR.away = false; trV.turnTo(TR.m.M0, 600, () => trRender()); });
+  $("tr-rand").addEventListener("click", () => { trV.stop(); trV.ctr = centroid(TR.m.P); TR.away = false; trV.turnTo(randView(TR.m), 700, () => trRender()); });
+  $("tr-reset").addEventListener("click", () => { trV.stop(); trV.ctr = centroid(TR.m.P); TR.away = false; trV.turnTo(TR.m.M0, 600, () => trRender()); });
   $("tr-opts").addEventListener("click", e => { const b = e.target.closest("button"); if (b) trAnswer(b.dataset.a); });
   $("tr-next").addEventListener("click", trNewTest);
   trV.onRotate = () => { if (TR.away){ const inf = TR.t === "rs" ? rsInfo(TR.m, TR.c) : null; if (inf){ const u = unit(ap(trV.M, sub(TR.m.P[inf.nb[3]], TR.m.P[TR.c]))); if (u[2] > -0.85) TR.away = false; } } };
   trSet(RS_SETS[0].id, 0);
 }
 BIND.push(bindTR);
-LAB.trView = () => trV;
 /* =====================================================
    D. ISOMER SORTER (9813 2.1(b)(iii)) and the optical purity calculator
    ===================================================== */
@@ -2105,7 +2138,7 @@ const CATS = [
   { k: "meso", t: "meso (one achiral compound)" },
   { k: "constitutional", t: "constitutional isomers" }
 ];
-// pairs from the DATA.md allowed list; "rot" = B is the same model turned round
+// the notes' pairs; "rot" = B is the same model turned round
 const PAIRS = [
   ["butan2ol_R", "butan2ol_R"], ["butan2ol_R", "butan2ol_S"], ["bromobutane_R", "bromobutane_S"], ["bromobutane_S", "bromobutane_S"],
   ["bcb_RR", "bcb_SS"], ["bcb_RS", "bcb_SR"], ["bcb_RR", "bcb_RS"], ["bcb_RR", "bcb_SR"], ["bcb_SS", "bcb_RS"], ["bcb_SS", "bcb_SR"],
@@ -2114,7 +2147,6 @@ const PAIRS = [
   ["but2ene_E", "but2ene_Z"], ["butane_anti", "butane_gauche"],
   ["trans12a", "trans14"], ["dbb_meso", "dibromobutane12_R"], ["but2ene_E", "methylpropene"]
 ];
-LAB.PAIRS = PAIRS;
 const NEWMAN_AX = { butan2ol: [1, 3], bromobutane: [1, 3], bcb: [1, 3], dbb: [1, 3], but2ene: [1, 2], butane: [1, 2], dibromobutane12: [2, 4] };
 const RING_NAMES = { trans12a: "trans-1,2-dimethylcyclohexane", trans12b: "trans-1,2-dimethylcyclohexane", cis12: "cis-1,2-dimethylcyclohexane", cis12flip: "cis-1,2-dimethylcyclohexane (the other chair)", cis14: "cis-1,4-dimethylcyclohexane", trans14: "trans-1,4-dimethylcyclohexane" };
 const pairName = id => RING_NAMES[id] || NM[id];
@@ -2142,15 +2174,13 @@ function relate(A, B){
     let best = Infinity;
     isos.forEach(mp => { const QB = mp.map(j => B.P[b.hg.idx[j]]), cb = centroid(QB), Qb = QB.map(q => sub(q, cb)); const R = bestRotation(Pa, Qb); best = Math.min(best, rmsdOf(Qb.map(q => ap(R, q)), Pa)); });
     const meso = mirror && Object.keys(a.d.cc).length > 0;
-    // a meso compound drawn twice is identical (DATA.md); "meso" is the better name for the compound, not for the pair
+    // a meso compound drawn twice is identical; "meso" is the better name for the compound, not for the pair
     return { k: best < 0.05 ? "identical" : "conformers", rmsd: best, meso };
   }
   return { k: mirror ? "enantiomers" : "diastereomers" };
 }
-LAB.relate = relate;
 function pairModel(id){ return RING_FORMS[id] ? formModel(id) : formModel(id); }
 const SO = { i: -1, order: [], score: [0, 0], answered: false, labels: false };
-LAB.SO = SO;
 let soA = null, soB = null;
 function soLabelsOver(m){
   return v => {
@@ -2177,7 +2207,6 @@ function soShow(i, opts){
   $("so-fb").hidden = true;
   soHeads();
 }
-LAB.soShow = soShow;
 function soHeads(){
   const [ia, ib] = PAIRS[SO.i];
   $("so-ha").innerHTML = "Structure A" + (SO.answered ? ": " + pairName(ia) : "");
@@ -2192,7 +2221,6 @@ function formulaOf(m){
   const ks = ["C", "H"].filter(k => c[k]).concat(Object.keys(c).filter(k => k !== "C" && k !== "H").sort());
   return ks.map(k => k + (c[k] > 1 ? String(c[k]).replace(/\d/g, d => SUBD[d]) : "")).join("");
 }
-LAB.formulaOf = formulaOf;
 function soExplain(){
   const r = SO.rel, sa = stereoLabels(SO.A), sb = stereoLabels(SO.B);
   const lab = s => s.cc.length ? s.cc.map(x => `${x.loc} <i>${x.lab}</i>`).join(", ") : s.db.length ? s.db.map(x => `<i>${x.lab}</i>`).join(", ") : "none";
@@ -2202,8 +2230,8 @@ function soExplain(){
     case "identical": if (r.meso) return `Same connectivity and the same labels (${L}), and one model can be turned to lie exactly on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm): identical, the same compound drawn turned round. This compound is meso: it has chiral centres but is superimposable on its mirror image (a plane of symmetry in a reachable conformation). Numbered from the other end, (2<i>R</i>,3<i>S</i>) reads (2<i>S</i>,3<i>R</i>): the same compound.`;
       return `Same connectivity and the same label at every centre (${L}), and one model can be turned to lie exactly on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm). They are the same compound in the same conformation, just drawn turned round.`;
     case "meso": return `Same connectivity and the same labels (${L}); the molecule has chiral centres but it is superimposable on its mirror image (it has a plane of symmetry in a reachable conformation), so A and B are one achiral meso compound, drawn two ways. Numbered from the other end, (2<i>R</i>,3<i>S</i>) reads (2<i>S</i>,3<i>R</i>): the same compound.`;
-    case "conformers": return `Same connectivity and ${none ? "no chiral centre or stereogenic C=C to label" : `the same configuration (${L})`}, but no rotation of the whole model lays one on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm): they differ only by rotation about single bonds${SO.A.ringc ? " or a ring flip" : ""}. Conformers interconvert rapidly at room temperature: one compound.`;
-    case "enantiomers": return `Same connectivity; every chiral centre has the opposite label (${L}). Non-superimposable mirror images: enantiomers.`;
+    case "conformers": return `Same connectivity and ${none ? "no chiral centre or C=C with E/Z isomerism to label" : `the same configuration (${L})`}, but no rotation of the whole model lays one on the other (best fit ${(r.rmsd / 10).toFixed(3)} nm): they differ only by rotation about single bonds${SO.A.ringc ? " or a ring flip" : ""}. Conformers interconvert rapidly at room temperature: one compound.`;
+    case "enantiomers": return `Same connectivity; every chiral centre has the opposite label (${L}), and the compound is not meso (it has no plane of symmetry). Non-superimposable mirror images: enantiomers. If every label were opposite but the compound were meso, the two drawings would be the same compound.`;
     case "diastereomers": return `Same connectivity, but not mirror images: ${sa.cc.length ? `some centres have the same label and some the opposite (${L})` : sa.db.length ? `the C=C is <i>${sa.db[0].lab}</i> in A and <i>${sb.db[0].lab}</i> in B (cis-trans isomers are diastereomers)` : `the CH₃ groups are on the same face in one and on opposite faces in the other (cis and trans)`}. Stereoisomers that are not mirror images are diastereomers.`;
   }
   return "";
@@ -2220,7 +2248,6 @@ function soAnswer(k){
   fb.innerHTML = `<p><b>${head}</b> ${H(soExplain())}</p>`;
   SO.labels = true; soA.draw(); soB.draw(); soHeads();
 }
-LAB.soAnswer = soAnswer;
 function soNext(){
   if (!SO.order.length) SO.order = shuffle(PAIRS.map((_, i) => i));
   let i = SO.order.shift(); if (i === SO.i && SO.order.length) { SO.order.push(i); i = SO.order.shift(); }
@@ -2254,10 +2281,9 @@ const OP_EX = [
   { id: "but", lab: "butan-2-ol mixture", kind: "mix", maj: "70.0", p: "+13.5", plus: "(<i>S</i>)-butan-2-ol", minus: "(<i>R</i>)-butan-2-ol" }
 ];
 const OP = { kind: "soln", ex: "ala", names: null, work: false };
-LAB.OP = OP;
-const dp = (v, n) => minus(v.toFixed(n));
+const dp = (v, n) => minus((+v.toFixed(n) === 0 ? 0 : v).toFixed(n));
 const sf4 = v => minus(sf(v, 4));
-// the calculation (also used by the practice generator and by test.js through LAB.opCalc)
+// the calculation (also used by the practice generator)
 function opCalc(o){
   const r = {};
   if (o.kind === "mix"){
@@ -2267,48 +2293,71 @@ function opCalc(o){
   r.obs = o.a / (o.l * c);
   r.opSigned = r.obs / o.p * 100;
   r.op = Math.abs(r.opSigned);
+  if (r.op > 100 && r.op <= 100.05) r.op = 100;   // rounding noise at the top: treat as exactly 100 % so the minor part is 0, never negative
   r.major = (100 + r.op) / 2; r.minor = (100 - r.op) / 2; r.ee = r.major - r.minor;
   return r;
 }
-LAB.opCalc = opCalc;
-function opVals(){
-  const g = id => parseNum($(id).value);
-  return { kind: OP.kind, a: g("op-a"), l: g("op-l"), c: g("op-c"), r: g("op-r"), maj: g("op-maj"), p: g("op-p") };
+const OP_BOX = { a: ["Observed rotation α / °", ["deg"]], l: ["Path length l / dm", ["dm"]], c: ["Concentration c / g cm⁻³", ["dens"]], r: ["Density ρ / g cm⁻³", ["dens"]], maj: ["% of one enantiomer in the mixture", ["pct"]], p: ["[α] of the pure enantiomer / °", ["deg"]] };
+// every box goes through parseAnswer with its own unit; errs[k] says what is wrong with box k
+function opVals(need){
+  const o = { kind: OP.kind }, errs = {}, typed = {};
+  need.forEach(k => {
+    const el = $("op-" + k), r = parseAnswer(el.value, OP_BOX[k][1]);
+    o[k] = r.value != null ? r.value : NaN;
+    if (r.error) errs[k] = r.error;
+    else if (["l", "c", "r"].includes(k) && o[k] <= 0) errs[k] = "This must be greater than zero.";
+    else if (k === "p" && o[k] === 0) errs[k] = "The rotation of the pure enantiomer cannot be zero.";
+    else if (k === "maj" && (o[k] < 0 || o[k] > 100)) errs[k] = "A percentage must be between 0 and 100.";
+    const m = String(el.value).replace(/[−–]/g, "-").trim().match(/^[-+]?\s*([\d,]*\.?\d*)/);
+    typed[k] = m ? m[1].replace(/,/g, "").replace(/^\./, "0.") : "";
+  });
+  return { o, errs, typed };
 }
+const needOf = () => OP.kind === "mix" ? ["maj", "p"] : OP.kind === "neat" ? ["a", "l", "r", "p"] : ["a", "l", "c", "p"];
+// the figure as typed, with its sign: working is printed from the typed figures
+const tsg = (v, t, plus) => (v < 0 ? MINUS : plus && v > 0 ? "+" : "") + t;
+const dec = t => (String(t).split(".")[1] || "").length;
 function opRender(){
-  const o = opVals(), need = OP.kind === "mix" ? ["maj", "p"] : OP.kind === "neat" ? ["a", "l", "r", "p"] : ["a", "l", "c", "p"];
+  const need = needOf();
   document.querySelectorAll("#op-form .field").forEach(f => { f.hidden = !need.includes(f.dataset.k); });
   $("op-form").querySelector('[data-k="p"] span').textContent = OP.kind === "mix" ? "[α] of that enantiomer, pure / °" : "[α] of the pure enantiomer / °";
   $("op-form").querySelector('[data-k="maj"] span').textContent = "% of one enantiomer in the mixture";
-  const bad = need.filter(k => !isFinite(o[k]) || (["l", "c", "r"].includes(k) && o[k] <= 0) || (k === "p" && o[k] === 0) || (k === "maj" && (o[k] < 0 || o[k] > 100)));
-  need.forEach(k => { const el = $("op-" + k); el.setAttribute("aria-invalid", bad.includes(k)); });
+  const { o, errs, typed } = opVals(need), bad = Object.keys(errs);
+  OP_BOX.p[0] = OP.kind === "mix" ? "[α] of that enantiomer, pure / °" : "[α] of the pure enantiomer / °";
+  need.forEach(k => { $("op-" + k).setAttribute("aria-invalid", String(bad.includes(k))); });
   const names = OP.names || { plus: "the (+) enantiomer", minus: "the (−) enantiomer" };
-  if (bad.length){ $("op-read").innerHTML = st("Result", "type a number in each box"); $("op-work").innerHTML = ""; opBar(null); return; }
+  if (bad.length){
+    $("op-read").innerHTML = `<div class="stat wide"><div class="l">Check the box${bad.length > 1 ? "es" : ""}</div><div class="v">${bad.map(k => `${H(OP_BOX[k][0])}: ${esc(errs[k])}`).join("<br>")}</div></div>`;
+    $("op-work").innerHTML = ""; opBar(null); return;
+  }
   const r = opCalc(o); OP.last = { o, r };
-  const sgnP = o.p > 0;
+  const sgnP = o.p > 0, tP = typed.p;
   if (OP.kind === "mix"){
     const thisN = sgnP ? names.plus : names.minus, other = sgnP ? names.minus : names.plus;
+    const d = Math.max(1, dec(typed.maj)), mx = Math.max(o.maj, 100 - o.maj), mn = Math.min(o.maj, 100 - o.maj);
     $("op-read").innerHTML = st("Enantiomeric excess, ee", `${dp(Math.abs(r.ee), 1)} %`) + st("Excess of", Math.abs(r.ee) < 0.05 ? "neither: a racemic mixture" : r.ee > 0 ? thisN : other) + st("Expected [<i>α</i>]", `${sgn(r.alphaSpec, 2)}°`);
     $("op-work").innerHTML = [
-      `ee = % major − % minor = ${dp(Math.max(o.maj, 100 - o.maj), 1)} − ${dp(Math.min(o.maj, 100 - o.maj), 1)} = ${dp(Math.abs(r.ee), 1)} %`,
-      `Optical purity is taken as equal to ee, so [α] = [α]{pure} × ee/100 = ${sgn(o.p, 1)} × ${dp(r.ee, 1)}/100 = ${sgn(r.alphaSpec, 2)}°`
+      `ee = % major − % minor = ${dp(mx, d)} − ${dp(mn, d)} = ${dp(Math.abs(r.ee), d)} %`,
+      `Optical purity is taken as equal to ee, so [α]{pure} × ee/100 = ${tsg(o.p, tP, true)} × ${dp(r.ee, d)}/100 = ${sgn(r.alphaSpec, 2)}°`
     ].map(t => `<li>${H(t)}</li>`).join("");
     opBar(Math.abs(r.ee));
   } else {
     const over = r.op > 100.05, ex = r.opSigned >= 0 ? (sgnP ? names.plus : names.minus) : (sgnP ? names.minus : names.plus);
+    const cl = OP.kind === "neat" ? "ρ" : "c", cT = OP.kind === "neat" ? typed.r : typed.c, rhs = `${tsg(o.a, typed.a, true)}/(${typed.l} × ${cT})`;
     $("op-read").innerHTML = st("[<i>α</i>]<sub>obs</sub>", `${sgn(r.obs, 2)}°`) + st("Optical purity", over ? `${dp(r.op, 1)} % <small>more than 100 %: check the values</small>` : `${dp(r.op, 1)} %`) + st("ee", `${dp(r.ee, 1)} %`) +
       st("Composition", over ? "not possible" : `${H(ex)} ${dp(r.major, 1)} %, the other ${dp(r.minor, 1)} %`, "wide");
-    const cl = OP.kind === "neat" ? "ρ" : "c";
+    const keep = `<span class="aside">Keep the unrounded values between steps: the figures shown are rounded for display.</span>`;
     $("op-work").innerHTML = [
-      `[α]{obs} = α{}/(l{} × ${cl}{}) = ${sgn(o.a, 2)}/(${o.l.toFixed(2)} × ${OP.kind === "neat" ? o.r.toFixed(3) : o.c.toFixed(3)}) = ${(r.obs > 0 ? "+" : "") + sf4(r.obs)}${OP.kind === "neat" ? " <span class=\"aside\">(a neat liquid: the density ρ replaces c)</span>" : ""}`,
-      `optical purity = [α]{obs}/[α]{pure} × 100 % = ${sf4(Math.abs(r.obs))}/${minus(String(Math.abs(o.p)))} × 100 % = ${dp(r.op, 1)} %${o.p < 0 || r.obs < 0 ? " <span class=\"aside\">(magnitudes)</span>" : ""}${r.opSigned < 0 ? " <span class=\"aside\">(the rotation has the opposite sign: the excess is of the other enantiomer)</span>" : ""}`,
+      `[α]{obs} = α{}/(l{} × ${cl}{}) = ${rhs} = ${(r.obs > 0 ? "+" : "") + sf4(r.obs)}${OP.kind === "neat" ? " <span class=\"aside\">(a neat liquid: the density ρ replaces c)</span>" : ""}`,
+      `optical purity = [α]{obs}/[α]{pure} × 100 % = ${sf4(Math.abs(r.obs))}/${tP} × 100 % = ${dp(r.op, 1)} %${o.p < 0 || r.obs < 0 ? " <span class=\"aside\">(magnitudes)</span>" : ""}${r.opSigned < 0 ? " <span class=\"aside\">(the rotation has the opposite sign: the excess is of the other enantiomer)</span>" : ""}`,
       `% of the major enantiomer = (100 + ${dp(r.op, 1)})/2 = ${dp(r.major, 1)} %; % of the minor = (100 − ${dp(r.op, 1)})/2 = ${dp(r.minor, 1)} %`,
-      `ee = ${dp(r.major, 1)} − ${dp(r.minor, 1)} = ${dp(r.ee, 1)} % (equal to the optical purity)`
-    ].map(t => `<li>${H(t)}</li>`).join("");
+      `ee = ${dp(r.major, 2)} − ${dp(r.minor, 2)} = ${dp(r.ee, 1)} % (equal to the optical purity)`,
+      keep
+    ].map(t => `<li>${t.startsWith("<span") ? t : H(t)}</li>`).join("");
     opBar(over ? null : r.op);
     if (over){
       $("op-read").innerHTML = st("[<i>α</i>]<sub>obs</sub>", `${sgn(r.obs, 2)}°`) + st("Optical purity", `${dp(r.op, 1)} %`) + `<div class="stat wide"><div class="l">Check the values</div><div class="v">${H("An optical purity above 100 % is impossible: [α]{obs} cannot be larger than [α]{pure}. Check α, l, c (or ρ) and [α]{pure}.")}</div></div>`;
-      $("op-work").innerHTML = `<li>${H(`[α]{obs} = ${sgn(o.a, 2)}/(${o.l.toFixed(2)} × ${OP.kind === "neat" ? o.r.toFixed(3) : o.c.toFixed(3)}) = ${(r.obs > 0 ? "+" : "") + sf4(r.obs)}, larger in size than [α]{pure} = ${minus(String(o.p))}: no composition can give this.`)}</li>`;
+      $("op-work").innerHTML = `<li>${H(`[α]{obs} = ${rhs} = ${(r.obs > 0 ? "+" : "") + sf4(r.obs)}, larger in size than [α]{pure} = ${tsg(o.p, tP, false)}: no composition can give this.`)}</li>`;
     }
   }
   $("op-work").hidden = !OP.work;
@@ -2329,8 +2378,6 @@ function opPreset(id){
   ["a", "l", "c", "r", "maj", "p"].forEach(k => { if (e[k] != null) $("op-" + k).value = e[k]; });
   opRender();
 }
-LAB.opPreset = opPreset;
-LAB.opSet = (vals) => { OP.ex = null; OP.names = null; if (vals.kind){ OP.kind = vals.kind; document.querySelector(`input[name="op-kind"][value="${vals.kind}"]`).checked = true; } ["a", "l", "c", "r", "maj", "p"].forEach(k => { if (vals[k] != null) $("op-" + k).value = vals[k]; }); opRender(); return OP.last; };
 function bindOP(){
   $("op-ex").innerHTML = OP_EX.map(e => `<button type="button" data-id="${e.id}">${e.lab}</button>`).join("");
   $("op-ex").addEventListener("click", e => { const b = e.target.closest("button"); if (b) opPreset(b.dataset.id); });
@@ -2371,7 +2418,6 @@ const CX = [
   { id: "cisNib", name: "cis-[Ni(en)₂(H₂O)₂]²⁺, the other enantiomer", shape: "octahedral", M: "Ni", mono: [["-x", "H2O"], ["+y", "H2O"]], en: [["+x", "+z"], ["-y", "-z"]], n: 3, chiral: true },
   { id: "transNi", name: "trans-[Ni(en)₂(H₂O)₂]²⁺", shape: "octahedral", M: "Ni", mono: [["+z", "H2O"], ["-z", "H2O"]], en: [["+x", "+y"], ["-x", "-y"]], n: 3, chiral: false }
 ];
-LAB.CX = CX; LAB.complexModel = complexModel;
 const REFL = [-1, 0, 0, 0, 1, 0, 0, 0, 1];   // reflection x → −x, determinant −1
 // best rotation-only fit of the mirror image onto the complex, over every graph automorphism (atom relabelling)
 function cxFit(m){
@@ -2383,13 +2429,11 @@ function cxFit(m){
   best.detR = det3(best.R); best.detRefl = det3(REFL); best.n = autos.length;
   return best;
 }
-LAB.cxFit = cxFit;
 // planes of symmetry through the metal (the 3 coordinate planes and the 6 diagonal planes of the octahedron)
 const PLANES = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 0], [1, -1, 0], [1, 0, 1], [1, 0, -1], [0, 1, 1], [0, 1, -1]].map(unit);
 function cxPlanes(m){
   return PLANES.filter(n => m.P.every((p, k) => { const r = sub(p, mul(n, 2 * dot(p, n))); return m.P.some((q, j) => m.el[j] === m.el[k] && m.kind[j] === m.kind[k] && len(sub(q, r)) < 0.03); }));
 }
-LAB.cxPlanes = cxPlanes;
 // Δ or Λ (Enrichment): two chelate edges as skew lines; right-handed helix = Δ (IUPAC skew-line convention)
 function cxDelta(m){
   const ens = []; for (let i = 0; i < m.el.length; i++) if (m.kind[i] === "en") ens.push(i);
@@ -2403,9 +2447,7 @@ function cxDelta(m){
   if (Math.abs(h) < 1e-6) return null;   // coplanar or parallel chelates: achiral, no Δ/Λ
   return h < 0 ? "Δ" : "Λ";
 }
-LAB.cxDelta = cxDelta;
 const CXS = { refl: false, id: "cisPt", plane: false, lab: true, dl: false, fit: null, anim: 0 };
-LAB.CXS = CXS;
 let cxv = null;
 function planeCorners(n, P){
   const e1 = unit(cross(n, Math.abs(n[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0])), e2 = cross(n, e1);
@@ -2457,8 +2499,10 @@ function MirrorView(svg, wrap){
   return v;
 }
 const FH = [-1, 0, 0, 0, 1, 0, 0, 0, 1], FV = [1, 0, 0, 0, -1, 0, 0, 0, 1];
+// stop the fit animation where it is and finish its result at once (leaving the section or starting another view)
+function cxStop(){ if (CXS.anim){ cancelAnimationFrame(CXS.anim); CXS.anim = 0; } const f = CXS.finish; CXS.finish = null; if (f) f(); }
 function cxReset(){
-  if (CXS.anim){ cancelAnimationFrame(CXS.anim); CXS.anim = 0; }
+  if (CXS.anim){ cancelAnimationFrame(CXS.anim); CXS.anim = 0; } CXS.finish = null;
   const def = CX.find(c => c.id === CXS.id);
   if (def.shape === "square planar") cxv.ML = mm(rx(-0.75), rz(0.4));
   else {
@@ -2476,7 +2520,6 @@ function cxSet(id){
   $("cx-mols").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
   cxReset();
 }
-LAB.cxSet = cxSet;
 function cxRead(){
   const def = CX.find(c => c.id === CXS.id), m = cxv.m, f = CXS.fit, pl = cxPlanes(m);
   const cn = m.bonds.filter(b => b[1] === 0 || b[0] === 0).length;
@@ -2511,11 +2554,11 @@ function cxDoFit(){
       : `<p><b>Not superimposable.</b> Even the best of every rotation leaves atoms out of place (best fit ${(f.rmsd / 10).toFixed(3)} nm; the misplaced atoms are ringed). ${def.name.replace(/, .*$/, "")} is chiral: the complex and its mirror image are a pair of enantiomers.</p>`);
   };
   if (NOANIM()){ finish(); return; }
+  CXS.finish = finish;
   const q0 = matToQuat(cxv.MR), q1 = matToQuat(target), t0 = performance.now();
-  const step = now => { const t = Math.min(1, (now - t0) / 1200); cxv.MR = quatToMat(slerp(q0, q1, ease(t))); cxv.draw(); if (t < 1) CXS.anim = requestAnimationFrame(step); else { CXS.anim = 0; finish(); } };
+  const step = now => { const t = Math.min(1, (now - t0) / 1200); cxv.MR = quatToMat(slerp(q0, q1, ease(t))); cxv.draw(); if (t < 1) CXS.anim = requestAnimationFrame(step); else { CXS.anim = 0; CXS.finish = null; finish(); } };
   CXS.anim = requestAnimationFrame(step);
 }
-LAB.cxDoFit = cxDoFit;
 function bindCX(){
   cxv = MirrorView($("cx-svg"), $("cx-wrap")); cxv.size();
   $("cx-mols").innerHTML = CX.map(c => `<button type="button" data-id="${c.id}">${H(c.name)}</button>`).join("");
@@ -2530,14 +2573,12 @@ function bindCX(){
 }
 BIND.push(bindCX);
 REDRAW.push(() => { if (cxv){ cxv.size(); cxv.draw(); } });
-LAB.cxML = () => cxv.ML;
 /* =====================================================
-   PRACTICE: generated questions with checked answers and "Show working" (allowed lists only; reserved data excluded)
+   PRACTICE: generated questions with checked answers and "Show working" (the notes' compounds and values only)
    ===================================================== */
 const GN = { type: "rs", q: null, score: [0, 0], work: false };
-LAB.GN = GN;
 let gnV = null;
-// stereoisomer counts (DATA.md RDKit table and complex table); test.js rechecks the organic ones with RDKit
+// stereoisomer counts (RDKit table and complex table); the organic ones are rechecked independently with RDKit
 const COUNTS = [
   { k: "butan2ol", name: "butan-2-ol", n: 2, w: ["One chiral centre (C2: –OH, –CH₂CH₃, –CH₃, –H).", "2¹ = 2 stereoisomers: a pair of enantiomers, (<i>R</i>) and (<i>S</i>)."] },
   { k: "bcb", name: "2-bromo-3-chlorobutane", n: 4, w: ["Two chiral centres (C2 and C3).", "The molecule is not symmetrical (Br on one centre, Cl on the other), so no meso form.", "2² = 4 stereoisomers: (2<i>R</i>,3<i>R</i>)/(2<i>S</i>,3<i>S</i>) and (2<i>R</i>,3<i>S</i>)/(2<i>S</i>,3<i>R</i>), two pairs of enantiomers."] },
@@ -2552,15 +2593,12 @@ const COUNTS = [
   { k: "nien3", name: "[Ni(en)₃]²⁺ (en = ethane-1,2-diamine)", n: 2, w: ["Three bidentate en ligands, each spanning two cis positions: a three-bladed propeller with no plane of symmetry.", "Its mirror image is not superimposable: 2 stereoisomers, a pair of enantiomers."] },
   { k: "nien2", name: "[Ni(en)₂(H₂O)₂]²⁺ (en = ethane-1,2-diamine)", n: 3, w: ["trans (H₂O opposite): a plane of symmetry through Ni and the four N atoms, achiral.", "cis (H₂O adjacent): no plane of symmetry, a pair of enantiomers.", "Total 3 stereoisomers."] }
 ];
-LAB.COUNTS = COUNTS;
-// optical purity values: the notes' specific rotations, or random ones that keep clear of the tutorial values
-// reserved tutorial numbers are shipped only as hashes; any printed number that matches one is rejected
-const RES_H = new Set(["1337mx7", "13mb4ys", "13src1j", "15pdbty", "1cf5aua", "1hip5o1", "1j11q7l", "1nop6dj", "1ojh4t2", "1shi3k7", "1tlgxz0", "1v9koan", "3wn1ro", "7qs7n1", "e617dj", "eoad6r", "ftw5pp", "gy4dv0", "h6vhsk", "o8ebfm", "p2y753", "rhjnyl", "ybcze1", "zmk1s"]);
+// optical purity values: the notes' specific rotations, or random ones
+const RES_H = new Set(["10orqyp", "11pcryb", "11zxi8w", "12stpbm", "12t8188", "1337mx7", "133dxx5", "133vx0s", "13mb4ys", "13og90c", "13src1j", "13xrklq", "15pdbty", "16f968t", "1cf5aua", "1hip5o1", "1j11q7l", "1lh140h", "1nop6dj", "1ojh4t2", "1shi3k7", "1tlgxz0", "1v9koan", "1xvyqis", "3wn1ro", "587mvp", "5jpz6s", "5tpkvr", "76w5r2", "7gsly2", "7gvrg1", "7qs7n1", "e617dj", "eoad6r", "ftw5pp", "gy4dv0", "h6vhsk", "o8ebfm", "p2y753", "rhjnyl", "ybcze1", "zmk1s"]);
 const fnvH = s => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
-LAB.isRes = k => RES_H.has(fnvH(k));
-const hitsRes = t => (String(t).replace(/<[^>]+>/g, " ").match(/\d+(\.\d+)?/g) || []).some(n => RES_H.has(fnvH(n)));
-LAB.hitsRes = hitsRes;
-// random specific rotations keep well clear of the tutorial values: magnitudes 15 to 55 or 70 to 130
+// a printed number is refused when it, its integer part or its run of digits after the decimal point is on the list
+const hitsRes = t => (String(t).replace(/<[^>]+>/g, " ").match(/\d+(\.\d+)?/g) || []).some(n => { const [a, b] = n.split("."); return [n, a, b, b && b.replace(/0+$/, ""), b && a + "." + b.replace(/0+$/, "")].some(x => x && RES_H.has(fnvH(x))); });
+// random specific rotations: magnitudes 15 to 55 or 70 to 130
 const okAlphaPure = v => (Math.abs(v) >= 15 && Math.abs(v) <= 55) || (Math.abs(v) >= 70 && Math.abs(v) <= 130);
 function genOP(){
   for (let tries = 0; tries < 200; tries++){
@@ -2571,7 +2609,7 @@ function genOP(){
       const ee = 2 * x - 100, ans = comp.p * ee / 100;
       if (hitsRes([x, 100 - x, ee].map(v => v.toFixed(1)).join(" ") + " " + Math.abs(ans).toFixed(2))) continue;
       return { kind: "mix", comp, x, ee, ans, dp: 2, unit: "°", ask: `A sample of ${comp.n} contains ${x.toFixed(1)} % ${comp.maj}-${comp.n} and ${(100 - x).toFixed(1)} % ${comp.min}-${comp.n}. [α] of pure ${comp.maj}-${comp.n} is ${pfmt(comp.p)}° (neat, literature value). Calculate the specific rotation expected for the sample.`,
-        work: [`ee = % major − % minor = ${x.toFixed(1)} − ${(100 - x).toFixed(1)} = ${ee.toFixed(1)} %`, `Optical purity = ee, so [α] = ${pfmt(comp.p)} × ${ee.toFixed(1)}/100 = ${sgn(ans, 2)}°`] };
+        work: [`ee = % major − % minor = ${x.toFixed(1)} − ${(100 - x).toFixed(1)} = ${ee.toFixed(1)} %`, `Optical purity = ee, so [α] = ${pfmt(comp.p)} × ${ee.toFixed(1)}/100 = ${sgn(ans, 2)}°`].map(IT) };
     }
     let comp;
     if (v === 1) comp = { n: "carvone", p: -61, neat: true, rho: 0.960, major: "(<i>R</i>)-carvone", minor: "(<i>S</i>)-carvone", src: "neat, literature value" };
@@ -2579,8 +2617,8 @@ function genOP(){
       (() => { let p; do { p = ri(150, 1300) / 10 * (Math.random() < 0.5 ? -1 : 1); } while (!okAlphaPure(p) || hitsRes(Math.abs(p).toFixed(1))); return { n: "compound X", p, major: `the ${p > 0 ? "(+)" : "(−)"} enantiomer`, minor: `the ${p > 0 ? "(−)" : "(+)"} enantiomer`, solv: "ethanol", src: "illustrative value" }; })()]);
     const l = pick([0.500, 1.00, 2.00]), target = ri(150, 990) / 10;
     let c = null, mass = null, vol = null;
-    // c is printed to 3 s.f. and every later step uses the printed value
-    if (!comp.neat){ vol = pick([10.0, 25.0, 50.0]); mass = ri(Math.ceil(0.02 * vol * 100), Math.floor(0.15 * vol * 100)) / 100; c = +sf(mass / vol, 3); }
+    // c is exactly m/V: the question prints the mass and the volume, so the answer is worked from them, not from a rounded c
+    if (!comp.neat){ vol = pick([10.0, 25.0, 50.0]); mass = ri(Math.ceil(0.02 * vol * 100), Math.floor(0.15 * vol * 100)) / 100; c = mass / vol; }
     const dens = comp.neat ? comp.rho : c;
     const alpha = +(target / 100 * comp.p * l * dens).toFixed(2);
     if (Math.abs(alpha) < 0.3) continue;
@@ -2589,19 +2627,24 @@ function genOP(){
     if (op > 100) continue;
     const askMaj = Math.random() < 0.5;
     q.ans = askMaj ? maj : op; q.askMaj = askMaj; q.dp = 1; q.unit = "%";
+    // the working prints c to 4 s.f. as an intermediate: accept the draw only when the printed arithmetic reproduces the printed answer
+    const c4 = c == null ? null : +sf(c, 4), dens4 = c4 == null ? dens : c4;
+    const obs4 = +sf(alpha / (l * dens4), 4), op1 = +(Math.abs(obs4 / comp.p * 100)).toFixed(1), maj1 = +((100 + op1) / 2).toFixed(1);
+    if (+sf(obs, 4) !== obs4 || op1 !== +op.toFixed(1) || maj1 !== +maj.toFixed(1)) continue;
+    if (Math.round(op1 * 10) % 2) continue;   // an odd tenth would put (100 + op)/2 on a rounding tie (x.x5): keep every printed halving exact
     const setup = comp.neat ? `Neat ${comp.n} (density ${comp.rho.toFixed(3)} g cm⁻³, literature value) gives α = ${sgn(alpha, 2)}° in a ${l.toFixed(2)} dm tube.`
-      : `${mass.toFixed(2)} g of ${comp.n} is dissolved in ${comp.solv} and made up to ${vol.toFixed(1)} cm³. In a ${l.toFixed(2)} dm tube, α = ${sgn(alpha, 2)}°.`;
+      : `A solution is prepared from ${mass.toFixed(2)} g of ${comp.n} in ${comp.solv}, giving ${vol.toFixed(1)} cm³ in all. In a ${l.toFixed(2)} dm tube, α = ${sgn(alpha, 2)}°.`;
     q.ask = `${setup} [α] of ${comp.major} is ${pfmt(comp.p)}° (${comp.src}). Calculate ${askMaj ? `the percentage of ${comp.major} in the sample` : "the optical purity of the sample"}.`;
     const obsTxt = (obs > 0 ? "+" : "") + minus(sf(obs, 4));
-    q.work0 = 1; q.work = (comp.neat ? [] : [`c = ${mass.toFixed(2)}/${vol.toFixed(1)} = ${minus(sf(c, 3))} g cm⁻³`]).concat([
-      `[α]{obs} = α{}/(l{} × ${comp.neat ? "ρ" : "c"}{}) = ${sgn(alpha, 2)}/(${l.toFixed(2)} × ${comp.neat ? comp.rho.toFixed(3) : minus(sf(c, 3))}) = ${obsTxt}`,
-      `optical purity = [α]{obs}/[α]{pure} × 100 % = ${minus(sf(Math.abs(obs), 4))}/${String(Math.abs(comp.p))} × 100 % = ${op.toFixed(1)} %${comp.p < 0 ? " (magnitudes)" : ""}`,
-      `% of ${comp.major} = (100 + ${op.toFixed(1)})/2 = ${maj.toFixed(1)} %; ${comp.minor} ${(100 - maj).toFixed(1)} %`]);
+    q.work0 = 1; q.work = (comp.neat ? [] : [`c = ${mass.toFixed(2)}/${vol.toFixed(1)} = ${minus(sf(c, 4))} g cm⁻³ (keep the unrounded value; it is shown to 4 s.f.)`]).concat([
+      `[α]{obs} = α{}/(l{} × ${comp.neat ? "ρ" : "c"}{}) = ${sgn(alpha, 2)}/(${l.toFixed(2)} × ${comp.neat ? comp.rho.toFixed(3) : minus(sf(c, 4))}) = ${obsTxt}`,
+      `optical purity = [α]{obs}/[α]{pure} × 100 % = ${minus(sf(Math.abs(obs), 4))}/${String(Math.abs(comp.p))} × 100 % = ${op1.toFixed(1)} %${comp.p < 0 ? " (magnitudes)" : ""}`,
+      `% of ${comp.major} = (100 + ${op1.toFixed(1)})/2 = ${maj1.toFixed(1)} %; ${comp.minor} ${(100 - maj1).toFixed(1)} %`]);
+    q.ask = IT(q.ask); q.work = q.work.map(IT);
     if (hitsRes(q.ask + " " + q.work.join(" "))) continue;
     return q;
   }
 }
-LAB.genOP = genOP;
 const pfmt = p => (p > 0 ? "+" : MINUS) + String(Math.abs(p));
 const NM_TH = [0, 60, 120, 180, 240, 300];
 function genQ(type){
@@ -2637,9 +2680,10 @@ function genQ(type){
       ask: `In this chair of ${r.name}, is the ${what} group on C${sl.c + 1} (ringed) axial or equatorial?`,
       work: [`C${sl.c + 1} is an "${m.cface[sl.c]}" carbon of this chair (it sits on the ${m.cface[sl.c] === "up" ? "upper" : "lower"} side of the ring).`, `The ${what} group points ${sl.face}: ${sl.face} on an "${m.cface[sl.c]}" carbon is ${sl.pos}.`, `Axial bonds are parallel to the ring's axis; equatorial bonds point out round the ring. A ring flip would make it ${sl.pos === "axial" ? "equatorial" : "axial"}.`] });
   }
+  if (q.ask) q.ask = IT(q.ask);
+  if (q.work) q.work = q.work.map(IT);
   return q;
 }
-LAB.genQ = genQ;
 function gnRender(){
   const q = GN.q;
   $("gn-q").innerHTML = H(q.ask);
@@ -2658,60 +2702,64 @@ function gnRender(){
   $("gn-opts").hidden = !q.opts; $("gn-ansrow").hidden = !!q.opts; $("gn-check").hidden = !!q.opts;
   if (q.opts) $("gn-opts").innerHTML = q.opts.map(o => `<button type="button" data-a="${o}">${o.length === 1 ? `<i>${o}</i>` : o}</button>`).join("");
   $("gn-lab").textContent = q.type === "count" ? "Number of stereoisomers" : q.type === "nm" ? "Energy / kJ mol⁻¹" : q.type === "op" ? (q.unit === "%" ? "Answer / %" : "[α] / °") : "Answer";
-  $("gn-fmt").innerHTML = q.opts ? "" : q.type === "count" ? "A whole number." : q.type === "op" ? (q.unit === "%" ? "To 1 decimal place, e.g. 72.5" : "With its sign, to 2 decimal places, e.g. +4.32") : "To 1 decimal place.";
+  $("gn-fmt").innerHTML = q.opts ? "" : q.type === "count" ? "A whole number." : q.type === "op" ? (q.unit === "%" ? "As a percentage, to 1 decimal place." : "With its sign, to 2 decimal places.") : "To 1 decimal place.";
+  // a box whose answer can be negative takes the text keyboard (the iPhone decimal keypad has no minus key)
+  $("gn-ans").setAttribute("inputmode", q.type === "op" && q.unit === "°" ? "text" : "decimal");
   $("gn-ans").value = ""; $("gn-fb").hidden = true;
   $("gn-work").innerHTML = (q.work || []).map(t => `<li>${H(t)}</li>`).join(""); $("gn-work").hidden = !GN.work;
   $("gn-score").textContent = `${GN.score[0]} right out of ${GN.score[1]}`;
-  GN.answered = false;
+  GN.answered = false; GN.seen = false;   // a new question: scored once, and not scored if its working is opened before Check
 }
 function gnDrawNM(){ const q = GN.q, W = widthOf($("gn-vw")), Hh = 250; setSvg($("gn-nm"), W, Hh, newmanSvg(q.mol, q.th, W, Hh, false).s); }
 function gnNew(type){ GN.type = type || GN.type; GN.work = false; $("gn-show").textContent = "Show working"; GN.q = genQ(GN.type); gnRender(); }
-LAB.gnNew = gnNew;
-// answer checking: tolerance relative to the answer's last printed figure
+// answer checking: tolerance relative to the answer's last printed figure; the unit is the question's or none
+const gnUnits = q => q.type === "count" ? ["num"] : q.type === "nm" ? ["kj"] : q.unit === "%" ? ["pct"] : ["deg"];
 function gnCheck(given){
   const q = GN.q; if (GN.answered) return;
   let ok;
   if (q.opts) ok = given === q.ans;
   else {
-    const v = parseNum(given); if (!isFinite(v)){ const fb = $("gn-fb"); fb.hidden = false; fb.className = "fb warn"; fb.innerHTML = "<p>Type a number.</p>"; return; }
+    const r = parseAnswer(given, gnUnits(q));
+    if (r.error){ const fb = $("gn-fb"); fb.hidden = false; fb.className = "fb warn"; fb.innerHTML = `<p>${esc(r.error)}</p>`; return; }   // blank, unparsable or a wrong unit: nothing counted
     const tol = q.type === "count" ? 0 : q.dp === 2 ? 0.015 + 0.002 * Math.abs(q.ans) : 0.15;
-    ok = Math.abs(v - q.ans) <= tol + 1e-9;
+    ok = Math.abs(r.value - q.ans) <= tol + 1e-9;
   }
-  GN.answered = true; GN.score[1]++; if (ok) GN.score[0]++;
+  GN.answered = true;
+  const counted = !GN.seen;   // working opened before Check: marked, not scored
+  if (counted){ GN.score[1]++; if (ok) GN.score[0]++; }
   if (q.opts) $("gn-opts").querySelectorAll("button").forEach(b => { b.disabled = true; b.setAttribute("aria-pressed", b.dataset.a === given); });
   const fb = $("gn-fb"); fb.hidden = false; fb.className = "fb " + (ok ? "ok" : "no");
   const ansTxt = q.opts ? (q.ans.length === 1 ? `<i>${q.ans}</i>` : q.ans) : q.type === "count" ? String(q.ans) : q.dp === 2 ? sgn(q.ans, 2) + "°" : q.ans.toFixed(1) + (q.unit === "%" ? " %" : " kJ mol⁻¹");
-  fb.innerHTML = `<p>${ok ? "Right" : "Not this time"}: the answer is ${H(ansTxt)}.${ok ? "" : " See the working."}</p>`;
+  fb.innerHTML = `<p>${ok ? "Right" : "Not this time"}: the answer is ${H(ansTxt)}.${ok ? "" : " See the working."}${counted ? "" : " Not scored: the working was opened before checking."}</p>`;
   if (!ok){ GN.work = true; $("gn-work").hidden = false; $("gn-show").textContent = "Hide working"; }
   $("gn-score").textContent = `${GN.score[0]} right out of ${GN.score[1]}`;
 }
-LAB.gnCheck = gnCheck;
 function bindGN(){
   gnV = Viewer($("gn-svg"), $("gn-vw"), W => W < 420 ? 270 : 300);
   document.querySelectorAll("#gn-tabs button").forEach(b => b.addEventListener("click", () => { document.querySelectorAll("#gn-tabs button").forEach(x => x.setAttribute("aria-selected", x === b)); gnNew(b.dataset.type); }));
   $("gn-opts").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnCheck(b.dataset.a); });
   $("gn-check").addEventListener("click", () => { if (GN.q.opts) return; gnCheck($("gn-ans").value); });
   $("gn-ans").addEventListener("keydown", e => { if (e.key === "Enter") gnCheck($("gn-ans").value); });
-  $("gn-show").addEventListener("click", () => { GN.work = !GN.work; $("gn-work").hidden = !GN.work; $("gn-show").textContent = GN.work ? "Hide working" : "Show working"; });
+  $("gn-show").addEventListener("click", () => { GN.work = !GN.work; if (GN.work && !GN.answered) GN.seen = true; $("gn-work").hidden = !GN.work; $("gn-show").textContent = GN.work ? "Hide working" : "Show working"; });
   $("gn-new").addEventListener("click", () => gnNew());
   gnNew("rs");
 }
 BIND.push(bindGN);
 REDRAW.push(() => { if (GN.q && GN.q.type === "nm") gnDrawNM(); });
 /* =====================================================
-   FACT CARDS (the notes' named examples and the three formula cards only; nothing from the tutorials)
+   FACT CARDS (the notes' named examples and the three formula cards)
    ===================================================== */
 const FC = [
   { cat: "conf", h: "Ethane", k: "2.1(b)(i)", d: "Rotation about the C–C σ bond keeps the overlap, so the carbons turn freely. Eclipsed is about 12 kJ mol⁻¹ above staggered (literature value): three H/H eclipsings, about 4.0 each (torsional strain).",
-    list: ["The barrier is small next to the energy available at room temperature: rotation is rapid and the conformations cannot be separated.", "The staggered conformations (θ = 60°, 180°, 300°) are the conformers."] },
+    list: ["Only a small fraction of collisions at room temperature carry this much energy, but molecules collide so often that ethane still rotates rapidly: the conformations cannot be separated.", "The staggered conformations (θ = 60°, 180°, 300°) are the conformers."] },
   { cat: "conf", h: "Butane, about C2–C3", k: "2.1(b)(i)", d: "Relative to anti (θ = 180°) = 0 (literature values, kJ mol⁻¹): gauche (60°, 300°) about 3.8; eclipsed CH₃/H (120°, 240°) about 16; fully eclipsed CH₃/CH₃ (0°) about 19.",
-    list: ["From the costs: 0° = 11 + 2 × 4.0 = 19; 120° = 2 × 6.0 + 4.0 = 16; gauche 3.8 is steric strain between the CH₃ groups.", "Barriers: anti → gauche about 16, gauche → anti about 16 − 3.8 ≈ 12.", "At room temperature butane is mostly anti, but rotation is still rapid."] },
+    list: ["From the costs: 0° = 11 + 2 × 4.0 = 19; 120° = 2 × 6.0 + 4.0 = 16; gauche 3.8 is steric strain between the CH₃ groups.", "Going from anti to gauche passes the eclipsed CH₃/H conformation, about 16. The top of the profile, the fully eclipsed conformation, is about 19 above anti; from gauche the barrier to the other gauche is about 15 (19 − 3.8).", "At room temperature butane is mostly anti, but rotation is still rapid."] },
   { cat: "conf", h: "Cyclohexane: chair, boat and ring flip", k: "2.1(b)(i)", d: "The chair is the most stable shape of the ring, free of angle strain and torsional strain.",
     list: ["Boat: about 30 kJ mol⁻¹ above the chair (literature value).", "Ring flip through the half-chair: barrier about 45 kJ mol⁻¹; about 10⁵ flips a second at room temperature (literature values).", "A ring flip turns every axial bond equatorial and vice versa; up stays up.", "Beyond the syllabus: the twist-boat, about 23 kJ mol⁻¹, relieves some of the boat's strain."] },
   { cat: "conf", h: "Methylcyclohexane", k: "2.1(b)(i)", d: "Equatorial CH₃ is preferred by about 7.3 kJ mol⁻¹ (literature value); about 95 % of the molecules have CH₃ equatorial at 298 K (literature value).",
-    list: ["An axial CH₃ meets the axial H atoms on C3 and C5: two 1,3-diaxial interactions.", "In a Newman projection along C1–C2 an axial CH₃ is gauche to C3: two gauche interactions ≈ 2 × 3.8 = 7.6, close to the measured 7.3.", "Large groups prefer equatorial positions; the larger the group, the stronger the preference."] },
+    list: ["An axial CH₃ meets the two axial H atoms on C3 and C5: two 1,3-diaxial interactions.", "In a Newman projection along C1–C2 an axial CH₃ is gauche to C3: two gauche interactions ≈ 2 × 3.8 = 7.6, close to the measured 7.3.", "Large groups prefer equatorial positions; the larger the group, the stronger the preference."] },
   { cat: "conf", h: "<i>tert</i>-Butylcyclohexane", k: "2.1(b)(i)", d: "Equatorial preferred by about 21 kJ mol⁻¹ (literature value): effectively 100 % equatorial.",
-    list: ["An axial tert-butyl group would push one of its CH₃ groups into the axial H atoms on C3 and C5.", "The tert-butyl group “locks” the ring in one chair.", "Beyond the syllabus: these equatorial preferences are called A-values."] },
+    list: ["An axial tert-butyl group would push one of its CH₃ groups into the two axial H atoms on C3 and C5.", "The tert-butyl group “locks” the ring in one chair.", "Beyond the syllabus: these equatorial preferences are called A-values."] },
   { cat: "config", h: "Butan-2-ol", k: "2.1(b)(iii)", d: "One chiral centre, C2: –OH > –CH₂CH₃ > –CH₃ > –H (ethyl beats methyl at the second atom: (C,H,H) against (H,H,H)).",
     list: ["(R)-butan-2-ol [α] −13.5 and (S)-butan-2-ol +13.5 (neat; literature values).", "A 70.0 : 30.0 mixture of (S) and (R): ee 40.0 %, expected [α] = +13.5 × 0.400 = +5.40 (notes WE10)."] },
   { cat: "config", h: "Alanine", k: "2.1(b)(iii)", d: "(S)-alanine is the form found in proteins. –NH₂ > –COOH > –CH₃ > –H: N beats C at the first atom; COOH is C(O,O,O) by rule 3.",
@@ -2731,7 +2779,7 @@ const FC = [
     list: ["trans (H₂O opposite): a plane of symmetry through Ni and the four N atoms, achiral.", "cis (H₂O adjacent): no plane of symmetry, a pair of enantiomers."] },
   { cat: "cx", h: "en, a bidentate ligand", k: "2.1(c)", d: "Ethane-1,2-diamine, H₂NCH₂CH₂NH₂, abbreviated en: each N donates its lone pair to the same metal ion, forming a five-membered ring (M, N, C, C, N).",
     list: ["The two N atoms are close together, so en spans two cis (adjacent, 90°) positions, never trans positions.", "Beyond the syllabus: real en rings are slightly puckered."] },
-  { cat: "cx", h: "Cisplatin and carboplatin", k: "2.1(c)(i)", d: "Cisplatin, cis-[Pt(NH₃)₂Cl₂], is a widely used anticancer drug; only the cis isomer works well.",
+  { cat: "cx", h: "Cisplatin and carboplatin", k: "2.1(c)(i)", d: "Cisplatin, cis-[Pt(NH₃)₂Cl₂], is a widely used anticancer drug; the trans isomer, transplatin, is much less active.",
     list: ["Inside cells, where [Cl⁻] is much lower than in blood, water replaces the Cl⁻ ligands; the platinum then bonds to N atoms of two neighbouring guanine bases on the same DNA strand, which needs two bonds at 90°.", "Carboplatin has one bidentate dicarboxylate ligand in place of the two Cl⁻ (it can only take two cis positions) and releases platinum more slowly, with fewer side effects."] },
   { cat: "f", h: "Specific rotation", k: "2.1(b)(iii)", d: "[α] = α / (l × c): the tube length l is measured in decimetres and the concentration c in g cm⁻³. For a pure liquid (neat), use its density ρ (g cm⁻³) in place of c.",
     list: ["Quoted as [α]{D}{20} in degrees: sodium D line (589 nm), 20 °C, with the solvent and concentration.", "α also depends on the wavelength, the temperature and the solvent."] },
@@ -2740,7 +2788,6 @@ const FC = [
   { cat: "f", h: "Enantiomeric excess", k: "2.1(b)(iii)", d: "ee = % major − % minor, taken as equal to the optical purity (this assumes rotation is proportional to the excess of one enantiomer, which is usually true).",
     list: ["% major = (100 + optical purity) / 2; % minor = (100 − optical purity) / 2.", "Optical purity 90.0 % means 90 % one enantiomer plus 10 % racemic mixture: 95 : 5."] }
 ];
-LAB.FC = FC;
 const FCF = [["all", "All"], ["conf", "Conformations"], ["config", "Configurations"], ["cx", "Complexes"], ["f", "Formulae"]];
 let FCSEL = "all";
 const HF = t => H(String(t).replace(/\((R|S),(R|S)\)/g, "(<i>$1</i>,<i>$2</i>)").replace(/\((R|S|E|Z)\)/g, "(<i>$1</i>)").replace(/\((\d)(R|S),(\d)(R|S)\)/g, "($1<i>$2</i>,$3<i>$4</i>)"));
@@ -2756,10 +2803,9 @@ function bindCards(){
   $("fc-filter").querySelectorAll("button").forEach(b => b.onclick = () => { FCSEL = b.dataset.f; render(); });
   render();
 }
-LAB.fcFilter = f => { FCSEL = f; document.querySelector(`#fc-filter button[data-f="${f}"]`).click(); };
 BIND.push(bindCards);
 /* =====================================================
-   QUIZ (option 0 is correct; each option carries its reason). The notes' examples only; no tutorial item.
+   QUIZ (option 0 is correct; each option carries its reason). The notes' examples only.
    ===================================================== */
 const QZ = [
   { k: "2.1(a)", q: "In a Newman projection of butane along C2–C3, the two CH₃ groups are at a dihedral angle θ = 60°. What is this conformation called?",
@@ -2768,8 +2814,8 @@ const QZ = [
         ["eclipsed", "The eclipsed conformations of butane are at θ = 120° and 240°, with each CH₃ behind an H."],
         ["fully eclipsed", "Fully eclipsed has one CH₃ directly behind the other, θ = 0°."]] },
   { k: "2.1(b)(i)", q: "Why is the eclipsed conformation of ethane about 12 kJ mol⁻¹ higher in energy than the staggered one?",
-    o: [["Torsional strain: the bonding pairs of the three pairs of eclipsed C–H bonds are pushed close together", "Three H/H eclipsings at about 4.0 kJ mol⁻¹ each (literature value)."],
-        ["Rotation breaks the σ bond between the carbons", "The σ bond is cylindrically symmetrical, so its overlap is kept as the carbons rotate."],
+    o: [["Torsional strain between the three pairs of eclipsed C–H bonds", "Three H/H eclipsings at about 4.0 kJ mol⁻¹ each (literature value)."],
+        ["Rotation about the C–C bond breaks the σ bond between the two carbon atoms", "The σ bond is cylindrically symmetrical, so its overlap is kept as the carbons rotate."],
         ["Steric strain between two CH₃ groups", "Ethane has no CH₃ groups attached to its C–C bond, only H atoms."],
         ["Angle strain: the H–C–H angles close up", "The bond angles hardly change on rotation; the energy comes from eclipsing."]] },
   { k: "2.1(b)(i)", q: "A methylcyclohexane ring flips. What happens to a CH₃ group that was axial?",
@@ -2778,14 +2824,14 @@ const QZ = [
         ["It stays axial", "Every axial bond becomes equatorial on flipping, and every equatorial bond axial."],
         ["It moves to the next carbon", "No bonds are broken: the CH₃ stays on the same carbon."]] },
   { k: "2.1(b)(i)", q: "Why is trans-1,2-dimethylcyclohexane more stable than cis-1,2-dimethylcyclohexane?",
-    o: [["The trans isomer can have both CH₃ groups equatorial; every chair of the cis isomer has one axial CH₃", "trans: e,e ⇌ a,a, with e,e strongly preferred; cis: a,e ⇌ e,a."],
+    o: [["The trans isomer can have both CH₃ groups equatorial; the cis isomer always has one axial", "trans: e,e ⇌ a,a, with e,e strongly preferred; cis: a,e ⇌ e,a: every chair of the cis isomer has one axial CH₃."],
         ["The trans isomer has no chiral centres", "Both isomers have two chiral centres, C1 and C2."],
         ["The cis isomer is locked in a boat", "Both isomers adopt chairs; the boat is about 30 kJ mol⁻¹ higher."],
-        ["A ring flip turns the cis isomer into the trans isomer", "A ring flip never changes cis into trans: they are different compounds (configurations)."]] },
+        ["A ring flip turns the cis isomer into the trans isomer, which is the more stable of the two", "A ring flip never changes cis into trans: they are different compounds (configurations)."]] },
   { k: "2.1(b)(ii)", q: "In one isomer of 2-bromobut-2-ene, CH₃C(Br)=CHCH₃, the two CH₃ groups are on the same side of the C=C. How is it named?",
-    o: [["(E): on C2, Br outranks CH₃, so the higher-priority groups (Br and the C3 CH₃) are on opposite sides", "The two CH₃ groups are cis, but E/Z compares the higher-priority groups."],
+    o: [["(E): the higher-priority groups, Br and the C3 CH₃, are on opposite sides", "On C2, Br outranks CH₃. The two CH₃ groups are cis, but E/Z compares the higher-priority groups."],
         ["(Z), because the two CH₃ groups are on the same side", "That compares the two CH₃ groups (cis/trans), not the highest-priority group on each carbon."],
-        ["It cannot be named E or Z because it has no H atom on C2", "E/Z needs only two different groups on each carbon of the C=C: C2 has Br and CH₃, C3 has CH₃ and H."],
+        ["It cannot be named E or Z because there is no H atom on C2 for the CH₃ to be compared with", "E/Z needs only two different groups on each carbon of the C=C: C2 has Br and CH₃, C3 has CH₃ and H."],
         ["(E) because Br is on C2", "E/Z depends on where the higher-priority groups are relative to each other, not on which carbon carries Br."]] },
   { k: "2.1(b)(iii)", q: "Which group has the highest CIP priority at the chiral centre of alanine, CH₃CH(NH₂)COOH?",
     o: [["–NH₂", "Rank by the atom attached first: N (7) beats C (6), whatever is attached further out."],
@@ -2796,7 +2842,7 @@ const QZ = [
     o: [["Nothing: the sign of rotation has no fixed link to R or S and must be measured", "(R)-butan-2-ol happens to be (−) too, but (S)-alanine is (+): the labels come from the CIP rules, the sign from experiment."],
         ["It must be (−), because both are R", "R and S describe the arrangement in space; the sign of rotation is not predicted by them."],
         ["It must be (+), because R and S alternate", "There is no such rule."],
-        ["It does not rotate the light, because it has only one chiral centre", "A compound with one chiral centre is chiral, so each enantiomer is optically active."]] },
+        ["It does not rotate plane-polarised light at all, because it has only one chiral centre", "A compound with one chiral centre is chiral, so each enantiomer is optically active."]] },
   { k: "2.1(b)(iii)", q: "Which statement about (2R,3S)-2,3-dibromobutane is correct?",
     o: [["It is a meso compound: achiral and optically inactive although it has two chiral centres", "It has a plane of symmetry in its eclipsed conformation, so it is superimposable on its mirror image."],
         ["It is a racemic mixture", "A racemic mixture is a 50 : 50 mixture of two enantiomers; this is a single compound."],
@@ -2813,12 +2859,9 @@ const QZ = [
         ["cis-[Pt(NH₃)₂Cl₂]", "It is flat: the molecular plane is a plane of symmetry."],
         ["trans-[Co(NH₃)₄(H₂O)₂]²⁺", "It has planes of symmetry through Co and the two O atoms: achiral."]] }
 ];
-LAB.QZ = QZ;
 const Q = { i: 0, score: 0, order: [] };
-LAB.Q = Q;
 const HQ = t => H(String(t).replace(/\((R|S|E|Z)\)/g, "(<i>$1</i>)").replace(/\((\d)(R|S),(\d)(R|S)\)/g, "($1<i>$2</i>,$3<i>$4</i>)"));
 function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
-LAB.startQuiz = startQuiz;
 function renderQ(){
   const box = $("quiz-box");
   if (Q.i >= QZ.length){
@@ -2834,18 +2877,19 @@ function renderQ(){
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">9813 ${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${HQ(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button type="button" class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${HQ(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button type="button" class="opt" data-j="${j}"><b>${"ABCD"[j]}</b><span>${HQ(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
   box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
     if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+    const oi = ord[+b.dataset.j], right = oi === 0;   // the right option's place is known only to the script, never written into the page
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (ord[+x.dataset.j] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${HQ(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
     ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${HQ(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
     ex.hidden = false;
+    { const lv = $("q-live"); if (lv) lv.textContent = right ? "Correct." : "Not quite. The answer is " + "ABCD"[ord.indexOf(0)] + "."; }
     $("q-next").onclick = () => { Q.i++; renderQ(); };
   });
 }
@@ -2853,7 +2897,28 @@ BIND.push(startQuiz);
 /* ---------- start ---------- */
 BIND.forEach(f => { try { f(); } catch (e) { console.error(e); } });
 bindNav();
-LAB.ready = true;
+// leaving a section stops its animation, so a turn that is still running cannot move the view of the next item
+const STOP = { newman: () => nrStop(), chair: () => cyStop(), trainer: () => trV.stop(), sorter: () => { soA.stop(); soB.stop(); }, complexes: () => cxStop(), practice: () => gnV.stop() };
+document.querySelectorAll("section.lab").forEach(sec => new MutationObserver(() => { if (sec.classList.contains("ls-off") && STOP[sec.id]) STOP[sec.id](); }).observe(sec, { attributes: true, attributeFilter: ["class"] }));
+window.addEventListener("hashchange", () => { const id = location.hash.slice(1); Object.keys(STOP).forEach(k => { if (k !== id) STOP[k](); }); });
+  /* tablist semantics: aria-controls, roving tabindex, arrow keys */
+  [["tr-tabs","tr-panel"],["gn-tabs","gn-panel"]].forEach(([tid,pid]) => {
+    const tl = document.getElementById(tid); if (!tl) return;
+    const tabs = [...tl.querySelectorAll('[role="tab"]')];
+    const sync = () => tabs.forEach(b => { b.setAttribute("aria-controls", pid); b.tabIndex = b.getAttribute("aria-selected") === "true" ? 0 : -1; });
+    new MutationObserver(sync).observe(tl, {attributes: true, subtree: true, attributeFilter: ["aria-selected"]});
+    sync();
+    tl.addEventListener("keydown", e => {
+      const k = e.key, i = tabs.indexOf(document.activeElement); if (i < 0) return;
+      let j = -1;
+      if (k === "ArrowRight" || k === "ArrowDown") j = (i + 1) % tabs.length;
+      else if (k === "ArrowLeft" || k === "ArrowUp") j = (i + tabs.length - 1) % tabs.length;
+      else if (k === "Home") j = 0; else if (k === "End") j = tabs.length - 1;
+      if (j < 0) return;
+      e.preventDefault(); tabs[j].focus(); tabs[j].click();
+    });
+  });
+
 })();
 </script>
 <!-- labshell:start --><script>
