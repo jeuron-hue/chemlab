@@ -65,6 +65,7 @@ a{color:var(--accent)}
 .top h1{font-size:clamp(1.7rem, 4vw, 2.35rem); line-height:1.15}
 .top .sub{color:var(--ink-2); margin-top:6px; font-size:.98rem}
 .crumbs{margin:0 0 10px; font-size:.86rem; line-height:1.7}
+.crumbs a{display:inline-block; min-height:24px; line-height:24px}
 .tag{display:inline-block; font-size:.72rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); padding:3px 9px; border-radius:4px; white-space:nowrap}
 
 /* nav */
@@ -90,19 +91,19 @@ section.lab:last-of-type{border-bottom:0}
 .ctl{display:flex; flex-direction:column; gap:6px; min-width:0}
 .ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 .hint{font-size:.78rem; color:var(--muted)}
 .seg{display:flex; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface-2)}
-.seg label{flex:1 1 0; min-width:0; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
-.seg input{position:absolute; opacity:0; pointer-events:none}
+.seg label{flex:1 1 0; min-width:0; min-height:28px; white-space:normal; text-align:center; font-size:.85rem; padding:6px 4px; cursor:pointer; color:var(--ink-2); display:block; position:relative; line-height:1.3}
+.seg input{position:absolute; inset:0; width:100%; height:100%; min-width:24px; min-height:24px; margin:0; opacity:0; cursor:pointer}
 .seg label:has(input:checked){background:var(--accent); color:var(--accent-ink); font-weight:600}
 .seg label:has(input:focus-visible){outline:2px solid var(--accent); outline-offset:-2px}
 .seg label:has(input:disabled){opacity:.4; cursor:not-allowed}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
-.switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
-.switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
+.switch input{appearance:none; -webkit-appearance:none; width:40px; height:24px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
+.switch input::after{content:""; position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
-.switch input:checked::after{transform:translateX(14px)}
+.switch input:checked::after{transform:translateX(16px)}
 button{font:inherit}
 .btn{font-size:.88rem; font-weight:500; padding:7px 14px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer}
 .btn:hover{border-color:var(--axis)}
@@ -126,16 +127,16 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:.66rem; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
-.src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
+.src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:.64rem; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:normal; overflow-wrap:anywhere}
 .src.lit{border-style:dashed}
 .nw{white-space:nowrap}
 .pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500; min-width:0}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -236,7 +237,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 .field input[aria-invalid=true]{border-color:var(--bad)}
 .ansrow{display:flex; flex-wrap:wrap; gap:8px; align-items:end}
 .ansrow .field{flex:1 1 180px; max-width:260px}
-.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; align-items:start}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr)); gap:14px; align-items:start}
 .card ul{margin:8px 0 0; padding-left:18px; font-size:.88rem; color:var(--ink-2); display:flex; flex-direction:column; gap:3px}
 .card .tblwrap{margin-top:8px}
 .card table.data{font-size:.82rem}
@@ -306,6 +307,13 @@ svg .arrowh{fill:var(--s2)}
 #zh-tbl td.num, #zh-tbl th.num{text-align:right; white-space:nowrap}
 .seg label sub, .seg label sup{line-height:0}
 #pr-grid{min-width:640px}
+
+/* ---------- Enrichment tag in plum, right-answer ink at 4.5 : 1 or better, shell map button hit area (as the H3.5 lab) ---------- */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+.ls-mapfoot button.ls-all2{min-height:24px; padding:2px 0}
+.card dd{overflow-wrap:anywhere}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -345,7 +353,7 @@ svg .arrowh{fill:var(--s2)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -357,7 +365,7 @@ svg .arrowh{fill:var(--s2)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -615,7 +623,7 @@ svg .arrowh{fill:var(--s2)}
   <div class="sechead">
     <span class="eyebrow">Practice · <span class="nc">9813 3.2, 3.3</span></span>
     <h2>Practice</h2>
-    <p>Generated questions on rate laws, mechanisms, E or Z products, Zaitsev or Hofmann products and enantiomeric excess, each checked with full working. Rate data are illustrative and built only from the notes' substrates.</p>
+    <p>Generated questions on rate laws, mechanisms, <i>E</i> or <i>Z</i> products, Zaitsev or Hofmann products and enantiomeric excess, each checked with full working. Rate data are illustrative and built only from the notes' substrates.</p>
   </div>
   <div class="stack">
     <div class="chipgrp"><span>Question type</span><div class="chips" id="gn-types" role="group" aria-label="Question type"></div></div>
@@ -668,15 +676,14 @@ svg .arrowh{fill:var(--s2)}
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const MINUS = "−";
 const D2R = Math.PI / 180;
 const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
 const supCh = c => c === "⁺" ? "+" : c === "⁻" ? "−" : String(SUPD.indexOf(c));
-// Unicode sub/superscript digits become <sub>/<sup>; "(R)" style descriptors are written with <i> in the data strings.
-const H = t => String(t)
+// Unicode sub/superscript digits become <sub>/<sup>; descriptors (R), (E), (2R,3S), E/Z ... become <i> through RSI (01-data.js).
+const H = t => RSI(String(t))
   .replace(/\[α\]\{obs\}/g, "[<i>α</i>]<sub>obs</sub>").replace(/\[α\]\{pure\}/g, "[<i>α</i>]<sub>pure</sub>").replace(/\[α\]\{D\}\{20\}/g, "[<i>α</i>]<sup>20</sup><sub>D</sub>")
   .replace(/(?<![A-Za-z>])([lcρα])\{\}/g, "<i>$1</i>")
   .replace(/[₀-₉]+/g, m => `<sub>${[...m].map(c => SUBD.indexOf(c)).join("")}</sub>`)
@@ -720,6 +727,32 @@ function svgChem(s, fs){
   return out;
 }
 const T = (x, y, s, cls, extra, fs) => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}"${cls ? ` class="${cls}"` : ""}${extra ? " " + extra : ""}${fs ? ` style="font-size:${fs}px"` : ""}>${svgChem(String(s).replace(/(\d) (?=(%|mol|kJ|°|nm))/g, "$1 "), fs || 12)}</text>`;
+// text labels that must not collide: estimated width of a label (sub- and superscript marks do not take room), and a placer.
+// Each item {x, y, anchor, fs, cands:[{dx, dy, lines?}]} tries its candidates in turn (a candidate may split the text onto lines);
+// the first one inside the box [0,W] x [0,H] and clear of the obstacles and of the labels already placed wins, else the least overlapping.
+const estW = (t, fs) => String(t).replace(/[_{}^]/g, "").length * (fs || 12) * 0.6;
+// the box a label of baseline (x, y) takes: room for sub- and superscripts above and below the line
+const lbox = (x, y, t, fs, anc) => { const w = estW(t, fs), x0 = anc === "start" ? x : anc === "end" ? x - w : x - w / 2; return [x0, y - fs * 1.0, x0 + w, y + fs * 0.58]; };
+function placeLabels(items, obst, W, H){
+  const placed = obst.slice(), out = [];
+  items.forEach(it => {
+    const fs = it.fs || 12, ph = Math.round(fs * 1.7);
+    let best = null;
+    for (const c of it.cands){
+      const ls = c.lines || [it.t], boxes = ls.map((t, i) => lbox(it.x + (c.dx || 0), it.y + (c.dy || 0) + i * ph, t, fs, it.anchor));
+      let pen = 0;
+      boxes.forEach(b => {
+        pen += 40 * (Math.max(0, -b[0]) + Math.max(0, b[2] - W)) * (b[3] - b[1]) + 40 * (Math.max(0, -b[1]) + Math.max(0, b[3] - H)) * (b[2] - b[0]);
+        placed.forEach(o => { pen += Math.max(0, Math.min(b[2], o[2]) + 1 - Math.max(b[0], o[0]) - 1) * Math.max(0, Math.min(b[3], o[3]) + 1 - Math.max(b[1], o[1]) - 1); });
+      });
+      if (!best || pen < best.pen) best = { pen, c, boxes, lines: ls };
+      if (pen === 0) break;
+    }
+    placed.push(...best.boxes);
+    out.push({ dx: best.c.dx || 0, dy: best.c.dy || 0, lines: best.lines, ph, x: it.x, y: it.y, anchor: it.anchor, pen: best.pen });
+  });
+  return out;
+}
 function widthOf(el){ const w = el.getBoundingClientRect().width; return Math.max(260, Math.round(w || 600)); }
 function setSvg(svg, W, Hh, inner){ svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("width", W); svg.setAttribute("height", Hh); svg.style.height = Hh + "px"; svg.innerHTML = inner; }
 function niceTicks(lo, hi, n){
@@ -728,16 +761,64 @@ function niceTicks(lo, hi, n){
   const out = []; for (let v = Math.ceil(lo / step - 1e-9) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
   return { ticks: out, step };
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-");
-  // a comma is a thousands separator only in groups of three (1,000 or 12,345.6); otherwise a decimal comma (1,00 → 1.00)
-  if (/^[-+]?\d{1,3}(,\d{3})+(\.\d+)?/.test(t)) t = t.replace(/,/g, "");
-  else if ((t.match(/,/g) || []).length === 1 && !t.includes(".")) t = t.replace(",", ".");
-  else if (t.includes(",")) return NaN;
-  t = t.replace(/(%|°|kJmol\^?-1|kJmol-1|kJ\/mol|kJ)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(t)) return NaN;
-  return parseFloat(t);
+// ONE parser for every typed answer box (Practice: k and ee). It reads the number (plain, 2.5e-4, 2.5E-4, 2.5 x 10^-4, 2.5 × 10⁻⁴, 2.5*10^-4,
+// with a decimal point, a leading minus or plus) and then an optional unit, which it compares with the unit the question asks
+// for. `allowed` lists the unit ids the question accepts ("k1" s⁻¹, "k2" mol⁻¹ dm³ s⁻¹, "pct" %); a number with no unit is always accepted, a
+// different unit is refused as kind "unit" (nothing is scored), and text that is not a number is kind "nan". No answer in this lab is 1000 or more,
+// so "8,00e-5", "32,0" and "0,853" are refused with "Use a decimal point"; groups of three ("1,234,567") are thousands.
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+const UNIT_NAME = { k1: "s⁻¹", k2: "mol⁻¹ dm³ s⁻¹", pct: "per cent (%)" };
+// a unit string as exponents of mol, dm and s: "mol-1 dm3 s-1", "dm^3 mol^-1 s^-1", "dm3/mol/s", "dm3/(mol s)", "M-1 s-1", "L mol-1 s-1" ...
+function unitId(rest){
+  let u = rest.toLowerCase().replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/[\u2212\u2013]/g, "-");
+  if (/^(%|percent|percentage|per cent)$/.test(u.replace(/\s+/g, " ").trim())) return "pct";
+  u = u.replace(/second(s)?|sec\b/g, "s").replace(/litres?|liters?/g, "l").replace(/decimet(re|er)s?/g, "dm").replace(/moles?\b/g, "mol").replace(/\bper\b/g, "/")
+       .replace(/[\s·.*^{}]/g, "").replace(/[()]/g, "");
+  if (!u || !/^[a-z0-9\/-]+$/.test(u) || /^1?$/.test(u)) return null;
+  const E = { mol: 0, dm: 0, s: 0 }, parts = u.replace(/^1(?=\/)/, "").split("/");
+  for (let k = 0; k < parts.length; k++){
+    const seg = parts[k]; if (seg === "" && k === 0) continue;
+    const re = /(mol|dm|sec|s|l|m)(-?\d+)?/g; let m, used = 0;
+    while ((m = re.exec(seg))){
+      if (m.index !== used) return null;
+      used = re.lastIndex;
+      const e = (m[2] != null ? +m[2] : 1) * (k === 0 ? 1 : -1), t = m[1];
+      if (t === "mol") E.mol += e; else if (t === "dm") E.dm += e; else if (t === "s" || t === "sec") E.s += e;
+      else if (t === "l") E.dm += 3 * e;                 // litre = dm3
+      else { E.mol += e; E.dm -= 3 * e; }                // M = mol dm-3
+    }
+    if (used !== seg.length) return null;
+  }
+  if (E.mol === 0 && E.dm === 0 && E.s === -1) return "k1";
+  if (E.mol === -1 && E.dm === 3 && E.s === -1) return "k2";
+  return "?";
+}
+function parseAnswer(str, allowed){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013]/g, "-")
+    .replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, m => "^" + [...m].map(c => SUPASC[c]).join(""));
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  // as in H3.5: a lone comma before 1 or 2 digits, or after a leading 0, is refused (never read as a decimal comma)
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const m = t.match(/^([-+]?)\s*(\d[\d,.]*|\.\d+)/);
+  if (!m) return { error: "Type a number.", kind: "nan" };
+  let raw = m[2], rest = t.slice(m[0].length);
+  if (raw.includes(",")){
+    if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(raw)) raw = raw.replace(/,/g, "");        // thousands separators, groups of three
+    else return { error: "Type a number.", kind: "nan" };
+  }
+  if (!/^(\d+\.?\d*|\.\d+)$/.test(raw)) return { error: "Type a number.", kind: "nan" };
+  let val = parseFloat(raw);
+  const ex = rest.match(/^\s*(?:(?:x|×|\*|·)\s*10\s*\^?\s*\{?\s*([-+]?\d+)\s*\}?|e\s*([-+]?\d+))/i);
+  if (ex){ val *= Math.pow(10, +(ex[1] != null ? ex[1] : ex[2])); rest = rest.slice(ex[0].length); }
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return { error: "Type a number.", kind: "nan" };
+  rest = rest.trim().replace(/\.$/, "").trim();
+  if (!rest) return { value: val };
+  if (!/[A-Za-zµ%°]/.test(rest) || !/^[A-Za-zµ%°\/\-+\d^·.*()\s{}⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]+$/.test(rest)) return { error: "Type a number.", kind: "nan" };
+  const u = unitId(rest);
+  if (u && allowed && allowed.includes(u)) return { value: val, unit: u };
+  return { unit: u || "?", kind: "unit", error: `Check the unit: this answer is in ${allowed && allowed.length ? UNIT_NAME[allowed[0]] : "no unit"}, or type the number alone.` };
 }
 const sf = (v, n) => {
   if (v === 0) return "0";
@@ -747,7 +828,6 @@ const sf = (v, n) => {
   if (e >= 0) return v.toFixed(e);
   const k = Math.pow(10, -e); return String(Math.round(v / k) * k);
 };
-Object.assign(LAB, { parseNum, sf, H });
 
 /* ---------- vectors and matrices (row-major 3 × 3) ---------- */
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
@@ -846,7 +926,6 @@ function place(A, B, C, r, th, ph){
 }
 const TET = Math.acos(-1 / 3) / D2R;   // 109.47°
 const BL = { CH: 1.09, CC: 1.54, CBr: 1.94, CO: 1.43, OH: 0.96, CN: 1.47, CtN: 1.16, CdC: 1.34 };   // model lengths (units of 0.1 nm); never displayed
-LAB.math = { bestRotation, det3, rmsdOf, quatToMat, matToQuat, dihedral, angDeg, mm, ap, tr, rotTo, axisRot, len, sub, dot, cross, unit, centroid };
 
 /* ---------- molecular graph, CIP priorities, R/S and E/Z from coordinates ---------- */
 const ZNUM = { H: 1, C: 6, N: 7, O: 8, F: 9, Cl: 17, Br: 35 };
@@ -982,7 +1061,6 @@ function isomorphisms(gA, gB, cap){
   })(0);
   return out;
 }
-LAB.chem = { graphOf, cipKey, cmpKey, ranked, chiralCentres, rsLabel, ezBonds, ezLabel, sameSide, automorphisms, heavyGraph, isomorphisms };
 
 /* ---------- 3D viewer (as the Topic 11.1 to 11.3 and 11.5 labs: hand-built SVG projection, depth sort, drag to rotate) ---------- */
 const COLR = { H: "#eceff2", C: "#5d646e", N: "#3a6fd8", O: "#e0453b", Br: "#a8452a", Cl: "#35b06a", F: "#9be07a" };
@@ -1165,12 +1243,14 @@ function viewUp(vdir, up){
   const x = cross(y, vdir);
   return [...x, ...y, ...vdir];
 }
-Object.assign(LAB, { viewGap, bestView, viewFrom, RAD, COLR });
 
 /* ---------- small chart helper (profiles) ---------- */
 function lineChart(svg, o){
   const W = widthOf(svg.parentElement), Hh = o.h || (W < 520 ? 220 : 250);
   const m = { l: o.ml || 50, r: o.mr || 14, t: o.mt || 14, b: o.mb || 40 };
+  // an x-axis title wider than the panel breaks onto two lines (at "(" or the middle space) and the plot gives up a line of height
+  let xl = o.xlab ? [o.xlab] : [];
+  if (o.xlab && estW(o.xlab, 11.5) > W - 12){ const k = o.xlab.indexOf(" ("), sp = o.xlab.split(" "); let cut = k > 0 ? k : o.xlab.indexOf(" ", Math.floor(o.xlab.length / 2) - 4); if (cut < 0) cut = o.xlab.lastIndexOf(" "); xl = [o.xlab.slice(0, cut), o.xlab.slice(cut + 1)]; m.b += 14; void sp; }
   const [x0, x1] = o.x, [y0, y1] = o.y;
   const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
   const Y = v => Hh - m.b - (v - y0) / (y1 - y0) * (Hh - m.t - m.b);
@@ -1180,8 +1260,8 @@ function lineChart(svg, o){
   const yt = o.yticks || niceTicks(y0, y1, 4).ticks;
   yt.forEach(v => { s += `<line class="grid" x1="${m.l}" y1="${Y(v).toFixed(1)}" x2="${W - m.r}" y2="${Y(v).toFixed(1)}"/>` + T(m.l - 6, Y(v) + 4, minus(String(v)), "tick", 'text-anchor="end"'); });
   s += `<line class="axis" x1="${m.l}" y1="${Hh - m.b}" x2="${W - m.r}" y2="${Hh - m.b}"/><line class="axis" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${Hh - m.b}"/>`;
-  if (o.xlab) s += T(m.l + (W - m.l - m.r) / 2, Hh - 6, o.xlab, "axlab", 'text-anchor="middle"');
-  if (o.ylab) s += `<g transform="translate(13 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
+  xl.forEach((t, i) => { s += T(m.l + (W - m.l - m.r) / 2, Hh - 6 - (xl.length - 1 - i) * 14, t, "axlab", 'text-anchor="middle"'); });
+  if (o.ylab) s += `<g transform="translate(16 ${(m.t + (Hh - m.b)) / 2}) rotate(-90)">${T(0, 0, o.ylab, "axlab", 'text-anchor="middle"')}</g>`;
   (o.series || []).forEach(se => {
     const d = se.pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join("");
     s += `<path d="${d}" fill="none" stroke="${se.col}" stroke-width="${se.w || 2}"${se.dash ? ` stroke-dasharray="${se.dash}"` : ""} stroke-linejoin="round"/>`;
@@ -1198,12 +1278,10 @@ function profileE(pts, x){
   }
   return pts[pts.length - 1][1];
 }
-LAB.profileE = profileE;
 
 /* ---------- redraw on resize and theme change ---------- */
 const REDRAW = [];
 function redrawAll(){ REDRAW.forEach(f => { try { f(); } catch (e) { console.error(e); } }); }
-LAB.redrawAll = redrawAll;
 let RTM = 0;
 window.addEventListener("resize", () => { clearTimeout(RTM); RTM = setTimeout(redrawAll, 80); });
 try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); } catch (e) {}
@@ -1230,16 +1308,14 @@ const BIND = [];
    DATA: RDKit 3D coordinates of the E2 substrates (gen_mol.py, units of 0.1 nm), names, equations, number helpers
    ===================================================== */
 const MOLS = {"pr2br":{"el":["C","C","C","Br","H","H","H","H","H","H","H"],"P":[[-1.2908,-0.0067,0.0689],[0.0939,0.3661,-0.4312],[1.1829,-0.4785,0.2069],[0.43,2.249,-0.0188],[-1.3761,0.1161,1.1545],[-2.061,0.6178,-0.397],[-1.519,-1.0508,-0.1704],[0.1399,0.2883,-1.5219],[1.0363,-1.5381,-0.0279],[1.1902,-0.3734,1.2977],[2.1737,-0.1898,-0.1607]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1]],"ca":1,"br":3,"betas":{"0":"C1","2":"C3"},"loc":{"0":"C1","1":"C2","2":"C3"}},"bb_R":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.574,-0.4426,0.0414],[0.5683,0.6138,0.4726],[1.4031,2.3788,0.245],[-0.735,0.5956,-0.3271],[-1.5403,-0.6796,-0.123],[1.1958,-1.4507,0.2369],[1.8024,-0.3679,-1.0277],[2.5172,-0.3383,0.5894],[0.3663,0.5312,1.5456],[-0.5303,0.7218,-1.3977],[-1.3619,1.4458,-0.0294],[-2.5005,-0.6044,-0.6435],[-1.016,-1.5532,-0.5213],[-1.7432,-0.8503,0.9389]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"C4"}},"bmp_RS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.2782,0.1808,0.823],[-0.8985,-0.4638,0.7147],[-1.171,-2.4079,0.9077],[-0.1632,-0.1663,-0.613],[-0.1153,1.3405,-0.9086],[1.2664,-0.7582,-0.6925],[2.2315,-0.2854,0.3865],[-2.2028,1.2715,0.8716],[-2.7984,-0.1422,1.7321],[-2.9113,-0.0805,-0.0322],[-0.2991,-0.1704,1.5815],[-0.7326,-0.6267,-1.4331],[0.2921,1.904,-0.0631],[-1.115,1.7309,-1.1247],[0.5029,1.5495,-1.7883],[1.2233,-1.8527,-0.6672],[1.6962,-0.5077,-1.6711],[2.3396,0.8028,0.3838],[3.223,-0.7161,0.2106],[1.9105,-0.6022,1.3825]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9299,-1.0455,1.063],[-1.5015,0.2494,0.3835],[-2.4337,0.3717,-1.3375],[0.0302,0.4043,0.2349],[0.4015,1.8084,-0.2648],[0.699,-0.702,-0.6105],[2.222,-0.642,-0.5943],[-1.722,-1.9282,0.4497],[-1.4185,-1.1669,2.0235],[-3.0078,-1.0404,1.2622],[-1.8953,1.0908,0.9655],[0.443,0.3244,1.2509],[-0.1506,2.5788,0.2842],[0.1913,1.9307,-1.3319],[1.4664,2.0101,-0.1105],[0.4066,-1.6864,-0.2297],[0.3629,-0.6503,-1.6519],[2.5948,0.2525,-1.1015],[2.636,-1.5114,-1.1155],[2.6056,-0.6481,0.4307]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_RR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.5037,-0.2985,0.5836],[-1.2422,-0.8247,-0.0905],[-1.6154,-1.0264,-2.005],[0.0153,0.0354,0.1766],[-0.0918,1.4753,-0.3427],[1.2953,-0.6633,-0.3368],[2.5825,-0.0234,0.1682],[-2.8385,0.6535,0.1593],[-2.3392,-0.1562,1.6568],[-3.3301,-1.0094,0.4688],[-1.064,-1.8473,0.2619],[0.1104,0.1045,1.2698],[0.7393,2.0855,0.0253],[-1.0087,1.9617,0.0021],[-0.0713,1.5176,-1.436],[1.29,-1.7104,-0.0097],[1.319,-0.6719,-1.4323],[2.72,0.9817,-0.2404],[3.4445,-0.6242,-0.1398],[2.5886,0.0404,1.2608]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9909,-0.8005,0.7549],[-1.5594,0.2005,-0.3072],[-2.1626,-0.4589,-2.0609],[-0.0477,0.5194,-0.3588],[0.3243,1.4453,0.8087],[0.8459,-0.741,-0.3676],[2.31,-0.4408,-0.6652],[-1.5669,-1.7954,0.5827],[-1.6919,-0.4693,1.754],[-3.0812,-0.9133,0.7612],[-2.1279,1.129,-0.1799],[0.1495,1.0818,-1.2819],[0.2638,0.9257,1.7704],[-0.3446,2.3118,0.8478],[1.3419,1.8326,0.6985],[0.7856,-1.2579,0.5975],[0.4917,-1.4465,-1.1271],[2.4156,0.107,-1.6068],[2.8728,-1.3759,-0.7535],[2.7722,0.1464,0.1333]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}}};
-LAB.MOLS = MOLS;
-// hashes of the numbers the generators must never print (reserved.json, build time); the numbers themselves are not shipped
-const RESH = new Set(["19xf6rw", "1e50b3n", "1fsxx9h", "1g24gso", "1kbkfn4", "1kcz6xi", "1kvjn12", "1lgrapg", "1lqqwef", "1menox4", "1n4s2d9", "1n5gcgu", "1nffy5t", "1nnfnys", "1nouf96", "1nunrre", "1nyx6g4", "1viudrp", "67o6v4", "71mzy1", "bcaoo0", "e7ofjh", "i28kpf", "imswoz", "jqrbgv", "k0nrnv", "k6t4fp", "ncpazh", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
+// hashes of the numbers the generators must never print (held out at build time); the numbers themselves are not shipped
+const HSET = new Set(["19xf6rw", "1e50b3n", "1fsxx9h", "1g24gso", "1kbkfn4", "1kcz6xi", "1kvjn12", "1lgrapg", "1lqqwef", "1menox4", "1n4s2d9", "1n5gcgu", "1nffy5t", "1nnfnys", "1nouf96", "1nunrre", "1nyx6g4", "1viudrp", "67o6v4", "71mzy1", "bcaoo0", "e7ofjh", "i28kpf", "imswoz", "jqrbgv", "k0nrnv", "k6t4fp", "ncpazh", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
 function fnv(k){
   let h = 0x811c9dc5;
   for (const ch of k) h = Math.imul(h ^ ch.charCodeAt(0), 0x01000193) >>> 0;
   return h.toString(36);
 }
-const reserved = k => RESH.has(fnv(k));
-LAB.reservedTok = reserved;
+const held = k => HSET.has(fnv(k));
 
 // scientific notation with unicode superscripts (H() turns them into <sup>): sci(1.7e-3, 2) = "1.7 × 10⁻³"
 const SUPS = { "-": "⁻", "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
@@ -1250,11 +1326,10 @@ function sci(v, n){
   if (e === 0) return m;
   return `${m} × 10${String(e).split("").map(c => SUPS[c]).join("")}`;
 }
-// a plain token for the reserved check: "1.7e-3"
+// a plain token for the withheld-number check: "1.7e-3"
 const tok = (v, n) => { const { m, e } = mant(v, n || 2); return `${m}e${e}`; };
-LAB.sci = sci; LAB.tok = tok;
 
-// every equation the lab prints (unicode sub/superscripts; test.js parses each and checks atoms and charge balance)
+// every equation the lab prints (unicode sub/superscripts; each is parsed offline and checked for atoms and charge balance)
 const EQ = {
   sn_me: ["CH₃Br + OH⁻ → [HO···CH₃···Br]⁻‡ → CH₃OH + Br⁻"],
   sn_et: ["CH₃CH₂Br + OH⁻ → [HO···CH₂(CH₃)···Br]⁻‡ → CH₃CH₂OH + Br⁻"],
@@ -1277,21 +1352,28 @@ const EQ = {
   zh_mb3_small: ["CH₃CHBrCH(CH₃)₂ + C₂H₅O⁻ → CH₃CH=C(CH₃)₂ + C₂H₅OH + Br⁻", "CH₃CHBrCH(CH₃)₂ + C₂H₅O⁻ → CH₂=CHCH(CH₃)₂ + C₂H₅OH + Br⁻"],
   zh_mb3_bulky: ["CH₃CHBrCH(CH₃)₂ + (CH₃)₃CO⁻ → CH₂=CHCH(CH₃)₂ + (CH₃)₃COH + Br⁻", "CH₃CHBrCH(CH₃)₂ + (CH₃)₃CO⁻ → CH₃CH=C(CH₃)₂ + (CH₃)₃COH + Br⁻"]
 };
-LAB.EQ = EQ;
-// italic descriptors inside SVG lettering (after svgChem): (R), (S), (E), (Z) and "(E and Z)"
-const itSvg = m => m.replace(/\((E|Z) and (E|Z)\)/g, '(<tspan font-style="italic">$1</tspan> and <tspan font-style="italic">$2</tspan>)').replace(/\((R|S|E|Z)\)/g, '(<tspan font-style="italic">$1</tspan>)');
+// Every R, S, E and Z descriptor is italic (Review D, D1). RSI italicises, in an HTML string: a locant list "(2R,3S)" or "(10R,11S,3R)",
+// "(R)", "(E and Z)", "(R/S)", the bare pairs "R/S", "E/Z" and "E or Z", and "an R centre" / "the E isomer". H() applies it to every string it
+// sets, and itSvg turns its <i> into italic tspans for SVG lettering. It leaves E1, E2, S_N1, E{a} and ΔS alone (a digit, "_" or "{" follows).
+function RSI(s){
+  return String(s)
+    .replace(/\(((?:\d+[RSEZ])(?:,\d+[RSEZ])*)\)/g, (m, g) => "(" + g.replace(/(\d+)([RSEZ])/g, "$1<i>$2</i>") + ")")
+    .replace(/\(([RSEZ])( and | or |\/|,)([RSEZ])\)/g, "(<i>$1</i>$2<i>$3</i>)")
+    .replace(/\(([RSEZ])\)/g, "(<i>$1</i>)")
+    .replace(/(?<![A-Za-z0-9_\-])([RSEZ])(\/| or | and )([RSEZ])(?![A-Za-z0-9_])/g, "<i>$1</i>$2<i>$3</i>")
+    .replace(/(?<=\b(?:an?|the) )([RSEZ])(?= (?:centre|isomer|configuration|enantiomer|diastereomer)\b)/g, "<i>$1</i>");
+}
+const itSvg = m => RSI(m).replace(/<i>([RSEZ])<\/i>/g, '<tspan font-style="italic">$1</tspan>');
 const eqHtml = (s, lab) => `<div>${lab ? `<span class="lab">${lab}</span>` : ""}<span class="eqn">${H(s)}</span></div>`;
-const RSI = s => String(s).replace(/\((E|Z) and (E|Z)\)/g, "(<i>$1</i> and <i>$2</i>)").replace(/\((R|S|E|Z)\)/g, "(<i>$1</i>)").replace(/\((\d)(R|S),(\d)(R|S)\)/g, "($1<i>$2</i>,$3<i>$4</i>)");
-const HS = t => H(RSI(String(t))).replace(/S_N([12])/g, "S<sub>N</sub>$1");
+const HS = t => H(t).replace(/S_N([12])/g, "S<sub>N</sub>$1");
 /* =====================================================
-   A. HAMMOND EXPLORER (9813 3.1(a)). Intersecting-parabola model, DATA.md "Energy profiles":
+   A. HAMMOND EXPLORER (9813 3.1(a)). Intersecting-parabola model:
    E_a = (λ + ΔH)² / (4λ), x‡ = (λ + ΔH) / (2λ), reverse E_a = E_a − ΔH, λ = 240 kJ mol⁻¹ (illustrative model).
    Curve: zero-slope cubic pieces (PCHIP with flat stationary points) through
    (−0.15, 0), (0, 0), (x‡, E_a), (1, ΔH), (1.15, ΔH).
    ===================================================== */
 const HM_L = 240;
 function hmModel(dH){ const Ea = (HM_L + dH) * (HM_L + dH) / (4 * HM_L), x = (HM_L + dH) / (2 * HM_L); return { Ea, x, rev: Ea - dH }; }
-LAB.hmModel = hmModel;
 function hmCurve(dH, n){
   const { Ea, x } = hmModel(dH), K = [[-0.15, 0], [0, 0], [x, Ea], [1, dH], [1.15, dH]], out = [];
   n = n || 260;
@@ -1303,7 +1385,6 @@ function hmCurve(dH, n){
   }
   return out;
 }
-LAB.hmCurve = hmCurve;
 const HM_PRE = [
   { id: "exo", n: "Exothermic step", dH: -80 },
   { id: "neu", n: "Thermoneutral step", dH: 0 },
@@ -1311,12 +1392,9 @@ const HM_PRE = [
   { id: "ion", n: "S_N1 step 1: (CH₃)₃CBr ionises", dH: 85, strip: "ion" },
   { id: "cap", n: "S_N1 step 2: (CH₃)₃C⁺ + OH⁻", dH: -145, strip: "cap" }
 ];
-LAB.HM_PRE = HM_PRE;
 const HM = { dH: -80, pre: "exo" };
-LAB.HM = HM;
 // decided from the value shown (2 d.p.), so the 0.45 to 0.55 band reads "about midway" at both ends
 const hmWord = x0 => { const x = +x0.toFixed(2); return x < 0.45 ? "early: resembles the reactants" : x <= 0.55 ? "about midway" : "late: resembles the products"; };
-LAB.hmWord = hmWord;
 function hmDraw(){
   const dH = HM.dH, { Ea, x, rev } = hmModel(dH), pre = HM_PRE.find(p => p.id === HM.pre);
   const c = hmCurve(dH), c0 = hmCurve(0);
@@ -1324,19 +1402,28 @@ function hmDraw(){
   const sp = pre && pre.strip, rName = sp === "ion" ? "(CH₃)₃CBr" : sp === "cap" ? "(CH₃)₃C⁺ + OH⁻" : "reactants";
   const pName = sp === "ion" ? "(CH₃)₃C⁺ + Br⁻" : sp === "cap" ? "(CH₃)₃COH" : "products";
   lineChart($("hm-plot"), {
-    x: [-0.15, 1.15], y: [-170, 180], xticks: [0, 0.5, 1], yticks: [-150, -100, -50, 0, 50, 100, 150],
+    x: [-0.15, 1.15], y: [-190, 180], xticks: [0, 0.5, 1], yticks: [-150, -100, -50, 0, 50, 100, 150],
     xlab: "reaction coordinate (0 = reactants, 1 = products)", ylab: "energy / kJ mol⁻¹", h: 300, mb: 42, ml: 52,
     series: [{ pts: c0, col: s3, dash: "5 4", w: 1.6 }, { pts: c, col: s1, w: 2.6 }],
     over: (X, Y, W, Hh, m) => {
       let s = "";
       // levels and labels
       s += `<line class="lvl" x1="${X(-0.15)}" y1="${Y(0)}" x2="${X(x)}" y2="${Y(0)}"/>`;
-      s += T(X(-0.13), Y(0) + (dH < -20 ? -6 : 15), rName, "lbl", "", 11.5);
-      s += T(X(1.13), Y(dH) + (dH > 20 ? -6 : 15), pName, "lbl", 'text-anchor="end"', 11.5);
+      // the reactant and product labels keep clear of the curve, E_a, the ‡ and each other: the usual side first, then the other, then two lines
+      const eaT = `E{a} = ${Math.round(Ea)}`, obst = [];
+      c.forEach(pt => obst.push([X(pt[0]) - 2, Y(pt[1]) - 2, X(pt[0]) + 2, Y(pt[1]) + 2]));
+      const bxs = lbox;
+      [0, 0.5, 1].forEach(v => obst.push(bxs(X(v), Hh - m.b + 15, String(v), 11.5, "middle")));
+      obst.push([X(-0.15), Hh - m.b - 1, X(1.15), Hh - m.b + 1]);
+      obst.push(bxs(X(x) + 12, Y(Ea) - 8, eaT, 12, "start"), bxs(X(x), Y(Ea) - 10, "‡", 14, "middle"), bxs(X(x) + 6, Hh - m.b - 6, `x‡ = ${x.toFixed(2)}`, 12, "start"));
+      const two = n => n.includes(" + ") ? n.split(" + ").map((t, i) => i ? "+ " + t : t) : null;
+      const cs = (n, up) => { const t = two(n), a = up ? -6 : 15, b = up ? 15 : -6, cands = [{ dy: a }, { dy: b }]; if (t) cands.push({ dy: 15, lines: t }, { dy: -6 - 16, lines: t }); return cands; };
+      const pl = placeLabels([{ t: rName, x: X(-0.13), y: Y(0), anchor: "start", fs: 11.5, cands: cs(rName, dH < -20) }, { t: pName, x: X(1.13), y: Y(dH), anchor: "end", fs: 11.5, cands: cs(pName, dH > 20) }], obst, W, Hh);
+      pl.forEach(r => { r.lines.forEach((t, i) => { s += T(r.x, r.y + r.dy + i * r.ph, t, "lbl", r.anchor === "end" ? 'text-anchor="end"' : "", 11.5); }); });
       // E_a bracket on the reactant side, reverse E_a on the product side
       const xb = X(x) - 6;
       s += `<line class="brk" x1="${xb}" y1="${Y(0)}" x2="${xb}" y2="${Y(Ea)}"/><line class="brk" x1="${xb - 4}" y1="${Y(0)}" x2="${xb + 4}" y2="${Y(0)}"/><line class="brk" x1="${xb - 4}" y1="${Y(Ea)}" x2="${xb + 4}" y2="${Y(Ea)}"/>`;
-      s += T(X(x) + 12, Y(Ea) - 8, `E{a} = ${Math.round(Ea)}`, "val halo", 'text-anchor="start"');
+      s += T(X(x) + 12, Y(Ea) - 8, eaT, "val halo", 'text-anchor="start"');
       // transition state and the x‡ guide
       s += `<line class="cursor" x1="${X(x)}" y1="${Y(Ea)}" x2="${X(x)}" y2="${Hh - m.b}"/>`;
       s += `<circle cx="${X(x).toFixed(1)}" cy="${Y(Ea).toFixed(1)}" r="5" class="tsdot"/>`;
@@ -1357,9 +1444,7 @@ function hmDraw(){
 // structures along the step for the two S_N1 presets (schematic): reactant | transition state at x‡ | product of the step
 // the bond that breaks (ion) or forms (cap) is drawn at a length that follows the position along the step
 const HM_D = { ion: [1.94, 4.4], cap: [4.4, 1.43] };   // model lengths (0.1 nm) at the start and end of the step
-LAB.HM_D = HM_D;
 const hmBond = (kind, f) => HM_D[kind][0] + f * (HM_D[kind][1] - HM_D[kind][0]);
-LAB.hmBond = hmBond;
 function hmStrip(kind, x){
   const svg = $("hm-strip"), W = widthOf(svg.parentElement), rows = W < 560;
   const Hh = rows ? 3 * 62 + 6 : 112, pw = rows ? W : W / 3;
@@ -1396,7 +1481,6 @@ function hmSet(dH, pre){
   $("hm-dh").value = HM.dH;
   hmDraw();
 }
-LAB.hmSet = hmSet;
 function bindHM(){
   $("hm-pre").innerHTML = HM_PRE.map(p => `<button type="button" data-id="${p.id}">${HS(p.n)} <span class="mono">(${sgn(p.dH)})</span></button>`).join("");
   $("hm-pre").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const p = HM_PRE.find(q => q.id === b.dataset.id); hmSet(p.dH, p.id); });
@@ -1408,7 +1492,7 @@ BIND.push(bindHM);
 /* =====================================================
    B. S_N1 AND S_N2 IN 3D (9813 3.2(b)). As the 11.5 lab's viewer: the reacting carbon at the origin, Br on +x,
    the three other groups are rigid bodies that swing about the carbon (the umbrella). Model lengths, never shown.
-   R/S comes from the coordinates (CIP routine, full bonds only) and is checked against RDKit in test.js.
+   R/S comes from the coordinates (CIP routine, full bonds only) and is checked offline against RDKit.
    ===================================================== */
 const rod = (v, k, b) => { const c = Math.cos(b), s = Math.sin(b); return add(add(mul(v, c), mul(cross(k, v), s)), mul(k, dot(k, v) * (1 - c))); };
 const dirAt = (th, ph) => [Math.cos(th * D2R), Math.sin(th * D2R) * Math.cos(ph * D2R), Math.sin(th * D2R) * Math.sin(ph * D2R)];
@@ -1432,7 +1516,7 @@ function addGroup(M, kind, u, ref){
   }
   return ids;
 }
-// the reactions (DATA.md allowed list B); want = the CIP label of the substrate the notes name
+// the reactions; want = the CIP label of the substrate the notes name
 const SN_R = {
   me: { n: "Bromomethane + OH⁻", mech: "sn2", nu: "oh", g: ["H", "H", "H"], lab: ["H", "H", "H"], sub: "bromomethane", prod: "methanol", eq: "sn_me",
         cond: "In solution (bromomethane is a gas at room temperature, b.p. 4 °C, literature value). Methyl: no groups in the way of back-side attack.", rate: "rate = k[CH₃Br][OH⁻]" },
@@ -1447,9 +1531,7 @@ const SN_R = {
   hx: { n: "(S)-3-bromo-3-methylhexane + H₂O", mech: "sn1", nu: "h2o", g: ["CH3", "C3H7", "C2H5"], lab: ["CH₃", "C₃H₇", "C₂H₅"], want: "S", sub: "(S)-3-bromo-3-methylhexane", prod: "3-methylhexan-3-ol", eq: "sn_hx",
         cond: "H₂O, warm (Part 1, worked example 4). Tertiary: the reaction goes through a planar carbocation; water attacks it, then loses H⁺.", rate: "rate = k[CH₃CH₂CH₂C(CH₃)BrCH₂CH₃]" }
 };
-LAB.SN_R = SN_R;
 const SN = { r: "bbOH", t: 0, face: "back", ip: 20, raf: 0 };
-LAB.SN = SN;
 let snM = null, snV = null;
 function snModel(key){
   const R = SN_R[key];
@@ -1538,26 +1620,32 @@ function snStage(t){
   if (SN_R[SN.r].mech === "sn2") return t < 0.04 ? "reactants" : Math.abs(t - 0.5) < 0.04 ? "transition state (‡)" : t > 0.96 ? "products" : t < 0.5 ? `${nuTxt()} approaching from the back; C–Br stretching` : "Br⁻ leaving; the other three groups turning over";
   return t < 0.04 ? "reactant" : t < 0.36 ? "step 1 (slow): the C–Br bond breaking" : t <= 0.62 ? "carbocation intermediate (planar)" : t > 0.96 ? "product" : t > 0.84 && SN_R[SN.r].nu === "h2o" ? "step 3 (fast): H⁺ leaving to a water molecule" : `step 2 (fast): ${nuTxt()} attacking the carbocation`;
 }
-LAB.snStage = snStage;
 const SN_STOPS = { sn2: [[0, "reactants"], [0.5, "transition state"], [1, "products"]], sn1: [[0, "reactant"], [0.5, "carbocation"], [1, "product"]] };
 function snScene(){
   const G = snGeom(SN.t), bonds = snBonds(G), M = snM, R = SN_R[SN.r];
   const atoms = M.el.map((e, i) => ({ p: G.P[i], r: RAD[e] * 0.9, c: COLR[e], l: e === "H" ? "" : e, op: i === M.br ? G.op.br : (M.nuIds[2] === i && G.op.h2 != null) ? Math.min(G.op.nu, G.op.h2) : M.nuIds.includes(i) ? G.op.nu : 1 }));
-  const sc = { atoms, bonds: bonds.map(b => ({ i: b.i, j: b.j, o: b.o, cls: b.cls })), R: 6.0, ctr: SN.ctr || [0, 0, 0], zoom: SN.zoom || 1, planes: [], bw: 0.11 };
+  const sc = { atoms, bonds: bonds.map(b => { const nb = M.nuIds.includes(b.i) || M.nuIds.includes(b.j); return { i: b.i, j: b.j, o: b.o, cls: b.cls, op: nb ? Math.min(atoms[b.i].op, atoms[b.j].op) : null }; }), R: 6.0, ctr: SN.ctr || [0, 0, 0], zoom: SN.zoom || 1, planes: [], bw: 0.11 };
   if (Math.abs(G.alpha - 90) < 2.5){ const s = 1.9; sc.planes.push({ pts: [[0, s, s], [0, -s, s], [0, -s, -s], [0, s, -s]], cls: "plane", dz: -0.4 }); }
   const rs = snRS(G, bonds);
   sc.over = v => {
     let o = "";
+    // every free label is placed clear of the atom symbols and of the labels already placed: its usual spot first, then the others
     const at = (p, dx, dy, t, cls, fs) => { const q = v.proj(p); return `<text x="${f1(q[0] + dx)}" y="${f1(q[1] + dy)}" text-anchor="middle" class="${cls}">${svgChem(t, fs || 12.5)}</text>`; };
-    if (G.dNu > 2.7 && G.op.nu > 0.3) o += at(G.P[M.nu], 0, -22, nuTxt(), "lblb halo");
-    if (G.dBr > 2.7) o += at(G.P[M.br], 0, -24, "Br⁻", "lblb halo");
-    if (R.mech === "sn1" && SN.t > 0.38 && SN.t < 0.62) o += at([0, 0, 0], 16, -14, "+", "lblb halo", 16);
-    if (R.want) o += `<text x="12" y="${f1(v.H - 12)}" class="rs">${rs ? `reacting carbon: (<tspan font-style="italic">${rs}</tspan>)` : "reacting carbon: no chiral centre now"}</text>`;
-    const c0 = v.proj([0, 0, 0]);
+    const obst = [], bx = (x, y, t, fs) => lbox(x, y, t, fs, "middle");
+    atoms.forEach((a, i) => { if (a.l && a.op > 0.3){ const q = v.proj(a.p); obst.push(bx(q[0], q[1] + 4, a.l, 12)); } });
+    const put = (x, y, t, cls, fs, cands) => { const r = placeLabels([{ t, x, y, anchor: "middle", fs, cands }], obst, v.W, v.H)[0]; obst.push(bx(x + r.dx, y + r.dy, t, fs)); return `<text x="${f1(x + r.dx)}" y="${f1(y + r.dy)}" text-anchor="middle" class="${cls}">${svgChem(t, fs)}</text>`; };
+        const c0 = v.proj([0, 0, 0]);
     M.groups.forEach((g, k) => { if (g.kind !== "H"){
       const far = g.ids.map(i => [i, v.proj(G.P[i])]).reduce((a, b) => Math.hypot(b[1][0] - c0[0], b[1][1] - c0[1]) > Math.hypot(a[1][0] - c0[0], a[1][1] - c0[1]) ? b : a)[1];
-      let dx = far[0] - c0[0], dy = far[1] - c0[1]; const L = Math.hypot(dx, dy) || 1;
-      o += `<text x="${f1(far[0] + dx / L * 18)}" y="${f1(far[1] + dy / L * 18 + 4)}" text-anchor="middle" class="hlab halo">${svgChem(R.lab[k], 12)}</text>`; } });
+      let dx = far[0] - c0[0], dy = far[1] - c0[1]; const L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L, w = estW(R.lab[k], 12) / 2;
+      const cands = [18, 28, 38].map(r => ({ dx: ux * r, dy: uy * r })).concat([[-uy, ux], [uy, -ux]].flatMap(([tx, ty]) => [22, 36].map(r => ({ dx: ux * 14 + tx * (w + r * 0.5), dy: uy * 14 + ty * 16 })))).concat([{ dx: 0, dy: -20 }, { dx: 0, dy: 26 }]);
+      o += put(far[0], far[1] + 4, R.lab[k], "hlab halo", 12, cands);
+    } });
+    const above = [-22, 26, -38, 40].map(d => ({ dx: 0, dy: d })).concat([{ dx: 34, dy: -22 }, { dx: -34, dy: -22 }, { dx: 34, dy: 26 }, { dx: -34, dy: 26 }]);
+    if (G.dNu > 2.7 && G.op.nu > 0.3){ const q = v.proj(G.P[M.nu]); o += put(q[0], q[1], nuTxt(), "lblb halo", 12.5, above); }
+    if (G.dBr > 2.7){ const q = v.proj(G.P[M.br]); o += put(q[0], q[1], "Br⁻", "lblb halo", 12.5, [-24, 28, -40, 42].map(d => ({ dx: 0, dy: d })).concat([{ dx: 30, dy: -24 }, { dx: -30, dy: -24 }])); }
+    if (R.mech === "sn1" && SN.t > 0.38 && SN.t < 0.62) o += at([0, 0, 0], 16, -14, "+", "lblb halo", 16);
+    if (R.want) o += `<text x="12" y="${f1(v.H - 12)}" class="rs">${rs ? `reacting carbon: (<tspan font-style="italic">${rs}</tspan>)` : "reacting carbon: no chiral centre now"}</text>`;
     if (G.op.lost) o += at(G.P[M.nuIds[2]], 0, -14, "H⁺", "lblb halo");
     if (R.mech === "sn2" && Math.abs(SN.t - 0.5) < 0.04) o += `<text x="${f1(v.W / 2)}" y="20" text-anchor="middle" class="lblb">transition state ‡</text>`;
     return o;
@@ -1585,7 +1673,6 @@ function snRead(G, bonds, rs){
     st("Configuration at the carbon", HS(conf), "wide")
   ];
   $("sn-read").innerHTML = cells.join("");
-  LAB.snLast = { sum, nuBr, hand, rs, conf, stage: snStage(SN.t), dBr: G.dBr, dNu: G.dNu };
   // notes under the viewer
   const N = sn2
     ? `One step, bimolecular: ${R.rate}. The nucleophile attacks the δ+ carbon from the side opposite Br while the C–Br bond breaks. At the halfway point the nucleophile and Br are both partly bonded, on opposite sides of the carbon, and the other three groups are flattened as they pass through.` + (chiral ? ` The three groups turn over like an umbrella: inversion of configuration, so ${R.sub} gives ${R.prod}.` : "")
@@ -1608,7 +1695,6 @@ function snIonPair(){
   s += T(X(50), 70, "50 : 50 (racemic)", "cap", 'text-anchor="middle"', 11);
   setSvg(svg, W, Hh, itSvg(s));
   $("sn-ipnote").innerHTML = HS(`Inverted (R) : retained (S) = ${fx(inv, 1)} : ${fx(ret, 1)}. Enantiomeric excess = (${fx(inv, 1)} − ${fx(ret, 1)}) / (${fx(inv, 1)} + ${fx(ret, 1)}) × 100` + (e === 0 ? " = 0 %: ee 0 %, a racemic mixture, optically inactive." : ` = ${fx(ee, 0)} % in favour of (R); optical purity ${fx(ee, 0)} %.`));
-  LAB.snIP = { inv, ret, ee };
 }
 function snDraw(){
   const { sc, G, bonds, rs } = snScene();
@@ -1635,7 +1721,6 @@ function snSetup(key, opts){
   snIonPair();
   snDraw();
 }
-LAB.snSetup = snSetup;
 // default view: looking slightly down and from the front, rotated so no atom hides another at any stage shown
 function snDefaultView(){
   let best = null, bg = -Infinity;
@@ -1647,7 +1732,6 @@ function snDefaultView(){
   }
   return best;
 }
-LAB.snDefaultView = snDefaultView;
 // one zoom and centre for the whole run, fitted to the union of the start, transition state and end frames
 function snFit(M0){
   SN.zoom = 1; SN.ctr = [0, 0, 0];
@@ -1657,9 +1741,7 @@ function snFit(M0){
   const z = snV.fitZoom(u, M0, 0.88);
   SN.zoom = z; SN.ctr = u.ctr;
 }
-LAB.snRefit = () => { snFit(snV.M0); snDraw(); };
 function snSet(t){ SN.t = clamp(t, 0, 1); snDraw(); }
-LAB.snSet = snSet;
 function snStop(){ if (SN.raf){ cancelAnimationFrame(SN.raf); SN.raf = 0; } }
 function snPlay(){
   snStop();
@@ -1669,23 +1751,11 @@ function snPlay(){
   SN.raf = requestAnimationFrame(step);
 }
 // export the coordinates and full bonds at progress t (for the offline RDKit check); the free leaving group is left out
-LAB.snExport = t => {
-  const G = snGeom(t), b = snBonds(G).filter(x => !x.part);
-  const seen = new Set([0]), q = [0];
-  while (q.length){ const a = q.shift(); b.forEach(x => { const o = x.i === a ? x.j : x.j === a ? x.i : -1; if (o >= 0 && !seen.has(o)){ seen.add(o); q.push(o); } }); }
-  const keep = snM.el.map((_, i) => i).filter(i => seen.has(i));
-  const idx = {}; keep.forEach((i, k) => { idx[i] = k; });
-  return { el: keep.map(i => snM.el[i]), P: keep.map(i => G.P[i]), bonds: b.filter(x => idx[x.i] != null && idx[x.j] != null).map(x => [idx[x.i], idx[x.j], x.o]) };
-};
-LAB.snGeomNow = t => { const G = snGeom(t); return { P: G.P, el: snM.el, br: snM.br, nu: snM.nu, nuIds: snM.nuIds, groups: snM.groups.map(g => g.ids[0]), bonds: snBonds(G) }; };
 
 /* ---------- rate equations panel (Part 1, worked example 2: constants, illustrative) ---------- */
 const RL_K = { sn2: 1.7e-3, sn1: 3.0e-4 };
-LAB.RL_K = RL_K;
 const RL = { mech: "sn2", rbr: 0.050, oh: 0.100 };
-LAB.RL = RL;
 const rlRate = (mech, a, b) => mech === "sn2" ? RL_K.sn2 * a * b : RL_K.sn1 * a;
-LAB.rlRate = rlRate;
 const c3 = v => v.toFixed(3);
 function rlDraw(){
   const sn2 = RL.mech === "sn2", a = RL.rbr, b = RL.oh, r = rlRate(RL.mech, a, b);
@@ -1700,7 +1770,6 @@ function rlDraw(){
     + st("Initial rate", H(`${work} = ${sci(r, 2)} mol dm⁻³ s⁻¹`), "wide")
     + (sn2 ? "" : st("Half-life", H(`t½ = 0.693 / k = ${sci(0.693 / RL_K.sn1, 3)} s, at any [RBr]`), "wide"));
   $("rl-x2r").disabled = a * 2 > 0.1 + 1e-9; $("rl-x2o").disabled = b * 2 > 0.2 + 1e-9;
-  LAB.rlLast = { rate: r, txt: sci(r, 2) };
 }
 function rlDouble(which){
   const sn2 = RL.mech === "sn2", r0 = rlRate(RL.mech, RL.rbr, RL.oh);
@@ -1710,13 +1779,10 @@ function rlDouble(which){
   const what = which === "r" ? (sn2 ? "[CH₃CH₂Br]" : "[(CH₃)₃CBr]") : "[OH⁻]";
   const why = which === "o" && !sn2 ? "OH⁻ reacts only after the slow step, so it is not in the rate equation: zero order." : `the rate is first order in ${which === "r" ? "the halogenoalkane" : "OH⁻"}, so doubling it doubles the rate.`;
   $("rl-fb").innerHTML = H(`Doubling ${what}: rate ${sci(r0, 2)} → ${sci(r1, 2)} mol dm⁻³ s⁻¹, × ${fx(f, 0)}. ${why[0].toUpperCase() + why.slice(1)}`);
-  LAB.rlFactor = f;
 }
-LAB.rlDouble = rlDouble;
 function bindSN(){
   const host = $("sn-svg").parentElement;
   snV = Viewer($("sn-svg"), host, W => W < 500 ? 340 : 360);
-  LAB.snView = () => snV;
   $("sn-mols").innerHTML = Object.entries(SN_R).map(([k, r]) => `<button type="button" data-id="${k}">${HS(r.n)} <span class="hint">${r.mech === "sn2" ? "S<sub>N</sub>2" : "S<sub>N</sub>1"}</span></button>`).join("");
   $("sn-mols").addEventListener("click", e => { const b = e.target.closest("button"); if (b){ snStop(); snSetup(b.dataset.id); } });
   $("sn-stops").addEventListener("click", e => { const b = e.target.closest("button"); if (b){ snStop(); snSet(+b.dataset.t); } });
@@ -1739,8 +1805,8 @@ BIND.push(bindSN);
 /* =====================================================
    C. E2 IN 3D: ANTI-PERIPLANAR (9813 3.3(a)(i)). RDKit coordinates (mols.json); the page turns the back carbon
    about Cα–Cβ, reads H–C–C–Br dihedrals, and on Eliminate swings the remaining groups into the alkene plane.
-   R/S and E/Z are worked out from the coordinates and compared with RDKit (rdkit_ref.json) in test.js.
-   Substrates (DATA.md allowed list C): 2-bromopropane, (R)-2-bromobutane, the four 2-bromo-3-methylpentanes.
+   R/S and E/Z are worked out from the coordinates and compared offline with RDKit.
+   Substrates (the allowed list): 2-bromopropane, (R)-2-bromobutane, the four 2-bromo-3-methylpentanes.
    ===================================================== */
 const E2_SUB = [
   { id: "pr2br", n: "2-bromopropane", base: "pr" },
@@ -1750,14 +1816,12 @@ const E2_SUB = [
   { id: "bmp_RR", n: "(2R,3R)-2-bromo-3-methylpentane", base: "bmp" },
   { id: "bmp_SS", n: "(2S,3S)-2-bromo-3-methylpentane", base: "bmp" }
 ];
-LAB.E2_SUB = E2_SUB;
 // group names seen from the turning bond (heavy-atom index -> name)
 const E2_GN = { pr: { 0: "CH₃", 2: "CH₃" }, bb: { 0: "CH₃", 3: "C₂H₅", 4: "CH₃" }, bmp: { 0: "CH₃", 3: "CH(CH₃)C₂H₅", 4: "CH₃", 5: "C₂H₅" } };
 // product names by base and β carbon (E/Z added from the coordinates)
 const E2_PROD = { pr: { C1: "propene", C3: "propene" }, bb: { C1: "but-1-ene", C3: "but-2-ene" }, bmp: { C1: "3-methylpent-1-ene", C3: "3-methylpent-2-ene" } };
 const E2_EQ = { pr: { C1: "e2_pr2br", C3: "e2_pr2br" }, bb: { C1: "e2_bb_C1", C3: "e2_bb_C3" }, bmp: { C1: "e2_bmp_C1", C3: "e2_bmp_C3" } };
 const E2 = { id: "bb_R", beta: null, P: null, hs: [], th: 60, done: null, raf: 0, s: 0 };
-LAB.E2 = E2;
 let e2V = null;
 const e2D = () => MOLS[E2.id];
 const e2Base = () => E2_SUB.find(s => s.id === E2.id).base;
@@ -1768,7 +1832,6 @@ function sideAtoms(d, ca, cb){
   return [...seen];
 }
 const e2Dih = (P, h) => { const d = e2D(); return dihedral(P[h], P[E2.beta], P[d.ca], P[d.br]); };
-LAB.e2Dih = e2Dih;
 // turn the β side so that H hs[0] sits at dihedral th
 function e2Turn(th){
   const d = e2D(), ca = d.ca, cb = E2.beta, ax = unit(sub(E2.P[ca], E2.P[cb]));
@@ -1781,7 +1844,6 @@ function e2Turn(th){
   }
   E2.th = th;
 }
-LAB.e2Turn = th => { e2Turn(th); e2Draw(); };
 // the periplanar H (anti first), or null
 function e2Peri(P){
   P = P || E2.P;
@@ -1790,7 +1852,6 @@ function e2Peri(P){
   for (const h of E2.hs){ const t = e2Dih(P, h); if (near(t, 0)) return { h, mode: "syn", t }; }
   return null;
 }
-LAB.e2Peri = e2Peri;
 // product geometry: remove H and Br, make the C=C, swing the other groups into the alkene plane (fraction s)
 function e2Product(P0, h, s){
   const d = e2D(), ca = d.ca, cb = E2.beta, br = d.br, g = graphOf(d);
@@ -1836,12 +1897,10 @@ function e2ProdLabels(P, h){
   const cc = chiralCentres(g).map(c => ({ c, lab: rsLabel(g, P, c), loc: d.loc[c] }));
   return { ez, cc };
 }
-LAB.e2ProdLabels = e2ProdLabels;
 function e2SubLabels(){
   const d = e2D(), g = graphOf(d);
   return chiralCentres(g).map(c => ({ c, lab: rsLabel(g, E2.P, c), loc: d.loc[c] }));
 }
-LAB.e2SubLabels = e2SubLabels;
 const hName = k => "H" + "ₐ_b_c".split("_")[k];
 const hTag = k => ["a", "b", "c"][k];
 function e2Scene(){
@@ -1859,17 +1918,28 @@ function e2Scene(){
   const sc = { atoms, bonds, R: 4.6, ctr: E2.ctr || centroid(E2.P), zoom: E2.zoom || 1, bw: 0.11 };
   sc.over = v => {
     let o = "";
-    const lab = (p, t, cls, dx, dy) => { const q = v.proj(p); return `<text x="${f1(q[0] + (dx || 0))}" y="${f1(q[1] + (dy || 0))}" text-anchor="middle" class="${cls}">${svgChem(t, 12)}</text>`; };
+    // boxes the free labels must keep clear of: the atom symbols and the H labels
+    const obst = [], box = (x, y, t) => lbox(x, y, t, 12, "middle");
+    atoms.forEach((a, i) => { if (a.l && !(done && s > 0.5 && i === d.br)){ const q = v.proj(a.p); obst.push(box(q[0], q[1] + 4, a.l)); } });
+    const free = (p, t, cls, cands) => { const q = v.proj(p), r = placeLabels([{ t, x: q[0], y: q[1], anchor: "middle", fs: 12, cands }], obst, v.W, v.H)[0]; obst.push(box(q[0] + r.dx, q[1] + r.dy, t)); return `<text x="${f1(q[0] + r.dx)}" y="${f1(q[1] + r.dy)}" text-anchor="middle" class="${cls}">${svgChem(t, 12)}</text>`; };
+    // the three H labels sit just outside their atom, along the C–H direction; further out or to the side if an atom symbol is in the way
     if (!done || s < 0.5) E2.hs.forEach((h, k) => {
-      const q = v.proj(P[h]), c = v.proj(P[E2.beta]); let dx = q[0] - c[0], dy = q[1] - c[1]; const L = Math.hypot(dx, dy) || 1;
-      o += `<text x="${f1(q[0] + dx / L * 17)}" y="${f1(q[1] + dy / L * 17 + 4)}" text-anchor="middle" class="hlab halo">${svgChem("H{" + hTag(k) + "}", 12)}</text>`;
+      const q = v.proj(P[h]), c = v.proj(P[E2.beta]); let dx = q[0] - c[0], dy = q[1] - c[1]; const L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+      const cands = [17, 27, 37].map(r => ({ dx: ux * r, dy: uy * r + 4 })).concat([[-uy, ux], [uy, -ux]].flatMap(([tx, ty]) => [14, 24].map(r => ({ dx: ux * 17 + tx * r, dy: uy * 17 + ty * r + 4 }))));
+      const r = placeLabels([{ t: "H{" + hTag(k) + "}", x: q[0], y: q[1], anchor: "middle", fs: 12, cands }], obst, v.W, v.H)[0]; obst.push(box(q[0] + r.dx, q[1] + r.dy, "Hb"));
+      o += `<text x="${f1(q[0] + r.dx)}" y="${f1(q[1] + r.dy)}" text-anchor="middle" class="hlab halo">${svgChem("H{" + hTag(k) + "}", 12)}</text>`;
     });
     const pe = !done && e2Peri();
     if (pe){ const q = v.proj(P[pe.h]), r = RAD.H * 0.9 * v.S * q[3] + 5, b = v.proj(P[d.br]), rb = RAD.Br * 0.9 * v.S * b[3] + 5; o += `<circle cx="${f1(q[0])}" cy="${f1(q[1])}" r="${f1(r)}" class="${pe.mode === "anti" ? "anti" : "synr"}"/><circle cx="${f1(b[0])}" cy="${f1(b[1])}" r="${f1(rb)}" class="${pe.mode === "anti" ? "anti" : "synr"}"/>`; }
-    if (O && s > 0.05) o += lab(O, s > 0.5 ? "C₂H₅OH" : "C₂H₅O⁻", "lblb halo", 0, -18);
-    if (done && s > 0.5) o += lab(P[d.br], "Br⁻", "lblb halo", 0, -20);
+    // end-state labels: above the atom, else below it, else to the side; always inside the panel
+    const ends = [{ dx: 0, dy: -18 }, { dx: 0, dy: 26 }, { dx: 30, dy: -18 }, { dx: -30, dy: -18 }, { dx: 30, dy: 26 }, { dx: -30, dy: 26 }];
+    if (O && s > 0.05) o += free(O, s > 0.5 ? "C₂H₅OH" : "C₂H₅O⁻", "lblb halo", ends);
+    if (done && s > 0.5) o += free(P[d.br], "Br⁻", "lblb halo", ends);
     // R/S at the chiral centres of the substrate (before elimination)
-    if (!done) e2SubLabels().forEach(x => { const q = v.proj(P[x.c]); o += `<text x="${f1(q[0])}" y="${f1(q[1] + 30)}" text-anchor="middle" class="rs halo">${x.loc} (<tspan font-style="italic">${x.lab}</tspan>)</text>`; });
+    // placed clear of every atom symbol and H label: below the centre, else above it, else to the side
+    if (!done) e2SubLabels().forEach(x => { const q = v.proj(P[x.c]), t = `${x.loc} (${x.lab})`, w = estW(t, 12) / 2 + 12, cands = [30, -24, 42, -36].map(dy => ({ dx: 0, dy })).concat([{ dx: w, dy: 4 }, { dx: -w, dy: 4 }, { dx: w, dy: 30 }, { dx: -w, dy: 30 }, { dx: w, dy: -22 }, { dx: -w, dy: -22 }]);
+      const r = placeLabels([{ t, x: q[0], y: q[1], anchor: "middle", fs: 12, cands }], obst, v.W, v.H)[0]; obst.push(box(q[0] + r.dx, q[1] + r.dy, t));
+      o += `<text x="${f1(q[0] + r.dx)}" y="${f1(q[1] + r.dy)}" text-anchor="middle" class="rs halo">${x.loc} (<tspan font-style="italic">${x.lab}</tspan>)</text>`; });
     return o;
   };
   return sc;
@@ -1930,18 +2000,23 @@ function e2Newman(){
   const ang = x => { const v = perp(sub(P[x], P[x === ca || g.nb[ca].includes(x) && x !== cb ? ca : cb])); return Math.atan2(dot(v, ey), dot(v, ex)); };
   const pe = !E2.done && e2Peri();
   let s = "", labs = "";
-  const label = (x, a, L, cls) => {
+  const NL = [];
+  const label = (x, a, L, back) => {
     const k = E2.hs.indexOf(x), t = d.el[x] === "H" ? (k >= 0 ? "H{" + hTag(k) + "}" : "H") : d.el[x] === "Br" ? "Br" : GN[x];
     const lx = cx + Math.cos(a) * (L + 14), ly = cy - Math.sin(a) * (L + 14) + 5;
     const anchor = Math.cos(a) > 0.35 ? "start" : Math.cos(a) < -0.35 ? "end" : "middle";
     const mk = pe && (x === pe.h || x === d.br);
-    labs += `<text x="${f1(lx - (anchor === "start" ? 6 : anchor === "end" ? -6 : 0))}" y="${f1(ly)}" text-anchor="${anchor}" class="ngrp${mk ? " mkt" : ""}">${svgChem(t, 13)}</text>`;
+    // eclipsed (syn) pairs share a bond direction: a label that would sit on another slides along the tangent, the back one one way and the front one the other
+    const tx = Math.sin(a), ty = Math.cos(a), sg = back ? 1 : -1, cands = [{ dx: 0, dy: 0 }];
+    for (let k2 = 1; k2 <= 6; k2++) [sg, -sg].forEach(z => cands.push({ dx: z * tx * 11 * k2, dy: z * ty * 11 * k2 }));
+    NL.push({ t, x: lx - (anchor === "start" ? 6 : anchor === "end" ? -6 : 0), y: ly, anchor, fs: 13, cands, cls: "ngrp" + (mk ? " mkt" : "") });
   };
   // back bonds from the circle edge
-  g.nb[cb].filter(x => x !== ca && !gone(x)).forEach(x => { const a = ang(x), mk = pe && x === pe.h; s += `<line class="nbk${mk ? " mk" : ""}" x1="${f1(cx + Math.cos(a) * R)}" y1="${f1(cy - Math.sin(a) * R)}" x2="${f1(cx + Math.cos(a) * Lb)}" y2="${f1(cy - Math.sin(a) * Lb)}"/>`; label(x, a, Lb); });
+  g.nb[cb].filter(x => x !== ca && !gone(x)).forEach(x => { const a = ang(x), mk = pe && x === pe.h; s += `<line class="nbk${mk ? " mk" : ""}" x1="${f1(cx + Math.cos(a) * R)}" y1="${f1(cy - Math.sin(a) * R)}" x2="${f1(cx + Math.cos(a) * Lb)}" y2="${f1(cy - Math.sin(a) * Lb)}"/>`; label(x, a, Lb, true); });
   s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(R)}" class="ncirc"/>`;
-  g.nb[ca].filter(x => x !== cb && !gone(x)).forEach(x => { const a = ang(x), mk = pe && x === d.br; s += `<line class="nfr${mk ? " mk" : ""}" x1="${f1(cx)}" y1="${f1(cy)}" x2="${f1(cx + Math.cos(a) * Lf * 0.92)}" y2="${f1(cy - Math.sin(a) * Lf * 0.92)}"/>`; label(x, a, Lf * 0.92); });
+  g.nb[ca].filter(x => x !== cb && !gone(x)).forEach(x => { const a = ang(x), mk = pe && x === d.br; s += `<line class="nfr${mk ? " mk" : ""}" x1="${f1(cx)}" y1="${f1(cy)}" x2="${f1(cx + Math.cos(a) * Lf * 0.92)}" y2="${f1(cy - Math.sin(a) * Lf * 0.92)}"/>`; label(x, a, Lf * 0.92, false); });
   s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="3" class="ndot"/>`;
+  placeLabels(NL, [], W, Hh).forEach((p, i) => { const n = NL[i]; labs += `<text x="${f1(p.x + p.dx)}" y="${f1(p.y + p.dy)}" text-anchor="${p.anchor}" class="${n.cls}">${svgChem(n.t, 13)}</text>`; });
   setSvg(svg, W, Hh, s + labs);
   $("e2-nmh").innerHTML = `front ${d.loc[ca]}, back ${d.loc[cb]}` + (after ? " · the reacting conformation, without the H and Br that left" : pe ? ` · ${pe.mode}-periplanar pair marked` : "");
 }
@@ -1966,7 +2041,6 @@ function e2Goto(k, mode){
   const now0 = e2Dih(E2.P, E2.hs[0]), nowk = e2Dih(E2.P, h), off = nowk - now0;
   e2Turn(((mode === "anti" ? 180 : 0) - off + 540) % 360 - 180);
 }
-LAB.e2Goto = (k, mode) => { e2Undo(); e2Goto(k, mode); e2Draw(); };
 function e2SetBond(betaIdx){
   const d = e2D();
   E2.beta = betaIdx;
@@ -1990,8 +2064,6 @@ function e2Set(id, betaLoc, opts){
   e2View0();
   e2Draw();
 }
-LAB.e2Set = e2Set;
-LAB.e2Bond = loc => { const d = e2D(); const e = Object.entries(d.betas).find(([, l]) => l === loc); document.querySelector(`input[name="e2-bond"][value="${e[0]}"]`).checked = true; e2Undo(); e2SetBond(+e[0]); e2View0(); e2Draw(); };
 // a side-on view of the turning bond in which no atom hides another
 // searched over the starting conformation, every anti-periplanar conformation and the alkene each one gives
 function e2Sets(){
@@ -2004,7 +2076,13 @@ function e2Sets(){
   E2.P = keep; E2.th = th0;
   return sets;
 }
-LAB.e2Sets = e2Sets;
+// where the base (O) and the leaving Br end up, for every conformation that can eliminate: the view is fitted to include them
+function e2Leaving(){
+  const d = e2D(), keep = E2.P.map(p => p.slice()), th0 = E2.th, pts = [];
+  E2.hs.forEach((h, k) => ["anti", "syn"].forEach(mode => { e2Goto(k, mode); const r = e2Product(E2.P, h, 1); pts.push(r.O, r.P[d.br], r.P[h]); }));
+  E2.P = keep; E2.th = th0;
+  return pts;
+}
 function e2DefaultView(){
   const d = e2D(), u = unit(sub(E2.P[E2.beta], E2.P[d.ca])), sets = e2Sets();
   let best = -Infinity, bm = null;
@@ -2018,9 +2096,8 @@ function e2DefaultView(){
   return bm;
 }
 function e2View0(){ const M0 = e2DefaultView(); e2Fit(M0); e2V.set(e2Scene(), M0); }
-LAB.e2DefaultView = e2DefaultView;
 function e2Fit(M0){
-  const sets = e2Sets(), u = { atoms: sets.flatMap(m => m.P.map(p => ({ p }))), R: 4.6, ctr: centroid(E2.P) };
+  const sets = e2Sets(), u = { atoms: sets.flatMap(m => m.P.map(p => ({ p }))).concat(e2Leaving().map(p => ({ p }))), R: 4.6, ctr: centroid(E2.P) };
   E2.zoom = 1; E2.ctr = null;
   E2.zoom = e2V.fitZoom(u, M0, 0.72); E2.ctr = u.ctr;
 }
@@ -2036,18 +2113,9 @@ function e2Go(){
   const step = now => { E2.s = Math.min(1, (now - t0) / 1600); e2Draw(); if (E2.s < 1) E2.raf = requestAnimationFrame(step); else E2.raf = 0; };
   E2.raf = requestAnimationFrame(step);
 }
-LAB.e2Go = e2Go;
 // export the substrate now, or the product after elimination, for the offline RDKit check
-LAB.e2Export = () => {
-  const d = e2D();
-  if (!E2.done) return { el: d.el, P: E2.P, bonds: d.bonds };
-  const r = e2Product(E2.P, E2.done.h, 1), m = e2ProdGraph(E2.done.h);
-  const keep = d.el.map((_, i) => i).filter(i => i !== E2.done.h && i !== d.br), idx = {}; keep.forEach((i, k) => { idx[i] = k; });
-  return { el: keep.map(i => d.el[i]), P: keep.map(i => r.P[i]), bonds: m.bonds.filter(([i, j]) => idx[i] != null && idx[j] != null).map(([i, j, o]) => [idx[i], idx[j], o]) };
-};
 function bindE2(){
   e2V = Viewer($("e2-svg"), $("e2-svg").parentElement, W => W < 420 ? 280 : 300);
-  LAB.e2View = () => e2V;
   $("e2-mols").innerHTML = E2_SUB.map(s => `<button type="button" data-id="${s.id}">${RSI(s.n)}</button>`).join("");
   $("e2-mols").addEventListener("click", e => { const b = e.target.closest("button"); if (b) e2Set(b.dataset.id); });
   $("e2-bond").addEventListener("change", () => { e2Undo(); e2SetBond(+document.querySelector('input[name="e2-bond"]:checked').value); e2View0(); e2Draw(); });
@@ -2062,9 +2130,9 @@ function bindE2(){
 }
 BIND.push(bindE2);
 /* =====================================================
-   D. ZAITSEV OR HOFMANN (9813 3.3(a)(ii), (b)(ii)). DATA.md allowed list D. Ratios: 2-bromo-2-methylbutane
+   D. ZAITSEV OR HOFMANN (9813 3.3(a)(ii), (b)(ii)). Allowed substrates only. Ratios: 2-bromo-2-methylbutane
    70 : 30 and 28 : 72 and 2-bromobutane 80 : 20 (small base) are literature values, rounded; the rest illustrative.
-   Profiles (2-bromo-2-methylbutane only): DATA.md "Energy profiles", illustrative.
+   Profiles (2-bromo-2-methylbutane only): profiles from the notes, illustrative.
    ===================================================== */
 const ZH_SUB = {
   mb: { n: "2-bromo-2-methylbutane", f: "(CH₃)₂CBrCH₂CH₃",
@@ -2083,11 +2151,8 @@ const ZH_SUB = {
     Hf: { n: "3-methylbut-1-ene", f: "CH₂=CHCH(CH₃)₂", sub: "monosubstituted", dh: null, bh: 3, from: "the CH₃ (C1)" },
     small: [70, 30, "ill"], bulky: [20, 80, "ill"], eq: "zh_mb3" }
 };
-LAB.ZH_SUB = ZH_SUB;
 const ZH_PROF = { small: { Z: 88, H: 92 }, bulky: { Z: 96, H: 92 }, pZ: -30, pH: -23 };
-LAB.ZH_PROF = ZH_PROF;
 const ZH = { s: "mb", b: "small" };
-LAB.ZH = ZH;
 // 2D layouts (grid units): [x, y, label, role] role: a = α carbon, z = Zaitsev β, h = Hofmann β, o = one-product β
 const ZH_LAY = {
   mb: { at: [[-1, 0, "CH₃", "h"], [0, 0, "C", "a"], [0, 1, "Br", ""], [0, -1, "CH₃", "h"], [1, 0, "CH₂", "z"], [2, 0, "CH₃", ""]], bd: [[0, 1], [1, 2], [1, 3], [1, 4], [4, 5]] },
@@ -2102,7 +2167,6 @@ function zhPct(){
   const e1 = ZH.b === "e1";
   return [{ p: S.Z, v: r[0], cls: "barz", tag: e1 ? "more substituted" : "Zaitsev" }, { p: S.Hf, v: r[1], cls: "barh", tag: e1 ? "less substituted" : "Hofmann" }];
 }
-LAB.zhPct = zhPct;
 function zhStruct(){
   const svg = $("zh-svg"), W = widthOf(svg.parentElement), Hh = 230, L = ZH_LAY[ZH.s], S = ZH_SUB[ZH.s];
   const xs = L.at.map(a => a[0]), u = Math.min(78, (W - 70) / (Math.max(...xs) - Math.min(...xs) + 1.6));
@@ -2128,7 +2192,9 @@ function zhStruct(){
   } else s += T(W / 2, 26, "H₂O: the carbocation forms first; water removes H⁺", "cap", 'text-anchor="middle"', 11.5);
   // counts of β-H
   const cnt = S.one ? `${S.one.bh} β-H, all equivalent: one alkene` : `Zaitsev β-H (solid ring): ${S.Z.bh} · Hofmann β-H (dashed ring): ${S.Hf.bh}`;
-  s += T(W / 2, Hh - 10, cnt, "cap", 'text-anchor="middle"', 11.5);
+  // a caption wider than the panel breaks at the middle dot onto two lines
+  const cl = estW(cnt, 11.5) > W - 12 && cnt.includes(" · ") ? cnt.split(" · ") : [cnt];
+  cl.forEach((t, i) => { s += T(W / 2, Hh - 10 - (cl.length - 1 - i) * 14, t, "cap", 'text-anchor="middle"', 11.5); });
   setSvg(svg, W, Hh, s);
   $("zh-svgh").innerHTML = H(S.f);
 }
@@ -2189,7 +2255,6 @@ function zhSet(s, b){
   [...$("zh-mols").querySelectorAll("button")].forEach(x => x.setAttribute("aria-pressed", x.dataset.id === ZH.s));
   zhDraw();
 }
-LAB.zhSet = zhSet;
 function bindZH(){
   $("zh-mols").innerHTML = Object.entries(ZH_SUB).map(([k, s]) => `<button type="button" data-id="${k}">${s.n}${s.extra ? ` <span class="src">lab extra</span>` : ""}</button>`).join("");
   $("zh-mols").addEventListener("click", e => { const b = e.target.closest("button"); if (b) zhSet(b.dataset.id); });
@@ -2199,7 +2264,7 @@ function bindZH(){
 }
 BIND.push(bindZH);
 /* =====================================================
-   E. MECHANISM PREDICTOR (9813 3.2(c), 3.3(c)). The DATA.md prediction grid, cell for cell (Part 2 Table 1).
+   E. MECHANISM PREDICTOR (9813 3.2(c), 3.3(c)). The prediction grid, cell for cell (Part 2 Table 1).
    ===================================================== */
 const PR_REA = [
   { id: "W", n: "H₂O, warm", d: "weak nucleophile, weak base: H₂O, warm" },
@@ -2215,7 +2280,7 @@ const PR_SUB = [
   { id: "np", n: "1-bromo-2,2-dimethylpropane", f: "(CH₃)₃CCH₂Br", cls: "primary, next to a (CH₃)₃C group", beta: false, fex: true }
 ];
 const PR_OPT = [["sn1", "S_N1"], ["sn2", "S_N2"], ["e1", "E1"], ["e2", "E2"], ["mix", "S_N1 and E1 together"], ["none", "No reaction in practice"]];
-// [cell text (DATA.md), main answer, partly right answers, reason]
+// [cell text, main answer, partly right answers, reason]
 const PR_GRID = {
   me: {
     W: ["very slow S_N2 (methanol); no S_N1", "sn2", ["none"], "Methyl: CH₃⁺ is far too unstable for S_N1 and there is no β-H; water is a weak nucleophile, so S_N2 is very slow."],
@@ -2243,9 +2308,7 @@ const PR_GRID = {
     B: ["S_N2 extremely slow; no E2 (no β-H)", "sn2", ["none"], "No β-hydrogen (the next carbon carries three CH₃ groups and no H), so no E2; S_N2 is blocked."],
     K: ["no reaction in practice", "none", [], "Blocked back side, no β-hydrogen and a poor, bulky nucleophile."] }
 };
-LAB.PR_GRID = PR_GRID; LAB.PR_SUB = PR_SUB; LAB.PR_REA = PR_REA; LAB.PR_OPT = PR_OPT;
 const PR = { s: "p2", r: "B", temp: "warm", mode: true, seen: new Set(), answered: false, score: 0, n: 0 };
-LAB.PR = PR;
 function prTempNote(s, r){
   const S = PR_SUB.find(x => x.id === s);
   if (!S.beta) return "No β-hydrogen, so heating cannot give an alkene.";
@@ -2267,6 +2330,7 @@ function prRender(){
   $("pr-q").innerHTML = HS(`${S.n[0].toUpperCase() + S.n.slice(1)} (${S.cls}) with ${R.n}${PR.temp === "hot" ? ", hotter" : ""}: what is the main mechanism?`);
   const seen = PR.seen.has(PR.s + PR.r);
   PR.answered = !PR.mode || seen;
+  if (!PR.mode) PR.seen.add(PR.s + PR.r);   // an answer shown without a prediction is not scored later (S17)
   $("pr-opts").innerHTML = PR_OPT.map(([k, t]) => `<button type="button" class="opt" data-k="${k}"${PR.answered ? " disabled" : ""}><span>${HS(t)}</span></button>`).join("");
   if (PR.answered) prReveal(null);
   else { $("pr-fb").hidden = true; }
@@ -2296,8 +2360,6 @@ function prAnswer(k){
   prGrid();
   $("pr-score").textContent = `Predictions: ${PR.score} right out of ${PR.n}.`;
 }
-LAB.prAnswer = prAnswer;
-LAB.prSet = (s, r, o) => { o = o || {}; if (s) PR.s = s; if (r) PR.r = r; if (o.mode != null){ PR.mode = o.mode; $("pr-mode").checked = o.mode; } if (o.temp){ PR.temp = o.temp; document.querySelector(`input[name="pr-temp"][value="${o.temp}"]`).checked = true; } prRender(); };
 function bindPR(){
   $("pr-sub").innerHTML = PR_SUB.map(S => `<button type="button" data-id="${S.id}">${S.fex ? `<span class="fex">Further example</span>` : ""}${H(S.f)}</button>`).join("");
   $("pr-rea").innerHTML = PR_REA.map(R => `<button type="button" data-id="${R.id}">${HS(R.n)}</button>`).join("");
@@ -2313,8 +2375,8 @@ function bindPR(){
 }
 BIND.push(bindPR);
 /* =====================================================
-   PRACTICE GENERATOR (DATA.md allowed list). Rate tables use only the notes' substrates with OH⁻; numbers on
-   the reserved list are excluded by hash (reserved.json, build time). Answers are recomputed independently in test.js.
+   PRACTICE GENERATOR. Rate tables use only the notes' substrates with OH⁻; numbers the practice must never print are
+   excluded by hash. Every typed answer goes through the one parseAnswer (00-core.js).
    ===================================================== */
 const GN_TYPES = [
   { id: "rate", n: "Rate equation from data" },
@@ -2324,7 +2386,6 @@ const GN_TYPES = [
   { id: "zh", n: "Zaitsev or Hofmann" },
   { id: "ee", n: "Enantiomeric excess from an ion pair" }
 ];
-LAB.GN_TYPES = GN_TYPES;
 const GN_RSUB = [
   { id: "et", n: "bromoethane", f: "CH₃CH₂Br", mech: "sn2" },
   { id: "me", n: "bromomethane", f: "CH₃Br", mech: "sn2" },
@@ -2336,8 +2397,7 @@ const GN_PRE = {
   we2a: { sub: "et", mech: "sn2", k: 1.7e-3, rows: [[0.050, 0.10, 8.5e-6], [0.10, 0.10, 1.7e-5], [0.10, 0.20, 3.4e-5]], t: "55 °C, water–ethanol mixture" },
   we2b: { sub: "tb", mech: "sn1", k: 3.0e-4, rows: [[0.010, 0.050, 3.0e-6], [0.020, 0.050, 6.0e-6], [0.020, 0.100, 6.0e-6]], t: "25 °C, water–propanone mixture" }
 };
-LAB.GN_PRE = GN_PRE;
-// E/Z outcomes (checked against RDKit, rdkit_ref.json, in test.js)
+// E/Z outcomes (checked offline against RDKit)
 const GN_EZ = [
   { id: "bmp_RS", n: "(2R,3S)-2-bromo-3-methylpentane", anti: "Z", syn: "E", prod: "3-methylpent-2-ene" },
   { id: "bmp_SR", n: "(2S,3R)-2-bromo-3-methylpentane", anti: "Z", syn: "E", prod: "3-methylpent-2-ene" },
@@ -2346,22 +2406,10 @@ const GN_EZ = [
   { id: "bb_anti", n: "(R)-2-bromobutane", conf: "anti", ez: "E", prod: "but-2-ene" },
   { id: "bb_gauche", n: "(R)-2-bromobutane", conf: "gauche", ez: "Z", prod: "but-2-ene" }
 ];
-LAB.GN_EZ = GN_EZ;
-const GN = { type: "rate", q: null, score: 0, n: 0, pick: null, checked: false };
-LAB.GN = GN;
+const GN = { type: "rate", q: null, score: 0, n: 0, pick: null, checked: false, seen: false };
 const c2s = v => v >= 0.1 ? v.toFixed(2) : v.toFixed(3);
-function parseSci(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+/g, m => "^" + [...m].map(c => c === "⁻" ? "-" : "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join(""));
-  t = t.replace(/(mol-?1dm3s-1|mol\^-1dm\^3s\^-1|s-1|s\^-1|%)$/i, "");
-  const m = t.match(/^([-+]?\d*\.?\d+)(?:(?:x|X|×|\*)10\^?([-+]?\d+)|[eE]([-+]?\d+))?$/);
-  if (!m) return NaN;
-  const e = m[2] != null ? +m[2] : m[3] != null ? +m[3] : 0;
-  return parseFloat(m[1]) * Math.pow(10, e);
-}
-LAB.parseSci = parseSci;
 const rateEq = (S, kind) => ({ one: `rate = k[${S.f}]`, two: `rate = k[${S.f}][OH⁻]`, oh: `rate = k[OH⁻]`, sq: `rate = k[${S.f}]²` })[kind];
-// a random initial-rates table whose printed (rounded) rates keep exact ratios; null if any printed number is on the reserved list
+// a random initial-rates table whose printed (rounded) rates keep exact ratios; null if any printed number is on the list of numbers kept out of the lab
 function genRateTable(){
   const S = pick(GN_RSUB), mech = S.mech;
   const e = pick([-5, -4, -3]), mt = e === -3 ? ri(10, 50) / 10 : ri(10, 99) / 10, k = +(mt * Math.pow(10, e)).toFixed(12);
@@ -2374,11 +2422,10 @@ function genRateTable(){
   const kc = mech === "sn2" ? r1 / (a0 * b0) : r1 / a0;
   if (kc < 1.0e-5 || kc > 5.0e-3) return null;
   const toks = [tok(kc, 2), ...rows.map(r => tok(r[2], 2))];
-  if (toks.some(reserved)) return null;
+  if (toks.some(held)) return null;
   if (Math.abs(+kc.toPrecision(2) - 1.7e-3) < 1e-12 || Math.abs(+kc.toPrecision(2) - 3.0e-4) < 1e-12) return null;   // not the notes' worked example constants either
   return { sub: S.id, mech, k: kc, rows, t: pick(["25 °C", "30 °C", "40 °C", "50 °C"]) + ", " + (mech === "sn1" ? "water–propanone mixture" : "water–ethanol mixture") };
 }
-LAB.genRateTable = genRateTable;
 function rateWork(D){
   const S = GN_RSUB.find(s => s.id === D.sub), [r1, r2, r3] = D.rows, sn2 = D.mech === "sn2";
   const fa = r2[0] / r1[0], fR1 = r2[2] / r1[2], fb = r3[1] / r2[1], fR2 = r3[2] / r2[2];
@@ -2411,7 +2458,7 @@ function gnMake(type, preset){
       q.why = { one: "The rate changes when [OH⁻] changes, so OH⁻ must appear.", two: "The rate does not change when only [OH⁻] changes, so OH⁻ is zero order.", oh: "The rate changes when only the halogenoalkane changes, so it must appear.", sq: "Doubling (or tripling) the halogenoalkane changes the rate by the same factor: first order, not second." };
     } else {
       q.text = `${preset ? "Part 1, worked example 2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). Find the rate equation, then calculate k and give its units.`;
-      q.ans = W.kc; q.unit = W.unit; q.fmt = `Type k as a number in ${W.unit}, e.g. 2.5e-4 or 2.5 × 10^-4.`;
+      q.ans = W.kc; q.unit = W.unit; q.units = [W.unit === "s⁻¹" ? "k1" : "k2"]; q.fmt = `Type k as a number in ${W.unit}, e.g. 2.5e-4 or 2.5 × 10^-4.`;
       q.lab = `k / ${W.unit}`;
     }
   } else if (type === "mech"){
@@ -2445,17 +2492,16 @@ function gnMake(type, preset){
     q.zh = [sid, base];
   } else {
     let p, qq, ee;
-    do { p = ri(51, 70); qq = 100 - p; ee = (p - qq) / (p + qq) * 100; } while ([p, qq, Math.round(ee)].some(v => reserved("pct:" + v)));
+    do { p = ri(51, 70); qq = 100 - p; ee = (p - qq) / (p + qq) * 100; } while ([p, qq, Math.round(ee)].some(v => held("pct:" + v)));
     q.text = `(S)-3-Bromo-3-methylhexane is hydrolysed by S_N1. The 3-methylhexan-3-ol formed is ${p} % (R) and ${qq} % (S) (illustrative). Calculate the enantiomeric excess.`;
-    q.ans = ee; q.ratio = [p, qq]; q.lab = "ee / %"; q.fmt = "Type the ee as a percentage, e.g. 12.";
+    q.ans = ee; q.units = ["pct"]; q.ratio = [p, qq]; q.lab = "ee / %"; q.fmt = "Type the ee as a percentage, e.g. 12.";
     q.work = ["Attack on the open face (opposite the departing Br⁻) inverts the configuration: (S)-bromide gives (R)-alcohol.", "Br⁻ still close to the other face (the ion pair) shields it, so slightly more of the inverted (R) product forms.", `ee = (${p} − ${qq}) / (${p} + ${qq}) × 100 = ${fx(ee, 0)} % in favour of (R).`, `A free carbocation would give 50 : 50, a racemic mixture (ee 0 %).`];
   }
   return q;
 }
-LAB.gnMake = gnMake;
 function gnRender(){
   const q = GN.q;
-  GN.pick = null; GN.checked = false;
+  GN.pick = null; GN.checked = false; GN.seen = false;   // a new question: scored once, and not scored if its working is opened before Check
   [...$("gn-types").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.id === GN.type));
   show($("gn-presw"), GN.type === "rate" || GN.type === "k");
   [...$("gn-pres").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.id === q.preset));
@@ -2464,12 +2510,14 @@ function gnRender(){
   show($("gn-opts"), !!q.opts); show($("gn-ansrow"), !q.opts);
   if (q.opts) $("gn-opts").innerHTML = q.opts.map(o => `<button type="button" data-k="${o.k}">${HS(o.t)}</button>`).join("");
   $("gn-lab").innerHTML = H(q.lab || "Answer"); $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid");
+  // k is typed with an exponent (e, ×, a minus sign), which the iPhone decimal keypad lacks; the ee is a plain non-negative number
+  $("gn-ans").setAttribute("inputmode", q.type === "k" ? "text" : "decimal");
+  $("gn-show").textContent = "Show working";
   $("gn-fmt").innerHTML = H(q.fmt || "Pick one answer, then Check.");
   show($("gn-fb"), false); show($("gn-work"), false);
   $("gn-work").innerHTML = q.work.map(w => `<li>${HS(w)}</li>`).join("");
 }
 function gnNew(type, preset){ GN.type = type || GN.type; GN.q = gnMake(GN.type, preset); gnRender(); }
-LAB.gnNew = gnNew;
 function gnCheck(){
   const q = GN.q, fb = $("gn-fb");
   let right, msg;
@@ -2480,39 +2528,43 @@ function gnCheck(){
     msg = GN.pick === q.ans ? `Right: ${a}.` : half ? `Accepted: it happens here, but the main route is ${a}.` : `Not quite: the answer is ${a}.` + (q.why && q.why[GN.pick] ? " " + q.why[GN.pick] : "");
     GN.half = half && GN.pick !== q.ans;
   } else {
-    const v = parseSci($("gn-ans").value);
-    if (!isFinite(v)){ $("gn-ans").setAttribute("aria-invalid", "true"); fb.className = "fb info"; fb.innerHTML = H(q.fmt); show(fb, true); return; }
-    $("gn-ans").removeAttribute("aria-invalid");
-    const tol = q.type === "ee" ? 0.6 : Math.abs(q.ans) * 0.06;
+    const r = parseAnswer($("gn-ans").value, q.units), ans = $("gn-ans");
+    if (r.error){   // blank, not a number or a wrong unit: nothing is counted
+      ans.setAttribute("aria-invalid", "true");
+      fb.className = "fb " + (r.kind === "unit" ? "warn" : "info");
+      fb.innerHTML = r.kind === "nan" ? H(q.fmt) : H(r.error); show(fb, true); return;
+    }
+    ans.removeAttribute("aria-invalid");
+    const v = r.value, tol = q.type === "ee" ? 0.6 : Math.abs(q.ans) * 0.06;
     right = Math.abs(v - q.ans) <= tol;
     const shown = q.type === "ee" ? fx(q.ans, 0) + " %" : sci(q.ans, 2) + " " + q.unit;
     if (right) msg = `Right: ${shown}.`;
     else if (q.type === "k" && Math.abs(v * 1000 - q.ans) <= Math.abs(q.ans) * 0.06) msg = `Check the power of ten: the answer is ${shown}.`;
     else msg = `Not quite: the answer is ${shown}. See the working.`;
   }
-  if (!GN.checked){ GN.n++; if (right) GN.score++; GN.checked = true; }
-  fb.className = "fb " + (right ? (q.opts && GN.half ? "warn" : "ok") : "no"); fb.innerHTML = HS(msg); show(fb, true); GN.half = false;
-  if (!right) show($("gn-work"), true);
+  const counted = !GN.checked && !GN.seen;   // once per question, and not if the working was opened first
+  if (!GN.checked){ if (counted){ GN.n++; if (right) GN.score++; } GN.checked = true; }
+  fb.className = "fb " + (right ? (q.opts && GN.half ? "warn" : "ok") : "no"); fb.innerHTML = HS(msg) + (GN.seen ? " Not scored: the working was opened before checking." : ""); show(fb, true); GN.half = false;
+  if (!right){ show($("gn-work"), true); $("gn-show").textContent = "Hide working"; }
   $("gn-score").textContent = `${GN.score} right out of ${GN.n}`;
   GN.last = { right, msg };
 }
-LAB.gnCheck = gnCheck;
-LAB.gnPick = k => { GN.pick = k; [...$("gn-opts").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k)); };
+function gnPick(k){ GN.pick = k; [...$("gn-opts").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k)); }
 function bindGN(){
-  $("gn-types").innerHTML = GN_TYPES.map(t => `<button type="button" data-id="${t.id}">${t.n}</button>`).join("");
+  $("gn-types").innerHTML = GN_TYPES.map(t => `<button type="button" data-id="${t.id}">${H(t.n)}</button>`).join("");
   $("gn-pres").innerHTML = `<button type="button" data-id="we2a">Worked example 2 (a): bromoethane</button><button type="button" data-id="we2b">Worked example 2 (b): 2-bromo-2-methylpropane</button>`;
   $("gn-types").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnNew(b.dataset.id); });
   $("gn-pres").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnNew(GN.type === "k" ? "k" : "rate", b.dataset.id); });
-  $("gn-opts").addEventListener("click", e => { const b = e.target.closest("button"); if (b) LAB.gnPick(b.dataset.k); });
+  $("gn-opts").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnPick(b.dataset.k); });
   $("gn-check").addEventListener("click", gnCheck);
   $("gn-ans").addEventListener("keydown", e => { if (e.key === "Enter") gnCheck(); });
-  $("gn-show").addEventListener("click", () => show($("gn-work"), true));
+  $("gn-show").addEventListener("click", () => { const open = $("gn-work").hidden; if (open && !GN.checked) GN.seen = true; show($("gn-work"), open); $("gn-show").textContent = open ? "Hide working" : "Show working"; });
   $("gn-new").addEventListener("click", () => gnNew());
   gnNew("rate");
 }
 BIND.push(bindGN);
 /* =====================================================
-   FACT CARDS (DATA.md list: one per notes example, plus the reagents and ideas). Condition strings exactly as the notes.
+   FACT CARDS (one per notes example, plus the reagents and ideas). Condition strings exactly as the notes.
    ===================================================== */
 const LIT = `<span class="src lit">literature</span>`, DB = `<span class="src">Data Booklet</span>`, ILL = `<span class="src">illustrative</span>`;
 const FC = [
@@ -2574,13 +2626,11 @@ const FC = [
     dl: [["Nucleophile", "donates a lone pair to carbon: a rate (nucleophilicity)"], ["Base", "donates a lone pair to H⁺: an equilibrium (basicity)"], ["Charged beats neutral", "OH⁻ > H₂O; CH₃O⁻ > CH₃OH; NH₂⁻ > NH₃"]],
     p: "For the same attacking atom, a stronger base is usually a stronger nucleophile: CH₃O⁻ > C₆H₅O⁻ (charge spread into the ring) > CH₃OH." }
 ];
-LAB.FC = FC;
 const FC_G = [["all", "All"], ["sub", "Substrates"], ["rea", "Reagents"], ["ind", "In industry"], ["idea", "Ideas"]];
 function fcRender(g){
   [...$("fc-filter").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", b.dataset.g === g));
   $("fc-cards").innerHTML = FC.filter(c => g === "all" || c.g === g).map(c => `<div class="panel card"><h3>${c.fex ? `<span class="fex">Further example</span>` : ""}${HS(c.t)}</h3><div class="kind">${HS(c.kind)}${c.f ? ` · <span class="nw">${H(c.f)}</span>` : ""}</div><dl>${c.dl.map(([k, v]) => `<dt>${HS(k)}</dt><dd>${HS(v)}</dd>`).join("")}</dl><p>${HS(c.p)}</p></div>`).join("");
 }
-LAB.fcRender = fcRender;
 function bindFC(){
   $("fc-filter").innerHTML = FC_G.map(([g, n]) => `<button type="button" data-g="${g}">${n}</button>`).join("");
   $("fc-filter").addEventListener("click", e => { const b = e.target.closest("button"); if (b) fcRender(b.dataset.g); });
@@ -2588,33 +2638,33 @@ function bindFC(){
 }
 BIND.push(bindFC);
 /* =====================================================
-   QUIZ (option 0 is correct; each option carries its reason). The notes' examples only.
+   QUIZ (option 0 is the correct one in the data; the order shown is shuffled and the page keeps no answer marker until a pick). The notes' examples only.
    ===================================================== */
 const QZ = [
   { k: "3.1(a)", q: "The first step of the S_N1 hydrolysis of 2-bromo-2-methylpropane, (CH₃)₃CBr → (CH₃)₃C⁺ + Br⁻, is strongly endothermic. What does the Hammond postulate say about its transition state?",
-    o: [["It is late and looks like the carbocation: the C–Br bond is mostly broken and the carbon nearly planar", "It lies close in energy to the carbocation, the stable species on its higher side, so it resembles it."],
+    o: [["It is late and resembles the carbocation: the C–Br bond is mostly broken", "It lies close in energy to the carbocation, the stable species on its higher side, so it resembles it."],
         ["It is early and looks like the bromoalkane, with the C–Br bond barely stretched", "That describes the transition state of a strongly exothermic step."],
         ["It is exactly midway, with the C–Br bond half broken", "Only a thermoneutral step (ΔH = 0) has its transition state about midway."],
         ["It looks like 2-methylpropan-2-ol, the final product", "The alcohol forms in step 2; the transition state of step 1 resembles the species formed in step 1."]] },
   { k: "3.2(b)(i)", q: "Why does [OH⁻] not appear in the rate equation for the S_N1 hydrolysis of 2-bromo-2-methylpropane?",
-    o: [["OH⁻ reacts only after the slow step: the carbocation is used up as fast as it forms, so product forms at the rate of step 1", "This is the steady-state idea: rate = k[(CH₃)₃CBr], zero order in OH⁻."],
-        ["OH⁻ is a catalyst and is regenerated", "OH⁻ is used up: it ends up in the alcohol."],
-        ["OH⁻ is too weak a nucleophile to react", "It does react, with the carbocation, in the fast step."],
+    o: [["OH⁻ reacts only after the slow step, so step 1 alone sets the rate", "This is the steady-state idea: rate = k[(CH₃)₃CBr], zero order in OH⁻."],
+        ["OH⁻ is a catalyst: it is regenerated at the end, so it cannot change the rate", "OH⁻ is used up: it ends up in the alcohol."],
+        ["OH⁻ is too weak a nucleophile to react with the carbocation at all", "It does react, with the carbocation, in the fast step."],
         ["The carbocation builds up until it reacts with OH⁻ all at once", "Its concentration stays tiny and almost constant: it never builds up."]] },
   { k: "3.2(b)(i)", q: "Which statement about the energy profile of the S_N2 reaction of bromoethane with OH⁻ is correct?",
-    o: [["It has one hump and no intermediate: both reactants are in the only step, so rate = k[CH₃CH₂Br][OH⁻]", "S_N2 is concerted: bond making and bond breaking happen together."],
+    o: [["One hump and no intermediate, so rate = k[CH₃CH₂Br][OH⁻]", "S_N2 is concerted: bond making and bond breaking happen together."],
         ["It has two humps with a carbocation in the dip between them", "That is the S_N1 profile; a primary carbocation is far too unstable to form."],
         ["It has one hump, but only bromoethane is in it, so rate = k[CH₃CH₂Br]", "The nucleophile is in the only step, so its concentration appears in the rate equation."],
         ["It has two humps, and the second one is the higher", "S_N2 has a single step, so there is only one transition state."]] },
   { k: "3.2(a)(i)", q: "Which statement about the tert-butoxide ion, (CH₃)₃CO⁻, is correct?",
-    o: [["It is a strong base but a poor nucleophile, because its bulk stops it reaching a carbon", "It can still reach an H on the outside of a molecule, so it favours elimination."],
-        ["It is a weak base and a good nucleophile", "It is the conjugate base of a weak acid, so a strong base; its bulk makes it a poor nucleophile."],
+    o: [["A strong base but a poor nucleophile, because it is bulky", "It can still reach an H on the outside of a molecule, so it favours elimination."],
+        ["A weak base and a good nucleophile, because it carries a charge", "It is the conjugate base of a weak acid, so a strong base; its bulk makes it a poor nucleophile."],
         ["It is a strong nucleophile, because it carries a negative charge", "Charge helps, but the three CH₃ groups round the O block attack on carbon."],
         ["It cannot act as a base because it has no H to give", "A base accepts H⁺; it does not need to give one."]] },
   { k: "3.2(a)(ii)", q: "Which statement describes a good leaving group?",
-    o: [["A weak base: it is stable once it has gone, carrying the bonding pair with it", "For example the methanesulfonate ion, CH₃SO₂O⁻, whose charge is spread over three O atoms."],
+    o: [["A weak base, stable once it has left with the bonding pair", "For example the methanesulfonate ion, CH₃SO₂O⁻, whose charge is spread over three O atoms."],
         ["A strong base, because it holds on to the electron pair firmly", "A strong base is reactive and unstable on its own, so it is reluctant to leave."],
-        ["A good nucleophile", "Nucleophilicity is about attacking carbon; leaving is about how stable the group is once it has gone."],
+        ["A good nucleophile, because it donates its lone pair easily", "Nucleophilicity is about attacking carbon; leaving is about how stable the group is once it has gone."],
         ["Any group joined to carbon by a strong bond", "The bond to the leaving group breaks in the rate-determining step, so a strong bond makes leaving harder."]] },
   { k: "3.2(a)(iii)", q: "Which order of S_N2 rate (fastest first) is correct?",
     o: [["CH₃Br > CH₃CH₂Br > (CH₃)₂CHBr > (CH₃)₃CBr", "Each extra alkyl group crowds the back of the carbon (relative rates 30, 1, 0.03, about 0; literature)."],
@@ -2623,30 +2673,27 @@ const QZ = [
         ["CH₃CH₂Br > CH₃Br > (CH₃)₂CHBr > (CH₃)₃CBr", "Bromomethane, with three H atoms only, is the least hindered and fastest."]] },
   { k: "3.2(b)(iii)", q: "In the cation (CH₃)₂CH⁺, what is the number of C–H σ bonds able to overlap with the empty p orbital on C⁺ (hyperconjugation)?",
     o: [["6", "Only C–H bonds on the carbons next to C⁺ count: two CH₃ groups, 3 each."],
-        ["7", "The H on C⁺ itself lies in the plane of the empty p orbital (at right angles to it), so it cannot overlap."],
-        ["3", "That is the count for CH₃CH₂⁺, with one CH₃ group."],
-        ["9", "That is the count for (CH₃)₃C⁺, with three CH₃ groups."]] },
+        ["7, counting the H on the carbon that carries the charge", "The H on C⁺ itself lies in the plane of the empty p orbital (at right angles to it), so it cannot overlap."],
+        ["3, from one CH₃ group only", "That is the count for CH₃CH₂⁺, with one CH₃ group."],
+        ["9, from three CH₃ groups", "That is the count for (CH₃)₃C⁺, with three CH₃ groups."]] },
   { k: "3.2(b)(ii)", q: "S_N1 hydrolysis of (S)-3-bromo-3-methylhexane gives slightly more (R)-3-methylhexan-3-ol than (S). Why?",
-    o: [["At first Br⁻ stays close to the face it left (an ion pair) and shields it, so attack on the opposite face, which inverts the configuration, is a little more likely", "With a free carbocation the two faces would be equally open: 50 : 50."],
-        ["Some molecules react by S_N2, which needs a strong nucleophile here", "The tertiary carbon is too crowded for back-side attack: there is no S_N2 here."],
-        ["The carbocation keeps the configuration of the bromide", "The carbocation is planar, so it has no configuration to keep."],
+    o: [["Br⁻ stays close to the face it left (an ion pair) and shields it, so attack from the far face is a little more likely", "With a free carbocation the two faces would be equally open: 50 : 50."],
+        ["Some of the molecules react by S_N2 instead, with water attacking the carbon from the back, which inverts them", "The tertiary carbon is too crowded for back-side attack: there is no S_N2 here."],
+        ["The carbocation keeps the configuration of the bromide, so the alcohol forms with retention", "The carbocation is planar, so it has no configuration to keep."],
         ["The (R) alcohol is more stable than the (S) alcohol", "Enantiomers have exactly the same energy."]] },
   { k: "3.3(a)(i)", q: "Why does E2 go best when the H and the Br are anti-periplanar (dihedral 180°)?",
-    o: [["The C–H and C–Br bonds must lie in one plane so that they can become the parallel p orbitals of the π bond; anti is staggered and keeps the base away from the leaving group", "Syn-periplanar is also in one plane, but it is eclipsed and higher in energy."],
+    o: [["The C–H and C–Br bonds must lie in one plane to form the π bond, and anti is the staggered, lower-energy arrangement", "Syn-periplanar is also in one plane, but it is eclipsed and higher in energy."],
         ["Only the anti H is acidic enough to be removed", "All the β-hydrogens have about the same acidity; what matters is their geometry."],
         ["Br must leave before the H is removed", "That is E1. In E2 all the bonds change in one step."],
         ["The base must attack the carbon from the back, as in S_N2", "In E2 the base takes an H⁺, not the carbon."]] },
   { k: "3.3(a)(ii)", q: "2-Bromo-2-methylbutane is heated with KOC(CH₃)₃ in (CH₃)₃COH. What is the main product?",
     o: [["2-Methylbut-1-ene, the Hofmann product (about 72 %)", "The bulky base takes the outside H atoms of the CH₃ groups (6 of them) more easily than the H on the crowded CH₂."],
-        ["2-Methylbut-2-ene, the Zaitsev product", "That is the main product with a small base such as ethoxide (about 70 %)."],
+        ["2-Methylbut-2-ene, the Zaitsev product, because it is the more stable alkene", "That is the main product with a small base such as ethoxide (about 70 %)."],
         ["An ether, formed by S_N2", "A tertiary carbon cannot be attacked from the back, and the bulky base is a poor nucleophile."],
         ["Equal amounts of the two alkenes", "The bulky base makes the less substituted alkene the main one: about 28 : 72 (literature)."]] }
 ];
-LAB.QZ = QZ;
 const Q = { i: 0, score: 0, order: [] };
-LAB.Q = Q;
 function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
-LAB.startQuiz = startQuiz;
 function renderQ(){
   const box = $("quiz-box");
   if (Q.i >= QZ.length){
@@ -2662,13 +2709,13 @@ function renderQ(){
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">9813 ${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${HS(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button type="button" class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${HS(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button type="button" class="opt" data-j="${j}"><b>${"ABCD"[j]}</b><span>${HS(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
   box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
     if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+    const oi = ord[+b.dataset.j], right = oi === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (ord[+x.dataset.j] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${HS(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
@@ -2681,7 +2728,6 @@ BIND.push(startQuiz);
 /* ---------- start ---------- */
 BIND.forEach(f => { try { f(); } catch (e) { console.error(e); } });
 bindNav();
-LAB.ready = true;
 })();
 </script>
 <!-- labshell:start --><script>
