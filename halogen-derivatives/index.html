@@ -15,7 +15,7 @@
   --grid:#E9EDEF; --axis:#7A8A94; --line:#DDE3E6; --accent:#1F6F8B; --accent-ink:#FFFFFF; --accent-soft:#E3EEF2;
   --s1:#1F6F8B; --s1-wash:rgba(31,111,139,.20); --s2:#7B4B94; --s2-wash:rgba(123,75,148,.18); --s3:#5B6B75; --ref:#7A8A94;
   --s1-ink:#1F6F8B; --s2-ink:#7B4B94; --s3-ink:#5B6B75; --s3-wash:rgba(91,107,117,.14);
-  --good:#2E7D4F; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
+  --good:#2E7D4F; --good-ink:#297245; --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
   --bondc:#8A98A1; --lp:rgba(31,111,139,.16); --lp-edge:rgba(31,111,139,.6);
   --hyb:rgba(31,111,139,.20); --hyb-edge:rgba(31,111,139,.75); --porb:rgba(123,75,148,.22); --porb-2:rgba(123,75,148,.10); --porb-edge:rgba(123,75,148,.85);
   --pi:rgba(123,75,148,.30); --plane:rgba(91,107,117,.16); --plane-edge:rgba(91,107,117,.7); --arrow:#1F6F8B; --mol:#1E2A33;
@@ -30,7 +30,7 @@
     --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
     --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
     --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s3-wash:rgba(155,170,179,.20);
-    --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+    --good:#5BBF85; --good-ink:#5BBF85; --accent-2:#C49AD8; --accent-2-soft:#36283F; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
     --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7);
     --hyb:rgba(102,186,214,.24); --hyb-edge:rgba(102,186,214,.8); --porb:rgba(196,154,216,.26); --porb-2:rgba(196,154,216,.12); --porb-edge:rgba(196,154,216,.9);
     --pi:rgba(196,154,216,.32); --plane:rgba(155,170,179,.18); --plane-edge:rgba(155,170,179,.75); --arrow:#66BAD6; --mol:#E8EDF0;
@@ -43,7 +43,7 @@
   --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
   --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
   --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s3-wash:rgba(155,170,179,.20);
-  --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+  --good:#5BBF85; --good-ink:#5BBF85; --accent-2:#C49AD8; --accent-2-soft:#36283F; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
   --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7);
   --hyb:rgba(102,186,214,.24); --hyb-edge:rgba(102,186,214,.8); --porb:rgba(196,154,216,.26); --porb-2:rgba(196,154,216,.12); --porb-edge:rgba(196,154,216,.9);
   --pi:rgba(196,154,216,.32); --plane:rgba(155,170,179,.18); --plane-edge:rgba(155,170,179,.75); --arrow:#66BAD6; --mol:#E8EDF0;
@@ -91,10 +91,10 @@ section.lab:last-of-type{border-bottom:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
 input[type=range]:disabled{opacity:.45}
 .hint{font-size:.78rem; color:var(--muted)}
-.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch{display:flex; align-items:center; gap:10px; min-height:24px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
 .switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
 .switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
@@ -125,13 +125,13 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .stat.wide{grid-column:1/-1}
 .notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
 .callout{font-size:.86rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .nw{white-space:nowrap}
 .pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb ul{margin:6px 0 0; padding-left:18px}
@@ -278,7 +278,7 @@ svg .grey{fill:var(--muted)}
 .tcard.wrong{border-color:var(--bad); background:var(--bad-bg)}
 .tcard.dragging{opacity:.35}
 .tcard .why{display:block; margin-top:5px; font-size:.8rem}
-.tcard.right .why{color:var(--good)} .tcard.wrong .why{color:var(--bad)}
+.tcard.right .why{color:var(--good-ink)} .tcard.wrong .why{color:var(--bad)}
 .ghostcard{position:fixed; left:0; top:0; z-index:60; pointer-events:none; opacity:.92; box-shadow:0 6px 18px rgba(0,0,0,.18); max-width:300px}
 .zones{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px}
 .zones.z3{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
@@ -463,7 +463,7 @@ svg .gbar.cmp{fill:var(--s3)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -475,7 +475,7 @@ svg .gbar.cmp{fill:var(--s3)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -669,7 +669,7 @@ svg .gbar.cmp{fill:var(--s3)}
           <div class="btnrow"><button class="btn primary" id="br-pgo" disabled>Check, then warm the tubes</button></div>
         </div>
         <div id="br-pfb" hidden></div>
-        <div class="bench"><div class="clock" id="br-clock">0&nbsp;min</div><svg id="br-svg" role="img" aria-label="Test tubes of halogen compounds with AgNO3 and ethanol"></svg>
+        <div class="bench"><div class="clock" id="br-clock">0&nbsp;min</div><svg id="br-svg" role="img" aria-label="Test tubes of halogen compounds with AgNO₃ and ethanol"></svg>
           <div class="bnote" id="br-note"></div></div>
         <div class="tblwrap"><table class="data" id="br-tab"></table></div>
         <div class="eqs" id="br-eqs"></div>
@@ -703,7 +703,7 @@ svg .gbar.cmp{fill:var(--s3)}
     <div class="grid2" id="bx-gen" hidden>
       <div class="panel controls">
         <p style="margin:0;font-size:.9rem"><span class="fex">Further example</span>A halogenoalkane C<sub>n</sub>H<sub>2n+1</sub>X is completely hydrolysed, the solution is acidified with dilute HNO<sub>3</sub>(aq), and excess AgNO<sub>3</sub>(aq) is added. The silver halide is filtered off, dried and weighed.</p>
-        <div class="btnrow"><button class="btn primary" id="gn-new">New question</button><span class="hint" id="gn-score"></span></div>
+        <div class="btnrow"><button class="btn primary" id="gn-new">New question</button><span class="hint" id="gn-score"></span><span class="hint" id="gn-scorenote"></span></div>
         <p class="hint" style="margin:0">A<sub>r</sub> from the Data Booklet: H 1.0, C 12.0, Cl 35.5, Br 79.9, I 126.9, Ag 107.9.</p>
       </div>
       <div class="stack">
@@ -813,7 +813,7 @@ svg .gbar.cmp{fill:var(--s3)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.5 Halogen Derivatives</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · 3D models and answers computed live in the page</span>
-  <span class="ls-updated">Last updated 14/10/26</span></div>
+  <span class="ls-updated">Last updated 15/11/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1205,6 +1205,41 @@ const noanim = () => reduced() || window.LAB_NOANIM;
 function setSvg(svg, W, Hh, inner){ svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.setAttribute("height", Hh); svg.innerHTML = inner; }
 function widthOf(el){ const w = el.getBoundingClientRect().width; return Math.max(260, Math.round(w || 600)); }
 OC.sf = sf; OC.sci = sci;
+/* ---------- the one answer parser: a number plus an optional unit, checked against the unit the question asks for ---------- */
+// allowed = the unit ids the question accepts: [] for a plain number, ["C"] for a count of carbon atoms. "no units" is always accepted.
+// Result: { value } or { error, kind }. kind "empty" and "nan" are not answers at all; "unit" and "comma" are entries to fix; none of them is scored.
+// A lone comma before one or two digits (150,7; 5,0) is never read as a thousands separator: it asks for a decimal point, and so does 0,5.
+const UNIT_KEY = { none: "none", nounit: "none", nounits: "none", unitless: "none", c: "C", carbon: "C", carbons: "C", carbonatom: "C", carbonatoms: "C", atom: "C", atoms: "C",
+  gmol: "gmol", "gmol-1": "gmol", "g/mol": "gmol", mol: "mol", g: "g", kg: "g", "%": "%", percent: "%", u: "u", da: "u", dalton: "u", daltons: "u", kj: "kj", "kjmol-1": "kj", "kj/mol": "kj", j: "j", nm: "nm" };
+const unitId = u => UNIT_KEY[String(u).toLowerCase().replace(/[()]/g, "").replace(/[\s.·⋅]/g, "").replace(/[−–]/g, "-").replace(/\^/g, "").replace(/⁻¹/g, "-1").replace(/⁻/g, "-").replace(/¹/g, "1")] || null;
+const NOT_A_NUMBER = "Type a number such as 92.5 or 4.";
+function parseAnswer(str, allowed){
+  const t = str == null ? "" : String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  if (!t) return { error: "Enter a number in each box.", kind: "empty" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0?,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:,\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)\s*(.*)$/);
+  if (!m) return { error: NOT_A_NUMBER, kind: "nan" };
+  let val = parseFloat(m[2].replace(/,/g, ""));
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return { error: NOT_A_NUMBER, kind: "nan" };
+  const rest = m[3].trim();
+  if (!rest) return { value: val };
+  const u = unitId(rest);
+  if (!u) return { error: NOT_A_NUMBER, kind: "nan" };
+  if (u === "none" || (allowed && allowed.includes(u))) return { value: val, unit: u };
+  return { unit: u, kind: "unit", error: allowed && allowed[0] === "C" ? "Check the unit: n is a number of carbon atoms." : "Check the unit: M{r} is a relative mass, so this answer is a plain number, with no unit." };
+}
+OC.parseAnswer = parseAnswer;
+/* ---------- FNV-1a hashing of fixed keys, used by the question generator ---------- */
+function fnv(k){
+  let h = 0x811c9dc5;
+  for (let i = 0; i < k.length; i++){ h ^= k.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(36);
+}
+const RESH = new Set(["1b0dui2", "1imdqgx", "1mx1kp5", "1wldpkd"]);
+const resHit = k => RESH.has(fnv(k));
+
+
 
 /* =====================================================
    1. SN2 / SN1 3D STEREO VIEWER (11.5(b))
@@ -1252,7 +1287,7 @@ function buildBase(mech){
   M.br = M.el.length; M.el.push("Br"); M.P.push([BL.CBr, 0, 0]);
   return M;
 }
-const ST = { mech: "sn2", nu: "oh", face: "back", t: 0, rs: false, pred: false, answered: false, raf: 0, tally: null };
+const ST = { mech: "sn2", nu: "oh", face: "back", t: 0, rs: false, pred: false, answered: false, raf: 0, tally: null, pord: null };
 OC.ST = ST;
 let stv, STM = null;
 function stModel(){
@@ -1425,9 +1460,11 @@ function stSetup(){
   stDraw();
 }
 function stSet(t){ ST.t = clamp01(t); stDraw(); }
+// every control that restarts, resets or reconfigures the model first stops a running animation
+function stStop(){ if (ST.raf){ cancelAnimationFrame(ST.raf); ST.raf = 0; } }
 function stPlay(){
   if (ST.pred && !ST.answered){ stPredBox(true); return; }
-  if (ST.raf) cancelAnimationFrame(ST.raf);
+  stStop();
   if (noanim()){ stSet(1); return; }
   const t0 = performance.now(), from = ST.t >= 0.999 ? 0 : ST.t;
   const step = now => { const t = Math.min(1, from + (now - t0) / 6000); stSet(t); if (t < 1) ST.raf = requestAnimationFrame(step); else ST.raf = 0; };
@@ -1455,21 +1492,27 @@ function stPredBox(force){
   const box = $("st-pbox");
   const show = ST.pred && (!ST.answered || force);
   box.hidden = !ST.pred;
-  $("st-t").disabled = ST.pred && !ST.answered;
+  const pend = ST.pred && !ST.answered;
+  $("st-t").disabled = pend;
   $("st-play").disabled = false;
+  // while a prediction is open nothing on the page may show the outcome: no notes, no tally note, no many-molecule runs
+  $("st-notes").hidden = pend; $("st-tally-note").hidden = pend; $("st-run100").disabled = pend; $("st-run1000").disabled = pend;
   if (!ST.pred) return;
   $("st-pq").innerHTML = X(`Predict: one enantiomer of ${ST_SUB[ST.mech].name} reacts by SN${ST.mech === "sn2" ? 2 : 1}. What is the organic product?`);
-  $("st-popts").innerHTML = ST_OPTS.map(([k, t], j) => `<button class="opt" data-k="${k}"${ST.answered ? " disabled" : ""}><b>${"ABC"[j]}</b><span>${X(t)}</span></button>`).join("");
-  $("st-popts").querySelectorAll(".opt").forEach(b => b.onclick = () => stAnswer(b.dataset.k));
+  if (!ST.pord) ST.pord = shuffle([0, 1, 2]);
+  $("st-popts").innerHTML = ST.pord.map((o, j) => `<button class="opt" data-j="${j}"${ST.answered ? " disabled" : ""}><b>${"ABC"[j]}</b><span>${X(ST_OPTS[o][1])}</span></button>`).join("");
+  $("st-popts").querySelectorAll(".opt").forEach(b => b.onclick = () => stAnswer(ST_OPTS[ST.pord[+b.dataset.j]][0]));
+  if (ST.answered){ const right = ST.mech === "sn2" ? "inv" : "rac", chosen = ST.pick; $("st-popts").querySelectorAll(".opt").forEach(b => { const k = ST_OPTS[ST.pord[+b.dataset.j]][0]; if (k === right) b.classList.add("right"); else if (k === chosen) b.classList.add("wrong"); }); }
   if (!ST.answered) $("st-pfb").hidden = true;
   if (!show) return;
 }
 function stAnswer(k){
   const right = ST.mech === "sn2" ? "inv" : "rac";
-  ST.answered = true;
+  if (ST.answered) return;
+  ST.answered = true; ST.pick = k;
   const fb = $("st-pfb"); fb.className = "fb " + (k === right ? "ok" : "no"); fb.innerHTML = X(ST_WHY[ST.mech][k]); fb.hidden = false;
-  $("st-popts").querySelectorAll(".opt").forEach(b => { b.disabled = true; if (b.dataset.k === right) b.classList.add("right"); else if (b.dataset.k === k) b.classList.add("wrong"); });
-  $("st-t").disabled = false;
+  $("st-popts").querySelectorAll(".opt").forEach(b => { b.disabled = true; const kk = ST_OPTS[ST.pord[+b.dataset.j]][0]; if (kk === right) b.classList.add("right"); else if (kk === k) b.classList.add("wrong"); });
+  $("st-t").disabled = false; $("st-notes").hidden = false; $("st-tally-note").hidden = false; $("st-run100").disabled = false; $("st-run1000").disabled = false;
   stPlay();
 }
 OC.stAnswer = stAnswer;
@@ -1506,14 +1549,14 @@ function stTally(){
 function bindST(){
   stv = Viewer($("st-svg"), $("st-wrap"), W => W < 520 ? 320 : 420);
   stv.M0 = mm(rx(0.32), ry(-0.42)); stv.M = stv.M0.slice();
-  document.querySelectorAll('input[name="st-m"]').forEach(r => r.onchange = () => { ST.mech = r.value; ST.t = 0; ST.answered = false; $("st-pfb").hidden = true; if (ST.raf){ cancelAnimationFrame(ST.raf); ST.raf = 0; } stSetup(); });
-  document.querySelectorAll('input[name="st-nu"]').forEach(r => r.onchange = () => { ST.nu = r.value; stSetup(); });
-  document.querySelectorAll('input[name="st-face"]').forEach(r => r.onchange = () => { ST.face = r.value; STM = stModel(); stDraw(); });
-  $("st-t").oninput = e => { if (ST.raf){ cancelAnimationFrame(ST.raf); ST.raf = 0; } stSet(+e.target.value / 100); };
+  document.querySelectorAll('input[name="st-m"]').forEach(r => r.onchange = () => { stStop(); ST.mech = r.value; ST.t = 0; ST.answered = false; ST.pord = null; $("st-pfb").hidden = true; stSetup(); });
+  document.querySelectorAll('input[name="st-nu"]').forEach(r => r.onchange = () => { stStop(); ST.nu = r.value; stSetup(); });
+  document.querySelectorAll('input[name="st-face"]').forEach(r => r.onchange = () => { stStop(); ST.face = r.value; STM = stModel(); stDraw(); });
+  $("st-t").oninput = e => { stStop(); stSet(+e.target.value / 100); };
   $("st-play").onclick = stPlay;
-  $("st-reset").onclick = () => { if (ST.raf){ cancelAnimationFrame(ST.raf); ST.raf = 0; } ST.answered = false; $("st-pfb").hidden = true; stPredBox(); stSet(0); };
+  $("st-reset").onclick = () => { stStop(); ST.answered = false; ST.pord = null; $("st-pfb").hidden = true; stPredBox(); stSet(0); };
   $("st-view").onclick = () => stv.reset();
-  $("st-pred").onchange = e => { ST.pred = e.target.checked; ST.answered = false; $("st-pfb").hidden = true; stPredBox(); if (ST.pred) stSet(0); };
+  $("st-pred").onchange = e => { stStop(); ST.pred = e.target.checked; ST.answered = false; ST.pord = null; $("st-pfb").hidden = true; stPredBox(); if (ST.pred) stSet(0); };
   $("st-rs").onchange = e => { ST.rs = e.target.checked; stDraw(); stTally(); };
   $("st-run100").onclick = () => stRun(100);
   $("st-run1000").onclick = () => stRun(1000);
@@ -1847,7 +1890,7 @@ function bindMX(){
 
 /* =====================================================
    3. SILVER NITRATE BENCH (11.5(c))
-   Physical colours on a light bench card in both themes. Times are illustrative (DATA.md bench table).
+   Physical colours on a light bench card in both themes. Times are illustrative.
    ===================================================== */
 let CLIPN = 0;
 // test tube centred at cx; layers bottom-up [{ c, h, op, cloudy }]
@@ -1955,6 +1998,7 @@ const BR_OPTS = ["first", "second", "last", "no precipitate"];
 function brPred(){
   const box = $("br-pbox");
   box.hidden = !(BR.pred && !BR.answered);
+  $("br-tab").parentElement.hidden = !box.hidden; $("br-eqs").hidden = !box.hidden;   // the table and the notes give the order away
   if (box.hidden) return;
   const core = RATE.filter(r => !r.fex);
   $("br-pchips").innerHTML = core.map(r => `<div class="chipgrp"><span>${X(r.n)}</span><div class="chips">${BR_OPTS.map(o => `<button type="button" data-r="${r.id}" data-o="${o}" aria-pressed="${BR.pick[r.id] === o}">${o}</button>`).join("")}</div></div>`).join("");
@@ -1995,6 +2039,9 @@ OC.BOT = BOT;
 const BI = { bot: "Cl", mystery: null, step: 0, acid: null, pred: true, pend: null, guessed: false };
 OC.BI = BI;
 const biB = () => BOT.find(b => b.id === (BI.mystery || BI.bot));
+// a mystery bottle stays unnamed (no name, formula, halide ion or silver halide in any text) until the guess is made
+const biVeil = () => !!BI.mystery && !BI.guessed;
+OC.biVeil = biVeil;
 // what is in the tube after the steps so far: { ppt: key or null, left: fraction }
 function biState(){
   const B = biB();
@@ -2037,7 +2084,7 @@ function biStart(i, a){
   if (BI.pred && !BI.mystery && (i === 4 || i === 5)){ BI.pend = i; biAll(); return; }
   biDo(i);
 }
-function biDo(i){ BI.step = i; BI.pend = null; biAll(); if (BI.mystery && BI.step >= 4) $("bi-guess").hidden = false; }
+function biDo(i){ BI.step = i; BI.pend = null; biAll(); }
 OC.biStart = biStart; OC.biDo = biDo;
 function biPBox(){
   const box = $("bi-pbox");
@@ -2064,6 +2111,7 @@ function biWhy(i){
   }
   const k = (() => { const s0 = BI.step; BI.step = 4; const r = biState(); BI.step = s0; return r.ppt; })();
   if (!k) return "there was no precipitate.";
+  if (k === "Ag2O") return "brown silver(I) oxide hides the result, so NH₃(aq) tells you nothing about the halide.";
   return `${AGC[k].f} is ${AGC[k].nh3} in NH₃(aq) (Data Booklet; Topic 10 Part 3).`;
 }
 function biDraw(){
@@ -2073,8 +2121,8 @@ function biDraw(){
   let s = tubeSVG(cx, top, w, h, { layers: S.ppt ? pptLayers(S.ppt, S.f, liq) : [{ c: CLEAR, h: liq, op: 1, tag: "clear" }] });
   if (BI.step === 1){ for (let k = 0; k < 5; k++) s += `<circle cx="${f1(cx - 12 + k * 6)}" cy="${f1(top + h - 14 - (k * 19) % 34)}" r="2.2" fill="none" stroke="#8b96a0" stroke-width=".8"/>`; s += `<text x="${f1(cx)}" y="${top + h + 18}" text-anchor="middle" class="bt">heating under reflux</text>`; }
   const tx = cx + w / 2 + 24, lines = [];
-  lines.push([BI.mystery ? "Mystery bottle" : B.n, "btb"]);
-  lines.push([BI.mystery ? "contents unknown" : B.f, "bt"]);
+  lines.push([biVeil() ? "Mystery bottle" : B.n, "btb"]);
+  lines.push([biVeil() ? "contents unknown" : B.f, "bt"]);
   lines.push(["", "bt"]);
   const word = BI.step === 0 ? "colourless liquid, with NaOH(aq) to add" : BI.step < 4 ? "colourless mixture" : S.ppt ? (BI.step >= 5 ? (S.f === 0 ? "precipitate dissolved: colourless solution" : S.f < 1 ? `less ${AGC[S.ppt].word} solid: partly dissolved` : `${AGC[S.ppt].word} precipitate: does not dissolve`) : `${AGC[S.ppt].word} precipitate`) : "no precipitate";
   lines.push(["You see:", "btb"]);
@@ -2084,34 +2132,43 @@ function biDraw(){
   wrap(word).forEach(t => lines.push([t, "bt"]));
   lines.forEach(([t, c], k) => { s += `<text x="${f1(tx)}" y="${top + 18 + k * 18}" class="${c}">${svgChem(t, c === "btb" ? 12.5 : 11.5)}</text>`; });
   setSvg(svg, W, Hh, s);
-  const steps = ["Bottle chosen. Step 1: heat with NaOH(aq) to set the halide ion free.", "Hydrolysis done.", "Cooled.", "Acid added.", "AgNO₃(aq) added.", "NH₃(aq) added."];
+  const steps = ["Bottle chosen. Step 1: heat with NaOH(aq) to set the halide ion free.", "Hydrolysis done.", "Cooled, so that it does not spit when the acid is added.", "Acid added.", "AgNO₃(aq) added.", "NH₃(aq) added."];
   $("bi-note").innerHTML = X(steps[BI.step] + (BI.acid === "none" && BI.step >= 4 ? " Start again and acidify with dilute HNO₃(aq): the NH₃(aq) step is pointless while brown Ag₂O hides the result." : ""));
 }
 function biEqs(){
-  const B = biB(), out = [];
+  const B = biB(), out = [], veil = biVeil();
   const hyd = B.k ? `${B.f} + OH⁻ → ${B.prod} + ${B.x}` : null;
-  if (BI.step >= 1) out.push(hyd ? [EQ(hyd), "hydrolysis releases the halide ion"] : [X(B.id === "F" ? "No reaction: the C–F bond (485 kJ mol⁻¹, Data Booklet) is not hydrolysed under these conditions." : "No reaction: chlorobenzene is not hydrolysed by NaOH(aq)."), ""]);
+  if (BI.step >= 1){
+    if (veil) out.push([EQ("R–X + OH⁻ → R–OH + X⁻"), "if the compound is hydrolysed, the halide ion is released"]);
+    else out.push(hyd ? [EQ(hyd), "hydrolysis releases the halide ion"] : [X(B.id === "F" ? "No reaction: the C–F bond (485 kJ mol⁻¹, Data Booklet) is not hydrolysed under these conditions." : "No reaction: chlorobenzene is not hydrolysed by NaOH(aq)."), ""]);
+  }
   if (BI.step >= 3 && BI.acid !== "none") out.push([EQ("H⁺(aq) + OH⁻(aq) → H₂O(l)"), BI.acid === "hno3" ? "dilute HNO₃ removes the excess OH⁻ and adds no halide ion" : "HCl removes the excess OH⁻ but adds Cl⁻ ions"]);
   if (BI.step >= 4){
     if (BI.acid === "none") out.push([EQ("2Ag⁺(aq) + 2OH⁻(aq) → Ag₂O(s) + H₂O(l)"), "brown silver(I) oxide hides the halide colour"]);
-    else if (BI.acid === "hcl") out.push([EQ("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)"), B.id === "Cl" ? "the Cl⁻ from the hydrochloric acid cannot be told apart from Cl⁻ released by the compound: the test proves nothing" : "the Cl⁻ came from the hydrochloric acid, not from the compound: a false result"]);
+    else if (BI.acid === "hcl") out.push([EQ("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)"), veil ? "the Cl⁻ came from the hydrochloric acid, so the white precipitate tells you nothing about the compound" : B.id === "Cl" ? "the Cl⁻ from the hydrochloric acid cannot be told apart from Cl⁻ released by the compound: the test proves nothing" : "the Cl⁻ came from the hydrochloric acid, not from the compound: a false result"]);
+    else if (veil) out.push([EQ("Ag⁺(aq) + X⁻(aq) → AgX(s)"), "only if a halide ion is in solution: look at the tube"]);
     else if (B.k) out.push([EQ(`Ag⁺(aq) + ${B.x.replace("⁻", "⁻(aq)")} → ${B.k}(s)`), `${AGC[B.k].word} precipitate (Data Booklet)`]);
     else out.push([X("No precipitate: no halide ion in solution."), ""]);
   }
-  if (BI.step >= 5){ const k = biState().ppt; if (k && k !== "Ag2O") out.push([X(`${AGC[k].f}: ${AGC[k].nh3} in NH₃(aq)`), "Data Booklet; Topic 10 Part 3"]); }
+  if (BI.step >= 5){
+    const k = biState().ppt;
+    if (k && k !== "Ag2O") out.push(veil ? [X("How the precipitate behaves in NH₃(aq) is the second clue (Data Booklet; Topic 10 Part 3)."), ""] : [X(`${AGC[k].f}: ${AGC[k].nh3} in NH₃(aq)`), "Data Booklet; Topic 10 Part 3"]);
+  }
   $("bi-eqs").innerHTML = out.map(([e, l]) => `<div>${e}${l ? `<span class="lab">${X(l)}</span>` : ""}</div>`).join("");
 }
 function biGuess(){
   const box = $("bi-guess");
   if (!BI.mystery){ box.hidden = true; return; }
+  box.hidden = BI.step < 4;
   const opts = BOT.filter(b => b.id !== "F");
   $("bi-gopts").innerHTML = opts.map(b => `<button type="button" data-g="${b.id}"${BI.guessed ? " disabled" : ""}>${X(b.n)}</button>`).join("");
   $("bi-gopts").querySelectorAll("button").forEach(b => b.onclick = () => {
+    if (BI.guessed) return;
     const ok = b.dataset.g === BI.mystery, fb = $("bi-gfb"), M = biB();
     BI.guessed = true;
     fb.className = "fb " + (ok ? "ok" : "no");
     fb.innerHTML = X(ok ? `Correct: it was ${M.n}.` : `Not quite: it was ${M.n}. ${M.k ? `${AGC[M.k].word} ${AGC[M.k].f}, ${AGC[M.k].nh3} in NH₃(aq).` : "No precipitate: no halide ion was released, so it is the halogenoarene."}`);
-    fb.hidden = false; biGuess();
+    fb.hidden = false; biAll();
   });
 }
 function biAll(){ biSteps(); biPBox(); biDraw(); biEqs(); biGuess(); }
@@ -2132,15 +2189,17 @@ const pick = a => a[Math.floor(Math.random() * a.length)];
 const SUBD = "₀₁₂₃₄₅₆₇₈₉", subN = n => String(n).replace(/\d/g, d => SUBD[d]);
 const fmlRX = (n, x) => `C${n > 1 ? subN(n) : ""}H${subN(2 * n + 1)}${x}`;
 OC.fmlRX = fmlRX;
-const GN = { q: null, score: 0, tries: 0 };
+const GN = { q: null, score: 0, counted: 0, tries: 0, shown: false, cq: false, scored: false };
 OC.GN = GN;
+// the 4 s.f. digits of n(AgX), compared whatever the halogen or the exponent
+const nagDigits = nAg => sci(nAg, 4).split(" ")[0].replace(".", "");
 function gnMake(){
   for (let k = 0; k < 200; k++){
     const x = pick(["Cl", "Br", "I"]), n = ri(x === "Cl" ? 3 : 2, 6);
     const mr = 14.0 * n + 1.0 + ARX[x];
     const m1 = +(ri(80, 200) / 100).toFixed(2);
-    if ((x === "Cl" && n === 4 && m1 === 1.00) || (x === "Br" && n === 4 && m1 === 1.37)) continue;   // the tutorial and notes examples
     const m2 = +sf(m1 / mr * MRAG[x], 3);
+    if (resHit(`gn:${x}:${m1.toFixed(2)}:${sf(m2, 3)}`) || resHit(`gm:${x}:${sf(m2, 3)}`) || resHit(`gd:${nagDigits(m2 / MRAG[x])}`)) continue;
     const nAg = m2 / MRAG[x], mrc = m1 / nAg, nc = Math.round((mrc - 1.0 - ARX[x]) / 14.0);
     if (nc !== n || Math.abs((mrc - 1.0 - ARX[x]) / 14.0 - n) > 0.25) continue;
     return { x, n, mr, m1, m2, nAg, mrc };
@@ -2151,38 +2210,57 @@ const ARTL = w => /^[aeiou]/i.test(w) ? "an" : "a";      // indefinite article f
 OC.ARTL = ARTL;
 const AGN = { Cl: "AgCl", Br: "AgBr", I: "AgI" }, HALN = { Cl: "chloroalkane", Br: "bromoalkane", I: "iodoalkane" };
 function gnNew(){
-  GN.q = gnMake(); GN.tries = 0;
+  GN.q = gnMake(); GN.tries = 0; GN.shown = false; GN.cq = false; GN.scored = false;
   const q = GN.q;
   $("gn-q").innerHTML = X(`${q.m1.toFixed(2)} g of ${ARTL(HALN[q.x])} ${HALN[q.x]}, CₙH₂ₙ₊₁${q.x}, was completely hydrolysed. The solution was acidified and treated with excess AgNO₃(aq), and ${sf(q.m2, 3)} g of ${AGN[q.x]} (M{r} ${MRAG[q.x]}) was collected. Find the M{r} of the ${HALN[q.x]} and its molecular formula.`);
   ["gn-mr", "gn-n"].forEach(id => { $(id).value = ""; $(id).classList.remove("ok"); $(id).removeAttribute("aria-invalid"); });
-  $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  $("gn-fb").hidden = true; $("gn-work").hidden = true; gnScore();
 }
 function gnWork(q){
   const nAg = q.m2 / MRAG[q.x];
   return [
     `<span class="aside">${X("(To answer this, notice that each RX molecule gives one X⁻ ion, and so one Ag" + q.x + ".)")}</span>`,
     X(`n(${AGN[q.x]}) = ${sf(q.m2, 3)} / ${MRAG[q.x]} = ${sci(nAg, 4)} mol = n(R${q.x})`),
-    X(`M{r}(R${q.x}) = ${q.m1.toFixed(2)} / (${sci(nAg, 4)}) = ${sf(q.mrc, 3)}  (keep the unrounded value of n)`.replace("  (", " (")),
-    X(`14n + 1.0 + ${ARX[q.x]} = ${q.mrc.toFixed(1)}  so  n = ${((q.mrc - 1.0 - ARX[q.x]) / 14.0).toFixed(2)}, which rounds to ${q.n}:  ${fmlRX(q.n, q.x)}`.replace(/  /g, " ")),
+    X(`M{r}(R${q.x}) = ${q.m1.toFixed(2)} / (${sci(nAg, 4)}) = ${sf(q.mrc, 3)}  (keep the unrounded value of n)`.replace("  (", " (")),
+    X(`14n + 1.0 + ${ARX[q.x]} = ${q.mrc.toFixed(1)}  so  n = ${((q.mrc - 1.0 - ARX[q.x]) / 14.0).toFixed(2)}, which rounds to ${q.n}:  ${fmlRX(q.n, q.x)}`.replace(/  /g, " ")),
     X(`Check: M{r}(${fmlRX(q.n, q.x)}) = (${q.n} × 12.0) + (${2 * q.n + 1} × 1.0) + ${ARX[q.x]} = ${q.mr.toFixed(1)}`)
   ];
 }
 OC.gnWork = gnWork;
-const parseNum = s => { const t = String(s).trim().replace(/[−–]/g, "-").replace(/,/g, "."); return /^-?\d*\.?\d+$/.test(t) ? parseFloat(t) : NaN; };
-OC.parseNum = parseNum;
+// the M_r window: the larger of 0.5 and 0.5 % of the answer; the value in the working (3 s.f. or 1 d.p.) is always inside it
+const gnWin = q => Math.max(0.5, 0.005 * q.mrc);
+OC.gnWin = gnWin;
+function gnScore(){
+  $("gn-score").textContent = `Score: ${GN.score} of ${GN.counted}`;
+  $("gn-scorenote").textContent = GN.cq ? (GN.scored ? "This question was scored on your first Check." : "This answer was not scored: the working was shown before the Check.") : GN.shown ? "Not scored: the working was shown before a Check." : "First Check counts; not scored once the working is shown.";
+}
 function gnCheck(){
-  const q = GN.q, mr = parseNum($("gn-mr").value), n = parseNum($("gn-n").value), fb = $("gn-fb");
-  if (isNaN(mr) || isNaN(n)){ fb.className = "fb no"; fb.innerHTML = "Enter a number in each box."; fb.hidden = false; return; }
-  const okM = Math.abs(mr - q.mrc) <= Math.max(1, 0.01 * q.mrc), okN = n === q.n;
+  const q = GN.q, fb = $("gn-fb"), pm = parseAnswer($("gn-mr").value, []), pn = parseAnswer($("gn-n").value, ["C"]);
+  const bad = [pm, pn].filter(r => r.error), named = bad.find(r => r.kind !== "empty");
+  if (bad.length){          // not an answer yet: nothing is counted and no try is used
+    fb.className = "fb no"; fb.innerHTML = X(named ? named.error : "Enter a number in each box.");
+    $("gn-mr").setAttribute("aria-invalid", !!pm.error); $("gn-n").setAttribute("aria-invalid", !!pn.error);
+    fb.hidden = false; return;
+  }
+  const mr = pm.value, n = pn.value;
+  const okM = Math.abs(mr - q.mrc) <= gnWin(q), okN = n === q.n;
   $("gn-mr").classList.toggle("ok", okM); $("gn-mr").setAttribute("aria-invalid", !okM);
   $("gn-n").classList.toggle("ok", okN); $("gn-n").setAttribute("aria-invalid", !okN);
   GN.tries++;
-  if (okM && okN){ if (GN.tries === 1) GN.score++; fb.className = "fb ok"; fb.innerHTML = X(`Correct: M{r} = ${sf(q.mrc, 3)}, so the formula is ${fmlRX(q.n, q.x)}.`); }
-  else { fb.className = "fb no"; fb.innerHTML = X(!okM ? "Not quite. Find n(Ag" + q.x + ") first: it equals n(R" + q.x + "), because each molecule gives one halide ion." : `M{r} is right. Now solve 14n + 1.0 + ${ARX[q.x]} = M{r} for n.`); }
+  const again = GN.cq;      // the question was scored by an earlier Check: this one is marked but never counted
+  if (!GN.cq){ GN.cq = true; GN.scored = !GN.shown; if (GN.scored){ GN.counted++; if (okM && okN) GN.score++; } }
+  const tag = again ? " (this question is already scored)" : "";
+  if (okM && okN){ fb.className = "fb ok"; fb.innerHTML = X(`Correct${tag}: M{r} = ${sf(q.mrc, 3)}, so the formula is ${fmlRX(q.n, q.x)}.`); }
+  else {
+    const lead = again ? `Still not right${tag}. ` : "";
+    fb.className = "fb no";
+    fb.innerHTML = X(!okM ? (again ? lead : "Not quite. ") + "Find n(Ag" + q.x + ") first: it equals n(R" + q.x + "), because each molecule gives one halide ion." : lead + `M{r} is right. Now solve 14n + 1.0 + ${ARX[q.x]} = M{r} for n.`);
+  }
   fb.hidden = false;
-  $("gn-score").textContent = `Score: ${GN.score}`;
+  gnScore();
 }
 OC.gnCheck = gnCheck;
+function gnShow(){ const w = $("gn-work"); w.innerHTML = GN.q ? gnWork(GN.q).map(x => `<li>${x}</li>`).join("") : ""; w.hidden = false; GN.shown = true; gnScore(); }
 
 function bindBench(){
   $("bx-tabs").querySelectorAll("button").forEach(b => b.onclick = () => {
@@ -2200,7 +2278,7 @@ function bindBench(){
   $("bi-reset").onclick = () => biReset(true);
   $("bi-pred").onchange = e => { BI.pred = e.target.checked; BI.pend = null; biAll(); };
   $("gn-new").onclick = gnNew; $("gn-check").onclick = gnCheck;
-  $("gn-show").onclick = () => { const w = $("gn-work"); w.innerHTML = gnWork(GN.q).map(x => `<li>${x}</li>`).join(""); w.hidden = false; };
+  $("gn-show").onclick = gnShow;
   ["gn-mr", "gn-n"].forEach(id => $(id).addEventListener("keydown", e => { if (e.key === "Enter") gnCheck(); }));
   let lw = 0;
   new ResizeObserver(() => { const w = $("bench").clientWidth; if (Math.abs(w - lw) > 1){ lw = w; drawCX(); brDraw(); biDraw(); } }).observe($("bench"));
@@ -2299,7 +2377,7 @@ const RS_CARDS = [
   { t: "2-bromopropane + NaOH in ethanol, heat", z: "el", why: "In ethanol, OH⁻ acts mainly as a base: it removes H⁺ from a carbon next to the C–Br carbon, Br⁻ leaves and propene, CH₂=CHCH₃, forms." },
   { t: "2-bromopropane + NaOH(aq), heat", z: "oh", why: "Same reagent, but in water OH⁻ acts mainly as a nucleophile: mainly propan-2-ol, CH₃CH(OH)CH₃." },
   { t: "1-chlorobutane + NaOH(aq), heat", z: "oh", why: "A primary chloroalkane is hydrolysed (more slowly than the bromo or iodo compound): butan-1-ol." },
-  { t: "1-iodobutane + KCN in ethanol, heat", z: "cn", why: "CN⁻ replaces I: pentanenitrile, CH₃CH₂CH₂CH₂CN, with five carbon atoms." },
+  { t: "2-bromobutane + KCN in ethanol, heat", z: "cn", why: "CN⁻ replaces Br: 2-methylbutanenitrile, CH₃CH₂CH(CN)CH₃, with one more carbon atom than 2-bromobutane." },
   { t: "1-bromobutane + excess NH₃ in ethanol, heat in a sealed tube", z: "nh", why: "NH₃ replaces Br: butylamine (butan-1-amine), CH₃CH₂CH₂CH₂NH₂." },
   { t: "2-bromo-2-methylpropane + NaOH in ethanol, heat", z: "el", why: "Tertiary halogenoalkanes eliminate most readily: 2-methylpropene, CH₂=C(CH₃)₂." },
   { t: "2-bromobutane + NaOH in ethanol, heat", z: "el", fx: 1, why: "H⁺ can be removed from C1 or C3: but-1-ene and but-2-ene, and but-2-ene has cis and trans isomers. Three alkenes, all C₄H₈." },
@@ -2319,11 +2397,11 @@ OC.RG = RG;
 // products named for each substrate; formulae checked against RDKit in the tests
 const PSUB = [
   { id: "be", n: "bromoethane", f: "CH₃CH₂Br", x: "Br", cls: 1, oh: ["ethanol", "CH₃CH₂OH"], cn: ["propanenitrile", "CH₃CH₂CN"], nh: ["ethylamine (ethanamine)", "CH₃CH₂NH₂"], cnw: ["ethanenitrile", "CH₃CN"] },
-  { id: "1cb", n: "1-chlorobutane", f: "CH₃CH₂CH₂CH₂Cl", x: "Cl", cls: 1, oh: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], cn: ["pentanenitrile", "CH₃CH₂CH₂CH₂CN"], nh: ["butylamine (butan-1-amine)", "CH₃CH₂CH₂CH₂NH₂"], cnw: ["butanenitrile", "CH₃CH₂CH₂CN"] },
-  { id: "1bb", n: "1-bromobutane", f: "CH₃CH₂CH₂CH₂Br", x: "Br", cls: 1, oh: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], cn: ["pentanenitrile", "CH₃CH₂CH₂CH₂CN"], nh: ["butylamine (butan-1-amine)", "CH₃CH₂CH₂CH₂NH₂"], cnw: ["butanenitrile", "CH₃CH₂CH₂CN"] },
-  { id: "1ib", n: "1-iodobutane", f: "CH₃CH₂CH₂CH₂I", x: "I", cls: 1, oh: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], cn: ["pentanenitrile", "CH₃CH₂CH₂CH₂CN"], nh: ["butylamine (butan-1-amine)", "CH₃CH₂CH₂CH₂NH₂"], cnw: ["butanenitrile", "CH₃CH₂CH₂CN"] },
-  { id: "2bp", n: "2-bromopropane", f: "CH₃CHBrCH₃", x: "Br", cls: 2, oh: ["propan-2-ol", "CH₃CH(OH)CH₃"], cn: ["2-methylpropanenitrile", "CH₃CH(CN)CH₃"], nh: ["propan-2-amine", "CH₃CH(NH₂)CH₃"], el: ["propene", "CH₂=CHCH₃"], ohw: ["propan-1-ol", "CH₃CH₂CH₂OH"], cnw: ["propanenitrile", "CH₃CH₂CN"] },
-  { id: "2bb", n: "2-bromobutane", f: "CH₃CH₂CHBrCH₃", x: "Br", cls: 2, oh: ["butan-2-ol", "CH₃CH₂CH(OH)CH₃"], cn: ["2-methylbutanenitrile", "CH₃CH₂CH(CN)CH₃"], nh: ["butan-2-amine", "CH₃CH₂CH(NH₂)CH₃"], el: ["but-1-ene, cis-but-2-ene and trans-but-2-ene", "C₄H₈"], elfx: 1, elw: ["but-1-ene only", "CH₂=CHCH₂CH₃", "H⁺ can be removed from C1 or from C3, so but-2-ene (cis and trans) forms as well as but-1-ene."], ohw: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], cnw: ["butanenitrile", "CH₃CH₂CH₂CN"] },
+  { id: "1cb", n: "1-chlorobutane", f: "CH₃CH₂CH₂CH₂Cl", x: "Cl", cls: 1, oh: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], nh: ["butylamine (butan-1-amine)", "CH₃CH₂CH₂CH₂NH₂"] },
+  { id: "1bb", n: "1-bromobutane", f: "CH₃CH₂CH₂CH₂Br", x: "Br", cls: 1, oh: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], nh: ["butylamine (butan-1-amine)", "CH₃CH₂CH₂CH₂NH₂"] },
+  { id: "1ib", n: "1-iodobutane", f: "CH₃CH₂CH₂CH₂I", x: "I", cls: 1, oh: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], nh: ["butylamine (butan-1-amine)", "CH₃CH₂CH₂CH₂NH₂"] },
+  { id: "2bp", n: "2-bromopropane", f: "CH₃CHBrCH₃", x: "Br", cls: 2, oh: ["propan-2-ol", "CH₃CH(OH)CH₃"], cn: ["2-methylpropanenitrile", "CH₃CH(CN)CH₃"], el: ["propene", "CH₂=CHCH₃"], ohw: ["propan-1-ol", "CH₃CH₂CH₂OH"], cnw: ["propanenitrile", "CH₃CH₂CN"] },
+  { id: "2bb", n: "2-bromobutane", f: "CH₃CH₂CHBrCH₃", x: "Br", cls: 2, oh: ["butan-2-ol", "CH₃CH₂CH(OH)CH₃"], cn: ["2-methylbutanenitrile", "CH₃CH₂CH(CN)CH₃"], nh: ["butan-2-amine", "CH₃CH₂CH(NH₂)CH₃"], el: ["but-1-ene, cis-but-2-ene and trans-but-2-ene", "C₄H₈"], elfx: 1, elw: ["but-1-ene only", "CH₂=CHCH₂CH₃", "H⁺ can be removed from C1 or from C3, so but-2-ene (cis and trans) forms as well as but-1-ene."], ohw: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"] },
   { id: "tb", n: "2-bromo-2-methylpropane", f: "(CH₃)₃CBr", x: "Br", cls: 3, el: ["2-methylpropene", "CH₂=C(CH₃)₂"], elw: ["2-methylpropane", "CH₃CH(CH₃)CH₃", "Elimination removes H and Br from neighbouring carbons and leaves a C=C; nothing adds hydrogen."], elw2: ["2-methylpropan-2-ol", "(CH₃)₃COH", "In ethanol OH⁻ acts mainly as a base, and a tertiary halogenoalkane eliminates most readily, so the main product is the alkene, not the alcohol."] },
   { id: "pcl", n: "chlorobenzene", f: "C₆H₅Cl", x: "Cl", ar: 1 },
   { id: "fb", n: "1-fluorobutane", f: "CH₃CH₂CH₂CH₂F", x: "F", fl: 1 }
@@ -2360,7 +2438,7 @@ function ppQuestion(S, r){
     oh: q => q === "el" ? "That would be the main product with NaOH(aq): in water OH⁻ acts mainly as a nucleophile. In ethanol it acts mainly as a base." : `That needs OH⁻ in water (NaOH(aq), heat); ${RG[q].c} supplies a different ${q === "nh" ? "nucleophile, NH₃" : "nucleophile, CN⁻"}.`,
     cn: () => "That needs CN⁻, from KCN in ethanol, heat.",
     nh: () => "That needs NH₃: excess NH₃ in ethanol, heat in a sealed tube.",
-    el: q => q === "oh" ? "Elimination wins with NaOH in ethanol and stronger heating; in water, substitution is the main reaction." : `${RG[q].c} gives substitution: the nucleophile takes the place of ${S.x}.`
+    el: q => q === "oh" ? "Elimination wins with NaOH in ethanol; in water, substitution is the main reaction." : `${RG[q].c} gives substitution: the nucleophile takes the place of ${S.x}.`
   };
   if (!none){
     ["oh", "cn", "nh", "el"].forEach(k => { if (k !== r && S[k]) pool.push({ o: S[k], w: why[k](r) }); });
@@ -2372,11 +2450,11 @@ function ppQuestion(S, r){
   } else if (S.ar){
     pool.push({ o: ["phenol", "C₆H₅OH"], w: "Chlorobenzene is not hydrolysed by NaOH(aq): a lone pair on Cl overlaps with the ring, strengthening C–Cl, and the ring blocks back-side attack." });
     pool.push({ o: ["benzene", "C₆H₆"], w: "Replacing Cl by H would be a reduction, and OH⁻ is not a reducing agent; in any case the C–Cl bond is not broken." });
-    pool.push({ o: ["cyclohexanol", "C₆H₁₁OH"], w: "Nothing adds hydrogen to the ring, and the C–Cl bond is not broken." });
+    pool.push({ o: ["sodium phenoxide", "C₆H₅ONa"], w: "Chlorobenzene is not hydrolysed at all, so no phenol forms, and none is left to react with the NaOH." });
   } else {
     pool.push({ o: ["butan-1-ol", "CH₃CH₂CH₂CH₂OH"], w: "The C–F bond (485 kJ mol⁻¹, Data Booklet) is too strong to be hydrolysed under these conditions." });
     pool.push({ o: ["but-1-ene", "CH₂=CHCH₂CH₃"], w: "Elimination needs NaOH in ethanol, and the C–F bond is not broken anyway." });
-    pool.push({ o: ["pentanenitrile", "CH₃CH₂CH₂CH₂CN"], w: "That would need KCN in ethanol, and the C–F bond is not broken anyway." });
+    pool.push({ o: ["butylamine (butan-1-amine)", "CH₃CH₂CH₂CH₂NH₂"], w: "That would need excess NH₃ in ethanol, heated in a sealed tube, and the C–F bond is not broken anyway." });
   }
   // dedupe by name, never equal to the answer
   const norm = o => o[0].replace(/[\s()]/g, "").toLowerCase();
@@ -2402,14 +2480,14 @@ function ppNext(){
   PP.q = ppQuestion(S, r); PP.answered = false;
   const Q = PP.q;
   $("pp-q").innerHTML = (Q.fx ? FEX : "") + X(`${capF(S.n)}, ${S.f}, is treated with ${RG[r].c}. What is the main organic product?`);
-  $("pp-opts").innerHTML = Q.order.map((k, j) => { const o = Q.opts[k].o; return `<button class="opt" data-k="${k}"><b>${"ABCD"[j]}</b><span>${X(o[0])}${o[1] ? `, ${X(o[1])}` : ""}</span></button>`; }).join("");
-  $("pp-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => ppAnswer(+b.dataset.k));
+  $("pp-opts").innerHTML = Q.order.map((k, j) => { const o = Q.opts[k].o; return `<button class="opt" data-j="${j}"><b>${"ABCD"[j]}</b><span>${X(o[0])}${o[1] ? `, ${X(o[1])}` : ""}</span></button>`; }).join("");
+  $("pp-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => ppAnswer(Q.order[+b.dataset.j]));
   $("pp-fb").hidden = true;
 }
 function ppAnswer(k){
   if (PP.answered) return; PP.answered = true; PP.n++;
   const Q = PP.q, right = k === 0; if (right) PP.score++;
-  $("pp-opts").querySelectorAll(".opt").forEach(b => { b.disabled = true; if (+b.dataset.k === 0) b.classList.add("right"); else if (+b.dataset.k === k) b.classList.add("wrong"); });
+  $("pp-opts").querySelectorAll(".opt").forEach(b => { b.disabled = true; const kk = Q.order[+b.dataset.j]; if (kk === 0) b.classList.add("right"); else if (kk === k) b.classList.add("wrong"); });
   const others = Q.order.map((kk, j) => [kk, j]).filter(([kk]) => kk !== 0).map(([kk, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${X(Q.opts[kk].w)}</li>`).join("");
   const fb = $("pp-fb"); fb.className = "fb " + (right ? "ok" : "no");
   fb.innerHTML = `<p>${right ? "Correct." : `Not quite. The answer is ${"ABCD"[Q.order.indexOf(0)]}.`}</p><p class="ink">${ppWork(Q)}</p><ul class="whyl">${others}</ul>`;
@@ -2419,10 +2497,10 @@ function ppAnswer(k){
 OC.ppNext = ppNext; OC.ppAnswer = ppAnswer;
 function bindSort(){
   OC.rsS = Sorter({ p: "rs", cards: RS_CARDS, zones: RS_ZONES });
-  $("rs-tab").innerHTML = `<thead><tr><th></th><th>Substitution favoured</th><th>Elimination favoured</th></tr></thead><tbody>` + [
-    ["Solvent", "water: NaOH(aq)", "ethanol: NaOH in ethanol"], ["Temperature", "warm", "stronger heating"], ["Halogenoalkane", "primary", "tertiary (secondary in between)"],
+  $("rs-tab").innerHTML = `<thead><tr><th>${X("With NaOH (OH⁻ as the reagent)")}</th><th>Substitution favoured</th><th>Elimination favoured</th></tr></thead><tbody>` + [
+    ["Solvent", "water: NaOH(aq), heat", "ethanol: NaOH in ethanol, heat"], [ENR + "Halogenoalkane", "primary", "tertiary (secondary in between)"],
     ["What OH⁻ does", "attacks the δ+ carbon (nucleophile)", "removes H⁺ from the next carbon (base)"], ["Product from 2-bromopropane", "propan-2-ol, CH₃CH(OH)CH₃", "propene, CH₂=CHCH₃"]
-  ].map(r => `<tr><td>${X(r[0])}</td><td>${X(r[1])}</td><td>${X(r[2])}</td></tr>`).join("") + `</tbody><caption style="caption-side:bottom;text-align:left;font-size:.8rem;color:var(--muted);padding-top:6px">Both reactions usually happen to some extent; the conditions decide which one wins.</caption>`;
+  ].map(r => `<tr><td>${X(r[0])}</td><td>${X(r[1])}</td><td>${X(r[2])}</td></tr>`).join("") + `</tbody><caption style="caption-side:bottom;text-align:left;font-size:.8rem;color:var(--muted);padding-top:6px">Both reactions usually happen to some extent; the conditions decide which one wins. ${ENR}${X("In NaOH(aq) a tertiary halogenoalkane mainly gives the alcohol, by SN1, with some alkene.")}</caption>`;
   $("so-tabs").querySelectorAll("button").forEach(b => b.onclick = () => {
     $("so-tabs").querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b));
     $("so-rs").hidden = b.dataset.t !== "rs"; $("so-pp").hidden = b.dataset.t !== "pp";
@@ -2494,7 +2572,7 @@ function ozDraw(){
   const cap = [];
   if (u > 0.5 && C.h) cap.push(C.ene ? "C=C attacked by OH radicals within days." : "C–H attacked by OH radicals: most of it is broken down in the troposphere.");
   if (u > 0.5 && !C.h) cap.push("Nothing in the troposphere attacks a CFC.");
-  if (u > 0.78 && C.cl) cap.push(FEX + `UV breaks C–Cl homolytically: ${freed} of the 12 molecules release Cl atoms.`);
+  if (u > 0.78 && C.cl) cap.push(FEX + `UV breaks C–Cl homolytically: ${freed} of the 12 molecules (schematic) release Cl atoms.`);
   else if (u > 0.78 && !C.ene) cap.push("No Cl: C–F is not broken, so no ozone loss.");
   $("oz-cap").innerHTML = cap.map(t => `<span>${X(t)}</span>`).join("");
 }
@@ -2507,13 +2585,13 @@ function ozRead(){
   else cells = [
     st("Compound", X(`${C.enr ? ENR : ""}${C.f}, ${C.nm} (${C.code})`), "wide"),
     st("Type", X(C.type + (C.type === "HFC" || C.type === "HFO" ? ": fluoro compound, no Cl" : C.type === "HCFC" ? ": contains H, Cl and F" : ": only C, Cl and F"))),
-    st(`${FEX}Bonds to carbon ${SRC("db")}`, X(C.bonds.map(b => `${b} ${BEDB[b]}`).join(", ") + " kJ mol⁻¹")),
+    st(`${FEX}Average bond energies to carbon ${SRC("db")}`, X(C.bonds.map(b => `${b} ${BEDB[b]}`).join(", ") + " kJ mol⁻¹")),
     st(`ODP (CCl₃F = 1) ${L}`, X(C.odpT || String(C.odp))),
     st(`GWP (100-year, CO₂ = 1) ${L}`, X(gw)),
     st(`Atmospheric lifetime ${L}`, X(C.life)),
     st(`b.p. ${L}`, X(`${C.bp < 0 ? "−" + Math.abs(C.bp) : C.bp} °C`)),
     st("Main uses", X(C.use), "wide"),
-    st("Status", X(C.status), "wide")
+    st(`Status ${L}`, X(C.status), "wide")
   ];
   $("oz-read").innerHTML = cells.join("");
   const N = [];
@@ -2569,12 +2647,12 @@ function ozEnr(){
   if (!OZS.enr) return;
   const be = BEDB[OZS.bond], R = ozLambda(be);
   box.innerHTML = `<div><span class="eyebrow">Enrichment · beyond the 9476 syllabus</span><h3 class="sub3">How chlorine atoms destroy ozone</h3></div>
-    <div class="eqs"><div>${EQ("CCl₂F₂ → •CClF₂ + Cl•")}<span class="lab">UV light breaks a C–Cl bond homolytically</span></div><div>${EQ("Cl• + O₃ → ClO• + O₂")}</div><div>${EQ("ClO• + O → Cl• + O₂")}<span class="lab">O is an oxygen atom, made when UV splits other O₂ and O₃ molecules</span></div><div>${EQ("overall:  O₃ + O → 2O₂")}<span class="lab">Cl• comes out unchanged: it is a catalyst</span></div></div>
+    <div class="eqs"><div>${EQ("CCl₂F₂ → •CClF₂ + Cl•")}<span class="lab">UV light breaks a C–Cl bond homolytically</span></div><div>${EQ("Cl• + O₃ → ClO• + O₂")}</div><div>${EQ("ClO• + O → Cl• + O₂")}<span class="lab">The O atom comes from O₃ splitting in UV, so overall 2O₃ → 3O₂</span></div><div>${EQ("overall:  O₃ + O → 2O₂")}<span class="lab">Cl• comes out unchanged: it is a catalyst</span></div></div>
     <h3 class="sub3">What energy does it take to break one bond?</h3>
     <div class="chips" id="oz-bonds">${["C–F", "C–Cl", "C–Br", "C–I"].map(b => `<button type="button" data-b="${b}" aria-pressed="${b === OZS.bond}">${b}</button>`).join("")}</div>
     <ol class="working"><li>${X(`Bond energy of ${OZS.bond} = ${be} kJ mol⁻¹ (Data Booklet), for one mole of bonds.`)}</li>
     <li>${X(`E per bond = (${be} × 10³) / (6.02 × 10²³) = ${sci(R.E, 3)} J`)}</li>
-    <li>${X(`λ = hc / E = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${sci(R.E, 3)}) = ${sci(R.lam, 3)} m = ${R.nm.toFixed(0)} nm`)}</li>
+    <li>${X(`λ = hc / E = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (${sci(R.E, 3)}) = ${sci(R.lam, 3)} m = about ${Math.round(R.nm / 10) * 10} nm (an estimate from the Data Booklet\u2019s average bond energy)`)}</li>
     <li><span class="aside">${X("A bond energy sets only the minimum: a molecule breaks only if it absorbs light of high enough energy. CFCs absorb only UV below about 230 nm (literature), which never reaches the lower atmosphere because O₂ and O₃ higher up absorb it. That is why CFCs survive until they reach the stratosphere.")}</span></li></ol>`;
   box.querySelectorAll("#oz-bonds button").forEach(b => b.onclick = () => { OZS.bond = b.dataset.b; ozEnr(); });
 }
@@ -2608,7 +2686,7 @@ function bindOZ(){
 }
 
 /* =====================================================
-   6. FACT CARDS (every compound named in the notes; values from DATA.md)
+   6. FACT CARDS (every compound named in the notes)
    M_r is computed here from the molecular formula with Data Booklet A_r (checked against RDKit in the tests).
    ===================================================== */
 const AR = { H: 1.0, C: 12.0, N: 14.0, O: 16.0, F: 19.0, Cl: 35.5, Br: 79.9, I: 126.9, Ag: 107.9 };
@@ -2619,7 +2697,7 @@ const ODPGWP = id => { const C = OZ.find(o => o.id === id); return `ODP ${C.odpT
 const FC = [
   { h: "bromoethane", cat: "rx", k: "11.5(a)(i)", f: "CH₃CH₂Br", mf: "C2H5Br", cls: "primary halogenoalkane", bp: 38,
     rows: [["with NaOH(aq), heat", "ethanol (hydrolysis)"], ["with KCN in ethanol, heat", "propanenitrile"], ["with excess NH₃ in ethanol, heat in a sealed tube", "ethylamine (ethanamine)"]],
-    p: "It boils at 38 °C, so “heat” means heat under reflux. All three reactions are nucleophilic substitution (SN2)." },
+    p: "It boils at only 38 °C, which is why it is heated under reflux with NaOH(aq) and with KCN in ethanol, and in a sealed tube with ammonia. All three reactions are nucleophilic substitution (SN2)." },
   { h: "ethanol", cat: "rx", k: "11.5(a)(i)", f: "CH₃CH₂OH", mf: "C2H6O", cls: "primary alcohol", bp: 78,
     rows: [["made from", "bromoethane with NaOH(aq), heat"]], p: "Equation: CH₃CH₂Br + NaOH → CH₃CH₂OH + NaBr." },
   { h: "propanenitrile", cat: "rx", k: "11.5(a)(i)", f: "CH₃CH₂CN", mf: "C3H5N", cls: "nitrile", bp: 97,
@@ -2668,9 +2746,9 @@ const FC = [
     rows: [["uses", "refrigerant in fridges and car air-conditioning; propellant in medical inhalers"], ["environment", ODPGWP("hfc134a")]], p: "No Cl, so no ozone loss, but a powerful greenhouse gas; being phased down (Kigali Amendment, 2016)." },
   { h: "PTFE, poly(tetrafluoroethene)", cat: "fl", k: "11.5(d)", f: "–(CF₂–CF₂)ₙ–", mf: "C2F4", poly: 1, cls: "fluoropolymer (addition polymer of CF₂=CF₂, Topic 11.10)",
     rows: [["uses", "non-stick coatings, seals, gaskets, linings, laboratory ware"], ["temperatures", "m.p. about 327 °C; usable to about 260 °C (literature values)"]],
-    p: "Resists almost all chemicals, because of the strong C–F bond (485 kJ mol⁻¹, Data Booklet); attacked only by molten alkali metals and fluorine (literature)." },
+    p: "Resists almost all chemicals, because of the strong C–F bond (485 kJ mol⁻¹, Data Booklet); it is attacked by molten alkali metals, fluorine and a few very reactive fluorinating agents such as ClF₃ (literature)." },
   { h: "halothane", cat: "fl", k: "11.5(d)", f: "CF₃CHBrCl", mf: "C2HBrClF3", cls: "fluorohalogenoalkane; chiral, used as the racemic mixture", bp: 50,
-    rows: [["use", "inhalation anaesthetic (now largely replaced by other fluorinated compounds)"]], p: "Unreactive, non-flammable and volatile." }
+    rows: [["use", "inhalation anaesthetic (now largely replaced by other fluorinated compounds)"], ["why it suits the use", "CF₃ group inert; non-flammable, volatile"]], p: "The three C–F bonds make the CF₃ group inert, so halothane is non-flammable and most of it passes through the body unchanged; its C–Br and C–Cl bonds are weaker, and some is broken down in the liver." }
 ];
 OC.FC = FC;
 const FCF = [["all", "All"], ["rx", "Reactions of halogenoalkanes"], ["test", "Tests"], ["fl", "Fluorine compounds and CFCs"]];
@@ -2690,24 +2768,24 @@ function bindCards(){
   $("fc-filter").querySelectorAll("button").forEach(b => b.onclick = () => { FCSEL = b.dataset.f; render(); });
   render();
 }
-
 /* =====================================================
-   7. QUIZ (option 0 is correct; each option carries its reason)
+   7. QUIZ (option 0 is correct in the data; the order is shuffled and the page keeps only each button's position)
+   The right option is the longest in at most 3 of the 10 items (checked in the suite).
    ===================================================== */
 const QZ = [
   { k: "11.5(a)(i)", q: "Bromoethane is heated with KCN in ethanol. What is the organic product?",
     o: [["propanenitrile, CH₃CH₂CN", "CN⁻ attacks the δ+ carbon through its carbon atom, so the product has three carbons: one more than bromoethane."],
         ["ethanenitrile, CH₃CN", "CN⁻ brings its own carbon atom, so the nitrile has one more carbon than bromoethane, not the same number."],
         ["ethanol, CH₃CH₂OH", "That needs OH⁻ in water. Ethanol is the solvent here precisely so that OH⁻ and water do not compete as nucleophiles."],
-        ["ethylamine, CH₃CH₂NH₂", "That is the product with excess NH₃ in ethanol, heated in a sealed tube."]] },
+        ["ethylamine (ethanamine), CH₃CH₂NH₂", "That is the product with excess NH₃ in ethanol, heated in a sealed tube."]] },
   { k: "11.5(a)(i)", q: "Ethylamine is made by heating bromoethane with ammonia in ethanol in a sealed tube. Why is a large excess of ammonia used?",
-    o: [["Ethylamine also has a lone pair on N, so it can attack more bromoethane; excess NH₃ makes a bromoethane molecule far more likely to meet NH₃.", "With excess NH₃ the primary amine is the main product, rather than diethylamine, triethylamine and the tetraethylammonium ion."],
-        ["To stop the ammonia boiling out of the hot ethanol.", "That is the job of the sealed tube (NH₃ boils at −33 °C), not of the excess."],
-        ["Ammonia is a catalyst, so a lot of it speeds the reaction up.", "Ammonia is used up: two NH₃ are needed for each bromoethane (CH₃CH₂Br + 2NH₃ → CH₃CH₂NH₂ + NH₄Br)."],
-        ["Excess ammonia makes bromoethane react by SN1.", "Bromoethane is primary and reacts by SN2 whatever the amount of NH₃."]] },
+    o: [["The ethylamine formed can also attack bromoethane; excess NH₃ makes bromoethane far more likely to meet NH₃ than ethylamine.", "With excess NH₃ the primary amine is the main product, rather than diethylamine, triethylamine and the tetraethylammonium ion."],
+        ["To stop the ammonia boiling out of the hot ethanol, because ammonia is a gas at room temperature and is lost as the mixture is heated.", "That is the job of the sealed tube (NH₃ boils at −33 °C), not of the excess."],
+        ["Ammonia is a catalyst, so a large amount of it speeds up the reaction without being used up in the process.", "Ammonia is used up: two NH₃ are needed for each bromoethane (CH₃CH₂Br + 2NH₃ → CH₃CH₂NH₂ + NH₄Br)."],
+        ["Excess ammonia makes bromoethane react by SN1, so the reaction is faster and no amine side products can form.", "Bromoethane is primary and reacts by SN2 whatever the amount of NH₃."]] },
   { k: "11.5(a)(ii)", q: "2-Bromopropane is heated with NaOH in ethanol. Which statement is correct?",
     o: [["Propene forms by elimination; OH⁻ acts as a base.", "OH⁻ removes H⁺ from a carbon next to the C–Br carbon, Br⁻ leaves and a C=C forms: HBr is eliminated."],
-        ["Propan-2-ol forms by substitution; OH⁻ acts as a nucleophile.", "That is the main reaction with NaOH(aq). In ethanol, and with stronger heating, elimination wins."],
+        ["Propan-2-ol forms by substitution; OH⁻ acts as a nucleophile.", "That is the main reaction with NaOH(aq). In ethanol, elimination wins."],
         ["Propene forms by elimination; OH⁻ acts as a nucleophile.", "In elimination OH⁻ takes H⁺: it acts as a base. As a nucleophile it would attack the δ+ carbon instead."],
         ["Two different alkenes form, because H⁺ can be removed from either side of C2.", "Both carbons next to C2 are CH₃ groups, so either way the product is the same molecule, propene."]] },
   { k: "11.5(b)(i)", q: "One enantiomer of 2-bromobutane is heated with concentrated NaOH(aq) and reacts by SN2. What is the organic product?",
@@ -2718,21 +2796,21 @@ const QZ = [
   { k: "11.5(b)(ii)", q: "One enantiomer of 3-bromo-3-methylhexane is hydrolysed by SN1. Why is the product optically inactive?",
     o: [["The planar carbocation is attacked equally from both faces, giving a 50 : 50 racemic mixture.", "The two enantiomers rotate plane-polarised light equally in opposite directions, so the rotations cancel."],
         ["3-Methylhexan-3-ol has no chiral centre.", "C3 carries OH, CH₃, C₂H₅ and C₃H₇: four different groups, so it is a chiral centre."],
-        ["The carbocation stays tetrahedral, so its configuration is lost.", "The carbocation is sp² and planar; that is why either face can be attacked."],
+        ["The carbocation is tetrahedral and chiral, so OH⁻ attacks it from one face only, giving a single enantiomer.", "The carbocation is sp² and planar, not tetrahedral; that is why either face can be attacked."],
         ["OH⁻ attacks only from the side opposite the leaving Br⁻.", "That would give one inverted enantiomer, which is optically active: the SN2 outcome."]] },
   { k: "11.5(c)(i)", q: "Before AgNO₃(aq) is added in the test for the halogen in a halogenoalkane, the hydrolysed mixture is acidified with dilute HNO₃(aq). Why?",
     o: [["To remove the excess OH⁻, which would give a brown precipitate of Ag₂O; nitric acid adds no halide ion.", "2Ag⁺(aq) + 2OH⁻(aq) → Ag₂O(s) + H₂O(l) would hide the colour of the silver halide."],
-        ["To release the halide ion from the halogenoalkane.", "The halide ion is released by the hydrolysis with NaOH(aq), before the acid is added."],
+        ["To release the halide ion from the halogenoalkane, because the hydrolysis only starts once acid is added.", "The halide ion is released by the hydrolysis with NaOH(aq), before the acid is added."],
         ["To dissolve the silver halide so that its colour shows.", "The silver halide must precipitate: its colour identifies the halogen."],
         ["Any acid would do; hydrochloric acid is just as good.", "Hydrochloric acid adds Cl⁻, giving white AgCl whatever the halogenoalkane was."]] },
   { k: "11.5(c)(i)", q: "1-Chlorobutane, 1-bromobutane and 1-iodobutane are warmed separately with AgNO₃(aq) and ethanol. Which is correct?",
     o: [["1-Iodobutane gives a precipitate first, because the C–I bond (240 kJ mol⁻¹) is the weakest.", "Hydrolysis is fastest when the C–X bond is weakest: C–I 240 < C–Br 280 < C–Cl 340 kJ mol⁻¹ (Data Booklet)."],
-        ["1-Chlorobutane gives a precipitate first, because the C–Cl bond is the most polar.", "Polarity does not decide the rate: C–Cl is more polar than C–I but reacts more slowly. Bond strength decides."],
+        ["1-Chlorobutane gives a precipitate first, because the C–Cl bond is the most polar and the Cl⁻ ion is the easiest to release.", "Polarity does not decide the rate: C–Cl is more polar than C–I but reacts more slowly. Bond strength decides."],
         ["1-Iodobutane gives a precipitate first, because the C–I bond is the most polar.", "The order is right but the reason is not: C–I is the least polar of the three. It is the weakest."],
         ["All three give a precipitate at the same time, because they are all primary.", "The class is the same, but the C–X bond energies differ, and so do the rates."]] },
   { k: "11.5(c)(ii)", q: "1-Chlorobutane and chlorobenzene are each heated with NaOH(aq), cooled, acidified with dilute HNO₃(aq) and tested with AgNO₃(aq). What is seen?",
     o: [["White precipitate from 1-chlorobutane; no precipitate from chlorobenzene.", "1-Chlorobutane is hydrolysed and releases Cl⁻. The C–Cl bond in chlorobenzene is strengthened by overlap with the ring and is not hydrolysed."],
-        ["White precipitate from both.", "Chlorobenzene releases no Cl⁻, so there is nothing to precipitate."],
+        ["White precipitate from both, because both compounds contain a C–Cl bond that is hydrolysed.", "Chlorobenzene releases no Cl⁻, so there is nothing to precipitate."],
         ["White precipitate from chlorobenzene only.", "It is the other way round: the halogenoarene is the unreactive one."],
         ["No precipitate from either.", "1-Chlorobutane is hydrolysed by NaOH(aq), heat: it releases Cl⁻, which gives white AgCl."]] },
   { k: "11.5(d)", q: "Why is CH₂FCF₃ suitable as the propellant in medical inhalers?",
@@ -2741,23 +2819,27 @@ const QZ = [
         ["It reacts with the drug to carry it into the lungs.", "A propellant must not react with the drug; its value is that it is unreactive."],
         ["It contains chlorine, which kills bacteria in the inhaler.", "CH₂FCF₃ contains no chlorine: it is an HFC."]] },
   { k: "11.5(e)", q: "HCFCs such as CHClF₂ replaced CFCs. Which statement about them is correct?",
-    o: [["The C–H bond lets OH radicals break most of them down in the troposphere, but they still contain Cl and are strong greenhouse gases.", "So their ODP is small (0.055) but not zero, and their GWP is 1760 (literature values): they are being phased out too."],
-        ["They contain no chlorine, so they do no damage to the ozone layer.", "HCFCs do contain chlorine (the C in HCFC); it is HFCs that have none."],
-        ["They damage the ozone layer more than CFCs, because they react more easily.", "They are broken down lower down, so less reaches the stratosphere: ODP 0.055 against 1.0 for CCl₂F₂."],
-        ["They do not absorb infrared radiation, so they have no effect on climate.", "Their C–F and C–Cl bonds absorb infrared strongly: GWP 1760 (literature value)."]] }
+    o: [["Most of an HCFC is broken down in the troposphere, but it still contains Cl and is a strong greenhouse gas.", "The C–H bond lets OH radicals attack it, so its ODP is small (0.055) but not zero, and its GWP is 1760 (literature values): HCFCs are being phased out too."],
+        ["They contain no chlorine, so they do no damage to the ozone layer and are safe replacements for CFCs.", "HCFCs do contain chlorine (the C in HCFC); it is HFCs that have none."],
+        ["They damage the ozone layer more than CFCs do, because the C–H bond makes them react more easily and so release more chlorine.", "They are broken down lower down, so less reaches the stratosphere: ODP 0.055 against 1.0 for CCl₂F₂."],
+        ["They do not absorb infrared radiation, so they have no effect on the climate.", "Their C–F and C–Cl bonds absorb infrared strongly: GWP 1760 (literature value)."]] }
 ];
 OC.QZ = QZ;
-const Q = { i: 0, score: 0, order: [], answered: false };
+const Q = { i: 0, score: 0, order: [], answered: false, t0: 0 };
 OC.Q = Q;
+// A double-click on "Next question" (or "See score") must not answer or restart what comes next: for a moment after each redraw the new buttons ignore clicks.
+const Q_GUARD_MS = 450;
+const qLive = () => performance.now() - Q.t0 >= Q_GUARD_MS;
 function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
 function renderQ(){
   const box = $("quiz-box");
+  Q.t0 = performance.now();
   if (Q.i >= QZ.length){
     const s = Q.score;
     box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
       <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
       <button class="btn primary" id="q-retry">Retry</button>`;
-    $("q-retry").onclick = startQuiz;
+    $("q-retry").onclick = () => { if (qLive()) startQuiz(); };
     return;
   }
   const q = QZ[Q.i], ord = Q.order[Q.i];
@@ -2765,19 +2847,19 @@ function renderQ(){
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">9476 ${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${X(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${X(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-j="${j}"><b>${"ABCD"[j]}</b><span>${X(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
   box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+    if (Q.answered || !qLive()) return; Q.answered = true;
+    const j = +b.dataset.j, right = ord[j] === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (ord[+x.dataset.j] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
-    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${X(q.o[k][1])}</li>`).join("");
+    const others = ord.map((k, jj) => [k, jj]).filter(([k]) => k !== 0).map(([k, jj]) => `<li><b>${"ABCD"[jj]}</b> is wrong: ${X(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
     ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${X(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
     ex.hidden = false;
-    $("q-next").onclick = () => { Q.i++; renderQ(); };
+    $("q-next").onclick = () => { if (!qLive()) return; Q.i++; renderQ(); };
   });
 }
 

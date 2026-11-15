@@ -49,6 +49,11 @@
   --pi:rgba(196,154,216,.32); --plane:rgba(155,170,179,.18); --plane-edge:rgba(155,170,179,.75); --arrow:#66BAD6; --mol:#E8EDF0;
   --shadow:none;
 }
+/* plum Enrichment tag and a darker green for feedback text (4.5 : 1 on the feedback backgrounds) */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+.ls-all2{min-height:24px}   /* tap target of the shell's contents button */
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 .nc{text-transform:none; letter-spacing:.02em}
@@ -89,12 +94,12 @@ section.lab:last-of-type{border-bottom:0}
 @media (max-width:860px){ .grid2{grid-template-columns:minmax(0,1fr)} }
 .panel{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px; box-shadow:var(--shadow); min-width:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
-.ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
+.ctl label, .ctl .lab{display:flex; justify-content:space-between; align-items:center; min-height:24px; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:26px}
 input[type=range]:disabled{opacity:.45}
 .hint{font-size:.78rem; color:var(--muted)}
-.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch{display:flex; align-items:center; gap:10px; min-height:28px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
 .switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
 .switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
@@ -125,15 +130,18 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .stat.wide{grid-column:1/-1}
 .notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
 .callout{font-size:.86rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .nw{white-space:nowrap}
 .pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
+.fb.warn{background:var(--warn-bg); color:var(--warn)}
+.fb .hint{color:inherit}
+.fb .ink{color:var(--ink)}
 .fb ul{margin:6px 0 0; padding-left:18px}
 .stack{display:flex; flex-direction:column; gap:14px; min-width:0}
 h3.sub3{font-size:1.15rem; margin:0}
@@ -467,7 +475,7 @@ svg .eah{fill:var(--ink-2)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -479,7 +487,7 @@ svg .eah{fill:var(--ink-2)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -553,7 +561,7 @@ svg .eah{fill:var(--ink-2)}
   <div class="sechead">
     <span class="eyebrow">Explorer · <span class="nc">9476 11.4(b)(i), (c)</span></span>
     <h2>Markovnikov carbocation explorer</h2>
-    <p>When HX adds to an unsymmetrical alkene the H atom can go to either carbon of the C=C, so two carbocations, and two products, are possible. Both form; the one from the more stable carbocation is the major product. Mechanisms are in <a href="../organic-intro/part-3.html">Topic 11.3</a>; this applies them (Part 1 of the notes, Markovnikov's rule).</p>
+    <p>When HX adds to an unsymmetrical alkene the H atom can go to either carbon of the C=C, so two carbocations, and two products, are possible. Mechanisms are in <a href="../organic-intro/part-3.html">Topic 11.3</a>; this applies them (Part 1 of the notes, Markovnikov's rule).</p>
   </div>
   <div class="grid2">
     <div class="panel controls">
@@ -569,15 +577,16 @@ svg .eah{fill:var(--ink-2)}
         <div id="mk-predbox" class="stack" hidden></div>
         <div class="routes" id="mk-routes"></div>
       </div>
-      <div class="panel stack">
+      <div class="panel stack" id="mk-profbox">
         <div><span class="eyebrow">Energy profiles (schematic)</span><h3 class="sub3">The slow first step decides which product wins</h3></div>
         <div class="profwrap"><svg id="mk-prof" role="img" aria-label="Schematic energy profiles for the two routes"></svg></div>
         <div class="legend" id="mk-leg"></div>
       </div>
+      <p class="hint" id="mk-hold" hidden>The energy profiles and the curly-arrow mechanisms appear once you have chosen.</p>
       <ul class="notes" id="mk-notes"></ul>
     </div>
   </div>
-  <div class="stack" style="margin-top:20px">
+  <div class="stack" style="margin-top:20px" id="mk-player">
     <div><span class="eyebrow">Mechanism player</span><h3 class="sub3" id="mk-mtitle">Curly arrows for one route</h3></div>
     <div class="btnrow">
       <div class="seg" role="radiogroup" aria-label="Route" style="min-width:260px" id="mk-route">
@@ -777,11 +786,11 @@ svg .eah{fill:var(--ink-2)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.4 Hydrocarbons</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · structures from RDKit layouts; answers computed live in the page</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 15/11/26</span></div>
 </footer>
 <script>
-// Generated by gen_coords.py (RDKit 2026.09.1): 2D layouts, bond length 1, y down.
-const MOL2D = {"alk_ethene":{"a":[["CH₂",-0.5,-0.0],["CH₂",0.5,-0.0]],"b":[[0,1,2]],"r":[]},"alk_propene":{"a":[["CH₃",-0.667,-0.577],["CH",-0.167,0.289],["CH₂",0.833,0.289]],"b":[[0,1,1],[1,2,2]],"r":[]},"alk_but1ene":{"a":[["CH₃",-1.25,0.433],["CH₂",-0.25,0.433],["CH",0.25,-0.433],["CH₂",1.25,-0.433]],"b":[[0,1,1],[1,2,1],[2,3,2]],"r":[]},"alk_but2ene":{"a":[["CH₃",-1.0,0.866],["CH",-0.5,-0.0],["CH",0.5,-0.0],["CH₃",1.0,-0.866]],"b":[[0,1,1],[1,2,2],[2,3,1]],"r":[]},"alk_mpropene":{"a":[["CH₃",-0.5,-0.866],["C",0.0,-0.0],["CH₃",-0.5,0.866],["CH₂",1.0,-0.0]],"b":[[0,1,1],[1,2,1],[1,3,2]],"r":[]},"alk_pent1ene":{"a":[["CH₃",-1.4,-1.039],["CH₂",-0.9,-0.173],["CH₂",0.1,-0.173],["CH",0.6,0.693],["CH₂",1.6,0.693]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,2]],"r":[]},"alk_pent2ene":{"a":[["CH₃",-1.6,-0.693],["CH₂",-0.6,-0.693],["CH",-0.1,0.173],["CH",0.9,0.173],["CH₃",1.4,1.039]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1]],"r":[]},"alk_mbut1ene":{"a":[["CH₂",-1.0,-0.346],["C",0.0,-0.346],["CH₃",0.5,-1.212],["CH₂",0.5,0.52],["CH₃",-0.0,1.386]],"b":[[0,1,2],[1,2,1],[1,3,1],[3,4,1]],"r":[]},"alk_mbut2ene":{"a":[["CH₃",-0.8,-1.039],["C",-0.3,-0.173],["CH₃",-0.8,0.693],["CH",0.7,-0.173],["CH₃",1.2,0.693]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1]],"r":[]},"alk_mbut1ene3":{"a":[["CH₃",-1.3,0.173],["CH",-0.3,0.173],["CH₃",0.2,1.039],["CH",0.2,-0.693],["CH₂",1.2,-0.693]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2]],"r":[]},"alk_dmbut2ene":{"a":[["CH₃",-1.0,0.866],["C",-0.5,-0.0],["CH₃",-1.0,-0.866],["C",0.5,-0.0],["CH₃",1.0,-0.866],["CH₃",1.0,0.866]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[3,5,1]],"r":[]},"alk_mpent2ene":{"a":[["CH₃",-1.167,-1.155],["C",-0.667,-0.289],["CH₃",-1.167,0.577],["CH",0.333,-0.289],["CH₂",0.833,0.577],["CH₃",1.833,0.577]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[4,5,1]],"r":[]},"alk_chexene":{"a":[["CH₂",-0.5,0.866],["CH₂",-1.0,0.0],["CH",-0.5,-0.866],["CH",0.5,-0.866],["CH₂",1.0,0.0],["CH₂",0.5,0.866]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,1],[5,0,1]],"r":[]},"alk_mchexene":{"a":[["CH₃",-0.857,-1.485],["C",-0.357,-0.619],["CH",0.643,-0.619],["CH₂",1.143,0.247],["CH₂",0.643,1.113],["CH₂",-0.357,1.113],["CH₂",-0.857,0.247]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[]},"alk_hexadiene":{"a":[["CH₂",-2.0,-0.866],["CH",-1.0,-0.866],["CH₂",-0.5,0.0],["CH₂",0.5,0.0],["CH",1.0,0.866],["CH₂",2.0,0.866]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,2]],"r":[]},"card_ethane":{"a":[["CH₃",-0.5,-0.0],["CH₃",0.5,-0.0]],"b":[[0,1,1]],"r":[]},"card_ethene":{"a":[["CH₂",-0.5,-0.0],["CH₂",0.5,-0.0]],"b":[[0,1,2]],"r":[]},"card_propene":{"a":[["CH₃",-0.667,-0.577],["CH",-0.167,0.289],["CH₂",0.833,0.289]],"b":[[0,1,1],[1,2,2]],"r":[]},"card_benzene":{"a":[["",-0.923,-0.386],["",-0.127,-0.992],["",0.795,-0.606],["",0.923,0.386],["",0.127,0.992],["",-0.795,0.606]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,0,1]],"r":[[-0.0,0.0]]},"card_methylbenzene":{"a":[["CH₃",-1.714,-0.0],["",-0.714,-0.0],["",-0.214,-0.866],["",0.786,-0.866],["",1.286,0.0],["",0.786,0.866],["",-0.214,0.866]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[[0.286,0.0]]},"card_dibromoethane":{"a":[["Br",1.32,-0.091],["CH₂",0.4,0.301],["CH₂",-0.4,-0.301],["Br",-1.32,0.091]],"b":[[0,1,1],[1,2,1],[2,3,1]],"r":[]},"card_bromoethanol":{"a":[["OH",1.32,-0.091],["CH₂",0.4,0.301],["CH₂",-0.4,-0.301],["Br",-1.32,0.091]],"b":[[0,1,1],[1,2,1],[2,3,1]],"r":[]},"card_ethanediol":{"a":[["OH",1.32,-0.091],["CH₂",0.4,0.301],["CH₂",-0.4,-0.301],["OH",-1.32,0.091]],"b":[[0,1,1],[1,2,1],[2,3,1]],"r":[]},"card_bromoethane":{"a":[["CH₃",0.866,0.167],["CH₂",-0.0,-0.333],["Br",-0.866,0.167]],"b":[[0,1,1],[1,2,1]],"r":[]},"card_bromopropane2":{"a":[["CH₃",0.714,0.7],["CH",-0.0,0.0],["CH₃",-0.963,0.268],["Br",0.25,-0.968]],"b":[[0,1,1],[1,2,1],[1,3,1]],"r":[]},"card_chlorobenzene":{"a":[["Cl",-1.714,-0.0],["",-0.714,-0.0],["",-0.214,-0.866],["",0.786,-0.866],["",1.286,0.0],["",0.786,0.866],["",-0.214,0.866]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[[0.286,0.0]]},"card_nitrobenzene":{"a":[["NO₂",-1.222,0.0],["",-0.222,0.0],["",0.278,-0.866],["",1.278,-0.866],["",1.778,-0.0],["",1.278,0.866],["",0.278,0.866]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[[0.778,-0.0]]},"card_ethylbenzene":{"a":[["CH₃",-2.057,-0.313],["CH₂",-1.378,0.422],["",-0.403,0.202],["",0.275,0.937],["",1.251,0.717],["",1.548,-0.238],["",0.87,-0.973],["",-0.106,-0.753]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[7,2,1]],"r":[[0.573,-0.018]]},"card_chloromethylbenzene":{"a":[["Cl",2.057,0.313],["CH₂",1.378,-0.422],["",0.403,-0.202],["",-0.275,-0.937],["",-1.251,-0.717],["",-1.548,0.238],["",-0.87,0.973],["",0.106,0.753]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[7,2,1]],"r":[[-0.573,0.018]]},"card_benzoic":{"a":[["OH",-1.722,0.866],["C",-1.222,0.0],["O",-1.722,-0.866],["",-0.222,0.0],["",0.278,-0.866],["",1.278,-0.866],["",1.778,-0.0],["",1.278,0.866],["",0.278,0.866]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[7,8,1],[8,3,1]],"r":[[0.778,-0.0]]}};
+// Generated by gen_coords.py (RDKit 2026.09.2): 2D layouts, bond length 1, y down.
+const MOL2D = {"alk_ethene":{"a":[["CH₂",-0.5,-0.0],["CH₂",0.5,-0.0]],"b":[[0,1,2]],"r":[]},"alk_propene":{"a":[["CH₃",-0.667,-0.577],["CH",-0.167,0.289],["CH₂",0.833,0.289]],"b":[[0,1,1],[1,2,2]],"r":[]},"alk_but1ene":{"a":[["CH₃",-1.25,0.433],["CH₂",-0.25,0.433],["CH",0.25,-0.433],["CH₂",1.25,-0.433]],"b":[[0,1,1],[1,2,1],[2,3,2]],"r":[]},"alk_but2ene":{"a":[["CH₃",-1.0,0.866],["CH",-0.5,-0.0],["CH",0.5,-0.0],["CH₃",1.0,-0.866]],"b":[[0,1,1],[1,2,2],[2,3,1]],"r":[]},"alk_mpropene":{"a":[["CH₃",-0.5,-0.866],["C",0.0,-0.0],["CH₃",-0.5,0.866],["CH₂",1.0,-0.0]],"b":[[0,1,1],[1,2,1],[1,3,2]],"r":[]},"alk_mbut1ene":{"a":[["CH₂",-1.0,-0.346],["C",0.0,-0.346],["CH₃",0.5,-1.212],["CH₂",0.5,0.52],["CH₃",-0.0,1.386]],"b":[[0,1,2],[1,2,1],[1,3,1],[3,4,1]],"r":[]},"alk_mbut2ene":{"a":[["CH₃",-0.8,-1.039],["C",-0.3,-0.173],["CH₃",-0.8,0.693],["CH",0.7,-0.173],["CH₃",1.2,0.693]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1]],"r":[]},"alk_mpent2ene":{"a":[["CH₃",-1.167,-1.155],["C",-0.667,-0.289],["CH₃",-1.167,0.577],["CH",0.333,-0.289],["CH₂",0.833,0.577],["CH₃",1.833,0.577]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[4,5,1]],"r":[]},"alk_mpent2ene3":{"a":[["CH₃",-1.25,-1.01],["CH",-0.75,-0.144],["C",0.25,-0.144],["CH₃",0.75,-1.01],["CH₂",0.75,0.722],["CH₃",0.25,1.588]],"b":[[0,1,1],[1,2,2],[2,3,1],[2,4,1],[4,5,1]],"r":[]},"alk_mpent1ene3":{"a":[["CH₂",-1.5,-0.866],["CH",-0.5,-0.866],["CH",0.0,-0.0],["CH₃",-0.5,0.866],["CH₂",1.0,-0.0],["CH₃",1.5,0.866]],"b":[[0,1,2],[1,2,1],[2,3,1],[2,4,1],[4,5,1]],"r":[]},"alk_chexene":{"a":[["CH₂",-0.5,0.866],["CH₂",-1.0,0.0],["CH",-0.5,-0.866],["CH",0.5,-0.866],["CH₂",1.0,0.0],["CH₂",0.5,0.866]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,1],[5,0,1]],"r":[]},"alk_mchexene":{"a":[["CH₃",-0.857,-1.485],["C",-0.357,-0.619],["CH",0.643,-0.619],["CH₂",1.143,0.247],["CH₂",0.643,1.113],["CH₂",-0.357,1.113],["CH₂",-0.857,0.247]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[]},"alk_hexadiene":{"a":[["CH₂",-2.0,-0.866],["CH",-1.0,-0.866],["CH₂",-0.5,0.0],["CH₂",0.5,0.0],["CH",1.0,0.866],["CH₂",2.0,0.866]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,2]],"r":[]},"card_ethane":{"a":[["CH₃",-0.5,-0.0],["CH₃",0.5,-0.0]],"b":[[0,1,1]],"r":[]},"card_ethene":{"a":[["CH₂",-0.5,-0.0],["CH₂",0.5,-0.0]],"b":[[0,1,2]],"r":[]},"card_propene":{"a":[["CH₃",-0.667,-0.577],["CH",-0.167,0.289],["CH₂",0.833,0.289]],"b":[[0,1,1],[1,2,2]],"r":[]},"card_benzene":{"a":[["",-0.923,-0.386],["",-0.127,-0.992],["",0.795,-0.606],["",0.923,0.386],["",0.127,0.992],["",-0.795,0.606]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,0,1]],"r":[[-0.0,0.0]]},"card_methylbenzene":{"a":[["CH₃",-1.714,-0.0],["",-0.714,-0.0],["",-0.214,-0.866],["",0.786,-0.866],["",1.286,0.0],["",0.786,0.866],["",-0.214,0.866]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[[0.286,0.0]]},"card_dibromoethane":{"a":[["Br",1.32,-0.091],["CH₂",0.4,0.301],["CH₂",-0.4,-0.301],["Br",-1.32,0.091]],"b":[[0,1,1],[1,2,1],[2,3,1]],"r":[]},"card_bromoethanol":{"a":[["OH",1.32,-0.091],["CH₂",0.4,0.301],["CH₂",-0.4,-0.301],["Br",-1.32,0.091]],"b":[[0,1,1],[1,2,1],[2,3,1]],"r":[]},"card_ethanediol":{"a":[["OH",1.32,-0.091],["CH₂",0.4,0.301],["CH₂",-0.4,-0.301],["OH",-1.32,0.091]],"b":[[0,1,1],[1,2,1],[2,3,1]],"r":[]},"card_bromoethane":{"a":[["CH₃",0.866,0.167],["CH₂",-0.0,-0.333],["Br",-0.866,0.167]],"b":[[0,1,1],[1,2,1]],"r":[]},"card_bromopropane2":{"a":[["CH₃",0.714,0.7],["CH",-0.0,0.0],["CH₃",-0.963,0.268],["Br",0.25,-0.968]],"b":[[0,1,1],[1,2,1],[1,3,1]],"r":[]},"card_chlorobenzene":{"a":[["Cl",-1.714,-0.0],["",-0.714,-0.0],["",-0.214,-0.866],["",0.786,-0.866],["",1.286,0.0],["",0.786,0.866],["",-0.214,0.866]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[[0.286,0.0]]},"card_nitrobenzene":{"a":[["NO₂",-1.222,0.0],["",-0.222,0.0],["",0.278,-0.866],["",1.278,-0.866],["",1.778,-0.0],["",1.278,0.866],["",0.278,0.866]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,1,1]],"r":[[0.778,-0.0]]},"card_ethylbenzene":{"a":[["CH₃",-2.057,-0.313],["CH₂",-1.378,0.422],["",-0.403,0.202],["",0.275,0.937],["",1.251,0.717],["",1.548,-0.238],["",0.87,-0.973],["",-0.106,-0.753]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[7,2,1]],"r":[[0.573,-0.018]]},"card_chloromethylbenzene":{"a":[["Cl",2.057,0.313],["CH₂",1.378,-0.422],["",0.403,-0.202],["",-0.275,-0.937],["",-1.251,-0.717],["",-1.548,0.238],["",-0.87,0.973],["",0.106,0.753]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[7,2,1]],"r":[[-0.573,0.018]]},"card_benzoic":{"a":[["OH",-1.722,0.866],["C",-1.222,0.0],["O",-1.722,-0.866],["",-0.222,0.0],["",0.278,-0.866],["",1.278,-0.866],["",1.778,-0.0],["",1.278,0.866],["",0.278,0.866]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[7,8,1],[8,3,1]],"r":[[0.778,-0.0]]}};
 (function(){
 "use strict";
 const LAB = window.LAB = {};
@@ -1145,7 +1154,7 @@ function Player(pre, opts){
 LAB.frameGeo = frameGeo; LAB.arrowEnds = arrowEnds;
 
 /* =====================================================
-   1. MARKOVNIKOV CARBOCATION EXPLORER (DATA.md 11.4(c) table)
+   1. MARKOVNIKOV CARBOCATION EXPLORER (11.4(c))
    Substituent labels are written for the right-hand side of a carbon; FLIPL gives the left-hand form.
    ===================================================== */
 const MK_ALK = {
@@ -1163,12 +1172,14 @@ const MK_ALK = {
     prod: { X: [["2-{x}butane", "CH₃CH₂CH{X}CH₃", 1]], OH: [["butan-2-ol", "CH₃CH₂CH(OH)CH₃", 1]] } }
 };
 const MK_RG = {
-  HCl: { x: "Cl", nm: "chloro", h: "HCl", cond: "HCl(g), room temperature", BE: 431 },
   HBr: { x: "Br", nm: "bromo", h: "HBr", cond: "HBr(g), room temperature", BE: 366 },
   HI: { x: "I", nm: "iodo", h: "HI", cond: "HI(g), room temperature", BE: 299 },
   H2O: { x: "OH", nm: "", h: "H₂O", cond: "steam, H₃PO₄ catalyst", fx: true }
 };
-const MK = { alk: "propene", rg: "HBr", pred: false, guessed: null, route: 0 };
+const MK_RGS = a => a === "propene" ? ["HBr", "H2O"] : ["HBr", "HI", "H2O"];
+const mkOk = (a, r) => MK_RGS(a).includes(r);
+LAB.mkOk = mkOk;
+const MK = { alk: "propene", rg: "HBr", pred: false, guessed: null, route: 0, flip: false, dealt: false, P: [0, 1] };
 LAB.MK = MK; LAB.MK_ALK = MK_ALK; LAB.MK_RG = MK_RG;
 const CLS = ["", "primary", "secondary", "tertiary"];
 const CLSN = ["", "1°", "2°", "3°"];
@@ -1219,6 +1230,7 @@ function mkCond(){ return MK_RG[MK.rg].cond; }
 function mkEq(){
   const A = MK_ALK[MK.alk], R = MK_RG[MK.rg], P = mkProducts(), rt = mkRoutes();
   const lhs = R.x === "OH" ? `${A.cf}(g) + H₂O(g) ⇌ ` : `${A.cf} + ${R.h} → `;
+  if (MK.pred && !A.sym && MK.guessed == null) return H(lhs + "?") + ` <span class="hint">(${H(mkCond())})</span>`;   // the product is not shown before the guess
   const g = R.x === "OH" ? "(g)" : "";
   if (A.sym) return H(lhs + P[0].f + g) + ` <span class="hint">(${H(mkCond())})</span>`;
   const maj = rt.find(r => r.verdict === "major").prod;
@@ -1229,43 +1241,48 @@ function mkDraw(){
   $("mk-cond").innerHTML = H(`Conditions: ${mkCond()}.`) + (R.fx ? ` ${FEX}Steam follows the same rule: H⁺ is the electrophile.` : "");
   $("mk-eq").innerHTML = mkEq();
   const hide = MK.pred && !A.sym && MK.guessed == null;
+  if (MK.guessed != null) MK.dealt = false; else if (!MK.dealt){ MK.flip = Math.random() < 0.5; MK.dealt = true; }   // while predicting, which card and which choice comes first is dealt at random, so the order says nothing
   const pb = $("mk-predbox");
   if (MK.pred && !A.sym){
     pb.hidden = false;
     if (MK.guessed == null){
-      pb.innerHTML = `<p class="qline">${H(`Which is the major product of ${A.name} + ${R.x === "OH" ? "steam" : R.h}?`)}</p><div class="opts2">${shuffleFixed(rt).map(r => `<button class="opt" data-g="${r.i}"><span>${H(r.prod.name + ", " + r.prod.f)}</span></button>`).join("")}</div>`;
-      pb.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { MK.guessed = +b.dataset.g; mkDraw(); });
+      pb.innerHTML = `<p class="qline">${H(`Which is the major product of ${A.name} + ${R.x === "OH" ? "steam" : R.h}?`)}</p><div class="opts2">${(MK.flip ? shuffleFixed(rt).reverse() : shuffleFixed(rt)).map(r => `<button class="opt"><span>${H(r.prod.name + ", " + r.prod.f)}</span></button>`).join("")}</div>`;
+      const gOrd = (MK.flip ? shuffleFixed(rt).reverse() : shuffleFixed(rt)).map(r => r.i); MK.gOrd = gOrd;
+      pb.querySelectorAll(".opt").forEach((b, j) => b.onclick = () => { MK.guessed = gOrd[j]; mkDraw(); });
     } else {
       const right = rt[MK.guessed].verdict === "major";
       pb.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${H(right ? `Correct: ${rt[MK.guessed].prod.name} comes from the more stable (${CLS[rt[MK.guessed].cls]}) carbocation.` : `Not quite: ${rt[MK.guessed].prod.name} comes from the less stable (${CLS[rt[MK.guessed].cls]}) carbocation, so it is the minor product.`)}</div><div class="btnrow"><button class="btn" id="mk-again">Try another</button></div>`;
-      $("mk-again").onclick = () => { MK.guessed = null; mkDraw(); };
+      $("mk-again").onclick = () => { MK.guessed = null; MK.dealt = false; mkDraw(); };
     }
   } else pb.hidden = true;
   const where = i => i === 0 ? `H adds to C1 (the ${A.c1n} end)` : `H adds to C2 (the ${A.c2n} end)`;
-  $("mk-routes").innerHTML = rt.map(r => {
+  $("mk-routes").innerHTML = (MK.pred && !A.sym && MK.flip ? rt.slice().reverse() : rt).map(r => {
     const c = catSVG(r.cat.g), n = nAlkyl(r.cat.g);
     const verdict = hide ? "" : r.verdict === "major" ? "Major product" : r.verdict === "minor" ? "Minor product" : "The only product";
-    return `<div class="route ${hide ? "" : r.verdict}" data-route="${r.i}">
+    return `<div class="route ${hide ? "" : r.verdict}">
       <h3>${H(A.sym ? (r.i === 0 ? "H adds to either carbon" : "") : where(r.i))}</h3>
       <svg viewBox="${c.vb}" style="max-width:${Math.round(+c.vb.split(" ")[2] * 1.35)}px" role="img" aria-label="${esc(r.cat.f)} carbocation">${c.s}</svg>
       <p><b class="clsl">${H(r.cat.f)}</b>: <span data-cls="${n}">${CLS[n]} (${CLSN[n]})</span> carbocation, ${n === 1 ? "one alkyl group" : n === 2 ? "two alkyl groups" : "three alkyl groups"} donating electrons to C⁺.</p>
-      <p class="prod">${H("→ " + r.prod.name + ", " + r.prod.f)}${r.prod.chiral ? ` <span class="hint">(chiral centre; formed racemic)</span>` : ""}</p>
+      ${hide ? "" : `<p class="prod">${H("→ " + r.prod.name + ", " + r.prod.f)}${r.prod.chiral ? ` <span class="hint">(chiral centre; formed racemic)</span>` : ""}</p>`}
       <span class="verdict">${verdict}</span></div>`;
   }).join("");
   if (A.sym){ const el = $("mk-routes").children[1]; if (el) el.remove(); }
   const notes = [];
-  notes.push(`Alkyl groups are electron-donating (the inductive effect, Topic 11.3 Fig 4); the arrowheads on the bonds show the donation towards C⁺. The more alkyl groups, the more the positive charge is spread, so stability is tertiary > secondary > primary.`);
+  if (!hide) notes.push(`Alkyl groups are electron-donating (the inductive effect, Topic 11.3 Fig 4); the arrowheads on the bonds show the donation towards C⁺. The more alkyl groups, the more the positive charge is spread, so stability is tertiary > secondary > primary.`);
   if (A.sym) notes.push(`${A.name} is symmetrical: either way the carbocation is ${A.cat[0].f}, so there is only one product.`);
-  else notes.push(`Both carbocations form, but the more stable one has the lower activation energy and forms faster, so its product is the major one. No ratio is needed: just "major" and "minor".`);
-  if (mkProducts().some(p => p.chiral)) notes.push(`${mkProducts().find(p => p.chiral).name} has a chiral centre, but the product is not optically active: the planar carbocation is attacked from either face equally, giving a racemic mixture (Topic 11.2).`);
+  else if (!hide) notes.push(`The rule predicts a major and a minor product. The more stable carbocation has the lower activation energy and forms faster; the primary carbocation forms so much more slowly that the minor product, ${mkProducts()[1].name}, is only a trace. No ratio is needed: just "major" and "minor".`);
+  if (!hide && mkProducts().some(p => p.chiral)) notes.push(`${mkProducts().find(p => p.chiral).name} has a chiral centre, but the product is not optically active: the planar carbocation is attacked from either face equally, giving a racemic mixture (Topic 11.2).`);
   if (R.x !== "OH") notes.push(`Reactivity HI > HBr > HCl: the H–X bond that breaks in the slow step gets weaker, H–Cl 431, H–Br 366, H–I 299 kJ mol⁻¹ ${SRC("db")}.`);
   else notes.push(`H₃PO₄ supplies H⁺, the electrophile; water attacks the carbocation and the protonated alcohol loses H⁺, which regenerates the catalyst. The reaction is reversible.`);
-  if (R.x === "Br" && !A.sym) notes.push(`${ENR}With peroxides present, HBr adds by a free-radical mechanism and gives mainly ${mkProducts()[1].name} ("anti-Markovnikov"). HBr only, not HCl or HI.`);
+  if (!hide && R.x === "Br" && !A.sym) notes.push(`${ENR}With peroxides present, HBr adds by a free-radical mechanism and gives mainly ${mkProducts()[1].name} ("anti-Markovnikov"). HBr only, not HCl or HI.`);
   $("mk-notes").innerHTML = notes.map(t => `<li>${H(t)}</li>`).join("");
-  $("mk-rule").innerHTML = H(`<b>Markovnikov's rule.</b> When HX adds to an unsymmetrical alkene, the H atom bonds to the carbon of the C=C that already has more H atoms. The reason: the major product comes from the more stable carbocation.`);
+  $("mk-rule").innerHTML = hide ? "" : H(`<b>Markovnikov's rule.</b> When HX adds to an unsymmetrical alkene, the H atom bonds to the carbon of the C=C that already has more H atoms. The reason: the major product comes from the more stable carbocation.`);
+  $("mk-rule").hidden = hide; $("mk-profbox").hidden = hide; $("mk-player").hidden = hide; $("mk-hold").hidden = !hide;   // the profiles and the mechanisms show which route wins: they wait for the guess
   mkProfile(rt, hide);
-  $("mk-rt0").innerHTML = H(A.sym ? "H adds to either carbon" : `H adds to C1 (${A.c1n})`);
-  $("mk-rt1").innerHTML = H(A.sym ? "(the same route)" : `H adds to C2 (${A.c2n})`);
+  MK.P = MK.pred && !A.sym && MK.flip ? [1, 0] : [0, 1];   // which route each radio stands for: the position says nothing about the answer
+  const rtTxt = [H(A.sym ? "H adds to either carbon" : `H adds to C1 (${A.c1n})`), H(A.sym ? "(the same route)" : `H adds to C2 (${A.c2n})`)];
+  $("mk-rt0").innerHTML = rtTxt[MK.P[0]]; $("mk-rt1").innerHTML = rtTxt[MK.P[1]];
+  document.querySelectorAll('input[name="mk-rt"]').forEach((x, j) => { x.checked = MK.P[j] === MK.route; });
   mkMech();
 }
 function shuffleFixed(rt){ return rt.slice().sort((a, b) => a.prod.name.localeCompare(b.prod.name)); }
@@ -1273,6 +1290,7 @@ function shuffleFixed(rt){ return rt.slice().sort((a, b) => a.prod.name.localeCo
 let MKPROF = null;
 function mkProfile(rt, hide){
   MKPROF = [rt, hide];
+  if (hide){ $("mk-prof").innerHTML = ""; $("mk-leg").innerHTML = ""; return; }   // nothing is drawn until the guess
   // on a phone the drawing is made as wide as the screen (1 unit = 1 px) and taller, so the lettering stays about 11 px instead of shrinking to 7 px
   const svg = $("mk-prof"), cw = (svg.parentNode && svg.parentNode.clientWidth) || 0, narrow = cw > 0 && cw < 500;
   const W = narrow ? Math.max(280, Math.round(cw)) : 520, Hh = narrow ? 300 : 250, ml = 26, mr = 10, mt = 20, mb = 26;
@@ -1373,9 +1391,11 @@ let MKP = null;
 function mkMech(){
   const A = MK_ALK[MK.alk];
   const r = A.sym ? 0 : MK.route;
+  const hid = MK.pred && !A.sym && MK.guessed == null;
+  if (hid){ ["mkm-eq", "mkm-cap", "mk-mtitle"].forEach(i => $(i).innerHTML = ""); $("mkm-svg").innerHTML = ""; $("mk-mtitle").innerHTML = H("Curly arrows: " + A.name + " + " + (MK_RG[MK.rg].x === "OH" ? "steam" : MK_RG[MK.rg].h)); document.querySelectorAll('input[name="mk-rt"]').forEach(x => { x.disabled = false; }); return; }   // nothing of the mechanism is drawn until the guess
   MKP.setMech(mkFrames(r));
   const rr = mkRoutes()[r];
-  $("mk-mtitle").innerHTML = H(`Curly arrows: ${A.name} + ${MK_RG[MK.rg].x === "OH" ? "steam" : MK_RG[MK.rg].h}, ${A.sym ? "the only route" : (rr.verdict + " route")}`);
+  $("mk-mtitle").innerHTML = H(`Curly arrows: ${A.name} + ${MK_RG[MK.rg].x === "OH" ? "steam" : MK_RG[MK.rg].h}${hid ? "" : ", " + (A.sym ? "the only route" : (rr.verdict + " route"))}`);
   document.querySelectorAll('input[name="mk-rt"]').forEach(x => { x.disabled = !!A.sym && x.value === "1"; });
 }
 function bindMK(){
@@ -1384,17 +1404,19 @@ function bindMK(){
   MKP = Player("mkm");
   MKP.bind();
   LAB.MKP = MKP;
-  chips($("mk-alk"), Object.keys(MK_ALK).map(k => [k, H(MK_ALK[k].name + (MK_ALK[k].sym ? " (symmetrical)" : ""))]), MK.alk, v => { MK.alk = v; MK.guessed = null; if (MK_ALK[v].sym){ MK.route = 0; document.querySelector('input[name="mk-rt"][value="0"]').checked = true; } mkDraw(); });
-  chips($("mk-rg"), Object.keys(MK_RG).map(k => [k, H(MK_RG[k].fx ? "steam" + FEX : MK_RG[k].h)]), MK.rg, v => { MK.rg = v; MK.guessed = null; mkDraw(); });
-  $("mk-pred").onchange = e => { MK.pred = e.target.checked; MK.guessed = null; mkDraw(); };
-  document.querySelectorAll('input[name="mk-rt"]').forEach(x => x.onchange = () => { MK.route = +x.value; mkMech(); });
-  LAB.mkSet = (alk, rg) => { MK.alk = alk; MK.rg = rg; MK.guessed = null; setPressed($("mk-alk"), alk); setPressed($("mk-rg"), rg); mkDraw(); };
-  LAB.mkRoute = r => { MK.route = r; document.querySelector(`input[name="mk-rt"][value="${r}"]`).checked = true; mkMech(); };
+  chips($("mk-alk"), Object.keys(MK_ALK).map(k => [k, H(MK_ALK[k].name + (MK_ALK[k].sym ? " (symmetrical)" : ""))]), MK.alk, v => { MK.alk = v; if (!mkOk(v, MK.rg)) MK.rg = "HBr"; mkRgChips(); MK.guessed = null; MK.dealt = false; if (MK_ALK[v].sym) MK.route = 0; mkDraw(); });
+  const mkRgChips = () => chips($("mk-rg"), MK_RGS(MK.alk).map(k => [k, H(MK_RG[k].fx ? "steam" + FEX : MK_RG[k].h)]), MK.rg, v => { MK.rg = v; MK.guessed = null; MK.dealt = false; mkDraw(); });
+  mkRgChips();
+  $("mk-pred").onchange = e => { MK.pred = e.target.checked; MK.guessed = null; MK.dealt = false; mkDraw(); };
+  document.querySelectorAll('input[name="mk-rt"]').forEach((x, j) => x.onchange = () => { MK.route = MK.P[j]; mkMech(); });
+  LAB.mkSet = (alk, rg) => { MK.alk = alk; MK.rg = rg; MK.guessed = null; MK.dealt = false; setPressed($("mk-alk"), alk); mkRgChips(); mkDraw(); };
+  LAB.mkRoute = r => { MK.route = r; mkDraw(); };
+  LAB.mkGuess = i => { MK.guessed = i; mkDraw(); };
   mkDraw();
 }
 
 /* =====================================================
-   2. WHERE THE SECOND GROUP GOES (DATA.md 11.4(g) and the explorer 2 table)
+   2. WHERE THE SECOND GROUP GOES (11.4(g) and the explorer 2 table)
    ===================================================== */
 // small benzene ring with substituents: subs {position: label}; position 1 at the top, numbered clockwise
 function ringSVG(subs, o){
@@ -1422,8 +1444,8 @@ function flipRing(l){ return { "NO₂": "O₂N", "NH₂": "H₂N", "COOH": "HOOC
 
 const PS_X = {
   CH3: { lab: "CH₃", f: "C₆H₅CH₃", pre: "CH₃", name: "methylbenzene", dir: "24", act: "activating", rate: "faster (activating)", why: "electron-donating (inductive effect)", smi: "C", kind: "don" },
-  OH: { lab: "OH", f: "C₆H₅OH", pre: "HO", name: "phenol", dir: "24", act: "strongly activating", rate: "much faster (strongly activating)", why: "a lone pair on O is delocalised into the ring", smi: "O", kind: "lp" },
-  NH2: { lab: "NH₂", f: "C₆H₅NH₂", pre: "H₂N", name: "phenylamine", dir: "24", act: "strongly activating", rate: "much faster (strongly activating)", why: "a lone pair on N is delocalised into the ring", smi: "N", kind: "lp" },
+  OH: { lab: "OH", f: "C₆H₅OH", pre: "HO", name: "phenol", dir: "24", act: "strongly activating", rate: "much faster (strongly activating)", why: "a lone pair on O is delocalised into the ring (O also withdraws electrons through the σ bond, as in Topic 11.3, but the delocalised lone pair outweighs this)", smi: "O", kind: "lp" },
+  NH2: { lab: "NH₂", f: "C₆H₅NH₂", pre: "H₂N", name: "phenylamine", dir: "24", act: "strongly activating", rate: "much faster (strongly activating)", why: "a lone pair on N is delocalised into the ring (N also withdraws electrons through the σ bond, as in Topic 11.3, but the delocalised lone pair outweighs this)", smi: "N", kind: "lp" },
   Cl: { lab: "Cl", f: "C₆H₅Cl", pre: "Cl", name: "chlorobenzene", dir: "24", act: "deactivating", rate: "slower (deactivating)", why: "electronegative, so it withdraws; but its lone pair directs to 2 and 4", smi: "Cl", kind: "hal" },
   NO2: { lab: "NO₂", f: "C₆H₅NO₂", pre: "O₂N", name: "nitrobenzene", dir: "3", act: "strongly deactivating", rate: "much slower (strongly deactivating)", why: "electron-withdrawing", smi: "[N+](=O)[O-]", kind: "wd" },
   COOH: { lab: "COOH", f: "C₆H₅COOH", pre: "HOOC", name: "benzoic acid", dir: "3", act: "deactivating", rate: "slower (deactivating)", why: "electron-withdrawing (the C=O)", smi: "C(=O)O", kind: "wd" }
@@ -1434,16 +1456,19 @@ const PS_Y = {
   bro: { name: "Bromination", cond: "Br₂, AlBr₃ catalyst, room temperature", E: "Br⁺", lab: "Br", rg: "Br₂", by: "HBr", smi: "Br" },
   met: { name: "Methylation (Friedel-Crafts)", cond: "CH₃Cl, AlCl₃ catalyst", E: "CH₃⁺", lab: "CH₃", rg: "CH₃Cl", by: "HCl", smi: "C" }
 };
+const PS_YS = x => x === "CH3" ? ["nit", "chl", "bro"] : x === "NO2" ? ["nit", "bro", "met"] : x === "COOH" ? ["nit", "chl", "met"] : Object.keys(PS_Y);
+const psOk = (x, y) => PS_YS(x).includes(y);
+LAB.psOk = psOk;
 const NOTE_A = "Positions only. –OH and –NH₂ activate the ring so strongly that no catalyst is needed: with bromine water, phenol gives 2,4,6-tribromophenol (Topic 11.6 Part 2) and phenylamine gives 2,4,6-tribromophenylamine (Topic 11.9); phenol is nitrated by dilute HNO₃ at room temperature (Topic 11.6 Part 2).";
 const NOTE_B = "Not done directly (beyond the syllabus): the concentrated acids protonate –NH₂ and oxidise the ring.";
-const NOTE_C = "Friedel-Crafts does not work on these rings (beyond the syllabus): –NO₂ and –COOH deactivate the ring too strongly; –OH and –NH₂ bond to AlCl₃ through their lone pairs.";
+const NOTE_C = "Friedel-Crafts does not work on these rings (beyond the syllabus): –NO₂ and –COOH deactivate the ring too much for it to react; –OH and –NH₂ bond to AlCl₃ through their lone pairs.";
 const PS_P = {
-  CH3: { nit: ["1-methyl-2-nitrobenzene", "1-methyl-4-nitrobenzene"], chl: ["1-chloro-2-methylbenzene", "1-chloro-4-methylbenzene"], bro: ["1-bromo-2-methylbenzene", "1-bromo-4-methylbenzene"], met: ["1,2-dimethylbenzene", "1,4-dimethylbenzene"] },
+  CH3: { nit: ["1-methyl-2-nitrobenzene", "1-methyl-4-nitrobenzene"], chl: ["1-chloro-2-methylbenzene", "1-chloro-4-methylbenzene"], bro: ["1-bromo-2-methylbenzene", "1-bromo-4-methylbenzene"] },
   OH: { nit: ["2-nitrophenol", "4-nitrophenol", "A"], chl: ["2-chlorophenol", "4-chlorophenol", "A"], bro: ["2-bromophenol", "4-bromophenol", "A"], met: ["C"] },
   NH2: { nit: ["B"], chl: ["2-chlorophenylamine", "4-chlorophenylamine", "A"], bro: ["2-bromophenylamine", "4-bromophenylamine", "A"], met: ["C"] },
   Cl: { nit: ["1-chloro-2-nitrobenzene", "1-chloro-4-nitrobenzene"], chl: ["1,2-dichlorobenzene", "1,4-dichlorobenzene"], bro: ["1-bromo-2-chlorobenzene", "1-bromo-4-chlorobenzene"], met: ["1-chloro-2-methylbenzene", "1-chloro-4-methylbenzene"] },
-  NO2: { nit: ["1,3-dinitrobenzene"], chl: ["1-chloro-3-nitrobenzene"], bro: ["1-bromo-3-nitrobenzene"], met: ["C"] },
-  COOH: { nit: ["3-nitrobenzoic acid"], chl: ["3-chlorobenzoic acid"], bro: ["3-bromobenzoic acid"], met: ["C"] }
+  NO2: { nit: ["1,3-dinitrobenzene"], bro: ["1-bromo-3-nitrobenzene"], met: ["C"] },
+  COOH: { nit: ["3-nitrobenzoic acid"], chl: ["3-chlorobenzoic acid"], met: ["C"] }
 };
 const RATE = [["phenol", "phenylamine"], ["methylbenzene"], ["benzene"], ["chlorobenzene"], ["benzoic acid"], ["nitrobenzene"]];
 const PS = { x: "CH3", y: "nit", sel: new Set(), checked: false, revealed: false, why: false };
@@ -1581,25 +1606,26 @@ function psWhy(){
     return `<figure data-attack="${p}" data-dp="${o.dp.join(",")}"><svg viewBox="-62 -68 124 142" role="img" aria-label="Intermediate for attack at the ${p}-position">${o.s}</svg><figcaption>attack at ${p}<small class="${good ? "" : ""}">${H(why)}</small></figcaption></figure>`;
   }).join("");
   box.innerHTML = `<span class="eyebrow">${ENR}Why these positions?</span>
-    <p class="hint" style="margin:0">${H("In the intermediate the positive charge is shared mainly by the three carbons two and four positions round from the carbon that was attacked (δ+). E is the electrophile.")}</p>
+    <p class="hint" style="margin:0">${H("In the intermediate the positive charge is shared mainly by the two carbons next to the carbon that was attacked and the carbon opposite it (δ+). E is the electrophile.")}</p>
     <div class="prodrow">${rows}</div>
     <p class="hint" style="margin:0">${H(X.kind === "don" ? "Attack at 2 or 4 puts δ+ on the carbon carrying CH₃, which stabilises it (just as alkyl groups stabilise a tertiary carbocation), so those intermediates form faster." : X.kind === "wd" ? `For –${X.lab} the argument runs the other way: attack at 2 or 4 puts δ+ right next to the electron-withdrawing group, so 3 is the least bad.` : `For –${X.lab} the lone pair on the atom joined to the ring helps spread the charge when C1 carries δ+ (attack at 2 or 4).`)}</p>`;
 }
 function bindPS(){
-  chips($("ps-x"), Object.keys(PS_X).map(k => [k, H(`–${PS_X[k].lab}`)]), PS.x, v => { PS.x = v; psReset(); });
-  chips($("ps-y"), Object.keys(PS_Y).map(k => [k, H(PS_Y[k].name)]), PS.y, v => { PS.y = v; psReset(); });
+  chips($("ps-x"), Object.keys(PS_X).map(k => [k, H(`–${PS_X[k].lab}`)]), PS.x, v => { PS.x = v; if (!psOk(PS.x, PS.y)) PS.y = PS_YS(PS.x)[0]; psYChips(); psReset(); });
+  const psYChips = () => chips($("ps-y"), PS_YS(PS.x).map(k => [k, H(PS_Y[k].name)]), PS.y, v => { PS.y = v; psReset(); });
+  psYChips();
   $("ps-check").onclick = psCheck;
   $("ps-reveal").onclick = () => { if (psProducts().none) return; PS.revealed = true; PS.checked = false; const fb = $("ps-fb"); fb.hidden = false; fb.className = "fb info"; fb.innerHTML = H(`–${PS_X[PS.x].lab} is ${PS_X[PS.x].dir === "24" ? "2,4-directing" : "3-directing"} and ${PS_X[PS.x].act}: ${PS_X[PS.x].why}.`); psDraw(); psAnswer(); };
   $("ps-clear").onclick = psReset;
   $("ps-why").onchange = e => { PS.why = e.target.checked; psWhy(); };
-  LAB.psSet = (x, y) => { PS.x = x; PS.y = y; setPressed($("ps-x"), x); setPressed($("ps-y"), y); psReset(); };
+  LAB.psSet = (x, y) => { PS.x = x; PS.y = y; setPressed($("ps-x"), x); psYChips(); psReset(); };
   LAB.psTap = k => { const c = $("ps-svg").querySelector(`[data-pos="${k}"]`); if (c) c.dispatchEvent(new MouseEvent("click", { bubbles: true })); };
   psReset();
 }
 function psReset(){ PS.sel = new Set(); PS.checked = false; PS.revealed = false; $("ps-fb").hidden = true; $("ps-ans").hidden = true; psDraw(); }
 
 /* =====================================================
-   3. SIDE CHAIN OR RING? (DATA.md 11.4(e)(i), (f))
+   3. SIDE CHAIN OR RING? (11.4(e)(i), (f))
    ===================================================== */
 const SW = { x: "Cl", c: "uv", n: 1 };
 LAB.SW = SW;
@@ -1684,7 +1710,7 @@ function swES(X){
       n: { Xp: [268, 50, X], Me: [150, 192, "CH₃"] }, b: [["bme", "r3", "Me", 1]], chg: [["cp", "Xp", "+", 18, -11]],
       rx: [[340, 104, 382, ""]], tx: [[462, 110, "intermediate", "mprod"]],
       a: [A_("ring:R1", "atom:Xp", [226, 34], { okS: ["ring:R1"], okE: ["atom:Xp", "chg:cp"], why: `Two of the six delocalised π electrons attack the electrophile, ${X}⁺, forming a C–${X} bond.`, hs: "The electrons come from the delocalised π system of the ring.", he: `They go to the electrophile, ${X}⁺.` })],
-      cap: `Step 1 (slow). Two electrons from the delocalised π system attack ${X}⁺, here at the 4-position (the 2-position reacts the same way). The attacked carbon becomes sp³, and the remaining four π electrons and the positive charge are spread over the other five carbons. Losing part of the delocalisation costs energy, so this step is slow.` },
+      cap: `Step 1 (slow). Two electrons from the delocalised π system attack ${X}⁺, here at the 4-position (the 2-position reacts the same way). The attacked carbon becomes sp³, and the remaining four π electrons and the positive charge are spread over the five ring carbons, mostly on the two next to the attacked carbon and the one opposite it. Losing part of the delocalisation costs energy, so this step is slow.` },
     { t: "Step 2 (fast)", eq: `intermediate + ${cat4}⁻ → CH₃C₆H₄${X} + H${X} + ${cat}`, h: 272,
       hex: [["r", 150, 148, 48]], ring: [["R1", 150, 148, 27, "horse"]],
       n: { Hh: [180, 58, "H"], Xh: [120, 58, X], Bx: [272, 58, X], AlR: [352, 58, cat], Me: [150, 236, "CH₃"] },
@@ -1737,11 +1763,11 @@ function bindSW(){
 }
 
 /* =====================================================
-   4. KMnO4 CLEAVAGE DETECTIVE (DATA.md 11.4(b)(iii)-(iv) table)
+   4. KMnO4 CLEAVAGE DETECTIVE (11.4(b)(iii)-(iv))
    ===================================================== */
 const KPROD = {
-  co2: ["carbon dioxide", "CO₂"], eth: ["ethanoic acid", "CH₃COOH"], prop: ["propanoic acid", "CH₃CH₂COOH"], but: ["butanoic acid", "CH₃CH₂CH₂COOH"],
-  mprop: ["2-methylpropanoic acid", "(CH₃)₂CHCOOH"], propanone: ["propanone", "(CH₃)₂CO"], butanone: ["butanone", "CH₃COCH₂CH₃"],
+  co2: ["carbon dioxide", "CO₂"], eth: ["ethanoic acid", "CH₃COOH"], prop: ["propanoic acid", "CH₃CH₂COOH"],
+  mbutanoic: ["2-methylbutanoic acid", "CH₃CH₂CH(CH₃)COOH"], propanone: ["propanone", "(CH₃)₂CO"], butanone: ["butanone", "CH₃COCH₂CH₃"],
   hexdioic: ["hexanedioic acid", "HOOC(CH₂)₄COOH"], oxohept: ["6-oxoheptanoic acid", "CH₃CO(CH₂)₄COOH"], butdioic: ["butanedioic acid", "HOOCCH₂CH₂COOH"]
 };
 const KALK = [
@@ -1750,12 +1776,11 @@ const KALK = [
   { id: "but1ene", name: "but-1-ene", cf: "CH₃CH₂CH=CH₂", eq: "CH₃CH₂CH=CH₂ + 5[O] → CH₃CH₂COOH + CO₂ + H₂O", p: ["prop", "co2"] },
   { id: "but2ene", name: "but-2-ene (cis or trans)", cf: "CH₃CH=CHCH₃", eq: "CH₃CH=CHCH₃ + 4[O] → 2CH₃COOH", p: ["eth", "eth"], ct: 1 },
   { id: "mpropene", name: "2-methylpropene", cf: "(CH₃)₂C=CH₂", eq: "(CH₃)₂C=CH₂ + 4[O] → (CH₃)₂CO + CO₂ + H₂O", p: ["propanone", "co2"] },
-  { id: "pent1ene", name: "pent-1-ene", cf: "CH₃CH₂CH₂CH=CH₂", eq: "CH₃CH₂CH₂CH=CH₂ + 5[O] → CH₃CH₂CH₂COOH + CO₂ + H₂O", p: ["but", "co2"] },
   { id: "mbut1ene", name: "2-methylbut-1-ene", cf: "CH₂=C(CH₃)CH₂CH₃", eq: "CH₂=C(CH₃)CH₂CH₃ + 4[O] → CH₃COCH₂CH₃ + CO₂ + H₂O", p: ["butanone", "co2"] },
   { id: "mbut2ene", name: "2-methylbut-2-ene", cf: "(CH₃)₂C=CHCH₃", eq: "(CH₃)₂C=CHCH₃ + 3[O] → (CH₃)₂CO + CH₃COOH", p: ["propanone", "eth"] },
-  { id: "mbut1ene3", name: "3-methylbut-1-ene", cf: "(CH₃)₂CHCH=CH₂", eq: "(CH₃)₂CHCH=CH₂ + 5[O] → (CH₃)₂CHCOOH + CO₂ + H₂O", p: ["mprop", "co2"] },
-  { id: "dmbut2ene", name: "2,3-dimethylbut-2-ene", cf: "(CH₃)₂C=C(CH₃)₂", eq: "(CH₃)₂C=C(CH₃)₂ + 2[O] → 2(CH₃)₂CO", p: ["propanone", "propanone"] },
   { id: "mpent2ene", name: "2-methylpent-2-ene", cf: "(CH₃)₂C=CHCH₂CH₃", eq: "(CH₃)₂C=CHCH₂CH₃ + 3[O] → (CH₃)₂CO + CH₃CH₂COOH", p: ["propanone", "prop"] },
+  { id: "mpent2ene3", name: "3-methylpent-2-ene (cis or trans)", cf: "CH₃CH=C(CH₃)CH₂CH₃", eq: "CH₃CH=C(CH₃)CH₂CH₃ + 3[O] → CH₃COOH + CH₃COCH₂CH₃", p: ["eth", "butanone"], ct: 1 },
+  { id: "mpent1ene3", name: "3-methylpent-1-ene", cf: "CH₂=CHCH(CH₃)CH₂CH₃", eq: "CH₂=CHCH(CH₃)CH₂CH₃ + 5[O] → CH₃CH₂CH(CH₃)COOH + CO₂ + H₂O", p: ["mbutanoic", "co2"] },
   { id: "chexene", name: "cyclohexene", cf: "C₆H₁₀", eq: "C₆H₁₀ + 4[O] → HOOC(CH₂)₄COOH", p: ["hexdioic"], fx: 1 },
   { id: "mchexene", name: "1-methylcyclohexene", cf: "C₇H₁₂", eq: "C₇H₁₂ + 3[O] → CH₃CO(CH₂)₄COOH", p: ["oxohept"], fx: 1 },
   { id: "hexadiene", name: "hexa-1,5-diene", cf: "CH₂=CHCH₂CH₂CH=CH₂", eq: "CH₂=CHCH₂CH₂CH=CH₂ + 10[O] → 2CO₂ + HOOCCH₂CH₂COOH + 2H₂O", p: ["co2", "co2", "butdioic"], fx: 1 }
@@ -1840,14 +1865,15 @@ function kdDrawBack(){
   $("kd-given").innerHTML = prodList(a).map(t => `<li>${H(t)}</li>`).join("") + `<li class="hint">${H(kSee(a, "hot"))}</li>`;
   const tb = tubeSVG(a, "hot"); $("kd-tube2").setAttribute("viewBox", tb.vb); $("kd-tube2").innerHTML = tb.s; $("kd-see2").innerHTML = H(kSee(a, "hot"));
   $("kd-opts").innerHTML = KD.case.opts.map((id, j) => `<button class="opt" data-id="${id}"><b>${"ABCD"[j]}</b><span>${H(kA(id).name + ", " + kA(id).cf)}</span></button>`).join("");
-  $("kd-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => kdAnswer(b.dataset.id));
+  KD.t0 = performance.now();   // a second click of a double click on Next case lands on the new question: ignored for a moment
+  $("kd-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => { if (performance.now() - KD.t0 < 350) return; kdAnswer(b.dataset.id); });
   $("kd-fb").hidden = true; $("kd-solbox").hidden = true;
   $("kd-score").textContent = KD.n ? `${KD.score} / ${KD.n}` : "";
 }
 LAB.kdDrawBack = kdDrawBack;
 function kdWhy(id){
   const a = kA(id);
-  return a.p.filter((k, i, arr) => arr.indexOf(k) === i).map(k => k === "co2" ? "CO₂ came from a =CH₂ end" : k === "propanone" ? "propanone, (CH₃)₂C=O, came from a (CH₃)₂C= end" : k === "butanone" ? "butanone came from a =C(CH₃)CH₂CH₃ end" : k === "eth" ? "ethanoic acid came from a CH₃CH= end" : k === "prop" ? "propanoic acid came from a CH₃CH₂CH= end" : k === "but" ? "butanoic acid came from a CH₃CH₂CH₂CH= end" : k === "mprop" ? "2-methylpropanoic acid came from a (CH₃)₂CHCH= end" : k === "hexdioic" ? "one product with an acid group at each end means the C=C was in a ring of six carbons" : k === "oxohept" ? "one product carrying a ketone at one end and an acid at the other means a ring C=C with a CH₃ on one alkene carbon" : "butanedioic acid is the middle piece, =CHCH₂CH₂CH=, between two C=C").join("; ");
+  return a.p.filter((k, i, arr) => arr.indexOf(k) === i).map(k => k === "co2" ? "CO₂ came from a =CH₂ end" : k === "propanone" ? "propanone, (CH₃)₂C=O, came from a (CH₃)₂C= end" : k === "butanone" ? "butanone came from a =C(CH₃)CH₂CH₃ end" : k === "eth" ? "ethanoic acid came from a CH₃CH= end" : k === "prop" ? "propanoic acid came from a CH₃CH₂CH= end" : k === "mbutanoic" ? "2-methylbutanoic acid came from a CH₃CH₂CH(CH₃)CH= end" : k === "hexdioic" ? "one product with an acid group at each end means the C=C was in a ring of six carbons" : k === "oxohept" ? "one product carrying a ketone at one end and an acid at the other means a ring C=C with a CH₃ on one alkene carbon" : "butanedioic acid is the middle piece, =CHCH₂CH₂CH=, between two C=C").join("; ");
 }
 function kdAnswer(id){
   if (KD.answered) return; KD.answered = true;
@@ -1879,21 +1905,35 @@ function bindKD(){
   LAB.kdAnswer = kdAnswer;
   kdDrawFwd();
 }
-
 /* =====================================================
    5. PRACTICE GENERATOR (fuels, bond energies, hydrogen uptake, side-chain oxidation yield)
-   Numbers are illustrative; the tutorial's own data sets are never generated.
+   Numbers are illustrative.
    ===================================================== */
-// n significant figures, true minus, trailing zeros kept
+/* ---------- draw keys ---------- */
+const RESH = new Set(["16y8whm", "1cw6apt", "1i2bogq", "1i2jwc5", "1kw6jj5", "1uejs1t", "52c3bc", "9xkc56", "gpzw1p", "j9q5t", "lbq0ai", "oxlgcm", "saq2p1", "xb6jo5", "ycamou"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
+const kn = v => String(+(+v).toPrecision(6));   // a number as a key part: trailing zeros dropped, so 9.20 and 9.2 are one key
+const resHit = q => (q.rk || []).some(rh);
+
+// n significant figures, true minus, trailing zeros kept; a tie rounds up (half up on the decimal value, so 3.355 gives 3.36)
 function sf(v, n){
   if (v === 0) return "0";
-  let e = n - 1 - Math.floor(Math.log10(Math.abs(v)));
-  let r = +v.toFixed(Math.max(0, e));
-  if (e >= 0 && Math.floor(Math.log10(Math.abs(r))) > Math.floor(Math.log10(Math.abs(v)))){ e -= 1; r = +v.toFixed(Math.max(0, e)); }
-  const s = e >= 0 ? r.toFixed(e) : String(Math.round(v / Math.pow(10, -e)) * Math.pow(10, -e));
-  return minus(s);
+  const a = Math.abs(v);
+  let e = n - 1 - Math.floor(Math.log10(a));
+  let sc = +(a * Math.pow(10, e)).toPrecision(12);
+  while (sc >= Math.pow(10, n)){ e--; sc = +(a * Math.pow(10, e)).toPrecision(12); }
+  while (sc < Math.pow(10, n - 1)){ e++; sc = +(a * Math.pow(10, e)).toPrecision(12); }
+  let r = Math.floor(sc + 0.5);
+  if (r >= Math.pow(10, n)){ r = r / 10; e--; }
+  let d = String(r), out;
+  if (e > 0) out = e >= d.length ? "0." + "0".repeat(e - d.length) + d : d.slice(0, d.length - e) + "." + d.slice(d.length - e);
+  else out = d + "0".repeat(-e);
+  return (v < 0 ? MINUS : "") + out;
 }
 const sgn = v => (v > 0 ? "+" : v < 0 ? MINUS : "") + Math.abs(v);
+const numOf = s => parseFloat(String(s).replace(MINUS, "-"));
+const decs = s => (String(s).split(".")[1] || "").length;
 LAB.sf = sf;
 const BEN = { "C=C": 610, "C–C": 350, "C–H": 410, "H–H": 436, "Cl–Cl": 244, "Br–Br": 193, "C–Cl": 340, "C–Br": 280, "C–I": 240, "H–Cl": 431, "H–Br": 366, "H–I": 299, "O–H": 460, "C–O": 360 };
 LAB.BEN = BEN;
@@ -1916,93 +1956,175 @@ const ADD = [
 LAB.ADD = ADD; LAB.FUELS = FUELS;
 const bsum = l => l.reduce((s, [b, n]) => s + n * BEN[b], 0);
 const bstr = l => l.map(([b, n]) => (n > 1 ? `${n} × ` : "") + `${b} ${BEN[b]}`).join(" + ");
-const GN = { type: "fuel", q: null, score: 0, n: 0, done: false };
-LAB.GN = GN;
 const ASIDE = t => `<span class="aside">(${H(t)})</span>`;
+// The working prints each intermediate with enough figures that the next line reproduces on a calculator: the smallest k (4 to 9 s.f.) for which the printed chain gives the printed result
+// a result that ends in a zero (1390) hides the digit that was rounded away: show the product first, so the line reproduces on a calculator
+const tw = (p, fin) => /^\d*[1-9]0+$/.test(fin) && numOf(fin) !== numOf(sf(p, 4)) ? `${sf(p, 4)} = ` : "";
+function chain(want, build){ let r; for (let k = 4; k <= 9; k++){ r = build(k); if (r.final === want) return r; } return r; }
 const GEN = {
   fuel(){
-    const F = pick(FUELS), v = ri(0, 2);
+    const F = pick(FUELS), v = ri(0, 2), stem = `ΔH⦵{c} of ${F.name}, ${F.f}, is −${F.dH} kJ mol⁻¹ (literature value).`;
     if (v === 0){
       const m = pick([2.50, 4.00, 8.80, 12.0, 25.0, 3.20, 6.60]);
-      const E = m / F.Mr * F.dH;
-      return { q: `ΔH⦵{c} of ${F.name}, ${F.f}, is −${F.dH} kJ mol⁻¹ (literature value). Calculate the energy released when ${sf(m, 3)} g of ${F.name} burns completely.`, ans: E, sfn: 3, unit: "kJ",
-        w: [ASIDE(`To find the energy, first find the amount of ${F.name} in moles`), `M{r} of ${F.f} = ${F.Mr.toFixed(1)}`, `n(${F.f}) = ${sf(m, 3)} / ${F.Mr.toFixed(1)} = ${sf(m / F.Mr, 4)} mol`, `energy released = ${sf(m / F.Mr, 4)} × ${F.dH} = <b>${sf(E, 3)} kJ</b>`] };
+      const E = m / F.Mr * F.dH, n = m / F.Mr;
+      const c = chain(sf(E, 3), k => ({ ns: sf(n, k), final: sf(numOf(sf(n, k)) * F.dH, 3) }));
+      return { rk: [`fuel:${F.k}:0:${kn(m)}`], q: `${stem} Calculate the energy released when ${sf(m, 3)} g of ${F.name} burns completely.`, ans: E, sfn: 3, unit: "kJ", uAllow: ["kJ"],
+        alts: [{ v: m * F.dH, msg: "Convert the mass to moles first: n = mass / M{r}, then multiply by the energy per mole." }, { v: n, msg: "That is the amount in moles. Multiply it by the energy released per mole." }],
+        w: [ASIDE(`To find the energy, first find the amount of ${F.name} in moles`), `M{r} of ${F.f} = ${F.Mr.toFixed(1)}`, `n(${F.f}) = ${sf(m, 3)} / ${F.Mr.toFixed(1)} = ${c.ns} mol`, `energy released = ${c.ns} × ${F.dH} = ${tw(numOf(c.ns) * F.dH, c.final)}<b>${c.final} kJ</b>`] };
     }
     if (v === 1){
       const E = pick([250, 500, 1500, 2000, 2500, 4000, 5000]), n = E / F.dH, m = n * F.nC * 44.0;
-      return { q: `ΔH⦵{c} of ${F.name}, ${F.f}, is −${F.dH} kJ mol⁻¹ (literature value). What mass of CO₂ is formed when enough ${F.name} burns to release ${E} kJ?`, ans: m, sfn: 3, unit: "g",
-        w: [ASIDE("To find the mass of CO₂, first find the amount of fuel burned, then use the equation"), `{{${F.fs}}}`, `n(${F.f}) = ${E} / ${F.dH} = ${sf(n, 4)} mol`, `n(CO₂) = ${F.nC === 1 ? "" : F.nC + " × "}${sf(n, 4)} = ${sf(n * F.nC, 4)} mol`, `M{r} of CO₂ = 12.0 + 2(16.0) = 44.0`, `mass of CO₂ = ${sf(n * F.nC, 4)} × 44.0 = <b>${sf(m, 3)} g</b>`] };
+      const c = chain(sf(m, 3), k => { const ns = sf(n, k), nco = (numOf(ns) * F.nC).toFixed(decs(ns)); return { ns, nco, final: sf(numOf(nco) * 44.0, 3) }; });
+      const alts = [{ v: n * 44.0, msg: "Count the moles of CO₂ from the equation: how many CO₂ does one molecule of the fuel give?" }, { v: n * F.Mr, msg: "That is the mass of fuel burned. Find the mass of CO₂ formed." }];
+      return { rk: [`fuel:${F.k}:1:${kn(E)}`], q: `${stem} What mass of CO₂ is formed when enough ${F.name} burns to release ${E} kJ?`, ans: m, sfn: 3, unit: "g", uAllow: ["g"], alts: F.nC > 1 ? alts : alts.slice(1),
+        w: [ASIDE("To find the mass of CO₂, first find the amount of fuel burned, then use the equation"), `{{${F.fs}}}`, `n(${F.f}) = ${E} / ${F.dH} = ${c.ns} mol`, `n(CO₂) = ${F.nC === 1 ? "" : F.nC + " × "}${c.ns} = ${c.nco} mol`, `M{r} of CO₂ = 12.0 + 2(16.0) = 44.0`, `mass of CO₂ = ${c.nco} × 44.0 = ${tw(numOf(c.nco) * 44.0, c.final)}<b>${c.final} g</b>`] };
     }
     const E = pick([500, 1200, 2500, 3000, 4500, 6000]), n = E / F.dH, m = n * F.Mr;
-    return { q: `ΔH⦵{c} of ${F.name}, ${F.f}, is −${F.dH} kJ mol⁻¹ (literature value). What mass of ${F.name} must burn completely to release ${E} kJ?`, ans: m, sfn: 3, unit: "g",
-      w: [ASIDE("To find the mass, first find the amount of fuel needed"), `n(${F.f}) = ${E} / ${F.dH} = ${sf(n, 4)} mol`, `M{r} of ${F.f} = ${F.Mr.toFixed(1)}`, `mass = ${sf(n, 4)} × ${F.Mr.toFixed(1)} = <b>${sf(m, 3)} g</b>`] };
+    const c = chain(sf(m, 3), k => ({ ns: sf(n, k), final: sf(numOf(sf(n, k)) * F.Mr, 3) }));
+    return { rk: [`fuel:${F.k}:2:${kn(E)}`], q: `${stem} What mass of ${F.name} must burn completely to release ${E} kJ?`, ans: m, sfn: 3, unit: "g", uAllow: ["g"],
+      alts: [{ v: n, msg: "That is the amount in moles. Convert it to a mass with M{r}." }],
+      w: [ASIDE("To find the mass, first find the amount of fuel needed"), `n(${F.f}) = ${E} / ${F.dH} = ${c.ns} mol`, `M{r} of ${F.f} = ${F.Mr.toFixed(1)}`, `mass = ${c.ns} × ${F.Mr.toFixed(1)} = ${tw(numOf(c.ns) * F.Mr, c.final)}<b>${c.final} g</b>`] };
   },
   bond(){
     const A = pick(ADD), b = bsum(A.br), f = bsum(A.fm), dH = b - f;
     const same = A.k.startsWith("p") ? "" : " The C–H bonds that do not change are left out.";
-    return { q: `${A.fx ? FEX : ""}Use bond energies from the Data Booklet to estimate ΔH for {{${A.eq}}}`, ans: dH, int: true, unit: "kJ mol⁻¹",
-      w: [ASIDE("To find ΔH, add up the bonds broken and subtract the bonds formed"), `bonds broken: ${bstr(A.br)} = ${b} kJ mol⁻¹`, `bonds formed: ${bstr(A.fm)} = ${f} kJ mol⁻¹`, `ΔH = ${b} − ${f} = <b>${sgn(dH)} kJ mol⁻¹</b>${same ? "" : ""}`, same ? same.trim() : (dH > 0 ? "This step is endothermic, so its activation energy must be at least as large as ΔH." : "This step is exothermic.")] };
+    return { rk: [`bond:${A.k}`], q: `${A.fx ? FEX : ""}Use bond energies from the Data Booklet to estimate ΔH for {{${A.eq}}}`, ans: dH, int: true, unit: "kJ mol⁻¹", uAllow: ["kJmol"], neg: true, closeMsg: "Close. Check each bond energy against the Data Booklet, and how many of each bond are broken and formed.",
+      sign: "Check the sign: ΔH = bonds broken − bonds formed.",
+      w: [ASIDE("To find ΔH, add up the bonds broken and subtract the bonds formed"), `bonds broken: ${bstr(A.br)} = ${b} kJ mol⁻¹`, `bonds formed: ${bstr(A.fm)} = ${f} kJ mol⁻¹`, `ΔH = ${b} − ${f} = <b>${sgn(dH)} kJ mol⁻¹</b>`, same ? same.trim() : (dH > 0 ? "This step is endothermic, so its activation energy must be at least as large as ΔH." : "This step is exothermic.")] };
   },
   h2(){
-    let n, k;
-    do { n = pick([0.00400, 0.00500, 0.00800, 0.0120, 0.0150, 0.0200, 0.0250]); k = ri(1, 3); } while (n === 0.0100 && k === 2);
+    const n = pick([0.00400, 0.00500, 0.00800, 0.0120, 0.0150, 0.0200, 0.0250]), k = ri(1, 3);
     const V = n * k * 24000;
-    return { q: `${sf(n, 3)} mol of a hydrocarbon (illustrative data; it contains C=C bonds but no C≡C bonds or benzene rings) reacts completely with ${sf(V, 3)} cm³ of hydrogen, measured at r.t.p., over a nickel catalyst. How many C=C bonds does each molecule contain?`, ans: k, int: true, whole: true, unit: "C=C bonds",
+    return { rk: [`h2:${kn(n)}:${k}`, `h2:V:${kn(V)}`], q: `${sf(n, 3)} mol of a hydrocarbon (illustrative data; it contains C=C bonds but no C≡C bonds or benzene rings) reacts completely with ${sf(V, 3)} cm³ of hydrogen, measured at r.t.p., over a nickel catalyst. How many C=C bonds does each molecule contain?`, ans: k, int: true, whole: true, unit: "C=C bonds", uAllow: ["cc"],
       w: [ASIDE("To count the C=C bonds, find the mole ratio H₂ : hydrocarbon. Each C=C takes up one H₂"), `n(H₂) = ${sf(V, 3)} / 24 000 = ${sf(V / 24000, 3)} mol`, `n(H₂) / n(hydrocarbon) = ${sf(V / 24000, 3)} / ${sf(n, 3)} = ${k}`, `so each molecule has <b>${k}</b> C=C bond${k > 1 ? "s" : ""}`] };
   },
   yield(){
-    let m, y; do { m = pick([2.76, 4.60, 6.90, 7.36, 11.5, 13.8, 18.4, 23.0]); y = ri(52, 91); } while (m === 9.20);
+    const m = pick([2.76, 4.60, 6.90, 7.36, 11.5, 13.8, 18.4, 23.0]), y = ri(52, 91);
     const nT = m / 92.0, th = nT * 122.0, v = ri(0, 1);
     if (v === 0){
       const got = +sf(th * y / 100, 3), pct = got / th * 100;
-      return { q: `${sf(m, 3)} g of methylbenzene is heated under reflux with hot, acidified KMnO₄, and ${sf(got, 3)} g of benzoic acid is obtained. Calculate the percentage yield.`, ans: pct, sfn: 3, unit: "%",
-        w: [ASIDE("To find the yield, first work out the mass of benzoic acid that 100 % conversion would give"), "{{C₆H₅CH₃ + 3[O] → C₆H₅COOH + H₂O}}", `M{r}: C₆H₅CH₃ = 7(12.0) + 8(1.0) = 92.0; C₆H₅COOH = 7(12.0) + 6(1.0) + 2(16.0) = 122.0`, `n(C₆H₅CH₃) = ${sf(m, 3)} / 92.0 = ${sf(nT, 4)} mol, so n(C₆H₅COOH) expected = ${sf(nT, 4)} mol`, `theoretical mass = ${sf(nT, 4)} × 122.0 = ${sf(th, 4)} g`, `percentage yield = (${sf(got, 3)} / ${sf(th, 4)}) × 100 = <b>${sf(pct, 3)} %</b>`] };
+      const c = chain(sf(pct, 3), k => { const ns = sf(nT, k), ts = sf(numOf(ns) * 122.0, k); return { ns, ts, final: sf(got / numOf(ts) * 100, 3) }; });
+      return { rk: [`yield:m:${kn(m)}`, `yield:got:${kn(got)}`], q: `${sf(m, 3)} g of methylbenzene is heated under reflux with hot, acidified KMnO₄, and ${sf(got, 3)} g of benzoic acid is obtained. Calculate the percentage yield.`, ans: pct, sfn: 3, unit: "%", uAllow: ["pct"],
+        alts: [{ v: th / got * 100, msg: "Percentage yield = mass obtained / theoretical mass × 100: the theoretical mass is the larger one." }],
+        w: [ASIDE("To find the yield, first work out the mass of benzoic acid that 100 % conversion would give"), "{{C₆H₅CH₃ + 3[O] → C₆H₅COOH + H₂O}}", `M{r}: C₆H₅CH₃ = 7(12.0) + 8(1.0) = 92.0; C₆H₅COOH = 7(12.0) + 6(1.0) + 2(16.0) = 122.0`, `n(C₆H₅CH₃) = ${sf(m, 3)} / 92.0 = ${c.ns} mol, so n(C₆H₅COOH) expected = ${c.ns} mol`, `theoretical mass = ${c.ns} × 122.0 = ${c.ts} g`, `percentage yield = (${sf(got, 3)} / ${c.ts}) × 100 = <b>${c.final} %</b>`] };
     }
     const got = th * y / 100;
-    return { q: `${sf(m, 3)} g of methylbenzene is oxidised by hot, alkaline KMnO₄, then dilute acid, with a ${y} % yield. What mass of benzoic acid is obtained?`, ans: got, sfn: 3, unit: "g",
-      w: [ASIDE("To find the mass, work out the theoretical mass first, then take the percentage"), "{{C₆H₅CH₃ + 3[O] → C₆H₅COOH + H₂O}}", `n(C₆H₅CH₃) = ${sf(m, 3)} / 92.0 = ${sf(nT, 4)} mol = n(C₆H₅COOH) expected`, `theoretical mass = ${sf(nT, 4)} × 122.0 = ${sf(th, 4)} g`, `mass obtained = ${sf(th, 4)} × ${y} / 100 = <b>${sf(got, 3)} g</b>`] };
+    const c = chain(sf(got, 3), k => { const ns = sf(nT, k), ts = sf(numOf(ns) * 122.0, k); return { ns, ts, final: sf(numOf(ts) * y / 100, 3) }; });
+    return { rk: [`yield:m:${kn(m)}`, `yield:y:${y}:${kn(m)}`], q: `${sf(m, 3)} g of methylbenzene is oxidised by hot, alkaline KMnO₄, then dilute acid, with a ${y} % yield. What mass of benzoic acid is obtained?`, ans: got, sfn: 3, unit: "g", uAllow: ["g"],
+      alts: [{ v: th, msg: "That is the theoretical mass. Take the percentage yield of it." }],
+      w: [ASIDE("To find the mass, work out the theoretical mass first, then take the percentage"), "{{C₆H₅CH₃ + 3[O] → C₆H₅COOH + H₂O}}", `n(C₆H₅CH₃) = ${sf(m, 3)} / 92.0 = ${c.ns} mol = n(C₆H₅COOH) expected`, `theoretical mass = ${c.ns} × 122.0 = ${c.ts} g`, `mass obtained = ${c.ts} × ${y} / 100 = <b>${c.final} g</b>`] };
   }
 };
-LAB.GEN = GEN;
+const hintTol = v => Math.max(Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - 1), 0.01 * Math.abs(v));
+// A wrong-route hint must lie outside the Close band (5 % of the answer), outside the marking window and at least 3 % from the answer, and 2.5 % from every earlier hint: one that cannot is dropped, so every hint left can be reached
+function cleanAlts(q){
+  if (!q.alts) return q;
+  const a = q.ans, out = [];
+  q.alts.forEach(al => {
+    if (!isFinite(al.v) || al.v === a || a === 0) return;
+    if (Math.abs(al.v / a - 1) < 0.05) return;
+    if (gnCorrect(q, al.v)) return;
+    if (out.some(o => Math.abs(al.v / o.v - 1) < 0.025 || Math.abs(al.v - o.v) <= Math.max(hintTol(al.v), hintTol(o.v)))) return;
+    out.push(al);
+  });
+  q.alts = out;
+  return q;
+}
+const wrapGen = f => () => { let q, n = 0; do { q = cleanAlts(f()); n++; } while (n < 200 && resHit(q)); return q; };
+LAB.GEN = { fuel: wrapGen(GEN.fuel), bond: wrapGen(GEN.bond), h2: wrapGen(GEN.h2), yield: wrapGen(GEN.yield) };
+LAB.GEN_RAW = GEN;
+const GN = { type: "fuel", q: null, score: 0, n: 0, done: false, shown: false, unscored: false, firstOk: null };
+LAB.GN = GN;
 const TX = t => String(t).split(/\{\{|\}\}/).map((p, i) => i % 2 ? `<span class="nw">${H(p)}</span>` : H(p)).join("");
+const RULE = "First Check counts; not scored once the working is shown.";
+function gnScoreTxt(){ return GN.n ? `${GN.score} / ${GN.n} scored. ${RULE}` : RULE; }
 function gnNew(){
-  GN.q = GEN[GN.type](); GN.done = false;
+  GN.q = LAB.GEN[GN.type](); GN.done = false; GN.shown = false; GN.unscored = false; GN.firstOk = null;
   $("gn-q").innerHTML = TX(GN.q.q);
-  $("gn-ans").innerHTML = `<label class="field">Your answer${GN.q.unit ? ` / ${H(GN.q.unit)}` : ""}<input id="gn-in" inputmode="decimal" autocomplete="off"></label>`;
+  $("gn-ans").innerHTML = `<label class="field">Your answer${GN.q.unit ? ` / <span class="nw">${H(GN.q.unit)}</span>` : ""}<input id="gn-in" inputmode="${GN.q.neg ? "text" : "decimal"}" autocomplete="off"></label>`;
   $("gn-fb").hidden = true; $("gn-wbox").hidden = true;
   $("gn-w").innerHTML = GN.q.w.map(t => `<li>${TX(t)}</li>`).join("");
   $("gn-in").onkeydown = e => { if (e.key === "Enter") gnCheck(); };
+  $("gn-score").textContent = gnScoreTxt();
 }
 function gnCorrect(q, v){
-  if (q.whole) return v === q.ans;   // a count of bonds: whole numbers only (18/10/26)
+  if (q.whole) return v === q.ans;   // a count of bonds: whole numbers only
   if (q.int) return Math.abs(v - q.ans) < 0.5;
   const shown = +sf(q.ans, q.sfn).replace(MINUS, "-");
   return Math.abs(v - shown) <= Math.abs(shown) * 0.006 + 1e-12 || Math.abs(v - q.ans) <= Math.abs(q.ans) * 0.006;
 }
 LAB.gnCorrect = gnCorrect;
+/* ---------- typed answers: a number and an optional unit, checked against the unit the question asks for ---------- */
+// Canonical unit ids: kJ, kJmol, g, pct, cc (a count of C=C bonds). Anything else that looks like a unit is the wrong unit.
+const UNIT_NAME = { kJ: "kJ", kJmol: "kJ mol⁻¹", g: "g", pct: "%", cc: "a number of C=C bonds" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){
+  const t = String(u).toLowerCase().replace(/[\s.·⋅*]/g, "").replace(/[−–]/g, "-").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/[()]/g, "");
+  if (t === "%" || t === "percent" || t === "pc") return "pct";
+  if (/^kj(mol-1|\/mol|permol|\/mole|mole-1)$/.test(t)) return "kJmol";
+  if (t === "kj") return "kJ";
+  if (t === "g" || t === "grams" || t === "gram") return "g";
+  if (/^(c=c|c=cbonds?|c=cdoublebonds?|doublebonds?|bonds?)$/.test(t)) return "cc";
+  return null;
+}
+// Returns { value } or { error, kind }: kind "empty" and "nan" are not answers at all, "unit" and "comma" are entries to fix. None of them is scored.
+function parseAnswer(str, allowed){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  const t = String(str).replace(/[   ]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-").replace(/(?<=[\dA-Za-z%])\.+$/, "");   // a full stop that ends the answer is not part of the number
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (/^[-+]?\s*\d*,\d{1,2}(?!\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:[, ]\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)(?:\s*[x×*]\s*10\s*\^?\s*\(?([-+]?\d+)\)?|e([-+]?\d+))?\s*(.*)$/i);
+  if (!m) return { error: "Enter a number, for example 59.5.", kind: "nan" };
+  let val = parseFloat(m[2].replace(/[, ]/g, "")); const ex = m[3] != null ? m[3] : m[4];
+  if (ex != null) val *= Math.pow(10, +ex);
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return { error: "Enter a number, for example 59.5.", kind: "nan" };
+  const rest = m[5].trim();
+  if (!rest) return { value: val };
+  if (!/^[A-Za-zµ°%]/.test(rest)) return { error: "Enter one number, with its unit if you like.", kind: "nan" };
+  const u = unitId(rest), want = allowed && allowed.length ? `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` : "Check the unit.";
+  if (u && allowed && allowed.includes(u)) return { value: val, unit: u };
+  return { error: want, kind: "unit" };
+}
+LAB.parseAnswer = parseAnswer;
+// the hints: Close first, then the sign slip, then the wrong-route hints; a count of bonds has no Close
+function gnGrade(q, s){
+  const pr = parseAnswer(s, q.uAllow);
+  if (pr.error) return { ok: false, entry: true, msg: pr.error, kind: pr.kind };
+  const v = pr.value, a = q.ans;
+  if (gnCorrect(q, v)) return { ok: true };
+  if (!q.whole && a !== 0 && Math.abs(v / a - 1) < 0.05) return { ok: false, msg: q.closeMsg || "Close. Keep unrounded values until the last step, and round only at the end." };
+  if (q.sign && Math.abs(v + a) < 0.5) return { ok: false, msg: q.sign };
+  for (const al of q.alts || []) if (Math.abs(v - al.v) <= hintTol(al.v) * 1.0001) return { ok: false, msg: al.msg };
+  return { ok: false, msg: "Not quite." };
+}
+LAB.gnGrade = gnGrade;
 function gnCheck(){
-  const raw = ($("gn-in").value || "").replace(/[−–]/g, "-").replace(/\s/g, "").replace(/^\+/, ""), v = parseFloat(raw), fb = $("gn-fb"), inp = $("gn-in");
+  const q = GN.q, fb = $("gn-fb"), inp = $("gn-in"), r = gnGrade(q, inp.value);
   fb.hidden = false;
-  if (!isFinite(v)){ fb.className = "fb info"; fb.textContent = "Enter a number."; inp.setAttribute("aria-invalid", "true"); return; }
-  const ok = gnCorrect(GN.q, v), ansS = GN.q.int ? sgn(GN.q.ans).replace(/^\+(?=\d)/, GN.q.unit === "kJ mol⁻¹" ? "+" : "") : sf(GN.q.ans, GN.q.sfn);
-  if (!GN.done){ GN.n++; if (ok) GN.score++; GN.done = true; }
+  if (r.entry){   // not an answer yet: empty, not a number, the wrong unit or a decimal comma. Nothing is scored.
+    fb.className = r.kind === "empty" || r.kind === "nan" ? "fb info" : "fb warn"; fb.innerHTML = H(r.msg); inp.setAttribute("aria-invalid", r.kind === "empty" ? "false" : "true"); inp.classList.remove("ok"); return;
+  }
+  const ok = r.ok, ansS = q.int ? sgn(q.ans).replace(/^\+(?=\d)/, q.unit === "kJ mol⁻¹" ? "+" : "") : sf(q.ans, q.sfn);
+  if (!GN.done){ GN.done = true; GN.firstOk = ok; if (GN.shown) GN.unscored = true; else { GN.n++; if (ok) GN.score++; } }   // the first valid Check counts, unless the working was shown before it
   inp.setAttribute("aria-invalid", ok ? "false" : "true"); inp.classList.toggle("ok", ok);
   fb.className = "fb " + (ok ? "ok" : "no");
-  fb.innerHTML = ok ? H(`Correct: ${ansS} ${GN.q.unit}.`) : H(`Not quite. The answer is ${ansS} ${GN.q.unit}${GN.q.int && GN.q.unit === "kJ mol⁻¹" && Math.abs(v + GN.q.ans) < 0.5 ? " (check the sign: bonds broken minus bonds formed)" : ""}. Look at the working.`);
+  const note = GN.unscored ? " Not scored: the working was shown first." : (ok && !GN.firstOk ? " The score keeps your first answer." : "");
+  fb.innerHTML = ok ? H(`Correct: ${ansS} ${q.unit}.${note}`) : H(`${r.msg} The answer is ${ansS} ${q.unit}.${GN.unscored ? note : ""} Look at the working.`);
   if (!ok) $("gn-wbox").hidden = false;
-  $("gn-score").textContent = `${GN.score} / ${GN.n}`;
+  $("gn-score").textContent = gnScoreTxt();
 }
 function bindGN(){
   chips($("gn-types"), [["fuel", "Fuels and CO₂"], ["bond", "Bond energies"], ["h2", "Hydrogen uptake"], ["yield", "Benzoic acid yield"]].map(([k, t]) => [k, H(t)]), GN.type, v => { GN.type = v; gnNew(); });
   $("gn-new").onclick = gnNew;
   $("gn-check").onclick = gnCheck;
-  $("gn-work").onclick = () => { $("gn-wbox").hidden = !$("gn-wbox").hidden; };
+  $("gn-work").onclick = () => { const b = $("gn-wbox"); b.hidden = !b.hidden; if (!b.hidden && !GN.done) GN.shown = true; };
   LAB.gnNew = gnNew; LAB.gnCheck = gnCheck;
   gnNew();
 }
 
 /* =====================================================
-   6. FACT CARDS (DATA.md "Fact cards" list, plus 11.4(h))
+   6. FACT CARDS (fact cards for 11.4, plus (h))
    ===================================================== */
 const FC = [
   { id: "ethane", g: "p1", name: "Ethane", f: "C₂H₆", mr: "30.0", st: "gas", tag: "9476 example",
@@ -2010,13 +2132,13 @@ const FC = [
     key: "Alkanes are unreactive towards polar reagents; with excess chlorine, nine chlorinated ethanes are possible." },
   { id: "ethene", g: "p1", name: "Ethene", f: "C₂H₄", mr: "28.0", st: "gas", tag: "9476 example",
     made: ["Electrophilic addition of steam (H₃PO₄ catalyst), HX(g), X₂ in CCl₄ or Br₂(aq) (bromine water).", "H₂(g), Ni catalyst, heat → ethane; cold, alkaline KMnO₄ → ethane-1,2-diol; hot, acidified KMnO₄ → CO₂."],
-    key: "Test for C=C: orange bromine water is decolourised at room temperature in the dark." },
+    key: "Test for C=C: orange bromine water is decolourised at room temperature." },
   { id: "propene", g: "p1", name: "Propene", f: "C₃H₆", mr: "42.0", st: "gas",
     made: ["With HBr(g): 2-bromopropane (major) and 1-bromopropane (minor).", "Hot, acidified KMnO₄: CH₃CH=CH₂ + 5[O] → CH₃COOH + CO₂ + H₂O."],
     key: "Unsymmetrical: Markovnikov's rule, via the secondary carbocation CH₃C⁺HCH₃." },
   { id: "benzene", g: "p2", name: "Benzene", f: "C₆H₆", mr: "78.0", st: "colourless liquid, b.p. 80 °C (literature value)", tag: "9476 example", ring: 1,
     made: ["Planar regular hexagon; every C sp²; all C–C bonds 0.139 nm, between C–C 0.154 nm and C=C 0.134 nm (literature values).", "Six delocalised π electrons above and below the plane."],
-    key: "Reacts by electrophilic substitution, not addition; does not decolourise bromine water; carcinogenic, so school laboratories use methylbenzene." },
+    key: "Reacts by electrophilic substitution, not addition; an alkane or arene does not decolourise bromine water: the organic layer takes up the bromine and turns orange, but no reaction takes place; carcinogenic, so school laboratories use methylbenzene." },
   { id: "methylbenzene", g: "p2", name: "Methylbenzene", f: "C₇H₈", mr: "92.0", st: "colourless liquid, b.p. 111 °C (literature value)", tag: "9476 example", ring: 1,
     made: ["Ring: Cl₂, AlCl₃ catalyst → 1-chloro-2- and 1-chloro-4-methylbenzene; nitrated at 30 °C.", "Side chain: Cl₂, UV light → (chloromethyl)benzene; hot KMnO₄ → benzoic acid."],
     key: "CH₃ activates the ring and directs to the 2- and 4-positions." },
@@ -2064,7 +2186,7 @@ const FC = [
     key: "With NO<sub>x</sub> in sunlight they form photochemical smog, which contains ground-level ozone; some, such as benzene, are carcinogenic. Removed (octane as a model for petrol): C₈H₁₈(g) + 25/2 O₂(g) → 8CO₂(g) + 9H₂O(g)." },
   { id: "cat", g: "env", name: "Catalytic converter", f: "Pt, Pd, Rh", st: "on a ceramic honeycomb",
     made: ["2CO(g) + 2NO(g) → 2CO₂(g) + N₂(g); 2CO(g) + O₂(g) → 2CO₂(g); hydrocarbons oxidised to CO₂ and H₂O."],
-    key: "Works only once it is hot (cold start). Every reaction makes CO₂: it does nothing for the enhanced greenhouse effect. Surface mechanism and lead poisoning: Topic 8 Part 2." },
+    key: "Works only once it is hot (cold start). It does not reduce CO₂ emissions: it turns CO and unburnt hydrocarbons into more CO₂. Surface mechanism and lead poisoning: Topic 8 Part 2." },
   { id: "ghg", g: "env", name: "Greenhouse gases", wide: 1,
     made: ["The surface emits infrared; greenhouse gases absorb it and re-emit it in all directions, some back down. The enhanced greenhouse effect is the extra warming from the rise in these gases caused by human activity."],
     key: "", table: true }
@@ -2105,14 +2227,14 @@ function bindCards(){
 const QZ = [
   { q: "Methylbenzene reacts with chlorine in UV light at room temperature, with no catalyst. What is the main organic product?",
     o: [["(chloromethyl)benzene, C₆H₅CH₂Cl", "UV light makes Cl• radicals, which remove a side-chain H: free-radical substitution in the CH₃ group."],
-        ["1-chloro-4-methylbenzene", "Ring substitution needs a halogen carrier such as AlCl₃ to make Cl⁺; UV light alone gives radicals, which attack the side chain."],
-        ["1-chloro-3-methylbenzene", "CH₃ directs to the 2- and 4-positions, and in any case UV light gives side-chain substitution."],
+        ["1-chloro-4-methylbenzene, by substitution in the ring", "Ring substitution needs a halogen carrier such as AlCl₃ to make Cl⁺; UV light alone gives radicals, which attack the side chain."],
+        ["1-chloro-3-methylbenzene, by substitution in the ring", "CH₃ directs to the 2- and 4-positions, and in any case UV light gives side-chain substitution."],
         ["No reaction", "Without UV light there would be none; in UV light Cl• radicals form and substitute the side chain."]] },
   { q: "Propene reacts with hydrogen bromide. Which is the major product, and why?",
-    o: [["2-bromopropane, because it forms through the more stable secondary carbocation", "H bonds to the CH₂ end (the carbon with more H atoms), leaving the secondary carbocation CH₃C⁺HCH₃, which has the lower activation energy."],
+    o: [["2-bromopropane, from the more stable secondary carbocation", "H bonds to the CH₂ end (the carbon with more H atoms), leaving the secondary carbocation CH₃C⁺HCH₃, which has the lower activation energy."],
         ["1-bromopropane, because H adds to the carbon with fewer H atoms", "That reverses Markovnikov's rule: H goes to the carbon that already has more H atoms."],
         ["1-bromopropane, because the primary carbocation is more stable", "Primary carbocations are the least stable: they have only one electron-donating alkyl group."],
-        ["Equal amounts of the two, because both carbocations form", "Both form, but the secondary one forms much faster, so 2-bromopropane is the major product."]] },
+        ["Equal amounts of the two, because both carbocations form", "The two products are not equal. The rule predicts a major and a minor product: the primary carbocation forms so much more slowly that 1-bromopropane is only a trace, and 2-bromopropane is the major product."]] },
   { q: "Ethene is bubbled into bromine water. What is the main organic product?",
     o: [["2-bromoethanol, BrCH₂CH₂OH", "Water is present in huge excess, so in step 2 a water molecule usually reaches the carbocation before Br⁻ does."],
         ["1,2-dibromoethane only", "Some forms, but water competes with Br⁻ for the carbocation and wins most of the time."],
@@ -2125,37 +2247,37 @@ const QZ = [
         ["Br₂(aq) (bromine water)", FEX + "Bromine water gives mainly 1-bromopropan-2-ol, not a diol."]] },
   { q: "2-Methylpropene, (CH₃)₂C=CH₂, is heated with hot, acidified KMnO₄. What are the products?",
     o: [["propanone and carbon dioxide", "The (CH₃)₂C= end gives a ketone, (CH₃)₂CO; the =CH₂ end gives CO₂ + H₂O."],
-        ["propanone and methanoic acid", "Methanoic acid forms first from the =CH₂ end, but it is oxidised further to CO₂ and water."],
-        ["2-methylpropanoic acid", "That would come from a (CH₃)₂CHCH= end. Here the C=C itself is cut, so the molecule falls into two pieces."],
-        ["2-methylpropane-1,2-diol", "A diol needs cold, alkaline KMnO₄; hot, acidified KMnO₄ cleaves the C=C."]] },
+        ["propanone and methanoic acid, HCOOH", "Methanoic acid forms first from the =CH₂ end, but it is oxidised further to CO₂ and water."],
+        ["propanone and ethanoic acid, CH₃COOH", "Ethanoic acid would need a CH₃CH= end. Here the =CH₂ end gives CO₂ + H₂O."],
+        ["2-methylpropane-1,2-diol, (CH₃)₂C(OH)CH₂OH", "A diol needs cold, alkaline KMnO₄; hot, acidified KMnO₄ cleaves the C=C."]] },
   { q: "What is the role of concentrated H₂SO₄ in the nitration of benzene?",
-    o: [["A Brønsted-Lowry acid catalyst: it protonates HNO₃, which acts as a base, so NO₂⁺ forms; it is regenerated in step 2", "HNO₃ + 2H₂SO₄ → NO₂⁺ + H₃O⁺ + 2HSO₄⁻, and HSO₄⁻ takes H⁺ from the intermediate, giving back H₂SO₄."],
-        ["A Lewis acid that accepts a lone pair from HNO₃", "Lewis acid catalysts (AlCl₃, AlBr₃) are used for halogenation and Friedel-Crafts; H₂SO₄ donates a proton."],
-        ["A dehydrating agent only, used up in the reaction", "It does help remove water, but its key job is proton donation, and it is regenerated: it is a catalyst."],
-        ["The electrophile that attacks the ring", "The electrophile is the nitronium ion, NO₂⁺."]] },
+    o: [["A Brønsted-Lowry acid catalyst that protonates HNO₃, so NO₂⁺ forms", "HNO₃ + 2H₂SO₄ → NO₂⁺ + H₃O⁺ + 2HSO₄⁻, and HSO₄⁻ takes H⁺ from the intermediate in step 2, giving back H₂SO₄."],
+        ["A Lewis acid that accepts a lone pair from HNO₃ to make the electrophile", "Lewis acid catalysts (AlCl₃, AlBr₃) are used for halogenation and Friedel-Crafts; H₂SO₄ donates a proton."],
+        ["A dehydrating agent only, used up in the reaction and not regenerated", "It does help remove water, but its key job is proton donation, and it is regenerated: it is a catalyst."],
+        ["The electrophile: H₂SO₄ itself attacks the ring", "The electrophile is the nitronium ion, NO₂⁺."]] },
   { q: "Chlorobenzene is nitrated. Which statement is correct?",
-    o: [["It reacts more slowly than benzene and gives 1-chloro-2-nitrobenzene and 1-chloro-4-nitrobenzene", "–Cl is electronegative, so it withdraws electrons (deactivating), but its lone pair directs to the 2- and 4-positions."],
-        ["It reacts faster than benzene, because Cl has lone pairs", "The halogens are the exception: they direct to 2 and 4 but deactivate the ring."],
-        ["It gives 1-chloro-3-nitrobenzene, because Cl deactivates the ring", "Deactivating does not mean 3-directing for the halogens: Cl directs to 2 and 4."],
+    o: [["It reacts more slowly than benzene, giving the 2- and 4-nitro products", "–Cl is electronegative, so it withdraws electrons (deactivating), but its lone pair directs to the 2- and 4-positions: 1-chloro-2-nitrobenzene and 1-chloro-4-nitrobenzene."],
+        ["It reacts faster than benzene, giving the 2- and 4-nitro products, because Cl has lone pairs", "The halogens are the exception: they direct to 2 and 4 but deactivate the ring."],
+        ["It gives the 3-nitro product, because Cl deactivates the ring", "Deactivating does not mean 3-directing for the halogens: Cl directs to 2 and 4."],
         ["It does not react, because Cl blocks the ring", "It reacts, more slowly than benzene."]] },
   { q: "Why does benzene react with bromine by substitution, not addition?",
     o: [["Substitution keeps the stable delocalised π system; addition would destroy it", "In step 2 the H⁺ is lost and the full delocalised ring is restored."],
         ["Benzene has no π electrons", "It has six delocalised π electrons, above and below the plane of the ring."],
-        ["Addition would need UV light", "UV light gives free-radical reactions; the point is the stability of the delocalised ring."],
+        ["Addition would need UV light", "UV light is not the point: the reaction is done in the dark, and benzene resists addition under the conditions of this Part because the delocalised ring is so stable."],
         ["The C–C bonds in benzene are weaker than in an alkene", "All six are 0.139 nm, between C–C and C=C, and the ring as a whole is extra stable."]] },
   { q: "Which statement about a car's catalytic converter is correct?",
-    o: [["It removes CO, NO and unburnt hydrocarbons, but every reaction in it makes CO₂", "2CO + 2NO → 2CO₂ + N₂ and the oxidations all give CO₂, so it does nothing for the enhanced greenhouse effect."],
+    o: [["It removes CO, NO and unburnt hydrocarbons, but makes more CO₂", "2CO + 2NO → 2CO₂ + N₂ and the oxidations all give CO₂. A catalytic converter does not reduce CO₂ emissions: it turns CO and unburnt hydrocarbons into more CO₂."],
         ["It removes CO₂ as well, so it reduces the enhanced greenhouse effect", "None of its reactions removes CO₂; they make it."],
         ["It works best straight after a cold start", "It works only once it is hot, so most pollution from a short trip comes in the first few minutes."],
         ["It converts NO into NO₂, which is harmless", "NO₂ is harmful (lung irritant, acid rain); the converter reduces NO to N₂."]] },
   { q: "Benzene is nitrated at 50 °C, but methylbenzene at only 30 °C. Why?",
-    o: [["CH₃ activates the ring, so methylbenzene reacts faster; hotter, it would be nitrated more than once", "At higher temperatures di- and trinitro products form."],
-        ["Methylbenzene boils below 50 °C", "Its boiling point is 111 °C (literature value)."],
-        ["CH₃ deactivates the ring, so a lower temperature is needed", "Alkyl groups are electron-donating: they activate the ring."],
+    o: [["CH₃ activates the ring, so methylbenzene reacts faster and needs less heat", "Hotter, it would be nitrated more than once: at higher temperatures di- and trinitro products form."],
+        ["Methylbenzene boils below 50 °C, so it would be lost from the flask", "Its boiling point is 111 °C (literature value)."],
+        ["CH₃ deactivates the ring, so a lower temperature is needed to avoid a runaway", "Alkyl groups are electron-donating: they activate the ring."],
         ["At 50 °C methylbenzene reacts in the side chain instead", "Side-chain substitution needs free radicals (UV light), not nitrating mixture."]] }
 ];
 LAB.QZ = QZ;
-const Q = { i: 0, score: 0, order: [], answered: false };
+const Q = { i: 0, score: 0, order: [], answered: false, t0: 0 };
 LAB.Q = Q;
 function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
 function renderQ(){
@@ -2163,25 +2285,27 @@ function renderQ(){
   if (Q.i >= QZ.length){
     const s = Q.score;
     box.innerHTML = `<div class="qmeta"><span>Finished</span><span>${s} / ${QZ.length}</span></div><div class="qprog"><i style="width:100%"></i></div>
-      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Review the sections above, then retry."}</p>
+      <p class="qtext">You scored ${s} out of ${QZ.length}.</p><p class="hint" style="margin-top:0">${s === QZ.length ? "Full marks." : s >= 7 ? "Good. Retry to see the ones you missed." : "Go back over the sections above, then retry."}</p>
       <button class="btn primary" id="q-retry">Retry</button>`;
     $("q-retry").onclick = startQuiz;
     return;
   }
   const q = QZ[Q.i], ord = Q.order[Q.i];
-  Q.answered = false;
+  Q.answered = false; Q.t0 = performance.now();   // a second click of a double click on Next lands on the new question: ignored for a moment
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length}</span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${H(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
-  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+  const btns = [...box.querySelectorAll(".opt")];
+  btns.forEach((b, j) => b.onclick = () => {
+    if (Q.answered || performance.now() - Q.t0 < 350) return;
+    Q.answered = true;
+    const right = ord[j] === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    btns.forEach((x, jj) => { x.disabled = true; if (ord[jj] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
-    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
+    const others = ord.map((k, jj) => [k, jj]).filter(([k]) => k !== 0).map(([k, jj]) => `<li><b>${"ABCD"[jj]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
     ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${H(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
     ex.hidden = false;
