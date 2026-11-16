@@ -443,7 +443,7 @@ svg .arrowh{fill:var(--s2)}
   <div class="sechead">
     <span class="eyebrow">Explorer · <span class="nc">9813 3.1(a)</span></span>
     <h2>Hammond explorer</h2>
-    <p>Drag ΔH for one step and watch the transition state slide towards whichever stable species is nearer to it in energy: early and reactant-like for an exothermic step, late and product-like for an endothermic one. The curves come from a simple model with illustrative numbers, so read the trend, not the values.</p>
+    <p>Drag ΔH for one step and watch the transition state slide towards whichever stable species is nearer to it in energy: early and reactant-like for an exothermic step, late and product-like for an endothermic one. The curves are schematic, with illustrative energies, all drawn the same way so that only ΔH changes: read the trend, not the values.</p>
   </div>
   <div class="grid2">
     <div class="panel controls">
@@ -454,7 +454,7 @@ svg .arrowh{fill:var(--s2)}
     </div>
     <div class="stack">
       <div class="viewer">
-        <div class="vhead">Energy profile of one step <span class="hint">schematic; illustrative energies from a simple model</span></div>
+        <div class="vhead">Energy profile of one step <span class="hint">schematic; illustrative energies</span></div>
         <svg id="hm-plot" role="img" aria-label="Energy profile with the transition state marked"></svg>
         <div class="vlegend legend"><span><i class="key" style="border-color:var(--s1)"></i>this step</span><span><i class="key" style="border-color:var(--s3); border-top-style:dashed"></i>thermoneutral step (ΔH = 0), for comparison</span></div>
       </div>
@@ -496,7 +496,7 @@ svg .arrowh{fill:var(--s2)}
       </div>
       <div class="readout" id="sn-read"></div>
       <div class="viewer" id="sn-ipbox" hidden>
-        <div class="vhead">Products from the ion pair <span class="hint">illustrative ratio</span></div>
+        <div class="vhead">Products from the ion pair <span class="hint">illustrative data</span></div>
         <svg id="sn-ipbar" role="img" aria-label="Percentages of the two enantiomers formed"></svg>
         <div class="vnote" id="sn-ipnote"></div>
       </div>
@@ -563,7 +563,7 @@ svg .arrowh{fill:var(--s2)}
   <div class="sechead">
     <span class="eyebrow">Explorer · <span class="nc">9813 3.3(a)(ii), (b)(ii)</span></span>
     <h2>Zaitsev or Hofmann</h2>
-    <p>Choose a substrate and a base and see which β-hydrogens the base removes and how much of each alkene forms. A small base gives mainly the more substituted, more stable (Zaitsev) alkene; a bulky base gives mainly the less substituted (Hofmann) alkene; each bar is labelled literature or illustrative.</p>
+    <p>Choose a substrate and a base and see which β-hydrogens the base removes and how much of each alkene forms. A small base gives mainly the more substituted, more stable (Zaitsev) alkene; a bulky base gives mainly the less substituted (Hofmann) alkene; each bar is labelled literature or illustrative data.</p>
   </div>
   <div class="molpick">
     <div class="chipgrp"><span>Substrate</span><div class="chips" id="zh-mols" role="group" aria-label="Substrate"></div></div>
@@ -613,6 +613,7 @@ svg .arrowh{fill:var(--s2)}
         <div id="pr-fb" hidden></div>
       </div>
       <div class="tblwrap"><table class="data" id="pr-grid"></table></div>
+      <p class="hint" style="margin:0" id="pr-scope">The two strong-base columns are for the base in ethanol, heated. With NaOH(aq) substitution wins, as in Topic 11.5: S<sub>N</sub>2 for methyl, primary and secondary substrates (benzylic ones also by S<sub>N</sub>1, Part 1), and S<sub>N</sub>1, with some alkene, for tertiary ones.</p>
       <p class="hint" style="margin:0" id="pr-score"></p>
     </div>
   </div>
@@ -670,8 +671,8 @@ svg .arrowh{fill:var(--s2)}
 <footer>
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.6 Further Organic Mechanisms</span>
-    <span>Written for SEAB H3 Chemistry 9813 · bond energies from the Data Booklet · relative rates, product percentages marked literature and enthalpy changes of hydrogenation are literature values · energy profiles, rate data and other ratios are illustrative · 3D geometries are models</span>
-  <span class="ls-updated">Last updated 19/10/26</span></div>
+    <span>Written for SEAB H3 Chemistry 9813 · bond energies from the Data Booklet · relative rates, product percentages marked literature and enthalpy changes of hydrogenation are literature values · energy profiles are schematic, with illustrative energies · rate data and other ratios are illustrative data · 3D geometries are models</span>
+  <span class="ls-updated">Last updated 16/11/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1309,7 +1310,7 @@ const BIND = [];
    ===================================================== */
 const MOLS = {"pr2br":{"el":["C","C","C","Br","H","H","H","H","H","H","H"],"P":[[-1.2908,-0.0067,0.0689],[0.0939,0.3661,-0.4312],[1.1829,-0.4785,0.2069],[0.43,2.249,-0.0188],[-1.3761,0.1161,1.1545],[-2.061,0.6178,-0.397],[-1.519,-1.0508,-0.1704],[0.1399,0.2883,-1.5219],[1.0363,-1.5381,-0.0279],[1.1902,-0.3734,1.2977],[2.1737,-0.1898,-0.1607]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1]],"ca":1,"br":3,"betas":{"0":"C1","2":"C3"},"loc":{"0":"C1","1":"C2","2":"C3"}},"bb_R":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.574,-0.4426,0.0414],[0.5683,0.6138,0.4726],[1.4031,2.3788,0.245],[-0.735,0.5956,-0.3271],[-1.5403,-0.6796,-0.123],[1.1958,-1.4507,0.2369],[1.8024,-0.3679,-1.0277],[2.5172,-0.3383,0.5894],[0.3663,0.5312,1.5456],[-0.5303,0.7218,-1.3977],[-1.3619,1.4458,-0.0294],[-2.5005,-0.6044,-0.6435],[-1.016,-1.5532,-0.5213],[-1.7432,-0.8503,0.9389]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"C4"}},"bmp_RS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.2782,0.1808,0.823],[-0.8985,-0.4638,0.7147],[-1.171,-2.4079,0.9077],[-0.1632,-0.1663,-0.613],[-0.1153,1.3405,-0.9086],[1.2664,-0.7582,-0.6925],[2.2315,-0.2854,0.3865],[-2.2028,1.2715,0.8716],[-2.7984,-0.1422,1.7321],[-2.9113,-0.0805,-0.0322],[-0.2991,-0.1704,1.5815],[-0.7326,-0.6267,-1.4331],[0.2921,1.904,-0.0631],[-1.115,1.7309,-1.1247],[0.5029,1.5495,-1.7883],[1.2233,-1.8527,-0.6672],[1.6962,-0.5077,-1.6711],[2.3396,0.8028,0.3838],[3.223,-0.7161,0.2106],[1.9105,-0.6022,1.3825]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9299,-1.0455,1.063],[-1.5015,0.2494,0.3835],[-2.4337,0.3717,-1.3375],[0.0302,0.4043,0.2349],[0.4015,1.8084,-0.2648],[0.699,-0.702,-0.6105],[2.222,-0.642,-0.5943],[-1.722,-1.9282,0.4497],[-1.4185,-1.1669,2.0235],[-3.0078,-1.0404,1.2622],[-1.8953,1.0908,0.9655],[0.443,0.3244,1.2509],[-0.1506,2.5788,0.2842],[0.1913,1.9307,-1.3319],[1.4664,2.0101,-0.1105],[0.4066,-1.6864,-0.2297],[0.3629,-0.6503,-1.6519],[2.5948,0.2525,-1.1015],[2.636,-1.5114,-1.1155],[2.6056,-0.6481,0.4307]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_RR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.5037,-0.2985,0.5836],[-1.2422,-0.8247,-0.0905],[-1.6154,-1.0264,-2.005],[0.0153,0.0354,0.1766],[-0.0918,1.4753,-0.3427],[1.2953,-0.6633,-0.3368],[2.5825,-0.0234,0.1682],[-2.8385,0.6535,0.1593],[-2.3392,-0.1562,1.6568],[-3.3301,-1.0094,0.4688],[-1.064,-1.8473,0.2619],[0.1104,0.1045,1.2698],[0.7393,2.0855,0.0253],[-1.0087,1.9617,0.0021],[-0.0713,1.5176,-1.436],[1.29,-1.7104,-0.0097],[1.319,-0.6719,-1.4323],[2.72,0.9817,-0.2404],[3.4445,-0.6242,-0.1398],[2.5886,0.0404,1.2608]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9909,-0.8005,0.7549],[-1.5594,0.2005,-0.3072],[-2.1626,-0.4589,-2.0609],[-0.0477,0.5194,-0.3588],[0.3243,1.4453,0.8087],[0.8459,-0.741,-0.3676],[2.31,-0.4408,-0.6652],[-1.5669,-1.7954,0.5827],[-1.6919,-0.4693,1.754],[-3.0812,-0.9133,0.7612],[-2.1279,1.129,-0.1799],[0.1495,1.0818,-1.2819],[0.2638,0.9257,1.7704],[-0.3446,2.3118,0.8478],[1.3419,1.8326,0.6985],[0.7856,-1.2579,0.5975],[0.4917,-1.4465,-1.1271],[2.4156,0.107,-1.6068],[2.8728,-1.3759,-0.7535],[2.7722,0.1464,0.1333]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}}};
 // hashes of the numbers the generators must never print (held out at build time); the numbers themselves are not shipped
-const HSET = new Set(["19xf6rw", "1e50b3n", "1fsxx9h", "1g24gso", "1kbkfn4", "1kcz6xi", "1kvjn12", "1lgrapg", "1lqqwef", "1menox4", "1n4s2d9", "1n5gcgu", "1nffy5t", "1nnfnys", "1nouf96", "1nunrre", "1nyx6g4", "1viudrp", "67o6v4", "71mzy1", "bcaoo0", "e7ofjh", "i28kpf", "imswoz", "jqrbgv", "k0nrnv", "k6t4fp", "ncpazh", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
+const HSET = new Set(["19xf6rw", "1e50b3n", "1fsxx9h", "1g24gso", "1kbkfn4", "1kcz6xi", "1kvjn12", "1lgrapg", "1lqqwef", "1menox4", "1n4s2d9", "1n5gcgu", "1nffy5t", "1nnfnys", "1nouf96", "1nunrre", "1nyx6g4", "1viudrp", "67o6v4", "6rne92", "71mzy1", "bcaoo0", "e7ofjh", "i28kpf", "imswoz", "jqrbgv", "k0nrnv", "k6t4fp", "ncpazh", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
 function fnv(k){
   let h = 0x811c9dc5;
   for (const ch of k) h = Math.imul(h ^ ch.charCodeAt(0), 0x01000193) >>> 0;
@@ -1472,7 +1473,7 @@ function hmStrip(kind, x){
   setSvg(svg, W, Hh, s);
   $("hm-striph").innerHTML = kind === "ion" ? "Step 1 of S<sub>N</sub>1 for 2-bromo-2-methylpropane <span class=\"hint\">schematic</span>" : "Step 2 of S<sub>N</sub>1 for 2-bromo-2-methylpropane <span class=\"hint\">schematic</span>";
   $("hm-stripn").innerHTML = kind === "ion"
-    ? H("Strongly endothermic (+85 kJ mol⁻¹ in the illustrative profile), so the transition state is late: the C–Br bond is mostly broken, the carbon nearly planar and the positive charge mostly developed. Anything that stabilises the carbocation lowers this transition state too (Part 1, worked example 1).")
+    ? H("Strongly endothermic (+85 kJ mol⁻¹, an illustrative energy), so the transition state is late: the C–Br bond is mostly broken, the carbon nearly planar and the positive charge mostly developed. Anything that stabilises the carbocation lowers this transition state too (Part 1, worked example 1).")
     : H("Strongly exothermic, so the transition state is early: the O···C bond has barely started to form and the carbon is still nearly planar, like the carbocation. Model E<sub>a</sub> about 9 kJ mol⁻¹, as the notes' S_N1 profile (step 2).").replace(/S_N1/g, "S<sub>N</sub>1");
 }
 function hmSet(dH, pre){
@@ -2160,7 +2161,7 @@ const ZH_LAY = {
   pr: { at: [[-1, 0, "CH₃", "o"], [0, 0, "CH", "a"], [0, 1, "Br", ""], [1, 0, "CH₃", "o"]], bd: [[0, 1], [1, 2], [1, 3]] },
   mb3: { at: [[-1, 0, "CH₃", "h"], [0, 0, "CH", "a"], [0, 1, "Br", ""], [1, 0, "CH", "z"], [2, 0, "CH₃", ""], [1, -1, "CH₃", ""]], bd: [[0, 1], [1, 2], [1, 3], [3, 4], [3, 5]] }
 };
-const SRCTAG = k => k === "lit" ? `<span class="src lit">literature</span>` : k === "ill" ? `<span class="src">illustrative</span>` : "";
+const SRCTAG = k => k === "lit" ? `<span class="src lit">literature</span>` : k === "ill" ? `<span class="src">illustrative data</span>` : "";
 function zhPct(){
   const S = ZH_SUB[ZH.s], r = S[ZH.b];
   if (S.one) return [{ p: S.one, v: 100, cls: "barz", tag: "" }];
@@ -2210,7 +2211,7 @@ function zhBars(){
   });
   setSvg(svg, W, Hh, itSvg(s));
   const r0 = ZH_SUB[ZH.s][ZH.b];
-  $("zh-barh").innerHTML = r0[2] === "lit" ? `<span class="src lit">literature</span> values, rounded` : r0[2] === "ill" ? `<span class="src">illustrative</span> ratio` : "one alkene only";
+  $("zh-barh").innerHTML = r0[2] === "lit" ? `<span class="src lit">literature</span> values, rounded` : r0[2] === "ill" ? `<span class="src">illustrative data</span>` : "one alkene only";
 }
 function zhTable(){
   const S = ZH_SUB[ZH.s], rows = zhPct();
@@ -2223,10 +2224,10 @@ function zhWhy(){
   if (S.one) P.push(`All six β-hydrogens are on equivalent CH₃ groups, so only propene can form, whatever the base: no Zaitsev or Hofmann choice arises.`);
   else if (ZH.b === "small") P.push(`<b class="ink">Stability (Zaitsev).</b> A small base can reach any β-hydrogen. The E2 transition state already has partial C=C character, so (Hammond) the path to the more stable, more substituted alkene, ${S.Z.n}, has the lower transition state: it is the main product.`);
   else if (ZH.b === "bulky") P.push(`<b class="ink">Access (Hofmann).</b> The tert-butoxide ion, (CH₃)₃CO⁻, is bulky. It cannot easily reach the H on ${S.Z.from}, hemmed in by the groups on the next carbon; the ${S.Hf.bh} H atoms on ${S.Hf.from} are on the outside, so the less substituted alkene, ${S.Hf.n}, forms faster.`);
-  else P.push(`<b class="ink">E1 gives the Zaitsev product.</b> The carbocation (CH₃)₂C⁺CH₂CH₃ forms first; a weak base (water) removes H⁺ in the fast step, so the more stable alkene, 2-methylbut-2-ene, is the main alkene (mainly Zaitsev; ratio illustrative). There is no Hofmann option without a bulky strong base. Water also attacks the carbocation: 2-methylbutan-2-ol forms by S_N1 alongside.`);
+  else P.push(`<b class="ink">E1 gives the Zaitsev product.</b> The carbocation (CH₃)₂C⁺CH₂CH₃ forms first; a weak base (water) removes H⁺ in the fast step, so the more stable alkene, 2-methylbut-2-ene, is the main alkene (mainly Zaitsev; illustrative data). There is no Hofmann option without a bulky strong base. Water also attacks the carbocation: 2-methylbutan-2-ol forms by S_N1 alongside.`);
   if (!S.one && ZH.b !== "e1") P.push(`More alkyl groups on the C=C carbons make an alkene more stable (hyperconjugation and the inductive effect): ${S.Z.n} is ${S.Z.sub}, ${S.Hf.n} ${S.Hf.sub}.`);
   if (ZH.s === "bb") P.push(`The but-2-ene is mostly the (E) isomer, from the anti-periplanar conformation with the two CH₃ groups anti (see E2 in 3D).`);
-  if (S.extra) P.push(`<span class="src">lab extra</span> Not in the notes: a second branched substrate to try, with illustrative percentages.`);
+  if (S.extra) P.push(`<span class="src">lab extra</span> Not in the notes: a second branched substrate to try, with illustrative data.`);
   $("zh-why").innerHTML = P.map(x => `<p>${HS(x)}</p>`).join("");
   const eqs = EQ[S.eq + "_" + ZH.b] || [];
   $("zh-eq").innerHTML = eqs.map((e, i) => eqHtml(e, ZH.b === "e1" ? ["step 1 (slow)", "step 2 (fast): E1", "or S_N1 with water"][i].replace("S_N1", "S<sub>N</sub>1") : S.one ? "E2" : (i ? "minor" : "major") + " (E2)")).join("");
@@ -2335,7 +2336,7 @@ function prRender(){
   if (PR.answered) prReveal(null);
   else { $("pr-fb").hidden = true; }
   prGrid();
-  $("pr-score").textContent = PR.n ? `Predictions: ${PR.score} right out of ${PR.n}.` : "";
+  $("pr-score").textContent = PR.n ? `Predictions: ${PR.score} right out of ${PR.n} (partly right answers count).` : "";
 }
 function prReveal(k){
   const c = PR_GRID[PR.s][PR.r], fb = $("pr-fb");
@@ -2344,7 +2345,7 @@ function prReveal(k){
   if (k){
     const btn = $("pr-opts").querySelector(`[data-k="${k}"]`);
     if (k === c[1]) head = `<p><b>Right.</b></p>`;
-    else if (c[2].includes(k)){ head = `<p><b>Partly right:</b> it happens, but it is not the main route.</p>`; }
+    else if (c[2].includes(k)){ head = `<p><b>Partly right (counted):</b> it happens, but it is not the main route, which is ${HS(PR_OPT.find(o => o[0] === c[1])[1])}.</p>`; }
     else { head = `<p><b>Not quite.</b></p>`; btn.classList.add("wrong"); }
   }
   fb.className = "fb " + (!k ? "info" : k === c[1] ? "ok" : c[2].includes(k) ? "warn" : "no");
@@ -2354,11 +2355,11 @@ function prReveal(k){
 function prAnswer(k){
   if (PR.answered) return;
   PR.answered = true; PR.n++;
-  if (k === PR_GRID[PR.s][PR.r][1]) PR.score++;
+  if (k === PR_GRID[PR.s][PR.r][1] || PR_GRID[PR.s][PR.r][2].includes(k)) PR.score++;   // a partly right answer counts, as in Practice
   PR.seen.add(PR.s + PR.r);
   prReveal(k);
   prGrid();
-  $("pr-score").textContent = `Predictions: ${PR.score} right out of ${PR.n}.`;
+  $("pr-score").textContent = `Predictions: ${PR.score} right out of ${PR.n} (partly right answers count).`;
 }
 function bindPR(){
   $("pr-sub").innerHTML = PR_SUB.map(S => `<button type="button" data-id="${S.id}">${S.fex ? `<span class="fex">Further example</span>` : ""}${H(S.f)}</button>`).join("");
@@ -2434,7 +2435,7 @@ function rateWork(D){
   return { kc, unit, eq: rateEq(S, sn2 ? "two" : "one"), w: [
     `Compare experiments 1 and 2 (only [${S.f}] changes): [${S.f}] × ${fx(fa, 0)}, rate × ${fx(fR1, 1)}, so first order with respect to ${S.n.replace(/^\(R\)-/, "")}.`,
     `Compare experiments 2 and 3 (only [OH⁻] changes): [OH⁻] × ${fx(fb, 0)}, rate × ${fx(fR2, 1)}, so ${sn2 ? "first" : "zero"} order with respect to OH⁻.`,
-    `${rateEq(S, sn2 ? "two" : "one")}: ${sn2 ? "second order overall, S_N2 (both species in the only step)" : "first order overall, S_N1 (only the halogenoalkane is in the slow step)"}.`,
+    `${rateEq(S, sn2 ? "two" : "one")}: ${sn2 ? "second order overall, S_N2 (both species in the only step; the product is the alcohol, so it is not E2)" : "first order overall, S_N1 (only the halogenoalkane is in the slow step)"}.`,
     sn2 ? `k = rate / ([${S.f}][OH⁻]) = ${sci(r1[2], 2)} / (${c2s(r1[0])} × ${c2s(r1[1])}) = ${sci(kc, 2)} ${unit}` : `k = rate / [${S.f}] = ${sci(r1[2], 2)} / ${c2s(r1[0])} = ${sci(kc, 2)} ${unit}`
   ] };
 }
@@ -2451,13 +2452,13 @@ function gnMake(type, preset){
     const S = GN_RSUB.find(s => s.id === D.sub), W = rateWork(D);
     q.data = D; q.tbl = tableHtml(D); q.preset = preset || null; q.work = W.w;
     if (type === "rate"){
-      q.text = `${preset ? "Part 1, worked example 2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). Which rate equation fits the data?`;
+      q.text = `${preset ? "Part 1, worked example 2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). The product is the alcohol. Which rate equation fits the data?`;
       const kinds = ["one", "two", "oh", "sq"];
       q.opts = shuffle(kinds).map(k => ({ k, t: rateEq(S, k) }));
       q.ans = D.mech === "sn2" ? "two" : "one";
       q.why = { one: "The rate changes when [OH⁻] changes, so OH⁻ must appear.", two: "The rate does not change when only [OH⁻] changes, so OH⁻ is zero order.", oh: "The rate changes when only the halogenoalkane changes, so it must appear.", sq: "Doubling (or tripling) the halogenoalkane changes the rate by the same factor: first order, not second." };
     } else {
-      q.text = `${preset ? "Part 1, worked example 2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). Find the rate equation, then calculate k and give its units.`;
+      q.text = `${preset ? "Part 1, worked example 2. " : ""}Initial rates for ${S.n} with OH⁻ (${D.t}; illustrative data). The product is the alcohol. Find the rate equation, then calculate k and give its units.`;
       q.ans = W.kc; q.unit = W.unit; q.units = [W.unit === "s⁻¹" ? "k1" : "k2"]; q.fmt = `Type k as a number in ${W.unit}, e.g. 2.5e-4 or 2.5 × 10^-4.`;
       q.lab = `k / ${W.unit}`;
     }
@@ -2488,12 +2489,12 @@ function gnMake(type, preset){
     q.text = `${S.n[0].toUpperCase() + S.n.slice(1)}, ${S.f}, is heated with ${base === "small" ? "NaOC₂H₅ in ethanol" : "KOC(CH₃)₃ in (CH₃)₃COH"}. What is the main organic product?`;
     q.opts = [{ k: "Z", t: S.Z.n + " (" + S.Z.sub + ")" }, { k: "H", t: S.Hf.n + " (" + S.Hf.sub + ")" }, { k: "eq", t: "the two alkenes in equal amounts" }, { k: "sub", t: "a substitution product (an ether)" }];
     q.ans = r[0] > r[1] ? "Z" : "H";
-    q.work = [`β-hydrogens: ${S.Z.bh} on ${S.Z.from} (to ${S.Z.n}) and ${S.Hf.bh} on ${S.Hf.from} (to ${S.Hf.n}).`, base === "small" ? "A small, strong base reaches any β-H; the more stable, more substituted alkene has the lower transition state (Zaitsev)." : "A bulky base reaches the outside H atoms more easily, so the less substituted alkene forms faster (Hofmann).", `${q.ans === "Z" ? S.Z.n : S.Hf.n}: about ${Math.max(r[0], r[1])} % (${r[2] === "lit" ? "literature value, rounded" : "illustrative"}).`, "A strong base with a secondary or tertiary substrate gives mainly elimination, not substitution."];
+    q.work = [`β-hydrogens: ${S.Z.bh} on ${S.Z.from} (to ${S.Z.n}) and ${S.Hf.bh} on ${S.Hf.from} (to ${S.Hf.n}).`, base === "small" ? "A small, strong base reaches any β-H; the more stable, more substituted alkene has the lower transition state (Zaitsev)." : "A bulky base reaches the outside H atoms more easily, so the less substituted alkene forms faster (Hofmann).", `${q.ans === "Z" ? S.Z.n : S.Hf.n}: about ${Math.max(r[0], r[1])} % (${r[2] === "lit" ? "literature value, rounded" : "illustrative data"}).`, "A strong base with a secondary or tertiary substrate gives mainly elimination, not substitution."];
     q.zh = [sid, base];
   } else {
     let p, qq, ee;
     do { p = ri(51, 70); qq = 100 - p; ee = (p - qq) / (p + qq) * 100; } while ([p, qq, Math.round(ee)].some(v => held("pct:" + v)));
-    q.text = `(S)-3-Bromo-3-methylhexane is hydrolysed by S_N1. The 3-methylhexan-3-ol formed is ${p} % (R) and ${qq} % (S) (illustrative). Calculate the enantiomeric excess.`;
+    q.text = `(S)-3-Bromo-3-methylhexane is hydrolysed by S_N1. The 3-methylhexan-3-ol formed is ${p} % (R) and ${qq} % (S) (illustrative data). Calculate the enantiomeric excess.`;
     q.ans = ee; q.units = ["pct"]; q.ratio = [p, qq]; q.lab = "ee / %"; q.fmt = "Type the ee as a percentage, e.g. 12.";
     q.work = ["Attack on the open face (opposite the departing Br⁻) inverts the configuration: (S)-bromide gives (R)-alcohol.", "Br⁻ still close to the other face (the ion pair) shields it, so slightly more of the inverted (R) product forms.", `ee = (${p} − ${qq}) / (${p} + ${qq}) × 100 = ${fx(ee, 0)} % in favour of (R).`, `A free carbocation would give 50 : 50, a racemic mixture (ee 0 %).`];
   }
@@ -2525,7 +2526,7 @@ function gnCheck(){
     if (!GN.pick){ fb.className = "fb info"; fb.innerHTML = "Pick an answer first."; show(fb, true); return; }
     const a = q.opts.find(o => o.k === q.ans).t, half = (q.half || []).includes(GN.pick);
     right = GN.pick === q.ans || half;
-    msg = GN.pick === q.ans ? `Right: ${a}.` : half ? `Accepted: it happens here, but the main route is ${a}.` : `Not quite: the answer is ${a}.` + (q.why && q.why[GN.pick] ? " " + q.why[GN.pick] : "");
+    msg = GN.pick === q.ans ? `Right: ${a}.` : half ? `Partly right (counted): it happens, but it is not the main route, which is ${a}.` : `Not quite: the answer is ${a}.` + (q.why && q.why[GN.pick] ? " " + q.why[GN.pick] : "");
     GN.half = half && GN.pick !== q.ans;
   } else {
     const r = parseAnswer($("gn-ans").value, q.units), ans = $("gn-ans");
@@ -2566,14 +2567,14 @@ BIND.push(bindGN);
 /* =====================================================
    FACT CARDS (one per notes example, plus the reagents and ideas). Condition strings exactly as the notes.
    ===================================================== */
-const LIT = `<span class="src lit">literature</span>`, DB = `<span class="src">Data Booklet</span>`, ILL = `<span class="src">illustrative</span>`;
+const LIT = `<span class="src lit">literature</span>`, DB = `<span class="src">Data Booklet</span>`, ILL = `<span class="src">illustrative data</span>`;
 const FC = [
   { g: "sub", t: "Bromomethane", f: "CH₃Br", kind: "methyl halogenoalkane",
     dl: [["Mechanism", "S_N2 only: no β-H, and CH₃⁺ is far too unstable for S_N1"], ["Relative S_N2 rate", "30 (bromoethane = 1) " + LIT], ["Boiling point", "4 °C " + LIT + ": a gas, so it reacts in solution or in a sealed vessel"]],
     p: "Nothing blocks the back of the carbon, so back-side attack is fastest of all." },
   { g: "sub", t: "Bromoethane", f: "CH₃CH₂Br", kind: "primary halogenoalkane",
     dl: [["NaOH(aq), heat", "ethanol, S_N2"], ["KCN in ethanol, heat", "propanenitrile, S_N2"], ["KOC(CH₃)₃ in (CH₃)₃COH, heat", "mainly ethene, E2"], ["Relative S_N2 rate", "1 " + LIT], ["Boiling point", "38 °C " + LIT]],
-    p: "rate = k[CH₃CH₂Br][OH⁻]: second order overall (Part 1, worked example 2: k = 1.7 × 10⁻³ mol⁻¹ dm³ s⁻¹ at 55 °C, illustrative)." },
+    p: "rate = k[CH₃CH₂Br][OH⁻]: second order overall (Part 1, worked example 2: k = 1.7 × 10⁻³ mol⁻¹ dm³ s⁻¹ at 55 °C, illustrative data)." },
   { g: "sub", t: "2-Bromopropane", f: "(CH₃)₂CHBr", kind: "secondary halogenoalkane",
     dl: [["NaOC₂H₅ in ethanol, heat", "mainly propene (E2), some 2-ethoxypropane (S_N2)"], ["KCN in ethanol, heat", "mainly 2-methylpropanenitrile (S_N2)"], ["Relative rates", "S_N2 0.03, S_N1 12 " + LIT]],
     p: "Secondary substrates go either way: the reagent decides. All six β-H atoms are equivalent, so only one alkene forms." },
@@ -2581,7 +2582,7 @@ const FC = [
     dl: [["H₂O, warm", "2-methylpropan-2-ol (S_N1) and some 2-methylpropene (E1)"], ["NaOC₂H₅ in ethanol, heat", "2-methylpropene (E2)"], ["Relative S_N1 rate", "1.2 × 10⁶ (bromomethane = 1) " + LIT], ["Hyperconjugation", "9 C–H bonds next to C⁺"]],
     p: "rate = k[(CH₃)₃CBr]: the late, carbocation-like transition state of the slow step is lowered by everything that stabilises the carbocation (Hammond). No S_N2: the back is blocked." },
   { g: "sub", t: "(R)-2-Bromobutane", f: "CH₃CH₂CHBrCH₃", kind: "secondary, one chiral centre",
-    dl: [["NaOH(aq), heat (high [OH⁻])", "(S)-butan-2-ol, S_N2 with inversion"], ["KCN in ethanol, heat", "(S)-2-methylbutanenitrile, S_N2"], ["NaOC₂H₅ in ethanol, heat", "about 80 % but-2-ene (mostly E) and 20 % but-1-ene, E2 " + LIT]],
+    dl: [["NaOH(aq), heat (high [OH⁻])", "(S)-butan-2-ol, S_N2 with inversion"], ["KCN in ethanol, heat", "(S)-2-methylbutanenitrile, S_N2"], ["a small base in ethanol, heat", "about 80 % but-2-ene (mostly E) and 20 % but-1-ene, E2 " + LIT]],
     p: "The letter changes from (R) to (S) because OH (or CN) takes Br's place as priority 1 on the opposite face." },
   { g: "sub", t: "3-Bromo-3-methylhexane", f: "CH₃CH₂CH₂C(CH₃)BrCH₂CH₃", kind: "tertiary, one chiral centre",
     dl: [["H₂O, warm, or NaOH(aq), heat", "3-methylhexan-3-ol, S_N1"], ["Free carbocation", "50 : 50, racemic"], ["With the ion pair", "60 % (R) and 40 % (S) from the (S)-bromide: ee 20 % " + ILL]],
