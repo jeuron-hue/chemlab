@@ -49,6 +49,10 @@
   --pi:rgba(196,154,216,.32); --plane:rgba(155,170,179,.18); --plane-edge:rgba(155,170,179,.75); --arrow:#66BAD6; --mol:#E8EDF0;
   --shadow:none;
 }
+/* plum Enrichment tag and a darker green for feedback text (4.5 : 1 on the feedback backgrounds) */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245; --warn-ink:#7A4F0F}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85; --warn-ink:#E0A84A} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85; --warn-ink:#E0A84A}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 .nc{text-transform:none; letter-spacing:.02em}
@@ -91,7 +95,8 @@ section.lab:last-of-type{border-bottom:0}
 .controls{display:flex; flex-direction:column; gap:14px; min-width:0}
 .ctl label, .ctl .lab{display:flex; justify-content:space-between; gap:8px; font-size:.86rem; color:var(--ink-2); font-weight:500}
 .ctl output, .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
-input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
+input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:24px}
+summary{min-height:24px; padding:2px 0; box-sizing:border-box}
 input[type=range]:disabled{opacity:.45}
 .hint{font-size:.78rem; color:var(--muted)}
 .switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
@@ -125,15 +130,16 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .stat.wide{grid-column:1/-1}
 .notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
 .callout{font-size:.86rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .nw{white-space:nowrap}
 .pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
+.fb.warn{background:var(--warn-bg); color:var(--warn-ink)}
 .fb ul{margin:6px 0 0; padding-left:18px}
 .stack{display:flex; flex-direction:column; gap:14px; min-width:0}
 h3.sub3{font-size:1.15rem; margin:0}
@@ -259,7 +265,7 @@ table.data th{font-size:.78rem; color:var(--ink-2); font-weight:600}
 footer{border-top:1px solid var(--line); padding-block:20px 30px; color:var(--muted); font-size:.82rem}
 footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between}
 
-/* tags, sources, chips, working (as the Aqueous Solutions Lab) */
+/* tags, sources, chips, working (as the Topic 10 lab) */
 .fex{display:inline-block; font-size:11px; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .beyond{font-size:11px; letter-spacing:0; text-transform:none}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
@@ -412,7 +418,7 @@ svg .indh{fill:var(--mol)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -424,7 +430,7 @@ svg .indh{fill:var(--mol)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -566,7 +572,8 @@ svg .indh{fill:var(--mol)}
         </div>
       </div>
     </div>
-    <div class="grid2e">
+    <p class="hint" id="rt-auxwait" hidden>The Compare and Why panels open once you have predicted step 3.</p>
+    <div class="grid2e" id="rt-aux">
       <div class="panel stack">
         <div><span class="eyebrow">Compare · <span class="nc">9476 11.9(e)</span></span><h3 class="sub3">Bromine with benzene, phenol and phenylamine</h3></div>
         <div class="btnrow"><button class="btn primary" id="br-add">Add the bromine</button><button class="btn" id="br-reset">Reset</button></div>
@@ -649,7 +656,7 @@ svg .indh{fill:var(--mol)}
   <div class="sechead">
     <span class="eyebrow">Explorer · <span class="nc">9476 11.9(i)</span></span>
     <h2>Glycine speciation</h2>
-    <p>Aminoethanoic acid (glycine) exists as a zwitterion. Add acid or alkali to see the two reactions, then move the pH to see which form is present. The percentages are calculated exactly from p<i>K</i><sub>a</sub> values of 2.34 and 9.60 (<span class="src lit">literature</span>).</p>
+    <p>Aminoethanoic acid (glycine) exists as a zwitterion. Add acid or alkali to see the two reactions, then move the pH to see which form is present. The form changes at about pH 2 and about pH 10: the cation is the main form below about pH 2, the zwitterion between the two, and the anion above about pH 10. <span class="fex">Further example</span>The percentages are calculated exactly from p<i>K</i><sub>a</sub> values of 2.34 and 9.60 (<span class="src lit">literature</span>).</p>
   </div>
   <div class="grid2">
     <div class="panel controls">
@@ -739,12 +746,20 @@ svg .indh{fill:var(--mol)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.9 Nitrogen Compounds</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub> and <i>K</i><sub>w</sub> from the Data Booklet · proton affinities (NIST), <i>K</i><sub>b</sub>, p<i>K</i><sub>a</sub>, bond lengths and physical properties are literature values · calculation data are illustrative</span>
-  <span class="ls-updated">Last updated 14/10/26</span></div>
+  <span class="ls-updated">Last updated 16/11/26</span></div>
 </footer>
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
+const LAB = {};
+/* ---------- draw keys for the practice generators ---------- */
+const RESH = new Set(["1013zw4", "10l37a2", "10xtub", "11tvb99", "13tqnyr", "15szqpj", "16cyy3h", "18c945a", "18m8pu9", "1d9z6an", "1go2f61", "1hy42it", "1i83o7s", "1j1zbsq", "1jh2kgm", "1jsvqez", "1ld8en4", "1lxjvti", "1lzt394", "1mtrwc1", "1n243g4", "1nhem2l", "1o7jwzd", "1pc6luu", "1r012ip", "1y10z7w", "1yuzsat", "4jm49", "5ime8i", "7dnajv", "8mcua2", "arjsoh", "b4bsoa", "fxi31s", "jtcire", "ludtcr", "lv23gc", "n1p4y9", "negcre", "nj5oeo", "nm9gxt", "oq7vpp", "pephbv", "r3pnas", "ryhcel", "yx5l48", "z756t7"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
+// a number as a key part: its significant digits only, so 1.15, 0.115 and 11.5 are one key and a trailing zero does not matter
+const dg = v => String(+(+v).toPrecision(6)).replace(/[^0-9]/g, "").replace(/^0+/, "").replace(/0+$/, "");
+const resHit = q => (q.rk || []).some(rh);
+
 const $ = id => document.getElementById(id);
 const MINUS = "−";
 const D2R = Math.PI / 180;
@@ -1107,7 +1122,7 @@ function drawLadder(){
   const lo = gas ? 840 : 3, hi = gas ? 960 : 10;
   // gas: larger value higher; water: smaller pKb higher
   const Y = v => gas ? bot - (v - lo) / (hi - lo) * (bot - top) : top + (v - lo) / (hi - lo) * (bot - top);
-  const xa = 52, x0 = xa + 14, x1 = x0 + (narrow ? 46 : 90), xl = x1 + 26;
+  const xa = 60, x0 = xa + 14, x1 = x0 + (narrow ? 46 : 90), xl = x1 + 26;
   let s = "";
   // axis
   s += `<line x1="${xa}" y1="${top}" x2="${xa}" y2="${bot}" class="axis"/>`;
@@ -1134,12 +1149,20 @@ function drawLadder(){
     s += T(xl, ly + 14, `${b.f}   ${val}`, "rval", "", 12);
   });
   // tap targets: the rung itself, then the label row on top (labels never overlap)
-  items.forEach(({ b, y }) => { s += `<rect x="${x0 - 6}" y="${f1(y - 5)}" width="${x1 - x0 + 12}" height="10" class="rhit" data-id="${b.id}"><title>${esc(b.name)}</title></rect>`; });
+  const ys = items.map(it => it.y), yTop = Math.min(...ys) - 6, yBot = Math.max(...ys) + 6;
+  s += `<rect x="${x0 - 6}" y="${f1(yTop)}" width="${x1 - x0 + 12}" height="${f1(yBot - yTop)}" class="rhit rzone"/>`;
   items.forEach(({ b, ly }) => { s += `<rect x="${x1 + 2}" y="${f1(ly - 17)}" width="${f1(W - x1 - 2)}" height="34" class="rhit rlabhit" data-id="${b.id}"><title>${esc(b.name)}</title></rect>`; });
   if (!gas && LD.bey) s += T(xl, Hh - 4, "* beyond the syllabus", "axl", "", 11.5);
   svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`);
   svg.innerHTML = s;
-  svg.querySelectorAll(".rhit").forEach(r => r.addEventListener("click", () => { LD.sel = r.dataset.id; ldRender(); }));
+  svg.querySelectorAll(".rhit").forEach(r => r.addEventListener("click", e => {
+    if (r.classList.contains("rzone")){   // rungs can lie under a pixel apart: the tap picks the nearest rung
+      const m = svg.getScreenCTM(); if (!m) return;
+      const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const y = pt.matrixTransform(m.inverse()).y;
+      LD.sel = items.reduce((best, it) => Math.abs(it.y - y) < Math.abs(best.y - y) ? it : best).b.id;
+    } else LD.sel = r.dataset.id;
+    ldRender();
+  }));
   STRS.push(s);
 }
 function ldMini(b){
@@ -1190,7 +1213,8 @@ function ldRender(){
   const hide = rank && !LD.checked;
   $("ld-wrap").hidden = hide; $("ld-read").hidden = hide; $("ld-mini-wrap").hidden = hide; $("ld-notes").hidden = hide;
   put("ld-note", gas ? H("Phenylamine is not on the gas-phase ladder: 9476 compares phenylamine in water only.") : H(`In water the order is ethylamine > ammonia > phenylamine (9476). pH values are for ${fx(CB, 3)} mol dm⁻³ solutions at 298 K.`));
-  $("ld-solv").hidden = gas || !LD.bey;
+  $("ld-solv").hidden = gas || !LD.bey || hide;
+  $("ld-note").hidden = hide && !gas;
   if (!hide) drawLadder();
   const b = set.find(x => x.id === LD.sel);
   let out = "", notes = [];
@@ -1231,7 +1255,7 @@ function ldRender(){
   put("ld-read", out);
   put("ld-notes", notes.map(n => `<li>${H(n)}</li>`).join(""));
   if (!hide) ldMini(b);
-  if (!gas && LD.bey) ldSolv();
+  if (!gas && LD.bey && !hide) ldSolv();
   if (rank) ldRankDraw();
 }
 function ldSolv(){
@@ -1241,7 +1265,7 @@ function ldSolv(){
   const s = stk(["Base", "Cation", "N–H bonds in the cation", `Proton affinity / ${H(KJ)}`, `<i>K</i><sub>b</sub> in water / mol dm<sup>−3</sup>`, "Rank: gas phase / water"],
     rows.map(r => [H(r[0]), H(r[1]), String(r[2]), String(r[3]), H(sci(r[4], 2)), `${rg(r)} / ${rw(r)}`]));
   put("ld-solv-tab", s);
-  put("ld-solv-p", H("In water the cation is also stabilised by solvation: its N–H bonds hydrogen bond to water molecules. CH₃NH₃⁺ has three N–H bonds to do this with, (CH₃)₂NH₂⁺ two and (CH₃)₃NH⁺ only one, and the bulky methyl groups also crowd water away from the charge. The inductive effect favours more alkyl groups; solvation favours fewer. The balance gives, in water, (CH₃)₂NH > CH₃NH₂ > (CH₃)₃N > NH₃, against (CH₃)₃N > (CH₃)₂NH > CH₃NH₂ > NH₃ in the gas phase. Every amine is still a stronger base than ammonia."));
+  put("ld-solv-p", H("In water the cation is also stabilised by solvation: its N–H bonds hydrogen bond to water molecules. CH₃NH₃⁺ has three N–H bonds to do this with, (CH₃)₂NH₂⁺ two and (CH₃)₃NH⁺ only one, and the bulky methyl groups also crowd water away from the charge. The inductive effect favours more alkyl groups; solvation favours fewer. The balance gives, in water, (CH₃)₂NH > CH₃NH₂ > (CH₃)₃N > NH₃, against (CH₃)₃N > (CH₃)₂NH > CH₃NH₂ > NH₃ in the gas phase. Every methylamine is still a stronger base than ammonia."));
 }
 /* ---------- rank them yourself ---------- */
 function ldRankSet(){
@@ -1319,7 +1343,7 @@ const RS = [
     o: [["The pale yellow oily layer disappears, leaving a clear solution.", "The nitrobenzene is reduced, and the product stays dissolved as phenylammonium ions."],
         ["Oily drops of phenylamine separate out.", "In the excess acid the amine is protonated as soon as it forms, so it stays in solution as C₆H₅NH₃⁺. Phenylamine separates only after NaOH(aq) is added."],
         ["A white precipitate forms.", "Nothing insoluble forms here. The white precipitate in this route comes later, with bromine water."],
-        ["Nothing changes until NaOH(aq) is added.", "The reduction happens in the acid; NaOH(aq) only sets the amine free afterwards."]] },
+        ["Nothing visible changes until NaOH(aq) is added, and only then does the reduction go.", "The reduction happens in the acid; NaOH(aq) only sets the amine free afterwards."]] },
   { t: "Step 2: then NaOH(aq)", short: "Step 2 · NaOH(aq)",
     cond: "<b>then NaOH(aq)</b>, added in excess to the cooled mixture",
     eq: "{{C₆H₅NH₃⁺(aq) + OH⁻(aq) → C₆H₅NH₂(l) + H₂O(l)}}<br>Overall: {{C₆H₅NO₂ + 6[H] → C₆H₅NH₂ + 2H₂O}}",
@@ -1337,7 +1361,7 @@ const RS = [
     notes: ["The N lone pair is partly delocalised into the ring, raising the electron density of the ring, especially at positions 2, 4 and 6.", "The activated ring polarises Br₂ enough to react without a halogen carrier, and all three positions are substituted: electrophilic substitution (Topic 11.3), three times.", "Phenol does the same with bromine water (Topic 11.6 Part 2)."],
     q: "Before you add it: what will you see when bromine water is added to aqueous phenylamine?",
     o: [["The orange colour disappears at once and a white precipitate forms.", "The activated ring reacts at positions 2, 4 and 6, giving insoluble 2,4,6-tribromophenylamine."],
-        ["No reaction: an AlBr₃ catalyst is needed.", "Benzene needs a halogen carrier such as AlBr₃. The N lone pair activates phenylamine's ring, so no catalyst is needed."],
+        ["No reaction at room temperature: bromine water needs an AlBr₃ catalyst to react.", "Benzene needs a halogen carrier such as AlBr₃. The N lone pair activates phenylamine's ring, so no catalyst is needed."],
         ["The orange colour fades slowly and 4-bromophenylamine forms.", "Positions 2, 4 and 6 are all activated, so all three are substituted, quickly."],
         ["Steamy fumes of HBr are given off and a colourless liquid forms.", "That describes benzene with Br₂ and AlBr₃ under anhydrous conditions. Here the HBr stays dissolved in the water and the product is an insoluble white solid."]] }
 ];
@@ -1346,7 +1370,7 @@ const RT = { i: 0, pred: false, answered: {}, anim: 1, raf: 0 };
 LAB.RT = RT;
 
 // structures for each step
-function rtStruct(i){
+function rtStruct(i, hide){
   const W = 560;
   const fr = { fs: 16, n: {}, b: [], hex: [], ring: [], tx: [], rx: [] };
   const addRing = (p, cx, cy, R, subs) => {
@@ -1354,13 +1378,22 @@ function rtStruct(i){
     subs.forEach(([k, l, L], j) => { const t = (-90 + 60 * k) * D2R, d = R + (L || 30), key = p + "s" + j; fr.n[key] = [cx + d * Math.cos(t), cy + d * Math.sin(t), l]; fr.b.push([p + "sb" + j, p + k, key, 1]); });
   };
   if (i === 0){ addRing("a", 280, 104, 32, [[0, "NO₂"]]); fr.tx.push([280, 172, "nitrobenzene", "mnote"]); }
-  else if (i === 1){ addRing("a", 80, 104, 32, [[0, "NO₂"]]); fr.rx.push([150, 104, 262, "Sn, conc. HCl", "heat under reflux"]); addRing("b", 340, 104, 32, [[0, "NH₃⁺", 32]]); fr.tx.push([80, 172, "nitrobenzene", "mnote"], [340, 172, "phenylammonium ion", "mnote"]); }
-  else if (i === 2){ addRing("a", 80, 104, 32, [[0, "NH₃⁺", 32]]); fr.rx.push([150, 104, 262, "NaOH(aq)", "excess"]); addRing("b", 340, 104, 32, [[0, "NH₂"]]); fr.tx.push([80, 172, "phenylammonium ion", "mnote"], [340, 172, "phenylamine", "mnote"]); }
+  else if (i === 1){
+    addRing("a", 80, 104, 32, [[0, "NO₂"]]); fr.rx.push([150, 104, 262, "Sn, conc. HCl", "heat under reflux"]); fr.tx.push([80, 172, "nitrobenzene", "mnote"]);
+    if (hide) fr.tx.push([340, 112, "?", "mprod"]);
+    else { addRing("b", 340, 104, 32, [[0, "NH₃⁺", 32]]); fr.tx.push([340, 172, "phenylammonium ion", "mnote"]); }
+  }
+  else if (i === 2){
+    addRing("a", 80, 104, 32, [[0, "NH₃⁺", 32]]); fr.rx.push([150, 104, 262, "NaOH(aq)", "excess"]); fr.tx.push([80, 172, "phenylammonium ion", "mnote"]);
+    if (hide) fr.tx.push([340, 112, "?", "mprod"]);
+    else { addRing("b", 340, 104, 32, [[0, "NH₂"]]); fr.tx.push([340, 172, "phenylamine", "mnote"]); }
+  }
   else {
     addRing("a", 70, 104, 32, [[0, "NH₂"]]); fr.tx.push([150, 110, "+ 3Br₂", "mprod"]);
     fr.rx.push([196, 104, 270, "Br₂(aq)", "room temperature"]);
-    addRing("b", 360, 104, 32, [[0, "NH₂"], [1, "Br"], [3, "Br"], [5, "Br"]]); fr.tx.push([470, 110, "+ 3HBr", "mprod"]);
-    fr.tx.push([70, 172, "phenylamine", "mnote"], [360, 190, "2,4,6-tribromophenylamine", "mnote"], [360, 207, "(white precipitate)", "mnote"]);
+    fr.tx.push([70, 172, "phenylamine", "mnote"]);
+    if (hide) fr.tx.push([360, 112, "?", "mprod"]);
+    else { addRing("b", 360, 104, 32, [[0, "NH₂"], [1, "Br"], [3, "Br"], [5, "Br"]]); fr.tx.push([470, 110, "+ 3HBr", "mprod"], [360, 190, "2,4,6-tribromophenylamine", "mnote"], [360, 207, "(white precipitate)", "mnote"]); }
   }
   return { fr, W };
 }
@@ -1420,36 +1453,45 @@ function rtAnimate(){
   const stepf = now => { const t = Math.min(1, (now - t0) / D); RT.anim = t; rtDrawFlask(t); if (t < 1) RT.raf = requestAnimationFrame(stepf); };
   RT.anim = 0; rtDrawFlask(0); RT.raf = requestAnimationFrame(stepf);
 }
+// in Predict mode a step can be opened only when every earlier step that asks a question has been answered
+function rtGated(k){
+  if (!RT.pred) return false;
+  for (let j = 1; j < k; j++) if (RS[j].o && RT.answered[j] == null) return true;
+  return false;
+}
 function rtRender(animate){
+  cancelAnimationFrame(RT.raf);
   const S = RS[RT.i];
-  $("rt-steps").querySelectorAll("button").forEach((b, k) => { if (k === RT.i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
-  const { fr, W } = rtStruct(RT.i), svg = $("rt-struct");
-  svg.innerHTML = molSVG(fr).s; svg.setAttribute("viewBox", `0 0 ${W} 220`); fitBox(svg, 8, 420, true);
-  put("rt-cond", H(S.cond));
   const waiting = !!(RT.pred && S.o && RT.answered[RT.i] == null);
+  $("rt-steps").querySelectorAll("button").forEach((b, k) => { if (k === RT.i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); b.disabled = rtGated(k); });
+  const { fr, W } = rtStruct(RT.i, waiting), svg = $("rt-struct");
+  svg.innerHTML = molSVG(fr).s; svg.setAttribute("viewBox", `0 0 ${W} 220`); fitBox(svg, 8, 420, true);
+  put("rt-cond", H(waiting ? S.cond.replace(" No catalyst.", "") : S.cond));
   $("rt-eq").hidden = waiting || !S.eq; $("rt-obs").hidden = waiting; $("rt-notes").hidden = waiting;
-  put("rt-eq", S.eq ? TX(S.eq) : "");
-  put("rt-obs", H("<b>Observation.</b> " + S.obs));
-  put("rt-notes", S.notes.map(n => `<li>${TX(n)}</li>`).join(""));
+  put("rt-eq", !waiting && S.eq ? TX(S.eq) : "");
+  put("rt-obs", waiting ? "" : H("<b>Observation.</b> " + S.obs));
+  put("rt-notes", waiting ? "" : S.notes.map(n => `<li>${TX(n)}</li>`).join(""));
   const pr = $("rt-pred");
   if (RT.pred && S.o){
     pr.hidden = false;
     const ans = RT.answered[RT.i];
     const ord = RT.ord && RT.ord[RT.i] ? RT.ord[RT.i] : (RT.ord = RT.ord || {}, RT.ord[RT.i] = shuffle([0, 1, 2, 3]));
-    let h = `<p class="qtext" style="margin:0">${H(S.q)}</p><div class="opts">${ord.map((oi, j) => `<button class="opt${ans != null ? (oi === 0 ? " right" : oi === ans ? " wrong" : "") : ""}" data-oi="${oi}"${ans != null ? " disabled" : ""}><b>${"ABCD"[j]}</b><span class="tx">${H(S.o[oi][0])}</span></button>`).join("")}</div>`;
+    let h = `<p class="qtext" style="margin:0">${H(S.q)}</p><div class="opts">${ord.map((oi, j) => `<button class="opt${ans != null ? (oi === 0 ? " right" : oi === ans ? " wrong" : "") : ""}"${ans != null ? " disabled" : ""}><b>${"ABCD"[j]}</b><span class="tx">${H(S.o[oi][0])}</span></button>`).join("")}</div>`;
     if (ans != null){
       h += `<div class="fb ${ans === 0 ? "ok" : "no"}">${ans === 0 ? "Correct." : "Not quite."} ${H(S.o[0][1])}</div><ul class="whyl">${ord.filter(k => k !== 0).map(k => `<li>${H(S.o[k][0])} ${H(S.o[k][1])}</li>`).join("")}</ul>`;
     }
     put("rt-pred", h);
-    pr.querySelectorAll(".opt").forEach(b => b.onclick = () => { if (RT.answered[RT.i] != null) return; RT.answered[RT.i] = +b.dataset.oi; rtRender(true); });
+    pr.querySelectorAll(".opt").forEach((b, j) => b.onclick = () => { if (RT.answered[RT.i] != null) return; RT.answered[RT.i] = ord[j]; rtRender(true); });
   } else { pr.hidden = true; pr.innerHTML = ""; }
-  $("rt-back").disabled = RT.i === 0; $("rt-next").disabled = RT.i === RS.length - 1;
+  $("rt-back").disabled = RT.i === 0; $("rt-next").disabled = RT.i === RS.length - 1 || waiting || rtGated(RT.i + 1);
   $("rt-count").textContent = RT.i ? `Step ${RT.i} of ${RS.length - 1}` : "Start";
-  if (waiting){ cancelAnimationFrame(RT.raf); RT.anim = 0; rtDrawFlask(0); }
+  // the Compare and Why panels show the step 3 result: shut until that question is answered
+  { const gate = !!(RT.pred && RT.answered[3] == null); $("rt-aux").hidden = gate; $("rt-auxwait").hidden = !gate; if (gate){ cancelAnimationFrame(BRS.raf); BRS.t = 0; brDraw(); } }
+  if (waiting){ RT.anim = 0; rtDrawFlask(0); }
   else if (animate) rtAnimate();
   else { RT.anim = 1; rtDrawFlask(1); }
 }
-function rtGo(i){ RT.i = Math.max(0, Math.min(RS.length - 1, i)); rtRender(true); }
+function rtGo(i){ i = Math.max(0, Math.min(RS.length - 1, i)); if (rtGated(i)) return; RT.i = i; rtRender(true); }
 
 /* ---------- bromine with benzene, phenol and phenylamine ---------- */
 const BR = [
@@ -1515,7 +1557,7 @@ function brAct(){
 function bindRT(){
   $("rt-steps").innerHTML = RS.map((S, k) => `<button type="button" data-k="${k}">${H(S.short)}</button>`).join("");
   $("rt-steps").querySelectorAll("button").forEach(b => b.onclick = () => rtGo(+b.dataset.k));
-  document.querySelectorAll('input[name="rt-mode"]').forEach(r => r.addEventListener("change", () => { RT.pred = r.value === "pred"; RT.answered = {}; RT.ord = {}; rtRender(false); }));
+  document.querySelectorAll('input[name="rt-mode"]').forEach(r => r.addEventListener("change", () => { RT.pred = r.value === "pred"; RT.answered = {}; RT.ord = {}; if (RT.pred) RT.i = 0; rtRender(false); }));
   $("rt-back").onclick = () => rtGo(RT.i - 1);
   $("rt-next").onclick = () => rtGo(RT.i + 1);
   $("br-add").onclick = brAnimate;
@@ -1646,7 +1688,7 @@ function drawBL(){
 }
 function amTable(){
   const R = [["N lone pair", "localised on N", "partly delocalised into the ring", "delocalised over N–C=O"],
-             ["Shape at N", "pyramidal", "close to planar", "planar"],
+             ["Shape at N", "pyramidal", "a flattened pyramid, between pyramidal and planar", "planar"],
              [`<i>K</i><sub>b</sub> / mol dm<sup>−3</sup> ${LIT}`, H(sci(4.5e-4, 2)), H(sci(4.3e-10, 2)), "too small to measure in water"],
              ["Aqueous solution", "alkaline", "very weakly alkaline", "neutral"]];
   const s = stk(["", "ethylamine", "phenylamine", "ethanamide"], R.map(r => [`<b>${r[0]}</b>`, r[1], r[2], r[3]]));
@@ -1722,7 +1764,9 @@ function mxFloor(svg, minPx){
 }
 LAB.MX_MINPX = MX_MINPX;
 function drawMX(){
-  const fr = MXF[MX.f], svg = $("mx-svg"), G = frameGeo(fr);
+  const fr0 = MXF[MX.f], svg = $("mx-svg");
+  // while an arrow is still to be placed, the product and the reaction arrow are not drawn
+  const fr = MX.pred && pending().length ? Object.assign({}, fr0, { rx: [], tx: (fr0.tx || []).filter(t => t[3] !== "mprod") }) : fr0, G = frameGeo(fr);
   MX.G = G;
   let { s } = molSVG(fr, G);
   (fr.a || []).forEach((a, i) => { if (!MX.pred || MX.done[i]) s += arrowPath(G, a).s; });
@@ -1788,7 +1832,10 @@ function mxCap(){
   const fr = MXF[MX.f], pend = MX.pred ? pending() : [];
   const ttl = fr.t.replace(/[?.!]+$/, "") + (/[?]$/.test(fr.t) ? "?" : ".");
   put("mx-cap", pend.length ? H(`<b>${ttl}</b> ${pend.length} arrow${pend.length > 1 ? "s" : ""} to place. Tap where ${pend.length > 1 ? "an" : "the"} arrow starts, then where it ends.`) : H(fr.cap));
+  if (fr.eq.includes("{{") && pend.length) put("mx-eq", H(fr.eq.replace(/\s*→[^}]*\}\}/, " → ?").replace("{{", "")));   // the equation without its product, as plain text
+  else put("mx-eq", fr.eq.includes("{{") ? TX(fr.eq) : H(fr.eq));
   $("mx-show").hidden = !MX.pred || !pend.length;
+  $("mx-next").disabled = MX.f === MXF.length - 1 || pend.length > 0;
 }
 function mxFrame(f){
   MX.f = Math.max(0, Math.min(MXF.length - 1, f));
@@ -1834,7 +1881,7 @@ LAB.GL = GL;
 function pctS(v){ const p = 100 * v; if (p >= 99) return fx(p, 2); if (p >= 1) return fx(p, 1); if (p >= 0.01) return sf(p, 2); if (p >= 0.001) return fx(p, 3); return "< 0.001"; }
 LAB.pctS = pctS;
 // the speciation table, with the decimals of the data sheet (n = decimals for cation, zwitterion, anion)
-const GTAB = [[1.00, [1, 1, 1]], [2.00, [1, 1, 1]], [2.34, [1, 1, 1]], [3.34, [1, 1, 1]], [3.50, [1, 1, 1]], [4.00, [1, 1, 1]], [5.97, [3, 2, 3]], [7.00, [1, 2, 2]], [7.40, [1, 1, 2]], [9.60, [1, 1, 1]], [10.50, [1, 1, 1]], [11.00, [1, 1, 1]], [12.00, [1, 2, 1]]];
+const GTAB = [[1.00, [1, 1, 1]], [2.00, [1, 1, 1]], [2.34, [1, 1, 1]], [3.34, [1, 1, 1]], [3.50, [1, 1, 1]], [4.50, [1, 1, 1]], [5.97, [3, 2, 3]], [7.00, [1, 2, 2]], [7.40, [1, 1, 2]], [9.60, [1, 1, 1]], [10.50, [1, 1, 1]], [11.50, [1, 1, 1]], [12.00, [1, 2, 1]]];
 LAB.GTAB = GTAB;
 function glTable(){
   let s = `<tr><th>pH</th><th>cation %</th><th>zwitterion %</th><th>anion %</th></tr>`;
@@ -1844,9 +1891,11 @@ function glTable(){
   put("gl-tab", s);
 }
 function glForms(g){
-  const main = g.c > g.z && g.c > g.a ? "c" : g.a > g.z ? "a" : "z";
-  GL.main = main;
-  const box = F => `<div class="form${F.k === main ? " main" : ""}" data-k="${F.k}"><div class="fn">${H(F.n)}${F.k === main ? " · main form" : ""}</div><div class="ff">${H(F.f)}</div><div class="fp">${pctS(g[F.k])} %</div></div>`;
+  // at an exact tie (pH = pKa) two forms are present in equal amounts and neither is the main form
+  const tie = Math.abs(g.c - g.z) < 1e-9 && g.c > g.a ? "cz" : Math.abs(g.z - g.a) < 1e-9 && g.z > g.c ? "za" : "";
+  const main = tie ? "" : g.c > g.z && g.c > g.a ? "c" : g.a > g.z ? "a" : "z";
+  GL.main = tie ? "tie-" + tie : main; GL.tie = tie;
+  const box = F => `<div class="form${F.k === main || tie.includes(F.k) ? " main" : ""}" data-k="${F.k}"><div class="fn">${H(F.n)}${F.k === main ? " · main form" : tie.includes(F.k) ? " · equal amounts" : ""}</div><div class="ff">${H(F.f)}</div><div class="fp">${pctS(g[F.k])} %</div></div>`;
   const arr = (pk, n) => `<div class="farrow"><span class="ah">+ OH<sup>−</sup> →</span><span class="av">↓ + OH<sup>−</sup></span><span class="ar" aria-hidden="true">⇌</span><span class="ah">← + H<sup>+</sup></span><span class="av">↑ + H<sup>+</sup></span><span>p<i>K</i><sub>a${n}</sub> ${fx(pk, 2)}</span></div>`;
   put("gl-forms", box(GF[0]) + arr(PKA1, 1) + box(GF[1]) + arr(PKA2, 2) + box(GF[2]));
 }
@@ -1856,7 +1905,8 @@ function glPlot(){
   const L = 44, R = 12, Tp = 22, B = 36, X = p => L + p / 14 * (W - L - R), Y = f => Tp + (1 - f) * (Hh - Tp - B);
   GL.X = X; GL.W = W; GL.L = L; GL.R = R;
   let s = "";
-  for (let p = 0; p <= 14; p += 2){ s += `<line x1="${f1(X(p))}" y1="${Tp}" x2="${f1(X(p))}" y2="${Hh - B}" class="grid"/>` + T(X(p), Hh - B + 16, String(p), "axl", 'text-anchor="middle"', 11.5); }
+  // grid lines every pH unit; only 0, 7 and 14 are numbered, so no tick label sits on a pH that a practice question uses
+  for (let p = 0; p <= 14; p += 1){ s += `<line x1="${f1(X(p))}" y1="${Tp}" x2="${f1(X(p))}" y2="${Hh - B}" class="grid"/>` + (p % 7 === 0 ? T(X(p), Hh - B + 16, String(p), "axl", 'text-anchor="middle"', 11.5) : ""); }
   for (let f = 0; f <= 1.0001; f += 0.25){ s += `<line x1="${L}" y1="${f1(Y(f))}" x2="${W - R}" y2="${f1(Y(f))}" class="grid"/>` + T(L - 6, Y(f) + 4, String(Math.round(f * 100)), "axl", 'text-anchor="end"', 11.5); }
   s += `<line x1="${L}" y1="${Hh - B}" x2="${W - R}" y2="${Hh - B}" class="axis"/><line x1="${L}" y1="${Tp}" x2="${L}" y2="${Hh - B}" class="axis"/>`;
   s += T((L + W - R) / 2, Hh - 4, "pH", "axt", 'text-anchor="middle"', 12) + `<text x="12" y="${f1((Tp + Hh - B) / 2)}" class="axt" text-anchor="middle" transform="rotate(-90 12 ${f1((Tp + Hh - B) / 2)})">% of glycine</text>`;
@@ -1877,6 +1927,7 @@ function glRender(){
   const charge = g.c - g.a;
   let out = "";
   out += st("Cation %", pctS(g.c)) + st("Zwitterion %", pctS(g.z)) + st("Anion %", pctS(g.a));
+  if (GL.tie) out += st("Main form", GL.tie === "cz" ? "equal amounts of cation and zwitterion" : "equal amounts of zwitterion and anion", "wide");
   out += st("Average charge", (Math.abs(charge) < 0.0005 ? "0.000" : fx(charge, 3)) + (Math.abs(GL.pH - PI) < 0.005 ? " <small>isoelectric point</small>" : ""));
   out += st("[zwitterion] / [cation]", H(`10^(pH − 2.34) = ${ratioS(Math.pow(10, GL.pH - PKA1))}`).replace("10^(", "10<sup>(").replace(") =", ")</sup> ="));
   out += st("[anion] / [zwitterion]", H(`10^(pH − 9.60) = ${ratioS(Math.pow(10, GL.pH - PKA2))}`).replace("10^(", "10<sup>(").replace(") =", ")</sup> ="));
@@ -1925,23 +1976,23 @@ function bindGL(){
 const PP = [
   { k: "(a)", s: "CH₃CH₂Br, bromoethane", c: "excess NH₃ in ethanol, heat in a sealed tube", x: "Topic 11.5",
     o: [["CH₃CH₂NH₂, ethylamine (ethanamine)", "NH₃ is a nucleophile and substitutes for Br. The excess makes further substitution less likely, though the product is still a mixture."],
-        ["CH₃CH₂CH₂NH₂, propylamine (propan-1-amine)", "No carbon is added: the amine has the same number of C atoms as the halogenoalkane. Adding a carbon needs KCN first."],
+        ["CH₃NH₂, methylamine (methanamine)", "NH₃ replaces Br on the same carbon, so the chain stays two carbons long. Methylamine has only one."],
         ["CH₃CH₂OH, ethanol", "That needs NaOH(aq), heat. Here the nucleophile is NH₃."],
-        ["CH₂=CH₂, ethene", "Elimination needs NaOH in ethanol, heat. Excess NH₃ substitutes."]] },
+        ["CH₂=CH₂, ethene, from loss of HBr (elimination)", "Elimination needs NaOH in ethanol, heat. Excess NH₃ substitutes."]] },
   { k: "(a)", s: "CH₃C≡N, ethanenitrile", c: "LiAlH₄ in dry ether (or H₂(g), Ni catalyst, heat)",
-    o: [["CH₃CH₂NH₂, ethylamine (ethanamine)", "The C≡N group is reduced to CH₂–NH₂: {{CH₃C≡N + 4[H] → CH₃CH₂NH₂}}."],
-        ["CH₃COOH, ethanoic acid", "That is hydrolysis, with dilute HCl(aq), heat under reflux (Topic 11.8 Part 1), not reduction."],
+    o: [["CH₃CH₂NH₂, ethylamine (ethanamine)", "The C≡N group is reduced to CH₂–NH₂: {{CH₃C≡N + 4[H] → CH₃CH₂NH₂}}. LiAlH₄ gives only the primary amine (with H₂ and a nickel catalyst some secondary amine can also form)."],
+        ["CH₃COOH, ethanoic acid (from hydrolysis of the nitrile)", "That is hydrolysis, with dilute HCl(aq), heat under reflux (Topic 11.8 Part 1), not reduction."],
         ["CH₃CH₂OH, ethanol", "The N stays in the molecule: a nitrile is reduced to an amine."],
         ["CH₃NH₂, methylamine (methanamine)", "Reduction does not remove a carbon: the C of C≡N becomes the CH₂ next to N."]] },
   { k: "(a), (h)", s: "CH₃CONH₂, ethanamide", c: "LiAlH₄ in dry ether",
     o: [["CH₃CH₂NH₂ + H₂O, ethylamine (ethanamine)", "The C=O becomes CH₂ and the C–N bond stays: {{CH₃CONH₂ + 4[H] → CH₃CH₂NH₂ + H₂O}}."],
         ["CH₃COOH + NH₃", "Breaking the C–N bond is hydrolysis (aqueous acid or alkali, heat under reflux). LiAlH₄ reduces the C=O group."],
         ["CH₃CH₂OH + NH₃", "The C–N bond is not broken in the reduction; the O is removed, not the N."],
-        ["CH₃CONH₂ unchanged: amides are neutral, so they do not react", "Being neutral means not basic. LiAlH₄ still reduces the amide C=O group."]] },
+        ["CH₃CONH₂ unchanged: amides are neutral, so they do not react", "Neutral in water means not basic in water. LiAlH₄ still reduces the amide C=O group."]] },
   { k: "(a)", s: "C₆H₅NO₂, nitrobenzene", c: "Sn and conc. HCl, heat under reflux. What is present at the end of the reflux, before NaOH(aq) is added?",
     o: [["C₆H₅NH₃⁺, the phenylammonium ion", "In the large excess of acid, phenylamine is protonated as soon as it forms: {{C₆H₅NO₂ + 6[H] + H⁺ → C₆H₅NH₃⁺ + 2H₂O}}."],
         ["C₆H₅NH₂, phenylamine", "Phenylamine is a base, so in the strongly acidic mixture it is present as its salt. NaOH(aq) is needed to set it free."],
-        ["C₆H₅Cl, chlorobenzene", "Sn and conc. HCl reduce the nitro group; they do not substitute the ring."],
+        ["C₆H₅Cl, chlorobenzene, from substitution of the nitro group", "Sn and conc. HCl reduce the nitro group; they do not substitute the ring."],
         ["C₆H₅OH, phenol", "The N stays on the ring: the NO₂ group is reduced to NH₂ (as NH₃⁺ in the acid)."]] },
   { k: "(a)", s: "C₆H₅NO₂, nitrobenzene", c: "Sn and conc. HCl, heat under reflux, then NaOH(aq)",
     o: [["C₆H₅NH₂, phenylamine", "Overall {{C₆H₅NO₂ + 6[H] → C₆H₅NH₂ + 2H₂O}}; the NaOH(aq) removes H⁺ from C₆H₅NH₃⁺."],
@@ -1952,7 +2003,7 @@ const PP = [
     o: [["CH₃CH₂NH₃⁺Cl⁻, ethylammonium chloride", "The N lone pair accepts a proton: {{CH₃CH₂NH₂ + HCl → CH₃CH₂NH₃⁺Cl⁻}}. The salt is ionic, crystalline and odourless."],
         ["CH₃CH₂Cl + NH₃", "HCl protonates the amine's lone pair; it does not substitute for the NH₂ group."],
         ["No reaction: amines are neutral", "Amines are weak bases (like ammonia) and react completely with acids."],
-        ["CH₃CONH₂, ethanamide", "An amide is made from an acyl chloride and ammonia, not from an amine and HCl."]] },
+        ["CH₃CONH₂, ethanamide, the amide of ethanoic acid", "An amide is made from an acyl chloride and ammonia, not from an amine and HCl."]] },
   { k: "(b)", s: "CH₃CH₂NH₃⁺Cl⁻, ethylammonium chloride", c: "NaOH(aq), warm",
     o: [["CH₃CH₂NH₂, ethylamine (fishy smell; turns damp red litmus blue)", "The strong base takes the proton back: {{CH₃CH₂NH₃⁺(aq) + OH⁻(aq) → CH₃CH₂NH₂(aq) + H₂O(l)}}."],
         ["NH₃, ammonia", "The C–N bond does not break, so the amine itself is released, not ammonia."],
@@ -1971,7 +2022,7 @@ const PP = [
   { k: "(f)", s: "CH₃COCl, ethanoyl chloride, with C₆H₅NH₂", c: "room temperature",
     o: [["CH₃CONHC₆H₅, N-phenylethanamide", "Condensation: {{CH₃COCl + C₆H₅NH₂ → CH₃CONHC₆H₅ + HCl}}."],
         ["CH₃COOC₆H₅, phenyl ethanoate", "That ester would need phenol. Here the N lone pair is the nucleophile."],
-        ["2,4,6-trichlorophenylamine", "Ethanoyl chloride is an acylating agent, not a source of chlorine for ring substitution."],
+        ["2,4,6-trichlorophenylamine, from chlorination of the ring", "Ethanoyl chloride is an acylating agent, not a source of chlorine for ring substitution."],
         ["C₆H₅NH₃⁺Cl⁻ only", "Some salt forms with the HCl released, but the main organic product is the amide."]] },
   { k: "(h)", s: "CH₃CONH₂, ethanamide", c: "dilute HCl(aq), heat under reflux",
     o: [["CH₃COOH + NH₄Cl", "The C–N bond breaks; in acid the NH₃ is taken up as NH₄⁺: {{CH₃CONH₂ + H₂O + HCl → CH₃COOH + NH₄Cl}}."],
@@ -1980,9 +2031,9 @@ const PP = [
         ["CH₃CH₂NH₂, ethylamine", "That is the reduction product, with LiAlH₄ in dry ether."]] },
   { k: "(h)", s: "CH₃CONH₂, ethanamide", c: "NaOH(aq), heat under reflux",
     o: [["CH₃COO⁻Na⁺ + NH₃ (turns damp red litmus blue)", "In alkali the acid part ends up as the carboxylate salt and NH₃ is released: {{CH₃CONH₂ + NaOH → CH₃COO⁻Na⁺ + NH₃}}."],
-        ["CH₃COOH + NH₄⁺", "Those are the acid-hydrolysis products. In alkali any CH₃COOH is deprotonated at once."],
+        ["CH₃COOH + NH₄⁺, the products of heating with aqueous acid", "Those are the acid-hydrolysis products. In alkali any CH₃COOH is deprotonated at once."],
         ["CH₃CH₂NH₃⁺, an amine salt", "Hydrolysis breaks the C–N bond and gives NH₃ here; an amine salt would need an acid."],
-        ["No reaction: amides are neutral", "Amides are not basic, but prolonged heating with aqueous alkali (or acid) does hydrolyse them."]] },
+        ["No reaction: amides are neutral", "Amides are not basic in water, but prolonged heating with aqueous alkali (or acid) does hydrolyse them."]] },
   { k: "(h)", s: "CH₃CONHCH₂CH₃, N-ethylethanamide", c: "dilute HCl(aq), heat under reflux",
     o: [["CH₃COOH + CH₃CH₂NH₃⁺Cl⁻", "In acid the amine part ends up as its ammonium salt: {{CH₃CONHCH₂CH₃ + H₂O + HCl → CH₃COOH + CH₃CH₂NH₃⁺Cl⁻}}."],
         ["CH₃COOH + CH₃CH₂NH₂", "In acid the ethylamine released is protonated at once."],
@@ -1990,7 +2041,7 @@ const PP = [
         ["CH₃CH₂NHCH₂CH₃, diethylamine", "That is the reduction product, with LiAlH₄ in dry ether; hydrolysis breaks the C–N bond."]] },
   { k: "(h)", s: "CH₃CONHCH₂CH₃, N-ethylethanamide", c: "NaOH(aq), heat under reflux",
     o: [["CH₃COO⁻Na⁺ + CH₃CH₂NH₂", "In alkali: carboxylate salt plus the free amine: {{CH₃CONHCH₂CH₃ + NaOH → CH₃COO⁻Na⁺ + CH₃CH₂NH₂}}."],
-        ["CH₃COO⁻Na⁺ + NH₃", "The ethyl group stays on the N, so the amine released is ethylamine, not ammonia."],
+        ["CH₃COO⁻Na⁺ + NH₃, as for the unsubstituted amide", "The ethyl group stays on the N, so the amine released is ethylamine, not ammonia."],
         ["CH₃COOH + CH₃CH₂NH₃⁺", "Those forms appear in acid. In alkali the acid is deprotonated and the amine is free."],
         ["CH₃CH₂OH + CH₃CONH₂", "The C–N bond of the amide group breaks, not the N–C bond to the ethyl group."]] },
   { k: "(h)", s: "CH₃CONHCH₂CH₃, N-ethylethanamide", c: "LiAlH₄ in dry ether",
@@ -2005,16 +2056,16 @@ const PP = [
         ["No reaction: the zwitterion is already neutral", "It is overall neutral but still has a basic –COO⁻ group: glycine is amphoteric."]] },
   { k: "(i)", s: "⁺H₃NCH₂COO⁻, glycine zwitterion", c: "NaOH(aq)",
     o: [["H₂NCH₂COO⁻, the anion (as H₂NCH₂COO⁻Na⁺)", "The –NH₃⁺ group donates a proton: {{⁺H₃NCH₂COO⁻(aq) + OH⁻(aq) → H₂NCH₂COO⁻(aq) + H₂O(l)}}."],
-        ["⁺H₃NCH₂COOH, the cation", "That forms with acid, when –COO⁻ gains a proton."],
+        ["⁺H₃NCH₂COOH, the cation formed in acid, not alkali", "That forms with acid, when –COO⁻ gains a proton."],
         ["HOCH₂COO⁻ + NH₃", "The C–N bond does not break; OH⁻ removes H⁺ from –NH₃⁺."],
         ["No reaction: glycine is an acid only", "Glycine is amphoteric: the –NH₃⁺ group reacts with alkali and the –COO⁻ group with acid."]] }
 ];
 LAB.PP = PP;
-const PPS = { order: [], i: 0, score: 0, n: 0, ans: null, ord: null };
+const PPS = { order: [], i: 0, score: 0, n: 0, ans: null, ord: null, t0: 0 };
 LAB.PPS = PPS;
 function ppNew(){
   if (!PPS.order.length || PPS.i >= PPS.order.length){ PPS.order = shuffle(PP.map((_, k) => k)); PPS.i = 0; }
-  PPS.cur = PPS.order[PPS.i++]; PPS.ans = null; PPS.ord = shuffle([0, 1, 2, 3]); ppDraw();
+  PPS.cur = PPS.order[PPS.i++]; PPS.ans = null; PPS.ord = shuffle([0, 1, 2, 3]); PPS.t0 = performance.now(); ppDraw();
 }
 function ppDraw(){
   const P = PP[PPS.cur];
@@ -2023,87 +2074,159 @@ function ppDraw(){
   put("pp-q", H(`Starting compound: ${P.s}`));
   put("pp-cond", H(`<b>Reagents and conditions:</b> ${P.c}${P.x ? ` (${P.x})` : ""}`));
   const done = PPS.ans != null;
-  put("pp-opts", PPS.ord.map((oi, j) => `<button class="opt${done ? (oi === 0 ? " right" : oi === PPS.ans ? " wrong" : "") : ""}" data-oi="${oi}"${done ? " disabled" : ""}><b>${"ABCD"[j]}</b><span class="tx">${H(P.o[oi][0])}</span></button>`).join(""));
+  put("pp-opts", PPS.ord.map((oi, j) => `<button class="opt${done ? (oi === 0 ? " right" : oi === PPS.ans ? " wrong" : "") : ""}"${done ? " disabled" : ""}><b>${"ABCD"[j]}</b><span class="tx">${H(P.o[oi][0])}</span></button>`).join(""));
   const fb = $("pp-fb");
   if (done){
     fb.hidden = false;
     put("pp-fb", `<div class="fb ${PPS.ans === 0 ? "ok" : "no"}">${PPS.ans === 0 ? "Correct." : `Not quite. The answer is ${"ABCD"[PPS.ord.indexOf(0)]}.`} ${TX(P.o[0][1])}</div><ul class="whyl">${PPS.ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${TX(P.o[k][1])}</li>`).join("")}</ul>`);
   } else fb.hidden = true;
-  $("pp-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => { if (PPS.ans != null) return; PPS.ans = +b.dataset.oi; PPS.n++; if (PPS.ans === 0) PPS.score++; ppDraw(); });
+  const ord = PPS.ord;
+  $("pp-opts").querySelectorAll(".opt").forEach((b, j) => b.onclick = () => {
+    // a click in the first 400 ms after a reaction is drawn is ignored: the second click of a double click on Next lands here
+    if (PPS.ans != null || performance.now() - PPS.t0 < 400) return;
+    PPS.ans = ord[j]; PPS.n++; if (PPS.ans === 0) PPS.score++; ppDraw();
+  });
 }
 
 /* =====================================================
    CALCULATION GENERATOR (illustrative data)
    ===================================================== */
-const GN = { type: "yield", q: null, score: 0, n: 0 };
+const GN = { type: "yield", q: null, score: 0, n: 0, done: false, shown: false, unscored: false, firstOk: null };
 LAB.GN = GN;
 const GTYPES = [["yield", "Percentage yield"], ["brom", "Bromination masses"], ["ph", "pH of an amine solution"], ["gly", FEX + "Glycine ratios"], ["mix", "Mixed"]];
-// values used in the notes' worked examples and the tutorials are left out, so the generator never prints a tutorial answer
+// every number of three or more significant digits that a question, its answer or its working prints is a key too, and so are the digits after a decimal point
+function numKeys(Q){
+  const t = [Q.q, Q.w.join(" "), Q.shown].join(" ").replace(/<[^>]*>/g, "").replace(/[{}]/g, "").replace(/(\d),(\d{3})/g, "$1$2");
+  const out = new Set();
+  (t.match(/\d+(?:\.\d+)?/g) || []).forEach(x => {
+    const d = dg(x); if (d.length >= 3) out.add("num:" + d);
+    const m = x.match(/\.(\d+)$/); if (m){ const f = dg("0." + m[1]); if (f.length >= 3) out.add("num:" + f); }
+  });
+  return [...out];
+}
+const BASES = [
+  { id: "nh3", nm: "ammonia", f: "NH₃", kb: 1.8e-5, cs: [0.100, 0.250, 0.400] },
+  { id: "me1", nm: "methylamine (methanamine)", f: "CH₃NH₂", kb: 4.4e-4, cs: [0.300, 0.400, 0.500] },
+  { id: "et", nm: "ethylamine (ethanamine)", f: "CH₃CH₂NH₂", kb: 4.5e-4, cs: [0.250, 0.300, 0.400] },
+  { id: "ph", nm: "phenylamine", f: "C₆H₅NH₂", kb: 4.3e-10, cs: [0.0500, 0.100, 0.250] }
+];
 const GEN = {
   yield(){
     const n = pick([0.0400, 0.0500, 0.0600, 0.0800, 0.120, 0.150, 0.250, 0.300]), y = 55 + Math.floor(Math.random() * 34);
-    const m1 = +sf(n * MR.nb, 3), mp = +sf(n * MR.pha * y / 100, 3);
+    const m1s = sf(n * MR.nb, 3), mps = sf(n * MR.pha * y / 100, 3), m1 = +m1s, mp = +mps;
     const nn = m1 / MR.nb, th = nn * MR.pha, ans = mp / th * 100;
-    return { q: `${m1} g of nitrobenzene was reduced with Sn and conc. HCl, heat under reflux, then NaOH(aq), and ${mp} g of phenylamine was obtained. Calculate the percentage yield. (Illustrative data.)`, ans, sfig: 3, unit: "%", lab: "Percentage yield",
-      w: [`M{r}(C₆H₅NO₂) = ${fx(MR.nb, 1)}; n = ${m1} / ${fx(MR.nb, 1)} = ${sf(nn, 3)} mol`, `The equation is 1 : 1: C₆H₅NO₂ + 6[H] → C₆H₅NH₂ + 2H₂O, so the maximum is ${sf(nn, 3)} mol of phenylamine.`, `M{r}(C₆H₅NH₂) = ${fx(MR.pha, 1)}; maximum mass = ${sf(nn, 3)} × ${fx(MR.pha, 1)} = ${sf(th, 3)} g <span class="aside">(keep the unrounded value)</span>`, `percentage yield = (${mp} / ${sf(th, 3)}) × 100 = <b>${sf(ans, 3)} %</b>`] };
+    return { q: `${m1s} g of nitrobenzene was reduced with Sn and conc. HCl, heat under reflux, then NaOH(aq), and ${mps} g of phenylamine was obtained. Calculate the percentage yield. (Illustrative data.)`, ans, sfig: 3, unit: "%", uAllow: ["pct"], lab: "Percentage yield",
+      rk: [`cm:nitrobenzene:${dg(m1)}`, `cm:phenylamine:${dg(mp)}`],
+      w: [`M{r}(C₆H₅NO₂) = ${fx(MR.nb, 1)}; n = ${m1s} / ${fx(MR.nb, 1)} = ${sf(nn, 3)} mol`, `The equation is 1 : 1: C₆H₅NO₂ + 6[H] → C₆H₅NH₂ + 2H₂O, so the maximum is ${sf(nn, 3)} mol of phenylamine.`, `M{r}(C₆H₅NH₂) = ${fx(MR.pha, 1)}; maximum mass = ${sf(nn, 3)} × ${fx(MR.pha, 1)} = ${sf(th, 3)} g <span class="aside">(keep the unrounded value)</span>`, `percentage yield = (${mps} / ${sf(th, 3)}) × 100 = <b>${sf(ans, 3)} %</b>`] };
   },
   brom(){
-    const n = pick([0.00200, 0.00300, 0.00400, 0.00600, 0.00800, 0.0100, 0.0150, 0.0250, 0.0300]), m = +sf(n * MR.pha, 3), nn = m / MR.pha;
+    const n = pick([0.00200, 0.00300, 0.00400, 0.00600, 0.00800, 0.0100, 0.0150, 0.0250, 0.0300]), ms = sf(n * MR.pha, 3), m = +ms, nn = m / MR.pha;
     const which = pick(["ppt", "br2"]);
     const ans = which === "ppt" ? nn * MR.tbpa : 3 * nn * MR.br2;
-    return { q: `${m} g of phenylamine reacts with excess bromine water at room temperature. Calculate the ${which === "ppt" ? "mass of white precipitate formed" : "minimum mass of bromine that reacts"}. (A{r}: H 1.0, C 12.0, N 14.0, Br 79.9.)`, ans, sfig: 3, unit: "g", lab: which === "ppt" ? "Mass of precipitate" : "Mass of bromine",
-      w: [`n(C₆H₅NH₂) = ${m} / ${fx(MR.pha, 1)} = ${sf(nn, 3)} mol`, `{{C₆H₅NH₂ + 3Br₂(aq) → C₆H₂Br₃NH₂ + 3HBr}}`, which === "ppt" ? `M{r}(C₆H₂Br₃NH₂) = ${fx(MR.tbpa, 1)}; mass = ${sf(nn, 3)} × ${fx(MR.tbpa, 1)} = <b>${sf(ans, 3)} g</b>` : `n(Br₂) = 3 × ${sf(nn, 3)} = ${sf(3 * nn, 3)} mol; M{r}(Br₂) = ${fx(MR.br2, 1)}; mass = ${sf(3 * nn, 3)} × ${fx(MR.br2, 1)} = <b>${sf(ans, 3)} g</b>`] };
+    return { q: `${ms} g of phenylamine reacts with excess bromine water at room temperature. Calculate the ${which === "ppt" ? "mass of white precipitate formed" : "minimum mass of bromine that reacts"}. (A{r}: H 1.0, C 12.0, N 14.0, Br 79.9.)`, ans, sfig: 3, unit: "g", uAllow: ["g"], lab: which === "ppt" ? "Mass of precipitate" : "Mass of bromine",
+      rk: [`cm:phenylamine:${dg(m)}`],
+      w: [`n(C₆H₅NH₂) = ${ms} / ${fx(MR.pha, 1)} = ${sf(nn, 3)} mol`, `{{C₆H₅NH₂ + 3Br₂(aq) → C₆H₂Br₃NH₂ + 3HBr}}`, which === "ppt" ? `M{r}(C₆H₂Br₃NH₂) = ${fx(MR.tbpa, 1)}; mass = ${sf(nn, 3)} × ${fx(MR.tbpa, 1)} = <b>${sf(ans, 3)} g</b>` : `n(Br₂) = 3 × ${sf(nn, 3)} = ${sf(3 * nn, 3)} mol; M{r}(Br₂) = ${fx(MR.br2, 1)}; mass = ${sf(3 * nn, 3)} × ${fx(MR.br2, 1)} = <b>${sf(ans, 3)} g</b>`] };
   },
   ph(){
-    const opts = [["ammonia", "NH₃", 1.8e-5, [0.0500, 0.100, 0.250, 0.400]], ["methylamine (methanamine)", "CH₃NH₂", 4.4e-4, [0.250, 0.300, 0.400]], ["ethylamine (ethanamine)", "CH₃CH₂NH₂", 4.5e-4, [0.250, 0.300, 0.400]], ["phenylamine", "C₆H₅NH₂", 4.3e-10, [0.0500, 0.100, 0.250]]];
-    const [nm, f, kb, cs] = pick(opts), c = pick(cs), p = basePH(kb, c), ans = 14 - p.pOH;
-    return { q: `Calculate the pH of ${sf(c, 3)} mol dm⁻³ aqueous ${nm} at 298 K. K{b}(${f}) = ${sci(kb, 2)} mol dm⁻³ (literature value); K{w} = 1.00 × 10⁻¹⁴ mol² dm⁻⁶. Check that the approximation is valid.`, ans, dp: 2, unit: "", lab: "pH",
-      w: [`[OH⁻] = √(K{b} × c) = √(${sci(kb, 2)} × ${sf(c, 3)}) = ${sci(p.x, 3)} mol dm⁻³`, `Check: (${sci(p.x, 3)} / ${sf(c, 3)}) × 100 = ${p.pct < 0.1 ? sf(p.pct, 2) : fx(p.pct, 2)} % reacted, under 5 %, so the approximation holds.`, `pOH = −lg(${sci(p.x, 3)}) = ${fx(p.pOH, 2)}`, `pH = 14.00 − ${fx(p.pOH, 2)} = <b>${fx(ans, 2)}</b>`] };
+    const B = pick(BASES), c = pick(B.cs), p = basePH(B.kb, c), ans = 14 - p.pOH;
+    return { q: `Calculate the pH of ${sf(c, 3)} mol dm⁻³ aqueous ${B.nm} at 298 K. K{b}(${B.f}) = ${sci(B.kb, 2)} mol dm⁻³ (literature value); K{w} = 1.00 × 10⁻¹⁴ mol² dm⁻⁶. Check that the approximation is valid.`, ans, dp: 2, unit: "", uAllow: ["ph"], lab: "pH",
+      rk: [`ph:${B.id}:${dg(c)}`],
+      w: [`[OH⁻] = √(K{b} × c) = √(${sci(B.kb, 2)} × ${sf(c, 3)}) = ${sci(p.x, 3)} mol dm⁻³`, `Check: (${sci(p.x, 3)} / ${sf(c, 3)}) × 100 = ${p.pct < 0.1 ? sf(p.pct, 2) : fx(p.pct, 2)} % reacted, under 5 %, so the approximation holds.`, `pOH = −lg(${sci(p.x, 3)}) = ${fx(p.pOH, 2)}`, `pH = 14.00 − ${fx(p.pOH, 2)} = <b>${fx(ans, 2)}</b>`] };
   },
   gly(){
     const lowSide = Math.random() < 0.5;
     const pH = lowSide ? pick([1.80, 2.00, 2.60, 2.80, 3.50, 3.80, 4.20]) : pick([8.60, 8.90, 9.20, 9.90, 10.30, 10.60, 11.20]);
     const ans = lowSide ? Math.pow(10, pH - PKA1) : Math.pow(10, pH - PKA2);
-    return { q: `${FEX}For glycine, pK{a1} = 2.34 and pK{a2} = 9.60 (literature values). Calculate the ratio ${lowSide ? "[zwitterion] / [cation]" : "[anion] / [zwitterion]"} at pH ${fx(pH, 2)}.`, ans, sfig: 3, unit: "", lab: "Ratio",
+    return { q: `${FEX}For glycine, pK{a1} = 2.34 and pK{a2} = 9.60 (literature values). Calculate the ratio ${lowSide ? "[zwitterion] / [cation]" : "[anion] / [zwitterion]"} at pH ${fx(pH, 2)}.`, ans, sfig: 3, unit: "", uAllow: [], lab: "Ratio",
+      rk: [`gly:${dg(pH)}`],
       w: [lowSide ? `For ⁺H₃NCH₂COOH ⇌ ⁺H₃NCH₂COO⁻ + H⁺: pH = pK{a1} + lg([zwitterion] / [cation]) (Topic 10 Part 2)` : `For ⁺H₃NCH₂COO⁻ ⇌ H₂NCH₂COO⁻ + H⁺: pH = pK{a2} + lg([anion] / [zwitterion]) (Topic 10 Part 2)`,
           `ratio = 10^(${fx(pH, 2)} − ${lowSide ? "2.34" : "9.60"}) = 10^(${fx(pH - (lowSide ? PKA1 : PKA2), 2)}) = <b>${ratioS(ans)}</b>`] };
   }
 };
 LAB.GEN = GEN;
-function parseNum(s){
-  s = String(s).trim().replace(/−/g, "-").replace(/\s+/g, "").replace(/,/g, "");
-  let m = s.match(/^([-+]?\d*\.?\d+)(?:[x×*]10\^?([-+]?\d+)|e([-+]?\d+))?%?$/i);
-  if (!m) return NaN;
-  const e = m[2] != null ? +m[2] : m[3] != null ? +m[3] : 0;
-  return +m[1] * Math.pow(10, e);
+// the displayed form of an answer, as the Check line prints it
+const gnShown = q => q.dp ? fx(q.ans, q.dp) : q.t === "gly" ? ratioS(q.ans) : sf(q.ans, q.sfig);
+function gnBuild(t){
+  const Q = GEN[t](); Q.t = t; Q.shown = gnShown(Q);
+  Q.rk = Q.rk.concat(numKeys(Q));
+  return Q;
 }
-LAB.parseNum = parseNum;
+LAB.gnBuild = gnBuild;
+function gnMake(type){
+  const t0 = type === "mix" ? pick(["yield", "brom", "ph", "gly"]) : type;
+  let Q, n = 0;
+  do { Q = gnBuild(t0); n++; } while (resHit(Q) && n < 400);
+  return Q;
+}
+LAB.gnMake = gnMake;
+/* ---------- typed answers: a number and an optional unit, checked against the unit the question asks for ---------- */
+const UNIT_NAME = { pct: "%", g: "g" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){
+  const t = String(u).toLowerCase().replace(/[\s.·⋅*]/g, "").replace(/[−–]/g, "-").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/[()]/g, "");
+  if (t === "%" || t === "percent" || t === "percentage" || t === "pc" || t === "percentyield") return "pct";
+  if (t === "g" || t === "grams" || t === "gram") return "g";
+  if (t === "ph") return "ph";
+  return null;
+}
+// Returns { value } or { error, kind }: kind "empty" and "nan" are not answers at all, "unit" and "comma" are entries to fix. None of them is scored.
+function parseAnswer(str, allowed){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-").replace(/(?<=[\dA-Za-z%])\.+$/, "");   // a full stop that ends the answer is not part of the number
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  if (allowed && allowed.includes("ph")) t = t.replace(/^pH\s*[=:]?\s*/i, "");
+  t = t.replace(/(10)([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g, (mm, a, b) => a + "^" + [...b].map(c => SUPASC[c]).join(""));
+  if (/^[-+]?\s*(?:\d*,\d{1,2}(?!\d)|0,\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:[, ]\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)(?:\s*[x×*]\s*10\s*\^?\s*\(?([-+]?\d+)\)?|e([-+]?\d+))?\s*(.*)$/i);
+  if (!m) return { error: "Enter a number, for example 72.4 or 1.8e-5.", kind: "nan" };
+  let val = parseFloat(m[2].replace(/[, ]/g, "")); const ex = m[3] != null ? m[3] : m[4];
+  if (ex != null) val *= Math.pow(10, +ex);
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return { error: "Enter a number, for example 72.4 or 1.8e-5.", kind: "nan" };
+  const rest = m[5].trim();
+  if (!rest) return { value: val };
+  if (!/^[A-Za-zµ°%]/.test(rest)) return { error: "Enter one number, with its unit if you like.", kind: "nan" };
+  const u = unitId(rest), named = allowed && allowed.length && UNIT_NAME[allowed[0]];
+  if (u && allowed && allowed.includes(u)) return { value: val, unit: u };
+  return { error: named ? `Check the unit: this answer is in ${named}.` : "Check the unit: this answer has no unit.", kind: "unit" };
+}
+LAB.parseAnswer = parseAnswer;
+const RULE = "First Check counts; not scored once the working is shown.";
+const gnScoreTxt = () => GN.n ? `Score ${GN.score} / ${GN.n}. ${RULE}` : RULE;
 function gnNew(){
-  const t = GN.type === "mix" ? pick(["yield", "brom", "ph", "gly"]) : GN.type;
-  GN.q = GEN[t](); GN.q.t = t;
+  GN.q = gnMake(GN.type); GN.done = false; GN.shown = false; GN.unscored = false; GN.firstOk = null;
   put("gn-q", TX(GN.q.q));
   $("gn-lab").textContent = GN.q.lab; $("gn-unit").textContent = GN.q.unit ? GN.q.unit : GN.q.dp ? "to 2 decimal places" : "to 3 significant figures";
-  $("gn-ans").value = ""; $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-fb").hidden = true; $("gn-work").hidden = true;
+  $("gn-score").textContent = gnScoreTxt();
 }
+function gnGrade(q, v){ return q.dp ? Math.abs(v - q.ans) <= 0.011 : Math.abs(v - q.ans) <= 0.01 * Math.abs(q.ans); }
+LAB.gnGrade = gnGrade;
 function gnCheck(){
-  const v = parseNum($("gn-ans").value), q = GN.q, fb = $("gn-fb");
+  const q = GN.q, fb = $("gn-fb"), pr = parseAnswer($("gn-ans").value, q.uAllow);
   fb.hidden = false;
-  if (!isFinite(v)){ fb.className = "fb no"; fb.textContent = "Enter a number, for example 72.4 or 1.8e-5."; return; }
-  const ok = q.dp ? Math.abs(v - q.ans) <= 0.011 : Math.abs(v - q.ans) <= 0.01 * Math.abs(q.ans);
-  GN.n++; if (ok) GN.score++;
-  const shown = q.dp ? fx(q.ans, q.dp) : q.t === "gly" ? ratioS(q.ans) : sf(q.ans, q.sfig);
+  if (pr.error){   // not an answer yet: empty, not a number, the wrong unit or a decimal comma. Nothing is scored.
+    $("gn-ans").setAttribute("aria-invalid", pr.kind === "empty" ? "false" : "true");
+    fb.className = "fb " + (pr.kind === "unit" || pr.kind === "comma" ? "warn" : "info"); fb.textContent = pr.error;
+    return;
+  }
+  $("gn-ans").setAttribute("aria-invalid", "false");
+  const ok = gnGrade(q, pr.value);
+  if (!GN.done){ GN.done = true; GN.firstOk = ok; if (GN.shown) GN.unscored = true; else { GN.n++; if (ok) GN.score++; } }   // the first valid Check counts, unless the working was shown before it
+  const note = GN.unscored ? " Not scored: the working was shown first." : (ok && !GN.firstOk ? " The score keeps your first answer." : "");
   fb.className = "fb " + (ok ? "ok" : "no");
-  fb.innerHTML = H(ok ? `Correct: ${shown}${q.unit ? " " + q.unit : ""}.` : `Not quite. The answer is ${shown}${q.unit ? " " + q.unit : ""}. Press Show working to see each step.`);
+  fb.innerHTML = H((ok ? `Correct: ${q.shown}${q.unit ? " " + q.unit : ""}.` : `Not quite. The answer is ${q.shown}${q.unit ? " " + q.unit : ""}. Press Show working to see each step.`) + note);
   STRS.push(fb.innerHTML);
-  $("gn-score").textContent = `Score ${GN.score} / ${GN.n}`;
+  $("gn-score").textContent = gnScoreTxt();
 }
-function gnShow(){ const w = $("gn-work"); put("gn-work", GN.q.w.map(x => `<li>${TX(x).replace(/10\^\(([^)]*)\)/g, "10<sup>($1)</sup>")}</li>`).join("")); w.hidden = false; }
+LAB.gnCheck = gnCheck;
+function gnShow(){ const w = $("gn-work"); put("gn-work", GN.q.w.map(x => `<li>${TX(x).replace(/10\^\(([^)]*)\)/g, "10<sup>($1)</sup>")}</li>`).join("")); w.hidden = false; if (!GN.done) GN.shown = true; }
 function bindPR(){
   $("pr-tabs").querySelectorAll("button").forEach(b => b.onclick = () => {
     $("pr-tabs").querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b));
     $("pp-box").hidden = b.dataset.t !== "pp"; $("gn-box").hidden = b.dataset.t !== "gn";
   });
-  $("pp-next").onclick = ppNew;
+  $("pp-next").onclick = () => { if (PPS.t0 && performance.now() - PPS.t0 < 400) return; ppNew(); };   // the second click of a double click does not skip a reaction
   $("gn-types").innerHTML = GTYPES.map(([k, l]) => `<button type="button" data-t="${k}" aria-pressed="${k === GN.type}">${l}</button>`).join("");
   $("gn-types").querySelectorAll("button").forEach(b => b.onclick = () => { GN.type = b.dataset.t; $("gn-types").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); gnNew(); });
   $("gn-check").onclick = gnCheck; $("gn-show").onclick = gnShow; $("gn-new").onclick = gnNew;
@@ -2116,7 +2239,7 @@ function bindPR(){
    ===================================================== */
 const FC = [
   { h: "Ethylamine (ethanamine)", f: "CH₃CH₂NH₂", mf: "C₂H₇N", st: FEX + "a gas at room temperature (b.p. 17 °C, literature value), very soluble in water, so used as an aqueous or ethanolic solution; fishy smell", k: "11.9(a)(b)(c)(d)",
-    rx: ["Made by reducing ethanenitrile: {{CH₃C≡N + 4[H] → CH₃CH₂NH₂}} (LiAlH₄ in dry ether) or {{CH₃C≡N + 2H₂ → CH₃CH₂NH₂}} (H₂(g), Ni catalyst, heat)", "or ethanamide: {{CH₃CONH₂ + 4[H] → CH₃CH₂NH₂ + H₂O}} (LiAlH₄ in dry ether), or from bromoethane with excess NH₃ in ethanol, heat in a sealed tube (Topic 11.5)", "Weak base: {{CH₃CH₂NH₂(aq) + H₂O(l) ⇌ CH₃CH₂NH₃⁺(aq) + OH⁻(aq)}}, K{b} 4.5 × 10⁻⁴ mol dm⁻³ (literature); pH 11.98 at 0.200 mol dm⁻³", "Salt: {{CH₃CH₂NH₂ + HCl → CH₃CH₂NH₃⁺Cl⁻}} (ethylammonium chloride)", "With ethanoyl chloride: {{CH₃COCl + CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + HCl}}"] },
+    rx: ["Made by reducing ethanenitrile: {{CH₃C≡N + 4[H] → CH₃CH₂NH₂}} (LiAlH₄ in dry ether) or {{CH₃C≡N + 2H₂ → CH₃CH₂NH₂}} (H₂(g), Ni catalyst, heat). LiAlH₄ gives only the primary amine; with H₂ and Ni some secondary amine can also form", "or ethanamide: {{CH₃CONH₂ + 4[H] → CH₃CH₂NH₂ + H₂O}} (LiAlH₄ in dry ether), or from bromoethane with excess NH₃ in ethanol, heat in a sealed tube (Topic 11.5)", "Weak base: {{CH₃CH₂NH₂(aq) + H₂O(l) ⇌ CH₃CH₂NH₃⁺(aq) + OH⁻(aq)}}, K{b} 4.5 × 10⁻⁴ mol dm⁻³ (literature); pH at 0.200 mol dm⁻³: 11.98 with the approximation and 11.97 from the exact (quadratic) calculation; either is accepted", "Salt: {{CH₃CH₂NH₂ + HCl → CH₃CH₂NH₃⁺Cl⁻}} (ethylammonium chloride)", "With ethanoyl chloride: {{CH₃COCl + CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + HCl}}"] },
   { h: "Phenylamine", f: "C₆H₅NH₂", mf: "C₆H₇N", st: FEX + "a colourless liquid when pure (b.p. 184 °C), darkening on standing in air; only slightly soluble in water, about 36 g dm⁻³ at 20 °C (literature values); toxic", k: "11.9(a)(b)(d)(e)",
     rx: ["Made from nitrobenzene with Sn and conc. HCl, heat under reflux, then NaOH(aq): {{C₆H₅NO₂ + 6[H] → C₆H₅NH₂ + 2H₂O}}", "Salt: {{C₆H₅NH₂ + HCl → C₆H₅NH₃⁺Cl⁻}}: dissolves in dilute HCl(aq); NaOH(aq) makes it cloudy again", "Very weak base: K{b} 4.3 × 10⁻¹⁰ mol dm⁻³ (literature), about 40 000 times weaker than ammonia: the N lone pair is partly delocalised into the ring", "With bromine water: {{C₆H₅NH₂ + 3Br₂(aq) → C₆H₂Br₃NH₂ + 3HBr}}"] },
   { h: "Nitrobenzene", f: "C₆H₅NO₂", mf: "C₆H₅NO₂", st: FEX + "a pale yellow oily liquid, denser than water (1.20 g cm⁻³; b.p. 211 °C, literature values); toxic", k: "11.9(a)",
@@ -2124,9 +2247,9 @@ const FC = [
   { h: "2,4,6-Tribromophenylamine", f: "C₆H₂Br₃NH₂", mf: "C₆H₄Br₃N", st: FEX + "a white solid, insoluble in water (literature)", k: "11.9(e)",
     rx: ["Formed at once when bromine water is added to aqueous phenylamine at room temperature, with no catalyst: the orange colour disappears and a white precipitate forms", "{{C₆H₅NH₂ + 3Br₂(aq) → C₆H₂Br₃NH₂ + 3HBr}}", "Compare benzene, which needs Br₂, AlBr₃ catalyst, room temperature and gives one substitution (bromobenzene)"] },
   { h: "Ethanamide", f: "CH₃CONH₂", mf: "C₂H₅NO", st: FEX + "a white crystalline solid (m.p. 81 °C, literature), very soluble in water; its solution is neutral", k: "11.9(f)(g)(h)",
-    rx: ["Made from ethanoyl chloride and excess ammonia at room temperature: {{CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl}}", "Neutral: the N lone pair is delocalised into the C=O group (C–N 0.133 nm, literature)", "Dilute HCl(aq), heat under reflux: {{CH₃CONH₂ + H₂O + HCl → CH₃COOH + NH₄Cl}}", "NaOH(aq), heat under reflux: {{CH₃CONH₂ + NaOH → CH₃COO⁻Na⁺ + NH₃}}", "LiAlH₄ in dry ether: {{CH₃CONH₂ + 4[H] → CH₃CH₂NH₂ + H₂O}}"] },
+    rx: ["Made from ethanoyl chloride and concentrated NH₃(aq) at room temperature: {{CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl}}", "Neutral: the N lone pair is delocalised into the C=O group (C–N 0.133 nm, literature)", "Dilute HCl(aq), heat under reflux: {{CH₃CONH₂ + H₂O + HCl → CH₃COOH + NH₄Cl}}", "NaOH(aq), heat under reflux: {{CH₃CONH₂ + NaOH → CH₃COO⁻Na⁺ + NH₃}}", "LiAlH₄ in dry ether: {{CH₃CONH₂ + 4[H] → CH₃CH₂NH₂ + H₂O}}", FEX + "An amine with two alkyl groups reacts the same way: {{(CH₃)₂NH + CH₃COCl → CH₃CON(CH₃)₂ + HCl}} (N,N-dimethylethanamide). With no N–H left on the nitrogen, the amide group is –CON<"] },
   { h: "Aminoethanoic acid (glycine)", f: "H₂NCH₂COOH", mf: "C₂H₅NO₂", st: "a white crystalline solid that decomposes at about 233 °C without melting; soluble in water, insoluble in hexane (literature values)", k: "11.9(i)",
-    rx: ["Exists as the zwitterion: {{H₂NCH₂COOH → ⁺H₃NCH₂COO⁻}}, so the solid is held together by strong ionic attractions (propanoic acid, M{r} 74.0, melts at −21 °C)", "With acid: {{⁺H₃NCH₂COO⁻(aq) + H⁺(aq) → ⁺H₃NCH₂COOH(aq)}}", "With alkali: {{⁺H₃NCH₂COO⁻(aq) + OH⁻(aq) → H₂NCH₂COO⁻(aq) + H₂O(l)}}", FEX + "pK{a1} 2.34, pK{a2} 9.60 (literature); isoelectric point 5.97", "Not chiral (R = H)", "Two glycines condense to glycylglycine: {{2H₂NCH₂COOH → H₂NCH₂CONHCH₂COOH + H₂O}} (Further example; see Topic 11.10)"] }
+    rx: ["Exists as the zwitterion: {{H₂NCH₂COOH → ⁺H₃NCH₂COO⁻}}, so the solid is held together by strong ionic attractions (propanoic acid, M{r} 74.0, melts at −21 °C)", "With acid: {{⁺H₃NCH₂COO⁻(aq) + H⁺(aq) → ⁺H₃NCH₂COOH(aq)}}", "With alkali: {{⁺H₃NCH₂COO⁻(aq) + OH⁻(aq) → H₂NCH₂COO⁻(aq) + H₂O(l)}}", FEX + "pK{a1} 2.34, pK{a2} 9.60 (literature); isoelectric point 5.97", "Not chiral (R = H)", "Two glycines condense to glycylglycine: {{2H₂NCH₂COOH → H₂NCH₂CONHCH₂COOH + H₂O}} (core in Topic 11.10)"] }
 ];
 LAB.FC = FC;
 function bindCards(){
@@ -2134,7 +2257,7 @@ function bindCards(){
   put("fc-cards", FC.map(c => `<article class="panel card"><h3>${H(c.h)}</h3><dl class="defs"><dt>Formula</dt><dd>${H(c.f)} <small class="hint">(${H(c.mf)})</small></dd><dt>M<sub>r</sub></dt><dd>${fx(c.mr, 1)}</dd><dt>State</dt><dd>${H(c.st)}</dd><dt>9476</dt><dd>${H(c.k)}</dd></dl><ul class="rx">${c.rx.map(r => `<li>${TX(r)}</li>`).join("")}</ul></article>`).join(""));
   const R = [
     ["CH₃CH₂Br → ethylamine (Topic 11.5)", "excess NH₃ in ethanol, heat in a sealed tube", "CH₃CH₂NH₂ (with 2° and 3° amines)"],
-    ["CH₃C≡N → ethylamine", "LiAlH₄ in dry ether; or H₂(g), Ni catalyst, heat", "CH₃CH₂NH₂"],
+    ["CH₃C≡N → ethylamine", "LiAlH₄ in dry ether; or H₂(g), Ni catalyst, heat", "CH₃CH₂NH₂ (LiAlH₄ gives only the primary amine; with H₂ and Ni some secondary amine can also form)"],
     ["CH₃CONH₂ → ethylamine", "LiAlH₄ in dry ether", "CH₃CH₂NH₂"],
     ["C₆H₅NO₂ → phenylamine", COND_SN, "C₆H₅NH₂"],
     ["amine + acid", "e.g. HCl(aq), room temperature", "alkylammonium salt, e.g. CH₃CH₂NH₃⁺Cl⁻"],
@@ -2156,7 +2279,7 @@ const QZ = [
   { q: "Which reagents and conditions convert ethanenitrile, CH₃C≡N, into ethylamine? (11.9(a))",
     o: [["LiAlH₄ in dry ether, or H₂(g), Ni catalyst, heat", "Both reduce C≡N to CH₂NH₂."],
         ["NaOH(aq), heat under reflux", "That hydrolyses a nitrile (to the carboxylate salt and NH₃), it does not reduce it."],
-        ["Excess NH₃ in ethanol, heat in a sealed tube", "Those are the conditions for making an amine from a halogenoalkane."],
+        ["Excess NH₃ in ethanol, heat in a sealed tube, as for a halogenoalkane", "Those are the conditions for making an amine from a halogenoalkane."],
         ["Sn and conc. HCl, heat under reflux, then NaOH(aq)", "In 9476 that is the reagent for reducing a nitro group (nitrobenzene to phenylamine)."]] },
   { q: "Nitrobenzene is heated under reflux with tin and concentrated hydrochloric acid. Why is NaOH(aq) then added? (11.9(a)(b))",
     o: [["The product is present as C₆H₅NH₃⁺ in the acid; OH⁻ removes the proton to release phenylamine.", "Phenylamine is a base, so it is protonated as soon as it forms in the excess acid."],
@@ -2170,7 +2293,7 @@ const QZ = [
         ["Clear, then cloudy, then clear", "That is the wrong way round: the salt is the soluble form, the free amine the insoluble one."]] },
   { q: "Which order of proton affinity, and which reason, are correct for the gas phase? (11.9(c))",
     o: [["(CH₃)₃N > (CH₃)₂NH > CH₃NH₂ > NH₃: each alkyl group donates electron density to N and stabilises the cation", "With no solvent, only the inductive effect matters: more alkyl groups, stronger Lewis base."],
-        ["NH₃ > CH₃NH₂ > (CH₃)₂NH > (CH₃)₃N: alkyl groups get in the way of the proton", "Alkyl groups are electron-donating; they make the lone pair more available, not less."],
+        ["NH₃ > CH₃NH₂ > (CH₃)₂NH > (CH₃)₃N: alkyl groups get in the way of the proton, so more groups make a weaker base", "Alkyl groups are electron-donating; they make the lone pair more available, not less."],
         ["(CH₃)₂NH > CH₃NH₂ > (CH₃)₃N > NH₃: tertiary amines are poorly solvated", "That is the order in water (beyond the syllabus), where solvation matters. In the gas phase there is no solvent."],
         ["All four are equal: they all have one lone pair on N", "The proton affinities differ: 854, 899, 930 and 949 kJ mol⁻¹ (literature values)."]] },
   { q: "Why is phenylamine a much weaker base than ammonia in aqueous solution? (11.9(d))",
@@ -2182,12 +2305,12 @@ const QZ = [
     o: [["The orange colour disappears at once and a white precipitate of 2,4,6-tribromophenylamine forms.", "The ring is activated by the N lone pair, so substitution at 2, 4 and 6 happens without a catalyst."],
         ["Nothing happens unless an AlBr₃ catalyst is added.", "That is true of benzene, not of phenylamine, whose ring is activated."],
         ["4-bromophenylamine forms as a colourless liquid.", "All three activated positions are substituted, giving a white solid."],
-        ["The orange colour stays, because amines do not react with bromine.", "The ring of phenylamine is very reactive towards bromine."]] },
-  { q: "Which pair would you use to make N-methylpropanamide, CH₃CH₂CONHCH₃? (11.9(f))",
-    o: [["Propanoyl chloride, CH₃CH₂COCl, and methylamine (methanamine), CH₃NH₂", "Cut the amide at C–N: the C=O part comes from the acyl chloride, the N part from the amine."],
-        ["Ethanoyl chloride, CH₃COCl, and ethylamine, CH₃CH₂NH₂", "That gives N-ethylethanamide, CH₃CONHCH₂CH₃."],
-        ["Propanoic acid and methylamine at room temperature", "A carboxylic acid and an amine at room temperature just form a salt. 9476 makes amides from acyl chlorides."],
-        ["Propanoyl chloride, CH₃CH₂COCl, and ethylamine (ethanamine), CH₃CH₂NH₂", "That gives N-ethylpropanamide, CH₃CH₂CONHCH₂CH₃: the acyl part is right but the N part is ethyl, not methyl."]] },
+        ["The orange colour stays, because amines do not react with bromine at room temperature without a catalyst.", "The ring of phenylamine is very reactive towards bromine."]] },
+  { q: "Which pair would you use to make N-ethylbutanamide, CH₃CH₂CH₂CONHCH₂CH₃? (11.9(f))",
+    o: [["Butanoyl chloride, CH₃CH₂CH₂COCl, and ethylamine, CH₃CH₂NH₂", "Cut the amide at C–N: the C=O part comes from the acyl chloride, the N part from the amine."],
+        ["Butanoyl chloride, CH₃CH₂CH₂COCl, and methylamine (methanamine), CH₃NH₂", "That gives N-methylbutanamide, CH₃CH₂CH₂CONHCH₃: the acyl part is right but the N part is methyl, not ethyl."],
+        ["Butanoic acid and ethylamine at room temperature, then standing", "A carboxylic acid and an amine at room temperature just form a salt. 9476 makes amides from acyl chlorides."],
+        ["Butanamide, CH₃CH₂CH₂CONH₂, and bromoethane, heated in ethanol", "An amide N is not nucleophilic enough to be alkylated this way: its lone pair is delocalised into C=O."]] },
   { q: "Why is an aqueous solution of ethanamide neutral, while ethylamine's is alkaline? (11.9(g))",
     o: [["In ethanamide the N lone pair is delocalised into the adjacent C=O group, so it is not available to accept a proton.", "Evidence: the C–N bond is shorter (0.133 nm against 0.147 nm) and the N is planar."],
         ["Amides are basic like amines; ethanamide is just too weak to change litmus.", "Amides are neutral: their K{b} is too small to measure in water."],
@@ -2200,12 +2323,12 @@ const QZ = [
         ["An amine salt, CH₃CH₂NH₃⁺", "Alkaline hydrolysis gives a carboxylate salt and ammonia; amine salts form with acid."]] },
   { q: "Glycine decomposes at about 233 °C, but propanoic acid (similar M{r}) melts at −21 °C. Why? (11.9(i))",
     o: [["Glycine exists as zwitterions, ⁺H₃NCH₂COO⁻, held together in the solid by strong ionic attractions.", "Propanoic acid is simple molecular; glycine's lattice is ionic."],
-        ["Solid glycine is molecular, with stronger hydrogen bonds than propanoic acid.", "Glycine's solid is not molecular: the zwitterions form an ionic lattice."],
+        ["Solid glycine is molecular, with much stronger hydrogen bonds between its molecules than propanoic acid has.", "Glycine's solid is not molecular: the zwitterions form an ionic lattice."],
         ["Glycine has a much larger M{r}, so its id-id forces are stronger.", "The M{r} values are similar, 75.0 and 74.0."],
         ["Glycine is chiral, so it packs better.", "Glycine has no chiral centre (R = H)."]] }
 ];
 LAB.QZ = QZ;
-const Q = { i: 0, score: 0, order: [], answered: false };
+const Q = { i: 0, score: 0, order: [], answered: false, t0: 0 };
 LAB.Q = Q;
 function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
 function renderQ(){
@@ -2219,17 +2342,19 @@ function renderQ(){
     return;
   }
   const q = QZ[Q.i], ord = Q.order[Q.i];
-  Q.answered = false;
+  Q.answered = false; Q.t0 = performance.now();
   put("quiz-box", `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length}</span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${H(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span class="tx">${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt"><b>${"ABCD"[j]}</b><span class="tx">${H(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`);
-  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+  const btns = [...box.querySelectorAll(".opt")];
+  btns.forEach((b, j) => b.onclick = () => {
+    // a click in the first 400 ms after a question is drawn is ignored: the second click of a double click on Next or Retry lands here
+    if (Q.answered || performance.now() - Q.t0 < 400) return; Q.answered = true;
+    const right = ord[j] === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    btns.forEach((x, k) => { x.disabled = true; if (ord[k] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
@@ -2413,3 +2538,4 @@ LAB.ready = true;
   if (start >= 0) setTimeout(function () { scrollToSection(current); }, 0);
 })();
 </script><!-- labshell:end -->
+</html>
