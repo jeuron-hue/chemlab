@@ -450,7 +450,7 @@ svg .arrowh{fill:var(--s2)}
       <div class="ctl"><label for="hm-dh">ΔH of the step <output id="hm-dhv"></output></label><input type="range" id="hm-dh" min="-150" max="150" step="5" value="-80"></div>
       <div class="chipgrp"><span>Presets</span><div class="chips" id="hm-pre" role="group" aria-label="Presets"></div></div>
       <div class="callout"><p><b class="ink">The Hammond postulate.</b> A transition state resembles the stable species (reactant, intermediate or product) that is nearest to it in energy.</p><p>In an exothermic step the transition state comes early and resembles the reactants; in an endothermic step it comes late and resembles the products (or the intermediate formed).</p></div>
-      <p class="hint" style="margin:0"><span class="beyond">Enrichment</span>The model treats reactant and product as two parabolas that cross at the transition state (λ = 240&nbsp;kJ mol<sup>−1</sup>, so E<sub>a</sub> = 60&nbsp;kJ mol<sup>−1</sup> when ΔH = 0). Model numbers: real reactions have different intrinsic barriers.</p>
+      <p class="hint" style="margin:0"><span class="beyond">Enrichment</span>The model treats reactant and product as two parabolas that cross at the transition state (λ = 240&nbsp;kJ mol<sup>−1</sup>, so E<sub>a</sub> = 60&nbsp;kJ mol<sup>−1</sup> when ΔH = 0). The energies are illustrative data: real reactions have different intrinsic barriers.</p>
     </div>
     <div class="stack">
       <div class="viewer">
@@ -485,7 +485,7 @@ svg .arrowh{fill:var(--s2)}
       <div class="chipgrp"><span>Go to</span><div class="chips" id="sn-stops" role="group" aria-label="Stages"></div></div>
       <div class="btnrow"><button class="btn primary" id="sn-play">Run the mechanism</button><button class="btn" id="sn-reset">Reset view</button></div>
       <div class="chipgrp" id="sn-facew" hidden><span>The nucleophile attacks the carbocation from</span><div class="seg" id="sn-face"><label><input type="radio" name="sn-face" value="back" checked>the open face</label><label><input type="radio" name="sn-face" value="front">the face Br<sup>−</sup> left</label></div></div>
-      <div class="ctl" id="sn-ipw" hidden><label for="sn-ip">Ion pair shields the front face: extra inversion <output id="sn-ipv"></output></label><input type="range" id="sn-ip" min="0" max="30" step="5" value="20"><span class="hint">0&nbsp;% is a free carbocation (racemic); the ratio is illustrative.</span></div>
+      <div class="ctl" id="sn-ipw" hidden><label for="sn-ip">Ion pair shields the front face: extra inversion <output id="sn-ipv"></output></label><input type="range" id="sn-ip" min="0" max="30" step="5" value="20"><span class="hint">0&nbsp;% is a free carbocation (racemic); these ratios are illustrative data.</span></div>
       <p class="hint" style="margin:0">Drag the model to turn it. Partial bonds in a transition state are dashed.</p>
     </div>
     <div class="stack">
@@ -613,7 +613,7 @@ svg .arrowh{fill:var(--s2)}
         <div id="pr-fb" hidden></div>
       </div>
       <div class="tblwrap"><table class="data" id="pr-grid"></table></div>
-      <p class="hint" style="margin:0" id="pr-scope">The two strong-base columns are for the base in ethanol, heated. With NaOH(aq) substitution wins, as in Topic 11.5: S<sub>N</sub>2 for methyl, primary and secondary substrates (benzylic ones also by S<sub>N</sub>1, Part 1), and S<sub>N</sub>1, with some alkene, for tertiary ones.</p>
+      <p class="hint" style="margin:0" id="pr-scope">The two strong-base columns are for the base in an alcohol (ethanol or (CH₃)₃COH), heated. With NaOH(aq) substitution wins, as in Topic 11.5: S<sub>N</sub>2 for methyl, primary and secondary substrates (benzylic ones also by S<sub>N</sub>1, Part 1), and S<sub>N</sub>1, with some alkene, for tertiary ones.</p>
       <p class="hint" style="margin:0" id="pr-score"></p>
     </div>
   </div>
@@ -2147,9 +2147,9 @@ const ZH_SUB = {
   pr: { n: "2-bromopropane", f: "CH₃CHBrCH₃",
     one: { n: "propene", f: "CH₂=CHCH₃", sub: "monosubstituted", dh: -125, bh: 6, from: "the two CH₃ groups", need: "3 H on each CH₃ group (6 in all)" },
     small: [100, 0, "none"], bulky: [100, 0, "none"], eq: "zh_pr" },
-  mb3: { n: "2-bromo-3-methylbutane", f: "CH₃CHBrCH(CH₃)₂", extra: true,
+  mb3: { n: "CH₃CHBrCH(CH₃)₂", f: "CH₃CHBrCH(CH₃)₂", extra: true,
     Z: { n: "2-methylbut-2-ene", f: "(CH₃)₂C=CHCH₃", sub: "trisubstituted", dh: -112, bh: 1, from: "the CH (C3)" },
-    Hf: { n: "3-methylbut-1-ene", f: "CH₂=CHCH(CH₃)₂", sub: "monosubstituted", dh: null, bh: 3, from: "the CH₃ (C1)" },
+    Hf: { n: "CH₂=CHCH(CH₃)₂", f: "CH₂=CHCH(CH₃)₂", sub: "monosubstituted", dh: null, bh: 3, from: "the CH₃ (C1)" },
     small: [70, 30, "ill"], bulky: [20, 80, "ill"], eq: "zh_mb3" }
 };
 const ZH_PROF = { small: { Z: 88, H: 92 }, bulky: { Z: 96, H: 92 }, pZ: -30, pH: -23 };
@@ -2217,14 +2217,14 @@ function zhTable(){
   const S = ZH_SUB[ZH.s], rows = zhPct();
   const dh = v => v == null ? "not given" : typeof v === "number" ? minus(String(v)) : v;
   $("zh-tbl").innerHTML = `<thead><tr><th>Alkene</th><th>C=C carbons carry</th><th>β-H it needs</th><th class="num">ΔH<sub>hydrogenation</sub> / kJ mol<sup>−1</sup> ${SRCTAG("lit")}</th><th class="num">%</th></tr></thead><tbody>`
-    + rows.map(o => `<tr><td>${HS(o.p.n)}<br><span class="hint">${H(o.p.f)}</span></td><td>${o.p.sub === "trisubstituted" ? "three alkyl groups" : o.p.sub === "disubstituted" ? "two alkyl groups" : "one alkyl group"} (${o.p.sub})</td><td>${o.p.need ? HS(o.p.need) : `${o.p.bh} H on ${HS(o.p.from)}`}</td><td class="num">${HS(dh(o.p.dh))}</td><td class="num">${o.v}</td></tr>`).join("") + "</tbody>";
+    + rows.map(o => `<tr><td>${HS(o.p.n)}${o.p.f === o.p.n ? "" : `<br><span class="hint">${H(o.p.f)}</span>`}</td><td>${o.p.sub === "trisubstituted" ? "three alkyl groups" : o.p.sub === "disubstituted" ? "two alkyl groups" : "one alkyl group"} (${o.p.sub})</td><td>${o.p.need ? HS(o.p.need) : `${o.p.bh} H on ${HS(o.p.from)}`}</td><td class="num">${HS(dh(o.p.dh))}</td><td class="num">${o.v}</td></tr>`).join("") + "</tbody>";
 }
 function zhWhy(){
   const S = ZH_SUB[ZH.s], P = [];
   if (S.one) P.push(`All six β-hydrogens are on equivalent CH₃ groups, so only propene can form, whatever the base: no Zaitsev or Hofmann choice arises.`);
   else if (ZH.b === "small") P.push(`<b class="ink">Stability (Zaitsev).</b> A small base can reach any β-hydrogen. The E2 transition state already has partial C=C character, so (Hammond) the path to the more stable, more substituted alkene, ${S.Z.n}, has the lower transition state: it is the main product.`);
   else if (ZH.b === "bulky") P.push(`<b class="ink">Access (Hofmann).</b> The tert-butoxide ion, (CH₃)₃CO⁻, is bulky. It cannot easily reach the H on ${S.Z.from}, hemmed in by the groups on the next carbon; the ${S.Hf.bh} H atoms on ${S.Hf.from} are on the outside, so the less substituted alkene, ${S.Hf.n}, forms faster.`);
-  else P.push(`<b class="ink">E1 gives the Zaitsev product.</b> The carbocation (CH₃)₂C⁺CH₂CH₃ forms first; a weak base (water) removes H⁺ in the fast step, so the more stable alkene, 2-methylbut-2-ene, is the main alkene (mainly Zaitsev; illustrative data). There is no Hofmann option without a bulky strong base. Water also attacks the carbocation: 2-methylbutan-2-ol forms by S_N1 alongside.`);
+  else P.push(`<b class="ink">E1 gives the Zaitsev product.</b> The carbocation (CH₃)₂C⁺CH₂CH₃ forms first; a weak base (water) removes H⁺ in the fast step, so the more stable alkene, 2-methylbut-2-ene, is the main alkene (mainly Zaitsev; illustrative data). There is no Hofmann option without a bulky strong base. Water also attacks the carbocation: (CH₃)₂C(OH)CH₂CH₃ forms by S_N1 alongside.`);
   if (!S.one && ZH.b !== "e1") P.push(`More alkyl groups on the C=C carbons make an alkene more stable (hyperconjugation and the inductive effect): ${S.Z.n} is ${S.Z.sub}, ${S.Hf.n} ${S.Hf.sub}.`);
   if (ZH.s === "bb") P.push(`The but-2-ene is mostly the (E) isomer, from the anti-periplanar conformation with the two CH₃ groups anti (see E2 in 3D).`);
   if (S.extra) P.push(`<span class="src">lab extra</span> Not in the notes: a second branched substrate to try, with illustrative data.`);
@@ -2257,7 +2257,7 @@ function zhSet(s, b){
   zhDraw();
 }
 function bindZH(){
-  $("zh-mols").innerHTML = Object.entries(ZH_SUB).map(([k, s]) => `<button type="button" data-id="${k}">${s.n}${s.extra ? ` <span class="src">lab extra</span>` : ""}</button>`).join("");
+  $("zh-mols").innerHTML = Object.entries(ZH_SUB).map(([k, s]) => `<button type="button" data-id="${k}">${HS(s.n)}${s.extra ? ` <span class="src">lab extra</span>` : ""}</button>`).join("");
   $("zh-mols").addEventListener("click", e => { const b = e.target.closest("button"); if (b) zhSet(b.dataset.id); });
   $("zh-base").addEventListener("change", () => zhSet(null, document.querySelector('input[name="zh-base"]:checked').value));
   REDRAW.push(zhDraw);
@@ -2345,7 +2345,7 @@ function prReveal(k){
   if (k){
     const btn = $("pr-opts").querySelector(`[data-k="${k}"]`);
     if (k === c[1]) head = `<p><b>Right.</b></p>`;
-    else if (c[2].includes(k)){ head = `<p><b>Partly right (counted):</b> it happens, but it is not the main route, which is ${HS(PR_OPT.find(o => o[0] === c[1])[1])}.</p>`; }
+    else if (c[2].includes(k)){ const mn = HS(PR_OPT.find(o => o[0] === c[1])[1]); head = k === "none" ? `<p><b>Partly right (counted):</b> it does react, but slowly; the main route is ${mn}.</p>` : `<p><b>Partly right (counted):</b> it happens, but it is not the main route, which is ${mn}.</p>`; }
     else { head = `<p><b>Not quite.</b></p>`; btn.classList.add("wrong"); }
   }
   fb.className = "fb " + (!k ? "info" : k === c[1] ? "ok" : c[2].includes(k) ? "warn" : "no");
@@ -2485,7 +2485,7 @@ function gnMake(type, preset){
     q.opts = [{ k: "E", t: "the (E) isomer only" }, { k: "Z", t: "the (Z) isomer only" }, { k: "both", t: "(E) and (Z) in equal amounts" }, { k: "none", t: "an alkene with no E/Z isomers" }];
     q.prod = it.prod;
   } else if (type === "zh"){
-    const sid = pick(["mb", "bb", "mb3"]), base = pick(["small", "bulky"]), S = ZH_SUB[sid], r = S[base];
+    const sid = pick(["mb", "bb"]), base = pick(["small", "bulky"]), S = ZH_SUB[sid], r = S[base];
     q.text = `${S.n[0].toUpperCase() + S.n.slice(1)}, ${S.f}, is heated with ${base === "small" ? "NaOC₂H₅ in ethanol" : "KOC(CH₃)₃ in (CH₃)₃COH"}. What is the main organic product?`;
     q.opts = [{ k: "Z", t: S.Z.n + " (" + S.Z.sub + ")" }, { k: "H", t: S.Hf.n + " (" + S.Hf.sub + ")" }, { k: "eq", t: "the two alkenes in equal amounts" }, { k: "sub", t: "a substitution product (an ether)" }];
     q.ans = r[0] > r[1] ? "Z" : "H";
@@ -2526,7 +2526,7 @@ function gnCheck(){
     if (!GN.pick){ fb.className = "fb info"; fb.innerHTML = "Pick an answer first."; show(fb, true); return; }
     const a = q.opts.find(o => o.k === q.ans).t, half = (q.half || []).includes(GN.pick);
     right = GN.pick === q.ans || half;
-    msg = GN.pick === q.ans ? `Right: ${a}.` : half ? `Partly right (counted): it happens, but it is not the main route, which is ${a}.` : `Not quite: the answer is ${a}.` + (q.why && q.why[GN.pick] ? " " + q.why[GN.pick] : "");
+    msg = GN.pick === q.ans ? `Right: ${a}.` : half ? (GN.pick === "none" ? `Partly right (counted): it does react, but slowly; the main route is ${a}.` : `Partly right (counted): it happens, but it is not the main route, which is ${a}.`) : `Not quite: the answer is ${a}.` + (q.why && q.why[GN.pick] ? " " + q.why[GN.pick] : "");
     GN.half = half && GN.pick !== q.ans;
   } else {
     const r = parseAnswer($("gn-ans").value, q.units), ans = $("gn-ans");
@@ -2586,7 +2586,7 @@ const FC = [
     p: "The letter changes from (R) to (S) because OH (or CN) takes Br's place as priority 1 on the opposite face." },
   { g: "sub", t: "3-Bromo-3-methylhexane", f: "CH₃CH₂CH₂C(CH₃)BrCH₂CH₃", kind: "tertiary, one chiral centre",
     dl: [["H₂O, warm, or NaOH(aq), heat", "3-methylhexan-3-ol, S_N1"], ["Free carbocation", "50 : 50, racemic"], ["With the ion pair", "60 % (R) and 40 % (S) from the (S)-bromide: ee 20 % " + ILL]],
-    p: "Br⁻ still close to the face it left shields that face, so slightly more of the inverted product forms." },
+    p: "The leaving Br⁻ lingers on the side it departed from and partly blocks it, so a little more of the inverted product forms." },
   { g: "sub", t: "(1-Bromoethyl)benzene", f: "C₆H₅CH(Br)CH₃", kind: "secondary, benzylic",
     dl: [["OH⁻ in a water–propanone mixture", "1-phenylethanol by S_N1 and S_N2 together"], ["Rate", "k<sub>obs</sub>[RBr] with k<sub>obs</sub> = k₁ + k₂[OH⁻]"]],
     p: "The carbocation is stabilised by the benzene ring, so S_N1 competes; a higher [OH⁻] pushes the mixture towards S_N2." },
@@ -2678,7 +2678,7 @@ const QZ = [
         ["3, from one CH₃ group only", "That is the count for CH₃CH₂⁺, with one CH₃ group."],
         ["9, from three CH₃ groups", "That is the count for (CH₃)₃C⁺, with three CH₃ groups."]] },
   { k: "3.2(b)(ii)", q: "S_N1 hydrolysis of (S)-3-bromo-3-methylhexane gives slightly more (R)-3-methylhexan-3-ol than (S). Why?",
-    o: [["Br⁻ stays close to the face it left (an ion pair) and shields it, so attack from the far face is a little more likely", "With a free carbocation the two faces would be equally open: 50 : 50."],
+    o: [["The departing Br⁻ lingers beside the side it left, as an ion pair, and partly blocks it, so the far side is attacked slightly more often", "With a free carbocation the two faces would be equally open: 50 : 50."],
         ["Some of the molecules react by S_N2 instead, with water attacking the carbon from the back, which inverts them", "The tertiary carbon is too crowded for back-side attack: there is no S_N2 here."],
         ["The carbocation keeps the configuration of the bromide, so the alcohol forms with retention", "The carbocation is planar, so it has no configuration to keep."],
         ["The (R) alcohol is more stable than the (S) alcohol", "Enantiomers have exactly the same energy."]] },
