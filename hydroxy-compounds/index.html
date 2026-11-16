@@ -53,6 +53,11 @@
 :root{ --s4:#1E2A33; --s4-ink:#1E2A33; --c5:#5FA9C2; --c6:#B58BCB; --hl:rgba(123,75,148,.14); --hl-edge:rgba(123,75,148,.55); }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --s4:#E8EDF0; --s4-ink:#E8EDF0; --c5:#2E8CAB; --c6:#9C6BB5; --hl:rgba(196,154,216,.20); --hl-edge:rgba(196,154,216,.6); } }
 :root[data-theme="dark"]{ --s4:#E8EDF0; --s4-ink:#E8EDF0; --c5:#2E8CAB; --c6:#9C6BB5; --hl:rgba(196,154,216,.20); --hl-edge:rgba(196,154,216,.6); }
+/* plum Enrichment tag and a darker green for feedback text (4.5 : 1 on the feedback backgrounds) */
+:root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
+:root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+.ls-all2{min-height:24px}   /* tap target of the shell's contents button */
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 .nc{text-transform:none; letter-spacing:.02em}
@@ -108,7 +113,7 @@ section.lab:last-of-type{border-bottom:0}
 .seg.col{flex-direction:column}
 .seg.col label{text-align:left; padding:7px 10px; border-top:1px solid var(--line)}
 .seg.col label:first-child{border-top:0}
-.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch{display:flex; align-items:center; gap:10px; cursor:pointer; min-height:24px; font-size:.9rem; color:var(--ink); user-select:none}
 .switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
 .switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
@@ -135,8 +140,9 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .callout{font-size:.88rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:9px 12px}
 .callout p{margin:0}
 .callout p + p{margin-top:6px}
-.beyond{display:inline-block; font-size:11px; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:11px; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .fex{display:inline-block; font-size:11px; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.enrbox{margin-top:10px; padding:2px 0 2px 10px; border-left:3px solid var(--accent-2)}
 .bts{display:inline-block; font-size:11px; font-weight:600; color:var(--ink-2); background:var(--surface-2); border:1px dashed var(--axis); padding:0 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .src{display:inline-block; font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:1.35; font-weight:500; color:var(--ink-2); border:1px solid var(--line); padding:0 4px; border-radius:3px; margin-left:4px; vertical-align:1px; white-space:nowrap}
 .src.lit{border-style:dashed}
@@ -147,7 +153,7 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .field input[aria-invalid=true]{border-color:var(--bad)}
 .field input.ok{border-color:var(--good)}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--surface); color:var(--good); border:1px solid var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb.warn{background:var(--warn-bg); color:var(--warn)}
@@ -359,7 +365,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -371,7 +377,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -634,7 +640,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
     <div class="tabs" role="tablist" id="gn-tabs"></div>
     <p class="qtext" id="gn-q"></p>
     <div class="ansrow" id="gn-ans"></div>
-    <div class="btnrow"><button class="btn primary" id="gn-check">Check</button><button class="btn" id="gn-show">Show working</button><button class="btn" id="gn-new">New question</button></div>
+    <div class="btnrow"><button class="btn primary" id="gn-check">Check</button><button class="btn" id="gn-show">Show working</button><button class="btn" id="gn-new">New question</button><span class="hint" id="gn-score"></span></div>
     <div id="gn-fb" hidden></div>
     <ol class="working" id="gn-work" hidden></ol>
   </div>
@@ -668,12 +674,12 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.6 Hydroxy Compounds</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub>, bond energies and the molar gas volume from the Data Booklet · p<i>K</i><sub>a</sub>, <i>K</i><sub>a</sub> of phenol, boiling and melting points and Δ<i>H</i><sub>c</sub><sup>⦵</sup> are literature values · glassware drawings are schematic</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 16/11/26</span></div>
 </footer>
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
+const LAB = {};
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const D2R = Math.PI / 180;
@@ -702,22 +708,14 @@ const H = t => String(t).split(/(<[^>]*>)/).map((p, i) => i % 2 ? p : H0(p)).joi
   .replace(/(\d) × 10/g, "$1\u00a0×\u00a010")
   .replace(/\bpH (?=[\d−])/g, "pH\u00a0")
   .replace(/(\d|<\/sup>|<\/sub>) (?=(mol|cm<sup>|dm<sup>|g\b|K\b|°C|%|kJ|J\b))/g, "$1\u00a0");
+LAB.H = H;
 const minus = s => String(s).replace(/-/g, "−");
 const fx = (v, d) => minus((Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixed(d));
-const sf = (v, n) => {
-  if (v === 0) return "0";
-  let e = n - 1 - Math.floor(Math.log10(Math.abs(v)));
-  const r = +v.toFixed(Math.max(0, e));
-  if (e >= 0 && Math.floor(Math.log10(Math.abs(r))) > Math.floor(Math.log10(Math.abs(v)))) e -= 1;
-  if (e >= 0) return v.toFixed(e);
-  const k = Math.pow(10, -e); return String(Math.round(v / k) * k);
-};
 const SUPS = n => String(n).split("").map(c => c === "-" ? "⁻" : SUPD[+c]).join("");
 function sci(v, n){
   if (v === 0) return "0";
-  let e = Math.floor(Math.log10(Math.abs(v))), m = v / Math.pow(10, e);
-  let ms = m.toFixed(n - 1);
-  if (Math.abs(+ms) >= 10){ e += 1; ms = (v / Math.pow(10, e)).toFixed(n - 1); }
+  let e = Math.floor(Math.log10(Math.abs(v))), ms = sf(v / Math.pow(10, e), n);
+  if (Math.abs(+ms) >= 10){ e += 1; ms = sf(v / Math.pow(10, e), n); }
   return e === 0 ? ms : `${ms} × 10${SUPS(e)}`;
 }
 const SRC = k => k === "lit" ? `<span class="src lit">literature</span>` : `<span class="src">Data Booklet</span>`;
@@ -870,7 +868,7 @@ function putSVG(svg, m, maxW){
   svg.style.maxWidth = (maxW ? Math.min(maxW, w) : w) + "px";
   svg.innerHTML = m.body;
 }
-// a row of items [spec | {gap} | {arrow: label}] laid out left to right, wrapping into rows when narrow
+// a row of items [spec | {gap} | {arrow: label}] laid out in a row, wrapping into rows when narrow
 function schemeSVG(items, maxW, fs){
   fs = fs || 17;
   const parts = items.map(it => {
@@ -1146,7 +1144,7 @@ function bubbles(cx, yTop, yBot, w, n, seed){
 const COL = { dichromate: "#ee8a1c", chromium3: "#3f8c5a", permanganate: "#7b2a8e", mn2: "#f4eff2", water: "#e4eef5", iodine: "#b8742e", iodinePale: "#efe3b8", chi3: "#f2d64b", tollens: "#eef2f4", silver: "#b9c0c6", fehling: "#2f6fc0", cu2o: "#b5451b", dnph: "#f0a032", dnphppt: "#e4761c", bromine: "#e98a2a", bromineDeep: "#c9611e", clear: "#dde8ee", white: "#ffffff", sodium: "#b9bec3", phenolSolid: "#fbfbf7", ice: "#dcecf4" };
 LAB.COL = COL;
 /* =====================================================
-   1. OXIDATION BENCH  (DATA.md (a)(iv) and (b))
+   1. OXIDATION BENCH  (9476 11.6(a)(iv) and (b))
    ===================================================== */
 const ALCS = [
   { id: "eth", name: "ethanol", f: "CH3CH2OH", cls: 1, bp: 78, g: { left: "H3C", right: "H", down: "H" }, hC: ["R", "D"],
@@ -1191,13 +1189,14 @@ function oxOutcome(a, ox, set){
     o.eqO = []; o.eqLab = [];
     o.why = `${cap(a.name)} is a tertiary alcohol: there is no H atom on the C–OH carbon, so it cannot be oxidised in this way. The ${OX.w0} colour stays.`;
   }
-  o.colour = o.react ? `${OX.w0} to ${OX.w1}` : `stays ${OX.w0}`;
+  o.colour = o.react ? `the oxidising agent changes colour as it reacts: ${OX.w0} → ${OX.w1}; once the alcohol is used up, excess oxidising agent keeps its own colour (${OX.w0})` : `stays ${OX.w0}`;
   return o;
 }
 LAB.oxOutcome = oxOutcome;
 // full ionic equations (Further example), built from the half-equations
 function oxIonic(o){
   if (!o.react || !o.allowed) return null;
+  if (rh(`ionic:${o.ox}:${o.a.id}`)) return null;   // no ionic equation for this combination
   const X = o.a.f, Y = o.prod.f, aq = s => s + "(aq)";
   if (o.ox === "cr"){
     const half = "Cr2O7²⁻(aq) + 14H⁺(aq) + 6e⁻ → 2Cr³⁺(aq) + 7H2O(l)";
@@ -1218,7 +1217,7 @@ function oxOptions(o){
     opts.push(["propanone, a ketone", false, `A ketone comes from a secondary alcohol. ${cap(a.name)} is primary: its –OH is on a carbon bonded to only one other carbon.`]);
     opts.push(["no reaction", false, `${cap(a.name)} has two H atoms on the C–OH carbon, so it is oxidised.`]);
   } else if (a.cls === 2){
-    const ald = a.id === "p2" ? "propanal" : "butanal", acid = a.id === "p2" ? "propanoic acid" : "butanoic acid";
+    const ald = a.id === "p2" ? "propanal" : "butanal", acid = a.id === "p2" ? "propanoic acid" : "ethanoic acid";
     opts.push([`${a.ket.name}, a ketone`, true, ""]);
     opts.push([`${ald}, an aldehyde`, false, `An aldehyde comes from a primary alcohol; ${a.name} is secondary (its –OH carbon carries two carbon groups), so it gives a ketone.`]);
     opts.push([`${acid}, a carboxylic acid`, false, `The ketone has no H on its C=O carbon, so it is not oxidised further, even under reflux.`]);
@@ -1227,7 +1226,7 @@ function oxOptions(o){
     opts.push(["no reaction", true, ""]);
     opts.push(["butanone, a ketone", false, "Oxidation to a ketone removes the H atom on the C–OH carbon, and 2-methylpropan-2-ol has none."]);
     opts.push(["2-methylpropanal, an aldehyde", false, "That would need a primary alcohol, 2-methylpropan-1-ol."]);
-    opts.push(["2-methylpropanoic acid, a carboxylic acid", false, "That would need a primary alcohol, 2-methylpropan-1-ol, heated under reflux."]);
+    opts.push(["propanoic acid, a carboxylic acid", false, "A carboxylic acid needs a primary alcohol heated under reflux; 2-methylpropan-2-ol has no H atom on the C–OH carbon, so it is not oxidised."]);
   }
   return opts;
 }
@@ -1321,7 +1320,7 @@ function oxApparatus(){
   const svg = $("ox-svg");
   svg.setAttribute("viewBox", `0 0 ${W} ${Hh}`); svg.innerHTML = s;
   const sw = `<span class="swatch" style="background:${liq}"></span>`;
-  $("ox-bnote").innerHTML = !o.allowed ? H(o.why) : p === 0 ? H(`Before heating: the ${ox.name} is ${ox.w0}. Schematic.`) : p < 1 ? H(`Heating… ${sw}`) : H(`${sw}${o.react ? `The ${ox.w0} solution has turned ${ox.w1}.` : `No change: the solution stays ${ox.w0}.`} Schematic.`);
+  $("ox-bnote").innerHTML = !o.allowed ? H(o.why) : p === 0 ? H(`Before heating: the ${ox.name} is ${ox.w0}. Schematic.`) : p < 1 ? H(`Heating… ${sw}`) : H(`${sw}${o.react ? `The oxidising agent changes colour as it reacts: ${ox.w0} → ${ox.w1}.` : `No change: the solution stays ${ox.w0}.`} Schematic.`);
 }
 function oxRead(){
   const o = oxOutcome(OX.a, OX.ox, OX.set), done = OX.p >= 1 && (!OX.pred || OX.predDone);
@@ -1382,23 +1381,25 @@ function oxPred(){
   if (!OX.optOrder || OX.optKey !== OX.a.id + OX.set) { OX.optOrder = shuffle([0, 1, 2, 3]); OX.optKey = OX.a.id + OX.set; }
   const opts = oxOptions(o);
   box.hidden = false;
-  box.innerHTML = `<p class="qtext">${H(`Predict: what forms when ${OX.a.name} is heated with ${OXS[OX.ox].name}, ${OX.set === "distil" ? "heat with distillation" : "heat under reflux"}?`)}</p><div class="optlist">${OX.optOrder.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(opts[oi][0])}</span></button>`).join("")}</div><div id="ox-pfb" hidden></div>`;
-  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    const oi = +b.dataset.oi, right = opts[oi][1];
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (opts[+x.dataset.oi][1]) x.classList.add("right"); });
+  box.innerHTML = `<p class="qtext">${H(`Predict: what forms when ${OX.a.name} is heated with ${OXS[OX.ox].name}, ${OX.set === "distil" ? "heat with distillation" : "heat under reflux"}?`)}</p><div class="optlist">${OX.optOrder.map((oi, j) => `<button class="opt"><b>${"ABCD"[j]}</b><span>${H(opts[oi][0])}</span></button>`).join("")}</div><div id="ox-pfb" hidden></div>`;
+  const btns = [...box.querySelectorAll(".opt")], order = OX.optOrder.slice();
+  btns.forEach((b, j) => b.onclick = () => {
+    const oi = order[j], right = opts[oi][1];
+    btns.forEach((x, k) => { x.disabled = true; if (opts[order[k]][1]) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const pf = $("ox-pfb"); pf.hidden = false; pf.className = "fb " + (right ? "ok" : "no");
     pf.innerHTML = H(right ? "Correct. Now heat to see it happen." : `Not quite. ${opts[oi][2]} Heat to see what happens.`);
     OX.predicted = oi;
   });
 }
-function oxAll(){ oxMol(); oxApparatus(); oxRead(); oxPred(); }
+function oxTab(){ const o = oxOutcome(OX.a, OX.ox, OX.set); $("ox-tab").closest(".panel").hidden = !!(OX.pred && o.allowed && !OX.predDone); }
+function oxAll(){ oxMol(); oxApparatus(); oxRead(); oxPred(); oxTab(); }
 LAB.oxAll = oxAll;
 function oxHeat(){
   const o = oxOutcome(OX.a, OX.ox, OX.set);
   if (!o.allowed) return;
   if (OX.pred && OX.predicted == null){ const pf = $("ox-pfb"); if (pf){ pf.hidden = false; pf.className = "fb info"; pf.textContent = "Choose an answer first."; } return; }
-  OX.predDone = true; OX.tested = false;
+  OX.predDone = true; OX.tested = false; oxTab();
   cancelAnimationFrame(OX.run);
   if (NOANIM()){ OX.p = 1; OX.run = 0; oxAll(); return; }
   const t0 = performance.now(), D = 2600;
@@ -1424,7 +1425,7 @@ function bindOX(){
   $("ox-heat").onclick = oxHeat; $("ox-reset").onclick = oxReset;
   $("ox-full").onchange = oxRead;
   $("ox-tab").innerHTML = H(`<tr><th>Test</th><th>Primary (e.g. propan-1-ol)</th><th>Secondary (e.g. propan-2-ol)</th><th>Tertiary (e.g. 2-methylpropan-2-ol)</th></tr>
-    <tr><td>Warm with acidified K2Cr2O7</td><td data-h="1°">orange → green</td><td data-h="2°">orange → green</td><td data-h="3°">stays orange</td></tr>
+    <tr><td>Heat with acidified K2Cr2O7</td><td data-h="1°">orange → green</td><td data-h="2°">orange → green</td><td data-h="3°">stays orange</td></tr>
     <tr><td>Distillate + Tollens' reagent, warm</td><td data-h="1°">silver mirror (an aldehyde)</td><td data-h="2°">no change (a ketone)</td><td data-h="3°">no carbonyl compound forms</td></tr>
     <tr><td>Distillate + Fehling's solution, warm</td><td data-h="1°">brick-red precipitate</td><td data-h="2°">no change</td><td data-h="3°">no carbonyl compound forms</td></tr>
     <tr><td>Distillate + 2,4-DNPH</td><td data-h="1°">orange precipitate</td><td data-h="2°">orange precipitate</td><td data-h="3°">no precipitate</td></tr>
@@ -1433,7 +1434,7 @@ function bindOX(){
   LAB.setOX = (a, ox, set, pred) => { const r = document.querySelector(`input[name="ox-a"][value="${a}"]`); r.checked = true; r.onchange(); const q = document.querySelector(`input[name="ox-o"][value="${ox}"]`); q.checked = true; q.onchange(); const t = document.querySelector(`input[name="ox-s"][value="${set}"]`); if (!t.disabled){ t.checked = true; t.onchange(); } if (pred != null){ const m = document.querySelector(`input[name="ox-mode"][value="${pred ? "pred" : "watch"}"]`); m.checked = true; m.onchange(); } };
 }
 /* =====================================================
-   2. TRI-IODOMETHANE TESTER AND SORTER  (DATA.md (c): the positive / negative list and reasons)
+   2. TRI-IODOMETHANE TESTER AND SORTER  (9476 11.6(c): the positive / negative list and reasons)
    ===================================================== */
 // g: drawing groups; kind "alc" (carbinol template) or "co" (carbonyl template); hl: keys of the shaded group
 const IOD = [
@@ -1444,7 +1445,6 @@ const IOD = [
   { id: "b1", name: "butan-1-ol", f: "CH3CH2CH2CH2OH", grp: "alc", kind: "alc", g: { left: "CH3CH2CH2", right: "H", down: "H" }, pos: false, why: "the C–OH carbon is bonded to a propyl group, not a CH3 group" },
   { id: "b2", name: "butan-2-ol", f: "CH3CH2CH(OH)CH3", grp: "alc", kind: "alc", g: { left: "H3C", right: "CH2CH3", down: "H" }, pos: true, R: "CH2CH3", an: "CH3CH2COO⁻", anName: "propanoate", why: "R is CH2CH3" },
   { id: "tb", name: "2-methylpropan-2-ol", f: "(CH3)3COH", grp: "alc", kind: "alc", g: { left: "H3C", right: "CH3", down: "CH3" }, pos: false, why: "CH3 next to C–OH, but that carbon has no H, so it cannot be oxidised to CH3CO–" },
-  { id: "pe2", name: "pentan-2-ol", f: "CH3CH2CH2CH(OH)CH3", grp: "alc", kind: "alc", g: { left: "H3C", right: "CH2CH2CH3", down: "H" }, pos: true, R: "CH2CH2CH3", an: "CH3CH2CH2COO⁻", anName: "butanoate", why: "R is a propyl group, CH2CH2CH3" },
   { id: "pe3", name: "pentan-3-ol", f: "CH3CH2CH(OH)CH2CH3", grp: "alc", kind: "alc", g: { left: "CH3CH2", right: "CH2CH3", down: "H" }, pos: false, why: "the C–OH carbon carries two ethyl groups" },
   { id: "phe", name: "1-phenylethanol", f: "C6H5CH(OH)CH3", grp: "alc", kind: "alc", g: { left: "H3C", right: "", down: "H", ringR: true }, pos: true, R: "C6H5", an: "C6H5COO⁻", anName: "benzoate", why: "R is C6H5, the phenyl group" },
   { id: "phm", name: "phenylmethanol", f: "C6H5CH2OH", grp: "alc", kind: "alc", g: { left: "", right: "H", down: "H", ringL: true }, pos: false, why: "the C–OH carbon is bonded to a benzene ring, not a CH3 group" },
@@ -1464,7 +1464,8 @@ const ioPosTx = c => `contains ${ioGrp(c)}; ${c.why}`;
 LAB.ioPosTx = ioPosTx;
 const IOD_GEN_ALC = "CH3CH(OH)R + 4I2(aq) + 6OH⁻(aq) → CHI3(s) + RCOO⁻(aq) + 5I⁻(aq) + 5H2O(l)";
 const IOD_S1 = "CH3CH(OH)R + I2 + 2OH⁻ → CH3COR + 2I⁻ + 2H2O";
-const IOD_S2 = "CH3COR + 3I2 + 4OH⁻ → CHI3 + RCOO⁻ + 3I⁻ + 3H2O";
+const IOD_S2A = "RCOCH3 + 3I2 + 3OH⁻ → RCOCI3 + 3I⁻ + 3H2O";
+const IOD_S2B = "RCOCI3 + OH⁻ → RCOO⁻ + CHI3";
 function iodSpec(c, hl){
   const sp = c.kind === "alc" ? carbinol(c.g) : carbonyl(c.g);
   if (hl && c.pos) sp.hl = [c.kind === "alc" ? ["L", "C", "O", "D"] : ["L", "C", "O"]];
@@ -1511,12 +1512,14 @@ function ioRead(){
   } else fb.hidden = true;
   let e = "";
   if (done && c.pos){
-    if (c.kind === "alc"){
-      e += `<div><span class="lab">${H("stage 1: the alkaline iodine oxidises CH3CH(OH)R to CH3COR")}</span>${EQ(IOD_S1)}</div>`;
-      e += `<div><span class="lab">${H("stage 2: the CH3 next to C=O is tri-iodinated, and OH⁻ splits off CHI3")}</span>${EQ(IOD_S2)}</div>`;
-      e += `<div><span class="lab">overall</span>${EQ(IOD_GEN_ALC)}</div>`;
-    } else e += `<div><span class="lab">${XREF("Topic 11.7")} ${H("the CH3 of CH3CO– is tri-iodinated, and OH⁻ splits off CHI3")}</span>${EQ(IOD_S2)}</div>`;
+    // the overall equation and the carboxylate with one carbon fewer are core; the staged account is beyond the syllabus
+    if (c.kind === "alc") e += `<div><span class="lab">overall</span>${EQ(IOD_GEN_ALC)}</div>`;
+    else e += `<div><span class="lab">${XREF("Topic 11.7")} overall</span>${EQ(`RCOCH3 + 3I2 + 4OH⁻ → CHI3 + RCOO⁻ + 3I⁻ + 3H2O`)}</div>`;
     e += `<div><span class="lab">for ${esc(c.name)} (R = ${H(c.R)}): the organic product is the ${c.anName} ion, ${H(c.an)}</span>${EQ(iodEq(c))}</div>`;
+    e += `<div class="enrbox"><div class="lab">${ENR}${H("How the test works (beyond the 9476 syllabus)")}</div>`;
+    if (c.kind === "alc") e += `<div><span class="lab">${H("first, the alkaline iodine oxidises CH3CH(OH)R to CH3COR")}</span>${EQ(IOD_S1)}</div>`;
+    e += `<div><span class="lab">${H("in alkali, the three H atoms on the CH3 next to the C=O are replaced by iodine one at a time")}</span>${EQ(IOD_S2A)}</div>`;
+    e += `<div><span class="lab">${H("then OH⁻ attacks the carbonyl carbon and the CI3 group leaves, picking up an H⁺")}</span>${EQ(IOD_S2B)}</div></div>`;
   }
   $("io-eqs").innerHTML = e;
 }
@@ -1613,7 +1616,7 @@ function bindIO(){
   setIO("etoh"); soNew();
 }
 /* =====================================================
-   3. ACIDITY LADDER  (DATA.md (d)(i)-(ii), (e); values literature, as CONVENTIONS)
+   3. ACIDITY LADDER  (9476 11.6(d)(i)-(ii), (e); values literature)
    ===================================================== */
 const ACS = [
   { id: "eth", name: "ethanol", f: "CH3CH2OH", pKa: 16, pKaS: "about 16", KaS: "about 1 × 10⁻¹⁶", c: 1e-16, conj: "ethoxide, CH3CH2O⁻", eq: "CH3CH2OH(aq) + H2O(l) ⇌ CH3CH2O⁻(aq) + H3O⁺(aq)" },
@@ -1642,7 +1645,7 @@ const ACR = {
   },
   phe: {
     na: { obs: "Phenol is a solid at room temperature (m.p. 41 °C, literature value), so it is first melted by gentle warming. Effervescence (H2); the sodium dissolves, giving sodium phenoxide, a white solid.", eq: ["2C6H5OH + 2Na → 2C6H5O⁻Na⁺ + H2"], tube: { liq: "#f6f3e6", na: "top", bub: 8 } },
-    naoh: { obs: "The phenol dissolves (it is only slightly soluble in water) to give a colourless solution of sodium phenoxide.", eq: ["C6H5OH(s) + NaOH(aq) → C6H5O⁻Na⁺(aq) + H2O(l)"], tube: { liq: COL.clear }, before: { liq: COL.clear, solid: true }, hcl: { obs: "Adding dilute HCl reverses the reaction: the phenoxide ion takes H⁺ back, phenol separates out and the solution turns cloudy.", eq: ["C6H5O⁻(aq) + H⁺(aq) → C6H5OH(s)"] } },
+    naoh: { obs: "The phenol dissolves (it is only slightly soluble in water) to give a colourless solution of sodium phenoxide.", eq: ["C6H5OH(s) + NaOH(aq) → C6H5O⁻Na⁺(aq) + H2O(l)"], tube: { liq: COL.clear }, before: { liq: COL.clear, solid: true }, hcl: { obs: "Adding dilute HCl reverses the reaction: the phenoxide ion takes H⁺ back. The solution turns cloudy if the phenol formed is more than its solubility, about 0.9 mol dm⁻³, so this needs a concentrated solution.", eq: ["C6H5O⁻(aq) + H⁺(aq) → C6H5OH(s)"] } },
     co3: { obs: "No effervescence. To give CO2, an acid must protonate HCO3⁻ to carbonic acid, and phenol (pKa 9.96) is a much weaker acid than carbonic acid (pKa 6.35). Carboxylic acids do fizz with carbonates (Topic 11.8 Part 1): this tells phenol from a carboxylic acid.", eq: [], tube: { liq: COL.clear }, bts: "phenol is a slightly stronger acid than the hydrogencarbonate ion (pKa 10.33, literature value), so with Na2CO3(aq) it can turn some CO3²⁻ into HCO3⁻ ({{C6H5OH + CO3²⁻ → C6H5O⁻ + HCO3⁻}}) and it dissolves better than in water, but no gas is given off." }
   },
   eac: {
@@ -1751,7 +1754,7 @@ function cbDraw(){
     "Phenoxide is the most stable. One lone pair on the oxygen is delocalised into the benzene ring, so the negative charge is spread over the oxygen and the ring (mainly over carbons 2, 4 and 6, shaded). Spreading a charge stabilises the ion, so phenol is a stronger acid than water.",
     "Ethoxide is the least stable. The ethyl group is electron-donating (the arrowhead on the C–O bond): it pushes electron density towards the O⁻ and intensifies the negative charge. Ethoxide is less stable than hydroxide, so ethanol is a weaker acid than water.",
     "Hydroxide has neither effect, and lies in between."
-  ].map(t => `<li>${H(t)}</li>`).join("") + `<li>${BTS}${H("in water, solvation also matters: the bulkier ethoxide ion is less well surrounded by water molecules than the small hydroxide ion, so it is less stabilised by them.")}</li>`;
+  ].map(t => `<li>${H(t)}</li>`).join("") + `<li>${BTS}${H("In water the larger factor is solvation: the small OH⁻ ion is held by water molecules more closely than ethoxide. In the gas phase, with no solvent, the order reverses and ethanol is the stronger acid.")}</li>`;
 }
 /* ---------- Enrichment: resonance forms of phenoxide (curly-arrow player) ---------- */
 function rsFrames(){
@@ -1800,7 +1803,7 @@ function bindAC(){
   acSetHint(); acAll();
 }
 /* =====================================================
-   4. RING REACTIONS: PHENOL AGAINST BENZENE  (DATA.md (d)(iii); wording from CONVENTIONS, decisions after Phase B)
+   4. RING REACTIONS: PHENOL AGAINST BENZENE  (9476 11.6(d)(iii))
    ===================================================== */
 const RGS = { benz: { name: "benzene", f: "C6H6" }, phen: { name: "phenol", f: "C6H5OH" } };
 const RGR = [
@@ -1815,7 +1818,7 @@ const RGX = {
     obs: "The orange bromine water is decolourised and a white precipitate of 2,4,6-tribromophenol forms, with an antiseptic smell. Three H atoms are replaced at once, at positions 2, 4 and 6, with no catalyst.", tube: "ppt" },
   "benz|bw": { react: false, obs: "No reaction: benzene does not react with bromine water, and the orange colour stays. Benzene needs Br2 with an AlBr3 catalyst (Topic 11.4 Part 2).", tube: "layers" },
   "benz|alb": { react: true, prods: [{ s: { 1: "Br" }, n: "bromobenzene" }], plus: "HBr", eq: [["", "C6H6 + Br2 → C6H5Br + HBr"]],
-    obs: "One H atom is replaced: bromobenzene (one Br) and HBr form. The conditions must be anhydrous. The AlBr3 catalyst makes a stronger electrophile from Br2 (Topic 11.4 Part 2)." },
+    obs: "One H atom is replaced, giving mainly bromobenzene (one Br), with HBr, when benzene is in excess. The conditions must be anhydrous. The AlBr3 catalyst makes a stronger electrophile from Br2 (Topic 11.4 Part 2)." },
   "phen|alb": { allowed: false, obs: "Not in 9476 for phenol: its ring is reactive enough to react with bromine water at room temperature with no catalyst, so Br2 with AlBr3 is not used." },
   "phen|dn": { react: true, prods: [{ s: { 1: "OH", 2: "NO2" }, n: "2-nitrophenol" }, { s: { 1: "OH", 4: "NO2" }, n: "4-nitrophenol" }], plus: "H2O", mix: true,
     eq: [["2-nitrophenol", "C6H5OH + HNO3 → C6H4(OH)NO2 + H2O"], ["4-nitrophenol", "C6H5OH + HNO3 → C6H4(OH)NO2 + H2O"]],
@@ -1902,7 +1905,7 @@ function mxFrames(){
       cap: "Step 2 (fast). A base (a water molecule, or Br⁻) removes H⁺ from carbon 4. The C–H bonding pair moves back into the ring and the delocalised π system is restored: 4-bromophenol forms. (H3O⁺ and Br⁻ together are HBr(aq).)" },
     { t: "Then at 2 and 6", eq: "Overall: C6H5OH(aq) + 3Br2(aq) → C6H2Br3OH(s) + 3HBr(aq)", w: W, h: 230, n: f3n, b: ringB().concat([["bo", "c1", "O", 1], ["b2", "c2", "B2", 1], ["b4", "c4", "B4", 1], ["b6", "c6", "B6", 1]]), ring: [["R1", cx, cy, 28, "full"]],
       tx: [[420, cy - 4, "2,4,6-tribromophenol", "mprod"], [420, cy + 20, "white precipitate", "mnote"]],
-      cap: "The same two steps happen again at positions 2 and 6, which the O lone pair also makes electron-rich. All three substitutions happen at room temperature with no catalyst, so the product is 2,4,6-tribromophenol, a white precipitate. Benzene, by contrast, needs a catalyst and gives only bromobenzene." }
+      cap: "The same two steps happen again at positions 2 and 6, which the O lone pair also makes electron-rich. All three substitutions happen at room temperature with no catalyst, so the product is 2,4,6-tribromophenol, a white precipitate. Benzene, by contrast, needs a catalyst and gives mainly bromobenzene (with benzene in excess)." }
   ];
 }
 LAB.mxFrames = mxFrames;
@@ -1926,9 +1929,35 @@ function bindRG(){
 /* =====================================================
    5. PRACTICE GENERATOR  (A_r and 24 dm³ mol⁻¹ from the Data Booklet; K_a(phenol) literature)
    ===================================================== */
+/* ---------- draw keys ---------- */
+const RESH = new Set(["12z34qc", "130njew", "13wg64", "16wakp1", "1mh3nx1", "1s8m41u", "1xgymbz", "2lr8u0", "43i4kf", "8kwtt2", "dvrvh4", "gi6flr", "gs61aq", "ihua88", "jardpb", "mb1mof", "n8ccu3", "ojccra", "qtr0xv", "rb37ri"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
+// a number as a key part: its significant digits only, so 1.15, 0.115 and 11.5 are one key and a trailing zero does not matter
+const dg = v => String(+(+v).toPrecision(6)).replace(/[^0-9]/g, "").replace(/^0+/, "").replace(/0+$/, "");
+const resHit = q => (q.rk || []).some(rh);
+
+const MINUS = "−";
+// n significant figures, trailing zeros kept; a tie rounds up (half up on the decimal value, so 3.355 gives 3.36)
+function sf(v, n){
+  if (v === 0) return "0";
+  const a = Math.abs(v);
+  let e = n - 1 - Math.floor(Math.log10(a));
+  let sc = +(a * Math.pow(10, e)).toPrecision(12);
+  while (sc >= Math.pow(10, n)){ e--; sc = +(a * Math.pow(10, e)).toPrecision(12); }
+  while (sc < Math.pow(10, n - 1)){ e++; sc = +(a * Math.pow(10, e)).toPrecision(12); }
+  let r = Math.floor(sc + 0.5);
+  if (r >= Math.pow(10, n)){ r = r / 10; e--; }
+  let d = String(r), out;
+  if (e > 0) out = e >= d.length ? "0." + "0".repeat(e - d.length) + d : d.slice(0, d.length - e) + "." + d.slice(d.length - e);
+  else out = d + "0".repeat(-e);
+  return (v < 0 ? MINUS : "") + out;
+}
+LAB.sf = sf;
+const numOf = s => parseFloat(String(s).replace(MINUS, "-"));
 const AR = { H: 1.0, C: 12.0, O: 16.0, Br: 79.9, I: 126.9, Na: 23.0 };
-const MR = { ethanol: 46.0, "propan-1-ol": 60.0, "propan-2-ol": 60.0, "butan-1-ol": 74.0, "butan-2-ol": 74.0, "pentan-2-ol": 88.0, "1-phenylethanol": 122.0, phenol: 94.0,
-  "ethanoic acid": 60.0, "propanoic acid": 74.0, "butanoic acid": 88.0, CHI3: 393.7, tribromophenol: 330.7, Br2: 159.8 };
+const MR = { ethanol: 46.0, "propan-1-ol": 60.0, "propan-2-ol": 60.0, "butan-1-ol": 74.0, "butan-2-ol": 74.0, "1-phenylethanol": 122.0, phenol: 94.0,
+  "ethanoic acid": 60.0, "propanoic acid": 74.0, CHI3: 393.7, tribromophenol: 330.7, Br2: 159.8 };
 LAB.MR = MR;
 const KA_PHENOL = 1.1e-10, VM = 24;
 const KEEP = `<span class="aside">(keep the unrounded values on your calculator; the intermediates are shown to 4 s.f. so you can check each step)</span>`;
@@ -1943,21 +1972,29 @@ const GN_TYPES = [
 ];
 LAB.GN_TYPES = GN_TYPES;
 const NA_EQ = { ethanol: "2CH3CH2OH + 2Na → 2CH3CH2O⁻Na⁺ + H2", "propan-1-ol": "2CH3CH2CH2OH + 2Na → 2CH3CH2CH2O⁻Na⁺ + H2", "propan-2-ol": "2(CH3)2CHOH + 2Na → 2(CH3)2CHO⁻Na⁺ + H2", "butan-1-ol": "2CH3CH2CH2CH2OH + 2Na → 2CH3CH2CH2CH2O⁻Na⁺ + H2", phenol: "2C6H5OH + 2Na → 2C6H5O⁻Na⁺ + H2" };
-const YL = [["ethanol", "CH3CH2OH", "ethanoic acid", "CH3COOH"], ["propan-1-ol", "CH3CH2CH2OH", "propanoic acid", "CH3CH2COOH"], ["butan-1-ol", "CH3CH2CH2CH2OH", "butanoic acid", "CH3CH2CH2COOH"]];
-const CHL = [["ethanol", "CH3CH2OH", "HCOO⁻"], ["propan-2-ol", "CH3CH(OH)CH3", "CH3COO⁻"], ["butan-2-ol", "CH3CH2CH(OH)CH3", "CH3CH2COO⁻"], ["pentan-2-ol", "CH3CH2CH2CH(OH)CH3", "CH3CH2CH2COO⁻"], ["1-phenylethanol", "C6H5CH(OH)CH3", "C6H5COO⁻"]];
+const YL = [["ethanol", "CH3CH2OH", "ethanoic acid", "CH3COOH"], ["propan-1-ol", "CH3CH2CH2OH", "propanoic acid", "CH3CH2COOH"]];
+const CHL = [["ethanol", "CH3CH2OH", "HCOO⁻"], ["propan-2-ol", "CH3CH(OH)CH3", "CH3COO⁻"], ["butan-2-ol", "CH3CH2CH(OH)CH3", "CH3CH2COO⁻"], ["1-phenylethanol", "C6H5CH(OH)CH3", "C6H5COO⁻"]];
 const CRL = [["ethanol", "ethanal", 1 / 3, "3CH3CH2OH(aq) + Cr2O7²⁻(aq) + 8H⁺(aq) → 3CH3CHO(aq) + 2Cr³⁺(aq) + 7H2O(l)", "1 : 3", "÷ 3"],
-             ["propan-2-ol", "propanone", 1 / 3, "3CH3CH(OH)CH3(aq) + Cr2O7²⁻(aq) + 8H⁺(aq) → 3CH3COCH3(aq) + 2Cr³⁺(aq) + 7H2O(l)", "1 : 3", "÷ 3"],
+             ["butan-2-ol", "butanone", 1 / 3, "3CH3CH2CH(OH)CH3(aq) + Cr2O7²⁻(aq) + 8H⁺(aq) → 3CH3CH2COCH3(aq) + 2Cr³⁺(aq) + 7H2O(l)", "1 : 3", "÷ 3"],
              ["ethanol", "ethanoic acid", 2 / 3, "3CH3CH2OH(aq) + 2Cr2O7²⁻(aq) + 16H⁺(aq) → 3CH3COOH(aq) + 4Cr³⁺(aq) + 11H2O(l)", "2 : 3", "× 2 ÷ 3"]];
-function gnMake(type){
-  const Q = { type, fields: [], work: [] };
-  const fld = (id, label, unit, ans, shown, tol) => Q.fields.push({ id, label, unit, ans, shown, tol });
+LAB.CRL = CRL; LAB.YL = YL; LAB.CHL = CHL; LAB.NA_EQ = NA_EQ;
+const CLOSE = "Close. Keep unrounded values until the last step, and round only at the end.";
+// Raw draw of one question (null when the displayed working would not reproduce the shown answer).
+// rk: the keys of the draw.
+function gnBuild(type){
+  const Q = { type, fields: [], work: [], rk: [] };
+  // f: field; tol is relative (null: pH, to 0.01); alts: wrong-route values with their messages; abs: log scale (pH)
+  const fld = (id, label, unit, uAllow, ans, shown, tol, alts, extra) => Q.fields.push(Object.assign({ id, label, unit, uAllow, ans, shown, tol, alts: alts || [] }, extra || {}));
   if (type === "h2"){
     const c = pick(Object.keys(NA_EQ)), m = r3(0.500, 5.00), M = MR[c], n = m / M, nH = n / 2, V = nH * VM;
+    Q.rk = [`cm:${c}:${dg(m)}`];
     Q.q = `${sf(m, 3)} g of ${c} reacts with excess sodium${c === "phenol" ? " (the phenol is melted first)" : ""}. Calculate the volume of hydrogen formed at r.t.p.`;
-    fld("v", "Volume of H2", "dm³", V, sf(V, 2), 0.03);
-    // the displayed (4 s.f.) arithmetic must give the shown answer: otherwise draw again
+    fld("v", "Volume of H2", "dm³", ["dm3"], V, sf(V, 2), 0.03, [
+      { v: n * VM, msg: "Use the 2 : 1 ratio from the equation: 2 mol of the alcohol or phenol give 1 mol of H₂." },
+      { v: nH, msg: "That is the amount of H₂ in moles. Multiply it by the molar gas volume, 24 dm³ mol⁻¹." }]);
+    // the displayed (4 s.f.) arithmetic must give the shown answer: otherwise null
     const n4 = +sf(n, 4), nH4 = +sf(n4 / 2, 4), V4 = nH4 * VM;
-    if (sf(V4, 2) !== sf(V, 2) || sf(V4, 3) !== sf(V, 3)) return gnMake(type);
+    if (sf(V4, 2) !== sf(V, 2) || sf(V4, 3) !== sf(V, 3)) return null;
     Q.work = [`(To answer this, you have to turn the mass into moles, then use the 2 : 1 ratio from the equation.) ${"{{" + NA_EQ[c] + "}}"}`,
       `n(${c}) = ${sf(m, 3)} / ${M.toFixed(1)} = ${sf(n4, 4)} mol`,
       `n(H2) = ½ × ${sf(n4, 4)} = ${sf(nH4, 4)} mol`,
@@ -1966,95 +2003,211 @@ function gnMake(type){
   } else if (type === "yield"){
     const [a, fa, p, fp] = pick(YL), m1 = r3(2.00, 10.0), y = 55 + Math.random() * 35, Ma = MR[a], Mp = MR[p];
     const th = m1 / Ma * Mp, m2 = +sf(th * y / 100, 3), Y = m2 / th * 100;
+    Q.rk = [`cm:${a}:${dg(m1)}`, `cm:${p}:${dg(m2)}`];
     Q.q = `${sf(m1, 3)} g of ${a} was heated under reflux with excess acidified K2Cr2O7, and ${sf(m2, 3)} g of ${p} was obtained. Calculate the percentage yield.`;
-    fld("y", "Percentage yield", "%", Y, sf(Y, 3), 0.01);
+    fld("y", "Percentage yield", "%", ["pct"], Y, sf(Y, 3), 0.005, [
+      { v: th / m2 * 100, msg: "Percentage yield = mass obtained / theoretical mass × 100: the theoretical mass is the larger one." },
+      { v: m2 / m1 * 100, msg: "Compare moles, not the masses of two different compounds: use Mr to find the mass of acid that 100 % conversion would give." }]);
     const n4 = +sf(m1 / Ma, 4), th4 = +sf(n4 * Mp, 4), Y4 = m2 / th4 * 100;
-    if (sf(Y4, 3) !== sf(Y, 3)) return gnMake(type);
+    if (sf(Y4, 3) !== sf(Y, 3)) return null;
     Q.work = [`(To answer this, you have to find the mass of acid you would get if every alcohol molecule were oxidised, then compare.) {{${fa} + 2[O] → ${fp} + H2O}}: 1 mol of alcohol gives 1 mol of acid.`,
       `n(${a}) = ${sf(m1, 3)} / ${Ma.toFixed(1)} = ${sf(n4, 4)} mol = n(${p}) expected`,
       `theoretical mass = ${sf(n4, 4)} × ${Mp.toFixed(1)} = ${sf(th4, 4)} g`,
       `yield = (${sf(m2, 3)} / ${sf(th4, 4)}) × 100 = ${sf(Y4, 3)} % ${KEEP}`];
   } else if (type === "chi3"){
     const [a, fa, an] = pick(CHL), m = r3(0.200, 3.00), M = MR[a], n = m / M, mc = n * MR.CHI3, nI = 4 * n;
+    Q.rk = [`cm:${a}:${dg(m)}`];
     Q.q = `What is the greatest mass of tri-iodomethane that ${sf(m, 3)} g of ${a} can give with warm alkaline aqueous iodine, and what amount of iodine does it use?`;
-    fld("m", "Mass of CHI3", "g", mc, sf(mc, 3), 0.01);
-    fld("n", "Amount of I2", "mol", nI, sf(nI, 3), 0.01);
+    fld("m", "Mass of CHI3", "g", ["g"], mc, sf(mc, 3), 0.01, [
+      { v: 4 * mc, msg: "1 mol of the alcohol gives 1 mol of CHI₃. The 4 is for the iodine." },
+      { v: n, msg: "That is the amount in moles. Multiply it by Mr of CHI₃, 393.7." }]);
+    fld("n", "Amount of I2", "mol", ["mol"], nI, sf(nI, 3), 0.01, [
+      { v: n, msg: "Each alcohol molecule uses 4 I₂ in the overall equation, not 1." },
+      { v: 3 * n, msg: "Three I₂ are for the iodination only. The overall equation for an alcohol uses 4 I₂." }]);
     const n4 = +sf(n, 4), mc4 = n4 * MR.CHI3, nI4 = 4 * n4;
-    if (sf(mc4, 3) !== sf(mc, 3) || sf(nI4, 3) !== sf(nI, 3)) return gnMake(type);
+    if (sf(mc4, 3) !== sf(mc, 3) || sf(nI4, 3) !== sf(nI, 3)) return null;
     Q.work = [`(To answer this, you have to use the overall equation: 1 mol of alcohol gives 1 mol of CHI3 and uses 4 mol of I2.) {{${fa} + 4I2(aq) + 6OH⁻(aq) → CHI3(s) + ${an}(aq) + 5I⁻(aq) + 5H2O(l)}}`,
       `n(${a}) = ${sf(m, 3)} / ${M.toFixed(1)} = ${sf(n4, 4)} mol = n(CHI3)`,
       `mass of CHI3 = ${sf(n4, 4)} × 393.7 = ${sf(mc4, 3)} g <span class="aside">(Mr of CHI3 = 12.0 + 1.0 + 3 × 126.9 = 393.7)</span>`,
       `n(I2) = 4 × ${sf(n4, 4)} = ${sf(nI4, 3)} mol ${KEEP}`];
   } else if (type === "tbp"){
     const m = r3(0.200, 2.50), n = m / MR.phenol, mp = n * MR.tribromophenol, mb = 3 * n * MR.Br2;
+    Q.rk = [`cm:phenol:${dg(m)}`];
     Q.q = `What mass of 2,4,6-tribromophenol can be made from ${sf(m, 3)} g of phenol with excess bromine water, and what mass of bromine does it need?`;
-    fld("m", "Mass of 2,4,6-tribromophenol", "g", mp, sf(mp, 3), 0.01);
-    fld("b", "Mass of Br2", "g", mb, sf(mb, 3), 0.01);
+    const half3 = v => 0.5 * Math.pow(10, Math.floor(Math.log10(v)) - 2) / v;
+    fld("m", "Mass of 2,4,6-tribromophenol", "g", ["g"], mp, sf(mp, 3), Math.max(0.0025, half3(mp) + 0.002), [
+      { v: n * (MR.phenol + 3 * MR.Br2), msg: "Three H atoms are replaced by three Br atoms: use Mr of C₆H₂Br₃OH, 330.7, not the sum of phenol and 3Br₂." },
+      { v: n, msg: "That is the amount of phenol in moles. Multiply it by Mr of the product, 330.7." }]);
+    fld("b", "Mass of Br2", "g", ["g"], mb, sf(mb, 3), Math.max(0.005, half3(mb) + 0.002), [
+      { v: n * MR.Br2, msg: "1 mol of phenol needs 3 mol of Br₂, not 1." },
+      { v: 3 * n, msg: "That is the amount of Br₂ in moles. Multiply it by Mr of Br₂, 159.8." }]);
     const n4 = +sf(n, 4), mp4 = n4 * MR.tribromophenol, nB4 = +sf(3 * n4, 4), mb4 = nB4 * MR.Br2;
-    if (sf(mp4, 3) !== sf(mp, 3) || sf(mb4, 3) !== sf(mb, 3)) return gnMake(type);
+    if (sf(mp4, 3) !== sf(mp, 3) || sf(mb4, 3) !== sf(mb, 3)) return null;
+    const mPrec = m / 94.113;
+    Object.assign(Q.fields[0], { slip: [sf(n * 329.7, 3), sf(mPrec * 329.793, 3)], okR: [sf(mp, 3), sf(mPrec * 330.801, 3)] });
     Q.work = [`(To answer this, you have to use the 1 : 3 ratio of phenol to bromine: three H atoms are replaced.) {{C6H5OH(aq) + 3Br2(aq) → C6H2Br3OH(s) + 3HBr(aq)}}`,
       `n(phenol) = ${sf(m, 3)} / 94.0 = ${sf(n4, 4)} mol`,
       `mass of product = ${sf(n4, 4)} × 330.7 = ${sf(mp4, 3)} g <span class="aside">(Mr of C6H2Br3OH = 6 × 12.0 + 3 × 1.0 + 3 × 79.9 + 16.0 = 330.7)</span>`,
       `n(Br2) = 3 × ${sf(n4, 4)} = ${sf(nB4, 4)} mol; mass = ${sf(nB4, 4)} × 159.8 = ${sf(mb4, 3)} g ${KEEP}`];
   } else if (type === "ph"){
-    const c = r3(0.0200, 0.500), h = Math.sqrt(KA_PHENOL * c), pH = -Math.log10(h), pct = h / c * 100;
+    const c = r3(0.0200, 0.500), h = Math.sqrt(KA_PHENOL * c), pH = -Math.log10(h);
+    Q.rk = [`ph:${dg(c)}`];
     Q.q = `Calculate the pH of ${sf(c, 3)} mol dm⁻³ aqueous phenol. Ka = 1.1 × 10⁻¹⁰ mol dm⁻³ (literature value).`;
-    fld("p", "pH", "", pH, fx(pH, 2), null);
-    const kc3 = +(KA_PHENOL * c).toPrecision(3), h3 = +Math.sqrt(kc3).toPrecision(3), pH3 = -Math.log10(h3);
-    if (fx(pH3, 2) !== fx(pH, 2)) return gnMake(type);
+    fld("p", "pH", "", [], pH, fx(pH, 2), null, [
+      { v: -Math.log10(c), msg: "Phenol is a weak acid and dissociates very little: do not take [H⁺] = c. Use [H⁺] = √(Ka × c)." },
+      { v: -Math.log10(KA_PHENOL * c), msg: "Take the square root of Ka × c to get [H⁺] before you take −lg." }], { log: true });
+    const kc3 = numOf(sf(KA_PHENOL * c, 3)), h3 = numOf(sf(Math.sqrt(kc3), 3)), pH3 = -Math.log10(h3);
+    if (fx(pH3, 2) !== fx(pH, 2)) return null;
+    const frac = h3 / c;   // from the displayed [H⁺] and c, so the printed division gives the printed percentage
     Q.work = [`(Phenol is a weak monobasic acid, so use [H⁺] = √(Ka × c), as in Topic 10 Part 1. About 0.9 mol of phenol dissolves per dm³, so this solution can be made.) {{C6H5OH(aq) + H2O(l) ⇌ C6H5O⁻(aq) + H3O⁺(aq)}}`,
       `[H⁺] = √(1.1 × 10⁻¹⁰ × ${sf(c, 3)}) = √(${sci(kc3, 3)}) = ${sci(h3, 3)} mol dm⁻³`,
       `pH = −lg(${sci(h3, 3)}) = ${fx(pH3, 2)} ${KEEP}`,
-      `Check: ${sci(h3, 3)} / ${sf(c, 3)} = ${sci(pct / 100, 2)} of the molecules (${sf(pct, 2)} %) are dissociated, far below 5 %, so the approximation holds. Water's own H⁺ (1.00 × 10⁻⁷ mol dm⁻³) changes the pH by less than 0.001.`];
+      `Check: ${sci(h3, 3)} / ${sf(c, 3)} = ${sci(frac, 2)} of the molecules (${sf(frac * 100, 2)} %) are dissociated, far below 5 %, so the approximation holds. Water's own H⁺ (1.00 × 10⁻⁷ mol dm⁻³) changes the pH by less than 0.001.`];
   } else {
     const [a, p, ratio, eq, rs, op] = pick(CRL), n = r3(1.00e-3, 5.00e-3), c = pick([0.0100, 0.0200, 0.0250, 0.0500]), nc = n * ratio, V = nc / c * 1000;
+    Q.rk = [`cr:${a}:${dg(n)}`, `cr:${a}:${dg(c)}:${dg(n)}`];
     Q.q = `What volume of ${sf(c, 3)} mol dm⁻³ K2Cr2O7 oxidises ${sf(n, 3)} mol of ${a} to ${p}?`;
-    fld("v", "Volume", "cm³", V, sf(V, 3), 0.01);
+    fld("v", "Volume", "cm³", ["cm3"], V, sf(V, 3), 0.005, [
+      { v: n / c * 1000, msg: "Use the ratio from the balanced equation: it is not 1 : 1." },
+      { v: (ratio === 2 / 3 ? 1.5 : 3) * n / c * 1000, msg: "The ratio is the other way round: the equation gives the number of Cr₂O₇²⁻ for each alcohol." },
+      { v: (ratio === 2 / 3 ? 1 / 3 : 2 / 3) * n / c * 1000, msg: "Check the ratio for this product: the aldehyde or ketone uses 1 Cr₂O₇²⁻ per 3 alcohol, the carboxylic acid 2 per 3." }]);
     const nc4 = +sf(nc, 4), Vd4 = +sf(nc4 / c, 4), Vc = Vd4 * 1000;
-    if (sf(Vc, 3) !== sf(V, 3)) return gnMake(type);
-    Q.work = [`(To answer this, you have to build the full ionic equation from the half-equations, as in Topic 6 Part 2, and read off the ratio.) {{${eq}}}`,
+    if (sf(Vc, 3) !== sf(V, 3)) return null;
+    Q.work = [`(To answer this, you have to build the full ionic equation from the half-equations, as in Topic 12 Part 1, and read off the ratio.) {{${eq}}}`,
       `n(Cr2O7²⁻) : n(${a}) = ${rs}, so n(Cr2O7²⁻) = ${sf(n, 3)} ${op} = ${sf(nc4, 4)} mol`,
       `V = ${sf(nc4, 4)} / ${sf(c, 3)} = ${sf(Vd4, 4)} dm³ = ${sf(Vc, 3)} cm³ ${KEEP}`];
     Q.fex = true;
   }
   return Q;
 }
-LAB.gnMake = gnMake;
-const GN = { type: "h2", Q: null };
-LAB.GN = GN;
-function gnCheckOne(f, raw){
-  const v = parseFloat(String(raw).replace(/[−–]/g, "-").replace(/,/g, "").trim());
-  if (!isFinite(v)) return null;
-  if (f.tol == null) return Math.abs(v - +f.shown) <= 0.011;      // pH to 2 d.p.
-  // The shown answer is always accepted: at 2 s.f. it can sit up to 4.8 % from the exact value (exact 1.149 shows as 1.1),
-  // more than the 3 % tolerance, so the window widens to reach it (18/10/26).
-  const win = Math.max(f.tol * Math.abs(f.ans), Math.abs(+f.shown - f.ans));
+LAB.gnBuild = gnBuild;
+/* ---------- marking ---------- */
+// the shown answer is always accepted: at 2 s.f. it can sit up to 4.8 % from the exact value (exact 1.149 shows as 1.1), so the window widens to reach it
+// an answer that is the 3 s.f. rounding of a known wrong-Mr value, and of no accepted rounding of the true answer, is wrong
+const slipHit = (f, v) => { if (!f.slip) return false; const r = sf(v, 3); return f.slip.includes(r) && !f.okR.includes(r) && r !== f.shown; };
+function gnCorrectNum(f, v){
+  if (slipHit(f, v)) return false;
+  if (f.tol == null) return Math.abs(v - numOf(f.shown)) <= 0.011 + 1e-9;      // pH to 2 d.p.
+  const win = Math.max(f.tol * Math.abs(f.ans), Math.abs(numOf(f.shown) - f.ans));
   return Math.abs(v - f.ans) <= win * (1 + 1e-9) + 1e-12;
 }
-LAB.gnCheckOne = gnCheckOne;
+LAB.gnCorrectNum = gnCorrectNum;
+// A wrong-route hint is kept only when it lies outside the Close band and the marking window, at least 3 % from the answer and 2.5 % from an earlier hint
+// (a pH hint, on a log scale: 0.075 from the answer, 0.03 from an earlier hint)
+const hintTol = (f, v) => f.log ? 0.012 : Math.max(Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - 1), 0.01 * Math.abs(v));
+function cleanAlts(f){
+  const out = [];
+  f.alts.forEach(al => {
+    if (!isFinite(al.v) || al.v === f.ans || f.ans === 0) return;
+    if (f.log){ if (Math.abs(al.v - f.ans) < 0.075) return; }
+    else if (Math.abs(al.v / f.ans - 1) < 0.05) return;
+    if (gnCorrectNum(f, al.v)) return;
+    if (out.some(o => f.log ? Math.abs(al.v - o.v) < 0.03 : Math.abs(al.v / o.v - 1) < 0.025 || Math.abs(al.v - o.v) <= Math.max(hintTol(f, al.v), hintTol(f, o.v)))) return;
+    out.push(al);
+  });
+  f.alts = out;
+}
+// every number of three or more significant digits that the question, its answers or its working print is a key too
+function numKeys(Q){
+  const t = [Q.q, Q.work.join(" "), Q.fields.map(f => f.shown).join(" ")].join(" ").replace(/<[^>]*>/g, "").replace(/(\d),(\d{3})/g, "$1$2");
+  return [...new Set((t.match(/\d+(?:\.\d+)?/g) || []).map(dg).filter(d => d.length >= 3).map(d => "num:" + d))];
+}
+function gnMake(type){
+  let Q, n = 0;
+  do { Q = gnBuild(type); n++; if (Q){ Q.fields.forEach(cleanAlts); Q.rk = Q.rk.concat(numKeys(Q)); } } while ((!Q || resHit(Q)) && n < 400);
+  return Q;
+}
+LAB.gnMake = gnMake;
+/* ---------- typed answers: a number and an optional unit, checked against the unit the question asks for ---------- */
+const UNIT_NAME = { dm3: "dm³", cm3: "cm³", g: "g", mol: "mol", pct: "%" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+function unitId(u){
+  const t = String(u).toLowerCase().replace(/[\s.·⋅*]/g, "").replace(/[−–]/g, "-").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/[()]/g, "");
+  if (t === "%" || t === "percent" || t === "pc") return "pct";
+  if (t === "dm3") return "dm3";
+  if (t === "cm3") return "cm3";
+  if (t === "g" || t === "grams" || t === "gram") return "g";
+  if (t === "mol" || t === "moles" || t === "mole") return "mol";
+  return null;
+}
+// Returns { value } or { error, kind }: kind "empty" and "nan" are not answers at all, "unit" and "comma" are entries to fix. None of them is scored.
+function parseAnswer(str, allowed){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[   ]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-").replace(/(?<=[\dA-Za-z%])\.+$/, "");   // a full stop that ends the answer is not part of the number
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  t = t.replace(/(10)([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g, (mm, a, b) => a + "^" + [...b].map(c => SUPASC[c]).join(""));
+  if (/^[-+]?\s*(?:\d*,\d{1,2}(?!\d)|0,\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:[, ]\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)(?:\s*[x×*]\s*10\s*\^?\s*\(?([-+]?\d+)\)?|e([-+]?\d+))?\s*(.*)$/i);
+  if (!m) return { error: "Enter a number, for example 0.153.", kind: "nan" };
+  let val = parseFloat(m[2].replace(/[, ]/g, "")); const ex = m[3] != null ? m[3] : m[4];
+  if (ex != null) val *= Math.pow(10, +ex);
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return { error: "Enter a number, for example 0.153.", kind: "nan" };
+  const rest = m[5].trim();
+  if (!rest) return { value: val };
+  if (!/^[A-Za-zµ°%]/.test(rest)) return { error: "Enter one number, with its unit if you like.", kind: "nan" };
+  const u = unitId(rest), want = allowed && allowed.length ? `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` : "Check the unit: this answer has no unit.";
+  if (u && allowed && allowed.includes(u)) return { value: val, unit: u };
+  return { error: want, kind: "unit" };
+}
+LAB.parseAnswer = parseAnswer;
+// one field: Close first, then the wrong-route hints
+function gnGradeField(f, s){
+  const pr = parseAnswer(s, f.uAllow);
+  if (pr.error) return { ok: false, entry: true, msg: pr.error, kind: pr.kind };
+  const v = pr.value, a = f.ans;
+  if (gnCorrectNum(f, v)) return { ok: true };
+  if (f.log ? Math.abs(v - a) < 0.075 : Math.abs(v / a - 1) < 0.05) return { ok: false, msg: CLOSE };
+  for (const al of f.alts) if (Math.abs(v - al.v) <= hintTol(f, al.v) * 1.0001) return { ok: false, msg: al.msg };
+  return { ok: false, msg: "" };
+}
+LAB.gnGradeField = gnGradeField;
+// kept for callers that want a plain verdict: true, false, or null when the entry is not an answer
+LAB.gnCheckOne = (f, raw) => { const r = gnGradeField(f, raw); return r.entry ? null : r.ok; };
+const GN = { type: "h2", Q: null, score: 0, n: 0, done: false, shown: false, unscored: false, firstOk: null };
+LAB.GN = GN;
+const RULE = "First Check counts; not scored once the working is shown.";
+const gnScoreTxt = () => GN.n ? `${GN.score} / ${GN.n} scored. ${RULE}` : RULE;
 function gnRender(){
   const Q = GN.Q;
   $("gn-tabs").querySelectorAll("button").forEach(b => b.setAttribute("aria-selected", b.dataset.type === GN.type));
   $("gn-q").innerHTML = (Q.fex ? FEX : "") + H(Q.q);
   $("gn-ans").innerHTML = Q.fields.map(f => `<label class="field"><span>${H(f.label)}${f.unit ? " / " + H(f.unit) : ""}</span><input inputmode="decimal" autocomplete="off" id="gn-${f.id}"></label>`).join("");
+  Q.fields.forEach(f => { $("gn-" + f.id).onkeydown = e => { if (e.key === "Enter") gnCheck(); }; });
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
   $("gn-work").innerHTML = Q.work.map(w => `<li>${TX(w)}</li>`).join("");
+  $("gn-score").textContent = gnScoreTxt();
 }
-function gnNew(type){ if (type) GN.type = type; GN.Q = gnMake(GN.type); gnRender(); }
+function gnNew(type){ if (type) GN.type = type; GN.Q = gnMake(GN.type); GN.done = false; GN.shown = false; GN.unscored = false; GN.firstOk = null; gnRender(); }
 LAB.gnNew = gnNew;
+function gnCheck(){
+  const Q = GN.Q, fb = $("gn-fb");
+  const res = Q.fields.map(f => { const el = $("gn-" + f.id), r = gnGradeField(f, el.value); return [f, el, r]; });
+  fb.hidden = false;
+  const bad = res.find(([f, el, r]) => r.entry);
+  if (bad){   // not an answer yet: empty, not a number, the wrong unit or a decimal comma. Nothing is scored.
+    res.forEach(([f, el, r]) => { el.classList.remove("ok"); el.setAttribute("aria-invalid", r.entry && r.kind !== "empty" ? "true" : "false"); });
+    const r = bad[2], lab = Q.fields.length > 1 ? `${bad[0].label}: ` : "";
+    fb.className = r.kind === "empty" || r.kind === "nan" ? "fb info" : "fb warn";
+    fb.innerHTML = H(r.kind === "empty" && Q.fields.length > 1 ? "Type a number in each box first." : lab + r.msg);
+    return;
+  }
+  const all = res.every(([f, el, r]) => r.ok);
+  res.forEach(([f, el, r]) => { el.classList.toggle("ok", r.ok); el.setAttribute("aria-invalid", r.ok ? "false" : "true"); });
+  if (!GN.done){ GN.done = true; GN.firstOk = all; if (GN.shown) GN.unscored = true; else { GN.n++; if (all) GN.score++; } }   // the first valid Check counts, unless the working was shown before it
+  const note = GN.unscored ? " Not scored: the working was shown first." : (all && !GN.firstOk ? " The score keeps your first answer." : "");
+  fb.className = "fb " + (all ? "ok" : "no");
+  if (all) fb.innerHTML = H(`Correct: ${res.map(([f]) => `${f.label} = ${f.shown}${f.unit ? " " + f.unit : ""}`).join("; ")}.${note}`);
+  else fb.innerHTML = H(`Not yet: ${res.filter(([f, el, r]) => !r.ok).map(([f, el, r]) => r.msg ? `${f.label}: ${r.msg}` : `${f.label} is not right.`).join(" ")} Try again, or press Show working.${GN.unscored ? note : ""}`);
+  $("gn-score").textContent = gnScoreTxt();
+}
+LAB.gnCheck = gnCheck;
 function bindGN(){
   $("gn-tabs").innerHTML = GN_TYPES.map(t => `<button role="tab" data-type="${t.id}" aria-selected="false">${t.fex ? FEX : ""}${H(t.t)}</button>`).join("");
   $("gn-tabs").querySelectorAll("button").forEach(b => b.onclick = () => gnNew(b.dataset.type));
   $("gn-new").onclick = () => gnNew();
-  $("gn-show").onclick = () => { $("gn-work").hidden = false; };
-  $("gn-check").onclick = () => {
-    const Q = GN.Q, res = Q.fields.map(f => { const el = $("gn-" + f.id), r = gnCheckOne(f, el.value); el.classList.toggle("ok", r === true); el.setAttribute("aria-invalid", r === false ? "true" : "false"); return [f, r]; });
-    const fb = $("gn-fb"); fb.hidden = false;
-    if (res.some(([f, r]) => r == null)){ fb.className = "fb info"; fb.textContent = "Type a number in each box first."; return; }
-    const all = res.every(([f, r]) => r);
-    fb.className = "fb " + (all ? "ok" : "no");
-    fb.innerHTML = all ? H(`Correct: ${res.map(([f]) => `${f.label} = ${f.shown}${f.unit ? " " + f.unit : ""}`).join("; ")}.`) : H(`Not yet: ${res.filter(([f, r]) => !r).map(([f]) => f.label).join(" and ")} ${res.filter(([f, r]) => !r).length > 1 ? "are" : "is"} not right. Try again, or press Show working.`);
-  };
+  $("gn-show").onclick = () => { $("gn-work").hidden = false; if (!GN.done) GN.shown = true; };
+  $("gn-check").onclick = gnCheck;
   gnNew("h2");
 }
 /* =====================================================
@@ -2071,22 +2224,22 @@ const CARDS = [
         ["PCl5, room temperature", "chloroethane + POCl3 + HCl", "nucleophilic substitution", "steamy white fumes"],
         ["Na", "sodium ethoxide + H2", "redox (ethanol acts as an acid)", "fizzing; sodium sinks and dissolves"],
         ["acidified K2Cr2O7, heat with distillation", "ethanal", "oxidation", "orange → green"],
-        ["acidified K2Cr2O7 or KMnO4, heat under reflux", "ethanoic acid", "oxidation", "orange → green (purple → colourless)"],
+        ["acidified K2Cr2O7 or KMnO4, heat under reflux", "ethanoic acid", "oxidation", "orange → green (purple → colourless) as it reacts; excess oxidant keeps its own colour"],
         ["concentrated H3PO4 catalyst, heat", "ethene", "elimination (dehydration)", "gas collected"],
         ["warm alkaline aqueous iodine", "CHI3 + methanoate", "oxidation, then substitution and cleavage", "pale yellow precipitate"]]) },
   { p: 1, t: "Primary, secondary and tertiary", k: "Classifying alcohols",
-    b: () => `<p>${H("Count the carbon atoms bonded to the C–OH carbon: one for a primary (1°) alcohol, two for secondary (2°), three for tertiary (3°). Methanol, with none, behaves like a primary alcohol. A primary alcohol has two H atoms on the C–OH carbon, a secondary one, a tertiary none: this decides how far it can be oxidised.")}</p>` +
+    b: () => `<p>${H("Count the carbon atoms bonded to the C–OH carbon: one for a primary (1°) alcohol, two for secondary (2°), three for tertiary (3°). A primary alcohol has two H atoms on the C–OH carbon, a secondary one, a tertiary none: this decides how far it can be oxidised. (Methanol, with three H and no carbon attached, is treated as primary for oxidation.)")}</p>` +
       tbl(["C4H10O alcohol", "Class", "H on C–OH carbon"], [["butan-1-ol", "1°", "2"], ["butan-2-ol (chiral)", "2°", "1"], ["2-methylpropan-1-ol", "1°", "2"], ["2-methylpropan-2-ol", "3°", "0"]]) +
       `<p>${H("The other three C4H10O isomers are ethers, such as CH3OCH2CH2CH3.")}</p>` },
   { p: 1, t: "Combustion", k: "11.6(a)(i)",
     b: () => eqs([["ΔHc⦵ = −1367 kJ mol⁻¹ (literature)", "CH3CH2OH(l) + 3O2(g) → 2CO2(g) + 3H2O(l)"], ["ΔHc⦵ = −2021 kJ mol⁻¹ (literature)", "CH3CH2CH2OH(l) + 4½O2(g) → 3CO2(g) + 4H2O(l)"], ["in a limited supply of air", "CH3CH2OH(l) + 2O2(g) → 2CO(g) + 3H2O(l)"]]) +
-      `<p>${H("A clean, almost colourless (pale blue) flame. Ethanol made by fermentation is used as a fuel (bioethanol), usually blended with petrol. Values as in Topic 7.")}</p>` },
+      `<p>${H("Ethanol burns with a clean, almost colourless (pale blue) flame. Ethanol made by fermentation is used as a fuel (bioethanol), usually blended with petrol.")}</p>` },
   { p: 1, t: "Forming halogenoalkanes", k: "11.6(a)(ii) · nucleophilic substitution",
     b: () => eqs([["HBr, heat", "CH3CH2OH + HBr → CH3CH2Br + H2O"], ["PCl5, room temperature", "CH3CH2OH + PCl5 → CH3CH2Cl + POCl3 + HCl"]]) +
       `<p>${H("With HX the bromoethane (b.p. 38 °C, literature value) distils off as it forms. With PCl5: steamy white fumes of HCl, which turn moist blue litmus red. Everything must be dry, because PCl5 also reacts with water (Topic 5 Part 2). The fumes show an –OH group, but water and carboxylic acids give them too.")}</p><p>${BTS}${H("HBr is usually made in the flask from NaBr and concentrated H2SO4.")}</p>` },
   { p: 1, t: "Sodium", k: "11.6(a)(iii)",
     b: () => eqs(["2CH3CH2OH + 2Na → 2CH3CH2O⁻Na⁺ + H2", ["ethoxide is a stronger base than hydroxide", "CH3CH2O⁻(aq) + H2O(l) ⇌ CH3CH2OH(aq) + OH⁻(aq)"]]) +
-      `<p>${H("The sodium sinks, fizzes steadily and slowly dissolves; with water it floats, melts into a ball and darts about. The reaction is gentler because ethanol is a weaker acid than water (Part 2). Effervescence with sodium shows an O–H group; the gas burns with a squeaky pop.")}</p>` },
+      `<p>${H("The sodium sinks, fizzes steadily and slowly dissolves; with water it floats, melts into a ball and darts about. The reaction is gentler, partly because ethanol is a weaker acid than water (Part 2). Effervescence with sodium shows an O–H group; the gas burns with a squeaky pop.")}</p>` },
   { p: 1, t: "Acidified potassium dichromate(VI)", k: "K2Cr2O7 with dilute H2SO4 · 11.6(a)(iv)",
     b: () => `<p><span class="swatch" style="background:${COL.dichromate}"></span>${H("orange → ")}<span class="swatch" style="background:${COL.chromium3}"></span>${H("green (Cr2O7²⁻ → Cr³⁺)")}</p>` +
       tbl(["Alcohol", "Conditions", "Product"], [["primary", "acidified K2Cr2O7, heat with distillation", "aldehyde"], ["primary", "acidified K2Cr2O7, heat under reflux", "carboxylic acid"], ["secondary", "acidified K2Cr2O7, heat", "ketone"], ["tertiary", "acidified K2Cr2O7, heat", "no reaction: stays orange"]]) +
@@ -2104,18 +2257,18 @@ const CARDS = [
     b: () => `<p><span class="swatch" style="background:${COL.chi3}"></span>${H("A pale yellow precipitate of tri-iodomethane, CHI3 (Mr 393.7), with an antiseptic smell, shows the group CH3CH(OH)–. Ethanol is the only primary alcohol that gives it. Topic 11.7 uses the same test for CH3CO–.")}</p>` +
       eqs([["overall", IOD_GEN_ALC], ["ethanol (R = H): methanoate", "CH3CH2OH + 4I2(aq) + 6OH⁻(aq) → CHI3(s) + HCOO⁻(aq) + 5I⁻(aq) + 5H2O(l)"]]) },
   { p: 1, t: "Making alcohols", k: "Each owned by another topic",
-    b: () => tbl(["Made from", "Reagent and conditions", "Where"], [["an alkene", "H2O(g), H3PO4 catalyst", "Topic 11.4 Part 1"], ["a halogenoalkane", "NaOH(aq), heat", "Topic 11.5"], ["an aldehyde or a ketone", "LiAlH4 in dry ether, or H2(g), Ni catalyst, heat", "Topic 11.7"], ["sugars", "fermentation by yeast (ethanol)", "general knowledge"]]) },
+    b: () => tbl(["Made from", "Reagent and conditions", "Where"], [["an alkene", "steam, H3PO4 catalyst", "Topic 11.4 Part 1"], ["a halogenoalkane", "NaOH(aq), heat", "Topic 11.5"], ["an aldehyde or a ketone", "LiAlH4 in dry ether, or H2(g), Ni catalyst, heat", "Topic 11.7"], ["sugars (glucose): C6H12O6(aq) → 2C2H5OH(aq) + 2CO2(g)", "yeast, warm, no air; the ethanol is separated by fractional distillation. Fermentation makes most of the world's ethanol; hydration of ethene is the main synthetic route (literature)", "general knowledge"]]) },
   { p: 2, t: "Phenol", k: "C6H5OH · the 9476 example of a phenol",
     b: () => `<dl><dt>${H("Mr")}</dt><dd>94.0 ${SRC()}</dd><dt>m.p.</dt><dd>41 °C ${SRC("lit")}</dd><dt>Solubility</dt><dd>about 8 g in 100 g water at 20 °C ${SRC("lit")}</dd><dt>${H("pKa")}</dt><dd>9.96 ${SRC("lit")}</dd></dl>` +
       `<p>${H("–OH bonded directly to a ring carbon. A colourless solid, toxic, and it burns the skin. Phenylmethanol, C6H5CH2OH, is an alcohol, not a phenol.")}</p>` },
   { p: 2, t: "Phenol with bases", k: "11.6(d)(i)",
-    b: () => eqs(["C6H5OH(s) + NaOH(aq) → C6H5O⁻Na⁺(aq) + H2O(l)", ["dilute HCl reverses it (cloudy)", "C6H5O⁻(aq) + H⁺(aq) → C6H5OH(s)"]]) +
+    b: () => eqs(["C6H5OH(s) + NaOH(aq) → C6H5O⁻Na⁺(aq) + H2O(l)", ["dilute HCl reverses it (cloudy if the phenol formed is more than its solubility, about 0.9 mol dm⁻³)", "C6H5O⁻(aq) + H⁺(aq) → C6H5OH(s)"]]) +
       `<p>${H("Phenol dissolves in NaOH(aq) to give colourless sodium phenoxide. No effervescence with Na2CO3(aq) or NaHCO3(aq): phenol (pKa 9.96) is a much weaker acid than carbonic acid (6.35). Ethanol shows no noticeable reaction with NaOH(aq).")}</p>` },
   { p: 2, t: "Phenol with sodium", k: "11.6(d)(ii)",
     b: () => eqs(["2C6H5OH + 2Na → 2C6H5O⁻Na⁺ + H2"]) + `<p>${H("Phenol is melted by gentle warming first. Effervescence; the sodium dissolves, giving white sodium phenoxide. The same O–H chemistry as ethanol.")}</p>` },
   { p: 2, t: "2,4,6-Tribromophenol", k: "11.6(d)(iii) · Br2(aq) (bromine water), room temperature, no catalyst",
     b: () => eqs(["C6H5OH(aq) + 3Br2(aq) → C6H2Br3OH(s) + 3HBr(aq)"]) +
-      `<p>${H("The orange bromine water is decolourised and a white precipitate forms (Mr 330.7), with an antiseptic smell. Benzene needs Br2 with an AlBr3 catalyst and gives only bromobenzene. Phenylamine reacts with bromine water in the same way (Topic 11.9 Part 1).")}</p>` },
+      `<p>${H("The orange bromine water is decolourised and a white precipitate forms (Mr 330.7), with an antiseptic smell. Benzene needs Br2 with an AlBr3 catalyst and gives mainly bromobenzene (with benzene in excess). Phenylamine reacts with bromine water in the same way (Topic 11.9 Part 1).")}</p>` },
   { p: 2, t: "2-Nitrophenol and 4-nitrophenol", k: "11.6(d)(iii) · dilute HNO3, room temperature",
     b: () => eqs(["C6H5OH + HNO3 → C6H4(OH)NO2 + H2O"]) +
       `<p>${H("A mixture of the two isomers. Benzene needs concentrated HNO3 and concentrated H2SO4 at 50 °C.")}</p><p>${FEX}${H("2-nitrophenol melts at 45 °C but 4-nitrophenol at 114 °C (literature values): 2-nitrophenol forms an intramolecular hydrogen bond to its NO2 group, so there are fewer hydrogen bonds between molecules. The mixture is separated by steam distillation.")}</p><p>${BTS}${H("concentrated nitric acid nitrates phenol three times, giving 2,4,6-trinitrophenol.")}</p>` },
@@ -2144,13 +2297,13 @@ const QZ = [
         ["ethene, CH2=CH2", "Ethene comes from dehydration, with concentrated H3PO4 catalyst, heat; dichromate(VI) is an oxidising agent."],
         ["propanone, CH3COCH3", "A ketone comes from a secondary alcohol; ethanol is primary (and has only two carbon atoms)."]] },
   { k: "11.6(a)(iv), (b)", q: "Which alcohol is not oxidised when heated with acidified K2Cr2O7?",
-    o: [["2-methylpropan-2-ol", "It is tertiary: there is no H atom on the C–OH carbon, so the orange colour stays."],
-        ["butan-2-ol", "Butan-2-ol is secondary (one H on the C–OH carbon): it is oxidised to butanone."],
-        ["2-methylpropan-1-ol", "2-Methylpropan-1-ol is primary (two H on the C–OH carbon): it is oxidised to 2-methylpropanal, then the acid."],
-        ["propan-2-ol", "Propan-2-ol is secondary (one H on the C–OH carbon): it is oxidised to propanone."]] },
-  { k: "11.6(a)(iv)", q: "What colour change is seen when propan-2-ol is warmed with acidified KMnO4?",
-    o: [["purple to colourless", "MnO4⁻ (purple) is reduced to Mn²⁺ (colourless) as propan-2-ol is oxidised to propanone."],
-        ["orange to green", "That is the change for acidified K2Cr2O7 (Cr2O7²⁻ to Cr³⁺)."],
+    o: [["2-methylpropan-2-ol, (CH3)3COH", "It is tertiary: there is no H atom on the C–OH carbon, so the orange colour stays."],
+        ["butan-2-ol, CH3CH2CH(OH)CH3", "Butan-2-ol is secondary (one H on the C–OH carbon): it is oxidised to butanone."],
+        ["2-methylpropan-1-ol, (CH3)2CHCH2OH", "2-Methylpropan-1-ol is primary (two H on the C–OH carbon): it is oxidised to 2-methylpropanal, then the acid."],
+        ["propan-2-ol, CH3CH(OH)CH3", "Propan-2-ol is secondary (one H on the C–OH carbon): it is oxidised to propanone."]] },
+  { k: "11.6(a)(iv)", q: "What colour change is seen as propan-2-ol, in excess, is heated with acidified KMnO4?",
+    o: [["purple to colourless", "MnO4⁻ (purple) is reduced to Mn²⁺ (colourless) as propan-2-ol is oxidised to propanone. Once the alcohol is used up, any excess KMnO4 keeps its own purple colour."],
+        ["orange to green, as with dichromate(VI)", "That is the change for acidified K2Cr2O7 (Cr2O7²⁻ to Cr³⁺), not for KMnO4."],
         ["colourless to purple", "The other way round: the purple MnO4⁻ is used up."],
         ["no change", "Propan-2-ol is secondary, with one H on the C–OH carbon, so it is oxidised."]] },
   { k: "11.6(c)", q: "Which compound gives a pale yellow precipitate with warm alkaline aqueous iodine?",
@@ -2160,19 +2313,19 @@ const QZ = [
         ["2-methylpropan-2-ol", "It has CH3 next to the C–OH carbon, but that carbon has no H, so it cannot be oxidised to CH3CO–."]] },
   { k: "11.6(c)", q: "Propan-2-ol gives a positive tri-iodomethane test. Apart from CHI3, which organic product is formed?",
     o: [["the ethanoate ion, CH3COO⁻", "R is CH3, so RCOO⁻ is CH3COO⁻: one carbon fewer than propan-2-ol."],
-        ["propanone, CH3COCH3", "Propanone forms in stage 1, but it is then tri-iodinated and split, so it is not the final product."],
+        ["propanone, CH3COCH3", "Propanone is what the alcohol is oxidised to first, but it is then tri-iodinated and split (the steps are beyond the 9476 syllabus), so it is not the final product."],
         ["the methanoate ion, HCOO⁻", "Methanoate is the product from ethanol, where R is H."],
         ["the propanoate ion, CH3CH2COO⁻", "That has three carbons; the CH3 group is lost as CHI3, so the carboxylate has one carbon fewer (two)."]] },
   { k: "11.6(a)(ii)", q: "A few drops of a dry liquid are added to PCl5 at room temperature, and steamy white fumes are given off. What can you conclude?",
     o: [["The liquid contains an –OH group.", "The fumes are HCl. Alcohols, carboxylic acids and water all react with PCl5 in this way."],
-        ["The liquid is an alcohol.", "Water and carboxylic acids give the same fumes, so the test shows an –OH group, not an alcohol in particular."],
+        ["The liquid is an alcohol, such as ethanol.", "Water and carboxylic acids give the same fumes, so the test shows an –OH group, not an alcohol in particular."],
         ["The liquid is a halogenoalkane.", "A halogenoalkane is a product of the reaction of an alcohol with PCl5, not something that gives the fumes."],
         ["The fumes are chlorine.", "The fumes are HCl: they turn moist blue litmus red and form white smoke with ammonia."]] },
   { k: "11.6(a)(v)", q: "How many different alkenes form when butan-2-ol is heated with concentrated H3PO4?",
-    o: [["three", "Losing H from C1 gives but-1-ene; losing H from C3 gives but-2-ene, which exists as cis and trans isomers."],
-        ["one", "The H can be lost from either neighbouring carbon, C1 or C3, which give different alkenes."],
-        ["two", "The cis and trans isomers of but-2-ene are two alkenes, but the but-1-ene formed by losing H from C1 makes three."],
-        ["four", "But-1-ene has two H atoms on C1, so it has no cis-trans isomers: there are only three alkenes."]] },
+    o: [["three alkenes", "Losing H from C1 gives but-1-ene; losing H from C3 gives but-2-ene, which exists as cis and trans isomers."],
+        ["one alkene only", "The H can be lost from either neighbouring carbon, C1 or C3, which give different alkenes."],
+        ["two alkenes only", "The cis and trans isomers of but-2-ene are two alkenes, but the but-1-ene formed by losing H from C1 makes three."],
+        ["four alkenes", "But-1-ene has two H atoms on C1, so it has no cis-trans isomers: there are only three alkenes."]] },
   { k: "11.6(e)", q: "Which shows the acids in order of increasing strength in aqueous solution?",
     o: [["ethanol &lt; water &lt; phenol", "The pKa values are about 16, 15.7 and 9.96: phenoxide is stabilised by delocalisation; ethoxide is destabilised by the electron-donating ethyl group."],
         ["water &lt; ethanol &lt; phenol", "The ethyl group is electron-donating: it intensifies the charge on ethoxide, so ethanol is weaker than water."],
@@ -2180,14 +2333,14 @@ const QZ = [
         ["ethanol &lt; phenol &lt; water", "Phenol (pKa 9.96) is a far stronger acid than water (15.7): its conjugate base is stabilised by delocalisation."]] },
   { k: "11.6(d)(i)", q: "Na2CO3(aq) is added to aqueous phenol and to aqueous ethanoic acid. Only ethanoic acid fizzes. Why?",
     o: [["Phenol is a weaker acid than carbonic acid, so it cannot protonate HCO3⁻ to give CO2.", "The pKa of phenol is 9.96 against 6.35 for carbonic acid; carboxylic acids are stronger than carbonic acid."],
-        ["Phenol is not an acid.", "Phenol is a weak acid (Ka 1.1 × 10⁻¹⁰ mol dm⁻³): it reacts with NaOH(aq) and with sodium."],
-        ["Phenol does not dissolve in water.", "Phenol is slightly soluble (about 8 g in 100 g water); in any case solubility is not why no gas forms."],
-        ["Phenol gives CO2 too, but the gas stays dissolved.", "No CO2 forms: phenol is too weak an acid to turn HCO3⁻ into carbonic acid."]] },
+        ["Phenol is not an acid at all, so it cannot give H⁺ to the carbonate ion in water.", "Phenol is a weak acid (Ka 1.1 × 10⁻¹⁰ mol dm⁻³): it reacts with NaOH(aq) and with sodium."],
+        ["Phenol does not dissolve in water, so it never meets the carbonate ions to react.", "Phenol is slightly soluble (about 8 g in 100 g water); in any case solubility is not why no gas forms."],
+        ["Phenol gives CO2 as well, but the gas stays dissolved in the solution, so no bubbles are seen.", "No CO2 forms: phenol is too weak an acid to turn HCO3⁻ into carbonic acid."]] },
   { k: "11.6(d)(iii)", q: "Why does phenol react with bromine water at room temperature with no catalyst, while benzene needs Br2 with an AlBr3 catalyst?",
-    o: [["A lone pair on the oxygen is delocalised into the ring, raising its electron density (most at 2, 4 and 6), so the ring can polarise Br2 itself.", "The more electron-rich ring attracts electrophiles more strongly, and three H atoms are replaced at once."],
-        ["The –OH group withdraws electrons, so the ring becomes an electrophile.", "The ring is the nucleophile in electrophilic substitution, and the O lone pair donates electron density into it."],
-        ["Bromine water contains Br⁺ ions, which are strong electrophiles.", "Bromine water contains Br2 molecules (Br2(aq)); phenol's ring polarises them."],
-        ["The C–O bond breaks and Br replaces the –OH group.", "The –OH stays: H atoms at positions 2, 4 and 6 are replaced. The C–O bond in phenol is strengthened, not broken."]] }
+    o: [["An O lone pair is delocalised into the ring, raising its electron density (most at 2, 4 and 6), so the ring can polarise Br2.", "The more electron-rich ring attracts electrophiles more strongly, and three H atoms are replaced at once."],
+        ["The –OH group withdraws electrons from the ring, so the ring becomes an electrophile and bromine, as a nucleophile, attacks it.", "The ring is the nucleophile in electrophilic substitution, and the O lone pair donates electron density into it."],
+        ["Bromine water contains Br⁺ ions, which are much stronger electrophiles than the Br2 molecules in bromine.", "Bromine water contains Br2 molecules (Br2(aq)); phenol's ring polarises them."],
+        ["The C–O bond breaks and a Br atom replaces the –OH group, so the ring keeps its full stability.", "The –OH stays: H atoms at positions 2, 4 and 6 are replaced. The C–O bond in phenol is strengthened, not broken."]] }
 ];
 LAB.QZ = QZ;
 const Q = { i: 0, score: 0, order: [] };
@@ -2204,19 +2357,21 @@ function renderQ(){
     return;
   }
   const q = QZ[Q.i], ord = Q.order[Q.i];
-  Q.answered = false;
+  Q.answered = false; Q.t0 = performance.now();
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${H(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
-  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+  const btns = [...box.querySelectorAll(".opt")];
+  btns.forEach((b, j) => b.onclick = () => {
+    // a click in the first 400 ms after a question is drawn is ignored: the second click of a double click on Next or Retry lands here
+    if (Q.answered || performance.now() - Q.t0 < 400) return; Q.answered = true;
+    const right = ord[j] === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    btns.forEach((x, k) => { x.disabled = true; if (ord[k] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
-    const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
+    const others = ord.map((k, jj) => [k, jj]).filter(([k]) => k !== 0).map(([k, jj]) => `<li><b>${"ABCD"[jj]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
     ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${H(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
     ex.hidden = false;

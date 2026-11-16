@@ -15,7 +15,7 @@
   --grid:#E9EDEF; --axis:#7A8A94; --line:#DDE3E6; --accent:#1F6F8B; --accent-ink:#FFFFFF; --accent-soft:#E3EEF2;
   --s1:#1F6F8B; --s1-wash:rgba(31,111,139,.20); --s2:#7B4B94; --s2-wash:rgba(123,75,148,.18); --s3:#5B6B75; --ref:#7A8A94;
   --s1-ink:#1F6F8B; --s2-ink:#7B4B94; --s3-ink:#5B6B75; --s3-wash:rgba(91,107,117,.14);
-  --good:#2E7D4F; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
+  --good:#2E7D4F; --good-ink:#297245; --accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-bg:#E5F1EA; --bad:#B23A3A; --bad-bg:#F7E7E7; --warn-bg:#F8F0E2; --warn:#8A5A12;
   --bondc:#8A98A1; --lp:rgba(31,111,139,.16); --lp-edge:rgba(31,111,139,.6);
   --hyb:rgba(31,111,139,.20); --hyb-edge:rgba(31,111,139,.75); --porb:rgba(123,75,148,.22); --porb-2:rgba(123,75,148,.10); --porb-edge:rgba(123,75,148,.85);
   --pi:rgba(123,75,148,.30); --plane:rgba(91,107,117,.16); --plane-edge:rgba(91,107,117,.7); --arrow:#1F6F8B; --mol:#1E2A33;
@@ -30,7 +30,7 @@
     --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
     --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
     --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s3-wash:rgba(155,170,179,.20);
-    --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+    --good:#5BBF85; --good-ink:#5BBF85; --accent-2:#C49AD8; --accent-2-soft:#36283F; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
     --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7);
     --hyb:rgba(102,186,214,.24); --hyb-edge:rgba(102,186,214,.8); --porb:rgba(196,154,216,.26); --porb-2:rgba(196,154,216,.12); --porb-edge:rgba(196,154,216,.9);
     --pi:rgba(196,154,216,.32); --plane:rgba(155,170,179,.18); --plane-edge:rgba(155,170,179,.75); --arrow:#66BAD6; --mol:#E8EDF0;
@@ -43,7 +43,7 @@
   --grid:#2B363E; --axis:#6E7D87; --line:#34414A; --accent:#66BAD6; --accent-ink:#0E1B1F; --accent-soft:#1E3A45;
   --s1:#66BAD6; --s1-wash:rgba(102,186,214,.28); --s2:#C49AD8; --s2-wash:rgba(196,154,216,.26); --s3:#9BAAB3; --ref:#6E7D87;
   --s1-ink:#66BAD6; --s2-ink:#C49AD8; --s3-ink:#9BAAB3; --s3-wash:rgba(155,170,179,.20);
-  --good:#5BBF85; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
+  --good:#5BBF85; --good-ink:#5BBF85; --accent-2:#C49AD8; --accent-2-soft:#36283F; --good-bg:#1B2F24; --bad:#E57373; --bad-bg:#3A2327; --warn-bg:#33291A; --warn:#E0A84A;
   --bondc:#6E7D87; --lp:rgba(102,186,214,.20); --lp-edge:rgba(102,186,214,.7);
   --hyb:rgba(102,186,214,.24); --hyb-edge:rgba(102,186,214,.8); --porb:rgba(196,154,216,.26); --porb-2:rgba(196,154,216,.12); --porb-edge:rgba(196,154,216,.9);
   --pi:rgba(196,154,216,.32); --plane:rgba(155,170,179,.18); --plane-edge:rgba(155,170,179,.75); --arrow:#66BAD6; --mol:#E8EDF0;
@@ -94,7 +94,7 @@ section.lab:last-of-type{border-bottom:0}
 input[type=range]{width:100%; accent-color:var(--accent); margin:6px 0 0; height:22px}
 input[type=range]:disabled{opacity:.45}
 .hint{font-size:.78rem; color:var(--muted)}
-.switch{display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
+.switch{min-height:24px; display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.9rem; color:var(--ink); user-select:none}
 .switch input{appearance:none; -webkit-appearance:none; width:34px; height:20px; border-radius:4px; background:var(--axis); position:relative; margin:0; flex:none; cursor:pointer; transition:background .15s}
 .switch input::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:2px; background:#fff; transition:transform .15s}
 .switch input:checked{background:var(--accent)}
@@ -125,13 +125,13 @@ svg text{font-family:var(--sans); fill:var(--ink-2)}
 .stat.wide{grid-column:1/-1}
 .notes{margin:0; padding-left:18px; color:var(--ink-2); font-size:.9rem; display:flex; flex-direction:column; gap:4px; max-width:78ch}
 .callout{font-size:.86rem; color:var(--ink-2); background:var(--surface-2); border-radius:6px; padding:8px 11px}
-.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--warn); background:var(--warn-bg); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
+.beyond{display:inline-block; font-size:.66rem; letter-spacing:0; text-transform:none; font-weight:600; color:var(--accent-2); background:var(--accent-2-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .nw{white-space:nowrap}
 .pill{display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:none; padding:1px 7px; border-radius:3px; background:var(--accent-soft); color:var(--accent); white-space:nowrap}
 .field{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-2); font-weight:500}
 .field select{font:inherit; font-size:.92rem; padding:7px 9px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); width:100%; min-width:0}
 .fb{font-size:.88rem; border-radius:6px; padding:8px 11px}
-.fb.ok{background:var(--good-bg); color:var(--good)}
+.fb.ok{background:var(--good-bg); color:var(--good-ink)}
 .fb.no{background:var(--bad-bg); color:var(--bad)}
 .fb.info{background:var(--surface-2); color:var(--ink-2)}
 .fb ul{margin:6px 0 0; padding-left:18px}
@@ -196,7 +196,7 @@ svg .carrow{stroke:var(--arrow); stroke-width:2; fill:none; stroke-linecap:round
 svg .carrowh{fill:var(--arrow)}
 svg .mring{fill:none; stroke:var(--mol); stroke-width:1.8}
 svg .hit{fill:transparent; stroke:transparent; cursor:pointer}
-svg .hitl{stroke:transparent; stroke-width:16; cursor:pointer; fill:none}
+svg .hitl{stroke:transparent; stroke-width:26; cursor:pointer; fill:none}
 svg .hit:hover, svg .hitl:hover{stroke:var(--accent); stroke-opacity:.35}
 svg .hit:hover{fill:var(--accent-soft); fill-opacity:.5}
 svg .hit.ok{fill:var(--good-bg); fill-opacity:.7; stroke:var(--good); stroke-opacity:1; stroke-width:2}
@@ -231,7 +231,7 @@ svg .ptit{font-size:12.5px; font-weight:600; fill:var(--ink)}
 .tcard.wrong{border-color:var(--bad); background:var(--bad-bg)}
 .tcard.dragging{opacity:.35}
 .tcard .why{display:block; margin-top:5px; font-size:.8rem}
-.tcard.right .why{color:var(--good)} .tcard.wrong .why{color:var(--bad)}
+.tcard.right .why{color:var(--good-ink)} .tcard.wrong .why{color:var(--bad)}
 .ghostcard{position:fixed; left:0; top:0; z-index:60; pointer-events:none; opacity:.92; box-shadow:0 6px 18px rgba(0,0,0,.18); max-width:300px}
 .zones{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px}
 .zones.z3{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
@@ -291,6 +291,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-b
 
 
 /* ---------- Topic 11.7 additions ---------- */
+input[type=range]{min-height:24px}
 body{overflow-wrap:break-word}
 .fex{display:inline-block; font-size:11px; font-weight:600; color:var(--accent); background:var(--accent-soft); padding:1px 6px; border-radius:3px; margin-right:6px; vertical-align:1px; white-space:nowrap}
 .beyond{font-size:11px}
@@ -338,7 +339,7 @@ body{overflow-wrap:break-word}
 .unkline{display:flex; flex-wrap:wrap; gap:6px; min-width:0}
 .unkline select{flex:1 1 180px}
 .unkline .mk{font-size:.8rem; font-weight:600; align-self:center}
-.unkline .mk.ok{color:var(--good)} .unkline .mk.no{color:var(--bad)}
+.unkline .mk.ok{color:var(--good-ink)} .unkline .mk.no{color:var(--bad)}
 /* redox ladder */
 .ladwrap svg{display:block; width:100%; max-width:640px; margin:0 auto; user-select:none; -webkit-user-select:none}
 svg .rung{fill:var(--surface); stroke:var(--line); stroke-width:1.2}
@@ -424,7 +425,7 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -436,7 +437,7 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -545,10 +546,10 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
     </div>
     <div class="tblwrap"><table class="rtab" id="tb-tab"></table></div>
     <p class="hint" id="tb-cue" style="margin:0" hidden>This table is wider than the screen: swipe or scroll it sideways to see every column.</p>
-    <p class="hint" id="tb-fehnote" style="margin:0" hidden><span class="beyond">Enrichment</span> 9476 does not state that aromatic aldehydes such as benzaldehyde give no precipitate with Fehling's solution (beyond the syllabus), but it is the standard rule.</p>
+    <p class="hint" id="tb-fehnote" style="margin:0" hidden></p>
     <div class="stack" id="tb-unkbox" hidden>
       <p class="hint" style="margin:0">For each unknown, decide what kind of compound it is from your results. Then check.</p>
-      <p class="hint" style="margin:0"><span class="beyond">Enrichment</span> Telling an aromatic aldehyde from an aliphatic one uses the Fehling's rule for aromatic aldehydes, which is beyond the 9476 syllabus.</p>
+      <p class="hint" style="margin:0"><span class="fex">Further example</span>Telling an aromatic aldehyde from an aliphatic one uses the Fehling's rule for aromatic aldehydes.</p>
       <div class="stack" id="tb-unklist"></div>
       <div class="btnrow"><button class="btn primary" id="tb-ucheck">Check my answers</button><button class="btn" id="tb-unew">New set of unknowns</button></div>
       <div id="tb-ufb" hidden></div>
@@ -636,7 +637,7 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
     <div class="chips" id="hn-chips" role="group" aria-label="Carbonyl compound"></div>
     <div class="readout" id="hn-read"></div>
     <div class="tblwrap"><table class="data" id="hn-tab"></table></div>
-    <p class="hint" style="margin:0">The rule: the hydroxynitrile is chiral whenever the two groups on the carbonyl carbon are different (every aldehyde except methanal, and every ketone whose two groups differ).</p>
+    <p class="hint" style="margin:0">The rule: the hydroxynitrile is chiral whenever the two groups on the carbonyl carbon are different (every aldehyde except methanal, and every ketone whose two groups differ). A chiral hydroxynitrile made from an achiral aldehyde or ketone is a racemic mixture.</p>
   </div>
 </section>
 
@@ -675,7 +676,7 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
       <div><span class="beyond">Enrichment</span><h3 class="sub3" style="display:inline">How the hydrides work</h3></div>
       <p style="margin:0;font-size:.9rem">LiAlH<sub>4</sub> (and NaBH<sub>4</sub>, which is beyond the 9476 syllabus) act as a source of the hydride ion, H<sup>−</sup>, a nucleophile. It adds to the δ+ carbonyl carbon exactly as CN<sup>−</sup> does, and the π electrons move onto the oxygen. The O<sup>−</sup> is protonated when water is added:</p>
       <div class="eqs"><div class="eqn">R<sub>2</sub>C=O + H<sup>−</sup> → R<sub>2</sub>CH–O<sup>−</sup></div><div class="eqn">R<sub>2</sub>CH–O<sup>−</sup> + H<sub>2</sub>O → R<sub>2</sub>CH–OH + OH<sup>−</sup></div></div>
-      <p class="hint" style="margin:0">That is why hydrides reduce the polar C=O bond but not a non-polar C=C bond. The mechanism is beyond the 9476 syllabus.</p>
+      <p class="hint" style="margin:0">That is why hydrides reduce the polar C=O bond but not an isolated, non-polar C=C bond. The mechanism is beyond the 9476 syllabus.</p>
     </div>
   </div>
 </section>
@@ -685,7 +686,7 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
   <div class="sechead">
     <span class="eyebrow">Practice · <span class="nc">9476 11.7(c)–(e)</span></span>
     <h2>Deduce the unknown</h2>
-    <p>Each case gives a molecular formula and some test results. Decide what the compound is, then check. <b>Show reasoning</b> works through it step by step. Use the scheme: 2,4-DNPH first, then Tollens' reagent (or Fehling's solution or acidified dichromate), then Fehling's solution for an aldehyde, then warm alkaline aqueous iodine.</p>
+    <p>Each case gives a molecular formula and some test results. Decide what the compound is, then check. <b>Show reasoning</b> works through it step by step. Use the scheme: 2,4-DNPH first, then Tollens' reagent (or acidified dichromate), then Fehling's solution for an aldehyde <span class="fex">Further example</span>, then warm alkaline aqueous iodine.</p>
   </div>
   <div class="stack">
     <div class="tabs" role="tablist" id="dd-tabs">
@@ -750,7 +751,7 @@ svg .lnumt{font-size:11px; font-weight:600; fill:var(--ink)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.7 Carbonyl Compounds</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub> from the Data Booklet · boiling points, melting points, bond lengths and <i>K</i><sub>a</sub>(HCN) are literature values · 3D models and answers computed live in the page</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 16/11/26</span></div>
 </footer>
 <script>
 (function(){
@@ -759,7 +760,7 @@ const $ = id => document.getElementById(id);
 const MINUS = "−";
 const D2R = Math.PI / 180;
 const OC = {};
-window.__cc = OC;
+
 const reduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
 const clamp01 = x => Math.max(0, Math.min(1, x));
 const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -1291,7 +1292,7 @@ function molSVG(fr, label){
 OC.frameGeo = frameGeo; OC.molSVG = molSVG;
 
 /* =====================================================
-   COMPOUNDS AND TESTS (every value from DATA.md)
+   COMPOUNDS AND TESTS (every value checked against RDKit and the Data Booklet)
    ===================================================== */
 // A_r from the Data Booklet
 const AR = { H: 1.0, C: 12.0, N: 14.0, O: 16.0, Na: 23.0, B: 10.8, Li: 6.9, Al: 27.0, I: 126.9 };
@@ -1319,7 +1320,6 @@ const CP = {
   propanone: { n: "propanone", sf: "CH₃COCH₃", mf: "C₃H₆O", bp: 56, cls: "ketone", co: 1, io: 1, Rk: "CH₃", named: 1,
     cell: { feh: "no change (stays deep blue)", dic: "no change (stays orange)" } },
   butanone: { n: "butanone", sf: "CH₃COCH₂CH₃", mf: "C₄H₈O", bp: 80, cls: "ketone", co: 1, io: 1, Rk: "CH₃CH₂" },
-  pentan2one: { n: "pentan-2-one", sf: "CH₃COCH₂CH₂CH₃", mf: "C₅H₁₀O", bp: 102, cls: "ketone", co: 1, io: 1, Rk: "CH₃CH₂CH₂" },
   pentan3one: { n: "pentan-3-one", sf: "CH₃CH₂COCH₂CH₃", mf: "C₅H₁₀O", bp: 102, cls: "ketone", co: 1, dnphP: "(CH₃CH₂)₂C=NNHC₆H₃(NO₂)₂" },
   phenylethanone: { n: "phenylethanone", sf: "C₆H₅COCH₃", mf: "C₈H₈O", bp: 202, cls: "aromatic ketone", co: 1, io: 1, Rk: "C₆H₅", named: 1, st: "l" },
   ethanol: { n: "ethanol", sf: "CH₃CH₂OH", mf: "C₂H₆O", bp: 78, cls: "primary alcohol", ox: 1, io: 1, ctrl: 1, oxTo: "CH₃CHO" },
@@ -1343,7 +1343,7 @@ const TESTS = [
     posL: "The deep blue solution gives a brick-red precipitate of copper(I) oxide, Cu₂O: an aliphatic aldehyde.",
     negL: "No change: the solution stays deep blue. Not an aliphatic aldehyde." },
   { id: "dic", n: "acidified K₂Cr₂O₇", warm: 1, pos: "orange → green", neg: "no change",
-    how: "Warm with acidified K₂Cr₂O₇.",
+    how: "Heat with acidified K₂Cr₂O₇.",
     posL: "The solution turns from orange to green (Cr₂O₇²⁻ → Cr³⁺): the compound has been oxidised.",
     negL: "No change: the solution stays orange. Nothing here is oxidised." },
   { id: "iod", n: "warm alkaline aqueous iodine", warm: 1, pos: "pale yellow precipitate", neg: "no precipitate",
@@ -1362,8 +1362,10 @@ function testResult(c, tid){
   if (tid === "br") return !!c.cc;
   return false;
 }
-function cellText(c, tid){
+// generic = true: the plain result with nothing that singles out one compound (unknown tubes)
+function cellText(c, tid, generic){
   const r = testResult(c, tid);
+  if (generic) return r ? TBYID[tid].pos : TBYID[tid].neg;
   if (!r && c.cell && c.cell[tid]) return c.cell[tid];
   if (!r && tid === "feh" && c.ald && c.arom) return "no change (aromatic aldehyde)";
   return r ? TBYID[tid].pos : TBYID[tid].neg;
@@ -1383,7 +1385,7 @@ function testEquations(c, tid){
   if (tid === "feh") return [`${c.sf}(${st_}) + 2Cu²⁺(aq) + 5OH⁻(aq) → ${c.R}COO⁻(aq) + Cu₂O(s) + 3H₂O(l)`];
   if (tid === "dic"){
     if (c.ald) return [`3${c.sf}(${st_}) + Cr₂O₇²⁻(aq) + 8H⁺(aq) → 3${c.R}COOH(${c.acidSt || "aq"}) + 2Cr³⁺(aq) + 4H₂O(l)`];
-    if (c.oxTo) return [`3${c.sf}(l) + Cr₂O₇²⁻(aq) + 8H⁺(aq) → 3${c.oxTo}(l) + 2Cr³⁺(aq) + 7H₂O(l)`];
+    if (c.oxTo) return [`3${c.sf}(aq) + Cr₂O₇²⁻(aq) + 8H⁺(aq) → 3${c.oxTo}(aq) + 2Cr³⁺(aq) + 7H₂O(l)`];
     return [];
   }
   if (tid === "iod"){
@@ -1398,12 +1400,12 @@ OC.testEquations = testEquations;
 const BENCH = ["ethanal", "propanal", "propanone", "butanone", "benzaldehyde", "phenylethanone", "ethanol", "propan2ol"];
 OC.BENCH = BENCH;
 const ENR = `<span class="beyond">Enrichment</span>`, FEX = `<span class="fex">Further example</span>`;
-// 9476 does not state the Fehling's rule for aromatic aldehydes; the notes mark it beyond the syllabus, so the lab does too
-const FEHRULE = "9476 does not state that aromatic aldehydes such as benzaldehyde give no precipitate with Fehling's solution (beyond the syllabus), but it is the standard rule.";
-const FEHTAG = `${ENR} ${FEHRULE}`;
+// the Fehling's rule for aromatic aldehydes is a Further example in the notes, so the lab tags it the same way
+const FEHRULE = "Aromatic aldehydes, with the –CHO on a benzene ring, give no precipitate with Fehling's solution.";
+const FEHTAG = `${FEX}${FEHRULE}`;
 
 /* =====================================================
-   1. TEST BENCH (results exactly as the DATA.md table)
+   1. TEST BENCH (results exactly as the notes table)
    ===================================================== */
 // physical colours of the reagents and products (realistic, not palette colours)
 const TCOL = {
@@ -1414,7 +1416,7 @@ const TCOL = {
   iod: { sol: "#f6efc4", after: "#f6efc4", ppt: "#efd95a" }
 };
 OC.TCOL = TCOL;
-const TB = { mode: "known", comp: "ethanal", test: "dnph", pred: false, t: 0, ran: false, raf: 0, seen: {}, unk: [], letter: 0, guess: {}, checked: false, pending: false };
+const TB = { mode: "known", comp: "ethanal", test: "dnph", pred: false, t: 0, ran: false, raf: 0, tok: 0, seen: {}, unk: [], letter: 0, guess: {}, checked: false, pending: false };
 OC.TB = TB;
 // jittered grid of precipitate grains (no rejection sampling)
 const GRAINS = (() => { const g = []; let s = 7; const rnd = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
@@ -1439,7 +1441,7 @@ function drawBench(){
   // rack or water bath
   if (T.warm){
     s += `<rect x="64" y="126" width="172" height="150" rx="6" fill="#e3f0f6" stroke="#9fb3bf" stroke-width="1.5"/><rect x="64" y="126" width="172" height="12" fill="#d3e6ef"/>`;
-    s += `<text x="64" y="294" class="bt" style="font-size:${f1(Math.min(15, Math.max(12, 12 / (((svg.getBoundingClientRect().width || 400) / 400)))))}px">water bath, warm (no flame)</text>`;
+    s += `<text x="64" y="294" class="bt" style="font-size:${f1(Math.min(15, Math.max(12, 12 / (((svg.getBoundingClientRect().width || 400) / 400)))))}px">water bath, ${TB.test === "dic" ? "heated" : "warm"} (no flame)</text>`;
     for (let k = 0; k < 3; k++) s += `<path d="M${82 + k * 12},120 q4,-8 0,-16 q-4,-8 0,-16" stroke="#9fb3bf" stroke-width="1.4" fill="none"/>`;
   } else {
     s += `<rect x="84" y="200" width="132" height="10" rx="2" fill="#b9c2c9"/><rect x="92" y="210" width="8" height="70" fill="#b9c2c9"/><rect x="200" y="210" width="8" height="70" fill="#b9c2c9"/>`;
@@ -1473,12 +1475,12 @@ function drawBench(){
   wrapTxt(T.n, maxc).forEach(t => lines.push([t, "btb", fsz]));
   lines.push(null);
   wrapTxt(TB.ran ? "+ " + tbLabel() : "the compound not yet added", maxc).forEach(t => lines.push([t, "bt", fsn]));
-  if (TB.ran){ lines.push(null); wrapTxt(t < 1 ? "reacting…" : cellText(c, TB.test), maxc).forEach(t2 => lines.push([t2, "btb", fsz])); }
+  if (TB.ran){ lines.push(null); wrapTxt(t < 1 ? "reacting…" : cellText(c, TB.test, TB.mode === "unk"), maxc).forEach(t2 => lines.push([t2, "btb", fsz])); }
   let ly = 62;
   lines.forEach(L => { if (!L){ ly += fsz * 0.55; return; } s += `<text x="${lx}" y="${f1(ly)}" class="${L[1]}" style="font-size:${f1(L[2])}px">${svgChem(L[0], L[2])}</text>`; ly += L[2] * 1.32; });
   svg.setAttribute("viewBox", `50 0 400 ${Hh}`);
   svg.innerHTML = s;
-  $("tb-note").innerHTML = TB.ran && t >= 1 ? `<span class="obs">${H(pos ? T.posL : T.negL)}</span>${TB.test === "feh" && c.ald && c.arom ? `<br>${H(FEHTAG)}` : ""}` : H(T.how);
+  $("tb-note").innerHTML = TB.ran && t >= 1 ? `<span class="obs">${H(pos ? T.posL : T.negL)}</span>${TB.mode !== "unk" && TB.test === "feh" && c.ald && c.arom ? `<br>${H(FEHTAG)}` : ""}` : H(T.how);
 }
 function tbEq(){
   const box = $("tb-eqbox"), c = tbCompound();
@@ -1487,36 +1489,47 @@ function tbEq(){
   $("tb-eqs").innerHTML = eqs.length ? eqs.map(e => `<div class="eqn">${H(e)}</div>`).join("") : `<div class="eqc">No reaction, so no equation.</div>`;
   box.hidden = false;
 }
+// one animation per station: every Run, every new question and every Reset cancels the frame and retires the old callback
+function tbStop(){ TB.tok++; cancelAnimationFrame(TB.raf); TB.raf = 0; }
 function tbAnimate(done){
-  cancelAnimationFrame(TB.raf);
+  tbStop();
+  const tok = TB.tok;
   if (reduced()){ TB.t = 1; drawBench(); done && done(); return; }
   const t0 = performance.now(), dur = 1400;
-  const step = now => { TB.t = Math.min(1, (now - t0) / dur); drawBench(); if (TB.t < 1) TB.raf = requestAnimationFrame(step); else { done && done(); } };
+  const step = now => { if (tok !== TB.tok) return; TB.t = Math.min(1, (now - t0) / dur); drawBench(); if (TB.t < 1) TB.raf = requestAnimationFrame(step); else { TB.raf = 0; done && done(); } };
   TB.raf = requestAnimationFrame(step);
 }
 function tbKey(){ return (TB.mode === "unk" ? "u" + TB.letter : TB.comp) + "|" + TB.test; }
 function tbFinish(){ TB.seen[tbKey()] = true; renderTbTable(); tbEq(); }
+function tbGate(){
+  // while a prediction is open nothing in the section may show the answer: the whole-table button waits, and the current cell stays blank
+  $("tb-all").disabled = TB.pending;
+  $("tb-ucheck").disabled = TB.pending;
+}
 function tbRun(){
   const fb = $("tb-fb"); fb.hidden = true;
+  tbStop();
   if (TB.pred){
     const T = TBYID[TB.test];
     TB.pending = true;
     $("tb-pq").innerHTML = H(`What will you see when ${TB.mode === "unk" ? "unknown " + "ABCDEFGH"[TB.letter] : tbLabel()} is tested with ${T.n}?`);
     const opts = shuffle([[1, T.pos], [0, T.neg]]);
-    $("tb-popts").innerHTML = opts.map(([v, txt], j) => `<button class="opt" data-v="${v}"><b>${"AB"[j]}</b><span>${H(txt[0].toUpperCase() + txt.slice(1))}</span></button>`).join("");
+    $("tb-popts").innerHTML = opts.map(([v, txt], j) => `<button class="opt"><b>${"AB"[j]}</b><span>${H(txt[0].toUpperCase() + txt.slice(1))}</span></button>`).join("");
     $("tb-predbox").hidden = false;
-    $("tb-popts").querySelectorAll(".opt").forEach(b => b.onclick = () => tbPredict(+b.dataset.v));
+    const bs = [...$("tb-popts").querySelectorAll(".opt")];
+    bs.forEach((b, j) => b.onclick = () => tbPredict(opts[j][0], bs.map((x, k) => [x, opts[k][0]])));
     TB.ran = false; TB.t = 0; drawBench(); $("tb-eqbox").hidden = true;
+    tbGate(); renderTbTable();
     return;
   }
   TB.ran = true; TB.t = 0; tbAnimate(tbFinish);
 }
-function tbPredict(v){
+function tbPredict(v, pairs){
   if (!TB.pending) return;
   TB.pending = false;
   const c = tbCompound(), r = testResult(c, TB.test) ? 1 : 0, T = TBYID[TB.test];
-  $("tb-popts").querySelectorAll(".opt").forEach(b => { b.disabled = true; if (+b.dataset.v === r) b.classList.add("right"); else if (+b.dataset.v === v) b.classList.add("wrong"); });
-  TB.ran = true; TB.t = 0;
+  pairs.forEach(([b, bv]) => { b.disabled = true; if (bv === r) b.classList.add("right"); else if (bv === v) b.classList.add("wrong"); });
+  TB.ran = true; TB.t = 0; tbGate();
   tbAnimate(() => {
     tbFinish();
     const fb = $("tb-fb");
@@ -1532,7 +1545,7 @@ function tbWhy(c, tid){
   if (tid === "tol") return r ? `${nm} is an aldehyde: it has an H atom on the carbonyl carbon, is easily oxidised and reduces Ag⁺ to silver.` : `${nm} is ${c.co ? "a ketone, with no H atom on the carbonyl carbon" : "not an aldehyde"}, so it is not oxidised by Tollens' reagent.`;
   if (tid === "feh") return r ? `${nm} is an aliphatic aldehyde: it reduces Cu²⁺ to copper(I) oxide.` : (c.ald ? `${nm} is an aromatic aldehyde (CHO on the benzene ring): it does not reduce Fehling's solution, although it gives a silver mirror. ${FEHTAG}` : `${nm} is ${c.co ? "a ketone" : "not an aldehyde"}, so the solution stays deep blue.`);
   if (tid === "dic") return r ? (c.ald ? `${nm} is an aldehyde and is oxidised to a carboxylic acid.` : `${nm} is a ${c.cls} and is oxidised, so the test turns green even though it is not an aldehyde: do 2,4-DNPH first.`) : `${nm} is a ketone: it is not oxidised by acidified dichromate.`;
-  if (tid === "iod") return r ? (c.co ? `${nm} contains CH₃CO–: a CH₃ group joined to the carbonyl carbon.` : `${nm} contains CH₃CH(OH)–, which the alkaline iodine first oxidises to CH₃CO–.`) : `${nm} has no CH₃ joined to the carbonyl carbon${c.n === "propanal" ? " (its CH₃ is joined to CH₂, not to C=O)" : ""}.`;
+  if (tid === "iod") return r ? (c.co ? `${nm} contains CH₃CO–: a CH₃ group joined to the carbonyl carbon.` : `${nm} contains CH₃CH(OH)–, which the warm alkaline aqueous iodine first oxidises to CH₃CO–.`) : `${nm} has no CH₃ joined to the carbonyl carbon${c.n === "propanal" ? " (its CH₃ is joined to CH₂, not to C=O)" : ""}.`;
   return "";
 }
 OC.tbWhy = tbWhy;
@@ -1545,22 +1558,23 @@ OC.tbCue = tbCue;
 function renderTbTable(){
   const rows = TB.mode === "unk" ? TB.unk.map((id, i) => ({ id, lab: "Unknown " + "ABCDEFGH"[i], key: "u" + i, cur: i === TB.letter }))
     : BENCH.map(id => ({ id, lab: CP[id].n, key: id, cur: id === TB.comp }));
-  let s = `<thead><tr><th>${TB.mode === "unk" ? "Tube" : "Compound"}</th>${TESTS.map(t => `<th>${H(t.n === "acidified K₂Cr₂O₇" ? "acidified K₂Cr₂O₇, warm" : t.n === "Tollens' reagent" ? "Tollens' reagent, warm" : t.n === "Fehling's solution" ? "Fehling's solution, warm" : t.n)}</th>`).join("")}</tr></thead><tbody>`;
+  let s = `<thead><tr><th>${TB.mode === "unk" ? "Tube" : "Compound"}</th>${TESTS.map(t => `<th>${H(t.n === "acidified K₂Cr₂O₇" ? "acidified K₂Cr₂O₇, heat" : t.n === "Tollens' reagent" ? "Tollens' reagent, warm" : t.n === "Fehling's solution" ? "Fehling's solution, warm" : t.n)}</th>`).join("")}</tr></thead><tbody>`;
   rows.forEach(r => {
     const c = CP[r.id];
     s += `<tr${r.cur ? ' class="cur"' : ""}><td>${H(r.lab)}</td>`;
     TESTS.forEach(t => {
-      const seen = TB.seen[r.key + "|" + t.id];
+      const seen = TB.seen[r.key + "|" + t.id] && !(TB.pending && r.key + "|" + t.id === tbKey());
       if (!seen){ s += `<td class="unk">·</td>`; return; }
       const pos = testResult(c, t.id), col = TCOL[t.id], sw = pos ? (col.ppt || col.after) : col.sol;
-      s += `<td class="${pos ? "pos" : ""}" data-t="${t.id}"><span class="swatch" style="background:${t.id === "tol" && pos ? "#b4bbc1" : sw}"></span>${H(cellText(c, t.id))}</td>`;
+      s += `<td class="${pos ? "pos" : ""}" data-t="${t.id}"><span class="swatch" style="background:${t.id === "tol" && pos ? "#b4bbc1" : sw}"></span>${H(cellText(c, t.id, TB.mode === "unk"))}</td>`;
     });
     s += `</tr>`;
   });
   $("tb-tab").innerHTML = s + "</tbody>";
-  // the rule for aromatic aldehydes is beyond the syllabus: say so whenever that cell is on show
+  // the rule for aromatic aldehydes is a Further example: say so whenever that cell is on show
+  // (an unknown tube is not named, so its note waits until the answers are checked)
   const arSeen = rows.some(r => CP[r.id].ald && CP[r.id].arom && TB.seen[r.key + "|feh"]);
-  $("tb-fehnote").hidden = !arSeen;
+  $("tb-fehnote").hidden = !arSeen || (TB.mode === "unk" && !TB.checked);
   tbCue();
   $("tb-ttl").textContent = TB.mode === "unk" ? "Your results for the unknowns" : "Results so far (the table in the notes)";
 }
@@ -1581,15 +1595,20 @@ function renderUnk(){
       <select data-i="${i}" data-k="cls" aria-label="Unknown ${"ABCDEFGH"[i]}: kind of compound"><option value="">What kind of compound?</option>${UCLS.map(([v, t]) => `<option value="${v}"${g.cls === v ? " selected" : ""}>${t}</option>`).join("")}</select>
       <select data-i="${i}" data-k="io" aria-label="Unknown ${"ABCDEFGH"[i]}: tri-iodomethane group"><option value="">CH₃CO– or CH₃CH(OH)–?</option><option value="y"${g.io === "y" ? " selected" : ""}>has CH₃CO– or CH₃CH(OH)–</option><option value="n"${g.io === "n" ? " selected" : ""}>has neither</option></select>${mk}</div></div>`;
   }).join("");
-  $("tb-unklist").querySelectorAll("select").forEach(sel => sel.onchange = () => { const i = +sel.dataset.i; TB.guess[i] = TB.guess[i] || {}; TB.guess[i][sel.dataset.k] = sel.value; });
+  $("tb-unklist").querySelectorAll("select").forEach(sel => sel.onchange = () => {
+    const i = +sel.dataset.i; TB.guess[i] = TB.guess[i] || {}; TB.guess[i][sel.dataset.k] = sel.value;
+    // an edit after a check clears every mark and the score line: the old verdicts no longer describe the answers on show
+    if (TB.checked){ TB.checked = false; $("tb-ufb").hidden = true; $("tb-unklist").querySelectorAll(".mk").forEach(m => m.remove()); renderTbTable(); }
+  });
 }
 function checkUnk(){
   TB.checked = true;
   let right = 0;
   TB.unk.forEach((id, i) => { const g = TB.guess[i] || {}, c = CP[id]; if (g.cls === trueClass(c) && g.io === (c.io ? "y" : "n")) right++; });
   renderUnk();
+  renderTbTable();
   const fb = $("tb-ufb"); fb.className = "fb " + (right === TB.unk.length ? "ok" : "no");
-  fb.innerHTML = H(`${right} of ${TB.unk.length} right.${right === TB.unk.length ? " All correct." : " Each tube now shows what it was. Remember the order: 2,4-DNPH (carbonyl?), Tollens' reagent (aldehyde?), Fehling's solution (aliphatic or aromatic aldehyde?), then warm alkaline aqueous iodine (CH₃CO– or CH₃CH(OH)–?). ${FEHTAG}"}`);
+  fb.innerHTML = H(`${right} of ${TB.unk.length} right.${right === TB.unk.length ? " All correct." : " Each tube now shows what it was. Remember the order: 2,4-DNPH (carbonyl?), Tollens' reagent (aldehyde?), Fehling's solution (aliphatic or aromatic aldehyde?), then warm alkaline aqueous iodine (CH₃CO– or CH₃CH(OH)–?). "}` + FEHTAG);
   fb.hidden = false;
   return right;
 }
@@ -1607,8 +1626,8 @@ function tbChips(){
   $("tb-tests").querySelectorAll("button").forEach(b => b.onclick = () => { TB.test = b.dataset.t; tbFresh(); });
 }
 function tbFresh(){
-  cancelAnimationFrame(TB.raf);
-  TB.ran = false; TB.t = 0; TB.pending = false;
+  tbStop();
+  TB.ran = false; TB.t = 0; TB.pending = false; tbGate();
   $("tb-predbox").hidden = true; $("tb-fb").hidden = true; $("tb-eqbox").hidden = true;
   tbChips(); drawBench(); renderTbTable();
 }
@@ -1623,13 +1642,14 @@ function bindTB(){
   $("tb-pred").onchange = e => { TB.pred = e.target.checked; tbFresh(); };
   $("tb-run").onclick = tbRun;
   $("tb-reset").onclick = tbFresh;
-  $("tb-all").onclick = () => { const keys = TB.mode === "unk" ? TB.unk.map((_, i) => "u" + i) : BENCH; keys.forEach(k => TESTS.forEach(t => { TB.seen[k + "|" + t.id] = true; })); renderTbTable(); };
+  $("tb-fehnote").innerHTML = FEHTAG;
+  $("tb-all").onclick = () => { if (TB.pending) return; const keys = TB.mode === "unk" ? TB.unk.map((_, i) => "u" + i) : BENCH; keys.forEach(k => TESTS.forEach(t => { TB.seen[k + "|" + t.id] = true; })); renderTbTable(); };
   $("tb-clear").onclick = () => { TB.seen = {}; renderTbTable(); };
   $("tb-ucheck").onclick = checkUnk;
   $("tb-unew").onclick = () => { newUnknowns(); tbFresh(); };
   try { new ResizeObserver(() => tbCue()).observe($("tb-tab").parentElement); } catch (e) {}
   try { let bw = 0; new ResizeObserver(() => { const w = Math.round($("tb-svg").getBoundingClientRect().width); if (w && w !== bw){ bw = w; drawBench(); } }).observe($("tb-wrap")); } catch (e) {}
-  OC.setTbMode = setTbMode; OC.tbRun = tbRun; OC.tbPredict = tbPredict; OC.checkUnk = checkUnk; OC.renderUnk = renderUnk; OC.tbFresh = tbFresh;
+  OC.tbStop = tbStop; OC.setTbMode = setTbMode; OC.tbRun = tbRun; OC.tbPredict = tbPredict; OC.checkUnk = checkUnk; OC.renderUnk = renderUnk; OC.tbFresh = tbFresh;
   tbFresh();
 }
 
@@ -1660,8 +1680,9 @@ function Sorter(cfg){
   const zoneAt = (x, y) => { const t = document.elementFromPoint(x, y); return t && zw.contains(t) ? t.closest(".zone") : null; };
   function bindCard(el){
     const i = +el.dataset.i;
-    el.addEventListener("click", e => { e.stopPropagation(); if (suppress){ suppress = false; return; } S.sel = S.sel === i ? null : i; render(); });
-    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); S.sel = S.sel === i ? null : i; render(); } });
+    const tap = () => { if (S.sel !== null && S.sel !== i && S.place[i]){ place(S.sel, S.place[i]); return; } S.sel = S.sel === i ? null : i; render(); };
+    el.addEventListener("click", e => { e.stopPropagation(); if (suppress){ suppress = false; return; } tap(); });
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); tap(); } });
     el.addEventListener("pointerdown", e => {
       const grip = e.target.closest(".grip");
       if (e.pointerType !== "mouse" && !grip) return;
@@ -1717,7 +1738,7 @@ const IO_CARDS = [
   { t: "pentan-3-one, CH₃CH₂COCH₂CH₃", z: "n", why: "Both groups on the C=O are ethyl groups: no CH₃ joined to the C=O." },
   { t: "phenylethanone, C₆H₅COCH₃", z: "y", why: "CH₃CO– on a benzene ring; the organic product is benzoate, C₆H₅COO⁻." },
   { t: "benzaldehyde, C₆H₅CHO", z: "n", why: "The carbonyl carbon carries C₆H₅ and H: no CH₃." },
-  { t: "ethanol, CH₃CH₂OH", z: "y", why: "CH₃CH(OH)– with R = H: alkaline iodine oxidises it to ethanal, CH₃CHO, first (Topic 11.6 Part 1)." },
+  { t: "ethanol, CH₃CH₂OH", z: "y", why: "CH₃CH(OH)– with R = H: warm alkaline aqueous iodine oxidises it to ethanal, CH₃CHO, first (Topic 11.6 Part 1)." },
   { t: "propan-1-ol, CH₃CH₂CH₂OH", z: "n", why: "Oxidation would give propanal, which has no CH₃CO– group." },
   { t: "butan-2-ol, CH₃CH(OH)CH₂CH₃", z: "y", why: "CH₃CH(OH)–: it is oxidised to butanone, CH₃COCH₂CH₃, first." },
   { t: "2-methylpropan-2-ol, (CH₃)₃COH", z: "n", why: "It has CH₃ groups next to the C–OH carbon, but no H on that carbon, so it cannot be oxidised to a CH₃CO– compound." }
@@ -1825,7 +1846,7 @@ function drawFrame(){
     Object.keys(G.pt).forEach(k => {
       const q = G.pt[k];
       if (k.startsWith("atom:")){ const nd = q.nd; if (!nd.l) return; const r = Math.max(14, chemW(nd.l, 19) / 2 + 2); ha += `<circle cx="${f1(q.p[0])}" cy="${f1(q.p[1])}" r="${f1(r)}" class="hit${tapCls(k)}" data-k="${k}"/>`; }
-      else if (!k.startsWith("bond:")) hs += `<circle cx="${f1(q.p[0])}" cy="${f1(q.p[1])}" r="10" class="hit${tapCls(k)}" data-k="${k}"/>`;
+      else if (!k.startsWith("bond:")) hs += `<circle cx="${f1(q.p[0])}" cy="${f1(q.p[1])}" r="13" class="hit${tapCls(k)}" data-k="${k}"/>`;
     });
     s += hb + ha + hs;
   }
@@ -1860,11 +1881,12 @@ function tap(k){
       fb.className = "fb ok"; fb.innerHTML = H("Yes, the electrons start there. Now tap where they go.");
     } else {
       MX.tries++;
-      let msg;
+      let msg, moved = false;
       if (k.startsWith("atom:")) msg = "Arrows start from electrons, not from an atom: tap a lone pair, a bond or a negative charge.";
+      else if ((MX.m.frames[MX.f].a || []).some((a, i) => MX.done[i] && okS(a).includes(k))) { msg = "Those electrons have already moved: the arrow is drawn."; moved = true; }
       else msg = "Those electrons do not move in this step.";
       const hint = pend[0].a.hs || "";
-      fb.className = "fb no"; fb.innerHTML = H(msg + (MX.tries >= 2 && hint ? " Hint: " + hint : ""));
+      fb.className = "fb no"; fb.innerHTML = H(msg + (MX.tries >= 2 && hint && !moved ? " Hint: " + hint : ""));
       MX.flash = { k, c: "no" };
     }
   } else {
@@ -1959,7 +1981,7 @@ const refl = p => [p[0], p[1], -p[2]];
 function attackScene(kind, t, face){
   const E = attackEnds(kind), sg = face === "bot" ? refl : (p => p);
   const P = E.R.map((r, i) => sg(add(mul(r, 1 - t), mul(E.P[i], t))));
-  const op6 = clamp01((t - 0.86) / 0.14);
+  const op6 = clamp01((t - 0.78) / 0.14);
   const bonds = [
     { i: 0, j: 1, o: t < 0.5 ? 2 : 1 }, { i: 0, j: 2, o: 1 }, { i: 0, j: 3, o: 1 },
     { i: 0, j: 4, o: t < 0.08 ? 0 : t < 0.92 ? 0.5 : 1 }, { i: 4, j: 5, o: 3 },
@@ -1967,7 +1989,7 @@ function attackScene(kind, t, face){
     { i: 2, j: 7, o: 1 }, { i: 2, j: 8, o: 1 }, { i: 2, j: 9, o: 1 }
   ];
   if (E.ket) bonds.push({ i: 3, j: 10, o: 1 }, { i: 3, j: 11, o: 1 }, { i: 3, j: 12, o: 1 });
-  const lab = i => { const e = E.el[i]; if (e === "H") return ""; if (i === 1 && t >= 0.5 && t < 0.92) return "O⁻"; if (i === 4 && t < 0.08) return "C⁻"; return e; };
+  const lab = i => { const e = E.el[i]; if (e === "H") return ""; if (i === 1 && t >= 0.5 && t < 0.78) return "O⁻"; if (i === 4 && t < 0.08) return "C⁻"; return e; };
   const atoms = E.el.map((e, i) => ({ el: e, p: P[i], r: RAD[e] * 0.9, c: COLR[e], l: lab(i), op: i === 6 ? op6 : 1 }));
   const sq = [mul([1, 1, 0], 1.9), mul([-1, 1, 0], 1.9), mul([-1, -1, 0], 1.9), mul([1, -1, 0], 1.9)];
   const planes = [{ pts: sq, cls: "plane", op: 0.9 * (1 - t) }];
@@ -1987,7 +2009,7 @@ function atDraw(){
   atv.set(sc);
   $("at-t-o").textContent = Math.round(AT.t * 100) + " %";
   $("at-t").value = Math.round(AT.t * 100);
-  const st_ = AT.t < 0.08 ? (AT.kind === "ethanal" ? "ethanal + CN⁻" : "propanone + CN⁻") : AT.t < 0.92 ? "intermediate: alkoxide ion" : (AT.kind === "ethanal" ? "2-hydroxypropanenitrile" : "2-hydroxy-2-methylpropanenitrile");
+  const st_ = AT.t < 0.08 ? (AT.kind === "ethanal" ? "ethanal + CN⁻" : "propanone + CN⁻") : AT.t < 0.5 ? "CN⁻ attacking: the C–C bond is forming and the C=O π bond is breaking" : AT.t < 0.78 ? "intermediate: alkoxide ion" : AT.t < 0.92 ? "O⁻ taking H⁺ (step 2)" : (AT.kind === "ethanal" ? "2-hydroxypropanenitrile" : "2-hydroxy-2-methylpropanenitrile");
   $("at-cap").innerHTML = H(st_);
   // angles round the carbonyl carbon, measured from the coordinates
   const P = sc.P, ang = (i, j) => angDeg(sub(P[i], P[0]), sub(P[j], P[0]));
@@ -2094,8 +2116,9 @@ function PairView(svg, wrap){
   return v;
 }
 let pv;
+function prStop(){ PR.tok = (PR.tok || 0) + 1; if (PR.anim){ cancelAnimationFrame(PR.anim); PR.anim = 0; } }
 function prReset(){
-  if (PR.anim){ cancelAnimationFrame(PR.anim); PR.anim = 0; }
+  prStop();
   // seen edge-on to the old carbonyl plane, with the C–CN bond pointing up on the left and down on the right
   pv.ML = mm(rx(-1.45), ry(0.6)); pv.MR = pv.ML.slice();
   pv.ghost = null; PR.check = null; $("pr-fb").hidden = true;
@@ -2113,11 +2136,12 @@ function prRead(){
   $("pr-read").innerHTML = out;
 }
 function prCheck(){
-  const d = PR.d, res = prBestFit(d);
+  prStop();
+  const d = PR.d, res = prBestFit(d), tok = PR.tok;
   PR.check = res;
   const target = mm(pv.ML, res.R);
   const q0 = matToQuat(pv.MR), q1 = matToQuat(target);
-  const fin = () => { pv.MR = target; pv.ghost = res; PR.anim = 0; pv.draw(); };
+  const fin = () => { if (tok !== PR.tok) return; pv.MR = target; pv.ghost = res; PR.anim = 0; pv.draw(); };
   const same = res.rmsd < 0.05, fb = $("pr-fb");
   fb.className = "fb " + (same ? "ok" : "no");
   fb.innerHTML = H(same
@@ -2128,7 +2152,7 @@ function prCheck(){
   pv.ghost = null;
   if (reduced()){ fin(); return; }
   const t0 = performance.now(), dur = 900;
-  const step = now => { const t = Math.min(1, (now - t0) / dur); pv.MR = quatToMat(slerp(q0, q1, ease(t))); pv.draw(); if (t < 1) PR.anim = requestAnimationFrame(step); else fin(); };
+  const step = now => { if (tok !== PR.tok) return; const t = Math.min(1, (now - t0) / dur); pv.MR = quatToMat(slerp(q0, q1, ease(t))); pv.draw(); if (t < 1) PR.anim = requestAnimationFrame(step); else fin(); };
   PR.anim = requestAnimationFrame(step);
 }
 function bindPR(){
@@ -2174,7 +2198,7 @@ function hillFormula(g){
   return ["C", "H"].concat(Object.keys(c).filter(e => e !== "C" && e !== "H").sort()).filter(e => c[e]).map(e => e + sub_(c[e])).join("");
 }
 OC.readSmiles = readSmiles; OC.hillFormula = hillFormula;
-// hydroxynitrile products (DATA.md table); SMILES written with the new chiral-centre candidate first
+// hydroxynitrile products (the notes table); SMILES written with the new chiral-centre candidate first
 const HN = [
   { c: "ethanal", p: "2-hydroxypropanenitrile", sf: "CH₃CH(OH)CN", smi: "C(O)(C#N)C", g: ["H", "CH₃"] },
   { c: "propanal", p: "2-hydroxybutanenitrile", sf: "CH₃CH₂CH(OH)CN", smi: "C(O)(C#N)CC", g: ["H", "CH₂CH₃"] },
@@ -2194,7 +2218,7 @@ function hnRender(){
   out += st("Product", H(x.p + ", " + x.sf), "wide");
   out += st("Molecular formula", H(x.mf) + ` <small><i>M</i><sub>r</sub> ${x.mr.toFixed(1)}</small>`);
   out += st("Groups on the new C–OH carbon", H(grp.join(", ")));
-  out += st("Chiral?", x.chiral ? "yes <small>four different groups: formed as a racemic mixture</small>" : `no <small>two ${H(x.g[0])} groups</small>`, "wide");
+  out += st("Chiral?", x.chiral ? "yes <small>four different groups: formed as a racemic mixture, from an achiral aldehyde or ketone</small>" : `no <small>two ${H(x.g[0])} groups</small>`, "wide");
   $("hn-read").innerHTML = out + (named ? "" : "");
 }
 function bindHN(){
@@ -2234,7 +2258,8 @@ const nmU = s => s[0].toUpperCase() + s.slice(1);
 function ladderOutcome(S, at, rid){
   const R = LR.find(r => r.id === rid), rg = S.rungs, f = i => rg[i][1], n = i => rg[i][0];
   const colour = R.mn ? "purple → colourless" : "orange → green", stays = R.mn ? "stays purple" : "stays orange";
-  const noR = (msg, obs) => ({ to: null, eqs: [], obs: obs || "no change", msg });
+  // a reducing agent that has nothing to reduce is not "no reaction" (LiAlH₄ reacts with alcohols and water): it is "no reduction"
+  const noR = (msg, obs) => ({ to: null, eqs: [], red: !!R.red, obs: obs || (R.red ? "no change in oxidation level" : "no change"), msg });
   if (S.kind === "t"){
     if (R.ox) return noR(`${nmU(n(0))} is a tertiary alcohol: there is no H atom on the C–OH carbon, so it is not oxidised.`, `no change (${stays})`);
     return noR("An alcohol is not reduced by this reagent: there is no C=O to reduce.");
@@ -2242,10 +2267,10 @@ function ladderOutcome(S, at, rid){
   if (S.kind === "s"){
     if (at === 0){
       if (R.ox) return { to: 1, path: "ox0", eqs: [`${f(0)} + [O] → ${f(1)} + H₂O`], obs: colour,
-        msg: `A secondary alcohol is oxidised to a ketone, ${n(1)}. The ketone is not oxidised further, so distillation or reflux makes no difference: the usual conditions are simply acidified K₂Cr₂O₇, heat.` };
+        msg: `A secondary alcohol is oxidised to a ketone, ${n(1)}. At 9476 level there is no further oxidation of the ketone, so distillation or reflux makes no difference: the usual conditions are simply acidified K₂Cr₂O₇, heat.` };
       return noR("An alcohol is not reduced by this reagent: there is no C=O to reduce.");
     }
-    if (R.ox) return noR(`${nmU(n(1))} is a ketone: there is no H atom on the carbonyl carbon, so it is not oxidised by these reagents.`, `no change (${stays})`);
+    if (R.ox) return noR(`${nmU(n(1))} is a ketone: there is no H atom on the carbonyl carbon, so there is no further oxidation at 9476 level.`, `no change (${stays})`);
     const eq = R.id === "lah" ? `${f(1)} + 2[H] → ${f(0)}` : `${f(1)} + H₂(g) → ${f(0)}`;
     return { to: 0, path: "red1", eqs: [eq], obs: R.id === "lah" ? "no colour change; the alcohol is released when water (or dilute acid) is added afterwards" : "no colour change",
       msg: `A ketone is reduced to a secondary alcohol, ${n(0)}.` + (S.chiral ? ` ${FEX}${nmU(n(0))} has a chiral centre, but it is formed as a racemic mixture: the hydrogen adds to the planar carbonyl carbon from above or below with equal chance.` : "") };
@@ -2253,9 +2278,9 @@ function ladderOutcome(S, at, rid){
   // primary series
   if (at === 0){
     if (R.id === "dist") return { to: 1, path: "ox0", eqs: [`${f(0)} + [O] → ${f(1)} + H₂O`], obs: colour,
-      msg: `${nmU(n(1))} has a lower boiling point than ${n(0)} (no hydrogen bonding between its molecules), so it distils off as soon as it forms and escapes further oxidation.${S.id === "eth" ? " Ethanal boils at about 20 °C, so the receiver is cooled in ice." : ""}` };
+      msg: `Molecules of ${n(1)} cannot hydrogen-bond to one another, so it boils at a lower temperature than ${n(0)}. It leaves the mixture by distillation as soon as it is made, and the acid never forms.${S.id === "eth" ? " Ethanal boils at about 20 °C, so the receiver is cooled in ice." : ""}` };
     if (R.ox) return { to: 2, path: "ox02", eqs: [`${f(0)} + 2[O] → ${f(2)} + H₂O`], obs: colour,
-      msg: `Under reflux the aldehyde formed first, ${n(1)}, is returned to the flask and is oxidised on to the carboxylic acid, ${n(2)}.` };
+      msg: `Under reflux, with the oxidising agent in excess, the aldehyde formed first, ${n(1)}, is returned to the flask and is oxidised all the way to the carboxylic acid, ${n(2)}.` };
     return noR("An alcohol is not reduced by this reagent: there is no C=O to reduce.");
   }
   if (at === 1){
@@ -2314,7 +2339,7 @@ function drawLadder(){
   } else if (S.kind === "s"){
     box(0, S.rungs[0][2], S.rungs[0][1], S.rungs[0][0], on(0));
     box(1, S.rungs[1][2], S.rungs[1][1], S.rungs[1][0], on(1));
-    box(2, "not oxidised further", null, null, "none");
+    box(2, "no further oxidation", null, null, "none");
     up(cx - dx, top(0), bot(1), "ox0"); cond(cx - dx - 12, gapMid(0), ["acidified K₂Cr₂O₇,", "heat"], "end");
     down(cx + dx, bot(1), top(0), "red1"); cond(cx + dx + 12, gapMid(0), RED_TXT, "start");
     none(cx, top(1), bot(2)); lines(cx + 12, gapMid(1), ["no H on the", "carbonyl carbon"], "start");
@@ -2342,15 +2367,15 @@ function ldReagState(){
   if (b){ b.disabled = off; b.title = off ? "Distillation makes an aldehyde from its alcohol; this compound is already the aldehyde." : ""; }
   $("ld-dnote").hidden = !off;
 }
-function ldFresh(){ LD.pending = null; LD.flash = null; $("ld-predbox").hidden = true; $("ld-fb").hidden = true; $("ld-eqbox").hidden = true; ldStartChips(); ldReagState(); drawLadder(); }
+function ldFresh(){ LD.pending = null; ldGate(); LD.flash = null; $("ld-predbox").hidden = true; $("ld-fb").hidden = true; $("ld-eqbox").hidden = true; ldStartChips(); ldReagState(); drawLadder(); }
 function ldShow(R, out, predOk){
   const fb = $("ld-fb"), from = LD.s.rungs[LD.at][0];
   LD.flash = out.path || null;
   const to = out.to != null ? LD.s.rungs[out.to][0] : null;
   fb.className = "fb " + (predOk == null ? "info" : predOk ? "ok" : "no");
-  fb.innerHTML = H((predOk == null ? "" : predOk ? "Correct. " : "Not this time. ") + (to ? `<b>${nmU(from)} → ${to}.</b> ` : `<b>No reaction.</b> `) + out.msg);
+  fb.innerHTML = H((predOk == null ? "" : predOk ? "Correct. " : "Not this time. ") + (to ? `<b>${nmU(from)} → ${to}.</b> ` : `<b>${out.red ? "No reduction" : "No reaction"}.</b> `) + out.msg);
   fb.hidden = false;
-  $("ld-eqs").innerHTML = (out.eqs.length ? out.eqs.map(e => `<div class="eqn">${H(e)}</div>`).join("") : `<div class="eqc">No reaction, so no equation.</div>`) + `<div class="eqc">${H("Reagent and conditions: " + R.n + ". What you see: " + out.obs + ".")}</div>`;
+  $("ld-eqs").innerHTML = (out.eqs.length ? out.eqs.map(e => `<div class="eqn">${H(e)}</div>`).join("") : `<div class="eqc">${out.red ? "No reduction" : "No reaction"}, so no equation.</div>`) + `<div class="eqc">${H("Reagent and conditions: " + R.n + ". What you see: " + out.obs + ".")}</div>`;
   $("ld-eqbox").hidden = false;
   if (out.to != null) LD.at = out.to;
   ldStartChips(); ldReagState(); drawLadder();
@@ -2360,23 +2385,35 @@ function ldApply(rid){
   if (!LD.pred){ ldShow(R, out, null); return; }
   LD.pending = { R, out };
   $("ld-pq").innerHTML = H(`What do you get when ${LD.s.rungs[LD.at][0]} is treated with ${R.n}?`);
-  // the tertiary series has no other rung, so offer the products a student might expect (never right) (18/10/26)
-  const opts = LD.s.kind === "t" ? [[-2, "2-methylpropanal"], [-3, "2-methylpropanoic acid"], [-1, "no reaction"]]
-    : LD.s.rungs.map((r, i) => [i, r[0]]).filter(([i]) => i !== LD.at).concat([[-1, "no reaction"]]);
-  $("ld-popts").innerHTML = opts.map(([v, t], j) => `<button class="opt" data-v="${v}"><b>${"ABCD"[j]}</b><span>${H(nmU(t))}</span></button>`).join("");
+  // the tertiary series has no other rung, so offer the products a student might expect (never right)
+  const none = R.red ? "no reduction" : "no reaction";
+  const opts = shuffle(LD.s.kind === "t" ? [[-2, "2-methylpropanal"], [-3, "butanone"], [-1, none]]
+    : LD.s.rungs.map((r, i) => [i, r[0]]).filter(([i]) => i !== LD.at).concat([[-1, none]]));
+  $("ld-popts").innerHTML = opts.map(([v, t], j) => `<button class="opt"><b>${"ABCD"[j]}</b><span>${H(nmU(t))}</span></button>`).join("");
   $("ld-predbox").hidden = false; $("ld-fb").hidden = true; $("ld-eqbox").hidden = true;
-  $("ld-popts").querySelectorAll(".opt").forEach(b => b.onclick = () => ldPredict(+b.dataset.v));
+  const bs = [...$("ld-popts").querySelectorAll(".opt")];
+  bs.forEach((b, j) => b.onclick = () => ldPredict(opts[j][0], bs.map((x, k) => [x, opts[k][0]])));
+  ldGate();
 }
-function ldPredict(v){
+// while a prediction is open the ladder's other controls wait (a second reagent would replace the question, and the start chips would redraw the ladder)
+function ldGate(){
+  const open = !!LD.pending;
+  $("ld-reag").querySelectorAll("button").forEach(b => { b.disabled = open || (b.dataset.r === "dist" && LD.s.kind === "p" && LD.at === 1); });
+  $("ld-start").querySelectorAll("button").forEach(b => { b.disabled = open; });
+  $("ld-series").disabled = open;
+  $("pe-chips").querySelectorAll("button").forEach(b => { b.disabled = open; });
+}
+function ldPredict(v, pairs){
   if (!LD.pending) return;
   const { R, out } = LD.pending; LD.pending = null;
   const right = out.to == null ? -1 : out.to;
-  $("ld-popts").querySelectorAll(".opt").forEach(b => { b.disabled = true; if (+b.dataset.v === right) b.classList.add("right"); else if (+b.dataset.v === v) b.classList.add("wrong"); });
+  pairs.forEach(([b, bv]) => { b.disabled = true; if (bv === right) b.classList.add("right"); else if (bv === v) b.classList.add("wrong"); });
   ldShow(R, out, v === right);
+  ldGate();
 }
 function setSeries(id){ LD.s = LS.find(x => x.id === id) || LS[0]; LD.at = 0; $("ld-series").value = LD.s.id; ldFresh(); }
 const PE = [
-  { k: "lah", n: "LiAlH₄ in dry ether", eq: "CH₂=CHCHO + 2[H] → CH₂=CHCH₂OH", p: "prop-2-en-1-ol", why: "LiAlH₄ reduces the polar C=O bond but leaves the non-polar C=C bond alone." },
+  { k: "lah", n: "LiAlH₄ in dry ether", eq: "CH₂=CHCHO + 2[H] → CH₂=CHCH₂OH", p: "prop-2-en-1-ol", why: "LiAlH₄ attacks the polar C=O bond and leaves an isolated, non-polar C=C bond alone: propenal is taught as giving prop-2-en-1-ol with LiAlH₄." },
   { k: "h2", n: "H₂(g), Ni catalyst, heat", eq: "CH₂=CHCHO + 2H₂(g) → CH₃CH₂CH₂OH", p: "propan-1-ol", why: "H₂ with a nickel catalyst reduces both the C=O and the C=C bond, so two H₂ are used." }
 ];
 OC.PE = PE;
@@ -2419,12 +2456,11 @@ OC.CAND = CAND; OC.cpAny = cpAny;
 // answer options for each formula; "ans" lists the compounds the option stands for
 const DOPTS = {
   "C₃H₆O": [{ id: "propanal", t: "propanal, CH₃CH₂CHO", ans: ["propanal"] }, { id: "propanone", t: "propanone, CH₃COCH₃", ans: ["propanone"] },
-    { id: "propenol", t: "prop-2-en-1-ol, CH₂=CHCH₂OH (not a carbonyl compound)", ans: ["propenol"], fx: 1 }],
+    { id: "propenol", t: "prop-2-en-1-ol, CH₂=CHCH₂OH (not a carbonyl compound)", ans: ["propenol"] }],
   "C₄H₈O": [{ id: "butanone", t: "butanone, CH₃COCH₂CH₃", ans: ["butanone"] }, { id: "butanal", t: "butanal, CH₃CH₂CH₂CHO", ans: ["butanal"] },
     { id: "mepropanal", t: "2-methylpropanal, (CH₃)₂CHCHO", ans: ["mepropanal"] },
-    { id: "alc", t: "not a carbonyl compound: a primary or secondary alcohol, such as cyclobutanol", ans: ["cyclobutanol"], fx: 1 }],
+    { id: "alc", t: "not a carbonyl compound: a primary or secondary alcohol, such as cyclobutanol", ans: ["cyclobutanol"] }],
   "C₈H₈O": [{ id: "phenylethanone", t: "phenylethanone, C₆H₅COCH₃", ans: ["phenylethanone"] }, { id: "phenylethanal", t: "phenylethanal, C₆H₅CH₂CHO", ans: ["phenylethanal"] },
-    { id: "mebenz4", t: "4-methylbenzaldehyde, CH₃C₆H₄CHO", ans: ["mebenz4"] },
     { id: "mebenz", t: "a methylbenzaldehyde, CH₃C₆H₄CHO (2-, 3- or 4-): these tests cannot say which", lab: "a methylbenzaldehyde (2-, 3- or 4-)", ans: ["mebenz2", "mebenz3", "mebenz4"] }]
 };
 OC.DOPTS = DOPTS;
@@ -2440,9 +2476,9 @@ const DCASES = [
   { f: "C₈H₈O", c: "mebenz4", ans: "mebenz", slots: [["dnph"], ["tol"], ["feh"], ["iod"]] }
 ];
 OC.DCASES = DCASES;
-const DD = { filter: "all", cs: null, answered: false, right: 0, tried: 0 };
+const DD = { filter: "all", cs: null, answered: false, shown: false, right: 0, tried: 0 };
 OC.DD = DD;
-const TNAME = { dnph: "2,4-DNPH", tol: "Tollens' reagent, warm", feh: "Fehling's solution, warm", dic: "acidified K₂Cr₂O₇, warm", iod: "warm alkaline aqueous iodine", br: "Br₂(aq) (bromine water)" };
+const TNAME = { dnph: "2,4-DNPH", tol: "Tollens' reagent, warm", feh: "Fehling's solution, warm", dic: "acidified K₂Cr₂O₇, heat", iod: "warm alkaline aqueous iodine", br: "Br₂(aq) (bromine water)" };
 // the same tests as they read inside a sentence, with what each would show
 const TFB = { dnph: "2,4-DNPH", tol: "Tollens' reagent", feh: "Fehling's solution", dic: "acidified K₂Cr₂O₇", iod: "warm alkaline aqueous iodine", br: "bromine water" };
 const OBSFB = {
@@ -2456,18 +2492,18 @@ const OBS = {
   dic: [ "orange → green", "stays orange" ], iod: [ "pale yellow precipitate", "no precipitate" ], br: [ "decolourised (orange → colourless)", "stays orange" ]
 };
 OC.OBS = OBS;
-function genCase(tpl){
+function genCase(tpl0){
+  const tpl = tpl0.c === "mebenz4" ? Object.assign({}, tpl0, { c: ["mebenz2", "mebenz3", "mebenz4"][Math.floor(Math.random() * 3)] }) : tpl0;
   const c = cpAny(tpl.c), tests = [];
   tpl.slots.forEach(sl => {
     const opts = sl.filter(x => x !== "opt");
     if (sl.includes("opt") && Math.random() < 0.5) return;
     tests.push(pick(opts));
   });
-  // one more, different test for the cases whose three-test result set would repeat a tutorial question
+  // a fourth test for the ketone cases
   if (tpl.more) tests.push(pick(tpl.more.filter(t => !tests.includes(t))));
   tests.sort((a, b) => TORD.indexOf(a) - TORD.indexOf(b));
   const res = tests.map(t => ({ t, r: testResult(c, t) }));
-  // letters that the tutorial uses (P to U) are left out
   return { tpl, c, f: tpl.f, res, letter: pick(["V", "W", "X", "Y", "Z", "M"]) };
 }
 OC.genCase = genCase;
@@ -2489,20 +2525,20 @@ function reasoning(cs){
       else L.push(`Fehling's solution stays deep blue, so it is not an aliphatic aldehyde.${f === "C₈H₈O" ? "" : ` With the 2,4-DNPH result, and no benzene ring in a ${H(f)} compound, it is a ketone.`}`);
     }
     if (t === "dic"){
-      if (r && carbonyl) L.push("Acidified K₂Cr₂O₇ turns from orange to green, so the compound is oxidised. A carbonyl compound that is oxidised is an aldehyde.");
+      if (r && carbonyl) L.push("Acidified K₂Cr₂O₇ turns from orange to green, so the compound is oxidised. A carbonyl compound that is oxidised is an aldehyde (a primary or secondary alcohol would also turn it green, but 2,4-DNPH has already shown a C=O).");
       else if (r) L.push("Acidified K₂Cr₂O₇ turns from orange to green, so it is oxidised: with no C=O, it is a primary or secondary alcohol.");
       else L.push("Acidified K₂Cr₂O₇ stays orange, so it is not oxidised: with the 2,4-DNPH result, it is a ketone.");
     }
     if (t === "iod") L.push(r ? "Warm alkaline aqueous iodine gives a pale yellow precipitate of CHI₃, so a CH₃CO– group is present." : "Warm alkaline aqueous iodine gives no precipitate, so there is no CH₃CO– group.");
     if (t === "br") L.push(r ? "Bromine water is decolourised, so there is a C=C bond (Topic 11.4 Part 1)." : "Bromine water stays orange, so there is no C=C bond.");
   });
-  const id = cs.tpl.c;
+  const id = /^mebenz/.test(cs.tpl.c) ? "mebenz4" : cs.tpl.c;
   const concl = {
     propanal: "The only aldehyde with formula C₃H₆O is propanal, CH₃CH₂CHO. (Its isomer propanone would give no mirror, and it would give CHI₃.)",
     propanone: "The only ketone with formula C₃H₆O is propanone, CH₃COCH₃, and it has the CH₃CO– group.",
-    propenol: "The C₃H₆O alcohol with a C=C bond is prop-2-en-1-ol, CH₂=CHCH₂OH, a primary alcohol. (Cyclopropanol is also C₃H₆O and is also oxidised, but it has no C=C.)",
+    propenol: FEX + "The C₃H₆O alcohol with a C=C bond is prop-2-en-1-ol, CH₂=CHCH₂OH, a primary alcohol. (Cyclopropanol is also C₃H₆O and is also oxidised, but it has no C=C.)",
     butanone: "The only ketone with formula C₄H₈O is butanone, CH₃COCH₂CH₃, and it has the CH₃CO– group.",
-    cyclobutanol: "So it is not a carbonyl compound at all, but an alcohol that can be oxidised: a primary or secondary alcohol such as cyclobutanol (several C₄H₈O alcohols fit; these tests cannot say which).",
+    cyclobutanol: FEX + "So it is not a carbonyl compound at all, but an alcohol that can be oxidised: a primary or secondary alcohol such as cyclobutanol (several C₄H₈O alcohols fit; these tests cannot say which).",
     phenylethanone: "The C₈H₈O ketone with a benzene ring is phenylethanone, C₆H₅COCH₃, and it has the CH₃CO– group.",
     phenylethanal: "An aliphatic aldehyde with formula C₈H₈O and a benzene ring must have its –CHO on a CH₂ group: phenylethanal, C₆H₅CH₂CHO.",
     mebenz4: "The C₈H₈O aromatic aldehydes are the methylbenzaldehydes, CH₃C₆H₄CHO. These tests cannot tell whether the CH₃ is in the 2-, 3- or 4-position: any one of them is a correct answer."
@@ -2512,29 +2548,34 @@ function reasoning(cs){
 }
 OC.reasoning = reasoning;
 function ddRender(){
-  const cs = DD.cs, ttl = `${cs.tpl.fx ? FEX : ""}${cs.letter}, ${H(cs.f)}`;
+  const cs = DD.cs, ttl = `${cs.letter}, ${H(cs.f)}`;
   let s = `<p class="formula">${ttl}</p><p class="hint" style="margin:0">${cs.f === "C₈H₈O" ? "It contains a benzene ring. " : ""}Test results:</p><ul class="res">`;
   cs.res.forEach(x => { s += `<li>${H(TNAME[x.t])}: <b>${H(OBS[x.t][x.r ? 0 : 1])}</b></li>`; });
   s += `</ul>`;
-  const fr = cs.res.find(x => x.t === "feh"), tl = cs.res.find(x => x.t === "tol");
-  if (fr && !fr.r && tl && tl.r) s += `<p class="hint" style="margin:6px 0 0">${H(FEHTAG)}</p>`;
   $("dd-case").innerHTML = s;
   const opts = shuffle(DOPTS[cs.f]);
   DD.opts = opts;
-  $("dd-opts").innerHTML = opts.map((o, j) => `<button class="opt" data-id="${o.id}"><b>${"ABCDE"[j]}</b><span>${H(o.t)}${o.fx ? ` <span class="fex">Further example</span>` : ""}</span></button>`).join("");
-  $("dd-opts").querySelectorAll(".opt").forEach(b => b.onclick = () => ddAnswer(b.dataset.id));
-  $("dd-fb").hidden = true; $("dd-work").hidden = true; DD.answered = false;
-  $("dd-work").innerHTML = reasoning(cs).map(x => `<li>${x}</li>`).join("");
-  $("dd-score").textContent = DD.tried ? `${DD.right} of ${DD.tried} right` : "";
+  $("dd-opts").innerHTML = opts.map((o, j) => `<button class="opt"><b>${"ABCDE"[j]}</b><span>${H(o.t)}</span></button>`).join("");
+  DD.btns = [...$("dd-opts").querySelectorAll(".opt")];
+  DD.btns.forEach((b, j) => b.onclick = () => ddAnswer(opts[j].id));
+  $("dd-fb").hidden = true; $("dd-work").hidden = true; DD.answered = false; DD.shown = false;
+  // the working is written only when it is asked for, so the page holds no answer before then
+  $("dd-work").innerHTML = "";
+  ddScore();
 }
+function ddScore(){ $("dd-score").textContent = (DD.tried ? `${DD.right} of ${DD.tried} right. ` : "") + "First Check counts; not scored once the working is shown."; }
+// the Fehling's rule for aromatic aldehydes is named only after the answer, so the tag cannot point at it
+const ddFehUsed = cs => { const fr = cs.res.find(x => x.t === "feh"), tl = cs.res.find(x => x.t === "tol"); return !!(fr && !fr.r && tl && tl.r); };
 const ddLabel = o => o.lab || cpAny(o.ans[0]).n;
 function ddAnswer(id){
-  if (DD.answered) return; DD.answered = true; DD.tried++;
+  if (DD.answered) return; DD.answered = true;
   const cs = DD.cs, o = DOPTS[cs.f].find(x => x.id === id), cons = consistent(cs);
   // the hidden compound itself, or a group that contains it, counts as right
   const isRight = x => x.ans.includes(cs.tpl.c), right = isRight(o);
-  if (right) DD.right++;
-  $("dd-opts").querySelectorAll(".opt").forEach(b => { b.disabled = true; const x = DOPTS[cs.f].find(y => y.id === b.dataset.id); if (isRight(x)) b.classList.add("right"); else if (b.dataset.id === id) b.classList.add("wrong"); });
+  // scored once per question, and only when the working was not shown first
+  const scored = !DD.shown;
+  if (scored){ DD.tried++; if (right) DD.right++; }
+  DD.btns.forEach((b, j) => { b.disabled = true; const x = DD.opts[j]; if (isRight(x)) b.classList.add("right"); else if (x.id === id) b.classList.add("wrong"); });
   let why;
   if (right){
     const grp = DOPTS[cs.f].find(x => x.ans.length > 1 && isRight(x));
@@ -2546,20 +2587,21 @@ function ddAnswer(id){
     const a = cpAny(o.ans[0]), bad = cs.res.find(x => testResult(a, x.t) !== x.r);
     why = bad ? `Not quite: ${ddLabel(o)} would show ${OBSFB[bad.t][testResult(a, bad.t) ? 0 : 1]} with ${TFB[bad.t]}, but this compound shows ${OBSFB[bad.t][bad.r ? 0 : 1]}.` : "Not quite.";
   }
-  const fb = $("dd-fb"); fb.className = "fb " + (right ? "ok" : "no"); fb.innerHTML = H(why + " Show reasoning to see it worked through."); fb.hidden = false;
-  $("dd-score").textContent = `${DD.right} of ${DD.tried} right`;
+  const fb = $("dd-fb"); fb.className = "fb " + (right ? "ok" : "no");
+  fb.innerHTML = H((scored ? "" : "Not scored: the working was shown first. ") + why + (DD.shown ? "" : " Show reasoning to see it worked through.")) + (ddFehUsed(cs) ? ` ${FEHTAG}` : ""); fb.hidden = false;
+  ddScore();
 }
 function ddNew(){
   const pool = DCASES.filter(c => DD.filter === "all" || c.f === DD.filter.replace(/(\d)/g, d => SUBD[d]));
   let cs, k = 0;
-  do { cs = genCase(pick(pool)); k++; } while (DD.cs && k < 6 && cs.tpl === DD.cs.tpl && pool.length > 1);
+  do { cs = genCase(pick(pool)); k++; } while (DD.cs && k < 6 && cs.tpl.f + cs.tpl.ans === DD.cs.tpl.f + DD.cs.tpl.ans && pool.length > 1);
   DD.cs = cs; ddRender();
 }
 function bindDD(){
   $("dd-tabs").querySelectorAll("button").forEach(b => b.onclick = () => { DD.filter = b.dataset.f; $("dd-tabs").querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b)); ddNew(); });
   $("dd-new").onclick = ddNew;
-  $("dd-show").onclick = () => { $("dd-work").hidden = false; };
-  OC.ddNew = ddNew; OC.ddAnswer = ddAnswer; OC.ddSet = tpl => { DD.cs = genCase(tpl); ddRender(); };
+  $("dd-show").onclick = () => { if (!DD.answered) DD.shown = true; $("dd-work").innerHTML = reasoning(DD.cs).map(x => `<li>${x}</li>`).join(""); $("dd-work").hidden = false; };
+  OC.ddNew = ddNew; OC.ddAnswer = ddAnswer; OC.ddClick = id => DD.btns[DD.opts.findIndex(o => o.id === id)].click(); OC.ddSet = tpl => { DD.cs = genCase(tpl); ddRender(); };
   ddNew();
 }
 
@@ -2594,17 +2636,17 @@ const FC = [
     list: ["Made from butan-2-ol: acidified K₂Cr₂O₇, heat.", "Reduced to butan-2-ol.", "With warm alkaline aqueous iodine: CHI₃ and the propanoate ion, CH₃CH₂COO⁻ (one carbon fewer).", "The only C₄H₈O ketone."], fx: "Butan-2-ol has a chiral centre but is formed as a racemic mixture." },
   { cat: "c", h: "Benzaldehyde", mol: "benzaldehyde", cp: "benzaldehyde",
     list: ["An aromatic aldehyde: the –CHO is on the benzene ring.", "Gives a silver mirror with Tollens' reagent, as every aldehyde does.", "Reduced to phenylmethanol, C₆H₅CH₂OH; oxidised to benzoic acid, C₆H₅COOH."],
-    enr: ["Fehling's solution stays deep blue with benzaldehyde, which is how it is told from propanal. " + FEHRULE] },
+    fxs: ["Fehling's solution stays deep blue with benzaldehyde, which is how it is told from propanal: the –CHO is on a benzene ring."] },
   { cat: "r", h: "2,4-DNPH", mol: "dnph", sub: "2,4-dinitrophenylhydrazine", formula: "(O₂N)₂C₆H₃NHNH₂", mf: "C₆H₆N₄O₄",
     list: ["The test for the C=O of an aldehyde or ketone: an orange precipitate. Alcohols, carboxylic acids and esters give no precipitate.", "It does not tell an aldehyde from a ketone.", "A condensation (addition, then loss of water; the mechanism is not required): the C=O becomes C=N."],
     eqs: ["CH₃CHO + H₂NNHC₆H₃(NO₂)₂ → CH₃CH=NNHC₆H₃(NO₂)₂ + H₂O", "CH₃COCH₃ + H₂NNHC₆H₃(NO₂)₂ → (CH₃)₂C=NNHC₆H₃(NO₂)₂ + H₂O"],
     hyd: 1, footEnr: "The reagent, in methanol with a little sulfuric acid, is often called Brady's reagent (beyond the syllabus)." },
   { cat: "r", h: "Tollens' reagent", sub: "the silver mirror test", formula: "[Ag(NH₃)₂]⁺, the diamminesilver(I) ion",
-    list: ["Made fresh: aqueous AgNO₃, a drop of NaOH(aq) (brown precipitate of Ag₂O), then aqueous NH₃ until the precipitate just dissolves.", "Warm in a water bath, no flame. Wash it away at once: explosive residues form on standing.", "Every aldehyde, aliphatic or aromatic, gives a silver mirror (or a grey-black precipitate of silver). Ketones: no change.", "Silver goes from +1 to 0."], fx: "The carbonyl carbon of ethanal goes from +1 to +3.",
+    list: ["Made fresh: aqueous AgNO₃, a drop of NaOH(aq) (brown precipitate of Ag₂O), then aqueous NH₃ until the precipitate just dissolves.", "Warm in a water bath, no flame. Wash it away at once: explosive residues form on standing.", "Every aldehyde, aliphatic or aromatic, gives a silver mirror (or a grey-black precipitate of silver). Ketones: no change.", "Silver goes from +1 to 0.", "The carbonyl carbon of ethanal goes from +1 to +3."],
     eqs: ["[Ag(NH₃)₂]⁺(aq) + e⁻ → Ag(s) + 2NH₃(aq)", "RCHO(aq) + 3OH⁻(aq) → RCOO⁻(aq) + 2H₂O(l) + 2e⁻", "CH₃CHO(aq) + 2[Ag(NH₃)₂]⁺(aq) + 3OH⁻(aq) → CH₃COO⁻(aq) + 2Ag(s) + 4NH₃(aq) + 2H₂O(l)"] },
   { cat: "r", h: "Fehling's solution", sub: "Fehling's A + Fehling's B", formula: "Cu²⁺, held in alkali by tartrate as a deep blue complex",
     list: ["Made fresh by mixing Fehling's A (aqueous CuSO₄) and Fehling's B (sodium potassium 2,3-dihydroxybutanedioate, “tartrate”, in NaOH(aq)).", "Warm: aliphatic aldehydes give a brick-red precipitate of copper(I) oxide, Cu₂O.", "Ketones: no change, the solution stays deep blue.", "Copper goes from +2 to +1."],
-    enr: ["Aromatic aldehydes such as benzaldehyde also give no change. " + FEHRULE],
+    fxs: ["Aromatic aldehydes such as benzaldehyde also give no change: the –CHO is on a benzene ring."],
     eqs: ["2Cu²⁺(aq) + 2OH⁻(aq) + 2e⁻ → Cu₂O(s) + H₂O(l)", "CH₃CHO(aq) + 2Cu²⁺(aq) + 5OH⁻(aq) → CH₃COO⁻(aq) + Cu₂O(s) + 3H₂O(l)"],
     footEnr: "Benedict's solution, which uses citrate instead of tartrate, works the same way and is more stable on keeping (beyond the syllabus)." },
   { cat: "r", h: "Tri-iodomethane", mol: "chi3", sub: "iodoform", formula: "CHI₃", mf: "CHI₃", mp: "yellow solid, m.p. 119 °C",
@@ -2612,14 +2654,14 @@ const FC = [
     eqs: ["CH₃COCH₃(aq) + 3I₂(aq) + 4OH⁻(aq) → CHI₃(s) + CH₃COO⁻(aq) + 3I⁻(aq) + 3H₂O(l)", "RCOCH₃ + 3I₂ + 4OH⁻ → CHI₃ + RCOO⁻ + 3I⁻ + 3H₂O"],
     enr: ["How it works, in two stages: RCOCH₃ + 3I₂ + 3OH⁻ → RCOCI₃ + 3I⁻ + 3H₂O, then RCOCI₃ + OH⁻ → RCOO⁻ + CHI₃."] },
   { cat: "r", h: "2-Hydroxypropanenitrile", mol: "hpn", formula: "CH₃CH(OH)CN", mf: "C₃H₅NO",
-    list: ["Made from ethanal: HCN, with KCN as catalyst (nucleophilic addition).", "Chiral (*), but formed as a racemic mixture, so it is not optically active.", "Hydrolysis (dilute HCl(aq), heat under reflux; Topic 11.8 Part 1) gives 2-hydroxypropanoic acid (lactic acid), CH₃CH(OH)COOH.", "Reduction of –CN to –CH₂NH₂: Topic 11.9 Part 1."], enr: ["CIP priorities OH > CN > CH₃ > H. Turn on R/S labels in the 3D mirror above to see which product is (R) and which is (S)."] },
+    list: ["Made from ethanal: HCN, with KCN as catalyst (nucleophilic addition).", "Chiral (*), but formed as a racemic mixture, so it is not optically active.", "Hydrolysis (dilute HCl(aq), heat under reflux; Topic 11.8 Part 1) gives 2-hydroxypropanoic acid (lactic acid), CH₃CH(OH)COOH.", "Reduction of –CN to –CH₂NH₂: Topic 11.9 Part 1."], enr: ["CIP priorities OH > CN > CH₃ > H. Turn on the R/S labels under “The two products”, in the Nucleophilic addition of HCN section, to see which product is (R) and which is (S)."] },
   { cat: "r", h: "LiAlH₄", sub: "lithium tetrahydridoaluminate (lithium aluminium hydride)", formula: "LiAlH₄", mf: "LiAlH₄",
     list: ["Used as LiAlH₄ in dry ether. Aldehydes give primary alcohols; ketones give secondary alcohols. The alcohol is released when water (or dilute acid) is added afterwards.", "It reacts violently with water, which is why the ether must be dry.", "It does not reduce an isolated C=C bond. It also reduces carboxylic acids to primary alcohols (Topic 11.8 Part 1)."],
     eqs: ["LiAlH₄ + 4H₂O → LiOH + Al(OH)₃ + 4H₂(g)"],
     enr: ["It acts as a source of the hydride ion, H⁻, a nucleophile that adds to the δ+ carbonyl carbon.", "NaBH₄ (beyond the syllabus) is milder: it reduces aldehydes and ketones but not acids, and can be used in methanol, ethanol or water, so plants prefer it at scale."] }
 ];
 OC.FC = FC;
-const HYD = [["ethanal", "C₈H₈N₄O₄", 168], ["propanal", "C₉H₁₀N₄O₄", 155], ["propanone", "C₉H₁₀N₄O₄", 126], ["butanone", "C₁₀H₁₂N₄O₄", 117], ["benzaldehyde", "C₁₃H₁₀N₄O₄", 237], ["phenylethanone", "C₁₄H₁₂N₄O₄", 250]];
+const HYD = [["ethanal", "C₈H₈N₄O₄", 168], ["propanal", "C₉H₁₀N₄O₄", 155], ["propanone", "C₉H₁₀N₄O₄", 126], ["butanone", "C₁₀H₁₂N₄O₄", 117], ["benzaldehyde", "C₁₃H₁₀N₄O₄", 237], ["phenylethanone", "C₁₄H₁₂N₄O₄", 250, "240 to 250"]];
 OC.HYD = HYD;
 function fcHTML(c){
   const cp = c.cp ? CP[c.cp] : null;
@@ -2637,8 +2679,9 @@ function fcHTML(c){
   if (c.list) s += `<ul>${c.list.map(x => `<li>${H(x)}</li>`).join("")}</ul>`;
   if (c.eqs) s += `<div class="eqs" style="margin-top:8px">${c.eqs.map(e => `<div class="eqn">${H(e)}</div>`).join("")}</div>`;
   if (cp) s += `<p>${H("Tests: " + testRow(cp.id) + ".")}</p>`;
-  if (c.hyd) s += `<p>${FEX}${H("Each aldehyde or ketone gives its own 2,4-dinitrophenylhydrazone. Filtered, recrystallised and melted, it identifies the compound (sources differ by a few degrees):")} ${lit}</p><div class="tblwrap" style="margin-top:6px"><table class="data"><thead><tr><th>From</th><th>Hydrazone</th><th><i>M</i><sub>r</sub></th><th>m.p. / °C</th></tr></thead><tbody>${HYD.map(([n, f, m]) => `<tr><td>${H(n)}</td><td>${H(f)}</td><td>${mrOf(f).toFixed(1)}</td><td>about ${m}</td></tr>`).join("")}</tbody></table></div>`;
+  if (c.hyd) s += `<p>${FEX}${H("Each aldehyde or ketone gives its own 2,4-dinitrophenylhydrazone. Filtered, recrystallised and melted, it identifies the compound (sources differ, by up to about 10 °C):")} ${lit}</p><div class="tblwrap" style="margin-top:6px"><table class="data"><thead><tr><th>From</th><th>Hydrazone</th><th><i>M</i><sub>r</sub></th><th>m.p. / °C</th></tr></thead><tbody>${HYD.map(([n, f, m, r4]) => `<tr><td>${H(n)}</td><td>${H(f)}</td><td>${mrOf(f).toFixed(1)}</td><td>about ${r4 || m}</td></tr>`).join("")}</tbody></table></div>`;
   if (c.fx) s += `<p>${FEX}${H(c.fx)}</p>`;
+  if (c.fxs) s += c.fxs.map(x => `<p>${FEX}${H(x)}</p>`).join("");
   if (c.enr) s += c.enr.map(x => `<p>${ENR}${H(x)}</p>`).join("");
   if (c.foot) s += `<p class="hint">${H(c.foot)}</p>`;
   if (c.footEnr) s += `<p class="hint">${ENR}${H(c.footEnr)}</p>`;
@@ -2667,10 +2710,10 @@ const QZ = [
         ["ethanol, CH₃CH₂OH", "Ethanol is an alcohol: it has no C=O group, so there is no precipitate."],
         ["ethanoic acid, CH₃COOH", "The C=O of a carboxylic acid does not react with 2,4-DNPH: only aldehydes and ketones give the precipitate."],
         ["propan-2-ol, CH₃CH(OH)CH₃", "Propan-2-ol is an alcohol (it is oxidised to propanone, but it is not a carbonyl compound itself)."]] },
-  { k: "11.7(d)", enr: 1, q: "Which reagent, warmed with each compound, tells propanal from benzaldehyde?",
+  { k: "11.7(d)", q: "Which reagent, used with each compound, tells propanal from benzaldehyde?",
     o: [["Fehling's solution", "Propanal, an aliphatic aldehyde, gives a brick-red precipitate of Cu₂O; benzaldehyde, an aromatic aldehyde, leaves the solution deep blue. " + FEHTAG],
         ["Tollens' reagent", "Both are aldehydes, so both give a silver mirror."],
-        ["2,4-DNPH", "Both have a C=O group, so both give an orange precipitate."],
+        ["2,4-DNPH, at room temperature", "Both have a C=O group, so both give an orange precipitate."],
         ["acidified K₂Cr₂O₇", "Both aldehydes are oxidised, so both turn it from orange to green."]] },
   { k: "11.7(e)", q: "Which compound gives a pale yellow precipitate with warm alkaline aqueous iodine?",
     o: [["butanone, CH₃COCH₂CH₃", "Butanone has a CH₃ group joined to the carbonyl carbon (CH₃CO–). It gives CHI₃ and the propanoate ion."],
@@ -2678,31 +2721,31 @@ const QZ = [
         ["pentan-3-one, CH₃CH₂COCH₂CH₃", "Both groups on the C=O are ethyl groups: no CH₃CO–."],
         ["methanal, HCHO", "Methanal has no CH₃ group at all."]] },
   { k: "11.7(b)", q: "In the reaction of ethanal with HCN, what is the role of KCN?",
-    o: [["It supplies CN⁻, the nucleophile; the CN⁻ is regenerated in step 2, so KCN is a catalyst.", "HCN is a very weak acid and supplies very little CN⁻ on its own."],
-        ["It supplies the H⁺ that attacks the oxygen in the first step.", "KCN supplies no H⁺. The first step is attack by CN⁻ on the δ+ carbon; H⁺ comes from HCN in step 2."],
+    o: [["It supplies CN⁻, the nucleophile, which is regenerated in step 2: a catalyst.", "HCN is a very weak acid and supplies very little CN⁻ on its own."],
+        ["It supplies the H⁺ that attacks the oxygen in the first step, as an acid would.", "KCN supplies no H⁺. The first step is attack by CN⁻ on the δ+ carbon; H⁺ comes from HCN in step 2."],
         ["It is an electrophile that attacks the C=O bond.", "CN⁻ is an electron-pair donor, a nucleophile, and it attacks the δ+ carbon."],
         ["It removes water so that the equilibrium moves to the right.", "No water is formed in this addition reaction."]] },
   { k: "11.7(b)", q: "The 2-hydroxypropanenitrile made from ethanal and HCN has a chiral centre. Why is the product not optically active?",
-    o: [["The planar carbonyl carbon is attacked equally from above and below, so the two enantiomers form in equal amounts: a racemic mixture.", "The rotations of the two enantiomers cancel exactly."],
+    o: [["Both faces of the planar carbonyl carbon are attacked equally, so equal amounts of the two enantiomers form: a racemic mixture.", "The rotations of the two enantiomers cancel exactly."],
         ["The new carbon is not really a chiral centre.", "It carries H, OH, CH₃ and CN: four different groups."],
-        ["Only one enantiomer forms, and a single enantiomer is not optically active.", "A single enantiomer would rotate plane-polarised light. Both form, equally."],
+        ["Only one enantiomer forms, because the nucleophile attacks one face of the carbonyl carbon, and a single enantiomer is not optically active.", "A single enantiomer would rotate plane-polarised light. Both form, equally."],
         ["The CN group is linear, so the molecule has a plane of symmetry.", "The molecule has no plane of symmetry: its mirror image cannot be superimposed on it."]] },
   { k: "11.7(a)", q: "Which reagent and conditions make ethanal from ethanol, without forming much ethanoic acid?",
     o: [["acidified K₂Cr₂O₇, heat with distillation", "Ethanal (b.p. about 20 °C) distils off as soon as it forms, before it can be oxidised further."],
-        ["acidified K₂Cr₂O₇, heat under reflux", "Under reflux the ethanal is returned to the flask and is oxidised on to ethanoic acid."],
+        ["acidified K₂Cr₂O₇, heat under reflux, with the oxidising agent in excess", "Under reflux, with the oxidising agent in excess, the ethanal is returned to the flask and is oxidised all the way to ethanoic acid."],
         ["LiAlH₄ in dry ether", "LiAlH₄ is a reducing agent: it turns ethanal into ethanol, not the other way round."],
         ["H₂(g), Ni catalyst, heat", "Hydrogen with a nickel catalyst reduces C=O; it does not oxidise an alcohol."]] },
   { k: "11.7(a)", q: "Butanone is reduced with LiAlH₄ in dry ether. What is the product?",
     o: [["butan-2-ol, CH₃CH(OH)CH₂CH₃", "A ketone is reduced to a secondary alcohol, with the same carbon skeleton."],
         ["butan-1-ol, CH₃CH₂CH₂CH₂OH", "That would come from butanal, an aldehyde. In butanone the C=O is on C2."],
-        ["butanoic acid, CH₃CH₂CH₂COOH", "That is an oxidation product of butanal; LiAlH₄ reduces."],
+        ["butanal, CH₃CH₂CH₂CHO", "Butanal is an isomer of butanone (both C₄H₈O). A reduction adds hydrogen, so the product is C₄H₁₀O."],
         ["2-methylpropan-2-ol, (CH₃)₃COH", "Reduction does not change the carbon skeleton; this tertiary alcohol has a branched chain."]] },
   { k: "11.7(d)", q: "Ethanal reacts with Tollens' reagent to give a silver mirror. Which statement is correct?",
     o: [["The silver ion is reduced to silver, and ethanal is oxidised to the ethanoate ion.", "Ag⁺ in [Ag(NH₃)₂]⁺ gains an electron to become silver; the aldehyde is the reducing agent and is oxidised."],
         ["The silver ion is oxidised to silver, and ethanal is reduced to ethanol.", "That is the reverse: a silver mirror is silver metal, formed when Ag⁺ gains electrons, so Ag⁺ is reduced and ethanal is oxidised."],
         ["Ethanal is oxidised to ethanol, and the silver ion is reduced.", "Ethanol is the reduction product of ethanal (for example with LiAlH₄); oxidation gives the ethanoate ion."],
         ["Nothing is oxidised: the reagent only detects the C=O group, as 2,4-DNPH does.", "The reagent detects an aldehyde, not just a C=O group: a ketone has no H atom on the carbonyl carbon and gives no mirror. 2,4-DNPH is the test for C=O."]] },
-  { k: "11.7(c)–(d)", enr: 1, q: "A compound gives an orange precipitate with 2,4-DNPH and a silver mirror with Tollens' reagent, but Fehling's solution stays deep blue. Which could it be?",
+  { k: "11.7(c)–(d)", q: "A compound gives an orange precipitate with 2,4-DNPH and a silver mirror with Tollens' reagent, but Fehling's solution stays deep blue. Which could it be?",
     o: [["benzaldehyde, C₆H₅CHO", "An aromatic aldehyde: it reduces Tollens' reagent but not Fehling's solution. " + FEHTAG],
         ["propanal, CH₃CH₂CHO", "Propanal is an aliphatic aldehyde, so it would give a brick-red precipitate with Fehling's solution."],
         ["phenylethanone, C₆H₅COCH₃", "A ketone: it would give no silver mirror."],
@@ -2714,8 +2757,9 @@ const QZ = [
         ["Acidified K₂Cr₂O₇ only reacts with ketones.", "Ketones are the compounds it does not oxidise: it stays orange."]] }
 ];
 OC.QZ = QZ;
-const Q = { i: 0, score: 0, order: [], answered: false };
+const Q = { i: 0, score: 0, order: [], answered: false, t0: 0, rightIdx: -1 };
 OC.Q = Q;
+OC.startQuiz = () => startQuiz();
 function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
 function renderQ(){
   const box = $("quiz-box");
@@ -2728,23 +2772,26 @@ function renderQ(){
     return;
   }
   const q = QZ[Q.i], ord = Q.order[Q.i];
-  Q.answered = false;
+  Q.answered = false; Q.t0 = performance.now(); Q.rightIdx = ord.indexOf(0);
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="k">${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
-    <p class="qtext">${q.enr ? ENR + " " : ""}${H(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <p class="qtext">${H(q.q)}</p>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
-  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+  const btns = [...box.querySelectorAll(".opt")];
+  btns.forEach((b, j) => b.onclick = () => {
+    // a click that lands within 400 ms of the question appearing is the second half of a double click on "Next question": ignore it
+    if (Q.answered || performance.now() - Q.t0 < 400) return; Q.answered = true;
+    const oi = ord[j], right = oi === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    btns.forEach((x, k) => { x.disabled = true; if (ord[k] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
     ex.innerHTML = `<div class="fb ${right ? "ok" : "no"}">${right ? "Correct." : `Not quite. The answer is ${"ABCD"[ord.indexOf(0)]}.`} ${H(q.o[0][1])}</div><ul class="whyl">${others}</ul><div class="btnrow" style="margin-top:10px"><button class="btn primary" id="q-next">${Q.i === QZ.length - 1 ? "See score" : "Next question"}</button></div>`;
     ex.hidden = false;
-    $("q-next").onclick = () => { Q.i++; renderQ(); };
+    const qi = Q.i;
+    $("q-next").onclick = () => { if (Q.i !== qi) return; Q.i++; renderQ(); };
   });
 }
 
