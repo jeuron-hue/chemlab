@@ -613,7 +613,7 @@ svg .arrowh{fill:var(--s2)}
         <div id="pr-fb" hidden></div>
       </div>
       <div class="tblwrap"><table class="data" id="pr-grid"></table></div>
-      <p class="hint" style="margin:0" id="pr-scope">The two strong-base columns are for the base in an alcohol (ethanol or (CH₃)₃COH), heated. With NaOH(aq) substitution wins, as in Topic 11.5: S<sub>N</sub>2 for methyl, primary and secondary substrates (benzylic ones also by S<sub>N</sub>1, Part 1), and S<sub>N</sub>1, with some alkene, for tertiary ones.</p>
+      <p class="hint" style="margin:0" id="pr-scope">The two strong-base columns are for the base in an alcohol (ethanol or (CH₃)₃COH), heated. With NaOH(aq), water as the solvent, substitution wins, as in Topic 11.5: S<sub>N</sub>2 for methyl, primary and secondary substrates (benzylic ones, a Further example, also by S<sub>N</sub>1, Part 1), and S<sub>N</sub>1, with some alkene, for tertiary ones. A secondary substrate in a water–ethanol mixture gives both, and more alkene the hotter it is (Part 2, Temperature).</p>
       <p class="hint" style="margin:0" id="pr-score"></p>
     </div>
   </div>
@@ -2337,6 +2337,7 @@ function prRender(){
   else { $("pr-fb").hidden = true; }
   prGrid();
   $("pr-score").textContent = PR.n ? `Predictions: ${PR.score} right out of ${PR.n} (partly right answers count).` : "";
+  show($("pr-scope"), PR.answered);   // the rules for other reagents would hint at the water cells: shown only once the current cell is answered or prediction is off
 }
 function prReveal(k){
   const c = PR_GRID[PR.s][PR.r], fb = $("pr-fb");
@@ -2359,6 +2360,7 @@ function prAnswer(k){
   PR.seen.add(PR.s + PR.r);
   prReveal(k);
   prGrid();
+  show($("pr-scope"), true);
   $("pr-score").textContent = `Predictions: ${PR.score} right out of ${PR.n} (partly right answers count).`;
 }
 function bindPR(){
