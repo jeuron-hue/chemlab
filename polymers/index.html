@@ -368,6 +368,14 @@ svg .bl{font-size:13px; fill:var(--ink)}
 #mp-details[open] > summary{background:var(--accent-soft); border-color:var(--accent)}
 .card .mol svg{max-width:none; margin:0 auto}
 #mp-eth-wrap[hidden]{display:none}
+
+/* ---------- Enrichment and Beyond the syllabus tags in plum; darker light-mode ok text ---------- */
+:root{ --plum-bg:#EFE8F3; --plum-ink:#6A3C82; --good-ink:#246B45; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --plum-bg:#33263D; --plum-ink:#DDBFEA; --good-ink:var(--good); } }
+:root[data-theme="dark"]{ --plum-bg:#33263D; --plum-ink:#DDBFEA; --good-ink:var(--good); }
+.beyond{color:var(--plum-ink); background:var(--plum-bg)}
+.fb.ok{color:var(--good-ink)}
+.order li.right .why, .tcard.right .why{color:var(--good-ink)}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -407,7 +415,7 @@ svg .bl{font-size:13px; fill:var(--ink)}
 .top .title-block > .stamp{color:var(--ls-s)}
 .ls-tr{display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px}
 .themesw{display:inline-flex; border:1px solid var(--ls-line-strong); border-radius:4px; overflow:hidden; background:var(--surface)}
-.themesw button{font:inherit; font-size:12px; line-height:18px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
+.themesw button{font:inherit; font-size:12px; line-height:20px; min-width:24px; min-height:24px; padding:2px 9px; border:0; border-left:1px solid var(--line); background:transparent; color:var(--ink-2); cursor:pointer}
 .themesw button:first-child{border-left:0}
 .themesw button:hover{color:var(--ink)}
 .themesw button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
@@ -419,7 +427,7 @@ svg .bl{font-size:13px; fill:var(--ink)}
 
 /* numbered tabs and Show all */
 .secnav a .ls-n{font-family:var(--mono); font-variant-ligatures:none; font-size:12px; font-weight:500; color:var(--ls-s); margin-right:6px}
-.secnav .ls-all{flex:none; margin-left:auto; align-self:center; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
+.secnav .ls-all{flex:none; margin-left:auto; align-self:center; min-height:24px; font-size:.8rem; font-weight:500; color:var(--ink-2); background:transparent; border:1px solid var(--line); border-radius:4px; padding:3px 9px; cursor:pointer; white-space:nowrap}
 .secnav .ls-all:hover{color:var(--ink); border-color:var(--axis)}
 
 /* In this lab: one card per section */
@@ -745,12 +753,20 @@ svg .bl{font-size:13px; fill:var(--ink)}
   <div class="wrap">
     <span>H2 Chemistry notes © Gary Chan · Topic 11.10 Polymers</span>
     <span>Syllabus: SEAB H2 Chemistry 9476 · <i>A</i><sub>r</sub> and bond energies from the Data Booklet · uses, states, resin codes and breakdown times are literature values · average <i>M</i><sub>r</sub> values in the practice questions are illustrative</span>
-  <span class="ls-updated">Last updated 18/10/26</span></div>
+  <span class="ls-updated">Last updated 21/11/26</span></div>
 </footer>
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
+const LAB = {};
+/* ---------- draw keys for the practice generators ---------- */
+const RESH = new Set(["1l6b12q", "1to2fox", "28rhpo", "ek5gwa"]);
+function fnv(s){ let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+const rh = k => RESH.has(fnv(k));
+// a number as a key part: its value to six significant figures, so 1.2e5 and 120000 are one key
+const dg = v => String(+(+v).toPrecision(6));
+const resHit = q => (q.rk || []).some(rh);
+
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
@@ -863,16 +879,27 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-function parseNum(s){
-  if (s == null) return NaN;
-  let t = String(s).trim().replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, "");
-  t = t.replace(/10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)$/, (m, e) => "10^" + [...e].map(c => c === "⁻" ? "-" : c === "⁺" ? "+" : String(SUPD.indexOf(c))).join(""));
-  t = t.replace(/[x×*]10\^?\(?([-+]?\d+)\)?$/i, "e$1");
-  t = t.replace(/(kPa\^?-?\d*|mol.*|dm.*|atm|kJmol\^?-1|kJ\/mol|kJ|K|J|°C|%)$/i, "");
-  if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
-  return parseFloat(t);
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
+// The one answer parser. Both answer types (n and relative molecular mass) are numbers without a unit, so the whole
+// string must be one number: any unit, even a correct one for another quantity, is refused with its own message.
+function parseAnswer(str){
+  if (str == null) return { error: "Type an answer first.", kind: "empty" };
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-").replace(/(?<=[\dA-Za-z%])\.+$/, "");
+  if (!t) return { error: "Type an answer first.", kind: "empty" };
+  t = t.replace(/(10)([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g, (mm, a, b) => a + "^" + [...b].map(c => SUPASC[c]).join(""));
+  if (/^[-+]?\s*(?:\d*,\d{1,2}(?!\d)|0,\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:[, ]\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)(?:\s*[x×*]\s*10\s*\^?\s*\(?([-+]?\d+)\)?|e([-+]?\d+))?\s*(.*)$/i);
+  if (!m) return { error: "Enter a number, for example 5650 or 62.5.", kind: "nan" };
+  let val = parseFloat(m[2].replace(/[, ]/g, "")); const ex = m[3] != null ? m[3] : m[4];
+  if (ex != null) val *= Math.pow(10, +ex);
+  if (m[1] === "-") val = -val;
+  if (!isFinite(val)) return { error: "Enter a number, for example 5650 or 62.5.", kind: "nan" };
+  const rest = m[5].trim();
+  if (!rest) return { value: val };
+  if (!/^[A-Za-zµ°%]/.test(rest)) return { error: "Enter one number only.", kind: "nan" };
+  return { error: "Check the unit: this answer has no unit.", kind: "unit" };
 }
-LAB.parseNum = parseNum;
+LAB.parseAnswer = parseAnswer;
 
 // scientific notation as a plain string with Unicode superscripts (H() turns them into <sup>)
 const SUPS = n => String(n).split("").map(c => c === "-" ? "⁻" : SUPD[+c]).join("");
@@ -918,9 +945,9 @@ const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" styl
 const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* =====================================================
-   1. DATA (DATA.md sections 3 to 7; every formula and M_r is counted from the tokens drawn)
+   1. DATA (polymers, monomers, amino acids, biodegradability and recycling; every formula and M_r is counted from the tokens drawn)
    ===================================================== */
-// Structure tokens, drawn left to right: A(label, up, down) an atom with groups above and below;
+// Structure tokens, in drawing order from the left: A(label, up, down) an atom with groups above and below;
 // CO() a C=O carbon; RING() benzene-1,4-diyl (C6H4); G(text) a condensed group in the chain.
 const A = (t, up, dn, o) => Object.assign({ t, up, dn }, o || {});
 const CO = o => Object.assign({ t: "C", up: "O", upd: true }, o || {});
@@ -965,7 +992,7 @@ const mrOf = el => Math.round(Object.keys(el).reduce((s, e) => s + AR[e] * el[e]
 const m1 = v => v.toFixed(1);
 LAB.tokCount = tokCount; LAB.fStr = fStr; LAB.mrOf = mrOf;
 
-// ---------- monomers (DATA.md 3.1, 3.2) ----------
+// ---------- monomers ----------
 const ALK = (a, b, c, d) => [A("C", a, b, { b: "=" }), A("C", c, d)];
 const MON = {
   ethene: { name: "ethene", f: "CH₂=CH₂", st: "gas", tk: ALK("H", "H", "H", "H") },
@@ -1030,12 +1057,11 @@ POLY.forEach(p => {
 const PB = Object.fromEntries(POLY.map(p => [p.id, p]));
 LAB.POLY = POLY; LAB.PB = PB;
 const pname = p => p.short ? `${p.name}` : p.name;
-// average M_r of a polymer in DATA.md 5 (the practice generator's list)
-// (14/10/26 fix pass: PVC, PET and nylon-6,6 values changed so that the generator does not repeat Tutorial 1)
+// average M_r of a polymer (the practice generator's list)
 const DPLIST = [["pe", 1.40e5], ["pp", 2.10e5], ["pvc", 5.00e4], ["ptfe", 5.0e5], ["pet", 28800], ["n66", 33900], ["pla", 7.2e4]];
 LAB.DPLIST = DPLIST;
 
-// ---------- amino acids (DATA.md 4.1) ----------
+// ---------- amino acids ----------
 const AA = {
   Gly: { name: "aminoethanoic acid", common: "glycine", R: "H", f: "H₂NCH₂COOH", cf: "CH₂", chiral: false },
   Ala: { name: "2-aminopropanoic acid", common: "alanine", R: "CH₃", f: "H₂NCH(CH₃)COOH", cf: "CH(CH₃)", chiral: true },
@@ -1044,7 +1070,7 @@ const AA = {
 for (const k in AA){ const c = tokCount([G("H₂N"), A("C", "H", AA[k].R), CO(), G("OH")]); AA[k].el = c.el; AA[k].F = fStr(c.el); AA[k].Mr = mrOf(c.el); }
 LAB.AA = AA;
 
-// ---------- biodegradability (DATA.md 6) ----------
+// ---------- biodegradability ----------
 const BIO = [
   { id: "pe", t: "poly(ethene)", ru: "–[CH₂–CH₂]ₙ–", z: "inert", bb: "C–C and C–H only",
     why: "Strong (C–C 350, C–H 410 kJ mol⁻¹, Data Booklet), almost non-polar bonds: no δ+ or δ− site for water, H⁺, OH⁻ or enzymes to attack, and the chains are hydrophobic. Like alkanes (Topic 11.3) it is chemically inert, so it persists." },
@@ -1057,7 +1083,7 @@ const BIO = [
   { id: "pet", t: "PET", ru: "–[OCH₂CH₂O–CO–C₆H₄–CO]ₙ–", z: "hyd", rate: "slowly", bb: "ester links –COO–",
     why: "The C=O carbon of each ester link is δ+ and can be attacked by water, acid, alkali or enzymes (esterases), as in Topic 11.8 ester hydrolysis. In the environment PET breaks down very slowly (decades or longer; literature estimates vary widely), because it is hydrophobic, partly crystalline and its ester links sit next to rigid benzene rings." },
   { id: "n66", t: "nylon-6,6", ru: "–[NH(CH₂)₆NH–CO(CH₂)₄CO]ₙ–", z: "hyd", rate: "slowly", bb: "amide links –CONH–",
-    why: "Amide links can be hydrolysed (acid, alkali, some enzymes), as in Topic 11.9; in the environment this is slow (hydrophobic chains, strong hydrogen bonding between chains)." },
+    why: "Amide links can be hydrolysed (acid, alkali, some enzymes), as in Topic 11.9; in the environment this is slow (hydrophobic chains, strong hydrogen bonding between chains; the amide link's partial double-bond character, Topic 11.9, also slows it)." },
   { id: "pla", t: "PLA", ru: "–[OCH(CH₃)CO]ₙ–", z: "hyd", bb: "ester links –COO–",
     why: "Aliphatic ester links hydrolyse to lactic acid, which microorganisms use; PLA breaks down in industrial composting (warm and moist) in weeks to months, much more slowly in soil or the sea (literature)." },
   { id: "prot", t: "protein", ru: "–[NH–CH(R)–CO]ₙ–", z: "hyd", bb: "peptide (amide) links",
@@ -1067,7 +1093,7 @@ LAB.BIO = BIO;
 const BONDS = [["C–H", 410, 1], ["C–C", 350, 1], ["C–F", 485, 1], ["C–Cl", 340, 1], ["C–O", 360, 2], ["C=O", 740, 2], ["C–N", 305, 2]];
 LAB.BONDS = BONDS;
 
-// ---------- recycling (DATA.md 7) ----------
+// ---------- recycling ----------
 const HIER = [
   { t: "Reduce", why: "Best: plastic that is never made uses no crude oil and makes no waste." },
   { t: "Reuse", why: "The item is used again with no reprocessing at all." },
@@ -1256,6 +1282,9 @@ const BLD = { id: "pe", ni: 9, tab: "fwd" };
 LAB.BLD = BLD;
 const NLIST = [10, 20, 36, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000];
 LAB.NLIST = NLIST;
+// the chain lengths on the slider for one polymer: a position whose M_r matches a stored key is skipped
+const nListOf = p => NLIST.filter(n => { const M = n * p.Mr; return !resHit({ rk: ["pair:" + p.id + ":" + dg(M), "mr:" + dg(M)] }); });
+LAB.nListOf = nListOf;
 const grpN = v => { const s = String(Math.round(v)); return s.length >= 5 ? s.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : s; };
 const mrBig = v => v < 1e5 ? grpN(v) : sci(v, 3);
 LAB.mrBig = mrBig;
@@ -1274,7 +1303,7 @@ function bindBuilder(){
   $("pb-add").innerHTML = POLY.filter(p => p.kind === "add" && !p.only).map(btn).join("");
   $("pb-cond").innerHTML = POLY.filter(p => p.kind === "cond" && !p.only).map(btn).join("");
   document.querySelectorAll("#pb-add button, #pb-cond button").forEach(b => b.onclick = () => setBuild(b.dataset.id));
-  $("pb-n").min = 0; $("pb-n").max = NLIST.length - 1; $("pb-n").step = 1;
+  $("pb-n").min = 0; $("pb-n").step = 1;
   $("pb-n").oninput = () => { BLD.ni = +$("pb-n").value; drawDP(); };
   $("pb-tabs").querySelectorAll("button").forEach(b => b.onclick = () => {
     $("pb-tabs").querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b));
@@ -1288,8 +1317,9 @@ function setBuild(id){
   BLD.id = id;
   document.querySelectorAll("#pb-add button, #pb-cond button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
   const p = PB[id];
-  BLD.ni = Math.max(0, NLIST.indexOf(p.nEx || 1000));
-  $("pb-n").value = BLD.ni;
+  BLD.list = p.R ? NLIST : nListOf(p);
+  BLD.ni = Math.max(0, BLD.list.indexOf(p.nEx || 1000));
+  $("pb-n").max = BLD.list.length - 1; $("pb-n").value = BLD.ni;
   drawBuild();
 }
 LAB.setBuild = setBuild;
@@ -1349,7 +1379,7 @@ function drawBuild(){
   const N = [];
   if (p.kind === "add"){
     N.push("Rules: the repeat unit has the same atoms as the monomer, so the polymer has the same empirical formula. Draw the two backbone carbons with the substituents above and below, a continuation bond through each bracket, and n outside the bottom right.");
-    N.push(`${ENR}Most poly(alkenes) are made by a free-radical chain reaction: an initiator (often a peroxide) gives radicals that add to C=C again and again (propagation) until two radicals meet (termination).`);
+    N.push(`${ENR}Many poly(alkenes), such as LDPE, PVC, polystyrene and PTFE, are made by a free-radical chain reaction, like the free-radical substitution of Topic 11.3; most HDPE and all commercial poly(propene) use metal catalysts (literature).`);
     if (p.id === "pe") N.push(`${ENR}Radical polymerisation of ethene at high pressure gives branched low-density poly(ethene) (LDPE); a Ziegler–Natta catalyst gives unbranched, denser high-density poly(ethene) (HDPE).`);
   } else {
     N.push(`Rules: each monomer has two functional groups (or one monomer has both kinds). Every new link is formed by a condensation: –OH of the acid (or –Cl of the acyl chloride) plus H of the –OH or –NH₂ leave as ${p.mon.some(k => k === "adipoylcl" || k === "tpcl") ? "HCl" : "H₂O"}.`);
@@ -1376,7 +1406,7 @@ function dpVerdict(n, Mr){
 LAB.dpVerdict = dpVerdict;
 function drawDP(){
   const p = PB[BLD.id]; if (p.R) return;
-  const n = NLIST[BLD.ni], Mr = n * p.Mr;
+  const n = BLD.list[BLD.ni], Mr = n * p.Mr;
   $("pb-n-o").textContent = grpN(n);
   const st = (l, v) => `<div class="stat"><div class="l">${H(l)}</div><div class="v">${v}</div></div>`;
   $("pb-nread").innerHTML = st("Average M{r} of the polymer", `${H(mrBig(Mr))} <small>= ${grpN(n)} × ${m1(p.Mr)}</small>`) +
@@ -1458,6 +1488,7 @@ function bkKind(k){
 LAB.bkKind = bkKind;
 function bkCheck(){
   const p = PB[BK.id], ans = bkAnswer(p), sel = [...BK.sel].sort((a, b) => a - b);
+  const wasShown = BK.shown;
   BK.checked = true;
   const exact = ans.sets.some(s => s.length === sel.length && s.every(k => BK.sel.has(k)));
   const tk = bkTokens(p);
@@ -1470,6 +1501,7 @@ function bkCheck(){
       : wrongLink ? `Not quite: in hydrolysis the bond that breaks is between the C=O carbon and the ${p.link === "ester" ? "O" : "N"}, not the bond on the other side of the ${p.link === "ester" ? "O" : "N"}. Correct cuts are ticked; missed ones are dashed.`
       : `Not quite: break only the C–${p.link === "ester" ? "O" : "N"} bond of each ${p.link} link, and break every one of them. Correct cuts are ticked; missed ones are dashed.`);
   }
+  if (wasShown) msg = H("The monomers were shown first, so this check is not your own answer and is not counted. ") + msg;
   bkFb(exact ? "ok" : "no", msg);
   bkDraw();
   return exact;
@@ -1492,7 +1524,7 @@ function bkShow(){
 LAB.bkShow = bkShow;
 
 /* =====================================================
-   4. PROTEINS: BUILD A PEPTIDE, HYDROLYSE IT (DATA.md 4)
+   4. PROTEINS: BUILD A PEPTIDE, HYDROLYSE IT 
    ===================================================== */
 const PR = { seq: ["Gly", "Ala", "Ser"], stage: 0, reagent: null, predict: false, sel: new Set(), checked: false };
 LAB.PR = PR;
@@ -1530,7 +1562,7 @@ function bindProtein(){
   });
   prReset();
 }
-// the amino acids on offer: Gly and Ser for the dipeptide (Gly-Ala is Tutorial 1 Q9), all three for the tripeptide
+// the amino acids on offer: Gly and Ser for the dipeptide, all three for the tripeptide
 const prPool = () => PR.seq.length === 2 ? ["Gly", "Ser"] : ["Gly", "Ala", "Ser"];
 LAB.prPool = prPool;
 function prSlots(){
@@ -1618,21 +1650,23 @@ function prDraw(){
   // readouts
   const c = tokCount(tk), F = fStr(c.el), Mr = mrOf(c.el), chir = seq.filter(r => AA[r].chiral);
   const st = (l, v, wide) => `<div class="stat${wide ? " wide" : ""}"><div class="l">${H(l)}</div><div class="v">${v}</div></div>`;
+  // while a prediction is open, nothing on the page gives the number of peptide bonds away
+  const gate = PR.predict && !PR.checked;
   $("pr-read").innerHTML = st("Peptide", `${pepName(seq)} <small>${H(pepCond(seq))}</small>`, true) +
-    st("Formula", H(F)) + st("M{r}", `${m1(Mr)} <small>= ${seq.map(r => m1(AA[r].Mr)).join(" + ")} − ${n - 1} × 18.0</small>`) +
-    st("Peptide bonds", `${n - 1} <small>(${n} residues, ${n - 1} link${n > 2 ? "s" : ""})</small>`) +
+    st("Formula", H(F)) + st("M{r}", gate ? m1(Mr) : `${m1(Mr)} <small>= ${seq.map(r => m1(AA[r].Mr)).join(" + ")} − ${n - 1} × 18.0</small>`) +
+    (gate ? "" : st("Peptide bonds", `${n - 1} <small>(${n} residues, ${n - 1} link${n > 2 ? "s" : ""})</small>`)) +
     st("Chiral centres", `${chir.length} <small>${chir.length ? "(the α carbon" + (chir.length > 1 ? "s" : "") + " of " + [...new Set(chir)].map(r => AA[r].common).join(" and ") + ")" : "(glycine's α carbon carries two H atoms)"}</small>`) +
     st("Possible sequences", prCount(seq), true);
   const E = pepEqs(seq);
   let eq = `<div><span class="lab">Formation (condensation, one H₂O per peptide bond)</span>${EQ(E.form)}</div><div>${EQ(E.formShort)}</div>`;
   if (PR.reagent === "acid") eq += `<div><span class="lab">Hydrolysis: dilute HCl(aq), heat under reflux</span>${EQ(E.acid)}</div><div><span class="lab">or, as the chlorides</span>${EQ(E.hcl)}</div>`;
   if (PR.reagent === "alk") eq += `<div><span class="lab">Hydrolysis: NaOH(aq), heat under reflux</span>${EQ(E.alk)}</div><div><span class="lab">or</span>${EQ(E.naoh)}</div>`;
-  $("pr-eq").innerHTML = eq;
+  $("pr-eq").innerHTML = gate ? "" : eq;
   const N = ["In the solid, and in water near pH 6, amino acids exist as zwitterions, ⁺H₃NCH(R)COO⁻ (Topic 11.9 Part 2). The neutral form is drawn here because it makes the condensation easy to follow.",
     "Every amino acid here except glycine has a chiral centre; natural proteins use the L forms (Topic 11.2). Cells make proteins by condensation on ribosomes, with enzymes, at body temperature.",
     "In digestion the same hydrolysis is done at body temperature by enzymes called proteases (Topic 8 Part 2)."];
   if (seq.includes("Ser")) N.push("The –CH₂OH of serine is not changed by either reagent.");
-  if (PR.stage === 2) N.push(`${FEX}No bond to a chiral centre is broken (only the C–N bonds of the peptide links), so L-alanine and L-serine come out with their configuration unchanged.`);
+  if (PR.stage === 2) N.push(`${FEX}No bond to a chiral centre is broken (only the C–N bonds of the peptide links), so L-alanine and L-serine come out with their configuration unchanged. (This is the 9476-level view. In practice hot alkali slowly racemises many amino-acid residues, which is why proteins are hydrolysed with about 6 mol dm⁻³ HCl for analysis; beyond the syllabus, literature.)`);
   N.push(`<span class="beyond">Beyond the syllabus</span>To hydrolyse a protein completely for analysis, it is heated with about 6 mol dm⁻³ HCl for about 24 hours (literature).`);
   N.push(`${ENR}The sequence of amino acids in a protein is its primary structure. After hydrolysis, the amino acids can be separated and identified by chromatography.`);
   $("pr-notes").innerHTML = N.map(t => `<li>${H(t)}</li>`).join("");
@@ -1654,19 +1688,18 @@ function Sorter(cfg){
       const ok = c.z === a; cls += ok ? " right" : " wrong";
       why = `<span class="why">${ok ? "Correct. " : `Not quite: ${H(zname(c.z).toLowerCase())}. `}${H(c.why)}</span>`;
     }
-    return `<div class="${cls}" data-i="${i}" role="button" tabindex="0" aria-pressed="${S.sel === i}"><span class="grip" aria-hidden="true"></span><span class="tx">${H(c.t)}${c.fx ? FEX.replace('class="fex"', 'class="fex"') : ""}${c.sub ? `<span class="sub">${H(c.sub)}</span>` : ""}${why}</span></div>`;
+    return `<div class="${cls}" role="button" tabindex="0" aria-pressed="${S.sel === i}"><span class="grip" aria-hidden="true"></span><span class="tx">${H(c.t)}${c.fx ? FEX.replace('class="fex"', 'class="fex"') : ""}${c.sub ? `<span class="sub">${H(c.sub)}</span>` : ""}${why}</span></div>`;
   }
   function render(){
-    deck.innerHTML = S.order.filter(i => !S.place[i]).map(cardHtml).join("");
-    zw.querySelectorAll(".zdrop").forEach(d => { d.innerHTML = S.order.filter(i => S.place[i] === d.dataset.z).map(cardHtml).join(""); });
+    const fill = (box, list) => { box.innerHTML = list.map(cardHtml).join(""); box.querySelectorAll(".tcard").forEach((el, k) => bindCard(el, list[k])); };   // each card is bound to its index by closure, not by an attribute
+    fill(deck, S.order.filter(i => !S.place[i]));
+    zw.querySelectorAll(".zdrop").forEach(d => fill(d, S.order.filter(i => S.place[i] === d.dataset.z)));
     $(cfg.p + "-count").textContent = `${Object.keys(S.place).length} of ${cfg.cards.length} placed`;
-    deck.parentElement.querySelectorAll(".tcard").forEach(bindCard);
   }
   function place(i, z){ if (z) S.place[i] = z; else delete S.place[i]; S.sel = null; S.checked = false; $(cfg.p + "-fb").hidden = true; render(); }
   let suppress = false;
   const zoneAt = (x, y) => { const t = document.elementFromPoint(x, y); return t && zw.contains(t) ? t.closest(".zone") : null; };
-  function bindCard(el){
-    const i = +el.dataset.i;
+  function bindCard(el, i){
     el.addEventListener("click", e => { e.stopPropagation(); if (suppress){ suppress = false; return; } S.sel = S.sel === i ? null : i; render(); });
     el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); S.sel = S.sel === i ? null : i; render(); } });
     el.addEventListener("pointerdown", e => {
@@ -1770,12 +1803,6 @@ function bindRecycle(){
   if (RC.order.every((v, i) => v === i)) RC.order.reverse();
   $("rc-check").onclick = rcCheck;
   $("rc-shuffle").onclick = () => { RC.order = shuffle(RC.order); RC.checked = false; $("rc-fb").hidden = true; rcRender(); };
-  $("rc-order").addEventListener("click", e => {
-    const b = e.target.closest("button[data-mv]"); if (!b) return;
-    const i = +b.dataset.i, j = i + (b.dataset.mv === "up" ? -1 : 1);
-    if (j < 0 || j >= RC.order.length) return;
-    [RC.order[i], RC.order[j]] = [RC.order[j], RC.order[i]]; RC.checked = false; $("rc-fb").hidden = true; rcRender();
-  });
   $("rc-codes").innerHTML = RESIN.map(([c, p]) => `<button type="button" data-c="${c}" aria-pressed="${c === RC.code}"><b>${c}</b> ${H(p.split(" (")[0])}</button>`).join("");
   $("rc-codes").querySelectorAll("button").forEach(b => b.onclick = () => { RC.code = b.dataset.c; rcCode(); });
   $("rc-ftabs").querySelectorAll("button").forEach(b => b.onclick = () => { RC.f = b.dataset.f; $("rc-ftabs").querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b)); rcFactor(); });
@@ -1792,8 +1819,13 @@ function rcRender(){
   $("rc-order").innerHTML = RC.order.map((h, i) => {
     let cls = "", why = "";
     if (RC.checked){ const ok = h === i; cls = ok ? "right" : "wrong"; why = `<span class="why">${ok ? "" : `Should be number ${h + 1}. `}${H(HIER[h].why)}</span>`; }
-    return `<li class="${cls}" data-h="${h}"><span class="num">${i + 1}</span><span class="tx">${H(HIER[h].t)}${why}</span><button class="btn" data-mv="up" data-i="${i}" aria-label="Move ${esc(HIER[h].t)} up"${i === 0 ? " disabled" : ""}>↑</button><button class="btn" data-mv="dn" data-i="${i}" aria-label="Move ${esc(HIER[h].t)} down"${i === RC.order.length - 1 ? " disabled" : ""}>↓</button></li>`;
+    return `<li class="${cls}"><span class="num">${i + 1}</span><span class="tx">${H(HIER[h].t)}${why}</span><button class="btn" data-mv="up" aria-label="Move ${esc(HIER[h].t)} up"${i === 0 ? " disabled" : ""}>↑</button><button class="btn" data-mv="dn" aria-label="Move ${esc(HIER[h].t)} down"${i === RC.order.length - 1 ? " disabled" : ""}>↓</button></li>`;
   }).join("");
+  const mv = (i, d) => { const j = i + d; if (j < 0 || j >= RC.order.length) return; [RC.order[i], RC.order[j]] = [RC.order[j], RC.order[i]]; RC.checked = false; $("rc-fb").hidden = true; rcRender(); };
+  $("rc-order").querySelectorAll("li").forEach((li, i) => {
+    li.querySelector('button[data-mv="up"]').onclick = () => mv(i, -1);
+    li.querySelector('button[data-mv="dn"]').onclick = () => mv(i, 1);
+  });
 }
 function rcCheck(){
   RC.checked = true; rcRender();
@@ -1811,7 +1843,7 @@ function rcCode(){
 }
 function rcFactor(){ $("rc-ftext").innerHTML = `<p>${H(FACTORS[RC.f])}</p>`; }
 /* =====================================================
-   6. REACTION MAP DATA (generated by gen_map.py from DATA.md 9.1 and 9.2; do not edit)
+   6. REACTION MAP DATA (generated: do not edit)
    ===================================================== */
 const MAP = {
 "nodes": [
@@ -1831,7 +1863,7 @@ const MAP = {
 "id": "halo",
 "name": "Halogenoalkane",
 "ex": "bromoethane, 2-bromopropane, (chloromethyl)benzene",
-"note": ""
+"note": "one box for all three classes (1°, 2°, 3°): a step keeps the class unless its row says otherwise"
 },
 {
 "id": "alc1",
@@ -1933,7 +1965,7 @@ const MAP = {
 "id": "ester",
 "name": "Ester",
 "ex": "ethyl ethanoate",
-"note": ""
+"note": "the alcohol class is kept; a hydrolysis returns the acid and the alcohol it was made from, not a partner's"
 },
 {
 "id": "amine",
@@ -1951,7 +1983,7 @@ const MAP = {
 "id": "amide",
 "name": "Amide",
 "ex": "ethanamide, N-ethylethanamide",
-"note": ""
+"note": "a hydrolysis returns the acid and the amine it was made from, not a partner's; row 49 gives a primary amine only from a primary amide"
 },
 {
 "id": "benzene",
@@ -1969,13 +2001,13 @@ const MAP = {
 "id": "haloar",
 "name": "Halogenoarene",
 "ex": "chlorobenzene",
-"note": "no reaction with NaOH(aq), heat (Topic 11.5)"
+"note": "no reaction with NaOH(aq), heat (Topic 11.5); the ring keeps any substituent it already had"
 },
 {
 "id": "nitro",
 "name": "Nitroarene",
 "ex": "nitrobenzene",
-"note": ""
+"note": "the ring keeps any substituent it already had: only an unsubstituted nitroarene reaches phenylamine (row 50)"
 },
 {
 "id": "phamsalt",
@@ -2041,7 +2073,7 @@ const MAP = {
 "id": "polyalk",
 "name": "Poly(alkene)",
 "ex": "poly(ethene)",
-"note": "chemically inert: no hydrolysis"
+"note": "chemically inert: the C–C backbone is not hydrolysed"
 },
 {
 "id": "polyester",
@@ -2082,7 +2114,7 @@ const MAP = {
 "cond": "steam, H₃PO₄ catalyst",
 "type": "electrophilic addition",
 "owner": "11.4 P1",
-"eq": "CH₂=CH₂ + H₂O → CH₃CH₂OH; CH₂=CHCH₃ + H₂O → CH₃CH(OH)CH₃ (major)",
+"eq": "CH₂=CH₂ + H₂O → CH₃CH₂OH; CH₂=CHCH₃ + H₂O → CH₃CH(OH)CH₃ (major); CH₂=C(CH₃)₂ + H₂O → (CH₃)₃COH",
 "eqs": [
 {
 "e": "CH₂=CH₂ + H₂O → CH₃CH₂OH",
@@ -2186,7 +2218,7 @@ const MAP = {
 "cond": "Cl₂, AlCl₃ catalyst, room temperature (or Br₂, AlBr₃ catalyst, room temperature)",
 "type": "electrophilic substitution",
 "owner": "11.4 P2",
-"eq": "C₆H₆ + Cl₂ → C₆H₅Cl + HCl",
+"eq": "C₆H₆ + Cl₂ → C₆H₅Cl + HCl; C₆H₅CH₃ + Cl₂ → CH₃C₆H₄Cl + HCl (2- and 4-positions)",
 "eqs": [
 {
 "e": "C₆H₆ + Cl₂ → C₆H₅Cl + HCl",
@@ -2209,7 +2241,7 @@ const MAP = {
 "cond": "concentrated HNO₃ and concentrated H₂SO₄, 50 °C (methylbenzene: 30 °C)",
 "type": "electrophilic substitution (nitration)",
 "owner": "11.4 P2",
-"eq": "C₆H₆ + HNO₃ → C₆H₅NO₂ + H₂O",
+"eq": "C₆H₆ + HNO₃ → C₆H₅NO₂ + H₂O; C₆H₅CH₃ + HNO₃ → CH₃C₆H₄NO₂ + H₂O (2- and 4-positions, 30 °C)",
 "eqs": [
 {
 "e": "C₆H₆ + HNO₃ → C₆H₅NO₂ + H₂O",
@@ -2271,7 +2303,7 @@ const MAP = {
 "cond": "NaOH(aq), heat",
 "type": "nucleophilic substitution (hydrolysis)",
 "owner": "11.5",
-"eq": "CH₃CH₂Br + NaOH → CH₃CH₂OH + NaBr",
+"eq": "CH₃CH₂Br + NaOH → CH₃CH₂OH + NaBr; CH₃CHBrCH₃ + NaOH → CH₃CH(OH)CH₃ + NaBr; (CH₃)₃CBr + NaOH → (CH₃)₃COH + NaBr",
 "eqs": [
 {
 "e": "CH₃CH₂Br + NaOH → CH₃CH₂OH + NaBr",
@@ -2338,7 +2370,7 @@ const MAP = {
 "cond": "HX, heat; or PCl₅, room temperature",
 "type": "nucleophilic substitution",
 "owner": "11.6 P1",
-"eq": "CH₃CH₂OH + HBr → CH₃CH₂Br + H₂O; CH₃CH₂OH + PCl₅ → CH₃CH₂Cl + POCl₃ + HCl (steamy fumes of HCl)",
+"eq": "CH₃CH₂OH + HBr → CH₃CH₂Br + H₂O; CH₃CH₂OH + PCl₅ → CH₃CH₂Cl + POCl₃ + HCl (steamy fumes of HCl); CH₃CH(OH)CH₃ + HBr → CH₃CHBrCH₃ + H₂O; CH₃CH(OH)CH₃ + PCl₅ → CH₃CHClCH₃ + POCl₃ + HCl (steamy fumes of HCl); (CH₃)₃COH + HBr → (CH₃)₃CBr + H₂O",
 "eqs": [
 {
 "e": "CH₃CH₂OH + HBr → CH₃CH₂Br + H₂O",
@@ -2380,7 +2412,7 @@ const MAP = {
 "cond": "Na, room temperature",
 "type": "redox (effervescence of H₂)",
 "owner": "11.6 P1",
-"eq": "2CH₃CH₂OH + 2Na → 2CH₃CH₂O⁻Na⁺ + H₂",
+"eq": "2CH₃CH₂OH + 2Na → 2CH₃CH₂O⁻Na⁺ + H₂; 2CH₃CH(OH)CH₃ + 2Na → 2(CH₃)₂CHO⁻Na⁺ + H₂; 2(CH₃)₃COH + 2Na → 2(CH₃)₃CO⁻Na⁺ + H₂",
 "eqs": [
 {
 "e": "2CH₃CH₂OH + 2Na → 2CH₃CH₂O⁻Na⁺ + H₂",
@@ -2389,7 +2421,7 @@ const MAP = {
 ]
 },
 {
-"e": "2CH₃CH(OH)CH₃ + 2Na → 2CH₃CH(CH₃)O⁻Na⁺ + H₂",
+"e": "2CH₃CH(OH)CH₃ + 2Na → 2(CH₃)₂CHO⁻Na⁺ + H₂",
 "a": [
 "alc2"
 ]
@@ -2448,7 +2480,7 @@ const MAP = {
 "cond": "concentrated H₃PO₄ catalyst, heat",
 "type": "elimination (dehydration)",
 "owner": "11.6 P1",
-"eq": "CH₃CH₂OH → CH₂=CH₂ + H₂O",
+"eq": "CH₃CH₂OH → CH₂=CH₂ + H₂O; CH₃CH(OH)CH₃ → CH₂=CHCH₃ + H₂O; (CH₃)₃COH → CH₂=C(CH₃)₂ + H₂O",
 "eqs": [
 {
 "e": "CH₃CH₂OH → CH₂=CH₂ + H₂O",
@@ -2613,7 +2645,7 @@ const MAP = {
 {
 "r": "R32",
 "ft": "aldehyde → carboxylate",
-"cond": "Tollens' reagent, warm (silver mirror); or Fehling's solution, warm (brick-red precipitate of Cu₂O; aliphatic aldehydes only)",
+"cond": "Tollens' reagent, warm (silver mirror); or Fehling's solution, warm (brick-red precipitate of Cu₂O; aliphatic aldehydes only; Further example)",
 "type": "oxidation (tests for aldehydes)",
 "owner": "11.7",
 "eq": "CH₃CHO + 2Ag⁺ + 3OH⁻ → CH₃COO⁻ + 2Ag + 2H₂O; CH₃CHO + 2Cu²⁺ + 5OH⁻ → CH₃COO⁻ + Cu₂O + 3H₂O",
@@ -2721,7 +2753,7 @@ const MAP = {
 "cond": "alcohol, concentrated H₂SO₄, heat under reflux",
 "type": "condensation (esterification; reversible)",
 "owner": "11.8 P1",
-"eq": "CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O",
+"eq": "CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O; CH₃COOH + CH₃CH(OH)CH₃ ⇌ CH₃COOCH(CH₃)₂ + H₂O",
 "eqs": [
 {
 "e": "CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O",
@@ -2783,7 +2815,7 @@ const MAP = {
 "cond": "alcohol, room temperature",
 "type": "condensation",
 "owner": "11.8 P2",
-"eq": "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl",
+"eq": "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl; CH₃COCl + CH₃CH(OH)CH₃ → CH₃COOCH(CH₃)₂ + HCl",
 "eqs": [
 {
 "e": "CH₃COCl + CH₃CH₂OH → CH₃COOCH₂CH₃ + HCl",
@@ -2819,7 +2851,7 @@ const MAP = {
 "cond": "concentrated NH₃(aq) or a primary amine (e.g. ethylamine, as an aqueous or ethanolic solution), room temperature",
 "type": "condensation",
 "owner": "11.8 P2",
-"eq": "CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl; CH₃COCl + CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + HCl",
+"eq": "CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl; CH₃COCl + CH₃CH₂NH₂ → CH₃CONHCH₂CH₃ + HCl; CH₃COCl + C₆H₅NH₂ → CH₃CONHC₆H₅ + HCl",
 "eqs": [
 {
 "e": "CH₃COCl + 2NH₃ → CH₃CONH₂ + NH₄Cl",
@@ -2847,10 +2879,26 @@ const MAP = {
 "cond": "dilute HCl(aq), heat under reflux",
 "type": "hydrolysis (reversible)",
 "owner": "11.8 P2",
-"eq": "CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH",
+"eq": "CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH; CH₃COOCH(CH₃)₂ + H₂O ⇌ CH₃COOH + CH₃CH(OH)CH₃; CH₃COOC(CH₃)₃ + H₂O ⇌ CH₃COOH + (CH₃)₃COH",
 "eqs": [
 {
-"e": "CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH"
+"e": "CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH",
+"b": [
+"acid",
+"alc1"
+]
+},
+{
+"e": "CH₃COOCH(CH₃)₂ + H₂O ⇌ CH₃COOH + CH₃CH(OH)CH₃",
+"b": [
+"alc2"
+]
+},
+{
+"e": "CH₃COOC(CH₃)₃ + H₂O ⇌ CH₃COOH + (CH₃)₃COH",
+"b": [
+"alc3"
+]
 }
 ]
 },
@@ -2860,10 +2908,26 @@ const MAP = {
 "cond": "NaOH(aq), heat under reflux",
 "type": "hydrolysis (complete)",
 "owner": "11.8 P2",
-"eq": "CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH",
+"eq": "CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH; CH₃COOCH(CH₃)₂ + NaOH → CH₃COONa + CH₃CH(OH)CH₃; CH₃COOC(CH₃)₃ + NaOH → CH₃COONa + (CH₃)₃COH",
 "eqs": [
 {
-"e": "CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH"
+"e": "CH₃COOCH₂CH₃ + NaOH → CH₃COONa + CH₃CH₂OH",
+"b": [
+"carbx",
+"alc1"
+]
+},
+{
+"e": "CH₃COOCH(CH₃)₂ + NaOH → CH₃COONa + CH₃CH(OH)CH₃",
+"b": [
+"alc2"
+]
+},
+{
+"e": "CH₃COOC(CH₃)₃ + NaOH → CH₃COONa + (CH₃)₃COH",
+"b": [
+"alc3"
+]
 }
 ]
 },
@@ -2947,7 +3011,7 @@ const MAP = {
 "cond": "NaOH(aq), warm",
 "type": "acid-base",
 "owner": "11.9 P1",
-"eq": "CH₃CH₂NH₃⁺Cl⁻ + NaOH → CH₃CH₂NH₂ + NaCl + H₂O",
+"eq": "CH₃CH₂NH₃⁺Cl⁻ + NaOH → CH₃CH₂NH₂ + NaCl + H₂O; C₆H₅NH₃⁺Cl⁻ + NaOH → C₆H₅NH₂ + NaCl + H₂O",
 "eqs": [
 {
 "e": "CH₃CH₂NH₃⁺Cl⁻ + NaOH → CH₃CH₂NH₂ + NaCl + H₂O",
@@ -3050,7 +3114,7 @@ const MAP = {
 "cond": "heat, catalyst",
 "type": "condensation polymerisation (H₂O lost)",
 "owner": "11.10",
-"eq": "n HOCH₂CH₂OH + n HOOC–C₆H₄–COOH → H–[OCH₂CH₂O–CO–C₆H₄–CO]ₙ–OH + (2n − 1)H₂O",
+"eq": "n HOCH₂CH₂OH + n HOOC–C₆H₄–COOH → H–[OCH₂CH₂O–CO–C₆H₄–CO]ₙ–OH + (2n − 1)H₂O; n CH₃CH(OH)COOH → H–[OCH(CH₃)CO]ₙ–OH + (n − 1)H₂O",
 "eqs": [
 {
 "e": "n HOCH₂CH₂OH + n HOOC–C₆H₄–COOH → H–[OCH₂CH₂O–CO–C₆H₄–CO]ₙ–OH + (2n − 1)H₂O",
@@ -3072,7 +3136,7 @@ const MAP = {
 "cond": "heat (dicarboxylic acid); room temperature (diacyl dichloride)",
 "type": "condensation polymerisation (H₂O or HCl lost)",
 "owner": "11.10",
-"eq": "n H₂N(CH₂)₆NH₂ + n ClOC(CH₂)₄COCl → H–[NH(CH₂)₆NH–CO(CH₂)₄CO]ₙ–Cl + (2n − 1)HCl",
+"eq": "n H₂N(CH₂)₆NH₂ + n ClOC(CH₂)₄COCl → H–[NH(CH₂)₆NH–CO(CH₂)₄CO]ₙ–Cl + (2n − 1)HCl; n H₂N(CH₂)₆NH₂ + n HOOC(CH₂)₄COOH → H–[NH(CH₂)₆NH–CO(CH₂)₄CO]ₙ–OH + (2n − 1)H₂O",
 "eqs": [
 {
 "e": "n H₂N(CH₂)₆NH₂ + n ClOC(CH₂)₄COCl → H–[NH(CH₂)₆NH–CO(CH₂)₄CO]ₙ–Cl + (2n − 1)HCl",
@@ -3107,7 +3171,7 @@ const MAP = {
 "r": "R61",
 "ft": "polyester → carboxylic acid (or its salt) and diol",
 "cond": "dilute HCl(aq), heat under reflux; or NaOH(aq), heat under reflux",
-"type": "hydrolysis",
+"type": "hydrolysis (reversible in acid, complete in alkali)",
 "owner": "11.10",
 "eq": "per repeat unit: –[OCH₂CH₂O–CO–C₆H₄–CO]– + 2H₂O → HOCH₂CH₂OH + HOOC–C₆H₄–COOH",
 "eqs": [
@@ -3137,7 +3201,7 @@ const MAP = {
 {
 "r": "R63",
 "ft": "protein → amino acids",
-"cond": "dilute HCl(aq), heat under reflux (as ammonium salts); or NaOH(aq), heat under reflux (as sodium salts); or enzymes (proteases)",
+"cond": "dilute HCl(aq), heat under reflux (as ammonium salts; for complete hydrolysis in analysis: HCl(aq), about 6 mol dm⁻³, heat under reflux, about 24 h; beyond the syllabus); or NaOH(aq), heat under reflux (as sodium salts); or enzymes (proteases)",
 "type": "hydrolysis",
 "owner": "11.10",
 "eq": "section 4.3",
@@ -3169,6 +3233,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"ck": true,
 "note": "ethene only"
 },
 {
@@ -3178,6 +3243,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"ck": true,
 "note": "propene, Markovnikov: Further example in Topic 11.4"
 },
 {
@@ -3187,7 +3253,8 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
-"note": "2-methylpropene: Further example in Topic 11.4"
+"ck": true,
+"note": "2-methylpropene: the same reaction as propene, Topic 11.4 Part 1, Further example"
 },
 {
 "a": "alkene",
@@ -3195,7 +3262,8 @@ const MAP = {
 "r": "R3",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alkene",
@@ -3203,7 +3271,8 @@ const MAP = {
 "r": "R4",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alkene",
@@ -3257,6 +3326,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"rk": true,
 "note": "2- and 4-positions. The catalyst must be anhydrous: keep everything dry."
 },
 {
@@ -3274,6 +3344,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"rk": true,
 "note": "2- and 4-positions"
 },
 {
@@ -3292,7 +3363,9 @@ const MAP = {
 "r": "R11",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"c1": true,
+"nb": true
 },
 {
 "a": "alkbz",
@@ -3300,7 +3373,8 @@ const MAP = {
 "r": "R12",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"note": "a side chain longer than CH₃ is cut back to –COOH, losing its extra carbon atoms (Topic 11.4 Part 2, Further example)"
 },
 {
 "a": "halo",
@@ -3308,7 +3382,8 @@ const MAP = {
 "r": "R13",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "halo",
@@ -3316,7 +3391,8 @@ const MAP = {
 "r": "R13",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "halo",
@@ -3324,7 +3400,8 @@ const MAP = {
 "r": "R13",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "halo",
@@ -3349,7 +3426,9 @@ const MAP = {
 "r": "R16",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true,
+"bh": true
 },
 {
 "a": "alc1",
@@ -3357,7 +3436,8 @@ const MAP = {
 "r": "R17",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alc2",
@@ -3365,7 +3445,8 @@ const MAP = {
 "r": "R17",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alc3",
@@ -3373,7 +3454,8 @@ const MAP = {
 "r": "R17",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alc1",
@@ -3429,7 +3511,8 @@ const MAP = {
 "r": "R22",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alc2",
@@ -3437,7 +3520,8 @@ const MAP = {
 "r": "R22",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alc3",
@@ -3445,7 +3529,8 @@ const MAP = {
 "r": "R22",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"ck": true
 },
 {
 "a": "alc2",
@@ -3546,8 +3631,7 @@ const MAP = {
 "r": "R32",
 "test": true,
 "plus": false,
-"chg": false,
-"flag": ""
+"chg": false
 },
 {
 "a": "ket",
@@ -3616,7 +3700,8 @@ const MAP = {
 "r": "R38",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "alc1",
@@ -3625,6 +3710,8 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "alkoxy",
+"ck": true,
 "partner": "with a carboxylic acid"
 },
 {
@@ -3634,6 +3721,8 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "alkoxy",
+"ck": true,
 "partner": "with a carboxylic acid"
 },
 {
@@ -3667,7 +3756,8 @@ const MAP = {
 "r": "R42",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "alc1",
@@ -3676,6 +3766,8 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "alkoxy",
+"ck": true,
 "partner": "with an acyl chloride"
 },
 {
@@ -3685,6 +3777,8 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "alkoxy",
+"ck": true,
 "partner": "with an acyl chloride"
 },
 {
@@ -3694,6 +3788,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "acyl",
 "partner": "with phenol"
 },
 {
@@ -3703,6 +3798,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "aryloxy",
 "partner": "with an acyl chloride"
 },
 {
@@ -3711,7 +3807,8 @@ const MAP = {
 "r": "R44",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "amine",
@@ -3720,6 +3817,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "amine",
 "partner": "with an acyl chloride"
 },
 {
@@ -3729,6 +3827,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "phamine",
 "partner": "with an acyl chloride"
 },
 {
@@ -3737,7 +3836,8 @@ const MAP = {
 "r": "R45",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "ester",
@@ -3745,7 +3845,29 @@ const MAP = {
 "r": "R45",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "alkoxy",
+"ck": true
+},
+{
+"a": "ester",
+"b": "alc2",
+"r": "R45",
+"test": false,
+"plus": false,
+"chg": false,
+"side": "alkoxy",
+"ck": true
+},
+{
+"a": "ester",
+"b": "alc3",
+"r": "R45",
+"test": false,
+"plus": false,
+"chg": false,
+"side": "alkoxy",
+"ck": true
 },
 {
 "a": "ester",
@@ -3753,7 +3875,8 @@ const MAP = {
 "r": "R46",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "ester",
@@ -3761,7 +3884,29 @@ const MAP = {
 "r": "R46",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "alkoxy",
+"ck": true
+},
+{
+"a": "ester",
+"b": "alc2",
+"r": "R46",
+"test": false,
+"plus": false,
+"chg": false,
+"side": "alkoxy",
+"ck": true
+},
+{
+"a": "ester",
+"b": "alc3",
+"r": "R46",
+"test": false,
+"plus": false,
+"chg": false,
+"side": "alkoxy",
+"ck": true
 },
 {
 "a": "phester",
@@ -3769,7 +3914,8 @@ const MAP = {
 "r": "R47",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "phester",
@@ -3777,7 +3923,8 @@ const MAP = {
 "r": "R47",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "aryloxy"
 },
 {
 "a": "nitrile",
@@ -3793,7 +3940,9 @@ const MAP = {
 "r": "R49",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl",
+"note": "a primary amide gives a primary amine; an N-substituted amide would give a secondary amine, which this map has no node for"
 },
 {
 "a": "nitro",
@@ -3801,7 +3950,8 @@ const MAP = {
 "r": "R50",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"pr": true
 },
 {
 "a": "amine",
@@ -3849,7 +3999,8 @@ const MAP = {
 "r": "R54",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "amide",
@@ -3857,7 +4008,8 @@ const MAP = {
 "r": "R54",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "amine"
 },
 {
 "a": "amide",
@@ -3865,7 +4017,8 @@ const MAP = {
 "r": "R55",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "acyl"
 },
 {
 "a": "amide",
@@ -3873,7 +4026,8 @@ const MAP = {
 "r": "R55",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "amine"
 },
 {
 "a": "alkene",
@@ -3890,6 +4044,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diol",
 "partner": "with a dicarboxylic acid"
 },
 {
@@ -3899,6 +4054,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diacid",
 "partner": "with a diol"
 },
 {
@@ -3917,6 +4073,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diamine",
 "partner": "with a dicarboxylic acid or a diacyl dichloride"
 },
 {
@@ -3926,6 +4083,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diacid",
 "partner": "with a diamine"
 },
 {
@@ -3935,6 +4093,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diacid",
 "partner": "with a diamine"
 },
 {
@@ -3952,6 +4111,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diacid",
 "cond": "dilute HCl(aq), heat under reflux"
 },
 {
@@ -3961,6 +4121,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diacid",
 "cond": "NaOH(aq), heat under reflux"
 },
 {
@@ -3969,7 +4130,8 @@ const MAP = {
 "r": "R61",
 "test": false,
 "plus": false,
-"chg": false
+"chg": false,
+"side": "diol"
 },
 {
 "a": "pla",
@@ -3986,6 +4148,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diacid",
 "cond": "dilute HCl(aq), heat under reflux"
 },
 {
@@ -3995,6 +4158,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diamine",
 "cond": "dilute HCl(aq), heat under reflux"
 },
 {
@@ -4004,6 +4168,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diacid",
 "cond": "NaOH(aq), heat under reflux"
 },
 {
@@ -4013,6 +4178,7 @@ const MAP = {
 "test": false,
 "plus": false,
 "chg": false,
+"side": "diamine",
 "cond": "NaOH(aq), heat under reflux"
 },
 {
@@ -4037,44 +4203,65 @@ const MAP = {
 LAB.MAP = MAP;
 
 /* =====================================================
-   7. ROUTE PLANNER (DATA.md 9.3: breadth-first search, state = node, [+C] steps, chain changed)
+   7. ROUTE PLANNER (breadth-first search; state = node, [+C] steps, chain changed, side, class)
    ===================================================== */
 const NODE = Object.fromEntries(MAP.nodes.map(n => [n.id, n]));
 const ROW = Object.fromEntries(MAP.rows.map(r => [r.r, r]));
 LAB.NODE = NODE; LAB.ROW = ROW;
 const MP = { from: "alkene", to: "polyester", mode: "any", tests: false, eth: false, filter: "all", routes: [] };
 LAB.MP = MP;
-// every shortest route (14/10/26 fix pass: all equal-length routes are listed; none is pruned).
-// State = (node, number of [+C] steps, chain changed). eth: the start alkene is ethene, so the cleavage row (R7)
-// and the routes to secondary or tertiary alcohols (R2, which need propene or a larger alkene) are removed from the whole route.
+// Every shortest route: all equal-length routes are listed, none is pruned.
+// State = (node, number of [+C] steps, chain changed, side, class, no beta-H, ring substituent kept).
+// side: on a joined compound (ester, amide, phenyl ester, polymer) the piece the route came from. A joining row tags the
+//   piece it takes in; a cleavage row can return only a tagged piece that matches, never the partner's. A route that
+//   starts on the joined compound may return either piece.
+// class: the class (1, 2 or 3) of the alcohol or halogenoalkane being carried through rows whose edge says "class kept".
+//   An edge into a primary, secondary or tertiary alcohol is refused if the carried class differs. An alkene made from a
+//   secondary or tertiary alcohol keeps that class, so it cannot go back to a primary alcohol.
+// eth: the start alkene is ethene, so the cleavage row (R7) and the routes to secondary or tertiary alcohols (R2, which
+//   need propene or a larger alkene) are removed from the whole route.
+const JOINED = new Set(["ester", "amide", "phester", "polyester", "polyamide"]);
+LAB.JOINED = JOINED;
 function routes(a, b, mode, tests, eth){
   const E = MAP.edges.filter(e => (tests || !e.test) && !(eth && a === "alkene" && (e.r === "R7" || (e.r === "R2" && e.b !== "alc1"))));
-  // State also records whether the alkene came from a secondary or tertiary alcohol: that alkene is never ethene,
-  // so the "ethene only" steam step (R2 to a primary alcohol) cannot follow it (18/10/26).
-  const key = (n, p, c, s) => n + "|" + p + "|" + (c ? 1 : 0) + "|" + (s ? 1 : 0);
-  const out_ = st => E.filter(e => e.a === st[0] && !(st[3] && e.r === "R2" && e.b === "alc1"));
-  const nxt = (st, e) => [e.b, Math.min(st[1] + (e.plus ? 1 : 0), 2), st[2] || e.chg, e.b === "alkene" && (e.a === "alc2" || e.a === "alc3")];
+  const key = st => st.join("|");
+  const alcK = id => (/^alc([123])$/.exec(id) || [])[1] | 0;
+  const open_ = (st, e) => {
+    if (e.side && JOINED.has(e.a) && st[3] && st[3] !== e.side) return false;
+    if (e.ck && alcK(e.b) && st[4] && st[4] !== alcK(e.b)) return false;
+    if (e.bh && st[5]) return false;
+    if (e.pr && st[6]) return false;
+    return true;
+  };
+  const out_ = st => E.filter(e => e.a === st[0] && open_(st, e));
+  const nxt = (st, e) => {
+    let cl = alcK(e.b);
+    if (!cl && e.ck) cl = e.b === "alkene" ? (st[4] === 2 || st[4] === 3 ? st[4] : 0) : st[4];
+    if (e.c1) cl = 1;
+    const side = JOINED.has(e.a) ? null : (e.side && JOINED.has(e.b) ? e.side : st[3]);
+    return [e.b, Math.min(st[1] + (e.plus ? 1 : 0), 2), st[2] || (e.chg ? 1 : 0), side, cl, e.nb ? 1 : 0, e.rk ? 1 : 0];
+  };
   const isOk = st => st[0] === b && (mode === "any" || (mode === "same" && st[1] === 0 && !st[2]) || (mode === "plus" && st[1] === 1 && !st[2]));
-  const s0 = [a, 0, false, false], dist = new Map([[key(...s0), 0]]);
+  const s0 = [a, 0, 0, null, alcK(a), 0, 0], dist = new Map([[key(s0), 0]]);
   let layer = [s0], L = null;
   for (let d = 1; layer.length && L === null; d++){
     const next = [];
     for (const st of layer) for (const e of out_(st)){
-      const t = nxt(st, e), k = key(...t);
+      const t = nxt(st, e), k = key(t);
       if (!dist.has(k)){ dist.set(k, d); next.push(t); if (isOk(t)) L = d; }
     }
     layer = next;
   }
   if (L === null) return [];
   const memo = new Map();
-  const canEnd = (st, d) => { const k = key(...st) + "@" + d; if (!memo.has(k)) memo.set(k, d === L ? isOk(st) : out_(st).some(e => { const t = nxt(st, e); return dist.get(key(...t)) === d + 1 && canEnd(t, d + 1); })); return memo.get(k); };
+  const canEnd = (st, d) => { const k = key(st) + "@" + d; if (!memo.has(k)) memo.set(k, d === L ? isOk(st) : out_(st).some(e => { const t = nxt(st, e); return dist.get(key(t)) === d + 1 && canEnd(t, d + 1); })); return memo.get(k); };
   const out = [];
   (function go(st, path){
     const d = path.length;
     if (d === L){ if (isOk(st)) out.push(path.slice()); return; }
     for (const e of out_(st)){
       const t = nxt(st, e);
-      if (dist.get(key(...t)) === d + 1 && canEnd(t, d + 1)){ path.push(e); go(t, path); path.pop(); }
+      if (dist.get(key(t)) === d + 1 && canEnd(t, d + 1)){ path.push(e); go(t, path); path.pop(); }
     }
   })(s0, []);
   return out;
@@ -4085,17 +4272,17 @@ LAB.ownerTxt = ownerTxt;
 const rowNum = r => r.slice(1);
 const nodeLab = id => NODE[id].name;
 const PRESETS = [
-  { t: "bromoethane → propylamine (propan-1-amine)", a: "halo", b: "amine", m: "plus", steps: 2, rows: ["R14", "R48"] },
+  { t: "bromoethane → propylamine (propan-1-amine)", a: "halo", b: "amine", m: "plus", steps: 2, rows: ["R14", "R48"], eq: { R48: "CH₃CH₂CN + 4[H] → CH₃CH₂CH₂NH₂" } },
   { t: "bromoethane → ethylamine", a: "halo", b: "amine", m: "any", steps: 1, rows: ["R15"] },
   { t: "ethanal → poly(lactic acid)", a: "ald", b: "pla", m: "any", steps: 3, rows: ["R30", "R35", "R58"] },
   { t: "benzene → phenylamine", a: "benzene", b: "phamine", m: "any", steps: 2, rows: ["R9", "R50"] },
-  { t: "methylbenzene → phenyl benzoate", a: "alkbz", b: "phester", m: "any", steps: 3, rows: ["R12", "R39", "R43"] },
-  { t: "propan-1-ol → propene", a: "alc1", b: "alkene", m: "any", steps: 1, rows: ["R22"] },
+  { t: "methylbenzene → phenyl benzoate", a: "alkbz", b: "phester", m: "any", steps: 3, rows: ["R12", "R39", "R43"], eq: { R39: "C₆H₅COOH + PCl₅ → C₆H₅COCl + POCl₃ + HCl" } },
+  { t: "propan-1-ol → propene", a: "alc1", b: "alkene", m: "any", steps: 1, rows: ["R22"], eq: { R22: "CH₃CH₂CH₂OH → CH₃CH=CH₂ + H₂O" } },
   { t: "ethene → PET", a: "alkene", b: "polyester", m: "any", steps: 2, rows: ["R6", "R58"], eth: true }
 ];
 LAB.PRESETS = PRESETS;
 const ENDS = {
-  polyalk: "Poly(alkenes) are chemically inert (11.10(e)): nothing on the map reacts with them.",
+  polyalk: "Poly(alkenes) are chemically inert (11.10(e)): nothing on the map reacts with them. Their C–C backbone is not hydrolysed (side groups such as –COOCH₃ or –CN can be).",
   haloar: "Halogenoarenes such as chlorobenzene do not react with NaOH(aq), heat (Topic 11.5): the map has no reaction that starts from one.",
   tbp: "2,4,6-tribromophenol is an end product on this map.", tbpa: "2,4,6-tribromophenylamine is an end product on this map.",
   nphenol: "The nitrophenols are end products on this map.", alkoxide: "Sodium alkoxides are an end product on this map."
@@ -4119,7 +4306,8 @@ function bindPlanner(){
     "Count the carbon atoms. KCN (row 14) and HCN (row 30) add one carbon atom. Hot, acidified KMnO₄ (row 7) and the tri-iodomethane reaction (rows 23 and 33) remove carbon atoms, and Friedel-Crafts alkylation (row 10) adds an alkyl group. Every other reaction keeps the carbon skeleton. (A partner reagent, such as the alcohol in an esterification, is not counted.)",
     "Check that the conditions leave other groups alone. H₂(g) with a Ni catalyst reduces C=C as well as C=O; LiAlH₄ does not reduce an isolated C=C.",
     "A condensation polymer needs two functional groups on each monomer. On the map, polymers are made only from diols, dicarboxylic acids, hydroxy acids, diamines, diacyl dichlorides, amino acids (and alkenes, for addition).",
-    "The planner works at the level of functional groups: it cannot see chain length or which carbon a group is on, so check that each step suits your actual compound. When the start is an alkene, tick “The start is ethene” if it is ethene: hot, acidified KMnO₄ would oxidise ethene all the way to CO₂, and ethene gives only the primary alcohol with steam, so those routes are removed."
+    "The planner works at the level of functional groups: it cannot see chain length or which carbon a group is on, so check that each step suits your actual compound. When the start is an alkene, tick “The start is ethene” if it is ethene: hot, acidified KMnO₄ would oxidise ethene all the way to CO₂, and ethene gives only the primary alcohol with steam, so those routes are removed.",
+    "One product is drawn per arrow; the table gives the others. A step keeps the class (primary, secondary or tertiary) of the alcohol or halogenoalkane unless its row says otherwise, and a hydrolysis returns the pieces the ester, amide or polymer was made from, not a partner’s. A substituent already on a benzene ring stays on it."
   ].map(t => `<li>${H(t)}</li>`).join("");
   setPreset(0);
   mpTable();
@@ -4142,7 +4330,7 @@ function stepHtml(e, k){
     `<div class="ft">${H(nodeLab(e.a))} → ${H(nodeLab(e.b))}</div>` +
     `<div class="cd"><span class="mpcond">${H(cond)}</span>${e.partner ? ` <span class="partner">(${H(e.partner)})</span>` : ""}</div>` +
     `<div class="ty">${H(r.type)}${e.note ? ` · ${H(e.note)}` : ""}</div>` +
-    `<div class="ex">${r.eqs.filter(q => (!q.a || q.a.includes(e.a)) && (!q.b || q.b.includes(e.b))).map(q => (q.lab ? `<span class="hint">${H(q.lab)}: </span>` : "") + EQ(q.e) + (q.obs ? ` <span class="hint">(${H(q.obs)})</span>` : "")).join("<br>")}</div></div>`;
+    `<div class="ex">${(((MP.preset != null && PRESETS[MP.preset].eq && PRESETS[MP.preset].eq[e.r]) ? [{ e: PRESETS[MP.preset].eq[e.r] }] : r.eqs.filter(q => (!q.a || q.a.includes(e.a)) && (!q.b || q.b.includes(e.b))))).map(q => (q.lab ? `<span class="hint">${H(q.lab)}: </span>` : "") + EQ(q.e) + (q.obs ? ` <span class="hint">(${H(q.obs)})</span>` : "")).join("<br>")}</div></div>`;
 }
 function mpRun(){
   mpSync();
@@ -4169,7 +4357,7 @@ function mpTable(){
   const rows = MAP.rows.filter(r => MP.filter === "all" || r.owner.split(" ")[0] === MP.filter);
   $("mp-tab").innerHTML = `<thead><tr><th>Row</th><th>From → to</th><th>Reagents and conditions</th><th>Type of reaction</th><th>Taught in</th></tr></thead><tbody>` +
     rows.map(r => `<tr data-r="${r.r}"><td>${rowNum(r.r)}</td><td>${H(r.ft)}</td><td>${H(r.cond)}</td><td>${H(r.type)}</td><td>${H(ownerTxt(r.owner))}</td></tr>`).join("") + `</tbody>`;
-  $("mp-tabnote").innerHTML = H("Halogenoarenes such as chlorobenzene do not react with NaOH(aq), heat (Topic 11.5). 2,4-DNPH gives an orange precipitate with aldehydes and ketones (Topic 11.7): a test, not a step on a route. Poly(alkenes) have no row going out: they are inert. The combustion of alkanes and alcohols (Topics 11.4 and 11.6) is not a change of functional group, and is not on the map.");
+  $("mp-tabnote").innerHTML = H("Halogenoarenes such as chlorobenzene do not react with NaOH(aq), heat (Topic 11.5). 2,4-DNPH gives an orange precipitate with aldehydes and ketones (Topic 11.7): a test, not a step on a route. Poly(alkenes) have no row going out: their C–C backbone is not hydrolysed (side groups such as –COOCH₃ or –CN can be). Reagents are named at class level, and two reagents for one step are listed as two alternatives. The combustion of alkanes and alcohols (Topics 11.4 and 11.6) is not a change of functional group, and is not on the map; nor are fermentation (Topic 11.6), the reaction of alkenes with bromine water (Topic 11.4) and the halide test with AgNO₃(aq) (Topic 11.5). The tests in rows 23, 32 and 33 are in the table only.");
 }
 LAB.mpTable = mpTable;
 
@@ -4183,9 +4371,11 @@ const elSum = el => ORDER.filter(e => el[e]).map(e => `${el[e] > 1 ? el[e] : ""}
 LAB.elSum = elSum;
 const r3 = v => +v.toPrecision(3);
 function genN(fromList){
-  let id, Mr;
-  if (fromList){ const d = pick(DPLIST); id = d[0]; Mr = d[1]; }
-  else { id = pick(CORE.filter(k => k !== "n66c")); Mr = r3(1e4 + Math.random() * 4.9e5); }
+  let id, Mr, tries = 0;
+  do {
+    if (fromList){ const d = pick(DPLIST); id = d[0]; Mr = d[1]; }
+    else { id = pick(CORE.filter(k => k !== "n66c")); Mr = r3(1e4 + Math.random() * 4.9e5); }
+  } while (resHit({ rk: ["pair:" + id + ":" + dg(Mr), "mr:" + dg(Mr)] }) && ++tries < 500);
   const p = PB[id], n = Mr / p.Mr;
   const two = p.mon.length === 2;
   const W = [
@@ -4194,7 +4384,7 @@ function genN(fromList){
   ];
   if (two) W.push(`Each repeat unit contains one residue of each monomer, so the chain contains 2n = ${sfS(2 * n, 3)} monomer residues.`);
   W.push(`${dpVerdict(n, Mr).replace(/^./, c => c.toUpperCase())}.`);
-  return { type: "n", id, Mr, ans: n, tol: 0.005, text: `A sample of ${p.name}${p.short && p.short !== p.name ? ` (${p.short})` : ""} has an average relative molecular mass of ${mrBig(Mr)}. Its repeat unit is ${p.ru}. Calculate the average number of repeat units in a chain.`, work: W, unit: "" };
+  return { type: "n", id, Mr, ans: n, shown: +n.toPrecision(3), tol: 0.005, text: `A sample of ${p.name}${p.short && p.short !== p.name ? ` (${p.short})` : ""} has an average relative molecular mass of ${mrBig(Mr)}. Its repeat unit is ${p.ru}. Calculate the average number of repeat units in a chain.`, work: W, unit: "" };
 }
 function genRU(){
   const id = pick(CORE), p = PB[id], ms = p.mon.map(k => MON[k]);
@@ -4210,17 +4400,17 @@ function genRU(){
     else W.push(`The repeat unit contains one residue of each monomer, and two ${p.small} are lost for each repeat unit (one per link): M{r} = ${ms.map(m => m1(m.Mr)).join(" + ")} − 2(${m1(sm.Mr)}) = ${m1(p.Mr)}`);
     W.push(`Check from the repeat unit, ${p.F}: ${elSum(p.el)} = ${m1(p.Mr)}`);
   }
-  return { type: "ru", id, ans: p.Mr, tol: 0.002, text, work: W };
+  return { type: "ru", id, ans: p.Mr, shown: +p.Mr.toFixed(1), tol: 0.002, text, work: W };
 }
 const MONO_Q = [
   { id: "pp", o: [["CH₂=CHCH₃, propene", "The CH₃ groups hang off alternate carbon atoms: each two-carbon unit is CH₂–CH(CH₃), from CH₂=CHCH₃."],
     ["CH₃CH₂CH₃, propane", "An alkane has no C=C, so it cannot undergo addition polymerisation."],
-    ["CH₃CH=CHCH₃, but-2-ene", "That would put a CH₃ on every carbon of the backbone, not on alternate ones."],
+    ["CH₂=CH₂, ethene", "Ethene gives –CH₂–CH₂– with no CH₃ groups at all: that is poly(ethene), not poly(propene)."],
     ["CH₂=C(CH₃)₂, 2-methylpropene", "That would put two CH₃ groups on every other carbon atom."]] },
   { id: "pvc", o: [["CH₂=CHCl, chloroethene", "Each two-carbon unit is CH₂–CHCl: put back the C=C."],
     ["CH₃CH₂Cl, chloroethane", "An alkane has no C=C to open, so it cannot form an addition polymer."],
-    ["CHCl=CHCl, 1,2-dichloroethene", "That would put a Cl on every carbon of the backbone."],
-    ["CH₂=CCl₂, 1,1-dichloroethene", "That would give two Cl atoms per repeat unit."]] },
+    ["CCl₂=CCl₂, tetrachloroethene", "That would put two Cl atoms on every carbon of the backbone, not one on alternate carbons."],
+    ["CH₂=CHBr, bromoethene", "That gives –CH₂–CHBr–: the halogen is bromine, so the polymer is not PVC."]] },
   { id: "ps", o: [["CH₂=CHC₆H₅, phenylethene", "Each two-carbon unit is CH₂–CH(C₆H₅): the benzene ring is a substituent, not part of the chain."],
     ["C₆H₅CH₂CH₃, ethylbenzene", "It has no C=C outside the ring; the delocalised ring does not polymerise."],
     ["C₆H₆ and CH₂=CH₂", "Addition polymers like this come from one monomer; the ring was already on the alkene."],
@@ -4235,12 +4425,12 @@ const MONO_Q = [
     ["CH₂=CH₂ and HOOC–C₆H₄–COOH", "Ethene has no –OH group; the O atoms in the chain came from a diol."]] },
   { id: "pla", o: [["CH₃CH(OH)COOH, 2-hydroxypropanoic acid", "One monomer with an –OH and a –COOH on neighbouring carbons gives –O–CH(CH₃)–CO–."],
     ["HOCH₂CH₂COOH, 3-hydroxypropanoic acid", "That would give –OCH₂CH₂CO–, with no CH₃ branch."],
-    ["CH₂=CHCOOH, propenoic acid", "Addition of an alkene gives an all-carbon backbone, with no O in the chain."],
+    ["CH₂=CHCH₃, propene", "Addition of an alkene gives an all-carbon backbone, with no O in the chain."],
     ["CH₃COOH and CH₃OH", "Each has only one functional group, so they form one ester molecule and the chain cannot grow."]] },
   { id: "n66", o: [["H₂N(CH₂)₆NH₂ and HOOC(CH₂)₄COOH", "Cut each amide link between the C=O and the N, and add H₂O: hexane-1,6-diamine and hexanedioic acid."],
     ["H₂N(CH₂)₆NH₂ and HOOC(CH₂)₆COOH", "That diacid has 8 carbon atoms. The two C=O carbons count: CO(CH₂)₄CO is 6 carbons, hexanedioic acid."],
     ["HO(CH₂)₆OH and HOOC(CH₂)₄COOH", "A diol would give ester links, –COO–; this chain has N–H, so the other monomer is a diamine."],
-    ["H₂N(CH₂)₅COOH", "One monomer would give –NH(CH₂)₅CO–, with only five CH₂ between the links every time."]] },
+    ["H₂N(CH₂)₆COOH", "One monomer would give –NH(CH₂)₆CO–, with the same six CH₂ groups between every pair of links and no diacid unit."]] },
   { id: "we3", o: [["HO(CH₂)₃OH and HOOC(CH₂)₂COOH", "Cut each ester link and add H₂O: propane-1,3-diol and butanedioic acid."],
     ["HO(CH₂)₂OH and HOOC(CH₂)₃COOH", "The pieces are swapped: the O atoms are joined by three CH₂ groups, so the diol is propane-1,3-diol."],
     ["HO(CH₂)₃OH and HOOC(CH₂)₄COOH", "That diacid has 6 carbon atoms; CO(CH₂)₂CO is 4 carbons, butanedioic acid."],
@@ -4260,9 +4450,8 @@ function bindGen(){
   });
   $("gn-new").onclick = newQ;
   $("gn-check").onclick = gnCheck;
-  $("gn-show").onclick = () => { $("gn-work").hidden = false; };
+  $("gn-show").onclick = gnShow;
   $("gn-ans").addEventListener("keydown", e => { if (e.key === "Enter") gnCheck(); });
-  $("gn-opts").addEventListener("click", e => { const b = e.target.closest(".opt"); if (b && !b.disabled) gnPick(+b.dataset.oi); });
   LAB.ac = Sorter({ p: "ac", cards: AC_CARDS, zones: [{ id: "add", name: "Addition polymer", sub: "from an alkene; nothing lost" }, { id: "cond", name: "Condensation polymer", sub: "two functional groups; H₂O or HCl lost" }] });
   $("ac-tab").innerHTML = `<thead><tr><th></th><th>Addition polymerisation</th><th>Condensation polymerisation</th></tr></thead><tbody>` + CLASS_T.map(r => `<tr><th>${H(r[0])}</th><td>${H(r[1])}</td><td>${H(r[2])}</td></tr>`).join("") + `</tbody>`;
   newQ();
@@ -4270,12 +4459,12 @@ function bindGen(){
 const CLASS_T = [
   ["Monomer", "contains a C=C bond", "has two functional groups that react with each other's (–OH, –COOH, –COCl, –NH₂)"],
   ["Number of monomers", "usually one", "usually two different monomers (or one with two different groups)"],
-  ["Small molecule lost", "none", "one per link: H₂O (or HCl from an acyl chloride)"],
+  ["Small molecule lost", "none", "one per link: usually H₂O (or HCl from an acyl chloride)"],
   ["Repeat unit against monomer", "same atoms (same empirical formula)", "monomers minus the small molecules"],
   ["Backbone", "carbon atoms only", "contains O (ester) or N (amide) atoms as well as C"],
   ["Link", "C–C", "ester –COO– or amide –CONH–"],
   ["Examples", "poly(ethene), poly(propene), PVC, polystyrene, PTFE", "PET, PLA (polyesters); nylon-6,6, proteins (polyamides)"],
-  ["Hydrolysable?", "no (inert; see Biodegradability)", "yes (see Biodegradability)"]
+  ["Hydrolysable?", "no: the C–C backbone is not hydrolysed (side groups such as –COOCH₃ or –CN can be) (see Biodegradability)", "yes (see Biodegradability)"]
 ];
 LAB.CLASS_T = CLASS_T;
 const ADDW = "The backbone is carbon atoms only: the monomer is an alkene and nothing is lost.";
@@ -4294,6 +4483,7 @@ LAB.AC_CARDS = AC_CARDS;
 function newQ(){
   const t = GN.type;
   GN.q = t === "n" ? genN(Math.random() < 0.5) : t === "ru" ? genRU() : genMono();
+  GN.q.graded = false; GN.q.shownFirst = false; GN.q.hints = null;
   showQ();
 }
 LAB.newQ = newQ;
@@ -4301,15 +4491,23 @@ function showQ(){
   const q = GN.q, p = PB[q.id];
   $("gn-q").innerHTML = H(q.text);
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
-  $("gn-work").innerHTML = q.work.map(w => `<li>${H(w)}</li>`).join("");
+  $("gn-work").innerHTML = "";
   const mono = q.type === "mono";
   $("gn-ansrow").hidden = mono; $("gn-opts").hidden = !mono; $("gn-check").hidden = mono;
   $("gn-molwrap").hidden = !mono;
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
+  $("gn-ans").setAttribute("inputmode", q.type === "ru" ? "decimal" : "text");
+  gnScoreLine();
   $("gn-lab").innerHTML = q.type === "n" ? "Average number of repeat units, <i>n</i>" : "<i>M</i><sub>r</sub> of the repeat unit";
   if (mono){
     gnMol();
-    $("gn-opts").innerHTML = q.order.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.m.o[oi][0])}</span></button>`).join("");
+    const box = $("gn-opts"); box.innerHTML = ""; q.btns = [];
+    q.order.forEach((oi, j) => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "opt";
+      b.innerHTML = `<b>${"ABCD"[j]}</b><span>${H(q.m.o[oi][0])}</span>`;
+      b.onclick = () => { if (!b.disabled) gnPick(oi); };
+      box.appendChild(b); q.btns.push([b, oi]);
+    });
   }
 }
 LAB.showQ = showQ;
@@ -4318,31 +4516,69 @@ function gnMol(){
   const wrap = $("gn-molwrap"), fs = molFs(wrap);
   flowSvg($("gn-molsvg"), [{ type: "mol", L: chainLayout(PB[q.id].ruTk, { fs, cont: true, brackets: true }) }], availW(wrap), { fs });
 }
-function gnScore(right){ GN.tried++; if (right) GN.score++; $("gn-score").textContent = `${GN.score} of ${GN.tried} correct`; }
+// one question counts once: the first valid Check (or pick) is scored, and not at all if the working was shown first
+function gnScoreLine(){
+  const q = GN.q, t = `${GN.score} of ${GN.tried} correct`;
+  $("gn-score").textContent = q && q.shownFirst && !q.graded ? `${t} · this question was shown: not scored` : t;
+}
+function gnScore(right){
+  const q = GN.q;
+  if (!q.graded){ q.graded = true; if (!q.shownFirst){ GN.tried++; if (right) GN.score++; } }
+  gnScoreLine();
+}
+function gnShow(){
+  const q = GN.q, w = $("gn-work");
+  w.innerHTML = q.work.map(x => `<li>${H(x)}</li>`).join(""); w.hidden = false;
+  if (!q.graded) q.shownFirst = true;
+  gnScoreLine();
+}
+// hints: the answer shown on screen is always accepted; "close" comes first; each hint has its own value
+function gnHints(q){
+  const p = PB[q.id], h = [];
+  if (q.type === "n" && p.mon.length === 2) h.push([2 * q.ans, 0.01, "That is the number of monomer residues (2n), not the number of repeat units. "]);
+  if (q.type === "ru" && p.kind === "cond" && p.mon.length === 1){ const f = SMALL[p.small]; h.push([q.ans + f.Mr, 0.2 / q.ans, `That is the M{r} of the monomer: subtract ${f.F} for the one link. `]); }
+  if (q.type === "ru" && p.kind === "cond" && p.mon.length === 2){ const f = SMALL[p.small]; h.push([q.ans + 2 * f.Mr, 0.2 / q.ans, `That is the sum of the monomers: subtract 2 × ${f.F} for the two links. `]); }
+  return h;
+}
+LAB.gnHints = gnHints;
+function gnGrade(q, v){ return v === q.shown || Math.abs(v - q.ans) <= q.tol * Math.abs(q.ans) + 1e-9; }
+LAB.gnGrade = gnGrade;
 function gnCheck(){
-  const q = GN.q, v = parseNum($("gn-ans").value), fb = $("gn-fb");
-  if (!isFinite(v)){ fb.className = "fb warn"; fb.innerHTML = "Type a number, e.g. 5000 or 1.5e4."; fb.hidden = false; return null; }
-  const right = Math.abs(v - q.ans) <= q.tol * Math.abs(q.ans) + 1e-9;
+  const q = GN.q, fb = $("gn-fb"), pr = parseAnswer($("gn-ans").value);
+  fb.hidden = false;
+  if (pr.error){   // not an answer yet: nothing is scored
+    $("gn-ans").setAttribute("aria-invalid", pr.kind === "empty" ? "false" : "true");
+    fb.className = "fb " + (pr.kind === "unit" || pr.kind === "comma" ? "warn" : "info");
+    fb.textContent = pr.kind === "nan" ? (q.type === "n" ? "That is not a number: type the number of repeat units, e.g. 5650." : "That is not a number: type the M{r}, e.g. 62.5.").replace(/M\{r\}/, "Mr") : pr.error;
+    return null;
+  }
+  const v = pr.value, right = gnGrade(q, v);
   $("gn-ans").setAttribute("aria-invalid", !right); $("gn-ans").classList.toggle("ok", right);
   fb.className = "fb " + (right ? "ok" : "no");
-  fb.innerHTML = right ? H(`Correct: ${q.type === "n" ? "n = " + sfS(q.ans, 3) : "M{r} = " + m1(q.ans)}.`) :
-    H(`Not quite. ${q.type === "n" && PB[q.id].mon.length === 2 && Math.abs(v - q.ans * 2) < 0.01 * q.ans ? "That is the number of monomer residues (2n), not the number of repeat units. " : q.type === "ru" && PB[q.id].kind === "cond" && PB[q.id].mon.length === 1 && Math.abs(v - (q.ans + SMALL[PB[q.id].small].Mr)) < 0.2 ? `That is the M{r} of the monomer: subtract ${SMALL[PB[q.id].small].F} for the one link. ` : q.type === "ru" && PB[q.id].kind === "cond" && PB[q.id].mon.length === 2 && Math.abs(v - (q.ans + 2 * SMALL[PB[q.id].small].Mr)) < 0.2 ? `That is the sum of the monomers: subtract 2 × ${SMALL[PB[q.id].small].F} for the two links. ` : ""}Press Show working.`);
-  fb.hidden = false; gnScore(right);
+  let msg;
+  if (right) msg = `Correct: ${q.type === "n" ? "n = " + sfS(q.ans, 3) : "M{r} = " + m1(q.ans)}.`;
+  else {
+    const near = Math.abs(v - q.ans) <= 0.03 * Math.abs(q.ans);
+    const slip = near ? null : gnHints(q).find(h => Math.abs(v - h[0]) <= h[1] * Math.abs(h[0]) + 1e-9);
+    msg = near ? `Close: give ${q.type === "n" ? "3 significant figures" : "1 decimal place"}.` : `Not quite. ${slip ? slip[2] : ""}Press Show working.`;
+  }
+  fb.innerHTML = H(msg + (q.shownFirst && !q.graded ? " Not scored: the working was shown first." : ""));
+  gnScore(right);
   return right;
 }
 LAB.gnCheck = gnCheck;
 function gnPick(oi){
-  const q = GN.q, box = $("gn-opts"), right = oi === 0;
-  box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); if (+x.dataset.oi === oi && !right) x.classList.add("wrong"); });
+  const q = GN.q, right = oi === 0;
+  q.btns.forEach(([b, k]) => { b.disabled = true; if (k === 0) b.classList.add("right"); if (k === oi && !right) b.classList.add("wrong"); });
   const others = q.order.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.m.o[k][1])}</li>`).join("");
   const fb = $("gn-fb"); fb.className = "fb " + (right ? "ok" : "no");
-  fb.innerHTML = `${right ? "Correct." : `Not quite. The answer is ${"ABCD"[q.order.indexOf(0)]}.`} ${H(q.m.o[0][1])}<ul>${others}</ul>`;
+  fb.innerHTML = `${right ? "Correct." : `Not quite. The answer is ${"ABCD"[q.order.indexOf(0)]}.`} ${H(q.m.o[0][1])}<ul>${others}</ul>` + (q.shownFirst && !q.graded ? `<p>Not scored: the working was shown first.</p>` : "");
   fb.hidden = false; gnScore(right);
 }
 LAB.gnPick = gnPick;
 
 /* =====================================================
-   9. FACT CARDS (one per named example; DATA.md 10)
+   9. FACT CARDS (one per named example)
    ===================================================== */
 const FC = { f: "all" };
 const BHET = { name: "bis(2-hydroxyethyl) benzene-1,4-dicarboxylate (BHET)", f: "HOCH₂CH₂OOC–C₆H₄–COOCH₂CH₂OH", tk: [G("HOCH₂CH₂O"), CO(), RING(), CO(), G("OCH₂CH₂OH")] };
@@ -4357,7 +4593,7 @@ const CARDS = [
   { id: "ptfe", bio: "no: one of the most inert polymers known (C–F 485 kJ mol⁻¹, Data Booklet)" },
   { id: "pet", bio: "by hydrolysis, very slowly (decades or longer outdoors)" },
   { id: "n66", bio: "by hydrolysis, slowly", alt: "or hexane-1,6-diamine + hexanedioyl dichloride, ClOC(CH₂)₄COCl (M{r} 183.0, liquid), losing HCl at room temperature" },
-  { id: "pla", bio: "by hydrolysis: composts in weeks to months in industrial composting; far more slowly in soil or the sea" }
+  { id: "pla", bio: "by hydrolysis: composts in weeks to months in industrial composting (literature); far more slowly in soil or the sea" }
 ];
 function bindCards(){
   const filt = [["all", "All"], ["add", "Addition"], ["cond", "Condensation"]];
@@ -4400,7 +4636,7 @@ function fcRender(){
         ["Methanolysis", `PET heated with methanol (catalyst, pressure) gives ${H(DMT.name)}, ${H(DMT.f)} (${H(DMT.F)}, <i>M</i><sub>r</sub> ${m1(DMT.Mr)}), and ethane-1,2-diol`],
         ["", `<span class="eqs">${EQ("–[OCH₂CH₂O–CO–C₆H₄–CO]– + 2CH₃OH → CH₃OOC–C₆H₄–COOCH₃ + HOCH₂CH₂OH")}</span>`],
         ["Why it is worth it", "the monomers can be purified (distillation, crystallisation) away from dyes, additives and other plastics, so the new PET can be as good as new, including for food contact; it costs more energy and capital than mechanical recycling"]].map(([k, v], i) => [k, i % 2 === 0 && i !== 0 && i !== 2 ? H(v) : v])) +
-      `<p><span class="beyond">Beyond the syllabus</span>${H("Both reactions exchange the alcohol part of an ester (transesterification). Hydrolysis with water, acid or alkali also works and gives the diacid and the diol directly.")}</p></div>`;
+      `<p><span class="beyond">Beyond the syllabus</span>${H("Both reactions exchange the alcohol part of an ester (transesterification). Hydrolysis with water, acid or alkali also works and gives the diol and the diacid (with alkali, its disodium salt) directly. The recovered monomers re-join by transesterification, losing ethane-1,2-diol or methanol instead of water.")}</p></div>`;
   }
   $("fc-cards").innerHTML = html;
   fcDrawMols();
@@ -4425,7 +4661,7 @@ const QZ = [
         ["2500", "This divides by 84.0, the M{r} of two repeat units."]] },
   { k: "11.10(a)", q: "9476 takes a polymer to have an average M{r} of at least 1000 or at least 100 repeat units. Which of these is a polymer?",
     o: [["A sample of poly(ethene) with 40 repeat units on average (M{r} 1120)", "M{r} 1120 is at least 1000: either test is enough, even though there are fewer than 100 repeat units."],
-        ["Hexacontane, C₆₀H₁₂₂ (M{r} 842.0)", "It is a long alkane, but M{r} 842.0 is below 1000 and it is not made of 100 repeat units."],
+        ["Hexacontane, C₆₀H₁₂₂, a single long-chain alkane molecule (M{r} 842.0, not repeat units)", "It is a long alkane, but M{r} 842.0 is below 1000 and it is not made of 100 repeat units."],
         ["The dipeptide Gly-Ala (M{r} 146.0)", "Two residues: far below both tests."],
         ["Ethene, CH₂=CH₂ (M{r} 28.0)", "Ethene is the monomer, not the polymer."]] },
   { k: "11.10(b)", q: "Which statement about addition polymerisation is correct?",
@@ -4451,16 +4687,16 @@ const QZ = [
   { k: "11.10(d)", q: "Gly-Ser, H₂NCH₂CO–NHCH(CH₂OH)COOH, is heated under reflux with dilute HCl(aq). What are the organic products?",
     o: [["⁺H₃NCH₂COOH and ⁺H₃NCH(CH₂OH)COOH (as their chlorides)", "The C–N of the peptide link breaks; in acid the –NH₂ groups are protonated, giving ammonium salts (cations)."],
         ["H₂NCH₂COO⁻ and H₂NCH(CH₂OH)COO⁻", "Those are the carboxylate anions formed in alkali (NaOH(aq), heat under reflux)."],
-        ["H₂NCH₂COOH and H₂NCH(CH₂OH)COOH only", "In the acid the –NH₂ groups take H⁺, so the amino acids come out as cations."],
+        ["H₂NCH₂COOH and H₂NCH(CH₂OH)COOH, the neutral amino acids, with no salt formed", "In the acid the –NH₂ groups take H⁺, so the amino acids come out as cations."],
         ["H₂NCH₂CONH₂ and HOCH₂CH(OH)COOH", "The bond that breaks is the C–N of the peptide link; the products are the two amino acids, each keeping its N."]] },
   { k: "11.10(e), (f)", q: "Why is poly(ethene) hard to biodegrade, while PLA breaks down in industrial composting?",
-    o: [["Poly(ethene) has only almost non-polar C–C and C–H bonds; PLA has ester links whose δ+ carbon can be hydrolysed.", "Hydrolysis needs a polar link to attack (C–C 350, C–H 410 kJ mol⁻¹, Data Booklet)."],
-        ["C–C bonds are much stronger than C–O bonds.", "C–O (360 kJ mol⁻¹, Data Booklet) is no weaker than C–C (350): the difference is polarity, not strength."],
+    o: [["Poly(ethene) has only almost non-polar C–C and C–H bonds; PLA's ester links can be hydrolysed.", "Hydrolysis needs a polar link to attack, such as the δ+ carbon of an ester link (C–C 350, C–H 410 kJ mol⁻¹, Data Booklet)."],
+        ["C–C bonds are much stronger than C–O bonds, so poly(ethene) cannot be broken down but PLA can be.", "C–O (360 kJ mol⁻¹, Data Booklet) is no weaker than C–C (350): the difference is polarity, not strength."],
         ["PLA is a poly(alkene) made from lactic acid.", "PLA is a condensation polymer, a polyester; lactic acid has no C=C."],
         ["Poly(ethene) chains are longer, so enzymes cannot reach them.", "Both are long chains; what matters is whether the chain has a hydrolysable link."]] },
   { k: "11.10(g)", q: "What is the main advantage of chemical recycling of PET over mechanical recycling?",
-    o: [["The monomers can be purified, so the new PET can be as good as new, even for food contact.", "Dyes, additives and other plastics are removed before repolymerising."],
-        ["It is cheaper and uses less energy.", "The opposite: chemical recycling needs more energy and more expensive plant."],
+    o: [["The monomers can be purified, so the new PET can be as good as new.", "Dyes, additives and other plastics are removed before repolymerising, so even food-contact grade is possible."],
+        ["It is much cheaper and uses far less energy than mechanical recycling does, in every case.", "The opposite: chemical recycling needs more energy and more expensive plant."],
         ["It works equally well for poly(alkenes).", "It relies on breaking hydrolysable links (ester, amide); poly(alkenes) have none."],
         ["Each cycle makes the chains longer.", "Mechanical recycling shortens chains; chemical recycling rebuilds them from monomers, it does not lengthen them."]] },
   { k: "Reaction map", q: "Which route converts bromoethane into propylamine (propan-1-amine), CH₃CH₂CH₂NH₂?",
@@ -4485,17 +4721,19 @@ function renderQ(){
     return;
   }
   const q = QZ[Q.i], ord = Q.order[Q.i];
-  Q.answered = false;
+  Q.answered = false; Q.t0 = performance.now();
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${TX(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${TX(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt"><b>${"ABCD"[j]}</b><span>${TX(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
-  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+  const btns = [...box.querySelectorAll(".opt")];
+  btns.forEach((b, j) => b.onclick = () => {
+    if (Q.answered || performance.now() - Q.t0 < 400) return;   // the second tap of a double tap on Next does not answer the next question
+    Q.answered = true;
+    const oi = ord[j], right = oi === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    btns.forEach((x, jj) => { x.disabled = true; if (ord[jj] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${TX(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
