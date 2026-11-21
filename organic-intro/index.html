@@ -1265,7 +1265,7 @@ function hyReadout(){
     propene: ["Predict from regions of electron density: C1 and C2 have three regions each (a double bond counts as one), so they are sp² and trigonal planar, 120°. C3 has four, so it is sp³ and tetrahedral, 109.5°."],
     ethanal: ["The carbonyl C has three regions (C=O counts as one): sp², trigonal planar, 120°. The CH₃ carbon is sp³, 109.5°.",
       "C=O is one σ bond plus one π bond, like C=C. The O atom also has two lone pairs."],
-    ethanenitrile: ["The C of C≡N has two regions: sp, linear, 180°. The CH₃ carbon is sp³, 109.5°.",
+    ethanenitrile: ["The nitrile carbon has two regions of electron density, so it is sp and linear (180°). The CH₃ carbon has four, so it is sp³ (109.5°).",
       "C≡N is one σ bond plus two π bonds. N has one lone pair, pointing along the axis."],
     methanol: ["O has four regions (two σ bonds and two lone pairs): tetrahedral arrangement, bent about O. Lone pairs repel more than bond pairs, so the predicted C–O–H angle is about 104.5°, as in water.",
       "The model is built with the predicted angle. (The measured C–O–H angle in methanol is about 108.5°.)"],
@@ -1561,7 +1561,7 @@ const CMOLS = [
   { id: "butan2ol", name: "Butan-2-ol", b: cmButan2ol, cn: { 0: "C2" }, named: 1,
     g: "C2 carries four different groups: –H, –OH, –CH₃ and –CH₂CH₃. It is a chiral centre." },
   { id: "propan2ol", name: "Propan-2-ol", b: cmPropan2ol, cn: { 0: "C2" }, named: 1,
-    g: "C2 carries –H, –OH and two identical –CH₃ groups, so it is not a chiral centre. The molecule has a plane of symmetry (through C2, O and the two H atoms on them)." },
+    g: "C2 carries –H, –OH and two identical –CH₃ groups, so C2 is not a chiral centre. The molecule has a plane of symmetry (through C2, O and the two H atoms on them)." },
   { id: "alanine", name: "Alanine", sub: "2-aminopropanoic acid", b: () => cmAcid("N", true, OC.alaSwap), cn: { 0: "C2" }, named: 1, ala: 1,
     g: "C2 carries –H, –NH₂, –CH₃ and –COOH: four different groups, so it is a chiral centre." },
   { id: "glycine", name: "Glycine", sub: "aminoethanoic acid", b: () => cmAcid("N", false), cn: { 0: "C2" }, named: 1,
@@ -1883,7 +1883,7 @@ const MECH = [
         lp: [["l1", "Bb", 0, 21]],
         rx: [[330, 100, 372, ""]], tx: [[452, 106, "Br⁺  +  AlBr₄⁻", "mprod"]],
         a: [A_("lp:l1", "atom:Fe", [200, 48], { okE: ["atom:Fe"], why: "A lone pair on Br is donated to the Al atom of AlBr₃, which can accept an electron pair (a Lewis acid).", hs: "Start at a lone pair on the Br atom next to AlBr₃.", he: "It goes to AlBr₃." }),
-            A_("bond:bbb", "atom:Bb", [96, 152], { so: [0, 3], okE: ["atom:Bb"], why: "The Br–Br bond breaks heterolytically, with both electrons going to the Br bonded to Fe. The other Br is left as Br⁺.", hs: "The Br–Br bond breaks.", he: "Both electrons go to the Br atom that is bonding to Fe." })],
+            A_("bond:bbb", "atom:Bb", [96, 152], { so: [0, 3], okE: ["atom:Bb"], why: "The Br–Br bond breaks heterolytically, with both electrons going to the Br bonded to Al. The other Br is left as Br⁺.", hs: "The Br–Br bond breaks.", he: "Both electrons go to the Br atom that is bonding to Al." })],
         cap: "Generating the electrophile. AlBr₃, the halogen carrier, accepts a lone pair from Br₂, and the Br–Br bond breaks heterolytically. This gives Br⁺, a much stronger electrophile than Br₂, and AlBr₄⁻. (FeBr₃, or iron filings, also works.)" },
       { t: "Step 1 (slow)", eq: "C₆H₆ + Br⁺ → C₆H₆Br⁺", h: 210,
         hex: [["r", 150, 108, 48]], ring: [["R1", 150, 108, 28, "full"]],
@@ -1935,7 +1935,7 @@ const MECH = [
         rx: [[318, 105, 356, ""]], tx: [[446, 111, "[HO···CH₃···Br]⁻", "mprod"]],
         a: [A_("lp:l1", "atom:C", [138, 78], { so: [0, 0], okS: ["lp:l1", "chg:cm"], okE: ["atom:C"], why: "OH⁻ donates a lone pair to the δ+ carbon, approaching from the side opposite the Br atom (back-side attack).", hs: "The electrons come from a lone pair on OH⁻, the nucleophile.", he: "They go to the δ+ carbon." }),
             A_("bond:bcb", "atom:Br", [238, 152], { so: [0, 3], okE: ["atom:Br"], why: "At the same time the C–Br bond breaks heterolytically and Br⁻ leaves.", hs: "The C–Br bond breaks.", he: "Both electrons go to Br." })],
-        cap: "One step. OH⁻ attacks the δ+ carbon from the side opposite the Br atom while the C–Br bond breaks. Both species take part in this single step, so rate = k[CH₃Br][OH⁻]." },
+        cap: "One step. OH⁻ approaches the δ+ carbon from the side opposite the Br atom, and the C–Br bond breaks at the same moment. Both species take part in this single step, so rate = k[CH₃Br][OH⁻]." },
       { t: "Transition state", eq: "Transition state [HO···CH₃···Br]⁻", h: 220, prof: 1,
         n: { O: [105, 112, "HO"], C: [200, 112, "C"], Br: [292, 112, "Br"], Ha: [200, 56, "H"], Hb: [175, 158, "H"], Hc: [226, 158, "H"] },
         b: [["b0", "O", "C", 1, "dash"], ["b4", "C", "Br", 1, "dash"], ["b1", "C", "Ha", 1], ["b2", "C", "Hb", 1, "wedge"], ["b3", "C", "Hc", 1, "hash"]],
@@ -1945,7 +1945,7 @@ const MECH = [
         n: { O: [100, 105, "HO"], C: [176, 105, "C"], Ha: [196, 52, "H"], Hb: [218, 145, "H"], Hc: [164, 160, "H"], Br: [320, 105, "Br"] },
         b: [["b0", "O", "C", 1], ["b1", "C", "Ha", 1], ["b2", "C", "Hb", 1, "wedge"], ["b3", "C", "Hc", 1, "hash"]],
         chg: [["cm", "Br", "−", 19, -11]], tx: [[430, 111, "inversion", "mnote"]],
-        cap: "The products are methanol and Br⁻. The three H atoms have flipped to the other side, like an umbrella blown inside out: inversion of configuration. Methyl and primary halogenoalkanes react by SN2, because there is little steric hindrance to back-side attack." }
+        cap: "The products are methanol and Br⁻. The three H atoms have flipped to the other side, like an umbrella blown inside out: inversion of configuration. Methyl and primary halogenoalkanes react by SN2: few groups crowd the carbon, so the nucleophile reaches the back of the C–X bond easily." }
     ] },
   { id: "na", name: "Nucleophilic addition", short: "NA", cond: "Ethanal with HCN · HCN, with KCN as catalyst",
     frames: [
@@ -1956,7 +1956,7 @@ const MECH = [
         rx: [[310, 128, 350, ""]], tx: [[446, 134, "CH₃CH(O⁻)CN", "mprod"]],
         a: [A_("lp:l1", "atom:Cc", [160, 96], { okS: ["lp:l1", "chg:cm"], okE: ["atom:Cc"], why: "CN⁻, the nucleophile, donates its lone pair (on C) to the δ+ carbonyl carbon.", hs: "The electrons come from the lone pair on the C atom of CN⁻.", he: "They go to the δ+ carbon of C=O." }),
             A_("bond:bco", "atom:O", [268, 104], { so: [4, 0], okE: ["atom:O"], why: "The π electrons of C=O move onto the more electronegative O atom, which becomes O⁻.", hs: "The π bond of C=O breaks.", he: "Its electrons go to O." })],
-        cap: "Step 1 (slow). The cyanide ion, a nucleophile, attacks the δ+ carbon of the polar C=O group, and the π electrons of C=O move onto O. The carbonyl carbon is planar (sp²), so it can be attacked equally from either face." },
+        cap: "Step 1 (slow). The cyanide ion, a nucleophile, attacks the δ+ carbon of the polar C=O group; the C=O π electrons shift onto the O atom. The carbonyl carbon is planar (sp²), so it can be attacked equally from either face." },
       { t: "Step 2 (fast)", eq: "CH₃CH(O⁻)CN + HCN → CH₃CH(OH)CN + CN⁻", h: 235,
         n: { C: [160, 140, "C"], O: [160, 80, "O"], Me: [100, 140, "H₃C"], Hh: [160, 196, "H"], C2: [222, 140, "C"], N2: [282, 140, "N"], Hx: [262, 58, "H"], Cx: [320, 58, "C"], Nx: [380, 58, "N"] },
         b: [["b1", "C", "O", 1], ["b2", "C", "Me", 1], ["b3", "C", "Hh", 1], ["b4", "C", "C2", 1], ["b5", "C2", "N2", 3], ["bhc", "Hx", "Cx", 1], ["b6", "Cx", "Nx", 3]],
@@ -1969,7 +1969,7 @@ const MECH = [
         n: { C: [230, 100, "C"], O: [230, 42, "OH"], Me: [166, 100, "H₃C"], Hh: [230, 156, "H"], C2: [292, 100, "C"], N2: [350, 100, "N"] },
         b: [["b1", "C", "O", 1], ["b2", "C", "Me", 1], ["b3", "C", "Hh", 1], ["b4", "C", "C2", 1], ["b5", "C2", "N2", 3]],
         tx: [[252, 84, "*", "mstar"], [430, 106, "* chiral centre", "mnote"]],
-        cap: "The product, 2-hydroxypropanenitrile, has a chiral centre (*). CN⁻ attacks the planar C=O equally from both faces, so equal amounts of the two enantiomers form: a racemic mixture, which is optically inactive. A ketone adds HCN in the same way; when the two groups on the C=O carbon are the same, the product has no chiral centre." }
+        cap: "The product, 2-hydroxypropanenitrile, has a chiral centre (*). CN⁻ can attack the planar C=O from either face with equal chance, so the two enantiomers form in equal amounts: a racemic mixture, which is optically inactive. A ketone adds HCN in the same way; when the two groups on the C=O carbon are the same, the product has no chiral centre." }
     ] }
 ];
 OC.MECH = MECH;
@@ -2146,7 +2146,7 @@ function tap(k){
       else if (radOf && k === "atom:" + radOf[1]) msg = "That electron is already on that atom. It moves across to the other atom of the new bond: tap that atom.";
       else if (pairTaken) msg = "The first arrow already goes to that atom. The other electron goes to the other atom.";
       else if (!k.startsWith("atom:") && !k.startsWith("ring:") && !k.startsWith("chg:")) msg = "Electrons move to an atom (or to between two atoms, to form a new bond): tap the atom they move towards.";
-      fb.className = "fb no"; fb.innerHTML = H(msg + (MX.tries >= 1 && he ? " Hint: " + he : ""));
+      fb.className = "fb no"; fb.innerHTML = H(msg + (MX.tries >= 1 && he && !/tap that atom\.$|the other atom\.$/.test(msg) ? " Hint: " + he : ""));
       MX.flash = { k, c: "no" };
     }
   }
@@ -2317,7 +2317,7 @@ function spDraw(){
   const W = Math.max(270, Math.floor(wrap.clientWidth - 34));
   const xs = g.xy.map(p => p[0]), ys = g.xy.map(p => p[1]);
   const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
-  const bl = Math.max(36, Math.min(56, (W - 44) / Math.max(1, x1 - x0))), pad = 22;
+  const bl = Math.max(18, Math.min(56, (W - 52) / Math.max(1, x1 - x0))), pad = 22;
   const Wd = Math.max(W, Math.ceil((x1 - x0) * bl + 2 * pad + 8));
   const Hh = Math.round((y1 - y0) * bl + 2 * pad + 8);
   const X = x => pad + (x - x0) * bl + ((Wd - 2 * pad) - (x1 - x0) * bl) / 2, Y = y => pad + 4 + (y - y0) * bl;
@@ -2467,7 +2467,7 @@ function spCheck(){
     const sel = [...SP.chiral], hit = sel.filter(i => A.cc.includes(i)), extra = sel.filter(i => !A.cc.includes(i)), miss = A.cc.filter(i => !SP.chiral.has(i));
     const ok = !extra.length && !miss.length;
     fb.className = "fb " + (ok ? "ok" : "no");
-    let t = `${A.cc.length} chiral centre${A.cc.length === 1 ? "" : "s"} in ${lcName(SP.m.name)}. You found ${hit.length}${extra.length ? `, with ${extra.length} wrongly marked` : ""}.`;
+    let t = `${A.cc.length} chiral centre${A.cc.length === 1 ? "" : "s"} in ${lcName(SP.m.name)}. ${SP.shown ? "Answers were shown, so this is not scored." : `You found ${hit.length}${extra.length ? `, with ${extra.length} wrongly marked` : ""}.`}`;
     const li = [], all = hit.concat(miss, extra).sort((a, b2) => g.xy[a][0] - g.xy[b2][0]);
     SP.lab = {}; all.forEach((i, k) => { SP.lab["a" + i] = "abcdefghijklmnopqrstuvwxyz"[k]; });
     all.forEach(i => li.push(A.cc.includes(i) ? `${SP.lab["a" + i]} is a chiral centre: ${chiralWhy(g, i)}.` : `${SP.lab["a" + i]} is not a chiral centre: ${chiralWhy(g, i)}.`));
@@ -2482,7 +2482,7 @@ function spCheck(){
     for (let i = 0; i < g.n; i++) for (const j of g.nb[i]) if (j > i && g.ord(i, j) === 2 && g.el[i] === "C" && g.el[j] === "C") all.push([i, j]);
     const nm = lcName(SP.m.name);
     let t = ctKeys.length ? `${ctKeys.length} C=C bond${ctKeys.length === 1 ? "" : "s"} in ${nm} show${ctKeys.length === 1 ? "s" : ""} cis-trans isomerism.` : `No C=C bond in ${nm} shows cis-trans isomerism.`;
-    if (ok) t += " All correct.";
+    if (SP.shown) t += " Answers were shown, so this is not scored."; else if (ok) t += " All correct.";
     all.sort((p1, p2) => (g.xy[p1[0]][0] + g.xy[p1[1]][0]) - (g.xy[p2[0]][0] + g.xy[p2[1]][0]));
     SP.lab = {}; const groups = {};
     all.forEach(([i, j], k) => {
@@ -2501,7 +2501,7 @@ function spCount(){
   g.bonds.forEach(([i, j, o]) => { if (o > 1){ const k = [g.el[i], g.el[j]].sort((a, b) => a === "C" ? -1 : b === "C" ? 1 : a.localeCompare(b)).join(o === 2 ? "=" : "≡"); types[k] = (types[k] || 0) + (o - 1); } });
   const nH = g.h.reduce((a, b) => a + b, 0);
   fb.className = "fb info";
-  fb.innerHTML = H(`${SP.m.name}, ${A.formula}: <b>${A.sigma} σ bonds</b> (every single bond, plus one in each double or triple bond; ${nH} of them are bonds to H) and <b>${A.pi} π bond${A.pi === 1 ? "" : "s"}</b>${A.pi ? ` (${Object.keys(types).map(k => `${types[k]} in ${k}`).join(", ")})` : ""}. A double bond is 1 σ + 1 π; a triple bond is 1 σ + 2 π.`);
+  fb.innerHTML = H(`${SP.m.name}, ${A.formula}: <b>${A.sigma} σ bonds</b> (every single bond, plus one in each double or triple bond; ${nH} of them are bonds to H) and <b>${A.pi} π bond${A.pi === 1 ? "" : "s"}</b>${A.pi ? ` (${Object.keys(types).map(k => `${types[k]} in ${k}`).join(", ")})` : ""}. A double bond is one σ bond and one π bond; a triple bond is one σ bond and two π bonds.`);
   fb.hidden = false;
 }
 function spInfo(){
@@ -2529,7 +2529,7 @@ function bindSP(){
   document.querySelectorAll('input[name="sp-mode"]').forEach(r => r.onchange = () => { SP.mode = r.value; spClear(); });
   $("sp-choose").querySelectorAll("button").forEach(b => b.onclick = () => spChoose(b.dataset.h));
   $("sp-check").onclick = spCheck;
-  $("sp-reveal").onclick = () => { SP.reveal = true; SP.shown = true; SP.sel = null; spDraw(); spProgress(); const fb = $("sp-fb"); fb.className = "fb info"; fb.innerHTML = H(SP.mode === "hyb" ? "Answers shown in green beside each atom." : SP.mode === "chiral" ? `${SP.A.cc.length} chiral centre${SP.A.cc.length === 1 ? "" : "s"}, ringed in green.` : `${SP.A.ct.length} C=C bond${SP.A.ct.length === 1 ? "" : "s"} with cis-trans isomerism, shaded in green.`); fb.hidden = false; };
+  $("sp-reveal").onclick = () => { SP.reveal = true; SP.shown = true; SP.sel = null; spDraw(); spProgress(); const fb = $("sp-fb"); fb.className = "fb info"; fb.innerHTML = H(SP.mode === "hyb" ? "Answers shown in green beside each atom." : SP.mode === "chiral" ? `${SP.A.cc.length} chiral centre${SP.A.cc.length === 1 ? "" : "s"}, ringed in green. Answers were shown, so this molecule is not scored.` : `${SP.A.ct.length} C=C bond${SP.A.ct.length === 1 ? "" : "s"} with cis-trans isomerism, shaded in green. Answers were shown, so this molecule is not scored.`); fb.hidden = false; };
   $("sp-clear").onclick = spClear;
   $("sp-count").onclick = spCount;
   OC.setSP = setSP; OC.spTapAtom = spTapAtom; OC.spTapBond = spTapBond; OC.spChoose = spChoose; OC.spCheck = spCheck;
@@ -2542,6 +2542,7 @@ function bindSP(){
    5. SORTERS (drag or tap) and NAMING DRILL
    ===================================================== */
 function Sorter(cfg){
+  cfg = Object.assign({}, cfg, { cards: shuffle(cfg.cards.slice()) });   // data-i is then a random index, not the zone order the cards are written in
   const S = { place: {}, sel: null, checked: false, scored: false, score: 0, order: shuffle(cfg.cards.map((_, i) => i)) };
   const deck = $(cfg.p + "-deck"), zw = $(cfg.p + "-zones");
   zw.innerHTML = cfg.zones.map((z, k) => `<div class="zone" data-z="${z.id}" data-c="${(k % 3) + 1}"><div class="zlab">${H(z.name)}${z.sub ? ` <small>${H(z.sub)}</small>` : ""}</div><div class="zdrop" data-z="${z.id}"></div></div>`).join("");
@@ -2604,6 +2605,7 @@ function Sorter(cfg){
   $(cfg.p + "-check").onclick = () => {
     const placed = Object.keys(S.place).map(Number), fb = $(cfg.p + "-fb");
     if (!placed.length){ fb.className = "fb info"; fb.textContent = "Place the cards first, then press Check."; fb.hidden = false; return; }
+    if (placed.length < cfg.cards.length && !S.scored){ fb.className = "fb info"; fb.textContent = `Place every card first (${cfg.cards.length - placed.length} still to place), then press Check. Nothing is scored until all ${cfg.cards.length} are placed.`; fb.hidden = false; return; }
     S.checked = true; S.sel = null; render();
     const right = placed.filter(i => okFor(cfg.cards[i]).includes(S.place[i])).length;
     if (S.scored){
@@ -3121,7 +3123,7 @@ function explainName(sp, right){
 }
 const NM = { sp: null, sty: "disp", right: 0, tried: 0, answered: false };
 // names the drill never offers (hashes of whole names)
-const BAR = new Set(["10g4rcd", "10h57cr", "10uzf2n", "127q793", "12mq0y4", "14esq6u", "14o24k7", "16ablgm", "16j9xdh", "18y1xua", "18yk76w", "193ygxi", "1an9glb", "1bbaqn", "1bp7umd", "1d70951", "1da707b", "1e3vdvn", "1edfwq2", "1ei601b", "1ewbr2s", "1ewip9b", "1fiswsw", "1g98tzw", "1gbg98l", "1i3fam2", "1jakxxb", "1l2w1h", "1lr2bti", "1m7lapq", "1nwfyvd", "1ox0bue", "1pollap", "1q6e0ei", "1suacfv", "1ud9xqw", "1udioyn", "1xa4pkl", "1yzx5bj", "2nr6xt", "4g2zo3", "8drp5x", "8nex3c", "adl7vr", "aiw61c", "alh5ij", "alxfpa", "bdkbb9", "bprisp", "bpsrha", "d7wnv8", "e1jy6h", "efgekx", "essmp9", "fae0qg", "fntejf", "hsx0v7", "i9fqm1", "iwz9kp", "jv6elv", "lrvppu", "mrcgsf", "nn1e0o", "nnsapj", "o88k8e", "ophg43", "osj751", "p4oh06", "pnkfqt", "prvzly", "q2wqdb", "q6zkf3", "qb53g1", "qr4m1g", "r0j3uv", "rel4mb", "ub4u8", "unvj3l", "vojfx6", "vs9qe6", "vwenj8", "w8d39t", "w99oed", "zysrlv"]);
+const BAR = new Set(["10g4rcd", "10h57cr", "10uzf2n", "127q793", "12mq0y4", "14esq6u", "14o24k7", "16ablgm", "16j9xdh", "18y1xua", "18yk76w", "193ygxi", "1an9glb", "1bbaqn", "1bp7umd", "1d70951", "1da707b", "1e3vdvn", "1edfwq2", "1ei601b", "1ewbr2s", "1ewip9b", "1fiswsw", "1g98tzw", "1gbg98l", "1i3fam2", "1jakxxb", "1l2w1h", "1lr2bti", "1m7lapq", "1nwfyvd", "1ox0bue", "1pollap", "1q6e0ei", "1r07a27", "1suacfv", "1ud9xqw", "1udioyn", "1xa4pkl", "1yzx5bj", "2nr6xt", "4g2zo3", "8drp5x", "8nex3c", "adl7vr", "aiw61c", "alh5ij", "alxfpa", "bdkbb9", "bprisp", "bpsrha", "d7wnv8", "e1jy6h", "efgekx", "essmp9", "fae0qg", "ffn96l", "fntejf", "hsx0v7", "i9fqm1", "iwz9kp", "jv6elv", "lrvppu", "mrcgsf", "nn1e0o", "nnsapj", "o4xuiv", "o88k8e", "ophg43", "osj751", "p4oh06", "pnkfqt", "prvzly", "q2wqdb", "q6zkf3", "qb53g1", "qr4m1g", "r0j3uv", "rel4mb", "t25efs", "ub4u8", "unvj3l", "vojfx6", "vs9qe6", "vwenj8", "w8d39t", "w99oed", "zysrlv"]);
 const fnv = s => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
 const barred = nm => !!nm && BAR.has(fnv(String(nm).toLowerCase()));
 // a name read back into a structure (the drill's own name grammar), so that two options that name the same molecule can be told apart
@@ -3182,7 +3184,7 @@ function newName(){
     right = nameSpec(sp);
     if (barred(right) || barred(amineAlt(sp))) continue;
     ds = distractors(sp, right).filter(d => !barred(d[0]));
-    if (ds.length >= 3) break;
+    if (new Set(ds.map(d => nameKey(d[0]))).size >= 3) break;
   }
   NM.sp = sp; NM.answered = false; NM.correct = right;
   const typ = d => /halogen here/.test(d[1]) ? "hal" : /side chain/.test(d[1]) ? "alk" : /count the carbons/.test(d[1]) ? "cnt" : d[1].slice(0, 12);
@@ -3205,7 +3207,7 @@ function answerName(k){
   if (!ok) $("nm-opts").querySelectorAll(".opt")[k].classList.add("wrong");
   const fb = $("nm-fb");
   fb.className = "fb " + (ok ? "ok" : "no");
-  fb.innerHTML = H(`${ok ? "Correct." : `Not quite: ${o[0]} is wrong because ${o[1]}`} The name is <b>${NM.correct}</b>${amineAlt(NM.sp) ? ` (${amineAlt(NM.sp)})` : ""}. ${explainName(NM.sp, NM.correct)}`) + `<ul>${NM.opts.filter(x => x[1] && x !== o).map(x => `<li>${H(x[0])}: ${H(x[1])}</li>`).join("")}</ul>`;
+  fb.innerHTML = H(`${ok ? "Correct." : `Not quite: ${o[0]} is wrong. ${o[1].charAt(0).toUpperCase() + o[1].slice(1)}`} The name is <b>${NM.correct}</b>${amineAlt(NM.sp) ? ` (${amineAlt(NM.sp)})` : ""}. ${explainName(NM.sp, NM.correct)}`) + `<ul>${NM.opts.filter(x => x[1] && x !== o).map(x => `<li>${H(x[0])}: ${H(x[1])}</li>`).join("")}</ul>`;
   fb.hidden = false;
   $("nm-score").textContent = `${NM.right} of ${NM.tried} correct`;
 }
@@ -3291,7 +3293,7 @@ function bindCards(){
     <tr><td>Alkenes</td><td>electrophiles, readily (addition)</td><td>The π electrons are above and below the plane, exposed and less tightly held than σ electrons: an electron-rich site.</td></tr>
     <tr><td>Benzene</td><td>electrophiles, less readily (substitution)</td><td>Its π electrons are delocalised over six carbon atoms, so they are less available; substitution keeps the stable delocalised system.</td></tr>
     <tr><td>Halogenoalkanes</td><td>nucleophiles (substitution)</td><td>The polar C–X bond gives a δ⁺ carbon. Rate R–I &gt; R–Br &gt; R–Cl (&gt; R–F) follows the C–X bond energy, not the polarity.</td></tr>
-    <tr><td>Chlorobenzene</td><td>not nucleophilic substitution</td><td>A lone pair on Cl is delocalised into the ring, giving the C–Cl bond partial double-bond character, so it is stronger. Attack from behind the C–Cl bond would have to come through the ring: steric hindrance.</td></tr>
+    <tr><td>Chlorobenzene</td><td>not nucleophilic substitution</td><td>The lone pair on Cl is shared with the π electrons of the ring, so the C–Cl bond has partial double-bond character and is stronger. Attack from behind the C–Cl bond would have to come through the ring: steric hindrance.</td></tr>
     <tr><td>Aldehydes, ketones</td><td>nucleophiles (addition)</td><td>The polar C=O group gives a δ⁺ carbon, which is planar and open to attack from either face.</td></tr>`);
   $("ag-play").onclick = playAG;
   OC.playAG = playAG; OC.drawAG = drawAG;
@@ -3336,7 +3338,7 @@ const QZ = [
         ["Cl•", "Cl• has an unpaired electron: a free radical, not an electron-pair donor."]] },
   { q: "2-bromo-2-methylpropane reacts with OH⁻(aq) with rate = k[(CH₃)₃CBr]. Which statement explains this?",
     o: [["It is SN1: the slow step is loss of Br⁻, so OH⁻ is not in the rate equation.", "Only species in the slow step appear in the rate equation, so OH⁻ is zero order. The slow step gives a tertiary carbocation, stabilised by three electron-donating alkyl groups."],
-        ["It is SN2: OH⁻ attacks the carbon from the side opposite the Br atom as Br⁻ leaves, in one step.", "A one-step SN2 reaction would give rate = k[(CH₃)₃CBr][OH⁻]. The three CH₃ groups also block back-side attack (steric hindrance)."],
+        ["It is SN2: OH⁻ approaches the carbon from the side opposite Br, and Br⁻ leaves in the same step.", "A one-step SN2 reaction would give rate = k[(CH₃)₃CBr][OH⁻]. The three CH₃ groups also block back-side attack (steric hindrance)."],
         ["The C–Br bond breaks homolytically in the slow step, giving a tertiary free radical and a Br atom.", "It breaks heterolytically: both electrons go to Br, which leaves as Br⁻."],
         ["OH⁻ does not take part in the overall reaction, so it does not appear in the rate equation.", "OH⁻ is in the overall equation; it is simply not in the rate-determining step."]] },
   { q: "Why does benzene react with bromine by substitution rather than addition?",

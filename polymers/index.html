@@ -1084,7 +1084,7 @@ const BIO = [
   { id: "ptfe", t: "PTFE", ru: "–[CF₂–CF₂]ₙ–", z: "inert", bb: "C–C backbone with C–F",
     why: "C–F (485 kJ mol⁻¹) is the strongest single bond to carbon in the Data Booklet, and the F atoms shield the C–C backbone (Topic 11.5): one of the most inert polymers known." },
   { id: "pet", t: "PET", ru: "–[OCH₂CH₂O–CO–C₆H₄–CO]ₙ–", z: "hyd", rate: "slowly", bb: "ester links –COO–",
-    why: "The C=O carbon of each ester link is δ+ and can be attacked by water, acid, alkali or enzymes (esterases), as in Topic 11.8 ester hydrolysis. In the environment PET breaks down very slowly (decades or longer; literature estimates vary widely), because it is hydrophobic, partly crystalline and its ester links sit next to rigid benzene rings." },
+    why: "Water, acid, alkali or enzymes (esterases) can attack the δ+ C=O carbon of each ester link, as in Topic 11.8 ester hydrolysis. In the environment PET breaks down very slowly (decades or longer; literature estimates vary widely), because it is hydrophobic, partly crystalline and its ester links sit next to rigid benzene rings." },
   { id: "n66", t: "nylon-6,6", ru: "–[NH(CH₂)₆NH–CO(CH₂)₄CO]ₙ–", z: "hyd", rate: "slowly", bb: "amide links –CONH–",
     why: "Amide links can be hydrolysed (acid, alkali, some enzymes), as in Topic 11.9; in the environment this is slow (hydrophobic chains, strong hydrogen bonding between chains; the amide link's partial double-bond character, Topic 11.9, also slows it)." },
   { id: "pla", t: "PLA", ru: "–[OCH(CH₃)CO]ₙ–", z: "hyd", bb: "ester links –COO–",
@@ -2373,7 +2373,7 @@ const MAP = {
 "cond": "HX, heat; or PCl₅, room temperature",
 "type": "nucleophilic substitution",
 "owner": "11.6 P1",
-"eq": "CH₃CH₂OH + HBr → CH₃CH₂Br + H₂O; CH₃CH₂OH + PCl₅ → CH₃CH₂Cl + POCl₃ + HCl (steamy fumes of HCl); CH₃CH(OH)CH₃ + HBr → CH₃CHBrCH₃ + H₂O; CH₃CH(OH)CH₃ + PCl₅ → CH₃CHClCH₃ + POCl₃ + HCl (steamy fumes of HCl); (CH₃)₃COH + HBr → (CH₃)₃CBr + H₂O",
+"eq": "CH₃CH₂OH + HBr → CH₃CH₂Br + H₂O; CH₃CH₂OH + PCl₅ → CH₃CH₂Cl + POCl₃ + HCl (steamy fumes of HCl); CH₃CH(OH)CH₃ + HBr → CH₃CHBrCH₃ + H₂O; (CH₃)₃COH + HBr → (CH₃)₃CBr + H₂O",
 "eqs": [
 {
 "e": "CH₃CH₂OH + HBr → CH₃CH₂Br + H₂O",
@@ -2390,13 +2390,6 @@ const MAP = {
 },
 {
 "e": "CH₃CH(OH)CH₃ + HBr → CH₃CHBrCH₃ + H₂O",
-"a": [
-"alc2"
-]
-},
-{
-"e": "CH₃CH(OH)CH₃ + PCl₅ → CH₃CHClCH₃ + POCl₃ + HCl",
-"obs": "steamy fumes of HCl",
 "a": [
 "alc2"
 ]
@@ -2689,16 +2682,16 @@ const MAP = {
 "cond": "dilute HCl(aq), heat under reflux; or NaOH(aq), heat under reflux, then acidify with dilute HCl(aq)",
 "type": "hydrolysis",
 "owner": "11.8 P1",
-"eq": "CH₃CH₂CN + 2H₂O + HCl → CH₃CH₂COOH + NH₄Cl; CH₃CH₂CN + NaOH + H₂O → CH₃CH₂COONa + NH₃",
+"eq": "CH₃CN + 2H₂O + HCl → CH₃COOH + NH₄Cl; CH₃CN + NaOH + H₂O → CH₃COONa + NH₃",
 "eqs": [
 {
-"e": "CH₃CH₂CN + 2H₂O + HCl → CH₃CH₂COOH + NH₄Cl",
+"e": "CH₃CN + 2H₂O + HCl → CH₃COOH + NH₄Cl",
 "b": [
 "acid"
 ]
 },
 {
-"e": "CH₃CH₂CN + NaOH + H₂O → CH₃CH₂COONa + NH₃",
+"e": "CH₃CN + NaOH + H₂O → CH₃COONa + NH₃",
 "b": [
 "carbx"
 ]
@@ -4287,7 +4280,7 @@ LAB.ownerTxt = ownerTxt;
 const rowNum = r => r.slice(1);
 const nodeLab = id => NODE[id].name;
 const PRESETS = [
-  { t: "bromoethane → propylamine (propan-1-amine)", a: "halo", b: "amine", m: "plus", steps: 2, rows: ["R14", "R48"], eq: { R48: "CH₃CH₂CN + 4[H] → CH₃CH₂CH₂NH₂" } },
+  { t: "bromoethane → propylamine (propan-1-amine)", a: "halo", b: "amine", m: "plus", steps: 2, rows: ["R14", "R48"], eq: { R48: "" } },
   { t: "bromoethane → ethylamine", a: "halo", b: "amine", m: "any", steps: 1, rows: ["R15"] },
   { t: "ethanal → poly(lactic acid)", a: "ald", b: "pla", m: "any", steps: 3, rows: ["R30", "R35", "R58"] },
   { t: "benzene → phenylamine", a: "benzene", b: "phamine", m: "any", steps: 2, rows: ["R9", "R50"] },
@@ -4345,7 +4338,7 @@ function stepHtml(e, k, arr){
     `<div class="ft">${H(nodeLab(e.a))} → ${H(nodeLab(e.b))}</div>` +
     `<div class="cd"><span class="mpcond">${H(cond)}</span>${e.partner ? ` <span class="partner">(${H(e.partner)})</span>` : ""}</div>` +
     `<div class="ty">${H(r.type)}${e.note ? ` · ${H(e.note)}` : ""}${e.r === "R49" && arr && k > 0 && arr[k - 1].r === "R44" && arr[k - 1].a === "acylcl" ? ` · ${H("make the amide from NH₃: a primary amine would give an N-substituted amide, and LiAlH₄ would then give a secondary amine")}` : ""}</div>` +
-    `<div class="ex">${(((/^NaOH/.test(e.cond || "") && (e.r === "R61" || e.r === "R62")) ? [] : (MP.preset != null && PRESETS[MP.preset].eq && PRESETS[MP.preset].eq[e.r]) ? [{ e: PRESETS[MP.preset].eq[e.r] }] : r.eqs.filter(q => (!q.a || q.a.includes(e.a)) && (!q.b || q.b.includes(e.b))))).map(q => (q.lab ? `<span class="hint">${H(q.lab)}: </span>` : "") + EQ(q.e) + (q.obs ? ` <span class="hint">(${H(q.obs)})</span>` : "")).join("<br>")}</div></div>`;
+    `<div class="ex">${(((/^NaOH/.test(e.cond || "") && (e.r === "R61" || e.r === "R62")) ? [] : (MP.preset != null && PRESETS[MP.preset].eq && e.r in PRESETS[MP.preset].eq) ? (PRESETS[MP.preset].eq[e.r] ? [{ e: PRESETS[MP.preset].eq[e.r] }] : []) : r.eqs.filter(q => (!q.a || q.a.includes(e.a)) && (!q.b || q.b.includes(e.b))))).map(q => (q.lab ? `<span class="hint">${H(q.lab)}: </span>` : "") + EQ(q.e) + (q.obs ? ` <span class="hint">(${H(q.obs)})</span>` : "")).join("<br>")}</div></div>`;
 }
 function mpRun(){
   mpSync();
