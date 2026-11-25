@@ -331,6 +331,10 @@ table.data tr.gone td{opacity:.5; text-decoration:line-through}
 svg .hitbox:focus{outline:none}
 svg .hitbox:focus-visible{fill:var(--accent-soft); fill-opacity:.7; stroke:var(--accent); stroke-width:2}
 table.data tr[tabindex]:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+
+/* ---------- tap targets of at least 24 px: header links and the shell's one-section-at-a-time button ---------- */
+.crumbs a{display:inline-block; min-height:24px; line-height:24px}
+.ls-mapfoot button.ls-all2{min-height:24px; padding:2px 0}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -754,12 +758,12 @@ table.data tr[tabindex]:focus-visible{outline:2px solid var(--accent); outline-o
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.3 ¹H NMR Spectroscopy</span>
     <span>Written for SEAB H3 Chemistry 9813 · ¹H shift ranges and IR ranges from the Data Booklet · chemical shifts and electronegativities are literature values · spectra simulated in-house (first-order model, 400&nbsp;MHz) · generated values are illustrative</span>
-  <span class="ls-updated">Last updated 30/10/26</span></div>
+  <span class="ls-updated">Last updated 25/11/26</span></div>
 </footer>
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
+const LAB = {};   // private to this script; a test build adds the hook that publishes it
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
@@ -891,7 +895,7 @@ function declutter(ys, gap, lo, hi){
 // ---------- typed answers: a number plus an optional unit, checked against the unit the question asks for (as H3.1) ----------
 // Canonical unit ids: ppm Hz MHz % mm H (hydrogen atoms) lines signals
 const UNIT_NAME = { ppm: "ppm", Hz: "Hz", MHz: "MHz", "%": "%", mm: "mm", H: "H atoms", lines: "lines", signals: "signals" };
-const UNIT_KEY = { ppm: "ppm", "δ": "ppm", hz: "Hz", mhz: "MHz", "%": "%", percent: "%", mm: "mm", h: "H", hatoms: "H", atoms: "H", protons: "H", hydrogens: "H", lines: "lines", line: "lines", signals: "signals", signal: "signals" };
+const UNIT_KEY = { ppm: "ppm", "δ": "ppm", partspermillion: "ppm", hz: "Hz", hertz: "Hz", mhz: "MHz", megahertz: "MHz", "%": "%", percent: "%", mm: "mm", millimetre: "mm", millimetres: "mm", millimeter: "mm", millimeters: "mm", h: "H", hatoms: "H", hydrogenatoms: "H", atoms: "H", protons: "H", hydrogens: "H", lines: "lines", line: "lines", signals: "signals", signal: "signals" };
 const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
 function unitId(u){ return UNIT_KEY[String(u).toLowerCase().replace(/[\s.]/g, "")] || null; }
 // allowed: the canonical ids the question accepts (e.g. ["ppm"]); a bare number is always accepted.
@@ -911,12 +915,14 @@ function parseAnswer(str, allowed){
   let val = e != null ? mant * Math.pow(10, +e) : mant;
   if (m[1] === "-") val = -val;
   if (!isFinite(val)) return NAN;
-  const rest = m[6].trim();
+  const rest = m[6].trim().replace(/^[(\[{]\s*([^()\[\]{}]*?)\s*[)\]}]$/, "$1");   // "(ppm)" and "[ppm]" are the unit
   if (!rest) return { value: val };
   const u = unitId(rest);
-  if (!u) return NAN;
-  if (allowed == null || allowed.includes(u)) return { value: val, unit: u };
-  return { unit: u, kind: "unit", error: allowed.length === 0 ? "Check the unit: this answer is a plain number, with no unit." : `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` };
+  if (allowed == null && u) return { value: val, unit: u };
+  if (u && allowed.includes(u)) return { value: val, unit: u };
+  // text after the number that reads as a unit (listed or not: kHz, g/mol, s) is a unit to check; anything else is not a number
+  if (!u && !/[A-Za-zµμΩ%°]/.test(rest)) return NAN;
+  return { unit: u, kind: "unit", error: !allowed || allowed.length === 0 ? "Check the unit: this answer is a plain number, with no unit." : `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` };
 }
 LAB.parseAnswer = parseAnswer;
 
@@ -966,8 +972,10 @@ const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-
 /* ---------- shared answer helpers (as H3.1) ---------- */
 const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
 const ansN = (v, n) => ({ v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.005 * Math.abs(v)) });
-// a whole-number count typed in a box: "3", "3 signals", " 3 "; null for anything else (blank, 3.5, 3,5, abc)
-const parseCount = s => { const t = String(s == null ? "" : s).trim().replace(/\s*signals?\.?$/i, "").trim(); return /^\d+$/.test(t) ? parseInt(t, 10) : null; };
+// a whole-number count typed in a box: "3", "3 signals", " 3 "; null for anything else (blank, 3.5, 3,5, abc, a wrong unit)
+// (the same parseAnswer as the practice boxes: the unit is "signals" or none; any other unit is a unit to check)
+const parseCountR = s => { const r = parseAnswer(s, ["signals"]); if (r.kind === "unit") return r; return !r.error && Number.isInteger(r.value) && r.value >= 0 ? { value: r.value } : { error: "Enter a whole number.", kind: "whole" }; };
+const parseCount = s => { const r = parseCountR(s); return r.error ? null : r.value; };
 const ASIDE = t => `<span class="aside">(${t}.)</span>`;
 const SVGNS = "http://www.w3.org/2000/svg";
 /* GENERATED by lab-src/gen_mol.py from RDKit 2D coordinates (every H explicit); do not edit by hand. */
@@ -1174,7 +1182,7 @@ function drawMol(svg, name, o){
     const cls = e === "X" ? "atomx" + (o.xAnim ? " xin" : "") : isH ? "atomh" + (o.dim && o.dim.has(i) ? " dim" : "") : "atom";
     s += `<text x="${x.toFixed(1)}" y="${(y + 4.3).toFixed(1)}" class="${cls}" text-anchor="middle">${e}</text>`;
     if (lt) s += `<text x="${(x + 6.2).toFixed(1)}" y="${(y + 8.6).toFixed(1)}" class="hlet">${lt}</text>`;
-    if (isH && o.tap) s += `<circle class="hitbox" data-h="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="12"><title>${lt ? `Hydrogen, set ${lt}` : `Hydrogen atom ${++hn}`}</title></circle>`;
+    if (isH && o.tap) s += `<circle class="hitbox" data-h="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="12.5"><title>${lt ? `Hydrogen, set ${lt}` : `Hydrogen atom ${++hn}`}</title></circle>`;
   });
   if (o.note) s += T(8, Hh - 6, o.note, "cap");
   setSvg(svg, W, Hh, s);
@@ -1259,7 +1267,7 @@ function specPlot(svg, sigs, o){
     });
   }
   // tap targets
-  if (o.tap && !o.hide) sigs.forEach(sg => { const [a, b] = span(sg); const xa = X(a), xb = X(b), w = Math.max(xb - xa, 24); s += `<rect class="hitbox" data-k="${esc(sg.key)}" x="${((xa + xb) / 2 - w / 2).toFixed(1)}" y="${top - 30}" width="${w.toFixed(1)}" height="${base - top + 30}"><title>${sg.letter ? `Signal ${sg.letter}` : "Signal"}</title></rect>`; });
+  if (o.tap && !o.hide) sigs.forEach(sg => { const [a, b] = span(sg); const xa = X(a), xb = X(b), w = Math.max(xb - xa, 25); s += `<rect class="hitbox" data-k="${esc(sg.key)}" x="${((xa + xb) / 2 - w / 2).toFixed(1)}" y="${top - 30}" width="${w.toFixed(1)}" height="${base - top + 30}"><title>${sg.letter ? `Signal ${sg.letter}` : "Signal"}</title></rect>`; });
   if (o.extra) s += o.extra(X, base, top, sy);
   setSvg(svg, W, Hh, s);
   if (o.tap) svg.querySelectorAll(".hitbox[data-k]").forEach(r => r.addEventListener("click", () => o.tap(r.dataset.k)));
@@ -1435,7 +1443,8 @@ function multToks(s){
 function sbGrade(nS, rS, mS){
   const sets = molSets(SB.mol), n = sets.length, res = [];
   const nv = parseCount(nS), raw = String(nS).trim();
-  res.push([nv === n, nv === n ? `Signals: ${n}. Right.` : `Signals: ${n}, not ${nv == null ? (raw || "blank") : nv}. Each set of equivalent protons gives one signal${hasRing5(SB.mol) ? " (the C₆H₅ ring counts as one multiplet here)" : ""}.`]);
+  const nr = parseCountR(nS);
+  res.push([nv === n, nv === n ? `Signals: ${n}. Right.` : nr.kind === "unit" ? nr.error : `Signals: ${n}, not ${nv == null ? (raw || "blank") : nv}. Each set of equivalent protons gives one signal${hasRing5(SB.mol) ? " (the C₆H₅ ring counts as one multiplet here)" : ""}.`]);
   const rv = parseRatio(rS), tr = ratioOf(sets.map(S => S.st[2]));
   const rok = sameRatioSet(rv, tr);
   res.push([rok, rok ? `Peak areas ${tr.join(" : ")}. Right.` : `Peak areas ${tr.join(" : ")} (in some order): the area of each signal is proportional to the number of H in its set.`]);
@@ -1689,7 +1698,7 @@ LAB.ringPos = ringPos;
 function eqCheck(){
   const v = parseCount($("eq-n").value), name = EQP.mol, ns = nSignals(name), np = hGroups(name).length;
   const fb = $("eq-fb");
-  if (v == null){ fb.className = "fb warn"; fb.innerHTML = "Enter a whole number."; $("eq-n").setAttribute("aria-invalid", "true"); return; }
+  if (v == null){ fb.className = "fb warn"; fb.innerHTML = H(parseCountR($("eq-n").value).error); $("eq-n").setAttribute("aria-invalid", "true"); return; }
   const ok = v === ns || v === np;
   $("eq-n").setAttribute("aria-invalid", String(!ok)); $("eq-n").classList.toggle("ok", ok);
   fb.className = "fb " + (ok ? "ok" : "no");
@@ -1765,7 +1774,7 @@ function cdDraw(){
     const items = CD.filter(c => c.row === k), lx = declutter(items.map(c => X(c.d)), 46, m.l + 22, W - m.r - 22);
     items.forEach((c, i) => {
       const on = c.id === CS.dist, x = X(c.d);
-      s += `<line class="${on ? "stick on" : "stick"}" x1="${x.toFixed(1)}" y1="${r.y}" x2="${x.toFixed(1)}" y2="${r.y - 34}"/>`;
+      s += `<line class="${on ? "stick on" : "stick"}" x1="${x.toFixed(1)}" y1="${r.y}" x2="${x.toFixed(1)}" y2="${r.y - 26}"/>`;
       s += T(lx[i], r.y - 38, c.lab, on ? "lblb" : "lbl", 'text-anchor="middle"');
       s += `<rect class="hitbox" data-c="${c.id}" x="${(x - 14).toFixed(1)}" y="${r.y - 50}" width="28" height="52"><title>${c.lab}</title></rect>`;
     });
@@ -1994,13 +2003,13 @@ const IRH = {
   "2-methylpropan-1-ol": ["ohA", "chA", "coA", "noCO"], "2-methylpropan-2-ol": ["ohA", "chA", "coA", "noCO"]
 };
 LAB.IRH = IRH;
-const US = { set: null, ans: null, k: 6, d2o: false, ir: false, pick: null, right: 0, tried: 0, answered: false, sel: {} };
+const US = { set: null, ans: null, k: 6, d2o: false, ir: false, pick: null, right: 0, tried: 0, answered: false, rows: false, sel: {} };
 LAB.US = US;
 const nHof = name => SPECJ.compounds[name].sets.reduce((a, s) => a + s[2], 0);
 function usNew(force){
   let set, ans;
   do { set = force ? US_SETS[force[0]] : pick(US_SETS); ans = force ? force[1] : (set.only || pick(set.c)); } while (!force && US.ans === ans && Math.random() < 0.8);
-  Object.assign(US, { set, ans, k: ri(8, 18) / 2, d2o: false, ir: false, pick: null, answered: false, sel: {} });
+  Object.assign(US, { set, ans, k: ri(8, 18) / 2, d2o: false, ir: false, pick: null, answered: false, rows: false, sel: {} });
   $("us-irt").hidden = true; $("us-afb").hidden = true; $("us-fb").hidden = true; $("us-d2o").textContent = "Shake with D₂O";
   $("us-tbl").innerHTML = "";   // a new question starts with empty assignments
   usRender();
@@ -2048,9 +2057,9 @@ function usCheck(){
   const fb = $("us-fb");
   if (!US.pick){ fb.className = "fb warn"; fb.innerHTML = "Choose a structure first."; fb.hidden = false; return; }
   const ok = US.pick === US.ans;
-  if (!US.answered){ US.tried++; if (ok) US.right++; US.answered = true; }
+  if (!US.answered){ US.tried++; if (ok && !US.rows) US.right++; US.answered = true; }
   fb.className = "fb " + (ok ? "ok" : "no");
-  let h = ok ? `<p>Right: ${H(US.ans)}.</p>` : `<p>Not ${H(US.pick)}.</p>`;
+  let h = ok ? `<p>Right: ${H(US.ans)}.${US.rows ? " Solved, but not first time: you used the booklet rows from the assignment check." : ""}</p>` : `<p>Not ${H(US.pick)}.</p>`;
   if (!ok){
     const pf = SPECJ.compounds[US.pick].formula, af = SPECJ.compounds[US.ans].formula;
     if (pf !== af) h += `<p>${H(`${US.pick} is ${FORMULA(US.pick)}, not ${US.set.f}: check the formula first.`)}</p>`;
@@ -2065,6 +2074,7 @@ function usACheck(){
   const sets = usOrder(), sel = [...$("us-tbl").querySelectorAll("select")].map(s => s.value);
   let right = 0; const out = [];
   sets.forEach((S, i) => { const ok = sel[i] === S.si[0]; if (ok) right++; else out.push(`δ ${dTxt(S.st)}: ${sel[i] ? "not " + sel[i] + ". " : ""}${hint(S)}`); });
+  if (out.length) US.rows = true;   // a booklet row has been shown for this unknown: a later right structure is solved, but not first time
   const fb = $("us-afb"); fb.className = "fb " + (right === sets.length ? "ok" : "no");
   fb.innerHTML = right === sets.length ? H("All assigned correctly. Now choose the structure that has exactly these groups.") : `<p>${right} of ${sets.length} right.</p><ul>${out.map(x => `<li>${H(x)}</li>`).join("")}</ul>`;
   fb.hidden = false;
@@ -2170,7 +2180,7 @@ function genQN(){
     const Ia = +((Pt / 100) / ((st.N / Na) * (Ma / st.M) * (ms / ma) * (Ps / 100))).toFixed(3);
     const P = Ia * (st.N / Na) * (Ma / st.M) * (ms / ma) * Ps;
     q = { st, Na, Ma, ma, ms, Ps, Ia, P };
-  } while (badQ(q) || q.P > 100 || q.P < 85 || q.Ia < 0.05);
+  } while (badQ(q) || q.P > q.Ps || q.P < 85 || q.Ia < 0.05);   // P below the standard's purity: the left-out-purity route then stays under 100 % and keeps its hint
   const { st, Na, Ma, ma, ms, Ps, Ia, P } = q;
   return { type: "qn", fex: true, text: `The purity of compound X (M{r} ${Ma.toFixed(1)}) is measured by qNMR with ${st.n} (M{r} ${st.M.toFixed(st.dp)}, purity ${Ps.toFixed(1)} %) as the internal standard. ${ma.toFixed(2)} mg of X and ${ms.toFixed(2)} mg of the standard are dissolved together. The integral of a ${Na}H signal of X is ${Ia.toFixed(3)} when the ${st.N}H singlet of the standard (${st.d}) is set to 1.000. Calculate the purity of X (illustrative data).`,
     label: "purity / %", units: ["%"], ans: Object.assign(ansN(P, 3), { tol: Math.max(lastUnit(P, 3), 0.0015 * P) }), fmt: "3 significant figures", q,
@@ -2179,7 +2189,7 @@ function genQN(){
 }
 const GENS = { dz: genDZ, sp: genSP, sig: genSIG, cnt: genCNT, conv: genCONV, qn: genQN };
 LAB.GENS = GENS;
-const GN = { type: "dz", q: null, right: 0, tried: 0, graded: false, firstOk: null };
+const GN = { type: "dz", q: null, right: 0, tried: 0, graded: false, firstOk: null, shown: false, unscored: false };
 LAB.GN = GN;
 // The window in which a typed number counts as a hint's route; "near" hints (a route that lands within a few tenths of a percent of the answer,
 // such as leaving out the standard's purity) get a tighter window and are tried before "Close".
@@ -2190,6 +2200,7 @@ function genQ(t){
   // (3.5 %, so its own window is clear of the band), and does not sit within 2.5 % of a hint already kept
   (q.alts || []).slice().sort((x, y) => (y.near ? 1 : 0) - (x.near ? 1 : 0)).forEach(al => {   // the near hint (a left-out purity) is kept first
     if (!isFinite(al.v)) return;
+    if (tt === "qn" && al.v > 100) return;   // a purity above 100 % can never be a student's slip
     if (Math.abs(al.v - a) <= q.ans.tol) return;   // a route that lands inside the marking window is right, so it is no hint
     if (!q.int && !al.near && a !== 0 && Math.abs(al.v / a - 1) < 0.035) return;
     if (!q.int && kept.some(k => Math.abs(k.v - al.v) <= 0.025 * Math.max(Math.abs(k.v), Math.abs(al.v)))) return;
@@ -2244,7 +2255,7 @@ function gnRender(){
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
-  GN.graded = false; GN.firstOk = null;   // a new question is graded afresh
+  GN.graded = false; GN.firstOk = null; GN.shown = false; GN.unscored = false;   // a new question is graded afresh and has not had its working shown
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
@@ -2254,12 +2265,15 @@ function gnCheck(){
     fbx.className = "fb warn"; fbx.innerHTML = H(r.msg); fbx.hidden = false;
     return;
   }
-  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
+  if (!GN.graded){   // the first graded answer to each question is the one scored, unless the working was opened before it
+    GN.graded = true; GN.firstOk = r.ok;
+    if (GN.shown) GN.unscored = true; else { GN.tried++; if (r.ok) GN.right++; }
+  }
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fbx.className = "fb " + (r.ok ? "ok" : "no");
-  fbx.innerHTML = r.ok ? H(`Correct: ${q.ans.str}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
+  fbx.innerHTML = (r.ok ? H(`Correct: ${q.ans.str}.`) + (GN.firstOk || GN.unscored ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg)) + (GN.unscored ? ` <span class="ink">Not scored: you looked at the working first.</span>` : "");
   fbx.hidden = false;
-  $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
+  $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 LAB.gnCheck = gnCheck;
 function bindGN(){
@@ -2267,7 +2281,7 @@ function bindGN(){
   $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
   $("gn-check").onclick = gnCheck;
   $("gn-ans").onkeydown = e => { if (e.key === "Enter") gnCheck(); };
-  $("gn-show").onclick = () => { $("gn-work").innerHTML = GN.q.work.map(w => `<li>${H(w)}</li>`).join(""); $("gn-work").hidden = false; };
+  $("gn-show").onclick = () => { if (!GN.graded) GN.shown = true; $("gn-work").innerHTML = GN.q.work.map(w => `<li>${H(w)}</li>`).join(""); $("gn-work").hidden = false; };
   GN.q = genQ(GN.type); gnRender();
 }
 LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
@@ -2342,9 +2356,9 @@ LAB.fcFilter = f => { FCSEL = f; document.querySelector(`#fc-filter button[data-
 const QZ = [
   { k: "1.4(a)", q: "In an NMR spectrometer, what happens when a proton in the applied field absorbs a radio-frequency photon?",
     o: [["Its nuclear spin flips from the lower-energy (aligned) state to the higher-energy (opposed) state", "Absorption happens when the photon energy equals ΔE between the two spin states: resonance."],
-        ["An electron is promoted to a higher orbital", "That is UV/visible absorption (Chapter H3.2): radio photons carry far too little energy."],
+        ["An electron in the molecule is promoted from a bonding orbital to a higher-energy orbital, as the proton absorbs the photon", "That is UV/visible absorption (Chapter H3.2): radio photons carry far too little energy."],
         ["A bond starts to vibrate more strongly", "That is infrared absorption; NMR involves the spin states of the nucleus."],
-        ["The nucleus changes into a nucleus of a different element", "Nothing nuclear changes except the orientation of the spin: radio-frequency photons carry far too little energy to alter a nucleus."]] },
+        ["The nucleus changes into a nucleus of a different element, because the absorbed photon carries so much energy", "Nothing nuclear changes except the orientation of the spin: radio-frequency photons carry far too little energy to alter a nucleus."]] },
   { k: "1.4(c)", q: "On a 200 MHz spectrometer a signal is 760 Hz from the TMS signal. What is its chemical shift?",
     o: [["δ 3.80", "δ = 760 / (200 × 10⁶) × 10⁶ = 760 / 200 = 3.80 ppm."],
         ["δ 0.263", "Upside down: divide the shift in Hz by the spectrometer frequency."],
@@ -2362,12 +2376,12 @@ const QZ = [
         ["Fluorine's π electrons set up a ring current", "There is no π system or ring current in CH₃F."]] },
   { k: "1.4(d)(ii)", q: "Ethyne's protons absorb at about δ 1.9 but ethene's at about δ 5.3. Which explains this?",
     o: [["The ≡C–H lies on the triple-bond axis, in a region where the field from the circulating π electrons shields it", "Anisotropy outweighs the slightly higher electronegativity of sp carbon."],
-        ["The sp carbon of ethyne is less electronegative than the sp² carbon of ethene", "An sp carbon is more electronegative: that alone would raise δ, the opposite of what is seen."],
+        ["The sp carbon of ethyne is less electronegative than the sp² carbon of ethene, so it withdraws less electron density from its H", "An sp carbon is more electronegative: that alone would raise δ, the opposite of what is seen."],
         ["Ethyne has fewer π electrons than ethene", "Ethyne has four π electrons, ethene two."],
         ["Ethyne's protons are hydrogen-bonded", "C–H protons of ethyne do not form hydrogen bonds that move δ like this."]] },
   { k: "1.4(d)(iii)", q: "A solution of ethanol in CCl₄ is diluted a hundredfold. What happens to its O–H signal?",
     o: [["It moves to lower δ, because fewer O–H groups are hydrogen-bonded", "Dilution in a non-polar solvent breaks hydrogen bonds, so the O–H is less deshielded."],
-        ["It moves to higher δ, because the solution is more dilute", "Hydrogen bonding deshields; breaking hydrogen bonds lowers δ."],
+        ["It moves to higher δ, because the more dilute solution has fewer O–H protons per unit volume", "Hydrogen bonding deshields; breaking hydrogen bonds lowers δ."],
         ["It does not move: δ is a constant of the proton", "O–H and N–H shifts vary with concentration and solvent, as the booklet note says."],
         ["It disappears", "Dilution makes it smaller, but it is shaking with D₂O that removes it."]] },
   { k: "1.4(b)(iii)", q: "How many signals does butane, CH₃CH₂CH₂CH₃, give in its ¹H NMR spectrum (TMS not counted)?",
@@ -2376,14 +2390,14 @@ const QZ = [
         ["10", "That counts every H: equivalent hydrogens share one signal."],
         ["1", "The CH₃ protons and the CH₂ protons are in different environments, so they give different signals."]] },
   { k: "1.4(b)(v)", q: "In ethanal, CH₃CHO, what is the multiplicity of the signal from the H on the C=O carbon?",
-    o: [["Quartet", "The neighbouring CH₃ carries 3 H: n = 3, so 3 + 1 = 4 lines."],
-        ["Doublet", "A doublet is the CH₃ signal, which has only the 1 H of the CHO as its neighbour. The CHO proton has 3 neighbours."],
-        ["Singlet", "The O of the C=O carries no H, but the CH₃ carbon next to the CHO carbon carries three, and they split the signal."],
-        ["Triplet", "A triplet needs two neighbouring H; the CH₃ group has three."]] },
+    o: [["Quartet (four lines)", "The neighbouring CH₃ carries 3 H: n = 3, so 3 + 1 = 4 lines."],
+        ["Doublet (two lines)", "A doublet is the CH₃ signal, which has only the 1 H of the CHO as its neighbour. The CHO proton has 3 neighbours."],
+        ["Singlet (one line)", "The O of the C=O carries no H, but the CH₃ carbon next to the CHO carbon carries three, and they split the signal."],
+        ["Triplet (three lines)", "A triplet needs two neighbouring H; the CH₃ group has three."]] },
   { k: "1.4(b)(ii)", q: "The spectrum of 2-methylpropan-1-ol is run again after shaking with D₂O. Which change is seen?",
     o: [["The broad singlet near δ 1.9 disappears, and a signal from HOD may appear near δ 4.8", "The O–H hydrogen exchanges for D, which gives no ¹H signal."],
         ["The doublet at δ 3.40 disappears", "That is the CH₂ next to O: C–H hydrogens do not exchange."],
-        ["Every signal disappears, because D₂O dissolves the sample", "Only the labile O–H proton exchanges; the C–H signals stay."],
+        ["Every signal disappears, because D₂O dissolves the sample and has no protons of its own to show", "Only the labile O–H proton exchanges; the C–H signals stay."],
         ["The CH₃ doublet becomes a singlet", "The CH₃ protons are split by the C–H next to them, which does not exchange."]] },
   { k: "1.4(b)", q: "A compound C₈H₁₀ gives two singlets: δ 7.05 (4H) and δ 2.30 (6H). Which compound is it?",
     o: [["1,4-dimethylbenzene", "Four equivalent ring H give one singlet; the two equivalent CH₃ groups on the ring give the other (CH₃–Ar, 2.3–3.0)."],
@@ -2411,13 +2425,13 @@ function renderQ(){
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${q.fex ? FEX : ""}${H(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button type="button" class="opt" data-j="${j}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
   box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
     if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+    const oi = ord[+b.dataset.j], right = oi === 0;   // the right option's place is known only to the script, never written into the page
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (ord[+x.dataset.j] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
@@ -2459,6 +2473,7 @@ RW = document.documentElement.clientWidth;
 [bindSB, bindTR, bindEQ, bindCS, bindUS, bindGN, bindCards, startQuiz].forEach(f => f());
 REDRAW.push(sbRender, trDraw, eqRender, csDraw, usRender);
 bindNav();
+
 LAB.ready = true;
 })();
 </script>

@@ -312,6 +312,9 @@ svg .on{stroke:var(--s2)}
 :root{--accent-2:#7B4B94; --accent-2-soft:#F1E9F5; --good-ink:#297245}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85} }
 :root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
+/* tap targets: header links and the shell's "Show one section at a time" button reach 24 px */
+.crumbs a{display:inline-block; min-height:24px; line-height:24px}
+.ls-mapfoot button.ls-all2{min-height:24px; padding:2px 0}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -479,6 +482,7 @@ svg .on{stroke:var(--s2)}
       <div class="chipgrp"><span>Unpaired electrons</span><div class="chips" id="pr-un" role="group" aria-label="Unpaired electrons"></div></div>
       <div class="chipgrp"><span>Magnetic behaviour</span><div class="chips" id="pr-mag" role="group" aria-label="Magnetic behaviour"></div></div>
       <div class="btnrow"><button class="btn primary" id="pr-check">Check</button><button class="btn" id="pr-new">Another species</button><span class="hint" id="pr-score"></span></div>
+      <p class="hint">Switch the diagram above to this species before you check and the question is not scored.</p>
       <div id="pr-fb" hidden></div>
     </div>
   </div>
@@ -702,12 +706,12 @@ svg .on{stroke:var(--s2)}
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.1 Molecular Orbitals and Light</span>
     <span>Written for SEAB H3 Chemistry 9813 · h, c, L and bond energies from the Data Booklet · bond lengths, boiling points, λ<sub>max</sub> values and region boundaries are literature values · π MO ladders: spacing from the simple Hückel model · generator wavelengths and energies are illustrative</span>
-  <span class="ls-updated">Last updated 23/10/26</span></div>
+  <span class="ls-updated">Last updated 25/11/26</span></div>
 </footer>
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
+const LAB = {};   // private to this script: nothing here is reachable from the console in the shipped page
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
@@ -824,7 +828,10 @@ const UNIT_KEY = { nm: "nm", um: "um", mm: "mm", cm: "cm", m: "m", km: "km", hz:
 const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
 function unitId(u){
   let t = String(u).toLowerCase().replace(/[\s.·⋅]/g, "").replace(/[−–]/g, "-").replace(/[µμ]/g, "u").replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]).replace(/\^/g, "").replace(/\(s\)/g, "");
-  t = t.replace(/^(kj|j)(mol-1|\/mol|permol|\/mole)$/, "$1mol").replace(/^(\/cm|percm|cm-1|wavenumbers?)$/, "cm-1").replace(/^(nodes?|nodalplanes?|nodalsurfaces?)$/, "node");
+  t = t.replace(/^kilojoules?(?=per|\/|$)/, "kj").replace(/^joules?(?=per|\/|$)/, "j");
+  t = t.replace(/^(kj|j)(mol-1|\/mol|permol|\/mole)$/, "$1mol").replace(/^(\/cm|percm|cm-1|wavenumbers?)$/, "cm-1").replace(/^(nodes?|nodalplanes?|nodalsurfaces?)$/, "node")
+    .replace(/^(kj|j)(?:per|\/)(?:mole?s?|mol)$/, "$1mol").replace(/^(kj|j)(?:per|\/)(?:photons?|molecules?|bonds?|ions?|atoms?|particles?)$/, "$1")
+    .replace(/^(kilojoules?|joules?)(?:(?:per|\/)(?:mole?s?|mol))?$/, (a, u) => (u[0] === "k" ? "kj" : "j") + (/mol/.test(a) ? "mol" : "")).replace(/^(hertz)$/, "hz").replace(/^(nanometres?|nanometers?)$/, "nm").replace(/^(metres?|meters?)$/, "m");
   return UNIT_KEY[t] || null;
 }
 // The question's unit: a list of canonical ids it accepts (e.g. ["nm"]), [] for a plain number, null to accept any recognised unit.
@@ -834,13 +841,13 @@ function parseAnswer(str, allowed, opts){
   if (str == null) return { error: "Type an answer first.", kind: "empty" };
   let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
   if (!t) return { error: "Type an answer first.", kind: "empty" };
-  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0[, ]\d/.test(t) || /^[-+]?\s*,\d/.test(t) || /^[-+]?\s*\d+,\d{4,}/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
   let val = NaN, rest = "", m;
   const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
   if (opts.fractions && (m = t.match(/^([-+]?)\s*(\d+)?\s*(½)\s*(.*)$/))){ val = (m[2] ? +m[2] : 0) + 0.5; if (m[1] === "-") val = -val; rest = m[4]; }
   else if (opts.fractions && (m = t.match(/^([-+]?)\s*(?:(\d+)\s+)?(\d+)\s*\/\s*(\d+)(?!\d)\s*(.*)$/)) && +m[4] > 0){ val = (m[2] ? +m[2] : 0) + m[3] / m[4]; if (m[1] === "-") val = -val; rest = m[5]; }
-  else if ((m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:,\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i")))){
-    let mant = parseFloat(m[2].replace(/,/g, ""));
+  else if ((m = t.match(new RegExp("^([-+]?)\\s*(\\d{1,3}(?:[, ]\\d{3})+(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i")))){
+    let mant = parseFloat(m[2].replace(/[, ]/g, ""));
     const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
     val = e != null ? mant * Math.pow(10, +e) : mant;
     if (m[1] === "-") val = -val;
@@ -1224,7 +1231,7 @@ function moDraw(){
       mos += `<line x1="${f1(xa)}" y1="${f1(y)}" x2="${f1(xa + sw)}" y2="${f1(y)}" class="lvl mo" data-lv="${i}" data-k="${k}"/>`;
       const sp2 = st.spin[i][k];
       sp2.forEach((u, j) => { mos += eArrow(xa + sw * (sp2.length === 2 ? (j ? 0.68 : 0.32) : 0.5), y, u > 0); });
-      if (MO.mode === "fill") hits += `<rect x="${f1(xa - 3)}" y="${f1(y - 15)}" width="${f1(sw + 6)}" height="24" class="hitbox" data-lv="${i}" data-k="${k}" role="button" tabindex="0" aria-label="${esc(l.lab.replace(/[{}]/g, ""))}${l.deg > 1 ? " MO " + (k + 1) + " of 2" : ""}"/>`;
+      if (MO.mode === "fill") hits += `<rect x="${f1(xa - 3)}" y="${f1(y - 15)}" width="${f1(sw + 6)}" height="25" class="hitbox" data-lv="${i}" data-k="${k}" role="button" tabindex="0" aria-label="${esc(l.lab.replace(/[{}]/g, ""))}${l.deg > 1 ? " MO " + (k + 1) + " of 2" : ""}"/>`;
     }
     mos += T(xM, y + 21, l.lab, "lbl mol", 'text-anchor="middle"', narrow ? 11.5 : 12.5);
     if (MO.last && MO.last[0] === i) mos += `<rect x="${f1(x0 - 5)}" y="${f1(y - 13)}" width="${f1(w + 10)}" height="20" class="flash" rx="3"/>`;
@@ -1333,7 +1340,7 @@ function moPlay(){
   step();
 }
 LAB.moPlay = moPlay;
-function moSetSp(id){ MO.id = id; MO.placed = []; MO.last = null; MO.mistakes = 0; MO.anim = 0; clearTimeout(MO.tm); moRender(); }
+function moSetSp(id){ if (id === PR.id && !PR.graded) PR.shown = true; MO.id = id; MO.placed = []; MO.last = null; MO.mistakes = 0; MO.anim = 0; clearTimeout(MO.tm); moRender(); }
 LAB.moSetSp = moSetSp;
 function bindMO(){
   $("mo-sp").innerHTML = DIA.map(d => `<button type="button" data-s="${d.id}" aria-pressed="false">${tagHTML(d.tag)}${H(d.f)}</button>`).join("");
@@ -1433,12 +1440,12 @@ function bindMG(){
 /* ---------- predict mode (the notes' species only) ---------- */
 const PR_SET = ["H2", "He2", "O2", "O2p", "O2m", "F2"];
 LAB.PR_SET = PR_SET;
-const PR = { id: null, bo: null, un: null, mag: null, right: 0, tried: 0, graded: false };
+const PR = { id: null, bo: null, un: null, mag: null, right: 0, tried: 0, graded: false, shown: false };
 LAB.PR = PR;
 const BO_OPTS = [0, 0.5, 1, 1.5, 2, 2.5, 3];
 function prNew(id){
   if (!id){ const pool = PR_SET.filter(x => x !== PR.id && x !== MO.id); id = pick(pool); }   // never the species the builder is showing
-  PR.id = id; PR.bo = PR.un = PR.mag = null; PR.graded = false;
+  PR.id = id; PR.bo = PR.un = PR.mag = null; PR.graded = false; PR.shown = false;
   const sp = diaById(id), one = sp.mo === "1s";   // H₂ and He₂: bond order and unpaired electrons only
   $("pr-mag").parentElement.hidden = one;
   $("pr-q").innerHTML = `${tagHTML(sp.tag)}Predict for ${H(sp.f)} (${sp.ve} ${one ? "" : "valence "}electrons): the bond order, the number of unpaired electrons${one ? "." : " and the magnetic behaviour."}`;
@@ -1461,11 +1468,11 @@ function prCheck(){
   const one = diaById(PR.id).mo === "1s";
   if (PR.bo == null || PR.un == null || (!one && PR.mag == null)){ fb.className = "fb warn"; fb.innerHTML = one ? "Choose both first." : "Choose all three first."; fb.hidden = false; return; }
   const G = prGrade(PR.id, PR.bo, PR.un, PR.mag), sp = diaById(PR.id), R = G.R;
-  if (!PR.graded){ PR.graded = true; PR.tried++; if (G.ok) PR.right++; }   // one graded attempt per question: repeat presses do not add to the score
+  if (!PR.graded && !PR.shown){ PR.graded = true; PR.tried++; if (G.ok) PR.right++; }   // one graded attempt per question: repeat presses do not add to the score
   fb.className = "fb " + (G.ok ? "ok" : "no");
-  fb.innerHTML = (G.ok ? `<p>Right: ${H(R.conf)}; bond order ½(${R.nb} − ${R.na}) = ${R.bo}; ${R.unp} unpaired${one ? "" : `; ${R.para ? "paramagnetic" : "diamagnetic"}`}.</p>` : `<p>Not quite. ${H(sp.f)}: ${H(R.conf)}.</p><ul>${G.errs.map(e => `<li>${H(e)}</li>`).join("")}</ul>`) + `<p class="ink">The diagram above now shows ${H(sp.f)}.</p>`;
+  fb.innerHTML = (G.ok ? `<p>Right: ${H(R.conf)}; bond order ½(${R.nb} − ${R.na}) = ${R.bo}; ${R.unp} unpaired${one ? "" : `; ${R.para ? "paramagnetic" : "diamagnetic"}`}.</p>` : `<p>Not quite. ${H(sp.f)}: ${H(R.conf)}.</p><ul>${G.errs.map(e => `<li>${H(e)}</li>`).join("")}</ul>`) + `<p class="ink">The diagram above now shows ${H(sp.f)}.${PR.shown && !PR.graded ? " Not scored: this species was opened in the diagram before you checked." : ""}</p>`;
   fb.hidden = false;
-  $("pr-score").textContent = `${PR.right} / ${PR.tried} correct`;
+  $("pr-score").textContent = PR.tried ? `${PR.right} / ${PR.tried} correct` : "";
   MO.mode = "show"; document.querySelector('input[name="mo-mode"][value="show"]').checked = true; moSetSp(PR.id);
 }
 LAB.prCheck = prCheck;
@@ -1870,7 +1877,7 @@ function piLadder(svg, p, o){
     const y = Y(g.x), n = g.idx.length, tot = n * lw + (n - 1) * 6, xa = cx - tot / 2;
     g.idx.forEach((mi, k) => {
       const m = Hk.mos[mi], xl = xa + k * (lw + 6), selc = PIS.sel === mi && !o.small;
-      if (!o.small) s += `<g class="pick${selc ? " sel" : ""}" data-mi="${mi}" role="button" tabindex="0" aria-label="${p.name} ψ${m.k}"><rect class="pbg" x="${f1(xl - 4)}" y="${f1(y - 15)}" width="${lw + 8}" height="24" rx="3"/>`;
+      if (!o.small) s += `<g class="pick${selc ? " sel" : ""}" data-mi="${mi}" role="button" tabindex="0" aria-label="${p.name} ψ${m.k}"><rect class="pbg" x="${f1(xl - 4)}" y="${f1(y - 15)}" width="${lw + 8}" height="25" rx="3"/>`;
       s += `<line x1="${f1(xl)}" y1="${f1(y)}" x2="${f1(xl + lw)}" y2="${f1(y)}" class="lvl"/>`;
       if (m.occ >= 1) s += eArrow(xl + lw * 0.34, y, true, 15);
       if (m.occ >= 2) s += eArrow(xl + lw * 0.66, y, false, 15);
@@ -2408,7 +2415,6 @@ const ansN = (v, n) => ({ v, n, str: sci(v, n), tol: Math.max(lastUnit(v, n), 0.
 const ASIDE = t => `<span class="aside">(${t}.)</span>`;
 const badNm = nm => rh("nm:" + Math.round(nm));
 const badKJ = kj => rh("kj:" + Math.round(kj)) || badNm(lamOfKJ(kj) * 1e9);
-LAB.badNm = badNm; LAB.badKJ = badKJ;
 // numbers in a generated question (text, working, answer) that hash into the set: tested token by token, after rounding as displayed
 function resHit(str){
   const t = String(str).replace(/<[^>]*>/g, " ").replace(/\u00a0/g, " ");
@@ -2423,7 +2429,6 @@ function resHit(str){
   }
   return false;
 }
-LAB.resHit = resHit;
 // format hints: an example in the same form as the answer, never the answer itself and well outside the marking window
 const EX_MANT = [1.23, 2.34, 4.56, 5.67, 6.78, 8.91];
 function exNum(v){
@@ -2441,6 +2446,7 @@ const exBO = a => pick([0.5, 1.5, 2.5, 3].filter(x => Math.abs(x - a) >= 1));
 function genLam(){
   let nm; do { nm = ri(200, 780); } while (badNm(nm));
   const R = fromLam(nm * 1e-9), ask = pick(["f", "E", "Em"]);
+  if (ask === "Em" && badKJ(R.Em / 1000)) return genLam();   // the kJ answer is held to the kJ windows too
   const w = [ASIDE("To answer, convert nm to m, then use c{} = f{}λ, E{} = h{}f{} and × L{}"), `λ = ${nm} nm = ${nm} × 10⁻⁹ m`, `f{} = c{}/λ = (3.00 × 10⁸) / (${nm} × 10⁻⁹) = ${ask === "f" ? `<b>${sci(R.f, 3)} Hz</b>` : sci(R.f, 4) + " Hz"}`];
   if (ask !== "f") w.push(`E{} = h{}f{} = 6.63 × 10⁻³⁴ × ${sci(R.f, 4)} = ${ask === "E" ? `<b>${sci(R.E, 3)} J</b>` : sci(R.E, 4) + " J"}`);
   if (ask === "Em") w.push(`Per mole: ${sci(R.E, 4)} × 6.02 × 10²³ = ${sci(R.Em, 4)} J mol⁻¹ = <b>${sfS(R.Em / 1000, 3)} kJ mol⁻¹</b>`);
@@ -2509,9 +2515,19 @@ function genPI(){
   return { type: "pi", text, label: lab, ans: { v: ans, str: String(ans), tol: 0.01 }, units: kind === "homoN" || kind === "lumoN" ? ["node"] : [], p: { id: p.id, kind }, work: w, fmt: "a whole number",
     alts: kind === "homoN" ? [{ v: lu.nodes, msg: "That is the LUMO. The HOMO is the highest MO holding electrons." }] : kind === "lumoN" ? [{ v: ho.nodes, msg: "That is the HOMO. The LUMO is the lowest empty MO." }] : kind === "homoK" ? [{ v: lu.k, msg: "That is the LUMO." }] : kind === "lumoK" ? [{ v: ho.k, msg: "That is the HOMO." }] : [{ v: p.N / 2, msg: "That is the number of bonding MOs; N p orbitals give N MOs." }] };
 }
-const GENS = { lam: genLam, kj: genKJ, wn: genWN, bond: genBond, bo: genBO, pi: genPI };
+// wrong-route hints: none inside the marking window or within 3 % of the answer, and none within 2.5 % of an earlier hint
+function cleanAlts(q){
+  const a = q.ans.v, keep = [];
+  for (const al of q.alts || []){
+    if (Math.abs(al.v - a) <= Math.max(q.ans.tol, 0.03 * Math.abs(a))) continue;
+    if (keep.some(k => Math.abs(al.v - k.v) <= 0.025 * Math.abs(k.v))) continue;
+    keep.push(al);
+  }
+  q.alts = keep; return q;
+}
+const GENS = { lam: () => cleanAlts(genLam()), kj: () => cleanAlts(genKJ()), wn: () => cleanAlts(genWN()), bond: () => cleanAlts(genBond()), bo: () => cleanAlts(genBO()), pi: () => cleanAlts(genPI()) };
 LAB.GENS = GENS;
-const GN = { type: "lam", q: null, right: 0, tried: 0, graded: false, firstOk: null };
+const GN = { type: "lam", q: null, right: 0, tried: 0, graded: false, firstOk: null, shown: false };
 LAB.GN = GN;
 function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; let q, n = 0; do { q = GENS[tt](); n++; } while (n < 50 && resHit(q.text + " " + q.work.join(" ") + " " + q.ans.str)); return q; }
 LAB.genQ = genQ;
@@ -2541,7 +2557,7 @@ function gnRender(){
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
-  GN.graded = false; GN.firstOk = null;   // a new question is graded afresh
+  GN.graded = false; GN.firstOk = null; GN.shown = false;   // a new question is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
@@ -2552,12 +2568,12 @@ function gnCheck(){
     fb.className = "fb warn"; fb.innerHTML = H(r.msg); fb.hidden = false;
     return;
   }
-  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
+  if (!GN.graded && !GN.shown){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored; none once the working has been shown
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fb.className = "fb " + (r.ok ? "ok" : "no");
-  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.sel ? `; ${q.sel.ans}` : ""}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
+  fb.innerHTML = r.ok ? H(`Correct: ${q.ans.str}${q.sel ? `; ${q.sel.ans}` : ""}.`) + (GN.shown && !GN.graded ? ` <span class="ink">Not scored: the working was shown first.</span>` : GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
   fb.hidden = false;
-  $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
+  $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 LAB.gnCheck = gnCheck;
 function bindGN(){
@@ -2565,7 +2581,7 @@ function bindGN(){
   $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
   $("gn-check").onclick = gnCheck;
   $("gn-ans").onkeydown = e => { if (e.key === "Enter") gnCheck(); };
-  $("gn-show").onclick = () => { $("gn-work").innerHTML = GN.q.work.map(w => `<li>${H(w)}</li>`).join(""); $("gn-work").hidden = false; };
+  $("gn-show").onclick = () => { if (!GN.graded) GN.shown = true; $("gn-work").innerHTML = GN.q.work.map(w => `<li>${H(w)}</li>`).join(""); $("gn-work").hidden = false; };
   GN.q = genQ(GN.type); gnRender();
 }
 LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
@@ -2677,7 +2693,7 @@ const QZ = [
         ["ψ{6}, with 5 nodes", "ψ{6} is the highest π MO, and it is empty: only the three bonding MOs are filled."]] },
   { k: "1.1(d)(ii)", q: "Which MOs make up the LUMO of benzene?",
     o: [["The degenerate pair ψ{4} and ψ{5}, with two nodal planes each", "1-2-2-1 pattern: the three lowest MOs ψ{1}, ψ{2}, ψ{3} hold the six π electrons, so the lowest empty level is the pair ψ{4}/ψ{5}."],
-        ["ψ{4} alone, with three nodal planes", "ψ{4} and ψ{5} are degenerate, so together they form the LUMO; each has two nodal planes."],
+        ["ψ{4} alone, with three nodal planes, as the single next level up", "ψ{4} and ψ{5} are degenerate, so together they form the LUMO; each has two nodal planes."],
         ["The degenerate pair ψ{2} and ψ{3}, with one nodal plane each", "They hold electrons: they are the HOMO."],
         ["ψ{6}, with three nodal planes", "ψ{6} is the highest π MO, above ψ{4}/ψ{5}."]] },
   { k: "1.1(e)(i)", q: "A UV LED emits at 365 nm. What is the energy of one mole of its photons? (h = 6.63 × 10⁻³⁴ J s, c = 3.00 × 10⁸ m s⁻¹, L = 6.02 × 10²³ mol⁻¹)",
@@ -2687,7 +2703,7 @@ const QZ = [
         ["3.28 × 10⁻⁷ kJ mol⁻¹", "λ must be in metres: 365 nm = 365 × 10⁻⁹ m."]] },
   { k: "1.1(e)(ii)", q: "A molecule absorbs an infrared photon of wavenumber 1700 cm⁻¹ (20.4 kJ mol⁻¹ per mole of photons). What does the photon do?",
     o: [["It raises the molecule to a higher vibrational level, without changing its electronic level", "Infrared photons match the gaps between vibrational levels; each electronic level has its own ladder of vibrational levels."],
-        ["It promotes an electron from the HOMO to the LUMO", "Electronic transitions need UV or visible photons, hundreds of kJ mol⁻¹ (217 nm for buta-1,3-diene is 552 kJ mol⁻¹)."],
+        ["It promotes an electron from the HOMO to a higher empty MO, giving an excited electronic state of the molecule", "Electronic transitions need UV or visible photons, hundreds of kJ mol⁻¹ (217 nm for buta-1,3-diene is 552 kJ mol⁻¹)."],
         ["It flips the spin of a ¹H nucleus", "Nuclear spin levels exist only in an applied magnetic field, and their gap matches radio photons (0.160 J mol⁻¹ at 400 MHz)."],
         ["It breaks a bond in the molecule", "20.4 kJ mol⁻¹ is far below any bond energy in the Data Booklet (F–F, one of the weakest, is 158 kJ mol⁻¹)."]] }
 ];
@@ -2711,13 +2727,13 @@ function renderQ(){
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${q.fex ? FEX : ""}${H(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button class="opt"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" hidden></div>`;
-  box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+  box.querySelectorAll(".opt").forEach((b, j) => b.onclick = () => {
     if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+    const right = ord[j] === 0;   // the key is never written into the page: it is read from the closure of this render
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    box.querySelectorAll(".opt").forEach((x, k) => { x.disabled = true; if (ord[k] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
@@ -2760,6 +2776,7 @@ RW = document.documentElement.clientWidth;
 REDRAW.push(moDraw, () => mgDraw(), v3Draw, slDraw, piRender, phRedraw, lvRedraw);
 bindNav(); startAnims();
 LAB.ready = true;
+
 })();
 </script>
 <!-- labshell:start --><script>

@@ -728,12 +728,11 @@ details.enr > summary{min-height:24px; padding:2px 0; box-sizing:border-box}
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.4 Mass Spectrometry and Structure Solving</span>
     <span>Written for SEAB H3 Chemistry 9813 · relative atomic masses, ¹H shift ranges and IR ranges from the Data Booklet · isotope abundances, exact masses, chemical shifts, IR bands and UV/vis values are literature values · mass spectra simulated in-house (simple-cleavage ions only; peak heights illustrative, isotope clusters calculated) · generated values are illustrative</span>
-  <span class="ls-updated">Last updated 08/11/26</span></div>
+  <span class="ls-updated">Last updated 25/11/26</span></div>
 </footer>
 <script>
 (function(){
 "use strict";
-const LAB = window.LAB = {};
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const SUBD = "₀₁₂₃₄₅₆₇₈₉", SUPD = "⁰¹²³⁴⁵⁶⁷⁸⁹";
@@ -781,7 +780,6 @@ const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ co
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 const EQS = new Set();
-LAB.EQS = EQS;
 const TX = t => H(t);
 function EQ(s, cls){ EQS.add(s); return `<span class="eqn${cls ? " " + cls : ""}" data-eq="${esc(s)}">${String(s).split(" ").map(t => `<span class="nw">${H(t)}</span>`).join(" ")}</span>`; }
 
@@ -846,10 +844,11 @@ function declutter(ys, gap, lo, hi){
   if (lo != null && out.length && out[0] < lo){ out[0] = lo; for (let i = 1; i < out.length; i++) if (out[i] - out[i - 1] < gap) out[i] = out[i - 1] + gap; }
   const res = new Array(ys.length); idx.forEach((p, k) => res[p[1]] = out[k]); return res;
 }
-// ---------- typed answers: a number plus an optional unit, checked against the unit the question asks for (as H3.1 to H3.3) ----------
+// ---------- typed answers: a number plus an optional unit, checked against the unit the question asks for (one parser, as H3.1 to H3.3) ----------
 // Canonical unit ids: C (carbon atoms) | u (mass) | mz (an m/z value) | % (relative height)
 const UNIT_NAME = { C: "carbon atoms", u: "u", mz: "m/z", "%": "%" };
-const UNIT_KEY = { c: "C", carbon: "C", carbons: "C", carbonatom: "C", carbonatoms: "C", atom: "C", atoms: "C", u: "u", da: "u", dalton: "u", daltons: "u", "m/z": "mz", mz: "mz", "%": "%", percent: "%" };
+const UNIT_KEY = { c: "C", carbon: "C", carbons: "C", carbonatom: "C", carbonatoms: "C", atom: "C", atoms: "C", u: "u", da: "u", dalton: "u", daltons: "u", "m/z": "mz", mz: "mz", "%": "%", percent: "%", percentage: "%" };
+const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
 function unitId(u){
   const t = String(u).toLowerCase().replace(/[\s.·⋅]/g, "").replace(/[−–]/g, "-").replace(/[µμ]/g, "u").replace(/\^/g, "").replace(/\(s\)/g, "");
   return UNIT_KEY[t] || null;
@@ -857,29 +856,36 @@ function unitId(u){
 const NOT_A_NUMBER = "Type a number such as 4, 43 or 0.53.";
 // The question's unit: a list of canonical ids it accepts (e.g. ["C"]), [] for a plain number, null to accept any recognised unit.
 // Returns { value } or { error, kind }. kind "empty" and "nan" are not answers at all; "unit" and "comma" are entries to fix.
-// A single comma between digits is NOT read as a thousands separator or deleted ("2,9" is not 29): it asks for a decimal point.
-// Spaces inside a number are never deleted ("2 9" is not 29).
+// A comma is a thousands separator only in groups of three ("1,234"); a lone comma before one or two digits, or after a leading 0
+// ("2,5", "0,853"), is a decimal comma and asks for a decimal point. A space between groups of three digits ("1 234") is thousands;
+// any other interior space ("2 9") is never deleted. Exponent forms (1.23e3, 1.23 x 10^3, 1.23 × 10³) are read.
+// A leading "m/z" ("m/z 43") counts as the unit. A unit that is not the question's, known or not ("g mol⁻¹", "kJ per mole"), is refused.
 function parseAnswer(str, allowed){
   if (str == null) return { error: "Type an answer first.", kind: "empty" };
-  const t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  let t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013\u2014]/g, "-");
+  t = t.replace(/^=\s*/, "").replace(/\.\s*$/, "").trim();
+  let lead = null;
+  const lm = t.match(/^(?:m\/z|mz)\s*[=:]?\s*(?=[-+.\d])/i);
+  if (lm){ lead = "m/z"; t = t.slice(lm[0].length); }
   if (!t) return { error: "Type an answer first.", kind: "empty" };
-  if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
-  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:,\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)\s*(.*)$/);
-  if (!m) return { error: NOT_A_NUMBER, kind: "nan" };
-  let val = parseFloat(m[2].replace(/,/g, ""));
+  if (/^[-+]?\s*\d+,\d/.test(t) && !/^[-+]?\s*[1-9]\d{0,2}(?:,\d{3})+(?![\d,])/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
+  const NAN = { error: NOT_A_NUMBER, kind: "nan" };
+  const ex = "(?:\\s*[x×*]\\s*10\\s*\\^?\\s*\\(?([-+]?\\d+)\\)?|\\s*[x×*]\\s*10([⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)|e([-+]?\\d+))?";
+  const m = t.match(new RegExp("^([-+]?)\\s*([1-9]\\d{0,2}(?:[, ]\\d{3})+(?![\\d,])(?:\\.\\d*)?|\\d+(?:\\.\\d*)?|\\.\\d+)" + ex + "\\s*(.*)$", "i"));
+  if (!m) return NAN;
+  const mant = parseFloat(m[2].replace(/[, ]/g, ""));
+  const e = m[3] != null ? m[3] : m[4] != null ? m[4].replace(/[⁻⁺⁰¹²³⁴⁵⁶⁷⁸⁹]/g, c => SUPASC[c]) : m[5];
+  let val = e != null ? mant * Math.pow(10, +e) : mant;
   if (m[1] === "-") val = -val;
-  if (!isFinite(val)) return { error: NOT_A_NUMBER, kind: "nan" };
-  const rest = m[3].trim();
+  if (!isFinite(val)) return NAN;
+  let rest = m[6].trim();
+  if (!rest && lead) rest = lead;
   if (!rest) return { value: val };
   const u = unitId(rest);
-  if (!u) return { error: NOT_A_NUMBER, kind: "nan" };
-  if (allowed == null || allowed.includes(u)) return { value: val, unit: u };
-  return { unit: u, kind: "unit", error: allowed.length === 0 ? "Check the unit: this answer is a plain number, with no unit." : allowed[0] === "C" ? "Check the unit: this answer is a number of carbon atoms." : allowed[0] === "mz" ? "Check the unit: this answer is an m/z value." : allowed[0] === "u" ? "Check the unit: this answer is a mass, a plain number or in u." : `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` };
+  if (u && (allowed == null || allowed.includes(u))) return { value: val, unit: u };
+  if (!u && (allowed == null || !/[A-Za-zµμ%°]/.test(rest))) return NAN;
+  return { unit: u || "?", kind: "unit", error: allowed.length === 0 ? "Check the unit: this answer is a plain number, with no unit." : allowed[0] === "C" ? "Check the unit: this answer is a number of carbon atoms." : allowed[0] === "mz" ? "Check the unit: this answer is an m/z value." : allowed[0] === "u" ? "Check the unit: this answer is a mass, a plain number or in u." : `Check the unit: this answer is in ${UNIT_NAME[allowed[0]]}.` };
 }
-LAB.parseAnswer = parseAnswer;
-// the old name: a number with any recognised unit tolerated; NaN when there is no number
-function parseNum(s){ const r = parseAnswer(s, null); return r.value != null ? r.value : NaN; }
-LAB.parseNum = parseNum;
 // keyboard and screen-reader access to the tap targets (bonds, peaks): each is focusable and named, Enter or Space acts as a tap;
 // the redraw that follows a tap would drop the focus, so it is put back on the same target
 function kbdKey(el, activate){
@@ -903,7 +909,6 @@ function sci(v, n){
   let ms = sf(m, n); if (Math.abs(+ms) >= 10){ e += 1; ms = sf(v / Math.pow(10, e), n); }
   return minus(ms) + " × 10" + SUPS(e);
 }
-LAB.sci = sci; LAB.sf = sf;
 // a generic SVG line chart; returns { X, Y, svg string pieces }
 function lineChart(svg, o){
   const W = widthOf(svg.parentElement), Hh = o.h || (W < 520 ? 230 : 270);
@@ -933,7 +938,6 @@ function lineChart(svg, o){
   return { X, Y, W, H: Hh, m };
 }
 const legendHTML = items => items.map(it => it.box ? `<span><i class="lkey" style="background:${it.col}"></i>${H(it.t)}</span>` : `<span><svg width="22" height="10" class="key2" aria-hidden="true"><line x1="1" y1="5" x2="21" y2="5" stroke="${it.col}" stroke-width="${it.w || 2.2}"${it.dash ? ` stroke-dasharray="${it.dash}"` : ""}/></svg>${H(it.t)}</span>`).join("");
-const NOANIM = () => { try { return !!window.LAB_NOANIM || matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return !!window.LAB_NOANIM; } };
 
 /* ---------- shared answer helpers (as H3.1) ---------- */
 const lastUnit = (v, n) => Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - n + 1);
@@ -942,19 +946,16 @@ const ASIDE = t => `<span class="aside">(${t}.)</span>`;
 const SVGNS = "http://www.w3.org/2000/svg";
 /* GENERATED by lab-src/gen_mol.py from RDKit (2D coordinates, every H explicit; simple cleavages); do not edit by hand. */
 const MOLG = {"hexane":{"smiles":"CCCCCC","atoms":[["C",-1.637,-0.706],["C",-1.43,0.279],["C",-0.477,0.607],["C",0.299,-0.052],["C",1.251,0.267],["C",1.993,-0.394],["H",-2.614,-0.504],["H",-2.302,-1.452],["H",-0.905,-1.368],["H",-1.748,1.228],["H",-2.408,0.482],["H",0.161,1.366],["H",-0.81,1.55],["H",-0.34,-0.802],["H",0.623,-0.998],["H",0.946,1.21],["H",1.917,1.011],["H",2.656,0.353],["H",2.971,-0.596],["H",1.79,-1.374]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[1,10,1],[2,11,1],[2,12,1],[3,13,1],[3,14,1],[4,15,1],[4,16,1],[5,17,1],[5,18,1],[5,19,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C5H11","ionN":"C₅H₁₁","mz":71,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C5H11","lostN":"C₅H₁₁","lm":71,"cls":"methyl","peak":5}]},{"b":1,"kind":"X","opts":[{"keep":2,"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"primary","peak":2},{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C4H9","lostN":"C₄H₉","lm":57,"cls":"primary","peak":4}]},{"b":2,"kind":"X","opts":[{"keep":2,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"primary","peak":3},{"keep":3,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"primary","peak":3}]},{"b":3,"kind":"X","opts":[{"keep":3,"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"primary","peak":2},{"keep":4,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C4H9","lostN":"C₄H₉","lm":57,"cls":"primary","peak":4}]},{"b":4,"kind":"X","opts":[{"keep":4,"ion":"C5H11","ionN":"C₅H₁₁","mz":71,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":1},{"keep":5,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C5H11","lostN":"C₅H₁₁","lm":71,"cls":"methyl","peak":5}]},{"b":5,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":13,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":14,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":15,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":16,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":17,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":18,"kind":"H","opts":[{"ion":"C6H13","ionN":"C₆H₁₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["C₅H₁₁","CH₃"],["C₄H₉","C₂H₅"],["C₃H₇","C₃H₇"],["C₂H₅","C₄H₉"],["CH₃","C₅H₁₁"]]},"butane":{"smiles":"CCCC","atoms":[["C",-1.32,-0.091],["C",-0.4,0.301],["C",0.4,-0.301],["C",1.32,0.091],["H",-1.711,0.829],["H",-2.312,0.03],["H",-1.441,-1.084],["H",0.202,1.1],["H",-0.791,1.221],["H",-0.202,-1.1],["H",0.791,-1.221],["H",1.711,-0.829],["H",2.312,-0.03],["H",1.441,1.084]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"primary","peak":2},{"keep":2,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"primary","peak":2}]},{"b":2,"kind":"X","opts":[{"keep":2,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":1},{"keep":3,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"methyl","peak":-1}]},{"b":3,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":4,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C4H9","ionN":"C₄H₉","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["C₃H₇","CH₃"],["C₂H₅","C₂H₅"]]},"propanone":{"smiles":"CC(=O)C","atoms":[["C",-0.61,-0.793],["C",0.0,-0.0],["O",0.991,-0.132],["C",-0.382,0.924],["H",0.183,-1.402],["H",-0.742,-1.784],["H",-1.601,-0.661],["H",-1.306,0.543],["H",-1.174,1.534],["H",0.228,1.717]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[3,7,1],[3,8,1],[3,9,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"acylium","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H3O","lostN":"CH₃CO","lm":43,"cls":"methyl","peak":2}]},{"b":1,"no":"double"},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"acylium","peak":1},{"keep":3,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H3O","lostN":"CH₃CO","lm":43,"cls":"methyl","peak":2}]},{"b":3,"kind":"H","opts":[{"ion":"C3H5O","ionN":"CH₃COCH₂","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":4,"kind":"H","opts":[{"ion":"C3H5O","ionN":"CH₃COCH₂","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C3H5O","ionN":"CH₃COCH₂","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C3H5O","ionN":"CH₃COCH₂","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C3H5O","ionN":"CH₃COCH₂","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C3H5O","ionN":"CH₃COCH₂","mz":57,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["CH₃CO","CH₃"],["CH₃","CH₃CO"]]},"butanone":{"smiles":"CC(=O)CC","atoms":[["C",-1.212,0.5],["C",-0.346,0.0],["O",-0.346,-1.0],["C",0.52,0.5],["C",1.386,-0.0],["H",-1.713,-0.366],["H",-2.212,0.5],["H",-1.212,1.5],["H",0.02,1.366],["H",1.02,1.366],["H",0.885,-0.866],["H",1.885,-0.866],["H",2.252,0.5]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[3,8,1],[3,9,1],[4,10,1],[4,11,1],[4,12,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C3H5O","ionN":"C₂H₅CO","mz":57,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"acylium","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H5O","lostN":"C₂H₅CO","lm":57,"cls":"methyl","peak":4}]},{"b":1,"no":"double"},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"acylium","peak":2},{"keep":3,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C2H3O","lostN":"CH₃CO","lm":43,"cls":"primary","peak":3}]},{"b":3,"kind":"X","opts":[{"keep":3,"ion":"C3H5O","ionN":"CH₃COCH₂","mz":57,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":-1,"other":1},{"keep":4,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H5O","lostN":"CH₃COCH₂","lm":57,"cls":"methyl","peak":-1,"other":4}]},{"b":4,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₂COC₂H₅","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₂COC₂H₅","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₂COC₂H₅","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₃COCHCH₃","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₃COCHCH₃","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₃COCH₂CH₂","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₃COCH₂CH₂","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C4H7O","ionN":"CH₃COCH₂CH₂","mz":71,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["C₂H₅CO","CH₃"],["CH₃CO","C₂H₅"],["C₂H₅","CH₃CO"],["CH₃","C₂H₅CO"]]},"ethanol":{"smiles":"CCO","atoms":[["C",-0.866,-0.167],["C",-0.0,0.333],["O",0.866,-0.167],["H",-0.366,-1.033],["H",-1.366,-1.033],["H",-1.732,0.333],["H",-0.5,1.199],["H",0.5,1.199],["H",1.732,0.333]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1],[2,8,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"CH3O","ionN":"CH₂OH","mz":31,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"oxygen","peak":2},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"CH3O","lostN":"CH₂OH","lm":31,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"HO","lostN":"OH","lm":17,"cls":"primary","peak":3},{"keep":2,"ion":"HO","ionN":"OH","mz":17,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"onO","peak":-1}]},{"b":2,"kind":"H","opts":[{"ion":"C2H5O","ionN":"CH₂CH₂OH","mz":45,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":3,"kind":"H","opts":[{"ion":"C2H5O","ionN":"CH₂CH₂OH","mz":45,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":4,"kind":"H","opts":[{"ion":"C2H5O","ionN":"CH₂CH₂OH","mz":45,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C2H5O","ionN":"CH₃CHOH","mz":45,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":1}]},{"b":6,"kind":"H","opts":[{"ion":"C2H5O","ionN":"CH₃CHOH","mz":45,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":1}]},{"b":7,"kind":"H","opts":[{"ion":"C2H5O","ionN":"CH₃CH₂O","mz":45,"lost":"H","lostN":"H","lm":1,"cls":"onO","peak":-1}]}],"pnames":[null,["CH₃CHOH","H"],["CH₂OH","CH₃"],["C₂H₅","OH"]]},"propan-2-ol":{"smiles":"CC(O)C","atoms":[["C",-1.088,-0.128],["C",-0.088,-0.095],["O",0.794,-0.565],["C",0.382,0.788],["H",-1.054,-1.127],["H",-1.937,-0.657],["H",-1.616,0.721],["H",-0.055,-1.094],["H",0.827,-1.565],["H",-0.5,1.258],["H",0.349,1.787],["H",1.382,0.821]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[3,9,1],[3,10,1],[3,11,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C2H5O","ionN":"CH₃CHOH","mz":45,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"oxygen","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H5O","lostN":"CH₃CHOH","lm":45,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"HO","lostN":"OH","lm":17,"cls":"secondary","peak":2},{"keep":2,"ion":"HO","ionN":"OH","mz":17,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"onO","peak":-1}]},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C2H5O","ionN":"CH₃CHOH","mz":45,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"oxygen","peak":1},{"keep":3,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H5O","lostN":"CH₃CHOH","lm":45,"cls":"methyl","peak":-1}]},{"b":3,"kind":"H","opts":[{"ion":"C3H7O","ionN":"CH₂CH(OH)CH₃","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":4,"kind":"H","opts":[{"ion":"C3H7O","ionN":"CH₂CH(OH)CH₃","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C3H7O","ionN":"CH₂CH(OH)CH₃","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C3H7O","ionN":"(CH₃)₂COH","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C3H7O","ionN":"(CH₃)₂CHO","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"onO","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C3H7O","ionN":"CH₂CH(OH)CH₃","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C3H7O","ionN":"CH₂CH(OH)CH₃","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C3H7O","ionN":"CH₂CH(OH)CH₃","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["CH₃CHOH","CH₃"],["C₃H₇","OH"]]},"2-methylpropan-2-ol":{"smiles":"CC(C)(C)O","atoms":[["C",-0.109,-1.0],["C",-0.005,-0.007],["C",0.013,1.049],["C",1.096,-0.079],["O",-0.994,0.037],["H",0.762,-1.081],["H",0.341,-1.889],["H",-1.0,-1.436],["H",-0.983,1.061],["H",-0.481,1.912],["H",0.872,1.563],["H",1.158,0.804],["H",1.964,0.403],["H",1.604,-0.938],["H",-1.519,-0.815]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1],[0,5,1],[0,6,1],[0,7,1],[2,8,1],[2,9,1],[2,10,1],[3,11,1],[3,12,1],[3,13,1],[4,14,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C3H7O","ionN":"(CH₃)₂COH","mz":59,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"oxygen","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H7O","lostN":"(CH₃)₂COH","lm":59,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C3H7O","ionN":"(CH₃)₂COH","mz":59,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"oxygen","peak":1},{"keep":2,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H7O","lostN":"(CH₃)₂COH","lm":59,"cls":"methyl","peak":-1}]},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C3H7O","ionN":"(CH₃)₂COH","mz":59,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"oxygen","peak":1},{"keep":3,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H7O","lostN":"(CH₃)₂COH","lm":59,"cls":"methyl","peak":-1}]},{"b":3,"kind":"X","opts":[{"keep":1,"ion":"C4H9","ionN":"(CH₃)₃C","mz":57,"lost":"HO","lostN":"OH","lm":17,"cls":"tertiary","peak":2},{"keep":4,"ion":"HO","ionN":"OH","mz":17,"lost":"C4H9","lostN":"(CH₃)₃C","lm":57,"cls":"onO","peak":-1}]},{"b":4,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C4H9O","ionN":"CH₂C(CH₃)₂OH","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":13,"kind":"H","opts":[{"ion":"C4H9O","ionN":"(CH₃)₃CO","mz":73,"lost":"H","lostN":"H","lm":1,"cls":"onO","peak":-1}]}],"pnames":[null,["(CH₃)₂COH","CH₃"],["(CH₃)₃C","OH"]]},"methylbenzene":{"smiles":"Cc1ccccc1","atoms":[["C",-1.714,0.0],["C",-0.714,0.0],["C",-0.214,0.866],["C",0.786,0.866],["C",1.286,-0.0],["C",0.786,-0.866],["C",-0.214,-0.866],["H",-1.714,1.0],["H",-2.58,0.5],["H",-2.214,-0.866],["H",-0.714,1.732],["H",1.286,1.732],["H",2.286,-0.0],["H",1.286,-1.732],["H",-0.714,-1.732]],"bonds":[[0,1,1],[1,2,2,1],[2,3,1,1],[3,4,2,1],[4,5,1,1],[5,6,2,1],[6,1,1,1],[0,7,1],[0,8,1],[0,9,1],[2,10,1],[3,11,1],[4,12,1],[5,13,1],[6,14,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C6H5","ionN":"C₆H₅","mz":77,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"phenyl","peak":2},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C6H5","lostN":"C₆H₅","lm":77,"cls":"methyl","peak":-1}]},{"b":1,"no":"ring"},{"b":2,"no":"ring"},{"b":3,"no":"ring"},{"b":4,"no":"ring"},{"b":5,"no":"ring"},{"b":6,"no":"ring"},{"b":7,"kind":"H","opts":[{"ion":"C7H7","ionN":"C₆H₅CH₂","mz":91,"lost":"H","lostN":"H","lm":1,"cls":"benzyl","peak":1}]},{"b":8,"kind":"H","opts":[{"ion":"C7H7","ionN":"C₆H₅CH₂","mz":91,"lost":"H","lostN":"H","lm":1,"cls":"benzyl","peak":1}]},{"b":9,"kind":"H","opts":[{"ion":"C7H7","ionN":"C₆H₅CH₂","mz":91,"lost":"H","lostN":"H","lm":1,"cls":"benzyl","peak":1}]},{"b":10,"no":"ring"},{"b":11,"no":"ring"},{"b":12,"no":"ring"},{"b":13,"no":"ring"},{"b":14,"no":"ring"}],"pnames":[null,["C₆H₅CH₂","H"],["C₆H₅","CH₃"]]},"chloroethane":{"smiles":"CCCl","atoms":[["C",-0.866,-0.167],["C",0.0,0.333],["Cl",0.866,-0.167],["H",-0.366,-1.033],["H",-1.366,-1.033],["H",-1.732,0.333],["H",-0.5,1.199],["H",0.5,1.199]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"CH2Cl","ionN":"CH₂Cl","mz":49,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"halo","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"CH2Cl","lostN":"CH₂Cl","lm":49,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"Cl","lostN":"Cl","lm":35,"cls":"primary","peak":2},{"keep":2,"ion":"Cl","ionN":"Cl","mz":35,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"onX","peak":-1}]},{"b":2,"no":"hhal"},{"b":3,"no":"hhal"},{"b":4,"no":"hhal"},{"b":5,"no":"hhal"},{"b":6,"no":"hhal"}],"pnames":[null,["CH₂Cl","CH₃"],["C₂H₅","Cl"]]},"dichloromethane":{"smiles":"ClCCl","atoms":[["Cl",-0.707,-0.236],["C",-0.0,0.471],["Cl",0.707,-0.236],["H",-0.966,0.73],["H",0.259,1.437]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"CH2Cl","ionN":"CH₂Cl","mz":49,"lost":"Cl","lostN":"Cl","lm":35,"cls":"halo","peak":1},{"keep":0,"ion":"Cl","ionN":"Cl","mz":35,"lost":"CH2Cl","lostN":"CH₂Cl","lm":49,"cls":"onX","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"CH2Cl","ionN":"CH₂Cl","mz":49,"lost":"Cl","lostN":"Cl","lm":35,"cls":"halo","peak":1},{"keep":2,"ion":"Cl","ionN":"Cl","mz":35,"lost":"CH2Cl","lostN":"CH₂Cl","lm":49,"cls":"onX","peak":-1}]},{"b":2,"no":"hhal"},{"b":3,"no":"hhal"}],"pnames":[null,["CH₂Cl","Cl"]]},"1,2-dibromoethane":{"smiles":"BrCCBr","atoms":[["Br",-1.32,-0.091],["C",-0.4,0.3],["C",0.4,-0.3],["Br",1.32,0.091],["H",0.201,1.1],["H",-0.791,1.221],["H",-0.201,-1.1],["H",0.791,-1.221]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[1,4,1],[1,5,1],[2,6,1],[2,7,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C2H4Br","ionN":"C₂H₄Br","mz":107,"lost":"Br","lostN":"Br","lm":79,"cls":"primary","peak":1},{"keep":0,"ion":"Br","ionN":"Br","mz":79,"lost":"C2H4Br","lostN":"C₂H₄Br","lm":107,"cls":"onX","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"CH2Br","ionN":"CH₂Br","mz":93,"lost":"CH2Br","lostN":"CH₂Br","lm":93,"cls":"halo","peak":-1},{"keep":2,"ion":"CH2Br","ionN":"CH₂Br","mz":93,"lost":"CH2Br","lostN":"CH₂Br","lm":93,"cls":"halo","peak":-1}]},{"b":2,"kind":"X","opts":[{"keep":2,"ion":"C2H4Br","ionN":"C₂H₄Br","mz":107,"lost":"Br","lostN":"Br","lm":79,"cls":"primary","peak":1},{"keep":3,"ion":"Br","ionN":"Br","mz":79,"lost":"C2H4Br","lostN":"C₂H₄Br","lm":107,"cls":"onX","peak":-1}]},{"b":3,"no":"hhal"},{"b":4,"no":"hhal"},{"b":5,"no":"hhal"},{"b":6,"no":"hhal"}],"pnames":[null,["C₂H₄Br","Br"]]},"bromochloromethane":{"smiles":"ClCBr","atoms":[["Cl",-0.866,0.167],["C",0.0,-0.333],["Br",0.866,0.167],["H",0.5,-1.199],["H",-0.5,-1.199]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"CH2Br","ionN":"CH₂Br","mz":93,"lost":"Cl","lostN":"Cl","lm":35,"cls":"halo","peak":1},{"keep":0,"ion":"Cl","ionN":"Cl","mz":35,"lost":"CH2Br","lostN":"CH₂Br","lm":93,"cls":"onX","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"CH2Cl","ionN":"CH₂Cl","mz":49,"lost":"Br","lostN":"Br","lm":79,"cls":"halo","peak":2},{"keep":2,"ion":"Br","ionN":"Br","mz":79,"lost":"CH2Cl","lostN":"CH₂Cl","lm":49,"cls":"onX","peak":-1}]},{"b":2,"no":"hhal"},{"b":3,"no":"hhal"}],"pnames":[null,["CH₂Br","Cl"],["CH₂Cl","Br"]]},"pentan-3-one":{"smiles":"CCC(=O)CC","atoms":[["C",-1.522,0.573],["C",-0.996,-0.299],["C",0.009,-0.29],["O",0.518,-1.149],["C",0.497,0.573],["C",1.494,0.593],["H",-2.377,0.052],["H",-2.398,1.05],["H",-1.041,1.462],["H",-0.98,-1.3],["H",-1.852,-0.817],["H",-0.358,1.044],["H",0.474,1.573],["H",1.515,-0.405],["H",2.37,0.113],["H",1.974,1.472]],"bonds":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[1,10,1],[4,11,1],[4,12,1],[5,13,1],[5,14,1],[5,15,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C4H7O","lostN":"C₂H₅COCH₂","lm":71,"cls":"methyl","peak":-1},{"keep":1,"ion":"C4H7O","ionN":"C₂H₅COCH₂","mz":71,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":2,"ion":"C3H5O","ionN":"C₂H₅CO","mz":57,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"acylium","peak":1},{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C3H5O","lostN":"C₂H₅CO","lm":57,"cls":"primary","peak":2}]},{"b":2,"no":"double"},{"b":3,"kind":"X","opts":[{"keep":2,"ion":"C3H5O","ionN":"C₂H₅CO","mz":57,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"acylium","peak":1},{"keep":4,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C3H5O","lostN":"C₂H₅CO","lm":57,"cls":"primary","peak":2}]},{"b":4,"kind":"X","opts":[{"keep":4,"ion":"C4H7O","ionN":"C₂H₅COCH₂","mz":71,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":-1},{"keep":5,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C4H7O","lostN":"C₂H₅COCH₂","lm":71,"cls":"methyl","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCH₂CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCH₂CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCH₂CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃CHCOC₂H₅","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃CHCOC₂H₅","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCHCH₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCHCH₃","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCH₂CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":13,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCH₂CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":14,"kind":"H","opts":[{"ion":"C5H9O","ionN":"C₂H₅COCH₂CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["C₂H₅CO","C₂H₅"],["C₂H₅","C₂H₅CO"]]},"3-methylbutan-2-one":{"smiles":"CC(=O)C(C)C","atoms":[["C",-1.063,0.942],["C",-0.577,0.029],["O",-1.094,-0.82],["C",0.425,0.028],["C",1.377,0.623],["C",0.933,-0.803],["H",-1.947,0.486],["H",-1.909,1.485],["H",-0.528,1.798],["H",0.321,0.895],["H",0.903,1.504],["H",1.874,1.489],["H",2.252,0.144],["H",0.079,-1.317],["H",0.957,-1.794],["H",1.931,-0.771]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[3,5,1],[0,6,1],[0,7,1],[0,8,1],[3,9,1],[4,10,1],[4,11,1],[4,12,1],[5,13,1],[5,14,1],[5,15,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C4H7O","ionN":"C₄H₇O","mz":71,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"acylium","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C4H7O","lostN":"C₄H₇O","lm":71,"cls":"methyl","peak":-1}]},{"b":1,"no":"double"},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"acylium","peak":2},{"keep":3,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"C2H3O","lostN":"CH₃CO","lm":43,"cls":"secondary","peak":-1,"shared":2}]},{"b":3,"kind":"X","opts":[{"keep":3,"ion":"C4H7O","ionN":"C₄H₇O","mz":71,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"secondary","peak":-1,"other":1},{"keep":4,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C4H7O","lostN":"C₄H₇O","lm":71,"cls":"methyl","peak":-1}]},{"b":4,"kind":"X","opts":[{"keep":3,"ion":"C4H7O","ionN":"C₄H₇O","mz":71,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"secondary","peak":-1,"other":1},{"keep":5,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C4H7O","lostN":"C₄H₇O","lm":71,"cls":"methyl","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₂COCH(CH₃)₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₂COCH(CH₃)₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₂COCH(CH₃)₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃COC(CH₃)₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"tertiary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃COCH(CH₃)CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃COCH(CH₃)CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃COCH(CH₃)CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃COCH(CH₃)CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":13,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃COCH(CH₃)CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":14,"kind":"H","opts":[{"ion":"C5H9O","ionN":"CH₃COCH(CH₃)CH₂","mz":85,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["C₄H₇O","CH₃"],["CH₃CO","C₃H₇"]]},"2-bromopropane":{"smiles":"CC(Br)C","atoms":[["C",-1.088,0.128],["C",-0.088,0.094],["Br",0.794,0.565],["C",0.382,-0.788],["H",-1.054,1.127],["H",-1.937,0.657],["H",-1.616,-0.721],["H",-0.055,1.094],["H",1.265,-0.317],["H",1.231,-1.316],["H",-0.146,-1.637]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[3,8,1],[3,9,1],[3,10,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C2H4Br","ionN":"CH₃CHBr","mz":107,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"halo","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H4Br","lostN":"CH₃CHBr","lm":107,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"Br","lostN":"Br","lm":79,"cls":"secondary","peak":2},{"keep":2,"ion":"Br","ionN":"Br","mz":79,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"onX","peak":-1}]},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C2H4Br","ionN":"CH₃CHBr","mz":107,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"halo","peak":1},{"keep":3,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H4Br","lostN":"CH₃CHBr","lm":107,"cls":"methyl","peak":-1}]},{"b":3,"no":"hhal"},{"b":4,"no":"hhal"},{"b":5,"no":"hhal"},{"b":6,"no":"hhal"},{"b":7,"no":"hhal"},{"b":8,"no":"hhal"},{"b":9,"no":"hhal"}],"pnames":[null,["CH₃CHBr","CH₃"],["C₃H₇","Br"]]},"1-bromopropane":{"smiles":"CCCBr","atoms":[["C",-1.0,-0.433],["C",-0.5,0.433],["C",0.5,0.433],["Br",1.0,-0.433],["H",-1.866,0.067],["H",-1.866,-0.933],["H",-0.5,-1.299],["H",-1.366,0.933],["H",-0.5,1.433],["H",0.5,1.433],["H",1.366,0.933]],"bonds":[[0,1,1],[1,2,1],[2,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[1,8,1],[2,9,1],[2,10,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C2H4Br","ionN":"C₂H₄Br","mz":107,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H4Br","lostN":"C₂H₄Br","lm":107,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"CH2Br","lostN":"CH₂Br","lm":93,"cls":"primary","peak":3},{"keep":2,"ion":"CH2Br","ionN":"CH₂Br","mz":93,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"halo","peak":4}]},{"b":2,"kind":"X","opts":[{"keep":2,"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"Br","lostN":"Br","lm":79,"cls":"primary","peak":2},{"keep":3,"ion":"Br","ionN":"Br","mz":79,"lost":"C3H7","lostN":"C₃H₇","lm":43,"cls":"onX","peak":-1}]},{"b":3,"no":"hhal"},{"b":4,"no":"hhal"},{"b":5,"no":"hhal"},{"b":6,"no":"hhal"},{"b":7,"no":"hhal"},{"b":8,"no":"hhal"},{"b":9,"no":"hhal"}],"pnames":[null,["C₂H₄Br","CH₃"],["C₃H₇","Br"],["C₂H₅","CH₂Br"],["CH₂Br","C₂H₅"]]},"ethyl ethanoate":{"smiles":"CC(=O)OCC","atoms":[["C",-1.513,0.637],["C",-0.726,0.02],["O",-0.868,-0.97],["O",0.202,0.392],["C",0.988,-0.226],["C",1.916,0.146],["H",-0.895,1.424],["H",-1.885,1.566],["H",-2.441,0.265],["H",1.361,-1.154],["H",0.371,-1.012],["H",1.544,1.075],["H",2.534,0.933],["H",2.703,-0.471]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[4,9,1],[4,10,1],[5,11,1],[5,12,1],[5,13,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C3H5O2","ionN":"COOC₂H₅","mz":73,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"carbonylO","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H5O2","lostN":"COOC₂H₅","lm":73,"cls":"methyl","peak":-1}]},{"b":1,"no":"double"},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"C2H5O","lostN":"OC₂H₅","lm":45,"cls":"acylium","peak":2},{"keep":3,"ion":"C2H5O","ionN":"C₂H₅O","mz":45,"lost":"C2H3O","lostN":"CH₃CO","lm":43,"cls":"onO","peak":-1}]},{"b":3,"kind":"X","opts":[{"keep":4,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C2H3O2","lostN":"CH₃COO","lm":59,"cls":"primary","peak":3},{"keep":3,"ion":"C2H3O2","ionN":"CH₃COO","mz":59,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"onO","peak":-1}]},{"b":4,"kind":"X","opts":[{"keep":4,"ion":"C3H5O2","ionN":"CH₃COOCH₂","mz":73,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"oxygen","peak":1},{"keep":5,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H5O2","lostN":"CH₃COOCH₂","lm":73,"cls":"methyl","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₂COOC₂H₅","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₂COOC₂H₅","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₂COOC₂H₅","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₃COOCHCH₃","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₃COOCHCH₃","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₃COOCH₂CH₂","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₃COOCH₂CH₂","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₃COOCH₂CH₂","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]}],"pnames":[null,["C₃H₅O₂","CH₃"],["CH₃CO","OC₂H₅"],["C₂H₅","CH₃COO"]]},"methyl propanoate":{"smiles":"CCC(=O)OC","atoms":[["C",-1.732,-0.0],["C",-0.866,0.5],["C",-0.0,-0.0],["O",-0.0,-1.0],["O",0.866,0.5],["C",1.732,-0.0],["H",-1.232,-0.866],["H",-2.232,-0.866],["H",-2.598,0.5],["H",-1.366,1.366],["H",-0.366,1.366],["H",1.232,-0.866],["H",2.232,-0.866],["H",2.598,0.5]],"bonds":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[0,6,1],[0,7,1],[0,8,1],[1,9,1],[1,10,1],[5,11,1],[5,12,1],[5,13,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H5O2","lostN":"CH₂COOCH₃","lm":73,"cls":"methyl","peak":-1},{"keep":1,"ion":"C3H5O2","ionN":"CH₂COOCH₃","mz":73,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C2H3O2","lostN":"COOCH₃","lm":59,"cls":"primary","peak":3},{"keep":2,"ion":"C2H3O2","ionN":"COOCH₃","mz":59,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"carbonylO","peak":1}]},{"b":2,"no":"double"},{"b":3,"kind":"X","opts":[{"keep":2,"ion":"C3H5O","ionN":"C₂H₅CO","mz":57,"lost":"CH3O","lostN":"OCH₃","lm":31,"cls":"acylium","peak":2},{"keep":4,"ion":"CH3O","ionN":"OCH₃","mz":31,"lost":"C3H5O","lostN":"C₂H₅CO","lm":57,"cls":"onO","peak":-1}]},{"b":4,"kind":"X","opts":[{"keep":4,"ion":"C3H5O2","ionN":"C₂H₅COO","mz":73,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"onO","peak":-1},{"keep":5,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C3H5O2","lostN":"C₂H₅COO","lm":73,"cls":"methyl","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₂CH₂COOCH₃","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₂CH₂COOCH₃","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":7,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₂CH₂COOCH₃","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":8,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₃CHCOOCH₃","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"CH₃CHCOOCH₃","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"C₂H₅COOCH₂","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"C₂H₅COOCH₂","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C4H7O2","ionN":"C₂H₅COOCH₂","mz":87,"lost":"H","lostN":"H","lm":1,"cls":"oxygen","peak":-1}]}],"pnames":[null,["COOCH₃","C₂H₅"],["C₂H₅CO","OCH₃"],["C₂H₅","COOCH₃"]]},"phenylethanone":{"smiles":"CC(=O)c1ccccc1","atoms":[["C",-1.722,-0.866],["C",-1.222,0.0],["O",-1.722,0.866],["C",-0.222,0.0],["C",0.278,-0.866],["C",1.278,-0.866],["C",1.778,-0.0],["C",1.278,0.866],["C",0.278,0.866],["H",-2.588,-0.366],["H",-2.588,-1.366],["H",-1.222,-1.732],["H",-0.222,-1.732],["H",1.778,-1.732],["H",2.778,-0.0],["H",1.778,1.732],["H",-0.222,1.732]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[3,4,2,1],[4,5,1,1],[5,6,2,1],[6,7,1,1],[7,8,2,1],[8,3,1,1],[0,9,1],[0,10,1],[0,11,1],[4,12,1],[5,13,1],[6,14,1],[7,15,1],[8,16,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C7H5O","ionN":"C₆H₅CO","mz":105,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"acylium","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C7H5O","lostN":"C₆H₅CO","lm":105,"cls":"methyl","peak":-1}]},{"b":1,"no":"double"},{"b":2,"kind":"X","opts":[{"keep":3,"ion":"C6H5","ionN":"C₆H₅","mz":77,"lost":"C2H3O","lostN":"CH₃CO","lm":43,"cls":"phenyl","peak":2},{"keep":1,"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"C6H5","lostN":"C₆H₅","lm":77,"cls":"acylium","peak":3}]},{"b":3,"no":"ring"},{"b":4,"no":"ring"},{"b":5,"no":"ring"},{"b":6,"no":"ring"},{"b":7,"no":"ring"},{"b":8,"no":"ring"},{"b":9,"kind":"H","opts":[{"ion":"C8H7O","ionN":"C₆H₅COCH₂","mz":119,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C8H7O","ionN":"C₆H₅COCH₂","mz":119,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C8H7O","ionN":"C₆H₅COCH₂","mz":119,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":12,"no":"ring"},{"b":13,"no":"ring"},{"b":14,"no":"ring"},{"b":15,"no":"ring"},{"b":16,"no":"ring"}],"pnames":[null,["C₆H₅CO","CH₃"],["C₆H₅","CH₃CO"],["CH₃CO","C₆H₅"]]},"phenylethanal":{"smiles":"O=CCc1ccccc1","atoms":[["O",-1.76,-0.786],["C",-1.857,0.21],["C",-1.044,0.791],["C",-0.133,0.378],["C",0.68,0.959],["C",1.59,0.546],["C",1.687,-0.45],["C",0.874,-1.031],["C",-0.037,-0.618],["H",-2.768,0.623],["H",-0.63,1.702],["H",-1.626,1.605],["H",0.583,1.955],["H",2.404,1.127],["H",2.598,-0.863],["H",0.971,-2.026],["H",-0.85,-1.199]],"bonds":[[0,1,2],[1,2,1],[2,3,1],[3,4,2,1],[4,5,1,1],[5,6,2,1],[6,7,1,1],[7,8,2,1],[8,3,1,1],[1,9,1],[2,10,1],[2,11,1],[4,12,1],[5,13,1],[6,14,1],[7,15,1],[8,16,1]],"cuts":[{"b":0,"no":"double"},{"b":1,"kind":"X","opts":[{"keep":2,"ion":"C7H7","ionN":"C₆H₅CH₂","mz":91,"lost":"CHO","lostN":"CHO","lm":29,"cls":"benzyl","peak":1},{"keep":1,"ion":"CHO","ionN":"CHO","mz":29,"lost":"C7H7","lostN":"C₆H₅CH₂","lm":91,"cls":"acylium","peak":2}]},{"b":2,"kind":"X","opts":[{"keep":2,"ion":"C2H3O","ionN":"CH₂CHO","mz":43,"lost":"C6H5","lostN":"C₆H₅","lm":77,"cls":"primary","peak":-1},{"keep":3,"ion":"C6H5","ionN":"C₆H₅","mz":77,"lost":"C2H3O","lostN":"CH₂CHO","lm":43,"cls":"phenyl","peak":-1}]},{"b":3,"no":"ring"},{"b":4,"no":"ring"},{"b":5,"no":"ring"},{"b":6,"no":"ring"},{"b":7,"no":"ring"},{"b":8,"no":"ring"},{"b":9,"kind":"H","opts":[{"ion":"C8H7O","ionN":"C₆H₅CH₂CO","mz":119,"lost":"H","lostN":"H","lm":1,"cls":"acylium","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C8H7O","ionN":"C₆H₅CHCHO","mz":119,"lost":"H","lostN":"H","lm":1,"cls":"benzyl","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C8H7O","ionN":"C₆H₅CHCHO","mz":119,"lost":"H","lostN":"H","lm":1,"cls":"benzyl","peak":-1}]},{"b":12,"no":"ring"},{"b":13,"no":"ring"},{"b":14,"no":"ring"},{"b":15,"no":"ring"},{"b":16,"no":"ring"}],"pnames":[null,["C₆H₅CH₂","CHO"],["CHO","C₆H₅CH₂"]]},"(chloromethyl)benzene":{"smiles":"ClCc1ccccc1","atoms":[["Cl",-2.057,-0.313],["C",-1.378,0.422],["C",-0.403,0.202],["C",0.275,0.937],["C",1.251,0.717],["C",1.548,-0.238],["C",0.87,-0.973],["C",-0.106,-0.753],["H",-1.158,1.397],["H",-2.113,1.1],["H",-0.022,1.891],["H",1.929,1.452],["H",2.523,-0.458],["H",1.167,-1.928],["H",-0.784,-1.488]],"bonds":[[0,1,1],[1,2,1],[2,3,2,1],[3,4,1,1],[4,5,2,1],[5,6,1,1],[6,7,2,1],[7,2,1,1],[1,8,1],[1,9,1],[3,10,1],[4,11,1],[5,12,1],[6,13,1],[7,14,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C7H7","ionN":"C₆H₅CH₂","mz":91,"lost":"Cl","lostN":"Cl","lm":35,"cls":"benzyl","peak":1},{"keep":0,"ion":"Cl","ionN":"Cl","mz":35,"lost":"C7H7","lostN":"C₆H₅CH₂","lm":91,"cls":"onX","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"CH2Cl","ionN":"CH₂Cl","mz":49,"lost":"C6H5","lostN":"C₆H₅","lm":77,"cls":"halo","peak":-1},{"keep":2,"ion":"C6H5","ionN":"C₆H₅","mz":77,"lost":"CH2Cl","lostN":"CH₂Cl","lm":49,"cls":"phenyl","peak":-1}]},{"b":2,"no":"ring"},{"b":3,"no":"ring"},{"b":4,"no":"ring"},{"b":5,"no":"ring"},{"b":6,"no":"ring"},{"b":7,"no":"ring"},{"b":8,"no":"hhal"},{"b":9,"no":"hhal"},{"b":10,"no":"ring"},{"b":11,"no":"ring"},{"b":12,"no":"ring"},{"b":13,"no":"ring"},{"b":14,"no":"ring"}],"pnames":[null,["C₆H₅CH₂","Cl"]]},"propane":{"smiles":"CCC","atoms":[["C",-0.866,-0.167],["C",-0.0,0.333],["C",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",-0.5,1.199],["H",0.5,1.199],["H",1.366,0.699],["H",1.866,-0.167],["H",0.866,-1.167]],"bonds":[[0,1,1],[1,2,1],[0,3,1],[0,4,1],[0,5,1],[1,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":2},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"methyl","peak":3}]},{"b":1,"kind":"X","opts":[{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"primary","peak":2},{"keep":2,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"methyl","peak":3}]},{"b":2,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":1}]},{"b":3,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":1}]},{"b":4,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":1}]},{"b":5,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":1}]},{"b":6,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"secondary","peak":1}]},{"b":7,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":1}]},{"b":8,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":1}]},{"b":9,"kind":"H","opts":[{"ion":"C3H7","ionN":"C₃H₇","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":1}]}],"pnames":[null,["C₃H₇","H"],["C₂H₅","CH₃"],["CH₃","C₂H₅"]]},"ethanal":{"smiles":"CC=O","atoms":[["C",-0.866,-0.167],["C",0.0,0.333],["O",0.866,-0.167],["H",-1.366,0.699],["H",-1.866,-0.167],["H",-0.866,-1.167],["H",-0.0,1.333]],"bonds":[[0,1,1],[1,2,2],[0,3,1],[0,4,1],[0,5,1],[1,6,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"CHO","ionN":"CHO","mz":29,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"acylium","peak":2},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"CHO","lostN":"CHO","lm":29,"cls":"methyl","peak":3}]},{"b":1,"no":"double"},{"b":2,"kind":"H","opts":[{"ion":"C2H3O","ionN":"CH₂CHO","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":3,"kind":"H","opts":[{"ion":"C2H3O","ionN":"CH₂CHO","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":4,"kind":"H","opts":[{"ion":"C2H3O","ionN":"CH₂CHO","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"H","lostN":"H","lm":1,"cls":"acylium","peak":1}]}],"pnames":[null,["CH₃CO","H"],["CHO","CH₃"],["CH₃","CHO"]]},"ethanoic acid":{"smiles":"CC(=O)O","atoms":[["C",-0.537,-0.843],["C",0.0,-0.0],["O",0.999,-0.044],["O",-0.462,0.887],["H",-1.381,-0.306],["H",-1.424,-1.305],["H",-0.076,-1.73],["H",0.076,1.73]],"bonds":[[0,1,1],[1,2,2],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[3,7,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"CHO2","ionN":"COOH","mz":45,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"carbonylO","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"CHO2","lostN":"COOH","lm":45,"cls":"methyl","peak":3}]},{"b":1,"no":"double"},{"b":2,"kind":"X","opts":[{"keep":1,"ion":"C2H3O","ionN":"CH₃CO","mz":43,"lost":"HO","lostN":"OH","lm":17,"cls":"acylium","peak":2},{"keep":3,"ion":"HO","ionN":"OH","mz":17,"lost":"C2H3O","lostN":"CH₃CO","lm":43,"cls":"onO","peak":-1}]},{"b":3,"kind":"H","opts":[{"ion":"C2H3O2","ionN":"CH₂COOH","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":4,"kind":"H","opts":[{"ion":"C2H3O2","ionN":"CH₂COOH","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":5,"kind":"H","opts":[{"ion":"C2H3O2","ionN":"CH₂COOH","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":6,"kind":"H","opts":[{"ion":"C2H3O2","ionN":"CH₃COO","mz":59,"lost":"H","lostN":"H","lm":1,"cls":"onO","peak":-1}]}],"pnames":[null,["COOH","CH₃"],["CH₃CO","OH"],["CH₃","COOH"]]},"ethylbenzene":{"smiles":"CCc1ccccc1","atoms":[["C",-2.057,-0.313],["C",-1.378,0.422],["C",-0.403,0.202],["C",-0.106,-0.753],["C",0.87,-0.973],["C",1.548,-0.238],["C",1.251,0.717],["C",0.275,0.937],["H",-2.792,0.365],["H",-3.012,-0.61],["H",-1.759,-1.268],["H",-1.159,1.397],["H",-2.113,1.1],["H",-0.784,-1.488],["H",1.167,-1.928],["H",2.523,-0.458],["H",1.929,1.452],["H",-0.022,1.892]],"bonds":[[0,1,1],[1,2,1],[2,3,2,1],[3,4,1,1],[4,5,2,1],[5,6,1,1],[6,7,2,1],[7,2,1,1],[0,8,1],[0,9,1],[0,10,1],[1,11,1],[1,12,1],[3,13,1],[4,14,1],[5,15,1],[6,16,1],[7,17,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":1,"ion":"C7H7","ionN":"C₆H₅CH₂","mz":91,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"benzyl","peak":1},{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"C7H7","lostN":"C₆H₅CH₂","lm":91,"cls":"methyl","peak":-1}]},{"b":1,"kind":"X","opts":[{"keep":2,"ion":"C6H5","ionN":"C₆H₅","mz":77,"lost":"C2H5","lostN":"C₂H₅","lm":29,"cls":"phenyl","peak":2},{"keep":1,"ion":"C2H5","ionN":"C₂H₅","mz":29,"lost":"C6H5","lostN":"C₆H₅","lm":77,"cls":"primary","peak":-1}]},{"b":2,"no":"ring"},{"b":3,"no":"ring"},{"b":4,"no":"ring"},{"b":5,"no":"ring"},{"b":6,"no":"ring"},{"b":7,"no":"ring"},{"b":8,"kind":"H","opts":[{"ion":"C8H9","ionN":"C₆H₅CH₂CH₂","mz":105,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":9,"kind":"H","opts":[{"ion":"C8H9","ionN":"C₆H₅CH₂CH₂","mz":105,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":10,"kind":"H","opts":[{"ion":"C8H9","ionN":"C₆H₅CH₂CH₂","mz":105,"lost":"H","lostN":"H","lm":1,"cls":"primary","peak":-1}]},{"b":11,"kind":"H","opts":[{"ion":"C8H9","ionN":"CH₃CHC₆H₅","mz":105,"lost":"H","lostN":"H","lm":1,"cls":"benzyl","peak":-1}]},{"b":12,"kind":"H","opts":[{"ion":"C8H9","ionN":"CH₃CHC₆H₅","mz":105,"lost":"H","lostN":"H","lm":1,"cls":"benzyl","peak":-1}]},{"b":13,"no":"ring"},{"b":14,"no":"ring"},{"b":15,"no":"ring"},{"b":16,"no":"ring"},{"b":17,"no":"ring"}],"pnames":[null,["C₆H₅CH₂","CH₃"],["C₆H₅","C₂H₅"]]},"chloromethane":{"smiles":"CCl","atoms":[["C",-0.5,-0.0],["Cl",0.5,-0.0],["H",-0.5,-1.0],["H",-1.366,-0.5],["H",-1.0,0.866]],"bonds":[[0,1,1],[0,2,1],[0,3,1],[0,4,1]],"cuts":[{"b":0,"kind":"X","opts":[{"keep":0,"ion":"CH3","ionN":"CH₃","mz":15,"lost":"Cl","lostN":"Cl","lm":35,"cls":"methyl","peak":1},{"keep":1,"ion":"Cl","ionN":"Cl","mz":35,"lost":"CH3","lostN":"CH₃","lm":15,"cls":"onX","peak":-1}]},{"b":1,"no":"hhal"},{"b":2,"no":"hhal"},{"b":3,"no":"hhal"}],"pnames":[null,["CH₃","Cl"]]}};
-LAB.MOLG = MOLG;
 
 /* =====================================================
    DATA. The spectrum model (isotope abundances and the compounds this lab offers: the notes' compounds and the lab extras)
    is inserted when the page is built. The tables below use the notes' wording.
    ===================================================== */
 const MSJ = {"abundances":{"C13":1.1,"C12":98.9,"Cl35":75.8,"Cl37":24.2,"Br79":50.7,"Br81":49.3},"compounds":{"hexane":{"formula":"C6H14","M":86,"dbe":0.0,"use":"notes P1 WE1 fragments","peaks":[{"ion":"C6H14","rel":12,"label":"M+","lost":null,"mz":86,"cluster":[100.0]},{"ion":"C5H11","rel":5,"label":"","lost":"CH3","mz":71,"cluster":[100.0]},{"ion":"C4H9","rel":100,"label":"base","lost":"C2H5","mz":57,"cluster":[100.0]},{"ion":"C3H7","rel":75,"label":"","lost":"C3H7","mz":43,"cluster":[100.0]},{"ion":"C2H5","rel":40,"label":"","lost":"C4H9","mz":29,"cluster":[100.0]},{"ion":"CH3","rel":3,"label":"","lost":"C5H11","mz":15,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[15,3.0,"CH3"],[29,40.0,"C2H5"],[43,75.0,"C3H7"],[57,100.0,"C4H9"],[71,5.0,"C5H11"],[86,12.0,"C6H14"],[87,0.8,"C6H14 (M+1, 13C)"]]},"butane":{"formula":"C4H10","M":58,"dbe":0.0,"use":"notes P1 WE2 M+1 (molecular ion only)","peaks":[{"ion":"C4H10","rel":12,"label":"M+","lost":null,"mz":58,"cluster":[100.0]},{"ion":"C3H7","rel":100,"label":"base","lost":"CH3","mz":43,"cluster":[100.0]},{"ion":"C2H5","rel":45,"label":"","lost":"C2H5","mz":29,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[29,45.0,"C2H5"],[43,100.0,"C3H7"],[58,12.0,"C4H10"],[59,0.53,"C4H10 (M+1, 13C)"]]},"propanone":{"formula":"C3H6O","M":58,"dbe":1.0,"use":"notes P1 WE2 and WE5","peaks":[{"ion":"C3H6O","rel":30,"label":"M+","lost":null,"mz":58,"cluster":[100.0]},{"ion":"C2H3O","rel":100,"label":"base","lost":"CH3","mz":43,"cluster":[100.0]},{"ion":"CH3","rel":20,"label":"","lost":"CH3CO","mz":15,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[15,20.0,"CH3"],[43,100.0,"C2H3O"],[58,30.0,"C3H6O"],[59,1.0,"C3H6O (M+1, 13C)"]]},"butanone":{"formula":"C4H8O","M":72,"dbe":1.0,"use":"notes P1 WE5 (larger radical lost more often)","peaks":[{"ion":"C4H8O","rel":20,"label":"M+","lost":null,"mz":72,"cluster":[100.0]},{"ion":"C3H5O","rel":6,"label":"","lost":"CH3","mz":57,"cluster":[100.0]},{"ion":"C2H3O","rel":100,"label":"base","lost":"C2H5","mz":43,"cluster":[100.0]},{"ion":"C2H5","rel":15,"label":"","lost":"CH3CO","mz":29,"cluster":[100.0]},{"ion":"CH3","rel":5,"label":"","lost":"C2H5CO","mz":15,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[15,5.0,"CH3"],[29,15.0,"C2H5"],[43,100.0,"C2H3O"],[57,6.0,"C3H5O"],[72,20.0,"C4H8O"],[73,0.89,"C4H8O (M+1, 13C)"]]},"ethanol":{"formula":"C2H6O","M":46,"dbe":0.0,"use":"notes P1 WE5","peaks":[{"ion":"C2H6O","rel":20,"label":"M+","lost":null,"mz":46,"cluster":[100.0]},{"ion":"C2H5O","rel":40,"label":"","lost":"H","mz":45,"cluster":[100.0]},{"ion":"CH3O","rel":100,"label":"base","lost":"CH3","mz":31,"cluster":[100.0]},{"ion":"C2H5","rel":15,"label":"","lost":"OH","mz":29,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[29,15.0,"C2H5"],[31,100.0,"CH3O"],[45,40.0,"C2H5O"],[46,20.0,"C2H6O"],[47,0.44,"C2H6O (M+1, 13C)"]]},"propan-2-ol":{"formula":"C3H8O","M":60,"dbe":0.0,"use":"notes P1 WE4 (weak M+)","peaks":[{"ion":"C3H8O","rel":1,"label":"M+","lost":null,"mz":60,"cluster":[100.0]},{"ion":"C2H5O","rel":100,"label":"base","lost":"CH3","mz":45,"cluster":[100.0]},{"ion":"C3H7","rel":15,"label":"","lost":"OH","mz":43,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[43,15.0,"C3H7"],[45,100.0,"C2H5O"],[60,1.0,"C3H8O"],[61,0.03,"C3H8O (M+1, 13C)"]]},"2-methylpropan-2-ol":{"formula":"C4H10O","M":74,"dbe":0.0,"use":"notes P1 WE4 (no M+ seen)","peaks":[{"ion":"C4H10O","rel":0,"label":"M+ (not seen)","lost":null,"mz":74,"cluster":[100.0]},{"ion":"C3H7O","rel":100,"label":"base","lost":"CH3","mz":59,"cluster":[100.0]},{"ion":"C4H9","rel":10,"label":"","lost":"OH","mz":57,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[57,10.0,"C4H9"],[59,100.0,"C3H7O"],[74,0.0,"C4H10O"]]},"methylbenzene":{"formula":"C7H8","M":92,"dbe":4.0,"use":"notes P1 WE6 (benzyl cation)","peaks":[{"ion":"C7H8","rel":60,"label":"M+","lost":null,"mz":92,"cluster":[100.0]},{"ion":"C7H7","rel":100,"label":"base","lost":"H","mz":91,"cluster":[100.0]},{"ion":"C6H5","rel":4,"label":"","lost":"CH3","mz":77,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[77,4.0,"C6H5"],[91,100.0,"C7H7"],[92,60.0,"C7H8"],[93,4.67,"C7H8 (M+1, 13C)"]]},"chloroethane":{"formula":"C2H5Cl","M":64,"dbe":0.0,"use":"notes P1 WE3","peaks":[{"ion":"C2H5Cl","rel":100,"label":"M+","lost":null,"mz":64,"cluster":[100.0,31.9]},{"ion":"CH2Cl","rel":20,"label":"","lost":"CH3","mz":49,"cluster":[100.0,31.9]},{"ion":"C2H5","rel":70,"label":"","lost":"Cl","mz":29,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[29,70.0,"C2H5"],[49,20.0,"CH2Cl"],[51,6.4,"CH2Cl (+2)"],[64,100.0,"C2H5Cl"],[66,31.9,"C2H5Cl (M+2 isotopologue)"]]},"dichloromethane":{"formula":"CH2Cl2","M":84,"dbe":0.0,"use":"notes P1 WE3","peaks":[{"ion":"CH2Cl2","rel":60,"label":"M+","lost":null,"mz":84,"cluster":[100.0,63.9,10.2]},{"ion":"CH2Cl","rel":100,"label":"base","lost":"Cl","mz":49,"cluster":[100.0,31.9]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[49,100.0,"CH2Cl"],[51,31.9,"CH2Cl (+2)"],[84,60.0,"CH2Cl2"],[86,38.3,"CH2Cl2 (M+2 isotopologue)"],[88,6.1,"CH2Cl2 (M+4 isotopologue)"]]},"1,2-dibromoethane":{"formula":"C2H4Br2","M":186,"dbe":0.0,"use":"notes P1 WE3","peaks":[{"ion":"C2H4Br2","rel":8,"label":"M+","lost":null,"mz":186,"cluster":[51.4,100.0,48.6]},{"ion":"C2H4Br","rel":100,"label":"base","lost":"Br","mz":107,"cluster":[100.0,97.2]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[107,100.0,"C2H4Br"],[109,97.2,"C2H4Br (+2)"],[186,4.1,"C2H4Br2"],[188,8.0,"C2H4Br2 (M+2 isotopologue)"],[190,3.9,"C2H4Br2 (M+4 isotopologue)"]]},"bromochloromethane":{"formula":"CH2BrCl","M":128,"dbe":0.0,"use":"notes P1 WE3","peaks":[{"ion":"CH2BrCl","rel":70,"label":"M+","lost":null,"mz":128,"cluster":[77.4,100.0,24.0]},{"ion":"CH2Br","rel":100,"label":"base","lost":"Cl","mz":93,"cluster":[100.0,97.2]},{"ion":"CH2Cl","rel":40,"label":"","lost":"Br","mz":49,"cluster":[100.0,31.9]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[49,40.0,"CH2Cl"],[51,12.8,"CH2Cl (+2)"],[93,100.0,"CH2Br"],[95,97.2,"CH2Br (+2)"],[128,54.2,"CH2BrCl"],[130,70.0,"CH2BrCl (M+2 isotopologue)"],[132,16.8,"CH2BrCl (M+4 isotopologue)"]]},"pentan-3-one":{"formula":"C5H10O","M":86,"dbe":1.0,"use":"notes P2 WE3","peaks":[{"ion":"C5H10O","rel":25,"label":"M+","lost":null,"mz":86,"cluster":[100.0]},{"ion":"C3H5O","rel":100,"label":"base","lost":"C2H5","mz":57,"cluster":[100.0]},{"ion":"C2H5","rel":45,"label":"","lost":"C2H5CO","mz":29,"cluster":[100.0]}],"nmr":[["CH2",2.44,4,[[3,7.3]],""],["CH3",1.06,6,[[2,7.3]],""]],"ir":[[1715,"s","C=O ketone"],[2930,"s","C-H alkyl"]],"uv":null,"notes":"","lines":[[29,45.0,"C2H5"],[57,100.0,"C3H5O"],[86,25.0,"C5H10O"],[87,1.39,"C5H10O (M+1, 13C)"]]},"3-methylbutan-2-one":{"formula":"C5H10O","M":86,"dbe":1.0,"use":"notes P2 WE3","peaks":[{"ion":"C5H10O","rel":20,"label":"M+","lost":null,"mz":86,"cluster":[100.0]},{"ion":"C4H7O","rel":8,"label":"","lost":"CH3","mz":71,"cluster":[100.0]},{"ion":"C2H3O","rel":100,"label":"base","lost":"C3H7","mz":43,"cluster":[100.0]}],"nmr":[["CH",2.58,1,[[6,6.9]],""],["CH3CO",2.13,3,[],""],["(CH3)2",1.1,6,[[1,6.9]],""]],"ir":[[1715,"s","C=O ketone"],[2930,"s","C-H alkyl"]],"uv":null,"notes":"m/z 43 is CH3CO+ (loss of C3H7) and C3H7+ (loss of CH3CO) together: both have nominal mass 43","lines":[[43,100.0,"C2H3O"],[71,8.0,"C4H7O"],[86,20.0,"C5H10O"],[87,1.11,"C5H10O (M+1, 13C)"]]},"2-bromopropane":{"formula":"C3H7Br","M":122,"dbe":0.0,"use":"notes P2 WE4","peaks":[{"ion":"C3H7Br","rel":30,"label":"M+","lost":null,"mz":122,"cluster":[100.0,97.2]},{"ion":"C2H4Br","rel":10,"label":"","lost":"CH3","mz":107,"cluster":[100.0,97.2]},{"ion":"C3H7","rel":100,"label":"base","lost":"Br","mz":43,"cluster":[100.0]}],"nmr":[["CH",4.21,1,[[6,6.6]],""],["CH3",1.71,6,[[1,6.6]],""]],"ir":[[2930,"s","C-H alkyl"]],"uv":null,"notes":"","lines":[[43,100.0,"C3H7"],[107,10.0,"C2H4Br"],[109,9.7,"C2H4Br (+2)"],[122,30.0,"C3H7Br"],[124,29.2,"C3H7Br (M+2 isotopologue)"]]},"1-bromopropane":{"formula":"C3H7Br","M":122,"dbe":0.0,"use":"notes P2 WE4","peaks":[{"ion":"C3H7Br","rel":30,"label":"M+","lost":null,"mz":122,"cluster":[100.0,97.2]},{"ion":"C2H4Br","rel":5,"label":"","lost":"CH3","mz":107,"cluster":[100.0,97.2]},{"ion":"C3H7","rel":100,"label":"base","lost":"Br","mz":43,"cluster":[100.0]},{"ion":"C2H5","rel":15,"label":"","lost":"CH2Br","mz":29,"cluster":[100.0]},{"ion":"CH2Br","rel":6,"label":"","lost":"C2H5","mz":93,"cluster":[100.0,97.2]}],"nmr":[["CH2Br",3.39,2,[[2,7.0]],""],["CH2",1.89,2,[[5,7.0]],""],["CH3",1.03,3,[[2,7.0]],""]],"ir":[[2930,"s","C-H alkyl"]],"uv":null,"notes":"","lines":[[29,15.0,"C2H5"],[43,100.0,"C3H7"],[93,6.0,"CH2Br"],[95,5.8,"CH2Br (+2)"],[107,5.0,"C2H4Br"],[109,4.9,"C2H4Br (+2)"],[122,30.0,"C3H7Br"],[124,29.2,"C3H7Br (M+2 isotopologue)"]]},"ethyl ethanoate":{"formula":"C4H8O2","M":88,"dbe":1.0,"use":"notes P2 WE5 (extends H3.3 WE6)","peaks":[{"ion":"C4H8O2","rel":10,"label":"M+","lost":null,"mz":88,"cluster":[100.0]},{"ion":"C3H5O2","rel":4,"label":"","lost":"CH3","mz":73,"cluster":[100.0]},{"ion":"C2H3O","rel":100,"label":"base","lost":"OC2H5","mz":43,"cluster":[100.0]},{"ion":"C2H5","rel":25,"label":"","lost":"CH3CO2","mz":29,"cluster":[100.0]}],"nmr":[["OCH2",4.12,2,[[3,7.1]],""],["CH3CO",2.05,3,[],""],["CH3",1.26,3,[[2,7.1]],""]],"ir":[[1740,"s","C=O ester"],[1240,"s","C-O ester"],[1050,"s","C-O ester"],[2930,"s","C-H alkyl"]],"uv":null,"notes":"","lines":[[29,25.0,"C2H5"],[43,100.0,"C2H3O"],[73,4.0,"C3H5O2"],[88,10.0,"C4H8O2"],[89,0.44,"C4H8O2 (M+1, 13C)"]]},"methyl propanoate":{"formula":"C4H8O2","M":88,"dbe":1.0,"use":"notes P2 WE5","peaks":[{"ion":"C4H8O2","rel":25,"label":"M+","lost":null,"mz":88,"cluster":[100.0]},{"ion":"C2H3O2","rel":10,"label":"","lost":"C2H5","mz":59,"cluster":[100.0]},{"ion":"C3H5O","rel":100,"label":"base","lost":"OCH3","mz":57,"cluster":[100.0]},{"ion":"C2H5","rel":60,"label":"","lost":"CO2CH3","mz":29,"cluster":[100.0]}],"nmr":[["OCH3",3.67,3,[],""],["CH2",2.32,2,[[3,7.5]],""],["CH3",1.14,3,[[2,7.5]],""]],"ir":[[1740,"s","C=O ester"],[1200,"s","C-O ester"],[2930,"s","C-H alkyl"]],"uv":null,"notes":"","lines":[[29,60.0,"C2H5"],[57,100.0,"C3H5O"],[59,10.0,"C2H3O2"],[88,25.0,"C4H8O2"],[89,1.11,"C4H8O2 (M+1, 13C)"]]},"phenylethanone":{"formula":"C8H8O","M":120,"dbe":5.0,"use":"notes P2 WE6","peaks":[{"ion":"C8H8O","rel":30,"label":"M+","lost":null,"mz":120,"cluster":[100.0]},{"ion":"C7H5O","rel":100,"label":"base","lost":"CH3","mz":105,"cluster":[100.0]},{"ion":"C6H5","rel":60,"label":"","lost":"CH3CO","mz":77,"cluster":[100.0]},{"ion":"C2H3O","rel":10,"label":"","lost":"C6H5","mz":43,"cluster":[100.0]}],"nmr":[["ArH",7.7,5,[],"arom5:7.4-8.0"],["CH3",2.61,3,[],""]],"ir":[[1685,"s","C=O ketone (conjugated)"],[3060,"w","=C-H arene"],[2925,"w","C-H alkyl"],[1600,"s","C=C arene"],[1580,"s","C=C arene"]],"uv":{"lmax":241,"eps":12800,"note":"strong: C=O conjugated with the ring"},"notes":"","lines":[[43,10.0,"C2H3O"],[77,60.0,"C6H5"],[105,100.0,"C7H5O"],[120,30.0,"C8H8O"],[121,2.67,"C8H8O (M+1, 13C)"]]},"phenylethanal":{"formula":"C8H8O","M":120,"dbe":5.0,"use":"notes P2 WE6","peaks":[{"ion":"C8H8O","rel":25,"label":"M+","lost":null,"mz":120,"cluster":[100.0]},{"ion":"C7H7","rel":100,"label":"base","lost":"CHO","mz":91,"cluster":[100.0]},{"ion":"CHO","rel":10,"label":"","lost":"C7H7","mz":29,"cluster":[100.0]}],"nmr":[["CHO",9.74,1,[[2,2.4]],""],["ArH",7.3,5,[],"arom5"],["CH2",3.68,2,[[1,2.4]],""]],"ir":[[1725,"s","C=O aldehyde"],[3030,"w","=C-H arene"],[1600,"s","C=C arene"],[1495,"s","C=C arene"],[2900,"s","C-H alkyl"]],"uv":{"lmax":258,"eps":250,"note":"weak: ring alone, C=O not conjugated with it"},"notes":"","lines":[[29,10.0,"CHO"],[91,100.0,"C7H7"],[120,25.0,"C8H8O"],[121,2.22,"C8H8O (M+1, 13C)"]]},"(chloromethyl)benzene":{"formula":"C7H7Cl","M":126,"dbe":4.0,"use":"notes P2 WE7 (predicting)","peaks":[{"ion":"C7H7Cl","rel":25,"label":"M+","lost":null,"mz":126,"cluster":[100.0,31.9]},{"ion":"C7H7","rel":100,"label":"base","lost":"Cl","mz":91,"cluster":[100.0]}],"nmr":[["ArH",7.35,5,[],"arom5"],["CH2Cl",4.57,2,[],""]],"ir":[[3030,"w","=C-H arene"],[1600,"s","C=C arene"],[1495,"s","C=C arene"],[700,"s","fingerprint (C-Cl range)"]],"uv":null,"notes":"","lines":[[91,100.0,"C7H7"],[126,25.0,"C7H7Cl"],[128,8.0,"C7H7Cl (M+2 isotopologue)"]]},"propane":{"formula":"C3H8","M":44,"dbe":0.0,"use":"lab extra","peaks":[{"ion":"C3H8","rel":25,"label":"M+","lost":null,"mz":44,"cluster":[100.0]},{"ion":"C3H7","rel":20,"label":"","lost":"H","mz":43,"cluster":[100.0]},{"ion":"C2H5","rel":100,"label":"base","lost":"CH3","mz":29,"cluster":[100.0]},{"ion":"CH3","rel":5,"label":"","lost":"C2H5","mz":15,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[15,5.0,"CH3"],[29,100.0,"C2H5"],[43,20.0,"C3H7"],[44,25.0,"C3H8"],[45,0.83,"C3H8 (M+1, 13C)"]]},"ethanal":{"formula":"C2H4O","M":44,"dbe":1.0,"use":"lab extra","peaks":[{"ion":"C2H4O","rel":60,"label":"M+","lost":null,"mz":44,"cluster":[100.0]},{"ion":"C2H3O","rel":40,"label":"","lost":"H","mz":43,"cluster":[100.0]},{"ion":"CHO","rel":100,"label":"base","lost":"CH3","mz":29,"cluster":[100.0]},{"ion":"CH3","rel":30,"label":"","lost":"CHO","mz":15,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[15,30.0,"CH3"],[29,100.0,"CHO"],[43,40.0,"C2H3O"],[44,60.0,"C2H4O"],[45,1.33,"C2H4O (M+1, 13C)"]]},"ethanoic acid":{"formula":"C2H4O2","M":60,"dbe":1.0,"use":"lab extra","peaks":[{"ion":"C2H4O2","rel":60,"label":"M+","lost":null,"mz":60,"cluster":[100.0]},{"ion":"CHO2","rel":85,"label":"","lost":"CH3","mz":45,"cluster":[100.0]},{"ion":"C2H3O","rel":100,"label":"base","lost":"OH","mz":43,"cluster":[100.0]},{"ion":"CH3","rel":15,"label":"","lost":"COOH","mz":15,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[15,15.0,"CH3"],[43,100.0,"C2H3O"],[45,85.0,"CHO2"],[60,60.0,"C2H4O2"],[61,1.33,"C2H4O2 (M+1, 13C)"]]},"ethylbenzene":{"formula":"C8H10","M":106,"dbe":4.0,"use":"lab extra","peaks":[{"ion":"C8H10","rel":30,"label":"M+","lost":null,"mz":106,"cluster":[100.0]},{"ion":"C7H7","rel":100,"label":"base","lost":"CH3","mz":91,"cluster":[100.0]},{"ion":"C6H5","rel":8,"label":"","lost":"C2H5","mz":77,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[77,8.0,"C6H5"],[91,100.0,"C7H7"],[106,30.0,"C8H10"],[107,2.67,"C8H10 (M+1, 13C)"]]},"chloromethane":{"formula":"CH3Cl","M":50,"dbe":0.0,"use":"lab extra","peaks":[{"ion":"CH3Cl","rel":100,"label":"M+","lost":null,"mz":50,"cluster":[100.0,31.9]},{"ion":"CH3","rel":10,"label":"","lost":"Cl","mz":15,"cluster":[100.0]}],"nmr":null,"ir":null,"uv":null,"notes":"","lines":[[15,10.0,"CH3"],[50,100.0,"CH3Cl"],[52,31.9,"CH3Cl (M+2 isotopologue)"]]}}};
-LAB.MSJ = MSJ;
 const AB = MSJ.abundances;
 const NOTES_MOLS = ["hexane", "butane", "propanone", "butanone", "ethanol", "propan-2-ol", "2-methylpropan-2-ol", "methylbenzene", "chloroethane", "dichloromethane", "1,2-dibromoethane", "bromochloromethane", "pentan-3-one", "3-methylbutan-2-one", "2-bromopropane", "1-bromopropane", "ethyl ethanoate", "methyl propanoate", "phenylethanone", "phenylethanal", "(chloromethyl)benzene"];
 const EXTRA_MOLS = ["propane", "ethanal", "ethanoic acid", "ethylbenzene", "chloromethane"];
 const ALL_MOLS = NOTES_MOLS.concat(EXTRA_MOLS);
-LAB.NOTES_MOLS = NOTES_MOLS; LAB.EXTRA_MOLS = EXTRA_MOLS;
 const CPD = n => MSJ.compounds[n];
 
 /* ---------- formulas ---------- */
@@ -965,7 +966,6 @@ const nominal = f => Object.entries(parseF(f)).reduce((a, [e, n]) => a + NOM[e] 
 const subF = f => String(f).replace(/\d+/g, m => [...m].map(d => "₀₁₂₃₄₅₆₇₈₉"[d]).join(""));
 const hillOf = d => { const ks = ["C", "H"].filter(k => d[k]).concat(Object.keys(d).filter(k => k !== "C" && k !== "H" && d[k]).sort()); return ks.map(k => k + (d[k] > 1 ? d[k] : "")).join(""); };
 const dbeOf = f => { const d = parseF(f); const X = (d.Cl || 0) + (d.Br || 0); return (d.C || 0) - ((d.H || 0) + X) / 2 + (d.N || 0) / 2 + 1; };
-LAB.parseF = parseF; LAB.nominal = nominal; LAB.dbeOf = dbeOf;
 
 /* ---------- isotope clusters from the abundances (as build_ms.py) ---------- */
 const comb = (n, k) => { let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; };
@@ -979,7 +979,6 @@ function cluster(nCl, nBr){
   const m = Math.max(...out);
   return { p: out, rel: out.map(v => 100 * v / m) };
 }
-LAB.cluster = cluster;
 const m1pc = n => 100 * n * AB.C13 / AB.C12;     // M+1 as % of M from 13C only
 // the notes' halogen sets (at most two halogen atoms)
 const HSETS = [
@@ -990,7 +989,6 @@ const HSETS = [
   { k: "Br2", t: "two Br", cl: 0, br: 2, approx: "1 : 2 : 1", v: "two Br" },
   { k: "BrCl", t: "one Br and one Cl", cl: 1, br: 1, approx: "3 : 4 : 1", v: "one Br and one Cl" }
 ];
-LAB.HSETS = HSETS;
 const hsetOf = (cl, br) => HSETS.find(s => s.cl === cl && s.br === br);
 
 /* ---------- losses table and ions table (the notes' core tables) ---------- */
@@ -998,13 +996,11 @@ const LOSSES = [
   { d: 15, t: "CH₃" }, { d: 17, t: "OH" }, { d: 29, t: "C₂H₅ or CHO" }, { d: 31, t: "OCH₃" }, { d: 35, t: "Cl (and M − 37)", alt: 37 },
   { d: 43, t: "CH₃CO or C₃H₇" }, { d: 45, t: "COOH or OC₂H₅" }, { d: 79, t: "Br (and M − 81)", alt: 81 }
 ];
-LAB.LOSSES = LOSSES;
 const IONS = [
   { mz: 15, t: "CH₃⁺" }, { mz: 29, t: "C₂H₅⁺ or CHO⁺" }, { mz: 31, t: "CH₂OH⁺" }, { mz: 43, t: "C₃H₇⁺ or CH₃CO⁺" },
   { mz: 45, t: "CH₃CHOH⁺ or COOH⁺ (ethanoic acid)" }, { mz: 57, t: "C₄H₉⁺ or C₂H₅CO⁺" },
   { mz: 77, t: "C₆H₅⁺" }, { mz: 91, t: "C₆H₅CH₂⁺" }, { mz: 105, t: "C₆H₅CO⁺" }
 ];
-LAB.IONS = IONS;
 
 /* ---------- Data Booklet section 7 rows used here (as printed; H3.2) ---------- */
 const IRB = {
@@ -1015,7 +1011,6 @@ const IRB = {
 // IR band labels → booklet row (bands below 1500 cm⁻¹ are fingerprint bands: never proof on their own, H3.2)
 const IRMAP = { "C=O ketone": "coK", "C=O ketone (conjugated)": "coK", "C=O aldehyde": "coK", "C=O ester": "coEs", "C-O ester": "c1Es", "C-H alkyl": "chA", "=C-H arene": "chAr", "C=C arene": "ccAr", "fingerprint (C-Cl range)": "ccl" };
 const IRLO = { coK: 1670, coEs: 1710, c1Es: 1050, chA: 2850, chAr: 3000, ccAr: 1475, ccl: 700 }, IRHI = { coK: 1740, coEs: 1750, c1Es: 1330, chA: 2950, chAr: 3100, ccAr: 1625, ccl: 800 };
-LAB.IRMAP = IRMAP; LAB.IRLO = IRLO; LAB.IRHI = IRHI;
 
 /* ---------- display names and the ion of each peak ---------- */
 const LABEL = { "2-methylpropan-2-ol": "2-methylpropan-2-ol", "(chloromethyl)benzene": "(chloromethyl)benzene" };
@@ -1024,9 +1019,7 @@ const MF = n => subF(CPD(n).formula);
 // the cation of a peak, written as the notes write it (generated names from 01-mol.js)
 const peakIon = (n, k) => { const p = CPD(n).peaks[k]; if (!p.lost) return MF(n) + "⁺"; const pn = MOLG[n].pnames[k]; return pn[0] + "⁺"; };
 const peakLost = (n, k) => { const p = CPD(n).peaks[k]; if (!p.lost) return ""; return MOLG[n].pnames[k][1]; };
-LAB.peakIon = peakIon;
 const baseIdx = n => { const ps = CPD(n).peaks; let b = 0; ps.forEach((p, i) => { if (p.rel > ps[b].rel) b = i; }); return b; };
-LAB.baseIdx = baseIdx;
 const halOf = f => { const d = parseF(f); return [d.Cl || 0, d.Br || 0]; };
 // spectrum lines grouped by the peak (ion) they belong to: [{k, p, lines:[[mz, h, kind]], cl, br}]
 function peakLines(n){
@@ -1037,10 +1030,8 @@ function peakLines(n){
     return { k, p, lines: ls, cl, br };
   });
 }
-LAB.peakLines = peakLines;
 // m/z of the heavier lines of each halogen cluster (labelled only when chosen: the bracket names the cluster)
 const isoPartners = n => new Set(peakLines(n).flatMap(g => g.lines.filter(l => /^M\+[24]/.test(l[2])).map(l => l[0])));
-LAB.isoPartners = isoPartners;
 
 /* =====================================================
    SHARED DRAWING: displayed formulae with tappable bonds, stick mass spectra, isotope bars, ¹H NMR spectra.
@@ -1061,7 +1052,6 @@ function bondName(name, bi){
   let x = a, y = b; if (g.atoms[a][0] === "H"){ x = b; y = a; }
   return `${lab[x]}${ord === 2 ? "=" : ord === 3 ? "≡" : "–"}${lab[y]} bond`;
 }
-LAB.bondName = bondName;
 // o: { tapBond(bi), broken: bi, ion: Set(atoms), rad: Set(atoms), bond, maxH, W }
 function drawMol(svg, name, o){
   o = o || {};
@@ -1107,7 +1097,6 @@ function drawMol(svg, name, o){
   if (o.tapBond) svg.querySelectorAll(".bhit").forEach(l => { l.addEventListener("click", () => o.tapBond(+l.dataset.b)); kbdKey(l, () => o.tapBond(+l.dataset.b)); });
   return { P, sc, H: Hh };
 }
-LAB.drawMol = drawMol;
 // heavy-atom sides of a broken bond (explicit-H graph): [atoms with a, atoms with b]
 function sidesOf(name, bi){
   const g = MOLG[name], [a0, b0] = g.bonds[bi], adj = g.atoms.map(() => []);
@@ -1115,7 +1104,6 @@ function sidesOf(name, bi){
   const grow = st => { const seen = new Set([st]), q = [st]; while (q.length){ const x = q.pop(); adj[x].forEach(y => { if (!seen.has(y)){ seen.add(y); q.push(y); } }); } return seen; };
   return [grow(a0), grow(b0)];
 }
-LAB.sidesOf = sidesOf;
 
 /* ---------- stick mass spectrum ----------
    o: { lines:[[mz, h, key]], ghost:[[mz,h]], x:[lo,hi], sel:mz, tap(mz), lab(mz,h)→text|null, brackets:[{a,b,t}], h, hide } */
@@ -1180,7 +1168,6 @@ function msPlot(svg, o){
   if (o.tap) svg.querySelectorAll(".hitbox[data-mz]").forEach(r => { r.addEventListener("click", () => o.tap(+r.dataset.mz)); kbdKey(r, () => o.tap(+r.dataset.mz)); });
   return { X, Y, W, H: Hh, m };
 }
-LAB.msPlot = msPlot;
 // x range for a compound's spectrum
 const xRange = M => [10, Math.max(50, Math.ceil((M + 8) / 10) * 10)];
 
@@ -1204,13 +1191,11 @@ function barPlot(svg, bars, o){
   });
   setSvg(svg, W, Hh, s);
 }
-LAB.barPlot = barPlot;
 
 /* ---------- ¹H NMR (first-order, 400 MHz, as H3.3) ---------- */
 const MHZ = 400, LW = 1.0, BW = 8.0;
 const AROM_L = [7.3, 7.28, 7.26, 7.24, 7.22, 7.2, 7.18, 7.16], AROM_W = [1, 2, 3, 2, 3, 2, 2, 1];   // ring multiplet as in H3.3
 const PASCAL = n => { let r = [1]; for (let i = 0; i < n; i++){ const s = [1]; for (let k = 1; k < r.length; k++) s.push(r[k - 1] + r[k]); s.push(1); r = s; } return r; };
-LAB.PASCAL = PASCAL;
 // set: [label, δ, nH, [[n, J]], flag]
 function setLines(st){
   const [lab, d, nH, nb, kind] = st;
@@ -1230,11 +1215,9 @@ function setLines(st){
   const tot = lines.reduce((a, l) => a + l.I, 0);
   return lines.map(l => ({ ppm: d + l.hz / MHZ, I: nH * l.I / tot }));
 }
-LAB.setLines = setLines;
 const MULT = ["singlet", "doublet", "triplet", "quartet", "quintet", "sextet", "septet"], MABB = ["s", "d", "t", "q", "quintet", "sextet", "septet"];
 const multAbb = st => /^arom5/.test(st[4] || "") ? "m" : (() => { const n = st[3].reduce((a, g) => a + g[0], 0); return n <= 6 ? MABB[n] : "m"; })();
 const dTxt = st => { const sp = (st[4] || "").match(/:([\d.]+)-([\d.]+)/); if (sp) return (+sp[1]).toFixed(1) + "–" + (+sp[2]).toFixed(1); if (/^arom5/.test(st[4] || "")){ const ls = setLines(st).map(l => l.ppm); return (Math.floor(Math.min(...ls) * 10 + 0.5) / 10).toFixed(1) + "–" + (Math.round(Math.max(...ls) * 10) / 10).toFixed(1); } return st[1].toFixed(2); };
-LAB.multAbb = multAbb; LAB.dTxt = dTxt;
 const lor = (x, c, w) => (2 / (Math.PI * w)) / (1 + 4 * (x - c) * (x - c) / (w * w));
 function nmrPlot(svg, sets, o){
   o = o || {};
@@ -1268,14 +1251,12 @@ function nmrPlot(svg, sets, o){
   vis.forEach((sg, i) => { s += T(lx[i], 16, String(sg.st[2] / g), "intlab", 'text-anchor="middle"'); if (Math.abs(lx[i] - cx[i]) > 2) s += `<line class="lead" x1="${lx[i].toFixed(1)}" y1="20" x2="${cx[i].toFixed(1)}" y2="${top - 2}"/>`; });
   setSvg(svg, W, Hh, s);
 }
-LAB.nmrPlot = nmrPlot;
 const nmrHi = sets => { const mx = Math.max(...sets.flatMap(st => setLines(st).map(l => l.ppm))); return mx > 8.5 ? 11 : mx > 4.6 ? Math.ceil(mx + 1.2) : 5; };
 
 /* =====================================================
    A. ISOTOPE PATTERNS (9813 1.5(b)(ii)): halogen clusters, the carbon count, fragments that keep or lose the halogen
    ===================================================== */
 const IP = { set: "Cl", mode: "show", pred: null, ans: null, right: 0, tried: 0, n: 4, km: "chloroethane" };
-LAB.IP = IP;
 const ISO = { cl: ["³⁵Cl", "³⁷Cl"], br: ["⁷⁹Br", "⁸¹Br"] };
 const pct = v => sfS(v, 3);
 function ipWorking(hs){
@@ -1311,7 +1292,6 @@ function ipWorking(hs){
   L.push(`<p class="hint">${H("Heights: each probability ÷ the largest × 100. The m/z of M uses the lightest isotopes, ³⁵Cl and ⁷⁹Br, so it is not M{r} from the Periodic Table: chloroethane gives M⁺ at 64 and 66, while <i>A</i><sub>r</sub> values give 64.5.")}</p>`);
   return L.join("");
 }
-LAB.ipWorking = ipWorking;
 function ipBars(hs, labels){
   const r = cluster(hs.cl, hs.br).rel;
   const tags = ["M", "M+2", "M+4"];
@@ -1329,9 +1309,7 @@ function ipRender(){
   $("ip-note").innerHTML = H(hide ? "Heights hidden until you answer: judge the shape." : `Approximate ratio ${hs.k === "none" ? "(one peak)" : hs.approx}; calculated heights shown (tallest = 100).`);
   $("ip-work").innerHTML = hide ? `<p class="hint">${H("The working appears once you have answered.")}</p>` : ipWorking(hs);
 }
-LAB.ipRender = ipRender;
 function ipNewPred(){ let k; do { k = pick(HSETS).k; } while (k === IP.ans); IP.ans = k; IP.pred = null; $("ip-pfb").hidden = true; document.querySelectorAll("#ip-popts button").forEach(b => { b.disabled = false; b.setAttribute("aria-pressed", "false"); }); ipRender(); }
-LAB.ipNewPred = ipNewPred;
 function ipAnswer(k){
   if (IP.pred) return;
   IP.pred = k; IP.tried++;
@@ -1345,7 +1323,6 @@ function ipAnswer(k){
   $("ip-pscore").textContent = `${IP.right} right out of ${IP.tried}`;
   ipRender();
 }
-LAB.ipAnswer = ipAnswer;
 
 /* ---------- carbon count ---------- */
 function icRender(){
@@ -1356,7 +1333,6 @@ function icRender(){
   const rr = +sf(r / 100, 4), back = rr * 100 / 1.1;       // from the ratio as printed (4 s.f.)
   $("ic-note").innerHTML = H(`M+1 / M = n × 1.1 / 98.9 = ${n} × 1.1 / 98.9 = ${sfS(rr, 4)} (${sfS(r, 3)} %). The rule gives n ≈ ${sfS(rr, 4)} × 100 / 1.1 = ${back.toFixed(2)}, slightly above ${n}: round to the nearest whole number.`);
 }
-LAB.icRender = icRender;
 function icWork(){
   const pm = parseAnswer($("ic-m").value, ["%"]), pm1 = parseAnswer($("ic-m1").value, ["%"]), M = pm.value, M1 = pm1.value;
   const fb = $("ic-fb"), w = $("ic-work");
@@ -1378,18 +1354,15 @@ function icWork(){
   fb.className = "fb info";
   fb.innerHTML = `<p class="ink">${H(nr >= 1 && off <= 0.3 ? `About ${nr} carbon atom${nr > 1 ? "s" : ""}.` : "No clear whole number.")}</p>`;
 }
-LAB.icWork = icWork;
 const IC_EX = [["butane", 12.0, 0.53], ["propanone", 30.0, 1.00], ["pentan-3-one", 25.0, 1.39]];
 
 /* ---------- keep or lose the halogen ---------- */
 const IK_MOLS = ["chloroethane", "dichloromethane", "1,2-dibromoethane", "bromochloromethane", "chloromethane"];
-LAB.IK_MOLS = IK_MOLS;
 function clusterBrackets(n){
   const out = [];
   peakLines(n).forEach(g => { if (g.cl + g.br && g.p.rel > 0){ const hs = hsetOf(g.cl, g.br); out.push({ a: g.p.mz, b: g.p.mz + 2 * (g.cl + g.br), t: hs.approx + ", " + hs.v, approx: hs.approx, v: hs.v, k: g.k }); } });
   return out;
 }
-LAB.clusterBrackets = clusterBrackets;
 function ikRender(){
   const n = IP.km, c = CPD(n);
   document.querySelectorAll("#ik-mols button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.m === n)));
@@ -1407,7 +1380,6 @@ function ikRender(){
   $("ik-tbl").querySelectorAll("th").forEach(th => { th.innerHTML = H(th.textContent); });
   $("ik-call").innerHTML = `<p>${H("Fragment ions that still contain the halogen show the same pattern; fragments that have lost it show single peaks: a powerful clue.")}</p>`;
 }
-LAB.ikRender = ikRender;
 
 function bindIP(){
   $("ip-sets").innerHTML = HSETS.map(s => `<button type="button" data-k="${s.k}" aria-pressed="false">${H(s.k === "none" ? "none" : s.k === "Cl2" ? "Cl₂" : s.k === "Br2" ? "Br₂" : s.k)}</button>`).join("");
@@ -1425,14 +1397,11 @@ function bindIP(){
   $("ik-mols").querySelectorAll("button").forEach(b => b.onclick = () => { IP.km = b.dataset.m; ikRender(); });
   ipRender(); icRender(); ikRender();
 }
-LAB.ipSet = k => { IP.mode = "show"; document.querySelector('input[name="ip-mode"][value="show"]').checked = true; IP.set = k; ipRender(); };
-LAB.ikSet = n => { IP.km = n; ikRender(); };
 
 /* =====================================================
    B. FRAGMENTATION EXPLORER (9813 1.5(a)(i), 1.5(b)(iii)): simple cleavage of one bond, cation + radical = M
    ===================================================== */
 const FE = { mol: "hexane", cut: null, found: new Set(), all: false, mode: "pred0", pred: null, scored: new Set(), right: 0, tried: 0 };
-LAB.FE = FE;
 const CLS_NOTE = {
   methyl: "A methyl cation, CH₃⁺: the least stable alkyl cation (methyl < primary < secondary < tertiary, as in 11.1 Part 3), so it forms rarely and its peak is small.",
   primary: "A primary carbocation: more stable than CH₃⁺, less stable than a secondary or tertiary one (methyl < primary < secondary < tertiary).",
@@ -1450,12 +1419,9 @@ const CLS_NOTE = {
 };
 const TROP = `<span class="beyond">Beyond the syllabus</span>${H("The benzyl cation rearranges to the more stable seven-membered tropylium ion.")}`;
 const PRED_MOLS = () => ALL_MOLS.filter(n => CPD(n).peaks[baseIdx(n)].lost);
-LAB.PRED_MOLS = PRED_MOLS;
 const useTag = n => { const u = CPD(n).use, m = u.match(/P(\d) (WE\d(?: and WE\d)?)/); return u === "lab extra" ? "lab extra" : m ? "notes Part " + m[1] + " " + m[2] : "notes"; };
-LAB.useTag = useTag;
 const mPlus = n => MF(n) + "⁺";
 function cutsOf(n){ return MOLG[n].cuts; }
-LAB.cutsOf = cutsOf;
 function feTap(bi){
   if (FE.mode === "pred" && FE.pred != null) return;
   FE.cut = bi;
@@ -1473,7 +1439,6 @@ function feTap(bi){
   }
   feRender();
 }
-LAB.feTap = feTap;
 function optHTML(n, o, both){
   const M = CPD(n).M, c = CPD(n);
   const k = o.peak >= 0 ? o.peak : o.shared != null ? o.shared : -1;
@@ -1528,9 +1493,7 @@ function feRender(){
   $("fs-note").innerHTML = H(`Simulated: simple-cleavage ions only; peak heights illustrative. ${c.peaks[0].rel ? "M⁺ at m/z " + c.M + " is shown from the start" : "No M⁺ peak at m/z " + c.M + " in the simulated spectrum: M⁺ breaks up too easily"}.${ghost.length && !FE.all ? " Peaks not yet found are drawn faintly." : ""}`);
   $("fe-found").innerHTML = H(FE.mode === "pred" ? "Predict mode: the fragment peaks are hidden until you tap a bond." : `Found: ${pl.filter(g => g.p.lost && FE.found.has(g.k)).map(g => "m/z " + g.p.mz).join(", ") || "none yet"}.`);
 }
-LAB.feRender = feRender;
 function feSet(n, bi){ FE.mol = n; FE.cut = null; FE.found = new Set(); FE.all = false; FE.pred = null; $("fe-pfb").hidden = true; feRender(); if (bi != null) feTap(bi); }
-LAB.feSet = feSet;
 function bindFE(){
   const chip = n => `<button type="button" data-m="${n}" aria-pressed="false">${H(nameOf(n))}</button>`;
   $("fe-mols").innerHTML = NOTES_MOLS.map(chip).join(""); $("fe-mols2").innerHTML = EXTRA_MOLS.map(chip).join("");
@@ -1546,20 +1509,14 @@ function bindFE(){
    C. SPECTRUM READER (9813 1.5(b)(i)–(iii)): tap a peak; mark M⁺, the base peak and the loss; which compound?
    ===================================================== */
 const RD = { mol: "hexane", mode: "show", sel: null, step: 0, lossK: null, msg: null, grp: null, ans: null, pick: null, right: 0, tried: 0 };
-LAB.RD = RD;
 // a note on a compound's peak, as the notes write it
 const RD_NOTE = { "3-methylbutan-2-one": "m/z 43 is CH₃CO⁺ (loss of C₃H₇•) and C₃H₇⁺ (loss of CH₃CO•) together: both have nominal mass 43." };
-LAB.RD_NOTE = RD_NOTE;
 const WHICH = [["propane", "ethanal"], ["butane", "propanone"], ["propan-2-ol", "ethanoic acid"], ["pentan-3-one", "3-methylbutan-2-one"], ["ethyl ethanoate", "methyl propanoate"], ["phenylethanone", "phenylethanal"]];
-LAB.WHICH = WHICH;
 const lossRow = d => LOSSES.find(r => r.d === d || r.alt === d);
 const heights = n => { const m = new Map(); CPD(n).lines.forEach(l => m.set(l[0], (m.get(l[0]) || 0) + l[1])); return m; };
-LAB.heights = heights;
 // no count from an M⁺ weaker than 5 % of the base peak
 const weakM = n => CPD(n).peaks[0].rel < 5;
-LAB.weakM = weakM;
 const nCarb = n => { const c = CPD(n), h = heights(n); const hM = h.get(c.M), h1 = h.get(c.M + 1); if (!c.peaks[0].rel || weakM(n) || !h1 || halOf(c.formula).some(x => x)) return null; return { hM, h1, n: h1 / hM * 100 / 1.1 }; };
-LAB.nCarb = nCarb;
 function lineInfo(n, mz){
   const c = CPD(n), pl = peakLines(n), hs = heights(n), out = [];
   if (mz === c.M && !(c.peaks[0].rel > 0)) return [`no peak at ${mz}: M⁺ (${MF(n)}⁺) is not seen in the simulated spectrum; it breaks up too easily.`];
@@ -1581,7 +1538,6 @@ function lineInfo(n, mz){
   if (RD_NOTE[n] && out.length && mz === 43) out.push(RD_NOTE[n]);
   return out;
 }
-LAB.lineInfo = lineInfo;
 function rdPlot(n, o){
   o = o || {};
   const c = CPD(n), lines = c.lines.filter(l => l[1] > 0).map(l => [l[0], l[1]]);
@@ -1606,7 +1562,6 @@ function rdTap(mz){
   if (RD.mode === "mark") return rdMarkTap(mz);
   rdRender();
 }
-LAB.rdTap = rdTap;
 function rdInfoHTML(n){
   const c = CPD(n);
   if (RD.sel == null) return `<p>${H(`Tap a peak (or its m/z) to read it. ${nameOf(n)}, ${MF(n)}: M = ${c.M}.`)}</p>`;
@@ -1614,7 +1569,6 @@ function rdInfoHTML(n){
   return L.map(t => `<p>${H(t)}</p>`).join("");
 }
 const rdPeaks = n => [...new Set(CPD(n).lines.filter(l => l[1] > 0).map(l => l[0]))].sort((a, b) => a - b);
-LAB.rdPeaks = rdPeaks;
 // Previous peak / Next peak: the same reading as a tap, for a keyboard or a spectrum whose peaks are too close to tap one by one
 function rdStep(dir){
   const n = RD.mode === "which" ? RD.ans : RD.mol, ms = rdPeaks(n);
@@ -1623,7 +1577,6 @@ function rdStep(dir){
   const mz = ms[Math.max(0, Math.min(ms.length - 1, i + dir))];
   if (RD.mode === "mark"){ RD.sel = mz; rdRender(); } else rdTap(mz);      // Mark it yourself: move the pointer, then press "Mark this peak"
 }
-LAB.rdStep = rdStep;
 function rdNav(n){
   const ms = rdPeaks(n), i = RD.sel == null ? -1 : ms.indexOf(RD.sel);
   $("rd-prev").disabled = i === 0 || (i < 0 && RD.sel != null); $("rd-next").disabled = i === ms.length - 1;
@@ -1644,7 +1597,6 @@ function rdRender(){
   rdTask();
   rdNav(n);
 }
-LAB.rdRender = rdRender;
 /* ---------- mark it yourself ---------- */
 function rdMarkStart(n){
   RD.mol = n || pick(ALL_MOLS.filter(x => x !== RD.mol)); RD.step = 0; RD.sel = null; RD.msg = null;
@@ -1654,7 +1606,6 @@ function rdMarkStart(n){
   if (!c.peaks[0].rel) RD.step = 0;
   rdRender();
 }
-LAB.rdMarkStart = rdMarkStart;
 function rdMarkTap(mz){
   const n = RD.mol, c = CPD(n), b = baseIdx(n), bmz = c.peaks[b].mz;
   if (RD.step >= 2){ if (RD.step >= 3){ RD.msg = ["info", rdInfoHTML(n)]; } rdRender(); return; }
@@ -1707,7 +1658,7 @@ function rdTask(){
     if (RD.step >= 1) s += `<li>${H(steps[1])}${RD.step > 1 ? " ✓" : ""}</li>`;
     if (RD.step >= 2 && RD.lossK != null){
       const p = c.peaks[RD.lossK];
-      s += `<li>${H(`The peak at m/z ${p.mz}: what is lost from M?`)}${RD.step > 2 ? " ✓" : `<div class="form" style="margin-top:6px"><label class="field"><span>Mass lost</span><input id="rd-ld" type="text" inputmode="numeric" autocomplete="off"></label><label class="field"><span>From the losses table</span><select id="rd-lr">${LOSSES.map(r => `<option value="${r.d}">${H("M − " + r.d + ": " + r.t)}</option>`).join("")}</select></label></div><div class="btnrow" style="margin-top:6px"><button class="btn primary sm" id="rd-lc">Check</button></div>`}</li>`;
+      s += `<li>${H(`The peak at m/z ${p.mz}: what is lost from M?`)}${RD.step > 2 ? " ✓" : `<div class="form" style="margin-top:6px"><label class="field"><span>Mass lost</span><input id="rd-ld" type="text" inputmode="decimal" autocomplete="off"></label><label class="field"><span>From the losses table</span><select id="rd-lr">${LOSSES.map(r => `<option value="${r.d}">${H("M − " + r.d + ": " + r.t)}</option>`).join("")}</select></label></div><div class="btnrow" style="margin-top:6px"><button class="btn primary sm" id="rd-lc">Check</button></div>`}</li>`;
     }
     s += `</ol>`;
     if (RD.step >= 3) s += `<p class="hint">${H("All found. The labels are now shown; tap any peak to read it.")}</p>`;
@@ -1736,13 +1687,11 @@ function whyNot(obs, x){
   if (co && Math.round(co.n) !== cx) R.push(`the M+1 peak gives n ≈ (${co.h1.toFixed(2)} / ${co.hM.toFixed(1)}) × 100 / 1.1 = ${co.n.toFixed(1)}, so ${Math.round(co.n)} carbon atoms; ${nameOf(x)} has ${cx}`);
   return R;
 }
-LAB.whyNot = whyNot;
 function rdWhichStart(force){
   let g; do { g = force ? force[0] : pick(WHICH); } while (!force && RD.grp === g);
   RD.grp = g; RD.ans = force ? force[1] : pick(g); RD.pick = null; RD.sel = null;
   rdRender();
 }
-LAB.rdWhichStart = rdWhichStart;
 function rdWhich(m){
   if (RD.pick) return;
   RD.pick = m; RD.tried++;
@@ -1754,7 +1703,6 @@ function rdWhich(m){
   rdRender();
 }
 function rdSet(n, mz){ RD.mode = "show"; document.querySelector('input[name="rd-mode"][value="show"]').checked = true; RD.mol = n; RD.sel = mz == null ? null : mz; rdRender(); }
-LAB.rdSet = rdSet;
 function bindRD(){
   const chip = n => `<button type="button" data-m="${n}" aria-pressed="false">${H(nameOf(n))}</button>`;
   $("rd-mols").innerHTML = NOTES_MOLS.map(chip).join(""); $("rd-mols2").innerHTML = EXTRA_MOLS.map(chip).join("");
@@ -1787,12 +1735,10 @@ const US_ROUNDS = [
     same: { IR: "IR cannot decide: both are esters (C=O near 1740 cm⁻¹ and C–O bands)." } },
   { f: "C8H8O", c: ["phenylethanone", "phenylethanal"], we: "notes Part 2 WE6", uv: true,
     out: { "phenylethanone": { MS: "it would give 105 (C₆H₅CO⁺, base) and 77 (C₆H₅⁺), not 91 (C₆H₅CH₂⁺)", NMR: "it would give a singlet (3H) at 2.61 and no aldehyde signal near 9.7", IR: "its C=O band would be at 1685 cm⁻¹ (conjugated with the ring), not 1725", UV: "it would show a strong band at 241 nm, beyond about 210 nm: its C=O is conjugated with the ring" },
-           "phenylethanal": { MS: "it would give 91 (C₆H₅CH₂⁺, base) and 29 (CHO⁺), not 105 and 77", NMR: "it would give an aldehyde triplet (1H) at 9.74 and a doublet (2H) at 3.68, not a singlet (3H) at 2.61", IR: "its C=O band would be at 1725 cm⁻¹ (not conjugated), not 1685", UV: "it would show only a benzene ring's own bands, a strong one near 205 nm and a weak one near 258 nm, with nothing strong beyond about 210 nm" } },
+           "phenylethanal": { MS: "it would give 91 (C₆H₅CH₂⁺, base) and 29 (CHO⁺), not 105 and 77", NMR: "it would give an aldehyde triplet (1H) at 9.74 and a doublet (2H) at 3.68, not a singlet (3H) at 2.61", IR: "its C=O band would be at 1725 cm⁻¹ (not conjugated), not 1685", UV: "it would show only a benzene ring's own bands, a strong one near 205 nm and the weak one near 258 nm, with nothing strong beyond about 210 nm" } },
     same: {} }
 ];
-LAB.US_ROUNDS = US_ROUNDS;
 const US = { r: null, ans: null, step: 0, d2o: false, pick: null, answered: false, right: 0, tried: 0 };
-LAB.US = US;
 const stepsOf = r => ["MS", "Formula", "IR", "NMR"].concat(r.uv ? ["UV"] : []);
 const STEPT = { MS: "1 Mass spectrum", Formula: "2 Formula", IR: "3 IR", NMR: "4 ¹H NMR", UV: "5 UV/vis" };
 function usNew(force){
@@ -1802,16 +1748,12 @@ function usNew(force){
   $("us-fb").hidden = true;
   usRender();
 }
-LAB.usNew = usNew;
 function dbeWork(f){
   const d = parseF(f), a = d.C || 0, b = d.H || 0, c = d.N || 0, e = (d.Cl || 0) + (d.Br || 0), v = dbeOf(f);
   return { v, txt: `degree of unsaturation = a − (b + e)/2 + c/2 + 1 = ${a} − (${b}${e ? " + " + e : ""})/2${c ? " + " + c + "/2" : ""} + 1 = ${fx(v, Number.isInteger(v) ? 0 : 1)}` };
 }
-LAB.dbeWork = dbeWork;
 const DBE_MEAN = v => v === 0 ? "no rings and no π bonds: a saturated open chain" : v === 1 ? "one C=C or one C=O, or one ring" : v === 2 ? "two π bonds or rings, or one triple bond" : v === 3 ? "three rings or π bonds" : v === 4 ? "four: suggests a benzene ring (three C=C and one ring)" : v === 5 ? "a benzene ring (4) plus one more C=O, C=C or ring" : `${v} rings or π bonds`;
-LAB.DBE_MEAN = DBE_MEAN;
 function nmrSets(n){ return CPD(n).nmr; }
-LAB.nmrSets = nmrSets;
 function usClue(){
   const r = US.r, n = US.ans, c = CPD(n), k = stepsOf(r)[US.step], box = $("us-clue");
   let s = "";
@@ -1855,7 +1797,6 @@ function usRender(){
   $("us-check").disabled = !US.pick || US.answered;
   $("us-score").textContent = US.tried ? `${US.right} right out of ${US.tried}` : "";
 }
-LAB.usRender = usRender;
 function usCheck(){
   if (!US.pick || US.answered) return;
   US.answered = true; US.tried++;
@@ -1872,9 +1813,7 @@ function usCheck(){
 }
 /* ---------- degree of unsaturation calculator ---------- */
 const DU_NOTES = ["C4H8O2", "C5H10O", "C3H7Br", "C8H8O", "C7H7Cl", "C8H10", "C6H14"];
-LAB.DU_NOTES = DU_NOTES;
 const DU = { f: "C8H8O" };
-LAB.DU = DU;
 function duRender(){
   document.querySelectorAll("#du-f button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === DU.f)));
   const w = dbeWork(DU.f), d = parseF(DU.f);
@@ -1882,23 +1821,23 @@ function duRender(){
     <ol class="working"><li>${H(`For C<sub>a</sub>H<sub>b</sub>N<sub>c</sub>O<sub>d</sub>X<sub>e</sub>: a = ${d.C || 0}, b = ${d.H || 0}, c = ${d.N || 0}, e = ${(d.Cl || 0) + (d.Br || 0)} (X = halogen; O is ignored).`)}</li><li>${H(w.txt + ".")}</li><li>${H(`Meaning: ${DBE_MEAN(w.v)}. One double bond or one ring counts 1, a triple bond 2, a benzene ring 4.`)}</li></ol>
     <p class="hint">${H("A whole number of 0 or more: a check on the formula.")}</p>`;
 }
-LAB.duRender = duRender;
 // random formulas CₐH{b}(O)(X), a ≤ 10, only formulas of compounds that can exist
-const RES_H = new Set(["11h6pxo", "131vmf5", "149cd4c", "17s4y8o", "1824jxn", "188ymjr", "18w3d0k", "1962ypj", "19g2kei", "19q263h", "19uz15h", "1anfqsc", "1ba486w", "1bdc1tf", "1bk06um", "1datq06", "1db99o8", "1dl8vd7", "1dv8h26", "1e54x96", "1e582r5", "1ef4iy5", "1ef7og4", "1ep7a53", "1er6htu", "1eyrc60", "1ez6vu2", "1f8qxuz", "1f96hj1", "1fe3n2b", "1fiqjjy", "1fsq58x", "1g2pqxw", "1gcpcmv", "1gmoybu", "1gwok0t", "1gyohry", "1heo3pn", "1lh1aey", "1m4779y", "1p2gu02", "1pmg9qm", "1qbe4h3", "1r974n", "1v0cmtr", "1w2gos4", "1w2oe63", "1yipi59", "5qzep8", "6wp1ex", "c2rxhi", "ccrj6h", "ccuoog", "cmuadf", "cwno6m", "cwtw2e", "d6thrd", "dgt3gc", "dqsp5b", "earwj9", "f6bysc", "fccaki", "fgbkhb", "fiwjd9", "g8p4e2", "gioq31", "glic13", "i488ho", "io7fvm", "iw6vf8", "iy71kl", "j86n9k", "ji68yj", "jna0jz", "mlj930", "ne7fu2", "q8j2ae", "vixb2j", "vt5cl", "w2xgqd", "xn8usx", "y19vdw"]);
+const RES_H = new Set(["11h6pxo", "131vmf5", "149cd4c", "17s4y8o", "1824jxn", "184eeda", "188ymjr", "18w3d0k", "1962ypj", "19g2kei", "19q263h", "19uz15h", "1anfqsc", "1ba486w", "1bdc1tf", "1bk06um", "1datq06", "1db99o8", "1dl8vd7", "1dv8h26", "1e54x96", "1e582r5", "1ef4iy5", "1ef7og4", "1ep7a53", "1er6htu", "1eyrc60", "1ez6vu2", "1f8qxuz", "1f96hj1", "1fe3n2b", "1fiqjjy", "1fsq58x", "1g2pqxw", "1gcpcmv", "1gmoybu", "1gwok0t", "1gyohry", "1heo3pn", "1lh1aey", "1m4779y", "1p2gu02", "1pmg9qm", "1qbe4h3", "1r974n", "1ul8c48", "1v0cmtr", "1w2gos4", "1w2oe63", "1yipi59", "5qzep8", "6wp1ex", "c2rxhi", "ccrj6h", "ccuoog", "cmuadf", "cwno6m", "cwtw2e", "d6thrd", "dgt3gc", "dqsp5b", "earwj9", "f6bysc", "fccaki", "fgbkhb", "fiwjd9", "g8p4e2", "gioq31", "glic13", "i488ho", "io7fvm", "iw6vf8", "iy71kl", "j86n9k", "ji68yj", "jna0jz", "mlj930", "ne7fu2", "q8j2ae", "vixb2j", "vt5cl", "w2xgqd", "xn8usx", "y19vdw", "yilu6f"]);
 const fnvH = s => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
-LAB.isRes = k => RES_H.has(fnvH(k));
+const isRes = k => RES_H.has(fnvH(k));
+// every four-digit window of a printed number's digit runs is tested
+const drHit = s => (String(s).match(/\d+/g) || []).some(r => { for (let i = 0; i + 4 <= r.length; i++) if (isRes("dr:" + r.slice(i, i + 4))) return true; return false; });
 function randFormula(){
   for (let t = 0; t < 400; t++){
     const a = ri(2, 10), x = pick(["", "", "Cl", "Br"]), o = pick([0, 0, 1, 1, 2]), e = x ? 1 : 0;
     const maxH = 2 * a + 2 - e, dbe = ri(0, Math.min(5, a)), b = maxH - 2 * dbe;
     if (b < 1 || b + e < a) continue;       // a stable compound has at least as many H and halogen atoms as C atoms (no C₃H₂, C₅HCl, C₆H₄)
     const f = hillOf(Object.assign({ C: a, H: b }, o ? { O: o } : {}, x ? { [x]: 1 } : {}));
-    if (LAB.isRes("f:" + f) || f === DU.f) continue;
+    if (isRes("f:" + f) || f === DU.f) continue;
     return f;
   }
   return "C6H12O";
 }
-LAB.randFormula = randFormula;
 function bindUS(){
   $("us-rounds").innerHTML = US_ROUNDS.map(r => `<button type="button" data-f="${r.f}" aria-pressed="false">${H(subF(r.f))}</button>`).join("");
   $("us-rounds").querySelectorAll("button").forEach(b => b.onclick = () => { US.r = US_ROUNDS.find(r => r.f === b.dataset.f); US.ans = null; usNew(); });
@@ -1921,15 +1860,20 @@ function genCC(){
     n = ri(2, 10); M = ri(50, 600) / 10; M1 = Math.round(M * n * AB.C13 / AB.C12 * 100) / 100;
     // the working is computed from the ratio as printed (4 significant figures), so each printed line reproduces the next
     r = +sf(M1 / M, 4); nn = r * 100 / 1.1;
-  } while (LAB.isRes("cc:" + M.toFixed(1) + "/" + M1.toFixed(2)) || M1 < 0.1 || LAB.isRes("cn:" + (M1 / M * 100 / 1.1).toFixed(2)) || LAB.isRes("cn:" + nn.toFixed(2)) || LAB.isRes("tx:" + M1.toFixed(2)) || LAB.isRes("tx:" + nn.toFixed(2)));
+  } while (isRes("cc:" + M.toFixed(1) + "/" + M1.toFixed(2)) || M1 < 0.1 || isRes("cn:" + (M1 / M * 100 / 1.1).toFixed(2)) || isRes("cn:" + nn.toFixed(2)) || isRes("tx:" + M1.toFixed(2)) || isRes("tx:" + nn.toFixed(2)) || drHit(sfS(r, 4)));
   return { type: "cc", text: `In the mass spectrum of an organic compound containing no Cl or Br, the M peak has height ${M.toFixed(1)} and the M+1 peak has height ${M1.toFixed(2)}. How many carbon atoms does one molecule contain?`, label: "Number of carbon atoms", ans: { v: n, str: String(n), tol: 0 }, int: true, fmt: "a whole number", units: ["C"],
     work: [ASIDE("To answer, use n ≈ (height of M+1 / height of M) × 100 / 1.1, since each carbon atom has about a 1.1 % chance of being ¹³C"), `M+1 / M = ${M1.toFixed(2)} / ${M.toFixed(1)} = ${sfS(r, 4)}`, `n ≈ ${sfS(r, 4)} × 100 / 1.1 = ${nn.toFixed(2)}`, `${nn.toFixed(2)} is close to a whole number: <b>${n} carbon atoms</b>.`],
-    alts: [{ v: Math.round(r * 100 * 100) / 100, msg: "That is the M+1 height as a percentage of M: now divide by 1.1." }, { v: Math.round(M / M1), msg: "Upside down: divide the M+1 height by the M height." }] };
+    alts: ccAlts(r, M, M1) };
+}
+// two slips with the same value (n = 9 gives about 10 both ways) get one combined message, so no hint is unreachable
+function ccAlts(r, M, M1){
+  const a1 = { v: Math.round(r * 100 * 100) / 100, msg: "That is the M+1 height as a percentage of M: now divide by 1.1." }, a2 = { v: Math.round(M / M1), msg: "Upside down: divide the M+1 height by the M height." };
+  if (Math.abs(a1.v - a2.v) <= 0.025 * Math.abs(a1.v)) return [{ v: a1.v, msg: "That is either the M+1 height as a percentage of M (now divide by 1.1) or M / (M+1), the ratio upside down (divide the M+1 height by the M height)." }];
+  return [a1, a2];
 }
 // halogen clusters of the allowed compounds' ions (the notes' sets only)
 const HAL_POOL = [];
 ALL_MOLS.forEach(n => peakLines(n).forEach(g => { if (g.cl + g.br && g.p.rel > 0) HAL_POOL.push([n, g]); }));
-LAB.HAL_POOL = HAL_POOL;
 function genHAL(){
   const [n, g] = pick(HAL_POOL), hs = hsetOf(g.cl, g.br), mx = Math.max(...g.lines.map(l => l[1]));
   const cr = cluster(g.cl, g.br).rel, bars = cr.map((h, j) => ({ t: String(g.p.mz + 2 * j), h, v: h.toFixed(1) }));
@@ -1940,7 +1884,6 @@ function genHAL(){
 }
 const FRG_POOL = [];
 ALL_MOLS.forEach(n => CPD(n).peaks.forEach((p, k) => { if (p.lost) FRG_POOL.push([n, k]); }));
-LAB.FRG_POOL = FRG_POOL;
 function genFRG(){
   const [n, k] = pick(FRG_POOL), c = CPD(n), p = c.peaks[k], ion = peakIon(n, k), lost = peakLost(n, k), lm = c.M - p.mz;
   const wM = `M = ${massLine(c.formula)} = ${c.M}`;
@@ -1958,7 +1901,6 @@ function genDOU(){
     alts: X ? [{ v: (d.C || 0) - (d.H || 0) / 2 + 1, msg: "Count the halogen atom like an H atom." }] : (d.O ? [{ v: (d.C || 0) - ((d.H || 0) + d.O) / 2 + 1, msg: "O is ignored: it does not change the count." }] : [{ v: (d.C || 0) - (d.H || 0) / 2, msg: "Remember the + 1." }]) };
 }
 const LOS_POOL = FRG_POOL.filter(([n, k]) => lossRow(CPD(n).M - CPD(n).peaks[k].mz));
-LAB.LOS_POOL = LOS_POOL;
 function genLOS(){
   const [n, k] = pick(LOS_POOL), c = CPD(n), p = c.peaks[k], d = c.M - p.mz, row = lossRow(d);
   const opts = LOSSES.map(r => "M − " + r.d + ": " + r.t);
@@ -1967,13 +1909,22 @@ function genLOS(){
     hint: "The loss is M minus the m/z of the fragment." };
 }
 const GENS = { cc: genCC, hal: genHAL, frg: genFRG, dou: genDOU, los: genLOS };
-const GN = { type: "cc", q: null, right: 0, tried: 0, graded: false, firstOk: null };
-LAB.GN = GN; LAB.GENS = GENS;
-function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; const q = GENS[tt](); q.alts = (q.alts || []).filter(a => isFinite(a.v) && Math.abs(a.v - q.ans.v) > Math.max(q.ans.tol, 1e-9)); return q; }
-LAB.genQ = genQ;
+const GN = { type: "cc", q: null, right: 0, tried: 0, graded: false, firstOk: null, seen: false };
+// a hint is kept only if it can be typed (not negative), is outside the marking window and more than 3 % from the answer, and is more than 2.5 % from an earlier hint
+function cleanAlts(q){
+  const a = q.ans.v, w = Math.max(q.ans.tol, 1e-9), keep = [];
+  (q.alts || []).forEach(al => {
+    if (!isFinite(al.v) || al.v < 0) return;
+    if (Math.abs(al.v - a) <= Math.max(w, 0.03 * Math.abs(a))) return;
+    if (keep.some(k => Math.abs(al.v - k.v) <= 0.025 * Math.abs(k.v))) return;
+    keep.push(al);
+  });
+  return keep;
+}
+function genQ(t){ const tt = t === "mix" ? pick(Object.keys(GENS)) : t; const q = GENS[tt](); q.alts = cleanAlts(q); return q; }
 function gnGrade(q, s, sel){
   // entry: true means nothing to grade yet (blank, unreadable, wrong unit, decimal comma, no choice made): say so, do not score
-  if (q.noNum) return !sel ? { ok: false, msg: "Choose from the list.", entry: true, kind: "choose" } : sel === q.sel.ans ? { ok: true } : { ok: false, msg: "Not right. " + (q.hint || "") + " Press Show working to compare." };
+  if (q.noNum) return !sel ? { ok: false, msg: "Choose from the list.", entry: true, kind: "choose" } : sel === q.sel.ans ? { ok: true } : { ok: false, msg: "Not right. " + (q.hint || "") + (GN.seen ? "" : " Press Show working to compare.") };
   const pr = parseAnswer(s, q.units || []);
   if (pr.error) return { ok: false, msg: pr.error, entry: true, kind: pr.kind };
   const v = pr.value;
@@ -1981,9 +1932,8 @@ function gnGrade(q, s, sel){
   if (Math.abs(v - a) <= tol * 1.0001 + 1e-9) return { ok: true };
   for (const al of q.alts || []){ if (Math.abs(v - al.v) <= Math.max(0.005 * Math.abs(al.v), 0.01)) return { ok: false, msg: al.msg }; }
   if (q.type === "cc" && Math.abs(v - a) < 0.5) return { ok: false, msg: "Round to the nearest whole number of carbon atoms." };
-  return { ok: false, msg: "Not right. Press Show working to compare." };
+  return { ok: false, msg: "Not right." + (GN.seen ? "" : " Press Show working to compare.") };
 }
-LAB.gnGrade = gnGrade;
 function gnRender(){
   const q = GN.q;
   document.querySelectorAll("#gn-tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.type === GN.type)));
@@ -1998,7 +1948,7 @@ function gnRender(){
   $("gn-fmt").innerHTML = H(`Answer: ${q.fmt}.`);
   $("gn-ans").value = ""; $("gn-ans").removeAttribute("aria-invalid"); $("gn-ans").classList.remove("ok");
   $("gn-fb").hidden = true; $("gn-work").hidden = true;
-  GN.graded = false; GN.firstOk = null;   // a new question is graded afresh
+  GN.graded = false; GN.firstOk = null; GN.seen = false;   // a new question is graded afresh
   $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
 function gnCheck(){
@@ -2008,23 +1958,22 @@ function gnCheck(){
     fbx.className = "fb warn"; fbx.innerHTML = H(r.msg); fbx.hidden = false;
     return;
   }
-  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; GN.tried++; if (r.ok) GN.right++; }   // the first graded answer to each question is the one scored
+  const unscored = GN.seen && !GN.graded;    // the working was opened before the first Check: this question scores nothing
+  if (!GN.graded){ GN.graded = true; GN.firstOk = r.ok; if (!unscored){ GN.tried++; if (r.ok) GN.right++; } }   // the first graded answer to each question is the one scored
   $("gn-ans").setAttribute("aria-invalid", String(!r.ok)); $("gn-ans").classList.toggle("ok", r.ok);
   fbx.className = "fb " + (r.ok ? "ok" : "no");
-  fbx.innerHTML = r.ok ? H(`Correct: ${q.ans.str}.`) + (GN.firstOk ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg);
+  fbx.innerHTML = (r.ok ? H(`Correct: ${q.ans.str}.`) + (GN.firstOk || GN.seen ? "" : ` <span class="ink">The score keeps your first answer.</span>`) : H(r.msg)) + (GN.seen ? ` <span class="ink">Not scored: the working was opened before checking.</span>` : "");
   fbx.hidden = false;
-  $("gn-score").textContent = `${GN.right} / ${GN.tried} correct`;
+  $("gn-score").textContent = GN.tried ? `${GN.right} / ${GN.tried} correct` : "";
 }
-LAB.gnCheck = gnCheck;
 function bindGN(){
   document.querySelectorAll("#gn-tabs button").forEach(b => b.onclick = () => { GN.type = b.dataset.type; GN.q = genQ(GN.type); gnRender(); });
   $("gn-new").onclick = () => { GN.q = genQ(GN.type); gnRender(); };
   $("gn-check").onclick = gnCheck;
   $("gn-ans").onkeydown = e => { if (e.key === "Enter") gnCheck(); };
-  $("gn-show").onclick = () => { $("gn-work").innerHTML = GN.q.work.map(w => `<li>${w.startsWith("<span class=\"eqn") ? w : H(w)}</li>`).join(""); $("gn-work").hidden = false; };
+  $("gn-show").onclick = () => { if (!GN.graded) GN.seen = true; $("gn-work").innerHTML = GN.q.work.map(w => `<li>${w.startsWith("<span class=\"eqn") ? w : H(w)}</li>`).join(""); $("gn-work").hidden = false; };
   GN.q = genQ(GN.type); gnRender();
 }
-LAB.gnSet = (type, q) => { GN.type = type; GN.q = q || genQ(type); gnRender(); };
 
 /* =====================================================
    FACT CARDS (the notes' statements and worked examples only)
@@ -2069,7 +2018,6 @@ const FC = [
   { cat: "enr", enr: true, h: "Exact mass", k: "beyond 9813", d: "High-resolution instruments measure m/z to 4 decimal places; the formula with the matching exact mass is chosen. Never tested.",
     list: ["Relative isotopic masses (literature values): ¹²C 12.0000 (by definition), ¹H 1.00783, ¹⁴N 14.00307, ¹⁶O 15.99491.", "CO 27.9949, N₂ 28.0061, C₂H₄ 28.0313.", "At 58: C₃H₆O 58.0419 against C₄H₁₀ 58.0783."] }
 ];
-LAB.FC = FC;
 const FCF = [["all", "All"], ["p1", "Mass spectra (1.5(a), (b))"], ["p2", "Structure solving"], ["enr", "Enrichment"]];
 let FCSEL = "all";
 function fcHTML(c){
@@ -2085,7 +2033,6 @@ function bindCards(){
   $("fc-filter").querySelectorAll("button").forEach(b => b.onclick = () => { FCSEL = b.dataset.f; render(); });
   render();
 }
-LAB.fcFilter = f => { FCSEL = f; document.querySelector(`#fc-filter button[data-f="${f}"]`).click(); };
 
 /* =====================================================
    QUIZ (option 0 is correct; each option carries its reason). Notes' examples and lab-only compounds.
@@ -2104,35 +2051,35 @@ const QZ = [
   { k: "1.5(b)(ii)", q: "Two compounds both give M⁺ at m/z 44: propane, C₃H₈, and ethanal, C₂H₄O. An unknown shows M at height 20.0 and M+1 at height 0.67. Which is it?",
     o: [["Propane: n ≈ (0.67 / 20.0) × 100 / 1.1 = 3.05, so three carbon atoms", "Close to a whole number, 3: C₃H₈."],
         ["Ethanal: two carbon atoms", "Ethanal has two C, which would give an M+1 height of about 0.44, not 0.67."],
-        ["Either: the M+1 peak cannot tell them apart because M is the same", "The M+1 peak depends on the number of carbon atoms, which differs: 3 against 2."],
+        ["Either: the M+1 peak cannot tell them apart, because both give M at m/z 44", "The M+1 peak depends on the number of carbon atoms, which differs: 3 against 2."],
         ["Propane: n = 0.67 / 20.0 = 0.034 carbon atoms, rounded up", "The ratio must be multiplied by 100 / 1.1 to give the number of carbon atoms."]] },
   { k: "1.5(b)(ii)", q: "The molecular ion of a compound gives peaks at m/z 128, 130 and 132 in a ratio of about 3 : 4 : 1. Which halogen atoms does it contain?",
     o: [["One Cl and one Br", "(3 + 1)(1 + 1) = 3 + 4 + 1: bromochloromethane, CH₂BrCl (notes WE3)."],
-        ["Two Cl", "Two Cl give 9 : 6 : 1, falling from M."],
-        ["Two Br", "Two Br give 1 : 2 : 1: M and M+4 nearly equal."],
-        ["One Br", "One Br gives only two peaks, M and M+2, in about 1 : 1."]] },
+        ["Two chlorine atoms", "Two Cl give 9 : 6 : 1, falling from M."],
+        ["Two bromine atoms", "Two Br give 1 : 2 : 1: M and M+4 nearly equal."],
+        ["One bromine atom", "One Br gives only two peaks, M and M+2, in about 1 : 1."]] },
   { k: "1.5(b)(ii)", q: "Why is the molecular ion of chloroethane, C₂H₅Cl, seen at m/z 64 and 66, and not at 64.5?",
-    o: [["Each ion contains one particular Cl isotope, ³⁵Cl or ³⁷Cl; 64.5 is an average over both from <i>A</i><sub>r</sub>", "M uses the lightest isotope, ³⁵Cl: C₂H₅³⁵Cl⁺ 64 and C₂H₅³⁷Cl⁺ 66, about 3 : 1."],
-        ["The spectrometer rounds every m/z to a whole number", "The separate peaks are real ions of different mass, not rounding."],
-        ["The 66 peak is the M+1 peak from ¹³C", "M+1 would be at 65; the 66 peak contains ³⁷Cl, two units heavier."],
-        ["A hydrogen atom is lost on ionisation", "Ionisation removes an electron, not an H atom: the mass is unchanged."]] },
+    o: [["Each ion has one Cl isotope, ³⁵Cl or ³⁷Cl; 64.5 would be an average", "M uses the lightest isotope, ³⁵Cl: C₂H₅³⁵Cl⁺ 64 and C₂H₅³⁷Cl⁺ 66, about 3 : 1."],
+        ["The spectrometer rounds every m/z to a whole number, so 64.5 is shown as 64 and 66", "The separate peaks are real ions of different mass, not rounding."],
+        ["The 66 peak is the M+1 peak from ¹³C, so no second Cl isotope is needed", "M+1 would be at 65; the 66 peak contains ³⁷Cl, two units heavier."],
+        ["A hydrogen atom is lost on ionisation, so the ion is one unit lighter than the molecule", "Ionisation removes an electron, not an H atom: the mass is unchanged."]] },
   { k: "1.5(b)(iii)", q: "Butanone, CH₃COCH₂CH₃ (M = 72), can lose CH₃• or C₂H₅• next to the C=O. Which peak is the base peak in its simulated spectrum?",
-    o: [["m/z 43, CH₃CO⁺, by loss of C₂H₅•", "Both pieces are acylium ions, about equally stable, so the break that loses the larger radical (C₂H₅•) usually wins."],
-        ["m/z 57, C₂H₅CO⁺, by loss of CH₃•", "It forms, but it is the small peak: with the two acylium ions about equally stable, the break that loses the smaller radical (CH₃•) is usually less favoured."],
+    o: [["m/z 43, CH₃CO⁺, by loss of C₂H₅•", "Both pieces are acylium ions, about equally stable, so the cleavage that loses the larger radical (C₂H₅•) usually wins."],
+        ["m/z 57, C₂H₅CO⁺, by loss of CH₃•", "It forms, but it is the small peak: with the two acylium ions about equally stable, the cleavage that loses the smaller radical (CH₃•) is usually less favoured."],
         ["m/z 29, C₂H₅⁺", "A primary carbocation, less stable than an acylium ion."],
         ["m/z 72, M⁺", "The molecular ion peak is present but not the tallest."]] },
   { k: "1.5(b)(iii)", q: "In the simulated spectrum of hexane the base peak is at m/z 57 but the peak at m/z 15 is small. Why?",
     o: [["CH₃⁺ is the least stable alkyl cation, so it forms rarely", "Methyl < primary < secondary < tertiary: the methyl cation is the least stable."],
-        ["CH₃• radicals cannot form from hexane", "Loss of CH₃• from the end of the chain gives the peak at m/z 71."],
-        ["Ions of m/z 15 are not deflected", "Every ion is separated by m/z; light ions are deflected more, not less."],
+        ["CH₃• radicals cannot form from hexane, since C–C bonds do not break", "Loss of CH₃• from the end of the chain gives the peak at m/z 71."],
+        ["Ions of m/z 15 are too light to be deflected by the magnetic field", "Every ion is separated by m/z; light ions are deflected more, not less."],
         ["The C–C bond at the end of the chain cannot break", "It can: breaking it gives CH₃⁺ + C₅H₁₁• or C₅H₁₁⁺ (71) + CH₃•."]] },
   { k: "1.5(b)(ii), (iii)", q: "Chloroethane gives peaks at m/z 49/51 (3 : 1) and a single peak at m/z 29. What is the ion at m/z 29?",
-    o: [["C₂H₅⁺, formed by loss of Cl•: it has no Cl, so its peak is single", "Fragments that have lost the halogen show single peaks."],
-        ["CH₂Cl⁺", "CH₂Cl⁺ is the 49/51 pair, which keeps the 3 : 1 pattern."],
-        ["CHO⁺", "Chloroethane contains no O: CHO⁺ is impossible here."],
-        ["C₂H₅⁺ containing ³⁷Cl", "C₂H₅⁺ contains no Cl at all."]] },
+    o: [["C₂H₅⁺, formed by loss of Cl•, so it has a single peak", "Fragments that have lost the halogen show single peaks."],
+        ["CH₂Cl⁺, formed by loss of CH₃• from the molecular ion", "CH₂Cl⁺ is the 49/51 pair, which keeps the 3 : 1 pattern."],
+        ["CHO⁺, the ion that aldehydes give at m/z 29", "Chloroethane contains no O: CHO⁺ is impossible here."],
+        ["C₂H₅⁺ that has kept the ³⁷Cl atom of the molecule", "C₂H₅⁺ contains no Cl at all."]] },
   { k: "added as a method", q: "What is the degree of unsaturation of C₇H₇Cl?",
-    o: [["4", "7 − (7 + 1)/2 + 1 = 4: for example a benzene ring, as in (chloromethyl)benzene."],
+    o: [["4", "7 − (7 + 1)/2 + 1 = 4: one benzene ring has 4, as in (chloromethyl)benzene."],
         ["4.5", "Cl must be counted like H, not ignored like O: ignoring it gives 7 − 7/2 + 1 = 4.5, which is not a whole number."],
         ["3", "Remember the + 1 in the formula."],
         ["5", "The halogen is added to the H count, not taken away: 7 − (7 − 1)/2 + 1 = 5 is wrong."]] },
@@ -2142,11 +2089,8 @@ const QZ = [
         ["Methylbenzene", "Methylbenzene is C₇H₈: the formula does not fit, and it has no aldehyde H."],
         ["(Chloromethyl)benzene", "It is C₇H₇Cl, with a 3 : 1 cluster at 126/128: the formula does not fit."]] }
 ];
-LAB.QZ = QZ;
 const Q = { i: 0, score: 0, order: [] };
-LAB.Q = Q;
 function startQuiz(){ Q.i = 0; Q.score = 0; Q.order = QZ.map(() => shuffle([0, 1, 2, 3])); renderQ(); }
-LAB.startQuiz = startQuiz;
 function renderQ(){
   const box = $("quiz-box");
   if (Q.i >= QZ.length){
@@ -2162,13 +2106,13 @@ function renderQ(){
   box.innerHTML = `<div class="qmeta"><span>Question ${Q.i + 1} of ${QZ.length} · <span class="nc">${/^\d/.test(q.k) ? "9813 " : ""}${q.k}</span></span><span>Score ${Q.score}</span></div>
     <div class="qprog"><i style="width:${Q.i / QZ.length * 100}%"></i></div>
     <p class="qtext">${H(q.q)}</p>
-    <div class="opts">${ord.map((oi, j) => `<button class="opt" data-oi="${oi}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
+    <div class="opts">${ord.map((oi, j) => `<button type="button" class="opt" data-j="${j}"><b>${"ABCD"[j]}</b><span>${H(q.o[oi][0])}</span></button>`).join("")}</div>
     <div class="explain" id="q-exp" aria-live="polite" hidden></div>`;
   box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
     if (Q.answered) return; Q.answered = true;
-    const oi = +b.dataset.oi, right = oi === 0;
+    const oi = ord[+b.dataset.j], right = oi === 0;
     if (right) Q.score++;
-    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (+x.dataset.oi === 0) x.classList.add("right"); });
+    box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (ord[+x.dataset.j] === 0) x.classList.add("right"); });
     if (!right) b.classList.add("wrong");
     const others = ord.map((k, j) => [k, j]).filter(([k]) => k !== 0).map(([k, j]) => `<li><b>${"ABCD"[j]}</b> is wrong: ${H(q.o[k][1])}</li>`).join("");
     const ex = $("q-exp");
@@ -2199,7 +2143,6 @@ function bindNav(){
 /* ---------- redraw on resize and theme change ---------- */
 const REDRAW = [];
 function redrawAll(){ REDRAW.forEach(f => { try { f(); } catch (e) { console.error(e); } }); }
-LAB.redrawAll = redrawAll;
 let RW = 0, RTM = 0;
 // every resize redraws: the lab shell dispatches one when a section opens or the theme changes (width may not change)
 window.addEventListener("resize", () => { RW = document.documentElement.clientWidth; clearTimeout(RTM); RTM = setTimeout(redrawAll, 80); });
@@ -2210,7 +2153,6 @@ RW = document.documentElement.clientWidth;
 [bindIP, bindFE, bindRD, bindUS, bindGN, bindCards, startQuiz].forEach(f => f());
 REDRAW.push(ipRender, icRender, ikRender, feRender, rdRender, usRender, () => { if (GN.q && GN.q.bars) barPlot($("gn-svg"), GN.q.bars, { h: 200, mb: 30 }); });
 bindNav();
-LAB.ready = true;
 })();
 </script>
 <!-- labshell:start --><script>
