@@ -314,6 +314,7 @@ svg .arrowh{fill:var(--s2)}
 :root[data-theme="dark"]{--accent-2:#C49AD8; --accent-2-soft:#36283F; --good-ink:#5BBF85}
 .ls-mapfoot button.ls-all2{min-height:24px; padding:2px 0}
 .card dd{overflow-wrap:anywhere}
+.ctl label{min-height:24px; align-items:center}
 /* Lab Book design system (05/10/26): entry-code eyebrows, title block on graph paper, borders not shadows */
 .eyebrow{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); text-transform:none}
 .stamp{font-family:var(--mono); font-variant-ligatures:none; font-size:11px; line-height:16px; font-weight:500; letter-spacing:.04em; color:var(--accent); margin:0 0 2px}
@@ -450,7 +451,7 @@ svg .arrowh{fill:var(--s2)}
       <div class="ctl"><label for="hm-dh">ΔH of the step <output id="hm-dhv"></output></label><input type="range" id="hm-dh" min="-150" max="150" step="5" value="-80"></div>
       <div class="chipgrp"><span>Presets</span><div class="chips" id="hm-pre" role="group" aria-label="Presets"></div></div>
       <div class="callout"><p><b class="ink">The Hammond postulate.</b> A transition state resembles the stable species (reactant, intermediate or product) that is nearest to it in energy.</p><p>In an exothermic step the transition state comes early and resembles the reactants; in an endothermic step it comes late and resembles the products (or the intermediate formed).</p></div>
-      <p class="hint" style="margin:0"><span class="beyond">Enrichment</span>The model treats reactant and product as two parabolas that cross at the transition state (λ = 240&nbsp;kJ mol<sup>−1</sup>, so E<sub>a</sub> = 60&nbsp;kJ mol<sup>−1</sup> when ΔH = 0). The energies are illustrative data: real reactions have different intrinsic barriers.</p>
+      <p class="hint" style="margin:0"><span class="beyond">Enrichment</span>The model treats reactant and product as two parabolas that cross at the transition state (λ = 240&nbsp;kJ mol<sup>−1</sup>, so E<sub>a</sub> = 60&nbsp;kJ mol<sup>−1</sup> when ΔH = 0). The model uses illustrative energies: real reactions have different intrinsic barriers.</p>
     </div>
     <div class="stack">
       <div class="viewer">
@@ -624,7 +625,7 @@ svg .arrowh{fill:var(--s2)}
   <div class="sechead">
     <span class="eyebrow">Practice · <span class="nc">9813 3.2, 3.3</span></span>
     <h2>Practice</h2>
-    <p>Generated questions on rate laws, mechanisms, <i>E</i> or <i>Z</i> products, Zaitsev or Hofmann products and enantiomeric excess, each checked with full working. Rate data are illustrative and built only from the notes' substrates.</p>
+    <p>Generated questions on rate laws, mechanisms, <i>E</i> or <i>Z</i> products, Zaitsev or Hofmann products and enantiomeric excess, each checked with full working. Rate data: illustrative data, built only from the notes' substrates.</p>
   </div>
   <div class="stack">
     <div class="chipgrp"><span>Question type</span><div class="chips" id="gn-types" role="group" aria-label="Question type"></div></div>
@@ -672,7 +673,7 @@ svg .arrowh{fill:var(--s2)}
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.6 Further Organic Mechanisms</span>
     <span>Written for SEAB H3 Chemistry 9813 · bond energies from the Data Booklet · relative rates, product percentages marked literature and enthalpy changes of hydrogenation are literature values · energy profiles are schematic, with illustrative energies · rate data and other ratios are illustrative data · 3D geometries are models</span>
-  <span class="ls-updated">Last updated 16/11/26</span></div>
+  <span class="ls-updated">Last updated 25/11/26</span></div>
 </footer>
 <script>
 (function(){
@@ -740,7 +741,7 @@ function placeLabels(items, obst, W, H){
     const fs = it.fs || 12, ph = Math.round(fs * 1.7);
     let best = null;
     for (const c of it.cands){
-      const ls = c.lines || [it.t], boxes = ls.map((t, i) => lbox(it.x + (c.dx || 0), it.y + (c.dy || 0) + i * ph, t, fs, it.anchor));
+      const ls = c.lines || [it.t], boxes = ls.map((t, i) => lbox(it.x + (c.dx || 0), it.y + (c.dy || 0) + i * ph, t, fs, it.anchor)).map(b => it.pad ? [b[0] - it.pad, b[1], b[2] + it.pad, b[3]] : b);   // pad: extra room each side, for a label whose real width runs past the estimate (a wide fallback font)
       let pen = 0;
       boxes.forEach(b => {
         pen += 40 * (Math.max(0, -b[0]) + Math.max(0, b[2] - W)) * (b[3] - b[1]) + 40 * (Math.max(0, -b[1]) + Math.max(0, b[3] - H)) * (b[2] - b[0]);
@@ -801,13 +802,10 @@ function parseAnswer(str, allowed){
   if (!t) return { error: "Type an answer first.", kind: "empty" };
   // as in H3.5: a lone comma before 1 or 2 digits, or after a leading 0, is refused (never read as a decimal comma)
   if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
-  const m = t.match(/^([-+]?)\s*(\d[\d,.]*|\.\d+)/);
+  // a comma or a space (also no-break and thin, turned into plain spaces above) is a thousands separator only between a digit group and exactly three digits
+  const m = t.match(/^([-+]?)\s*([1-9]\d{0,2}(?:[, ]\d{3})+(?!\d)(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)/);
   if (!m) return { error: "Type a number.", kind: "nan" };
-  let raw = m[2], rest = t.slice(m[0].length);
-  if (raw.includes(",")){
-    if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(raw)) raw = raw.replace(/,/g, "");        // thousands separators, groups of three
-    else return { error: "Type a number.", kind: "nan" };
-  }
+  let raw = m[2].replace(/[, ]/g, ""), rest = t.slice(m[0].length);
   if (!/^(\d+\.?\d*|\.\d+)$/.test(raw)) return { error: "Type a number.", kind: "nan" };
   let val = parseFloat(raw);
   const ex = rest.match(/^\s*(?:(?:x|×|\*|·)\s*10\s*\^?\s*\{?\s*([-+]?\d+)\s*\}?|e\s*([-+]?\d+))/i);
@@ -1309,8 +1307,7 @@ const BIND = [];
    DATA: RDKit 3D coordinates of the E2 substrates (gen_mol.py, units of 0.1 nm), names, equations, number helpers
    ===================================================== */
 const MOLS = {"pr2br":{"el":["C","C","C","Br","H","H","H","H","H","H","H"],"P":[[-1.2908,-0.0067,0.0689],[0.0939,0.3661,-0.4312],[1.1829,-0.4785,0.2069],[0.43,2.249,-0.0188],[-1.3761,0.1161,1.1545],[-2.061,0.6178,-0.397],[-1.519,-1.0508,-0.1704],[0.1399,0.2883,-1.5219],[1.0363,-1.5381,-0.0279],[1.1902,-0.3734,1.2977],[2.1737,-0.1898,-0.1607]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[0,4,1],[0,5,1],[0,6,1],[1,7,1],[2,8,1],[2,9,1],[2,10,1]],"ca":1,"br":3,"betas":{"0":"C1","2":"C3"},"loc":{"0":"C1","1":"C2","2":"C3"}},"bb_R":{"el":["C","C","Br","C","C","H","H","H","H","H","H","H","H","H"],"P":[[1.574,-0.4426,0.0414],[0.5683,0.6138,0.4726],[1.4031,2.3788,0.245],[-0.735,0.5956,-0.3271],[-1.5403,-0.6796,-0.123],[1.1958,-1.4507,0.2369],[1.8024,-0.3679,-1.0277],[2.5172,-0.3383,0.5894],[0.3663,0.5312,1.5456],[-0.5303,0.7218,-1.3977],[-1.3619,1.4458,-0.0294],[-2.5005,-0.6044,-0.6435],[-1.016,-1.5532,-0.5213],[-1.7432,-0.8503,0.9389]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[0,5,1],[0,6,1],[0,7,1],[1,8,1],[3,9,1],[3,10,1],[4,11,1],[4,12,1],[4,13,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"C4"}},"bmp_RS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.2782,0.1808,0.823],[-0.8985,-0.4638,0.7147],[-1.171,-2.4079,0.9077],[-0.1632,-0.1663,-0.613],[-0.1153,1.3405,-0.9086],[1.2664,-0.7582,-0.6925],[2.2315,-0.2854,0.3865],[-2.2028,1.2715,0.8716],[-2.7984,-0.1422,1.7321],[-2.9113,-0.0805,-0.0322],[-0.2991,-0.1704,1.5815],[-0.7326,-0.6267,-1.4331],[0.2921,1.904,-0.0631],[-1.115,1.7309,-1.1247],[0.5029,1.5495,-1.7883],[1.2233,-1.8527,-0.6672],[1.6962,-0.5077,-1.6711],[2.3396,0.8028,0.3838],[3.223,-0.7161,0.2106],[1.9105,-0.6022,1.3825]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9299,-1.0455,1.063],[-1.5015,0.2494,0.3835],[-2.4337,0.3717,-1.3375],[0.0302,0.4043,0.2349],[0.4015,1.8084,-0.2648],[0.699,-0.702,-0.6105],[2.222,-0.642,-0.5943],[-1.722,-1.9282,0.4497],[-1.4185,-1.1669,2.0235],[-3.0078,-1.0404,1.2622],[-1.8953,1.0908,0.9655],[0.443,0.3244,1.2509],[-0.1506,2.5788,0.2842],[0.1913,1.9307,-1.3319],[1.4664,2.0101,-0.1105],[0.4066,-1.6864,-0.2297],[0.3629,-0.6503,-1.6519],[2.5948,0.2525,-1.1015],[2.636,-1.5114,-1.1155],[2.6056,-0.6481,0.4307]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_RR":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-2.5037,-0.2985,0.5836],[-1.2422,-0.8247,-0.0905],[-1.6154,-1.0264,-2.005],[0.0153,0.0354,0.1766],[-0.0918,1.4753,-0.3427],[1.2953,-0.6633,-0.3368],[2.5825,-0.0234,0.1682],[-2.8385,0.6535,0.1593],[-2.3392,-0.1562,1.6568],[-3.3301,-1.0094,0.4688],[-1.064,-1.8473,0.2619],[0.1104,0.1045,1.2698],[0.7393,2.0855,0.0253],[-1.0087,1.9617,0.0021],[-0.0713,1.5176,-1.436],[1.29,-1.7104,-0.0097],[1.319,-0.6719,-1.4323],[2.72,0.9817,-0.2404],[3.4445,-0.6242,-0.1398],[2.5886,0.0404,1.2608]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}},"bmp_SS":{"el":["C","C","Br","C","C","C","C","H","H","H","H","H","H","H","H","H","H","H","H","H"],"P":[[-1.9909,-0.8005,0.7549],[-1.5594,0.2005,-0.3072],[-2.1626,-0.4589,-2.0609],[-0.0477,0.5194,-0.3588],[0.3243,1.4453,0.8087],[0.8459,-0.741,-0.3676],[2.31,-0.4408,-0.6652],[-1.5669,-1.7954,0.5827],[-1.6919,-0.4693,1.754],[-3.0812,-0.9133,0.7612],[-2.1279,1.129,-0.1799],[0.1495,1.0818,-1.2819],[0.2638,0.9257,1.7704],[-0.3446,2.3118,0.8478],[1.3419,1.8326,0.6985],[0.7856,-1.2579,0.5975],[0.4917,-1.4465,-1.1271],[2.4156,0.107,-1.6068],[2.8728,-1.3759,-0.7535],[2.7722,0.1464,0.1333]],"bonds":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[0,7,1],[0,8,1],[0,9,1],[1,10,1],[3,11,1],[4,12,1],[4,13,1],[4,14,1],[5,15,1],[5,16,1],[6,17,1],[6,18,1],[6,19,1]],"ca":1,"br":2,"betas":{"0":"C1","3":"C3"},"loc":{"0":"C1","1":"C2","3":"C3","4":"CH3","5":"C4","6":"C5"}}};
-// hashes of the numbers the generators must never print (held out at build time); the numbers themselves are not shipped
-const HSET = new Set(["19xf6rw", "1e50b3n", "1fsxx9h", "1g24gso", "1kbkfn4", "1kcz6xi", "1kvjn12", "1lgrapg", "1lqqwef", "1menox4", "1n4s2d9", "1n5gcgu", "1nffy5t", "1nnfnys", "1nouf96", "1nunrre", "1nyx6g4", "1viudrp", "67o6v4", "6rne92", "71mzy1", "bcaoo0", "e7ofjh", "i28kpf", "imswoz", "jqrbgv", "k0nrnv", "k6t4fp", "ncpazh", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
+const HSET = new Set(["19xf6rw", "1e50b3n", "1fsxx9h", "1g24gso", "1kbkfn4", "1kcz6xi", "1kvjn12", "1lgrapg", "1lqqwef", "1mat9ac", "1menox4", "1n4s2d9", "1n5gcgu", "1nffy5t", "1nnfnys", "1nouf96", "1nunrre", "1nyx6g4", "1viudrp", "67o6v4", "6rne92", "71mzy1", "bcaoo0", "e7ofjh", "i28kpf", "imswoz", "jguv9v", "jqrbgv", "k0nrnv", "k6t4fp", "ncpazh", "nr60j8", "o15m87", "sl9sms", "tf8lpp", "xguvpn"]);
 function fnv(k){
   let h = 0x811c9dc5;
   for (const ch of k) h = Math.imul(h ^ ch.charCodeAt(0), 0x01000193) >>> 0;
@@ -1327,7 +1324,7 @@ function sci(v, n){
   if (e === 0) return m;
   return `${m} × 10${String(e).split("").map(c => SUPS[c]).join("")}`;
 }
-// a plain token for the withheld-number check: "1.7e-3"
+// a plain number token: "1.7e-3"
 const tok = (v, n) => { const { m, e } = mant(v, n || 2); return `${m}e${e}`; };
 
 // every equation the lab prints (unicode sub/superscripts; each is parsed offline and checked for atoms and charge balance)
@@ -1369,7 +1366,7 @@ const eqHtml = (s, lab) => `<div>${lab ? `<span class="lab">${lab}</span>` : ""}
 const HS = t => H(t).replace(/S_N([12])/g, "S<sub>N</sub>$1");
 /* =====================================================
    A. HAMMOND EXPLORER (9813 3.1(a)). Intersecting-parabola model:
-   E_a = (λ + ΔH)² / (4λ), x‡ = (λ + ΔH) / (2λ), reverse E_a = E_a − ΔH, λ = 240 kJ mol⁻¹ (illustrative model).
+   E_a = (λ + ΔH)² / (4λ), x‡ = (λ + ΔH) / (2λ), reverse E_a = E_a − ΔH, λ = 240 kJ mol⁻¹ (illustrative energies).
    Curve: zero-slope cubic pieces (PCHIP with flat stationary points) through
    (−0.15, 0), (0, 0), (x‡, E_a), (1, ΔH), (1.15, ΔH).
    ===================================================== */
@@ -1473,7 +1470,7 @@ function hmStrip(kind, x){
   setSvg(svg, W, Hh, s);
   $("hm-striph").innerHTML = kind === "ion" ? "Step 1 of S<sub>N</sub>1 for 2-bromo-2-methylpropane <span class=\"hint\">schematic</span>" : "Step 2 of S<sub>N</sub>1 for 2-bromo-2-methylpropane <span class=\"hint\">schematic</span>";
   $("hm-stripn").innerHTML = kind === "ion"
-    ? H("Strongly endothermic (+85 kJ mol⁻¹, an illustrative energy), so the transition state is late: the C–Br bond is mostly broken, the carbon nearly planar and the positive charge mostly developed. Anything that stabilises the carbocation lowers this transition state too (Part 1, worked example 1).")
+    ? H("Strongly endothermic (+85 kJ mol⁻¹, illustrative energies), so the transition state is late: the C–Br bond is mostly broken, the carbon nearly planar and the positive charge mostly developed. Anything that stabilises the carbocation lowers this transition state too (Part 1, worked example 1).")
     : H("Strongly exothermic, so the transition state is early: the O···C bond has barely started to form and the carbon is still nearly planar, like the carbocation. Model E<sub>a</sub> about 9 kJ mol⁻¹, as the notes' S_N1 profile (step 2).").replace(/S_N1/g, "S<sub>N</sub>1");
 }
 function hmSet(dH, pre){
@@ -1753,7 +1750,7 @@ function snPlay(){
 }
 // export the coordinates and full bonds at progress t (for the offline RDKit check); the free leaving group is left out
 
-/* ---------- rate equations panel (Part 1, worked example 2: constants, illustrative) ---------- */
+/* ---------- rate equations panel (Part 1, worked example 2: constants, illustrative data) ---------- */
 const RL_K = { sn2: 1.7e-3, sn1: 3.0e-4 };
 const RL = { mech: "sn2", rbr: 0.050, oh: 0.100 };
 const rlRate = (mech, a, b) => mech === "sn2" ? RL_K.sn2 * a * b : RL_K.sn1 * a;
@@ -2010,7 +2007,7 @@ function e2Newman(){
     // eclipsed (syn) pairs share a bond direction: a label that would sit on another slides along the tangent, the back one one way and the front one the other
     const tx = Math.sin(a), ty = Math.cos(a), sg = back ? 1 : -1, cands = [{ dx: 0, dy: 0 }];
     for (let k2 = 1; k2 <= 6; k2++) [sg, -sg].forEach(z => cands.push({ dx: z * tx * 11 * k2, dy: z * ty * 11 * k2 }));
-    NL.push({ t, x: lx - (anchor === "start" ? 6 : anchor === "end" ? -6 : 0), y: ly, anchor, fs: 13, cands, cls: "ngrp" + (mk ? " mkt" : "") });
+    NL.push({ t, x: lx - (anchor === "start" ? 6 : anchor === "end" ? -6 : 0), y: ly, anchor, fs: 13, pad: 3, cands, cls: "ngrp" + (mk ? " mkt" : "") });
   };
   // back bonds from the circle edge
   g.nb[cb].filter(x => x !== ca && !gone(x)).forEach(x => { const a = ang(x), mk = pe && x === pe.h; s += `<line class="nbk${mk ? " mk" : ""}" x1="${f1(cx + Math.cos(a) * R)}" y1="${f1(cy - Math.sin(a) * R)}" x2="${f1(cx + Math.cos(a) * Lb)}" y2="${f1(cy - Math.sin(a) * Lb)}"/>`; label(x, a, Lb, true); });
@@ -2132,8 +2129,8 @@ function bindE2(){
 BIND.push(bindE2);
 /* =====================================================
    D. ZAITSEV OR HOFMANN (9813 3.3(a)(ii), (b)(ii)). Allowed substrates only. Ratios: 2-bromo-2-methylbutane
-   70 : 30 and 28 : 72 and 2-bromobutane 80 : 20 (small base) are literature values, rounded; the rest illustrative.
-   Profiles (2-bromo-2-methylbutane only): profiles from the notes, illustrative.
+   70 : 30 and 28 : 72 and 2-bromobutane 80 : 20 (small base) are literature values, rounded; the rest illustrative data.
+   Profiles (2-bromo-2-methylbutane only): profiles from the notes, illustrative energies.
    ===================================================== */
 const ZH_SUB = {
   mb: { n: "2-bromo-2-methylbutane", f: "(CH₃)₂CBrCH₂CH₃",
@@ -2378,8 +2375,7 @@ function bindPR(){
 }
 BIND.push(bindPR);
 /* =====================================================
-   PRACTICE GENERATOR. Rate tables use only the notes' substrates with OH⁻; numbers the practice must never print are
-   excluded by hash. Every typed answer goes through the one parseAnswer (00-core.js).
+   PRACTICE GENERATOR. Rate tables use only the notes' substrates with OH⁻; every typed answer goes through the one parseAnswer (00-core.js).
    ===================================================== */
 const GN_TYPES = [
   { id: "rate", n: "Rate equation from data" },
@@ -2412,7 +2408,7 @@ const GN_EZ = [
 const GN = { type: "rate", q: null, score: 0, n: 0, pick: null, checked: false, seen: false };
 const c2s = v => v >= 0.1 ? v.toFixed(2) : v.toFixed(3);
 const rateEq = (S, kind) => ({ one: `rate = k[${S.f}]`, two: `rate = k[${S.f}][OH⁻]`, oh: `rate = k[OH⁻]`, sq: `rate = k[${S.f}]²` })[kind];
-// a random initial-rates table whose printed (rounded) rates keep exact ratios; null if any printed number is on the list of numbers kept out of the lab
+// a random initial-rates table whose printed (rounded) rates keep exact ratios
 function genRateTable(){
   const S = pick(GN_RSUB), mech = S.mech;
   const e = pick([-5, -4, -3]), mt = e === -3 ? ri(10, 50) / 10 : ri(10, 99) / 10, k = +(mt * Math.pow(10, e)).toFixed(12);
@@ -2426,7 +2422,7 @@ function genRateTable(){
   if (kc < 1.0e-5 || kc > 5.0e-3) return null;
   const toks = [tok(kc, 2), ...rows.map(r => tok(r[2], 2))];
   if (toks.some(held)) return null;
-  if (Math.abs(+kc.toPrecision(2) - 1.7e-3) < 1e-12 || Math.abs(+kc.toPrecision(2) - 3.0e-4) < 1e-12) return null;   // not the notes' worked example constants either
+  if (Math.abs(+kc.toPrecision(2) - 1.7e-3) < 1e-12 || Math.abs(+kc.toPrecision(2) - 3.0e-4) < 1e-12) return null;   // nor the notes' worked example constants
   return { sub: S.id, mech, k: kc, rows, t: pick(["25 °C", "30 °C", "40 °C", "50 °C"]) + ", " + (mech === "sn1" ? "water–propanone mixture" : "water–ethanol mixture") };
 }
 function rateWork(D){
@@ -2518,8 +2514,9 @@ function gnRender(){
   $("gn-show").textContent = "Show working";
   $("gn-fmt").innerHTML = H(q.fmt || "Pick one answer, then Check.");
   show($("gn-fb"), false); show($("gn-work"), false);
-  $("gn-work").innerHTML = q.work.map(w => `<li>${HS(w)}</li>`).join("");
+  $("gn-work").innerHTML = "";   // the working (which ends with the answer) is built only when it is opened
 }
+function gnWork(){ $("gn-work").innerHTML = GN.q.work.map(w => `<li>${HS(w)}</li>`).join(""); }
 function gnNew(type, preset){ GN.type = type || GN.type; GN.q = gnMake(GN.type, preset); gnRender(); }
 function gnCheck(){
   const q = GN.q, fb = $("gn-fb");
@@ -2548,7 +2545,7 @@ function gnCheck(){
   const counted = !GN.checked && !GN.seen;   // once per question, and not if the working was opened first
   if (!GN.checked){ if (counted){ GN.n++; if (right) GN.score++; } GN.checked = true; }
   fb.className = "fb " + (right ? (q.opts && GN.half ? "warn" : "ok") : "no"); fb.innerHTML = HS(msg) + (GN.seen ? " Not scored: the working was opened before checking." : ""); show(fb, true); GN.half = false;
-  if (!right){ show($("gn-work"), true); $("gn-show").textContent = "Hide working"; }
+  if (!right){ gnWork(); show($("gn-work"), true); $("gn-show").textContent = "Hide working"; }
   $("gn-score").textContent = `${GN.score} right out of ${GN.n}`;
   GN.last = { right, msg };
 }
@@ -2561,7 +2558,7 @@ function bindGN(){
   $("gn-opts").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnPick(b.dataset.k); });
   $("gn-check").addEventListener("click", gnCheck);
   $("gn-ans").addEventListener("keydown", e => { if (e.key === "Enter") gnCheck(); });
-  $("gn-show").addEventListener("click", () => { const open = $("gn-work").hidden; if (open && !GN.checked) GN.seen = true; show($("gn-work"), open); $("gn-show").textContent = open ? "Hide working" : "Show working"; });
+  $("gn-show").addEventListener("click", () => { const open = $("gn-work").hidden; if (open && !GN.checked) GN.seen = true; if (open) gnWork(); else $("gn-work").innerHTML = ""; show($("gn-work"), open); $("gn-show").textContent = open ? "Hide working" : "Show working"; });
   $("gn-new").addEventListener("click", () => gnNew());
   gnNew("rate");
 }
@@ -2584,7 +2581,7 @@ const FC = [
     dl: [["H₂O, warm", "2-methylpropan-2-ol (S_N1) and some 2-methylpropene (E1)"], ["NaOC₂H₅ in ethanol, heat", "2-methylpropene (E2)"], ["Relative S_N1 rate", "1.2 × 10⁶ (bromomethane = 1) " + LIT], ["Hyperconjugation", "9 C–H bonds next to C⁺"]],
     p: "rate = k[(CH₃)₃CBr]: the late, carbocation-like transition state of the slow step is lowered by everything that stabilises the carbocation (Hammond). No S_N2: the back is blocked." },
   { g: "sub", t: "(R)-2-Bromobutane", f: "CH₃CH₂CHBrCH₃", kind: "secondary, one chiral centre",
-    dl: [["NaOH(aq), heat (high [OH⁻])", "(S)-butan-2-ol, S_N2 with inversion"], ["KCN in ethanol, heat", "(S)-2-methylbutanenitrile, S_N2"], ["a small base in ethanol, heat", "about 80 % but-2-ene (mostly E) and 20 % but-1-ene, E2 " + LIT]],
+    dl: [["NaOH(aq), heat (high [OH⁻])", "(S)-butan-2-ol, S_N2 with inversion"], ["KCN in ethanol, heat", "(S)-2-methylbutanenitrile, S_N2"], ["a small base in ethanol, heat", "about 80 % but-2-ene (mostly <i>E</i>) and 20 % but-1-ene, E2 " + LIT]],
     p: "The letter changes from (R) to (S) because OH (or CN) takes Br's place as priority 1 on the opposite face." },
   { g: "sub", t: "3-Bromo-3-methylhexane", f: "CH₃CH₂CH₂C(CH₃)BrCH₂CH₃", kind: "tertiary, one chiral centre",
     dl: [["H₂O, warm, or NaOH(aq), heat", "3-methylhexan-3-ol, S_N1"], ["Free carbocation", "50 : 50, racemic"], ["With the ion pair", "60 % (R) and 40 % (S) from the (S)-bromide: ee 20 % " + ILL]],
