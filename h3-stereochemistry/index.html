@@ -443,7 +443,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
   <div class="sechead">
     <span class="eyebrow">Explorer · <span class="nc">9813 2.1(a), (b)(i)</span></span>
     <h2>Newman rotor</h2>
-    <p>Turn the back carbon of ethane or butane and watch the energy change as the molecule passes through staggered and eclipsed conformations. Energies are relative to the most stable conformation; the values at the staggered and eclipsed points are <span class="src lit">literature</span> values, and the curve between them is a schematic model drawn through those points, as in the notes.</p>
+    <p>Turn the back carbon of ethane or butane and watch the energy change as the molecule passes through staggered and eclipsed conformations. Energies are relative to the most stable conformation; the values at the staggered and eclipsed points are <span class="src lit">literature</span> values, and the curve between them is schematic, drawn through those points, as in the notes.</p>
   </div>
   <div class="grid2">
     <div class="panel controls">
@@ -591,7 +591,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
         <label class="field" data-k="maj" hidden><span>% of the (+) enantiomer</span><input id="op-maj" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="70.0"></label>
         <label class="field" data-k="p"><span>[α] of the pure enantiomer / °</span><input id="op-p" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="+14.5"></label>
       </div>
-      <p class="hint" style="margin:0" id="op-hint">Type any values. Specific rotations in the notes are <span class="src lit">literature</span> values; the polarimeter readings in the notes' examples are illustrative.</p>
+      <p class="hint" style="margin:0" id="op-hint">Type any values. Specific rotations in the notes are <span class="src lit">literature</span> values; the polarimeter readings in the notes' examples are illustrative data.</p>
     </div>
     <div class="stack">
       <div class="readout" id="op-read"></div>
@@ -638,7 +638,7 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
   <div class="sechead">
     <span class="eyebrow">Practice · <span class="nc">9813 2.1(a)–(c)</span></span>
     <h2>Practice</h2>
-    <p>Fresh questions every time on <i>R</i>/<i>S</i> and <i>E</i>/<i>Z</i> labels, numbers of stereoisomers, optical purity, conformation energies and axial or equatorial groups, checked as you go with the working in the notes' style. Polarimeter readings in the questions are illustrative.</p>
+    <p>Fresh questions every time on <i>R</i>/<i>S</i> and <i>E</i>/<i>Z</i> labels, numbers of stereoisomers, optical purity, conformation energies and axial or equatorial groups, checked as you go with the working in the notes' style. Polarimeter readings in the questions are illustrative data.</p>
   </div>
   <div class="stack">
     <div class="tabs" id="gn-tabs" role="tablist" aria-label="Question type">
@@ -693,8 +693,8 @@ svg .bar3{fill:var(--s3-wash); stroke:var(--s3); stroke-width:1; stroke-dasharra
 <footer>
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.5 Molecular Stereochemistry</span>
-    <span>Written for SEAB H3 Chemistry 9813 · conformational energies, bond lengths and angles, and specific rotations are literature values · energy curves are schematic models drawn through those values · complex geometries use model bond lengths · polarimeter readings and generated values are illustrative</span>
-  <span class="ls-updated">Last updated 15/11/26</span></div>
+    <span>Written for SEAB H3 Chemistry 9813 · conformational energies, bond lengths and angles, and specific rotations are literature values · energy curves are schematic, drawn through those values · complex geometries use model bond lengths · polarimeter readings and generated values are illustrative data</span>
+  <span class="ls-updated">Last updated 26/11/26</span></div>
 </footer>
 
 <script>
@@ -770,7 +770,7 @@ function niceTicks(lo, hi, n){
   return { ticks: out, step };
 }
 // one parser for every answer box: the number, then an optional unit. A unit other than the question's is refused, and a comma
-// is a thousands separator only in groups of three (a lone comma before 1 or 2 digits, or after a leading 0, is a decimal comma).
+// or a space is a thousands separator only in groups of three (a lone comma before 1 or 2 digits, or after a leading 0, is a decimal comma).
 const SUPASC = { "⁻": "-", "⁺": "+", "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9" };
 const UNITS = {
   pct: { re: /^(%|percent|percentage)$/, name: "per cent (%)" },
@@ -789,9 +789,9 @@ function parseAnswer(str, allowed){
   const t = String(str).replace(/[\u00a0\u2009\u202f]/g, " ").trim().replace(/[\u2212\u2013]/g, "-");
   if (!t) return { error: "Type an answer first.", kind: "empty" };
   if (/^[-+]?\s*\d+,\d{1,2}(?!\d)/.test(t) || /^[-+]?\s*0,\d/.test(t)) return { error: "Use a decimal point (2.5, not 2,5).", kind: "comma" };
-  const m = t.match(/^([-+]?)\s*(\d{1,3}(?:,\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)\s*(.*)$/);
+  const m = t.match(/^([-+]?)\s*([1-9]\d{0,2}(?:[, ]\d{3})+(?:\.\d*)?|\d+(?:\.\d*)?|\.\d+)\s*(.*)$/);
   if (!m) return { error: "Type a number.", kind: "nan" };
-  let val = parseFloat(m[2].replace(/,/g, ""));
+  let val = parseFloat(m[2].replace(/[, ]/g, ""));
   if (!isFinite(val)) return { error: "Type a number.", kind: "nan" };
   if (m[1] === "-") val = -val;
   const rest = m[3].trim();
@@ -1297,7 +1297,7 @@ const NM = {
   dbb_RR: "(2<i>R</i>,3<i>R</i>)-2,3-dibromobutane", dbb_SS: "(2<i>S</i>,3<i>S</i>)-2,3-dibromobutane", dbb_meso: "meso-2,3-dibromobutane, (2<i>R</i>,3<i>S</i>)",
   tart_RR: "(2<i>R</i>,3<i>R</i>)-tartaric acid, natural (+)", tart_SS: "(2<i>S</i>,3<i>S</i>)-tartaric acid, (−)", tart_meso: "meso-tartaric acid, (2<i>R</i>,3<i>S</i>)",
   bcfm_R: "(<i>R</i>)-bromochlorofluoromethane", bcfm_S: "(<i>S</i>)-bromochlorofluoromethane",
-  chlorobutane_R: "(<i>R</i>)-2-chlorobutane", chlorobutane_S: "(<i>S</i>)-2-chlorobutane",
+  chlorobutane_R: "(<i>R</i>)-CH₃CHClCH₂CH₃", chlorobutane_S: "(<i>S</i>)-CH₃CHClCH₂CH₃",
   bromobutene_S: "(<i>S</i>)-3-bromobut-1-ene", bromobutene_R: "(<i>R</i>)-3-bromobut-1-ene",
   aminopropanol_S: "(<i>S</i>)-2-aminopropan-1-ol", aminopropanol_R: "(<i>R</i>)-2-aminopropan-1-ol",
   but2ene_E: "(<i>E</i>)-but-2-ene (trans)", but2ene_Z: "(<i>Z</i>)-but-2-ene (cis)",
@@ -1541,6 +1541,7 @@ function newmanSvg(mol, th0, W, Hh, arc){
   const pt = (a, r) => [cx + r * Math.cos(a * D2R), cy - r * Math.sin(a * D2R)];
   const dA = (a, b) => { let d = ((a - b) % 360 + 360) % 360; return d > 180 ? d - 360 : d; };
   let s = `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(Rc + 26)}" class="nrhit"/>`;
+  const lb = [];   // group-label positions (x, baseline, wide?) so that the θ label can keep clear of every one
   // back bonds (drawn first): from the circle edge; nudged a few degrees when almost behind a front bond so both show
   const near0 = A.back.map(b => A.front.map(f => dA(b, f)).reduce((m, x) => Math.abs(x) < Math.abs(m) ? x : m, 999));
   const backDisp = A.back.map((b, k) => { const d = near0[k]; return Math.abs(d) < 16 ? b + (d >= 0 ? 1 : -1) * (16 - Math.abs(d)) * 0.8 : b; });
@@ -1550,6 +1551,7 @@ function newmanSvg(mol, th0, W, Hh, arc){
     const mk = (mol === "butane" ? g === "CH3" : g === "H*");
     s += `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" class="nbk${mk ? " mk" : ""}"/>`;
     s += T(xl, yl + 4.5, grpTxt(g.replace("*", "")), "ngrp" + (mk ? " mkt" : ""), 'text-anchor="middle"', 14);
+    lb.push([xl, yl + 4.5, g === "CH3"]);
   });
   s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="${f1(Rc)}" class="ncirc"/>`;
   F.forEach((g, k) => {
@@ -1557,6 +1559,7 @@ function newmanSvg(mol, th0, W, Hh, arc){
     const mk = (mol === "butane" ? g === "CH3" : g === "H*");
     s += `<line x1="${f1(cx)}" y1="${f1(cy)}" x2="${f1(x2)}" y2="${f1(y2)}" class="nfr${mk ? " mk" : ""}"/>`;
     s += T(xl, yl + 4.5, grpTxt(g.replace("*", "")), "ngrp" + (mk ? " mkt" : ""), 'text-anchor="middle"', 14);
+    lb.push([xl, yl + 4.5, g === "CH3"]);
   });
   // θ arc from the marked front bond (90°) clockwise to the marked back bond
   const th = ((th0 % 360) + 360) % 360;
@@ -1566,8 +1569,14 @@ function newmanSvg(mol, th0, W, Hh, arc){
     s += `<path d="M${f1(x0)} ${f1(y0)} A${f1(r)} ${f1(r)} 0 ${large} 1 ${f1(x1)} ${f1(y1)}" class="narc"/>`;
   }
   s += `<circle cx="${f1(cx)}" cy="${f1(cy)}" r="2.6" class="ndot"/>`;
-  const [tx, ty] = [cx + Rc + 10, cy - Rc - 28];
-  if (arc) s += T(Math.min(W - 70, tx + 18), Math.max(16, ty), `θ = ${Math.round(th)}°`, "lblb halo", 'text-anchor="start"', 13);
+  if (arc){
+    // the θ label takes the first corner of the panel that no group label reaches (top right as before; the others when a back group swings into it)
+    const lw = 64, lh = 17, cands = [[Math.min(W - lw - 8, cx + Rc + 28), Math.max(16, cy - Rc - 28)], [8, 16], [W - lw - 8, Hh - 8], [8, Hh - 8]];
+    const hitArea = ([x, y]) => lb.reduce((n, [gx, gy, wide]) => { const hw = wide ? 18 : 10, ox = Math.min(x + lw, gx + hw) - Math.max(x, gx - hw), oy = Math.min(y + 4, gy + 6) - Math.max(y - lh + 4, gy - 14); return n + (ox > 0 && oy > 0 ? ox * oy : 0); }, 0);
+    let best = cands[0], bn = Infinity;
+    cands.forEach(c => { const n = hitArea(c); if (n < bn){ bn = n; best = c; } });
+    s += T(best[0], best[1], `θ = ${Math.round(th)}°`, "lblb halo", 'text-anchor="start"', 13);
+  }
   return { s, geo: { cx, cy, Rc } };
 }
 function nrDrawPlot(){
@@ -1598,10 +1607,10 @@ function nrRead(){
     const ks = ["CH3/CH3", "CH3/H", "H/H", "gauche"].filter(k => groups[k]);
     br = inc.length ? ks.map(k => (groups[k] > 1 ? groups[k] + " × " : "") + lab[k]).join(" + ") + (inc.length > 1 ? " = " + sum.toFixed(1) : "") : "no eclipsed bonds and no gauche CH₃ groups: 0";
     NR.sum = sum;
-  } else { br = "between the stationary points: schematic model"; NR.sum = null; }
+  } else { br = "between the stationary points: schematic, drawn through literature values"; NR.sum = null; }
   const eTxt = nm.stat ? (Math.round(e * 10) / 10).toString() : e.toFixed(1);
   $("nr-read").innerHTML = st("Dihedral angle θ", `${Math.round(th)}°`) + st("Conformation", nm.n) +
-    st("Energy relative to the most stable", `${H(eTxt)} ${KJ}${nm.stat ? ` <small>literature value</small>` : ` <small>model curve</small>`}`) + st("Made up of", H(br), "wide");
+    st("Energy relative to the most stable", `${H(eTxt)} ${KJ}${nm.stat ? ` <small>literature value</small>` : ` <small>schematic, drawn through literature values</small>`}`) + st("Made up of", H(br), "wide");
   const mol = NR.mol === "ethane" ? "ethane, looking along C1–C2" : "butane, looking along C2–C3 (C2 in front)";
   $("nr-head").innerHTML = NR.view === "newman" ? `Newman projection: ${mol}` : `3D model: ${NR.mol}, C${NR.mol === "ethane" ? "1–C2" : "2–C3"} bond across the middle`;
   $("nr-note").innerHTML = NR.mol === "ethane" ? "θ is measured between the two marked H atoms (one on each carbon). Front carbon: the point where three bonds meet; back carbon: the circle." : "θ is the CH₃–C–C–CH₃ dihedral angle. Front carbon C2: the point where three bonds meet; back carbon C3: the circle.";
@@ -1739,7 +1748,7 @@ function cyRead(){
   if (flags.length) note += `Ringed: the flagpole positions, the ${fname(flags[0])} on C${flags[0].c + 1} and the ${fname(flags[1])} on C${flags[1].c + 1}.`;
   else if (m.dx.length && CY.dx) note += "Ringed (dashed): each axial group and the axial atoms on the same face two carbons along, which it meets in 1,3-diaxial interactions.";
   $("cy-note").innerHTML = H(note);
-  let rd = st("Shape", stn.n) + st("Energy of cyclohexane at this point", `${stn.k != null ? FLIP_PTS[stn.k][1] : e.toFixed(0)} ${KJ}<small>${stn.k != null ? "literature value" : "schematic model"}</small>`);
+  let rd = st("Shape", stn.n) + st("Energy of cyclohexane at this point", `${stn.k != null ? FLIP_PTS[stn.k][1] : e.toFixed(0)} ${KJ}<small>${stn.k != null ? "literature value" : "schematic, drawn through literature values"}</small>`);
   if (groups.length && m.isChair) rd += st("Axial groups", `${axn} of ${groups.length}`) + st("1,3-diaxial interactions", `${m.dx.length}`);
   else if (groups.length) rd += st("Axial or equatorial?", "defined for the chairs only");
   $("cy-read").innerHTML = H(rd);
@@ -1817,7 +1826,7 @@ const RS_SETS = [
   { id: "tart", name: "tartaric acid", fex: true, forms: ["tart_RR", "tart_SS", "tart_meso"] },
   { id: "dmch12", name: "1,2-dimethylcyclohexane", forms: ["trans12a", "trans12b", "cis12"], ring: true },
   { id: "bcfm", name: "bromochlorofluoromethane", extra: true, forms: ["bcfm_R", "bcfm_S"] },
-  { id: "chlorobutane", name: "2-chlorobutane", extra: true, forms: ["chlorobutane_R", "chlorobutane_S"] },
+  { id: "chlorobutane", name: "CH₃CHClCH₂CH₃", extra: true, forms: ["chlorobutane_R", "chlorobutane_S"] },
   { id: "bromobutene", name: "3-bromobut-1-ene", extra: true, forms: ["bromobutene_S", "bromobutene_R"] },
   { id: "aminopropanol", name: "2-aminopropan-1-ol", extra: true, forms: ["aminopropanol_S", "aminopropanol_R"] }
 ];
@@ -1948,7 +1957,7 @@ function trInfo(){
 function trOverlay(v){
   const m = TR.m; let s = "";
   const ctrS = v.proj(m.P[TR.c]);
-  const badge = (i, n, from) => { const p = v.proj(m.P[i]), q = v.proj(m.P[from]); let dx = p[0] - q[0], dy = p[1] - q[1]; const L = Math.hypot(dx, dy) || 1; const r = RAD[m.el[i]] * 0.9 * v.S * p[3] + 10; const x = p[0] + dx / L * r, y = p[1] + dy / L * r; return `<circle cx="${f1(x)}" cy="${f1(y)}" r="9" class="pribg"/><text x="${f1(x)}" y="${f1(y + 4)}" text-anchor="middle" class="pri">${n}</text>`; };
+  const badge = (i, n, from) => { const p = v.proj(m.P[i]), q = v.proj(m.P[from]); let dx = p[0] - q[0], dy = p[1] - q[1]; const L = Math.hypot(dx, dy) || 1; const r = RAD[m.el[i]] * 0.9 * v.S * p[3] + 10; const x = clamp(p[0] + dx / L * r, 11, v.W - 11), y = clamp(p[1] + dy / L * r, 11, v.H - 11); return `<circle cx="${f1(x)}" cy="${f1(y)}" r="9" class="pribg"/><text x="${f1(x)}" y="${f1(y + 4)}" text-anchor="middle" class="pri">${n}</text>`; };
   if (TR.t === "rs"){
     const inf = rsInfo(m, TR.c);
     if (TR.pri) inf.nb.forEach((j, k) => { s += badge(j, k + 1, TR.c); });
@@ -2594,7 +2603,7 @@ const COUNTS = [
   { k: "nien2", name: "[Ni(en)₂(H₂O)₂]²⁺ (en = ethane-1,2-diamine)", n: 3, w: ["trans (H₂O opposite): a plane of symmetry through Ni and the four N atoms, achiral.", "cis (H₂O adjacent): no plane of symmetry, a pair of enantiomers.", "Total 3 stereoisomers."] }
 ];
 // optical purity values: the notes' specific rotations, or random ones
-const RES_H = new Set(["10orqyp", "11pcryb", "11zxi8w", "12stpbm", "12t8188", "1337mx7", "133dxx5", "133vx0s", "13mb4ys", "13og90c", "13src1j", "13xrklq", "15pdbty", "16f968t", "1cf5aua", "1hip5o1", "1j11q7l", "1lh140h", "1nop6dj", "1ojh4t2", "1shi3k7", "1tlgxz0", "1v9koan", "1xvyqis", "3wn1ro", "587mvp", "5jpz6s", "5tpkvr", "76w5r2", "7gsly2", "7gvrg1", "7qs7n1", "e617dj", "eoad6r", "ftw5pp", "gy4dv0", "h6vhsk", "o8ebfm", "p2y753", "rhjnyl", "ybcze1", "zmk1s"]);
+const RES_H = new Set(["10orqyp", "11pcryb", "11zxi8w", "12stpbm", "12t8188", "1337mx7", "133dxx5", "133vx0s", "13mb4ys", "13og90c", "13src1j", "13xrklq", "15pdbty", "16f968t", "1cf5aua", "1g04zko", "1hip5o1", "1j11q7l", "1lh140h", "1nop6dj", "1ojh4t2", "1ooa49k", "1shi3k7", "1tlgxz0", "1v9koan", "1xvyqis", "20mlpz", "3wn1ro", "587mvp", "5jpz6s", "5tpkvr", "76w5r2", "7gsly2", "7gvrg1", "7qs7n1", "e617dj", "eoad6r", "ftw5pp", "gy4dv0", "h6vhsk", "o8ebfm", "p2y753", "rhjnyl", "ybcze1", "zmk1s"]);
 const fnvH = s => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
 // a printed number is refused when it, its integer part or its run of digits after the decimal point is on the list
 const hitsRes = t => (String(t).replace(/<[^>]+>/g, " ").match(/\d+(\.\d+)?/g) || []).some(n => { const [a, b] = n.split("."); return [n, a, b, b && b.replace(/0+$/, ""), b && a + "." + b.replace(/0+$/, "")].some(x => x && RES_H.has(fnvH(x))); });
@@ -2614,7 +2623,7 @@ function genOP(){
     let comp;
     if (v === 1) comp = { n: "carvone", p: -61, neat: true, rho: 0.960, major: "(<i>R</i>)-carvone", minor: "(<i>S</i>)-carvone", src: "neat, literature value" };
     else comp = pick([{ n: "alanine", p: 14.5, major: "(<i>S</i>)-alanine", minor: "(<i>R</i>)-alanine", solv: "hydrochloric acid", src: "in hydrochloric acid, literature value" },
-      (() => { let p; do { p = ri(150, 1300) / 10 * (Math.random() < 0.5 ? -1 : 1); } while (!okAlphaPure(p) || hitsRes(Math.abs(p).toFixed(1))); return { n: "compound X", p, major: `the ${p > 0 ? "(+)" : "(−)"} enantiomer`, minor: `the ${p > 0 ? "(−)" : "(+)"} enantiomer`, solv: "ethanol", src: "illustrative value" }; })()]);
+      (() => { let p; do { p = ri(150, 1300) / 10 * (Math.random() < 0.5 ? -1 : 1); } while (!okAlphaPure(p) || hitsRes(Math.abs(p).toFixed(1))); return { n: "compound X", p, major: `the ${p > 0 ? "(+)" : "(−)"} enantiomer`, minor: `the ${p > 0 ? "(−)" : "(+)"} enantiomer`, solv: "ethanol", src: "illustrative data" }; })()]);
     const l = pick([0.500, 1.00, 2.00]), target = ri(150, 990) / 10;
     let c = null, mass = null, vol = null;
     // c is exactly m/V: the question prints the mass and the volume, so the answer is worked from them, not from a rounded c
@@ -2684,6 +2693,7 @@ function genQ(type){
   if (q.work) q.work = q.work.map(IT);
   return q;
 }
+function gnWork(){ const w = $("gn-work"); w.innerHTML = GN.work && GN.q ? (GN.q.work || []).map(t => `<li>${H(t)}</li>`).join("") : ""; w.hidden = !GN.work; }
 function gnRender(){
   const q = GN.q;
   $("gn-q").innerHTML = H(q.ask);
@@ -2706,7 +2716,7 @@ function gnRender(){
   // a box whose answer can be negative takes the text keyboard (the iPhone decimal keypad has no minus key)
   $("gn-ans").setAttribute("inputmode", q.type === "op" && q.unit === "°" ? "text" : "decimal");
   $("gn-ans").value = ""; $("gn-fb").hidden = true;
-  $("gn-work").innerHTML = (q.work || []).map(t => `<li>${H(t)}</li>`).join(""); $("gn-work").hidden = !GN.work;
+  gnWork();   // the working ends with the answer: it is in the page only while it is shown (never written when a question is drawn)
   $("gn-score").textContent = `${GN.score[0]} right out of ${GN.score[1]}`;
   GN.answered = false; GN.seen = false;   // a new question: scored once, and not scored if its working is opened before Check
 }
@@ -2731,7 +2741,7 @@ function gnCheck(given){
   const fb = $("gn-fb"); fb.hidden = false; fb.className = "fb " + (ok ? "ok" : "no");
   const ansTxt = q.opts ? (q.ans.length === 1 ? `<i>${q.ans}</i>` : q.ans) : q.type === "count" ? String(q.ans) : q.dp === 2 ? sgn(q.ans, 2) + "°" : q.ans.toFixed(1) + (q.unit === "%" ? " %" : " kJ mol⁻¹");
   fb.innerHTML = `<p>${ok ? "Right" : "Not this time"}: the answer is ${H(ansTxt)}.${ok ? "" : " See the working."}${counted ? "" : " Not scored: the working was opened before checking."}</p>`;
-  if (!ok){ GN.work = true; $("gn-work").hidden = false; $("gn-show").textContent = "Hide working"; }
+  if (!ok){ GN.work = true; gnWork(); $("gn-show").textContent = "Hide working"; }
   $("gn-score").textContent = `${GN.score[0]} right out of ${GN.score[1]}`;
 }
 function bindGN(){
@@ -2740,7 +2750,7 @@ function bindGN(){
   $("gn-opts").addEventListener("click", e => { const b = e.target.closest("button"); if (b) gnCheck(b.dataset.a); });
   $("gn-check").addEventListener("click", () => { if (GN.q.opts) return; gnCheck($("gn-ans").value); });
   $("gn-ans").addEventListener("keydown", e => { if (e.key === "Enter") gnCheck($("gn-ans").value); });
-  $("gn-show").addEventListener("click", () => { GN.work = !GN.work; if (GN.work && !GN.answered) GN.seen = true; $("gn-work").hidden = !GN.work; $("gn-show").textContent = GN.work ? "Hide working" : "Show working"; });
+  $("gn-show").addEventListener("click", () => { GN.work = !GN.work; if (GN.work && !GN.answered) GN.seen = true; gnWork(); $("gn-show").textContent = GN.work ? "Hide working" : "Show working"; });
   $("gn-new").addEventListener("click", () => gnNew());
   gnNew("rs");
 }
@@ -2763,7 +2773,7 @@ const FC = [
   { cat: "config", h: "Butan-2-ol", k: "2.1(b)(iii)", d: "One chiral centre, C2: –OH > –CH₂CH₃ > –CH₃ > –H (ethyl beats methyl at the second atom: (C,H,H) against (H,H,H)).",
     list: ["(R)-butan-2-ol [α] −13.5 and (S)-butan-2-ol +13.5 (neat; literature values).", "A 70.0 : 30.0 mixture of (S) and (R): ee 40.0 %, expected [α] = +13.5 × 0.400 = +5.40 (notes WE10)."] },
   { cat: "config", h: "Alanine", k: "2.1(b)(iii)", d: "(S)-alanine is the form found in proteins. –NH₂ > –COOH > –CH₃ > –H: N beats C at the first atom; COOH is C(O,O,O) by rule 3.",
-    list: ["[α] about +14.5 (c = 0.10 g cm⁻³, in hydrochloric acid; literature value); much smaller in water, so [α] is always quoted with its solvent.", "Notes WE8 (illustrative reading): α = +2.61°, l = 2.00 dm, c = 0.100 g cm⁻³ → [α]{obs} = +13.05 → optical purity 90.0 % → (S) 95.0 %, (R) 5.0 %."] },
+    list: ["[α] about +14.5 (c = 0.10 g cm⁻³, in hydrochloric acid; literature value); much smaller in water, so [α] is always quoted with its solvent.", "Notes WE8 (illustrative data): α = +2.61°, l = 2.00 dm, c = 0.100 g cm⁻³ → [α]{obs} = +13.05 → optical purity 90.0 % → (S) 95.0 %, (R) 5.0 %."] },
   { cat: "config", h: "Carvone", k: "2.1(b)(iii)", d: "(R)-carvone smells of spearmint, [α] −61; (S)-carvone smells of caraway, +61 (neat; literature values; density 0.960 g cm⁻³).",
     list: ["At C5: –C(CH₃)=CH₂ (C,C,C) > ring CH₂ towards the C=O > ring CH₂ towards the C=C > –H. The two ring CH₂ tie at (C,H,H); one atom further, (O,O,C) beats (C,C,H).", "The sign of rotation has no fixed link to R or S: (R)-carvone is (−), (S)-alanine is (+), (R)-butan-2-ol is (−). It must be measured."] },
   { cat: "config", h: "2,3-Dibromobutane", k: "2.1(b)(iii)", d: "Two chiral centres, but only three stereoisomers (2² − 1).",
