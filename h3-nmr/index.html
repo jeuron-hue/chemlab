@@ -758,7 +758,7 @@ table.data tr[tabindex]:focus-visible{outline:2px solid var(--accent); outline-o
   <div class="wrap">
     <span>H3 Chemistry notes © Gary Chan · Chapter H3.3 ¹H NMR Spectroscopy</span>
     <span>Written for SEAB H3 Chemistry 9813 · ¹H shift ranges and IR ranges from the Data Booklet · chemical shifts and electronegativities are literature values · spectra simulated in-house (first-order model, 400&nbsp;MHz) · generated values are illustrative</span>
-  <span class="ls-updated">Last updated 25/11/26</span></div>
+  <span class="ls-updated">Last updated 27/11/26</span></div>
 </footer>
 <script>
 (function(){
@@ -1290,11 +1290,14 @@ function specExpand(svg, sg, o){
   sg.lines.forEach(l => { const y = yAt(l.ppm); if (y > ymax) ymax = y; });
   const sy = (base - top - 4) / ymax;
   let s = "";
-  const span = (hi - lo) * MHZ, tstep = span > 120 ? 0.05 : span > 50 ? 0.02 : 0.01;
+  const span = (hi - lo) * MHZ, pxPpm = (W - m.l - m.r) / (hi - lo);
+  let tstep = span > 120 ? 0.05 : span > 50 ? 0.02 : 0.01;
+  for (const t2 of [0.02, 0.05, 0.1, 0.2, 0.5]) if (tstep * pxPpm < 28 && t2 > tstep) tstep = t2;   // narrow screens: labels at least 28 px apart, whatever the font
   for (let v = Math.ceil(lo / tstep) * tstep; v <= hi + 1e-9; v += tstep){ const x = X(v); s += `<line class="axis" x1="${x.toFixed(1)}" y1="${base}" x2="${x.toFixed(1)}" y2="${base + 4}"/>` + T(x, base + 16, fx(v, 2), "tick", 'text-anchor="middle"'); }
   s += `<line class="axis" x1="${m.l}" y1="${base}" x2="${W - m.r}" y2="${base}"/>` + T(W - m.r, base + 30, "δ / ppm", "axlab", 'text-anchor="end"');
   if (o.hz){
-    const hstep = span > 120 ? 20 : span > 50 ? 10 : 5;
+    let hstep = span > 120 ? 20 : span > 50 ? 10 : 5;
+    for (const h2 of [10, 20, 50, 100, 200]) if (hstep * pxPpm / MHZ < 28 && h2 > hstep) hstep = h2;
     for (let v = Math.ceil((lo - c) * MHZ / hstep) * hstep; v <= (hi - c) * MHZ + 1e-9; v += hstep){ const x = X(c + v / MHZ); if (x > m.l + 40) s += T(x, base + 44, sgn(v, 0), "tick", 'text-anchor="middle"'); }   // clear of the "Hz:" caption
     s += T(m.l, base + 44, "Hz:", "tick");
   }
@@ -1542,8 +1545,9 @@ function trDraw(){
   // the multiplet
   const cmax = Math.max(...S.counts), hMax = 70;
   s += `<line class="axis" x1="${mL - 10}" y1="${yb}" x2="${W - mR}" y2="${yb}"/>`;
-  const lx = declutter(S.last.map(p => X(p.hz)), 13, mL - 8, W - mR - 2);
-  const fitLab = S.last.length * 13 <= W - mL - mR + 8;
+  const lg = cmax >= 10 ? 18 : 13;   // two-digit heights need more room between label centres (the wider fallback font too)
+  const lx = declutter(S.last.map(p => X(p.hz)), lg, mL - 8, W - mR - 2);
+  const fitLab = S.last.length * lg <= W - mL - mR + 8;
   S.last.forEach((p, i) => {
     const x = X(p.hz), h = hMax * p.c / cmax;
     s += `<line class="stick" x1="${x.toFixed(1)}" y1="${yb}" x2="${x.toFixed(1)}" y2="${(yb - h).toFixed(1)}"/>`;
@@ -1852,7 +1856,9 @@ function caDraw(){
       if (!ethanal) s += at(x2 + S(52), cy, "H", "atomh") + bond(x2, cy, x2 + S(52), cy, 1);
       s += lab(cx + S(52), cy - S(88), "shielding", "start") + lab(cx + S(52), cy + S(96), "shielding", "start");
       s += lab(cx - S(84), cy - S(48), "deshielding") + lab(cx + S(84), cy - S(48), "deshielding");
-      s += lab(cx, Hh - 12, ethanal ? "seen edge-on: the C=O and its H lie in the horizontal plane" : "seen edge-on: the C=C and its H lie in the horizontal plane");
+      const cap = ethanal ? ["seen edge-on: the C=O and its H", "lie in the horizontal plane"] : ["seen edge-on: the C=C and its H", "lie in the horizontal plane"];
+      if (W < 400) s += lab(cx, Hh - 28, cap[0]) + lab(cx, Hh - 12, cap[1]);   // two lines on a narrow screen: one line is wider than the drawing in the fallback font
+      else s += lab(cx, Hh - 12, cap.join(" "));
     }
   }
   setSvg(svg, W, Hh, s);
